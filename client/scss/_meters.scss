@@ -1,0 +1,29 @@
+.meter {
+	position: relative;
+	overflow: hidden;
+	white-space: nowrap;
+	display: block;
+	font-size: 10px;
+	font-weight: 400;
+	color: $color-gray-darkest;
+	margin: 6px 0px 0px;
+	height: 16px;
+	border-radius: 8px;
+	background-color: $color-gray-lighter;
+
+	.meter-label {
+		padding: 1px 6px 0px;		
+	}
+
+	.meter-progress {
+		position: absolute;
+		overflow: hidden;
+		white-space: nowrap;
+		top: 0px;
+		bottom: 0px;
+		left: 0px;
+		color: $color-white;
+		background-color: $color-danger;
+		width: 0%;
+	}
+}

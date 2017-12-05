@@ -1,0 +1,48 @@
+h1 {
+	margin: 0px;
+	padding: 0px;
+	font-size: 20px;
+	font-weight: 400;
+}
+
+h2 {
+	margin: 0px;
+	padding: 0px;
+	font-size: 18px;
+	font-weight: $font-weight-default;
+}
+
+p { 
+	margin: 0px;
+	padding: 0px;
+	line-height: 1.25; 
+}
+
+.txt-primary { color: $color-primary; }
+.txt-secondary { color: $color-danger; }
+.txt-gray-darkest { color: $color-gray-darkest; }
+.txt-gray-darker { color: $color-gray-darker; }
+.txt-gray-dark { color: $color-gray-dark; }
+.txt-gray { color: $color-gray; }
+.txt-gray-light { color: $color-gray-light; }
+
+.font-weight-100 { font-weight: 100; }
+.font-weight-200 { font-weight: 200; }
+.font-weight-300 { font-weight: 300; }
+.font-weight-400 { font-weight: 400; }
+.font-weight-500 { font-weight: 500; }
+.font-weight-600 { font-weight: 600; }
+.font-weight-700 { font-weight: 700; }
+.font-weight-800 { font-weight: 800; }
+.font-weight-900 { font-weight: 900; }
+
+.txt-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.txt-nowrap {
+  overflow: hidden;
+  white-space: nowrap;
+}

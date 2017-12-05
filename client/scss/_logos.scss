@@ -1,0 +1,19 @@
+.toolbar-top { 
+	.fss-logo {
+		margin-top: 13px;
+		font-size: 20px;
+		text-align: center;
+		color: #fff;
+	}
+}
+
+.fss-logo {
+	&:before {	
+		font-family: 'Flexible-School-Schedule' !important;	
+		content: "\e91d";
+	}
+
+	&:after {
+		content: " Flexible School Schedule";
+	}
+}

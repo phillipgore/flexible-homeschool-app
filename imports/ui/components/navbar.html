@@ -1,0 +1,28 @@
+<template name="navbar">
+	<nav class="navbar row">
+		<div class="col-tn-1of4">
+			<a class="js-btn-nav js-btn-nav-students-list btn-nav {{active 'studentsList'}}" href="{{pathFor 'studentsList'}}">
+				<i class="fss-btn-students btn-nav-icon"></i>
+				<div class="btn-nav-label">Students</div>
+			</a>
+		</div>
+		<div class="col-tn-1of4">
+			<a class="js-btn-nav js-btn-nav-resources-list btn-nav {{active 'resourcesList'}}" href="{{pathFor 'resourcesList'}}">
+				<i class="fss-btn-resources btn-nav-icon"></i>
+				<div class="btn-nav-label">Resources</div>
+			</a>
+		</div>
+		<div class="col-tn-1of4">
+			<a class="js-btn-nav js-btn-nav-reports-list btn-nav {{active 'reportsList'}}" href="{{pathFor 'reportsList'}}">
+				<i class="fss-btn-reports btn-nav-icon"></i>
+				<div class="btn-nav-label">Reports</div>
+			</a>
+		</div>
+		<div class="col-tn-1of4">
+			<a class="js-btn-nav js-btn-nav-settings-list btn-nav {{active 'settingsList'}}" href="{{pathFor 'settingsList'}}">
+				<i class="fss-btn-more btn-nav-icon"></i>
+				<div class="btn-nav-label">Settings</div>
+			</a>
+		</div>
+	</nav>
+</template>

@@ -1,0 +1,125 @@
+@font-face {
+    font-family: 'Flexible-School-Schedule';
+    src:  url('/fonts/Flexible-School-Schedule.eot'),
+        url('/fonts/Flexible-School-Schedule.ttf'),
+        url('/fonts/Flexible-School-Schedule.woff'),
+        url('/fonts/Flexible-School-Schedule.svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+i {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'Flexible-School-Schedule' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
+.fss-btn-back:before {
+  content: "\e900";
+}
+.fss-btn-close:before {
+  content: "\e920";
+}
+.fss-btn-more:before {
+  content: "\e901";
+}
+.fss-btn-new:before {
+  content: "\e902";
+}
+.fss-btn-reports:before {
+  content: "\e903";
+}
+.fss-btn-resources:before {
+  content: "\e904";
+}
+.fss-btn-settings:before {
+  content: "\e91f";
+}
+.fss-btn-students:before {
+  content: "\e905";
+}
+.fss-caret-down:before {
+  content: "\e906";
+}
+.fss-caret-left:before {
+  content: "\e907";
+}
+.fss-caret-right:before {
+  content: "\e908";
+}
+.fss-caret-up:before {
+  content: "\e909";
+}
+.fss-carets-up-down:before {
+  content: "\e90a";
+}
+.fss-cc-amex:before {
+  content: "\e90b";
+}
+.fss-cc-diners:before {
+  content: "\e90c";
+}
+.fss-cc-discover:before {
+  content: "\e90d";
+}
+.fss-cc-jcb:before {
+  content: "\e90e";
+}
+.fss-cc-mastercard:before {
+  content: "\e90f";
+}
+.fss-cc-visa:before {
+  content: "\e910";
+}
+.fss-icn-danger:before {
+  content: "\e921";
+}
+.fss-icn-info:before {
+  content: "\e911";
+}
+.fss-icn-success:before {
+  content: "\e912";
+}
+.fss-icn-warning:before {
+  content: "\e913";
+}
+.fss-list-billing:before {
+  content: "\e914";
+}
+.fss-list-delete:before {
+  content: "\e915";
+}
+.fss-list-edit:before {
+  content: "\e916";
+}
+.fss-list-signout:before {
+  content: "\e917";
+}
+.fss-list-students:before {
+  content: "\e91e";
+}
+.fss-list-subjects:before {
+  content: "\e918";
+}
+.fss-list-support:before {
+  content: "\e919";
+}
+.fss-list-terms:before {
+  content: "\e91a";
+}
+.fss-list-users:before {
+  content: "\e91b";
+}
+.fss-list-years:before {
+  content: "\e91c";
+}

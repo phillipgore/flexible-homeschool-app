@@ -1,0 +1,146 @@
+a {
+	color: $color-primary;
+	text-decoration: none;
+	font-weight: normal;
+
+	&:hover {
+		text-decoration: underline;
+	}
+
+	&:focus {
+    	outline: none;
+    	border: 0;
+	}
+
+	&:-moz-focusring {
+	    color: transparent;
+	    text-shadow: 0 0 0 #000;
+	}
+}
+
+button, .btn {
+	display: inline-block;
+	font-family: $font-family-default;
+	font-weight: normal;
+	font-size: 16px;
+	color: $color-white;
+	border-radius: 3px;
+	height: 36px;
+	margin: 0px;
+	padding: 9px 15px; 
+	background-color: $color-primary;
+	border: none;
+
+	&.btn-secondary {
+		background-color: $color-danger;
+	}
+
+	&.btn-gray-darker {
+		background-color: $color-gray-darker;
+	}
+
+	&.btn-circle {
+		height: 30px;
+		width: 30px;
+		border-radius: 15px;
+		text-align: center;
+		padding: 1px 0px 0px;
+	}
+
+	&:hover, &:focus, &:active {
+    	outline: none;
+    	border: 0;
+    	text-decoration: none;
+	}
+
+	&:-moz-focusring {
+		outline: none;
+    	border: 0;
+	}
+}
+
+.btn-tool {
+	font-family: $font-family-default;
+	font-size: 19px;
+	color: $color-white;
+	text-align: center;
+	text-decoration: none;
+	background-color: transparent;
+	border: none;
+	width: 50px;
+	height: 50px;
+	border-radius: 0px;
+	display: block;
+	padding-top: 15px;
+
+	&:hover, &:focus, &:active {
+    	outline: none;
+    	border: 0;
+    	text-decoration: none;
+	}
+}
+
+.btn-sub {
+	font-family: $font-family-default;
+	font-size: 14px;
+	font-weight: 500;
+	color: $color-black;
+	text-align: center;
+	text-decoration: none;
+	background-color: $color-gray;
+	border: none;
+	border-right: 1px solid $color-white;
+	width: 100%;
+	height: 30px;
+	border-radius: 0px;
+	display: block;
+	padding-top: 5px;
+
+	&:hover, &:focus, &:active {
+    	outline: none;
+    	border: 0;
+    	text-decoration: none;
+	}
+
+	&.last {
+		border-right: none;
+	}
+}
+
+.btn-nav {
+	font-family: $font-family-default;
+	font-size: 10px;
+	color: $color-gray-darkest;
+	text-align: center;
+	text-decoration: none;
+	background-color: transparent;
+	border: none;
+	width: 100%;
+	height: 50px;
+	border-radius: 0px;
+	display: block;
+	padding-top: 8px;
+
+	.btn-nav-icon {
+		color: $color-gray-darker;
+		font-size: 18px;
+	}
+
+	.btn-nav-label {
+		margin-top: 4px
+	}
+
+	&:hover, &:focus, &:active {
+    	outline: none;
+    	border: 0;
+    	text-decoration: none;
+	}
+
+	&.active {
+		color: $color-primary;
+
+		.btn-nav-icon {
+			color: $color-primary;
+		}
+	}
+}

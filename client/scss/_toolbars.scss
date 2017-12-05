@@ -1,0 +1,46 @@
+.toolbar {
+	height: 50px;
+	position: fixed;
+	top: 0px;
+	right: 0px;
+	left: 0px;
+	text-align: center;
+	color: $color-white;
+
+	&.toolbar-primary {
+		background-color: $color-primary;
+	}
+
+	&.toolbar-bottom {
+		position: fixed;
+		top: auto;
+		right: 0px;
+		bottom: 0px;
+		left: 0px;
+		padding: 7px 9px 0px;
+		background-color: $color-gray;
+	}
+
+	.fss-logo {
+		font-size: 20px; 
+		margin-top: 13px;
+	}
+}
+
+.subbar {
+	height: 30px;
+	position: fixed;
+	top: 50px;
+	right: 0px;
+	left: 0px;
+	background-color: $color-gray;
+}
+
+.navbar {
+	position: fixed;
+	right: 0px;
+	bottom: 0px;
+	left: 0px;
+	background-color: $color-gray-lightest;
+	border-top: 1px solid $color-gray-dark;
+}

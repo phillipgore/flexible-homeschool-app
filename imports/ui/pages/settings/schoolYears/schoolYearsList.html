@@ -1,0 +1,16 @@
+<template name="schoolYearsList">
+	{{> toolbar}}
+	<main class="app-content no-subbar app-content-preceeds-toolbar">
+		<ul class="list">
+			{{#each schoolYear in schoolYears}}
+				<li class="list-item">
+					<a href="/settings/schoolyears/{{schoolYear._id}}" class="list-item-link p-tn-rl-9">
+						<div class="list-item-icon"><i class="txt-primary fss-list-years"></i></div> 
+						<div class="list-item-label">{{schoolYear.startYear}}-{{schoolYear.endYear}}</div>
+					</a>
+				</li>
+			{{/each}}
+		</ul>
+	</main>
+	{{> navbar }}
+</template>

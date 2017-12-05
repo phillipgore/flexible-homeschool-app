@@ -1,0 +1,155 @@
+form {
+	.divider {
+		border-top: 1px solid $color-gray;
+	}
+
+	label {
+		display: block;
+		font-size: 12px;
+		font-weight: 500;
+		margin: 0px 0px 3px;
+		padding: 0px;
+		color: $color-primary;
+
+		&.error {
+			color: $color-danger;
+			font-weight: 300;
+			margin-top: -5px;
+			margin-bottom: 9px;
+		}
+	}
+
+	textarea, 
+	input[type=text], 
+	input[type=email], 
+	input[type=password],
+	select, 
+	button { 
+		outline: none; 
+	    -webkit-appearance: none;
+	    -moz-appearance: none;
+	}
+
+	input[type=text],
+	input[type=email], 
+	input[type=password] {
+		width: 100%;
+		padding: 8px 11px;
+		border: 1px solid $color-gray-dark;
+		border-radius: 3px;
+		margin-bottom: 12px;
+		background-color: #fff;
+		font-size: 16px;
+
+		&::placeholder {
+		  color: $color-gray;
+		  font-style: italic; 
+		}
+
+		&:focus {
+			outline: none;
+			border-color: $color-primary;
+
+			&::placeholder {
+			  color: lighten($color-primary, 10%);
+			}
+		}
+
+		&.error {
+			border-color: $color-danger;
+
+			&::placeholder {
+			  color: $color-gray;
+			}
+		}
+	}
+
+	.fss-select {
+		border: 1px solid $color-gray-dark;
+	    width: 100%;
+	    border-radius: 3px;
+	    overflow: hidden;
+	    background: #fff url('/img/arrows-select.svg') right center no-repeat;
+
+	    &.focus {
+	    	outline: none;
+	    	border-color: $color-primary;
+		    background: #fff url('/img/arrows-select-focus.svg') right center no-repeat;
+	    }
+
+		select {
+			font-family: $font-family-default;
+			font-size: 16px;
+			padding: 0px;
+			margin: 0px;
+			padding: 8px 11px;
+		    width: 100%;
+		    border: none;
+		    box-shadow: none;
+		    background: transparent;
+		    background-image: none;
+		    outline: none;
+	    	border: 0;
+
+		    &:focus {
+		    	outline: none;
+		    	border: 0;
+			}
+
+			&:-moz-focusring {
+			    color: transparent;
+			    text-shadow: 0 0 0 #000;
+			}
+		}
+	}
+
+	.radio-collection {
+		.radio {
+			display: inline-block;
+			padding: 6px 0px 0px;
+			margin: 0px 0px 9px;
+			height: 20px;
+
+			&:last-child {
+				margin-bottom: 18px;
+			}
+
+			.radio-icon {
+				float: left;
+				margin-right: 6px;
+				height: 20px;
+				width: 20px;
+				background: url('/img/radio-btn.svg') left center no-repeat;
+			}
+
+			.radio-label {
+				display: inline-block;
+				font-size: 16px;
+				font-weight: 400;
+				color: $color-black;
+
+				.radio-option-not-available {
+					display: none;
+					font-size: 12px;
+				}
+			}
+
+			input[type=radio] {
+				display: none;
+
+				&:checked + .radio-icon {
+					background: url('/img/radio-btn-checked.svg') left center no-repeat;
+				}
+
+				&:disabled + .radio-icon + .radio-label {
+					color: $color-gray-dark;
+
+					.radio-option-not-available {
+						display: inline;
+					}
+				}
+			}
+		}
+	}
+}
+

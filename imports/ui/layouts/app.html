@@ -1,0 +1,13 @@
+<template name="app">
+	<div class="alert-container">
+		{{#each alert in alerts}}
+		<div class="alert {{alert.colorClass}}">
+			<div class="alert-icon"><i class="{{alert.iconClass}}"></i></div>
+			<div class="alert-message">{{alert.message}}</div>
+			<a id="{{alert._id}}" href="#" class="js-alert-close alert-close-icon fl-tn-right"><i class="fss-btn-close"></i></a>
+		</div>
+		{{/each}}
+	</div> 
+	
+	{{> Template.dynamic template=main}}
+</template>
