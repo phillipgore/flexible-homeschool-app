@@ -1,0 +1,16 @@
+<template name="resourcesList">
+	{{> toolbar}}
+	<main class="app-content no-subbar app-content-preceeds-toolbar">
+		<ul class="list">
+			{{#each resource in resources}}
+				<li class="list-item">
+					<a href="/planning/resource/{{resource._id}}" class="list-item-link p-tn-rl-9">
+						<div class="list-item-icon"><i class="txt-primary fss-list-{{resource.type}}"></i></div> 
+						<div class="list-item-label">{{resource.title}}</div>
+					</a>
+				</li>
+			{{/each}}
+		</ul>
+	</main>
+	{{> navbar }}
+</template>

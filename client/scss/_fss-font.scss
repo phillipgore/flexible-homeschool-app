@@ -24,102 +24,126 @@ i {
 }
 
 
+.fss-list-app:before {
+  content: "\e906";
+}
+.fss-list-audio:before {
+  content: "\e925";
+}
+.fss-list-book:before {
+  content: "\e926";
+}
+.fss-list-link:before {
+  content: "\e927";
+}
+.fss-list-video:before {
+  content: "\e928";
+}
 .fss-btn-back:before {
   content: "\e900";
 }
 .fss-btn-close:before {
-  content: "\e920";
-}
-.fss-btn-more:before {
   content: "\e901";
 }
-.fss-btn-new:before {
+.fss-btn-more:before {
   content: "\e902";
 }
-.fss-btn-reports:before {
+.fss-btn-new:before {
   content: "\e903";
 }
-.fss-btn-resources:before {
+.fss-btn-planing:before {
   content: "\e904";
 }
-.fss-btn-settings:before {
-  content: "\e91f";
-}
-.fss-btn-students:before {
+.fss-btn-reporting:before {
   content: "\e905";
 }
-.fss-caret-down:before {
-  content: "\e906";
-}
-.fss-caret-left:before {
+.fss-btn-settings:before {
   content: "\e907";
 }
-.fss-caret-right:before {
+.fss-btn-students:before {
   content: "\e908";
 }
-.fss-caret-up:before {
+.fss-btn-tracking:before {
   content: "\e909";
 }
-.fss-carets-up-down:before {
+.fss-caret-down:before {
   content: "\e90a";
 }
-.fss-cc-amex:before {
+.fss-caret-left:before {
   content: "\e90b";
 }
-.fss-cc-diners:before {
+.fss-caret-right:before {
   content: "\e90c";
 }
-.fss-cc-discover:before {
+.fss-caret-up:before {
   content: "\e90d";
 }
-.fss-cc-jcb:before {
+.fss-carets-up-down:before {
   content: "\e90e";
 }
-.fss-cc-mastercard:before {
+.fss-cc-amex:before {
   content: "\e90f";
 }
-.fss-cc-visa:before {
+.fss-cc-diners:before {
   content: "\e910";
 }
-.fss-icn-danger:before {
-  content: "\e921";
-}
-.fss-icn-info:before {
+.fss-cc-discover:before {
   content: "\e911";
 }
-.fss-icn-success:before {
+.fss-cc-jcb:before {
   content: "\e912";
 }
-.fss-icn-warning:before {
+.fss-cc-mastercard:before {
   content: "\e913";
 }
-.fss-list-billing:before {
+.fss-cc-visa:before {
   content: "\e914";
 }
-.fss-list-delete:before {
+.fss-icn-danger:before {
   content: "\e915";
 }
-.fss-list-edit:before {
+.fss-icn-info:before {
   content: "\e916";
 }
-.fss-list-signout:before {
+.fss-icn-success:before {
   content: "\e917";
 }
-.fss-list-students:before {
-  content: "\e91e";
-}
-.fss-list-subjects:before {
+.fss-icn-warning:before {
   content: "\e918";
 }
-.fss-list-support:before {
+.fss-list-billing:before {
   content: "\e919";
 }
-.fss-list-terms:before {
+.fss-list-delete:before {
   content: "\e91a";
 }
-.fss-list-users:before {
+.fss-list-edit:before {
   content: "\e91b";
 }
-.fss-list-years:before {
+.fss-list-resources:before {
   content: "\e91c";
+}
+.fss-list-schoolyears:before {
+  content: "\e91d";
+}
+.fss-list-signout:before {
+  content: "\e91e";
+}
+.fss-list-students:before {
+  content: "\e91f";
+}
+.fss-list-subjects:before {
+  content: "\e920";
+}
+.fss-list-support:before {
+  content: "\e921";
+}
+.fss-list-terms:before {
+  content: "\e922";
+}
+.fss-list-users:before {
+  content: "\e923";
+}
+.fss-logo:before {
+  content: "\e924";
 }

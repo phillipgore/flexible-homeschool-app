@@ -1,0 +1,50 @@
+<template name="schoolYearsNew">
+	{{> toolbar}}
+	<main class="app-content no-subbar app-content-preceeds-toolbar">
+		<form class="js-form-school-year-new row m-tn-t-18 m-tn-h-18 | m-xs-h-72">
+
+			<div class="row m-tn-b-6">
+				<div class="col-tn-1of2 p-tn-r-3">
+					<label>Start Year</label>
+					<input type="number" name="startYear" id="start-year" placeholder="2020" autocomplete="off" maxlength="4">
+				</div>
+				<div class="col-tn-1of2 p-tn-l-3">
+					<label>End Year</label>
+					<input type="number" name="endYear" id="end-year" placeholder="2021" autocomplete="off" maxlength="4">
+				</div>
+			</div>
+
+			<div class="well bg-gray-lighter m-tn-b-36">
+				<div class="row">
+					<label class="col-tn-3of11">Terms</label>
+					<label class="col-tn-8of11">Total Weeks: <span class="js-total"></span></label>
+				</div>
+				<div class="js-term-inputs m-tn-b-neg-12">
+					{{#each localTerm in localTerms}}
+						<div class="js-term-input row">
+							<div class="font-weight-400 col-tn-3of11 p-tn-t-9 p-tn-r-6">
+								Term {{indexIncrement @index}}:
+							</div>
+							<div class="col-tn-8of11 pos-relative p-tn-r-36">
+								<input type="hidden" name="order" id="order" value="{{indexIncrement @index}}">
+								<input class="js-weeks-per-term" type="number" name="weeksPerTerm" id="weeks-per-term" placeholder="12" autocomplete="off" maxlength="2">
+								<span class="pos-absolute pos-top-right p-tn-t-3">
+									<a href="#" id="{{localTerm._id}}" class="js-term-delete btn btn-circle btn-secondary fl-tn-right" tabindex="-1">
+										<i class="fss-btn-close"></i>
+									</a>
+									<div class="font-weight-400 txt-gray-darker fl-tn-right p-tn-t-6 p-tn-r-15">Weeks</div>
+								</span>
+							</div>
+						</div>
+					{{/each}}
+				</div>
+			</div>
+
+			<footer class="toolbar toolbar-bottom toolbar-gray">
+				<a href="{{pathFor 'schoolYearsList'}}" class="btn btn-gray-darker fl-tn-left">Cancel</a>
+				<button type="submit" class="fl-tn-right">Save</button>
+			</footer>
+
+		</form>
+	</main>
+</template>

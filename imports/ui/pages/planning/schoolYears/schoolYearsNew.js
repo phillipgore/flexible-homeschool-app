@@ -1,0 +1,138 @@
+import {Template} from 'meteor/templating';
+import './schoolYearsNew.html';
+
+LocalTerms = new Mongo.Collection(null);
+
+Template.schoolYearsNew.onRendered( function() {
+	// Term Input Settings
+	LocalTerms.remove({});
+	LocalTerms.insert({term: true});
+
+	// Total Weeks
+	$('.js-total').html('0');
+
+	// Toolbar Settings
+	Session.set({
+		leftUrl: '',
+		leftIcon: '',
+		leftCaret: false,
+		label: 'New School Year',
+		rightUrl: '',
+		rightIcon: '',
+		rightCaret: false,
+	});
+
+	// Navbar Settings
+	Session.set('activeNav', 'planningList');
+
+	// Form Validation and Submission
+	$('.js-form-school-year-new').validate({
+		rules: {
+			startYear: { required: true, number: true, date: true },
+			endYear: { number: true, date: true },
+		},
+		messages: {
+			startYear: { 
+				required: "Required.", 
+				number: "Must be a valid 4 digit year.",
+				date: "Must be a valid 4 digit year.",
+
+			},
+			endYear: { 
+				number: "Must be a valid 4 digit year.",
+				date: "Must be a valid 4 digit year.",
+			},
+		},		
+
+		submitHandler() {
+			const termsProperties = []
+
+			event.target.weeksPerTerm.forEach(function(weeks, index) {
+				if (weeks.value) {
+					termsProperties.push({order: index + 1, weeksPerTerm: weeks.value})
+				}
+			})
+
+			const schoolYearProperties = {
+				startYear: event.target.startYear.value.trim(),
+				endYear: event.target.endYear.value.trim(),
+				terms: termsProperties,
+			}
+
+			Meteor.call('insertSchoolYear', schoolYearProperties, function(error, schoolYearId) {
+				if (error) {
+					Alerts.insert({
+						colorClass: 'bg-danger',
+						iconClass: 'fss-icn-danger',
+						message: error.reason,
+					});
+				} else {
+					FlowRouter.go('/planning/schoolyears/list');
+				}
+			});
+
+			return false;
+		}
+	});
+});
+
+Template.schoolYearsNew.helpers({
+	localTerms: function() {
+		return LocalTerms.find();
+	},
+
+	indexIncrement: function(index) {
+		return index + 1;
+	}
+});
+
+Template.schoolYearsNew.events({
+	'keyup .js-weeks-per-term'(event) {
+		let valueCount = [];
+		let totalWeeks = 0
+		$('.js-term-inputs').find('.js-weeks-per-term').each(function() {
+			if ($(this).val()) {
+				valueCount.push($(this).val());
+				totalWeeks = totalWeeks + parseInt($(this).val());
+			}
+		});
+
+		$('.js-total').html(totalWeeks);
+		if ( totalWeeks > 52 && !Alerts.find({type: 'terms'}).count() ) {
+			Alerts.insert({
+				type: 'terms',
+				colorClass: 'bg-warning',
+				iconClass: 'fss-icn-warning',
+				message: "You have exceeded 52 weeks.",
+			});
+		}
+
+		let localTermCount = LocalTerms.find().count()
+		if (valueCount.length === localTermCount) {
+			LocalTerms.insert({term: true});
+		}
+	},
+
+	'click .js-term-delete'(event) {
+		event.preventDefault();
+
+		let localTermId = event.currentTarget.id		
+		if (localTermId === $('.js-term-input:last .js-term-delete').attr('id')) {
+			$('.js-term-input:last .js-weeks-per-term').val('')
+		} else {
+			LocalTerms.remove({_id: localTermId})
+		}
+
+		let totalWeeks = 0
+		$('.js-term-inputs').find('.js-weeks-per-term').each(function() {
+			if ($(this).val()) {
+				totalWeeks = totalWeeks + parseInt($(this).val());
+			}
+		});
+		$('.js-total').html(totalWeeks);
+	},
+
+	'submit .js-form-school-year-new'(event) {
+		event.preventDefault();
+	},
+});

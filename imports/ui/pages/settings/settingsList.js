@@ -19,12 +19,9 @@ Template.settingsList.onRendered( function() {
 
 Template.settingsList.helpers({
 	items: [
-		{divider: false, classes: '', icon: 'fss-list-years', label: 'School Years', url: '/settings/schoolyears/list'},
-
-		{divider: true, classes: '', icon: 'fss-list-users', label: 'Users', url: '/users'},
+		{divider: false, classes: '', icon: 'fss-list-users', label: 'Users', url: '/users'},
 		{divider: false, classes: '', icon: 'fss-list-billing', label: 'Billing', url: '/billing'},
 		{divider: false, classes: '', icon: 'fss-list-support', label: 'Support', url: '/support'},
-
 		{divider: true, classes: 'js-sign-out', icon: 'fss-list-signout', label: 'Sign Out', url: '#'},
 	]
 });

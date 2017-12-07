@@ -1,0 +1,62 @@
+<template name="resourcesNew">
+	{{> toolbar}}
+	<main class="app-content no-subbar app-content-preceeds-toolbar">
+		<form class="row m-tn-t-18 m-tn-h-18 | m-xs-h-72">
+
+			<label>Type</label>
+			<div class="radio-collection m-tn-b-15">
+				<div class="row">
+					<label class="radio col-tn-1of3">
+						<input class="js-radio-type js-radio-book" type="radio" name="type" value="book" checked>
+						<div class="radio-icon"></div> 
+						<div class="radio-label">Book</div>
+					</label>
+					<label class="radio col-tn-1of3">
+						<input class="js-radio-type js-radio-link" type="radio" name="type" value="link">
+						<div class="radio-icon"></div> 
+						<div class="radio-label">Link</div>
+					</label>
+					<label class="radio col-tn-1of3">
+						<input class="js-radio-type js-radio-video" type="radio" name="type" value="video">
+						<div class="radio-icon"></div> 
+						<div class="radio-label">Video</div>
+					</label>
+				</div>
+				<div class="row">
+					<label class="radio col-tn-1of3">
+						<input class="js-radio-type js-radio-audio" type="radio" name="type" value="audio">
+						<div class="radio-icon"></div> 
+						<div class="radio-label">Audio</div>
+					</label>
+					<label class="radio col-tn-1of3">
+						<input class="js-radio-type js-radio-app" type="radio" name="type" value="app">
+						<div class="radio-icon"></div> 
+						<div class="radio-label">App</div>
+					</label>
+				</div>
+			</div>
+
+		</form>
+
+		{{#if resourceTypeCheck 'book'}}
+			{{> resourcesFormBook}}
+		{{/if}}
+
+		{{#if resourceTypeCheck 'link'}}
+			{{> resourcesFormLink}}
+		{{/if}}
+
+		{{#if resourceTypeCheck 'video'}}
+			{{> resourcesFormVideo}}
+		{{/if}}
+
+		{{#if resourceTypeCheck 'audio'}}
+			{{> resourcesFormAudio}}
+		{{/if}}
+
+		{{#if resourceTypeCheck 'app'}}
+			{{> resourcesFormApp}}
+		{{/if}}
+
+	</main>
+</template>

@@ -1,0 +1,52 @@
+<template name="resourcesFormBook">
+	<form class="js-form-resources-book-new row m-tn-h-18 | m-xs-h-72">
+		<div class="well bg-gray-lighter m-tn-b-36">
+			<label>Title</label>
+			<input type="text" name="title" id="title" placeholder="The Outsiders" autocomplete="off">
+
+			<label>Author</label>
+			<input type="text" name="author" id="author" placeholder="S.E. Hinton" autocomplete="off">
+
+			<label>Availability</label>
+			<div class="radio-collection m-tn-b-12">
+				<label class="radio">
+					<input class="js-radio-own" type="radio" name="availability" value="own" checked>
+					<div class="radio-icon"></div> 
+					<div class="radio-label">I own it.</div>
+				</label><br>
+				<label class="radio">
+					<input class="js-radio-library" type="radio" name="availability" value="library">
+					<div class="radio-icon"></div> 
+					<div class="radio-label">The library has it.</div>
+				</label><br>
+				<label class="radio">
+					<input class="js-radio-need" type="radio" name="availability" value="need">
+					<div class="radio-icon"></div> 
+					<div class="radio-label">I need it.</div>
+				</label>
+			</div>
+
+			<label>Link</label>
+			<input type="text" name="link" id="link" placeholder="http://www.amazon.com" autocomplete="off">
+			
+			<div class="row">
+				<div class="col-tn-1of2 p-tn-r-3">
+					<label>Publisher</label>
+					<input type="text" name="publisher" id="publisher" placeholder="Dell" autocomplete="off">
+				</div>
+				<div class="col-tn-1of2 p-tn-l-3">
+					<label>Publication Date</label>
+					<input type="text" name="publicationDate" id="publication-date" placeholder="Apr 24, 1967" autocomplete="off">
+				</div>
+			</div>
+
+			<label>Descripton</label>
+			<textarea class="m-tn-b-neg-3" name="description" id="description" placeholder="Ponyboy Curtis is leaving..." rows="4"></textarea>
+		</div>
+
+		<footer class="toolbar toolbar-bottom toolbar-gray">
+			<a href="{{pathFor 'resourcesList'}}" class="btn btn-gray-darker fl-tn-left">Cancel</a>
+			<button type="submit" class="fl-tn-right">Save</button>
+		</footer>
+	</form>
+</template>

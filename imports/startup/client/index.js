@@ -1,7 +1,5 @@
 import './userRoutes.js';
-import './studentRoutes.js';
-import './resourceRoutes.js';
-import './reportRoutes.js';
+import './planningRoutes.js';
+import './trackingRoutes.js';
+import './reportingRoutes.js';
 import './settingsRoutes.js';
-
-import '../../api/students/students.js';

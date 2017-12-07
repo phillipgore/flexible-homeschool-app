@@ -27,7 +27,7 @@ Template.signIn.onRendered( function() {
 						});
 					}
 				} else {
-					FlowRouter.go('/students/list');
+					FlowRouter.go('/planning/list');
 				}
 			});
 

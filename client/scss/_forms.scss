@@ -23,6 +23,7 @@ form {
 	input[type=text], 
 	input[type=email], 
 	input[type=password],
+	input[type=number],
 	select, 
 	button { 
 		outline: none; 
@@ -30,9 +31,11 @@ form {
 	    -moz-appearance: none;
 	}
 
+	textarea,
 	input[type=text],
 	input[type=email], 
-	input[type=password] {
+	input[type=password],
+	input[type=number] {
 		width: 100%;
 		padding: 8px 11px;
 		border: 1px solid $color-gray-dark;
@@ -68,6 +71,7 @@ form {
 		border: 1px solid $color-gray-dark;
 	    width: 100%;
 	    border-radius: 3px;
+		margin-bottom: 12px;
 	    overflow: hidden;
 	    background: #fff url('/img/arrows-select.svg') right center no-repeat;
 
@@ -110,10 +114,6 @@ form {
 			margin: 0px 0px 9px;
 			height: 20px;
 
-			&:last-child {
-				margin-bottom: 18px;
-			}
-
 			.radio-icon {
 				float: left;
 				margin-right: 6px;
@@ -147,6 +147,49 @@ form {
 					.radio-option-not-available {
 						display: inline;
 					}
+				}
+			}
+		}
+	}
+
+	.checkbox {
+		display: inline-block;
+		padding: 1px 0px 0px;
+		margin: 0px 0px 11px;
+		height: 20px;
+
+		.checkbox-icon {
+			float: left;
+			margin-right: 6px;
+			height: 20px;
+			width: 20px;
+			background: url('/img/checkbox-btn.svg') left center no-repeat;
+		}
+
+		.checkbox-label {
+			display: inline-block;
+			font-size: 16px;
+			font-weight: 400;
+			color: $color-black;
+
+			.checkbox-option-not-available {
+				display: none;
+				font-size: 12px;
+			}
+		}
+
+		input[type=checkbox] {
+			display: none;
+
+			&:checked + .checkbox-icon {
+				background: url('/img/checkbox-btn-checked.svg') left center no-repeat;
+			}
+
+			&:disabled + .checkbox-icon + .checkbox-label {
+				color: $color-gray-dark;
+
+				.checkbox-option-not-available {
+					display: inline;
 				}
 			}
 		}

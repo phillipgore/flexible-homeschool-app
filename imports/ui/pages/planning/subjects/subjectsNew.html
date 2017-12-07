@@ -1,0 +1,37 @@
+<template name="subjectsNew">
+	{{> toolbar}}
+	<main class="app-content no-subbar app-content-preceeds-toolbar">
+		<form class="js-form-students-new row m-tn-t-18 m-tn-h-18 | m-xs-h-72">
+			<label>Student</label>
+			<div class="fss-select">
+				<select name="studentId" id="student-id">
+					{{#each student in students}}
+						<option value="{{student._id}}">{{student.preferredFirstName}} {{student.lastName}}</option>
+					{{/each}}
+				</select>
+			</div>
+			<div class="row">
+				<div class="col-tn-1of2 p-tn-r-3">
+					<label>School Year</label>
+					<div class="fss-select">
+						<select name="schoolYearId" id="school-year-id">
+							{{#each schoolYear in schoolYears}}
+								<option value="{{schoolYear._id}}">{{schoolYear.startYear}}-{{schoolYear.endYear}}</option>
+							{{/each}}
+						</select>
+					</div>
+				</div>
+				<div class="col-tn-1of2 p-tn-l-3">
+					<label>Term</label>
+					<div class="fss-select">
+						<select name="termId" id="term-id">
+							{{#each term in schoolYear.terms}}
+								<option value="{{term.order}}">Term {{term.order}}</option>
+							{{/each}}
+						</select>
+					</div>
+				</div>
+			</div>
+		</form>
+	</main>
+</template>

@@ -1,0 +1,42 @@
+<template name="studentsNew">
+	{{> toolbar}}
+	<main class="app-content no-subbar app-content-preceeds-toolbar">
+		<form class="js-form-students-new row m-tn-t-18 m-tn-h-18 | m-xs-h-72">
+
+			<label>First Name</label>
+			<input type="text" name="firstName" id="first-name" placeholder="Lanaya" autocomplete="off">
+			<label>Middle Name</label>
+			<input class="js-input-middle-name" type="text" name="middleName" id="middle-name" placeholder="Elizabeth" autocomplete="off">
+			<label>Last Name</label>
+			<input type="text" name="lastName" id="last-name" placeholder="Gore" autocomplete="off">
+			<label>Nickname</label>
+			<input class="js-input-nickname" type="text" name="nickname" id="nickname" placeholder="Liz" autocomplete="off">
+			<label>Goes By:</label>
+			<div class="radio-collection m-tn-b-12">
+				<label class="radio">
+					<input class="js-radio-first-name" type="radio" name="preferredFirstName" value="firstName" checked>
+					<div class="radio-icon"></div> 
+					<div class="radio-label">First Name</div>
+				</label><br>
+				<label class="radio">
+					<input class="js-radio-middle-name" type="radio" name="preferredFirstName" value="middleName" disabled>
+					<div class="radio-icon"></div> 
+					<div class="radio-label">Middle Name <span class="radio-option-not-available">(Not Available)</span></div>
+				</label><br>
+				<label class="radio">
+					<input class="js-radio-nickname" type="radio" name="preferredFirstName" value="nickname" disabled>
+					<div class="radio-icon"></div> 
+					<div class="radio-label">Nickname <span class="radio-option-not-available">(Not Available)</span></div>
+				</label>
+			</div>
+			<label>Birthday</label>
+			<input type="text" name="birthday" id="birthday" placeholder="Dec 3, 2001" autocomplete="off">
+
+			<footer class="toolbar toolbar-bottom toolbar-gray">
+				<a href="{{pathFor 'studentsList'}}" class="btn btn-gray-darker fl-tn-left">Cancel</a>
+				<button type="submit" class="fl-tn-right">Save</button>
+			</footer>
+
+		</form>
+	</main>
+</template>

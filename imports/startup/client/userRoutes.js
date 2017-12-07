@@ -1,7 +1,7 @@
 function checkSignIn(context) {
 	const routeName = context.route.name;
 	if (Meteor.userId()) {
-		FlowRouter.redirect('/students');
+		FlowRouter.redirect('/planning/list');
 	}
 };
 
