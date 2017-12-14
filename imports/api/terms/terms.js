@@ -1,36 +1,40 @@
 import {Mongo} from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
 
-export const SchoolYears = new Mongo.Collection('schoolYears');
+export const Terms = new Mongo.Collection('terms');
 
-SchoolYears.allow({
+Terms.allow({
   insert: () => false,
   update: () => false,
   remove: () => false
 });
 
-SchoolYears.deny({
+Terms.deny({
   insert: () => true,
   update: () => true,
   remove: () => true
 });
 
-const SchoolYearsSchema = new SimpleSchema({
-	startYear: {
-        type: String,
-        label: 'Start Year',
+const TermsSchema = new SimpleSchema({
+	order: {
+        type: Number,
+        label: "order"
     },
-    endYear: {
-        type: String,
-        label: 'End Year',
+    weeksPerTerm: {
+        type: Number,
+        label: "Weeks Per Term",
     },
 	archived: {
 		type: Boolean,
 		defaultValue: false,
 	},
+    schoolYearId: {
+        type: String,
+        label: "School Year ID"
+    },
 	groupId: {
 		type: String,
-		label: 'Group ID',
+		label: "Group ID",
 		autoValue: function() {
 			if ( this.isInsert ) {
 				return Meteor.user().info.groupId;
@@ -39,7 +43,7 @@ const SchoolYearsSchema = new SimpleSchema({
 	},
 	userId: {
 		type: String,
-		label: 'User ID',
+		label: "User ID",
 		autoValue: function() {
 			if ( this.isInsert ) {
 				return Meteor.userId();
@@ -48,7 +52,7 @@ const SchoolYearsSchema = new SimpleSchema({
 	},
 	createdOn: {
 		type: Date,
-		label: 'Created On Date',
+		label: "Created On Date",
 		autoValue: function() {
 			if ( this.isInsert ) {
 				return new Date();
@@ -57,7 +61,7 @@ const SchoolYearsSchema = new SimpleSchema({
 	},
 	updatedOn: {
 		type: Date,
-		label: 'Updated On Date',
+		label: "Updated On Date",
 		optional: true,
 		autoValue: function() {
 			if ( this.isUpdate ) {
@@ -67,4 +71,4 @@ const SchoolYearsSchema = new SimpleSchema({
 	}
 });
 
-SchoolYears.attachSchema(SchoolYearsSchema);
+Terms.attachSchema(TermsSchema);

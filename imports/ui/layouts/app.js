@@ -3,6 +3,7 @@ import {Template} from 'meteor/templating';
 // Application
 import './app.html';
 
+
 // Components
 import '../components/toolbar.js';
 import '../components/toolbarLogo.html';
@@ -10,6 +11,7 @@ import '../components/subbarAccounts.html';
 import '../components/subbarYearTerm.html';
 import '../components/subbar.html';
 import '../components/navbar.js';
+
 
 // Accounts
 import '../pages/accounts/createAccount.js';
@@ -21,23 +23,34 @@ import '../pages/accounts/resetSent.js';
 import '../pages/accounts/resetPassword.js';
 import '../pages/accounts/resetSuccess.js';
 
+
 // Planning
 import '../pages/planning/planningList.js';
-import '../pages/planning/schoolYears/schoolYearsNew.js';
-import '../pages/planning/schoolYears/schoolYearsList.js';
-import '../pages/planning/resources/resourcesNew.js';
-import '../pages/planning/resources/resourcesList.js';
-import '../pages/planning/subjects/subjectsNew.js';
-import '../pages/planning/subjects/subjectsList.js';
-import '../pages/planning/students/studentsNew.js';
-import '../pages/planning/students/studentsList.js';
+	//School Years
+	import '../pages/planning/schoolYears/schoolYearsNew.js';
+	import '../pages/planning/schoolYears/schoolYearsList.js';
+	import '../pages/planning/schoolYears/schoolYearsId.js';
+	// Resources
+	import '../pages/planning/resources/resourcesNew.js';
+	import '../pages/planning/resources/resourcesList.js';
+	import '../pages/planning/resources/resourcesId.js';
+	// Subjects
+	import '../pages/planning/subjects/subjectsNew.js';
+	import '../pages/planning/subjects/subjectsList.js';
+	// import '../pages/planning/subjects/subjectsId.js';
+	// Students
+	import '../pages/planning/students/studentsNew.js';
+	import '../pages/planning/students/studentsList.js';
+	import '../pages/planning/students/studentsId.js';
+
 
 // Tracking
 import '../pages/tracking/trackingList.js';
-import '../pages/tracking/studentsId.js';
+
 
 // Reporting
 import '../pages/reporting/reportingList.js';
+
 
 // Settings
 import '../pages/settings/settingsList.js';

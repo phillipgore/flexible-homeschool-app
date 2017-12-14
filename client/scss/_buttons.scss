@@ -45,6 +45,15 @@ button, .btn {
 		border-radius: 15px;
 		text-align: center;
 		padding: 7px 0px 0px;
+
+		&.small {
+			height: 22px;
+			width: 22px;
+			border-radius: 11px;
+			text-align: center;
+			padding: 4px 0px 0px;
+			font-size: 14px;
+		}
 	}
 
 	&:hover, &:focus, &:active {

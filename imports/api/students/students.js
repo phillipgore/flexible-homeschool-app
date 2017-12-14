@@ -3,10 +3,16 @@ import SimpleSchema from 'simpl-schema';
 
 export const Students = new Mongo.Collection('students');
 
+Students.allow({
+  insert: () => false,
+  update: () => false,
+  remove: () => false
+});
+
 Students.deny({
-	insert() {return true; },
-	update() {return true; },
-	remove() {return true; },
+  insert: () => true,
+  update: () => true,
+  remove: () => true
 });
 
 const StudentsSchema = new SimpleSchema({
@@ -23,7 +29,19 @@ const StudentsSchema = new SimpleSchema({
         type: String,
         label: "Last Name"
     },
+    nickname: {
+        type: String,
+        label: "Nickname"
+    },
     preferredFirstName: {
+        type: Object,
+        label: "Goes By"
+    },
+    'preferredFirstName.type': {
+        type: String,
+        label: "Goes By"
+    },
+    'preferredFirstName.name': {
         type: String,
         label: "Goes By"
     },

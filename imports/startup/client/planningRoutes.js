@@ -10,6 +10,46 @@ FlowRouter.route('/planning/list', {
 
 
 
+// Students
+FlowRouter.route('/planning/students/list', {
+	name: 'studentsList',
+	action() {
+		BlazeLayout.render('app', {
+			main: 'studentsList',
+		});
+	},
+});
+
+FlowRouter.route('/planning/students/new', {
+	name: 'studentsNew',
+	action() {
+		BlazeLayout.render('app', {
+			main: 'studentsNew',
+		});
+	},
+});
+
+FlowRouter.route('/planning/students/:id', {
+	name: 'studentsId',
+	action() {
+		BlazeLayout.render('app', {
+			main: 'studentsId',
+		});
+	},
+});
+
+FlowRouter.route('/planning/students/:id/edit', {
+	name: 'studentsEdit',
+	action() {
+		BlazeLayout.render('app', {
+			main: 'studentsEdit',
+		});
+	},
+});
+
+
+
+
 // School Years
 FlowRouter.route('/planning/schoolyears/new', {
 	name: 'schoolYearsNew',
@@ -26,6 +66,15 @@ FlowRouter.route('/planning/schoolyears/list', {
 	action() {
 		BlazeLayout.render('app', {
 			main: 'schoolYearsList',
+		});
+	},
+});
+
+FlowRouter.route('/planning/schoolyears/:id', {
+	name: 'schoolYearsId',
+	action() {
+		BlazeLayout.render('app', {
+			main: 'schoolYearsId',
 		});
 	},
 });
@@ -61,6 +110,15 @@ FlowRouter.route('/planning/resources/new', {
 	},
 });
 
+FlowRouter.route('/planning/resources/:id', {
+	name: 'resourcesId',
+	action() {
+		BlazeLayout.render('app', {
+			main: 'resourcesId',
+		});
+	},
+});
+
 FlowRouter.route('/planning/resources/:id/edit', {
 	name: 'resourcesEdit',
 	action() {
@@ -73,7 +131,7 @@ FlowRouter.route('/planning/resources/:id/edit', {
 
 
 
-// Resources
+// Subjects
 FlowRouter.route('/planning/subjects/list', {
 	name: 'subjectsList',
 	action() {
@@ -92,6 +150,15 @@ FlowRouter.route('/planning/subjects/new', {
 	},
 });
 
+FlowRouter.route('/planning/subjects/:id', {
+	name: 'subjectsId',
+	action() {
+		BlazeLayout.render('app', {
+			main: 'subjectsId',
+		});
+	},
+});
+
 FlowRouter.route('/planning/subjects/:id/edit', {
 	name: 'subjectsEdit',
 	action() {
@@ -104,33 +171,42 @@ FlowRouter.route('/planning/subjects/:id/edit', {
 
 
 
-// Students
-FlowRouter.route('/planning/students/list', {
-	name: 'studentsList',
+// Notes
+FlowRouter.route('/planning/notes/list', {
+	name: 'notesList',
 	action() {
 		BlazeLayout.render('app', {
-			main: 'studentsList',
+			main: 'notesList',
 		});
 	},
 });
 
-FlowRouter.route('/planning/students/new', {
-	name: 'studentsNew',
+FlowRouter.route('/planning/notes/new', {
+	name: 'notesNew',
 	action() {
 		BlazeLayout.render('app', {
-			main: 'studentsNew',
+			main: 'notesNew',
 		});
 	},
 });
 
-FlowRouter.route('/planning/students/:id/edit', {
-	name: 'studentsEdit',
-	action() {
-		BlazeLayout.render('app', {
-			main: 'studentsEdit',
-		});
-	},
-});
+// FlowRouter.route('/planning/notes/:id', {
+// 	name: 'notesId',
+// 	action() {
+// 		BlazeLayout.render('app', {
+// 			main: 'notesId',
+// 		});
+// 	},
+// });
+
+// FlowRouter.route('/planning/notes/:id/edit', {
+// 	name: 'subjectsEdit',
+// 	action() {
+// 		BlazeLayout.render('app', {
+// 			main: 'notesEdit',
+// 		});
+// 	},
+// });
 
 
 

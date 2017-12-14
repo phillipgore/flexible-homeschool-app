@@ -5,14 +5,23 @@ ul.list {
 
 	li.list-item {
 
-		a.list-item-link {
+		a.list-item-link, .list-item-inner {
 			display: block;
 			height: 50px;
 			padding-top: 16px;
 			padding-bottom: 16px;
-			background-color: $color-white;
 			border-bottom: 1px solid $color-gray-lighter;
 			color: $color-black;
+			position: relative;
+
+			&.top-border {
+				border-bottom: none;
+				border-top: 1px solid $color-gray-lighter;
+			}
+
+			&.dark-border {
+				border-color: $color-gray;
+			}
 
 			.list-item-icon {
 				display: inline-block;
@@ -22,10 +31,41 @@ ul.list {
 				text-align: center;
 			}
 
+			.list-label {
+				padding-right: 28px;
+			}
+
+			.list-item-btn {
+				position: absolute;
+				top: 14px;
+				bottom: 0px;
+				right: 9px;
+				width: 28px;
+				text-align: right;
+			}
+
 			&:hover {
 				color: $color-black;
 				text-decoration: none;
 			}
+		}
+	}
+
+	&.list-search-results {
+		position: absolute;
+		top: 42px;
+		left: 0px;
+		right: 0px;
+		z-index: 10;
+		margin-bottom: 86px;
+		// box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
+		border-radius: 3px;
+		overflow: hidden;
+		border: 1px solid $color-primary;
+		background-color: $color-white;
+
+		li.list-item:last-of-type a.list-item-link, li.list-item:last-of-type .list-item-inner {
+			border: none;
 		}
 	}
 }
@@ -60,6 +100,20 @@ ul.data-list {
 				color: $color-black;
 				text-decoration: none;
 			}
+		}
+	}
+}
+
+ul.info-list {
+	list-style: none;
+	padding: 0px;
+	margin: 0px;
+
+	li.list-item {
+		margin-bottom: 12px;
+
+		.list-label {
+			font-weight: 400;
 		}
 	}
 }

@@ -4,9 +4,9 @@
 		<ul class="list">
 			{{#each student in students}}
 				<li class="list-item">
-					<a href="/settings/schoolyears/{{schoolYear._id}}" class="list-item-link p-tn-rl-9">
+					<a href="/planning/students/{{student._id}}" class="list-item-link p-tn-rl-9">
 						<div class="list-item-icon"><i class="txt-primary fss-list-students"></i></div> 
-						<div class="list-item-label">{{student.preferredFirstName}} {{student.lastName}}</div>
+						<div class="list-item-label">{{student.preferredFirstName.name}} {{student.lastName}}</div>
 					</a>
 				</li>
 			{{/each}}

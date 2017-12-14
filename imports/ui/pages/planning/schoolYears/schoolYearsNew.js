@@ -45,18 +45,17 @@ Template.schoolYearsNew.onRendered( function() {
 		},		
 
 		submitHandler() {
-			const termsProperties = []
+			let termProperties = []
 
 			event.target.weeksPerTerm.forEach(function(weeks, index) {
 				if (weeks.value) {
-					termsProperties.push({order: index + 1, weeksPerTerm: weeks.value})
+					termProperties.push({order: parseInt(index + 1), weeksPerTerm: parseInt(weeks.value)})
 				}
 			})
 
 			const schoolYearProperties = {
 				startYear: event.target.startYear.value.trim(),
 				endYear: event.target.endYear.value.trim(),
-				terms: termsProperties,
 			}
 
 			Meteor.call('insertSchoolYear', schoolYearProperties, function(error, schoolYearId) {
@@ -67,7 +66,21 @@ Template.schoolYearsNew.onRendered( function() {
 						message: error.reason,
 					});
 				} else {
-					FlowRouter.go('/planning/schoolyears/list');
+					termProperties.forEach(function(term) {
+						term.schoolYearId = schoolYearId;
+					})
+
+					Meteor.call('insertTerm', termProperties, function(error, termId) {
+						if (error) {
+							Alerts.insert({
+								colorClass: 'bg-danger',
+								iconClass: 'fss-icn-danger',
+								message: error.reason,
+							});
+						} else {
+							FlowRouter.go('/planning/schoolyears/list');
+						}
+					});
 				}
 			});
 

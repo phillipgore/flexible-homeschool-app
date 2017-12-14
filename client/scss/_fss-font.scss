@@ -45,17 +45,32 @@ i {
 .fss-btn-close:before {
   content: "\e901";
 }
+.fss-btn-close-circle:before {
+  content: "\e92b";
+}
 .fss-btn-more:before {
   content: "\e902";
 }
 .fss-btn-new:before {
   content: "\e903";
 }
+.fss-btn-new-circle:before {
+  content: "\e92c";
+}
+.fss-btn-notes:before {
+  content: "\e929";
+}
 .fss-btn-planing:before {
   content: "\e904";
 }
 .fss-btn-reporting:before {
   content: "\e905";
+}
+.fss-btn-search:before {
+  content: "\e92d";
+}
+.fss-btn-searching:before {
+  content: "\e92e";
 }
 .fss-btn-settings:before {
   content: "\e907";
@@ -120,6 +135,9 @@ i {
 .fss-list-edit:before {
   content: "\e91b";
 }
+.fss-list-notes:before {
+  content: "\e92a";
+}
 .fss-list-resources:before {
   content: "\e91c";
 }
@@ -146,4 +164,18 @@ i {
 }
 .fss-logo:before {
   content: "\e924";
+}
+
+.fss-spin {
+    display: inline-block;
+    animation: rotation 1.5s infinite linear;
+}
+
+@keyframes rotation {
+    from { 
+        transform: rotate(0deg); 
+    }
+    to { 
+        transform: rotate(359deg); 
+    }
 }

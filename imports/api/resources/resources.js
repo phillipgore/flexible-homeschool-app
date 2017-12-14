@@ -3,10 +3,20 @@ import SimpleSchema from 'simpl-schema';
 
 export const Resources = new Mongo.Collection('resources');
 
+if ( Meteor.isServer ) {
+    Resources._ensureIndex({ title: 1, author: 1, artist: 1, director: 1, director: 1, description: 1 });
+}
+
+Resources.allow({
+  insert: () => false,
+  update: () => false,
+  remove: () => false
+});
+
 Resources.deny({
-	insert() {return true; },
-	update() {return true; },
-	remove() {return true; },
+  insert: () => true,
+  update: () => true,
+  remove: () => true
 });
 
 const ResourcesSchema = new SimpleSchema({

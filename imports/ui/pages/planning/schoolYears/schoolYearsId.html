@@ -1,0 +1,18 @@
+<template name="schoolYearsId">
+	{{> toolbar dynamicToolbarLabel=dynamicToolbarLabel}}
+	<main class="app-content no-subbar app-content-preceeds-toolbar">
+		<div class="p-tn-9">
+			<ul class="info-list">
+				<li class="list-item">
+					<span class="list-label">Start Year:</span> 
+					{{schoolYear.startYear}}
+				</li>
+				<li class="list-item">
+					<span class="list-label">End Year:</span> 
+					{{schoolYear.endYear}}
+				</li>
+			</ul>
+		</div>
+	</main>
+	{{> navbar }}
+</template>

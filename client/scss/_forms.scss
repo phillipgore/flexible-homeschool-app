@@ -54,7 +54,7 @@ form {
 			border-color: $color-primary;
 
 			&::placeholder {
-			  color: lighten($color-primary, 10%);
+				color: lighten($color-primary, 10%);
 			}
 		}
 
@@ -62,8 +62,47 @@ form {
 			border-color: $color-danger;
 
 			&::placeholder {
-			  color: $color-gray;
+				color: $color-gray;
 			}
+		}
+	}
+
+	textarea {
+		margin-bottom: 9px;
+	}
+
+	.icn-overlay {
+		display: block;
+		position: relative;
+		color: $color-gray-darker;
+
+		input {
+			padding-left: 36px;
+			padding-right: 36px;
+		}
+
+		.icn-left {
+			display: block;
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			z-index: 10;
+			height: 36px;
+			width: 36px;
+			padding: 10px;
+			text-align: center;
+		}
+
+		.icn-right {
+			display: block;
+			position: absolute;
+			top: 0px;
+			right: 0px;
+			z-index: 10;
+			height: 36px;
+			width: 36px;
+			padding-top: 7px;
+			text-align: center;
 		}
 	}
 

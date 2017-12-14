@@ -1,6 +1,7 @@
 import {Template} from 'meteor/templating';
-import { Students } from '../../../api/students/students.js';
+import { Students } from '../../../../api/students/students.js';
 import './studentsId.html';
+import moment from 'moment';
 
 Template.studentsId.onRendered( function() {
 	// Subscriptions
@@ -8,7 +9,7 @@ Template.studentsId.onRendered( function() {
 
 	// Toolbar Settings
 	Session.set({
-		leftUrl: '/students/list',
+		leftUrl: '/planning/students/list',
 		leftIcon: 'fss-btn-back',
 		leftCaret: false,
 		label: '',
@@ -18,7 +19,7 @@ Template.studentsId.onRendered( function() {
 	});
 
 	// Navbar Settings
-	Session.set('activeNav', 'trackingList');
+	Session.set('activeNav', 'planningList');
 });
 
 Template.studentsId.helpers({
@@ -28,6 +29,17 @@ Template.studentsId.helpers({
 	
 	dynamicToolbarLabel: function() {
 		let student = Students.findOne({_id: FlowRouter.getParam('id')});
-		return student && student.preferredFirstName +' '+ student.lastName;
+		return student && student.preferredFirstName.name +' '+ student.lastName;
+	},
+
+	preferredFirstName: function(currentType, type) {
+		if (currentType === type) {
+			return true;
+		}
+		return false;
+	},
+
+	birthday: function(date) {
+		return moment(date).format('MMMM D, YYYY')
 	}
 });

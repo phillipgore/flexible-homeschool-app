@@ -1,37 +1,135 @@
 <template name="subjectsNew">
 	{{> toolbar}}
 	<main class="app-content no-subbar app-content-preceeds-toolbar">
-		<form class="js-form-students-new row m-tn-t-18 m-tn-h-18 | m-xs-h-72">
+		<form class="js-form-subjects-new row m-tn-t-18 m-tn-h-18 | m-xs-h-72">
+
+			<h2 class="m-tn-b-9">Step 1: Information</h2>
 			<label>Student</label>
 			<div class="fss-select">
 				<select name="studentId" id="student-id">
 					{{#each student in students}}
-						<option value="{{student._id}}">{{student.preferredFirstName}} {{student.lastName}}</option>
+					<option value="{{student._id}}">{{student.preferredFirstName.name}} {{student.lastName}}</option>
 					{{/each}}
 				</select>
 			</div>
-			<div class="row">
-				<div class="col-tn-1of2 p-tn-r-3">
-					<label>School Year</label>
-					<div class="fss-select">
-						<select name="schoolYearId" id="school-year-id">
-							{{#each schoolYear in schoolYears}}
-								<option value="{{schoolYear._id}}">{{schoolYear.startYear}}-{{schoolYear.endYear}}</option>
-							{{/each}}
-						</select>
+
+			<div class="well bg-gray-lighter m-tn-b-18">
+				<label>Subject Name</label>
+				<input type="text" name="name" id="name" placeholder="Math" autocomplete="off">
+				<label>Descripton</label>
+				<textarea class="m-tn-b-neg-3" name="description" id="description" placeholder="Learn basic mathematics..." rows="4"></textarea>
+			</div>
+
+			<h2 class="m-tn-t-36 m-tn-b-9">Step 2: Resources</h2>
+			<label>Search To Attach Resources</label>
+			<div class="pos-relative">
+				<div class="icn-overlay">
+					<input type="text" name="searchResources" id="search-resources" placeholder="Search Resources" autocomplete="off">
+					<div class="icn-left">
+						{{#if searching}}
+						<i class="fss-btn-searching fss-spin"></i>
+						{{else}}
+						<i class="fss-btn-search"></i>
+						{{/if}}
 					</div>
+					<a href="#" class="js-clear-search icn-right">
+						<div class="btn btn-circle bg-danger small">
+							<i class="fss-btn-close"></i>
+						</div>
+					</a>
 				</div>
-				<div class="col-tn-1of2 p-tn-l-3">
-					<label>Term</label>
-					<div class="fss-select">
-						<select name="termId" id="term-id">
-							{{#each term in schoolYear.terms}}
-								<option value="{{term.order}}">Term {{term.order}}</option>
-							{{/each}}
-						</select>
+				
+				{{#if query}}
+				<ul class="list list-search-results">
+					{{#each resource in resources}}
+					<li class="list-item">
+						<div class="list-item-inner p-tn-rl-9">
+							<div class="list-item-icon"><i class="fss-list-{{resource.type}} txt-primary"></i></div>
+							<div class="list-label">{{resource.title}}</div>
+							<div class="list-item-btn">
+								<a id="{{resource._id}}" href="#" class="js-add-resource btn btn-circle small">
+									<i class="fss-btn-new"></i>
+								</a>
+							</div>
+						</div>
+					</li>
+					{{else}}
+					<li class="list-item p-tn-rl-9">
+						<div class="list-item-inner">No Results.</div>
+					</li>
+					{{/each}}
+				</ul>
+				{{/if}}
+			</div>
+
+			<div class="well bg-gray-lighter p-tn-b-0 m-tn-b-18">
+				<label class="m-tn-b-9">Resources</label>
+				<ul class="list">
+					{{#each resource in localResources}}
+					<li class="list-item">
+						<div class="list-item-inner dark-border top-border p-tn-rl-9 m-tn-rl-neg-9">
+							<div class="list-item-icon"><i class="fss-list-{{resource.type}} txt-primary"></i></div>
+							<div class="list-label">{{resource.title}}</div>
+							<div class="list-item-btn">
+								<a id="{{resource.id}}" href="#" class="js-remove-resource btn btn-circle bg-danger small">
+									<i class="fss-btn-close"></i>
+								</a>
+							</div>
+						</div>
+					</li>
+					{{else}}
+					<li class="list-item">
+						<div class="list-item-inner dark-border top-border txt-tn-center p-tn-rl-9 m-tn-rl-neg-9">
+							No Attached Resources
+						</div>
+					</li>
+					{{/each}}
+				</ul>
+			</div>
+
+			<h2 class="m-tn-t-36 m-tn-b-9">Step 3: Schedule</h2>
+			<label>School Year</label>
+			<div class="fss-select">
+				<select class="js-school-year-id" name="schoolYearId" id="school-year-id">
+					<option disabled selected value>None</option>
+					{{#each schoolYear in schoolYears}}
+					<option value="{{schoolYear._id}}">{{schoolYear.startYear}}-{{schoolYear.endYear}}</option>
+					{{/each}}
+				</select>
+			</div>
+
+			{{#each term in terms}}
+			<div id="{{term._id}}" class="well bg-gray-lighter m-tn-b-9">
+				<h3 class="m-tn-b-12">Term {{term.order}}</h3>
+				<label>Preset All Weeks To</label>
+				<div class="fss-select">
+					<select data-term-id="{{term._id}}" class="js-times-per-week-preset" name="timesPerWeekPreset" id="times-per-week-preset">
+						<option disabled selected value>Preset Options</option>
+						<option value="">0 Times Per Week</option>
+						<option value="1">1 Time Per Week</option>
+						<option value="2">2 Times Per Week</option>
+						<option value="3">3 Times Per Week</option>
+						<option value="4">4 Times Per Week</option>
+						<option value="5">5 Times Per Week</option>
+						<option value="6">6 Times Per Week</option>
+						<option value="7">7 Times Per Week</option>
+					</select>
+				</div>
+				<div class="row m-tn-rl-neg-3 m-tn-b-neg-12">
+					{{#each week in weeks term.weeksPerTerm}}
+					<div class="col-tn-1of5 p-tn-rl-3">
+						<label>{{week.label}}</label>
+						<input class="js-times-per-week" type="number" name="timesPerWeek" placeholder="5" autocomplete="off" maxlength="2">
 					</div>
+					{{/each}}
 				</div>
 			</div>
+			{{/each}}
+
+			<footer class="toolbar toolbar-bottom toolbar-gray">
+				<a href="{{pathFor 'subjectsList'}}" class="btn btn-gray-darker fl-tn-left">Cancel</a>
+				<button type="submit" class="fl-tn-right">Save</button>
+			</footer>
 		</form>
 	</main>
 </template>

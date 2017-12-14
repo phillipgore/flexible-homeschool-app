@@ -23,5 +23,6 @@ Template.planningList.helpers({
 		{divider: false, classes: '', icon: 'fss-list-schoolyears', label: 'School Years', url: '/planning/schoolyears/list'},
 		{divider: false, classes: '', icon: 'fss-list-resources', label: 'Resources', url: '/planning/resources/list'},
 		{divider: false, classes: '', icon: 'fss-list-subjects', label: 'Subjects', url: '/planning/subjects/list'},
+		{divider: false, classes: '', icon: 'fss-list-notes', label: 'Notes', url: '/planning/notes'},
 	]
 });

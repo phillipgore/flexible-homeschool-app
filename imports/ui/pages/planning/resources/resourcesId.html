@@ -1,0 +1,64 @@
+<template name="resourcesId">
+	{{> toolbar dynamicToolbarLabel=dynamicToolbarLabel}}
+	<main class="app-content no-subbar app-content-preceeds-toolbar">
+		<div class="p-tn-9">
+			<ul class="info-list">
+				<li class="list-item txt-capitalize">
+					<span class="list-label">Type:</span> 
+					{{resource.type}}
+				</li>
+				<li class="list-item">
+					<span class="list-label">Availability:</span> 
+					{{availabilityStatment resource.availability}}
+				</li>
+				<li class="list-item">
+					<span class="list-label">Title:</span> 
+					{{resource.title}}
+				</li>
+				{{#if resource.author}}
+				<li class="list-item">
+					<span class="list-label">Author:</span> 
+					{{resource.author}}
+				</li>
+				{{/if}}
+				{{#if resource.director}}
+				<li class="list-item">
+					<span class="list-label">Director:</span> 
+					{{resource.director}}
+				</li>
+				{{/if}}
+				{{#if resource.artist}}
+				<li class="list-item">
+					<span class="list-label">Artist:</span> 
+					{{resource.artist}}
+				</li>
+				{{/if}}
+				{{#if resource.publisher}}
+				<li class="list-item">
+					<span class="list-label">Publisher:</span> 
+					{{resource.publisher}}
+				</li>
+				{{/if}}
+				{{#if resource.publicationDate}}
+				<li class="list-item">
+					<span class="list-label">Publication Date:</span> 
+					{{resource.publicationDate}}
+				</li>
+				{{/if}}
+				{{#if resource.link}}
+				<li class="list-item">
+					<span class="list-label">Link:</span> 
+					{{resource.link}}
+				</li>
+				{{/if}}
+				{{#if resource.description}}
+				<li class="list-item">
+					<span class="list-label">Description:</span> 
+					{{resource.description}}
+				</li>
+				{{/if}}
+			</ul>
+		</div>
+	</main>
+	{{> navbar }}
+</template>

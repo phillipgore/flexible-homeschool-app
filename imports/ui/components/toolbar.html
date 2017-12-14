@@ -3,7 +3,7 @@
 		<div class="row">
 			<div class="col-tn-1of6">
 				{{#if leftIcon}}
-				<a class="btn-tool fl-tn-left" href="{{leftUrl}}">
+				<a class="btn-tool fl-tn-left txt-tn-left p-tn-l-9" href="{{leftUrl}}">
 					<i class="{{leftIcon}}"></i> {{#if leftCaret}}<i class="fss-caret-down"></i>{{/if}}
 				</a>
 				{{else}}
@@ -12,15 +12,15 @@
 			</div>
 			<div class="col-tn-4of6 |  m-tn-t-12">
 				{{#if label}}
-				<h1 class="txt-tn-center text-ellipsis">{{label}}</h1>
+				<h1 class="txt-tn-center txt-ellipsis">{{label}}</h1>
 				{{/if}}
 				{{#if dynamicToolbarLabel}}
-				<h1 class="txt-tn-center text-ellipsis">{{dynamicToolbarLabel}}</h1>
+				<h1 class="txt-tn-center txt-ellipsis">{{dynamicToolbarLabel}}</h1>
 				{{/if}}
 			</div>
 			<div class="col-tn-1of6">
 				{{#if rightIcon}}
-				<a class="btn-tool fl-tn-right" href="{{rightUrl}}">
+				<a class="btn-tool fl-tn-right txt-tn-right p-tn-r-9" href="{{rightUrl}}">
 					<i class="{{rightIcon}}"></i> {{#if rightCaret}}<i class="fss-caret-down"></i>{{/if}}
 				</a>
 				{{/if}}

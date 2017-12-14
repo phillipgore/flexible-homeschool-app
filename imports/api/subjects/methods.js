@@ -5,7 +5,8 @@ import {Subjects} from './subjects.js';
 
 Meteor.methods({
 	insertSubject(subjectProperties) {
-		Subjects.insert(subjectProperties);
+		const subjectId = Subjects.insert(subjectProperties);
+		return subjectId;
 	},
 
 	updateSubject: function(subjectId, subjectProperties) {

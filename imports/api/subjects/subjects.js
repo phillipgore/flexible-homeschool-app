@@ -3,10 +3,16 @@ import SimpleSchema from 'simpl-schema';
 
 export const Subjects = new Mongo.Collection('subjects');
 
+Subjects.allow({
+  insert: () => false,
+  update: () => false,
+  remove: () => false
+});
+
 Subjects.deny({
-	insert() {return true; },
-	update() {return true; },
-	remove() {return true; },
+  insert: () => true,
+  update: () => true,
+  remove: () => true
 });
 
 const SubjectsSchema = new SimpleSchema({
@@ -14,7 +20,7 @@ const SubjectsSchema = new SimpleSchema({
         type: Number,
         label: "Order"
     },
-    label: {
+    name: {
         type: String,
         label: "Label",
     },

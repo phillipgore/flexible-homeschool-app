@@ -5,7 +5,8 @@ import {Resources} from './resources.js';
 
 Meteor.methods({
 	insertResource(resourceProperties) {
-		Resources.insert(resourceProperties);
+		const resourcesId = Resources.insert(resourceProperties);
+		return resourcesId
 	},
 
 	updateResource: function(resourceId, resourceProperties) {

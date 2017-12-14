@@ -42,13 +42,13 @@ Template.studentsNew.onRendered( function() {
 			}
 
 			if (studentProperties.preferredFirstName === 'firstName') {
-				studentProperties.preferredFirstName = studentProperties.firstName;
+				studentProperties.preferredFirstName = {type: 'firstName', name: studentProperties.firstName};
 			} else if (studentProperties.preferredFirstName === 'middleName') {
-				studentProperties.preferredFirstName = studentProperties.middleName;
+				studentProperties.preferredFirstName = {type: 'middleName', name: studentProperties.middleName};
 			} else {
-				studentProperties.preferredFirstName = studentProperties.nickname;
+				studentProperties.preferredFirstName = {type: 'nickname', name: studentProperties.nickname};
 			}
-
+			
 			Meteor.call('insertStudent', studentProperties, function(error, studentId) {
 				if (error) {
 					Alerts.insert({
@@ -57,7 +57,7 @@ Template.studentsNew.onRendered( function() {
 						message: error.reason,
 					});
 				} else {
-					FlowRouter.go('/planning/students/list');
+					FlowRouter.go('/planning/students/' + studentId);
 				}
 			});
 

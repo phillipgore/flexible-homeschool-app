@@ -3,10 +3,16 @@ import SimpleSchema from 'simpl-schema';
 
 export const Lessons = new Mongo.Collection('lessons');
 
+Lessons.allow({
+  insert: () => false,
+  update: () => false,
+  remove: () => false
+});
+
 Lessons.deny({
-	insert() {return true; },
-	update() {return true; },
-	remove() {return true; },
+  insert: () => true,
+  update: () => true,
+  remove: () => true
 });
 
 const LessonsSchema = new SimpleSchema({
