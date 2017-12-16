@@ -2,10 +2,12 @@ import {Template} from 'meteor/templating';
 import { Resources } from '../../../../api/resources/resources.js';
 import './resourcesList.html';
 
-Template.resourcesList.onRendered( function() {
-	// Subscriptions
-	Meteor.subscribe('allResources');
+Template.resourcesList.onCreated( function() {
+	// Subscriptions\
+	this.subscribe('allResources');
+});
 
+Template.resourcesList.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
 		leftUrl: '/planning/list',

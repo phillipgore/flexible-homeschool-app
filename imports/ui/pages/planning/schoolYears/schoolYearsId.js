@@ -3,11 +3,14 @@ import { SchoolYears } from '../../../../api/schoolYears/schoolYears.js';
 import { Terms } from '../../../../api/terms/terms.js';
 import './schoolYearsId.html';
 
-Template.schoolYearsId.onRendered( function() {
+Template.schoolYearsId.onCreated( function() {
 	// Subscriptions
-	Meteor.subscribe('schoolYear', FlowRouter.getParam('id'));
-	Meteor.subscribe('schoolYearsTerms', FlowRouter.getParam('id'));
+	this.subscribe('schoolYear', FlowRouter.getParam('id'));
+	this.subscribe('schoolYearsTerms', FlowRouter.getParam('id'));
 
+});
+
+Template.schoolYearsId.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
 		leftUrl: '/planning/schoolYears/list',

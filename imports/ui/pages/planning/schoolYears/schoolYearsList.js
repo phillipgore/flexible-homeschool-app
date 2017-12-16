@@ -2,10 +2,12 @@ import {Template} from 'meteor/templating';
 import { SchoolYears } from '../../../../api/schoolYears/schoolYears.js';
 import './schoolYearsList.html';
 
-Template.schoolYearsList.onRendered( function() {
+Template.schoolYearsList.onCreated( function() {
 	// Subscriptions
-	Meteor.subscribe('allSchoolYears');
+	this.subscribe('allSchoolYears');
+});
 
+Template.schoolYearsList.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
 		leftUrl: '/planning/list',

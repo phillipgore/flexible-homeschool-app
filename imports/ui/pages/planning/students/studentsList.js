@@ -2,10 +2,12 @@ import {Template} from 'meteor/templating';
 import { Students } from '../../../../api/students/students.js';
 import './studentsList.html';
 
-Template.studentsList.onRendered( function() {
+Template.studentsList.onCreated( function() {
 	// Subscriptions
-	Meteor.subscribe('allStudents');
+	this.subscribe('allStudents');
+});
 
+Template.studentsList.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
 		leftUrl: '/planning/list',

@@ -18,9 +18,7 @@ Meteor.publish('resource', function(resourceId) {
 	return Resources.find({groupId: groupId, _id: resourceId});
 });
 
-Meteor.publish( 'searchResources', function( search ) {
-
-
+Meteor.publish( 'searchResources', function( search ) {	
 	if ( search ) {
 		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
 		let regex = new RegExp( search, 'i' );

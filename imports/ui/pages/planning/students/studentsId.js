@@ -3,10 +3,12 @@ import { Students } from '../../../../api/students/students.js';
 import './studentsId.html';
 import moment from 'moment';
 
-Template.studentsId.onRendered( function() {
+Template.studentsId.onCreated( function() {
 	// Subscriptions
-	Meteor.subscribe('student', FlowRouter.getParam('id'));
+	this.subscribe('student', FlowRouter.getParam('id'));
+});
 
+Template.studentsId.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
 		leftUrl: '/planning/students/list',
