@@ -42,6 +42,7 @@ form {
 		border-radius: 3px;
 		margin-bottom: 12px;
 		background-color: #fff;
+		font-family: $font-family-default;
 		font-size: 16px;
 
 		&::placeholder {
@@ -114,6 +115,10 @@ form {
 	    overflow: hidden;
 	    background: #fff url('/img/arrows-select.svg') right center no-repeat;
 
+		&.error {
+			border-color: $color-danger;
+		}
+
 	    &.focus {
 	    	outline: none;
 	    	border-color: $color-primary;
@@ -142,6 +147,10 @@ form {
 			&:-moz-focusring {
 			    color: transparent;
 			    text-shadow: 0 0 0 #000;
+			}
+
+			&.error {
+				border-color: $color-danger;
 			}
 		}
 	}

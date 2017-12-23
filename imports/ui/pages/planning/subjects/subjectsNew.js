@@ -3,12 +3,19 @@ import { Students } from '../../../../api/students/students.js';
 import { Resources } from '../../../../api/resources/resources.js';
 import { SchoolYears } from '../../../../api/schoolYears/schoolYears.js';
 import { Terms } from '../../../../api/terms/terms.js';
-import { Debounce } from 'lodash'
+import { Weeks } from '../../../../api/weeks/weeks.js';
+import _ from 'lodash'
 import './subjectsNew.html';
 
 LocalResources = new Mongo.Collection(null);
 
-Template.subjectsNew.onCreated( () => {
+Template.subjectsNew.onCreated( function() {
+	// Subscriptions
+	this.subscribe('allStudents');
+	this.subscribe('allSchoolYears');
+	this.subscribe('allTerms');
+	this.subscribe('allWeeks');
+
 	let template = Template.instance();
 
 	template.searchQuery = new ReactiveVar();
@@ -27,11 +34,6 @@ Template.subjectsNew.onRendered( function() {
 	// Resources Input Settings
 	LocalResources.remove({});
 
-	// Subscriptions
-	Meteor.subscribe('allStudents');
-	Meteor.subscribe('allSchoolYears');
-	Meteor.subscribe('allTerms');
-
 	// School Year Id Settings
 	Session.set({schoolYearId: ''})
 
@@ -48,6 +50,81 @@ Template.subjectsNew.onRendered( function() {
 
 	// Navbar Settings
 	Session.set('activeNav', 'planningList');
+
+	// Form Validation and Submission
+	$('.js-form-subjects-new').validate({
+		rules: {
+			name: { required: true },
+			schoolYearId: { required: true },
+			timesPerWeek: { number: true },
+		},
+		messages: {
+			name: { required: "Required." },
+			schoolYearId: { required: "Required." },
+			timesPerWeek: { number: "" },
+		},
+		errorPlacement: function(error, element) {
+			var placement = $(element).data('error');
+			if (placement) {
+				$(element).parent().addClass('error');
+				$(placement).append(error)
+			} else {
+				error.insertAfter(element);
+			}
+		},
+
+		submitHandler() {
+			let resourceIds = []
+
+			LocalResources.find().forEach(function(resource) {
+				resourceIds.push(resource.id);
+			});
+
+			const subjectProperties = {
+				name: event.target.name.value.trim(),
+				description: event.target.description.value.trim(),
+				resources: resourceIds,
+				studentId: event.target.studentId.value.trim(),
+				schoolYearId: event.target.schoolYearId.value.trim(),
+			}
+
+			let lessonProperties = []
+
+			event.target.timesPerWeek.forEach(function(times, index) {
+				for (i = 0; i < parseInt(times.value); i++) { 
+				    lessonProperties.push({order: parseInt(index + 1), weekId: times.dataset.weekId});
+				}
+			});
+
+			Meteor.call('insertSubject', subjectProperties, function(error, subjectId) {
+				if (error) {
+					Alerts.insert({
+						colorClass: 'bg-danger',
+						iconClass: 'fss-icn-danger',
+						message: error.reason,
+					});
+				} else {
+					lessonProperties.forEach(function(lesson) {
+						lesson.subjectId = subjectId;
+
+						Meteor.call('insertLesson', lesson, function(error) {
+							if (error) {
+								Alerts.insert({
+									colorClass: 'bg-danger',
+									iconClass: 'fss-icn-danger',
+									message: error.reason,
+								});
+							} else {
+								FlowRouter.go('/planning/subjects/' + subjectId);
+							}
+						});
+					});
+				}
+			});
+
+			return false;
+		}
+	});
 })
 
 Template.subjectsNew.helpers({
@@ -67,13 +144,8 @@ Template.subjectsNew.helpers({
 		return Terms.find({schoolYearId: Session.get('schoolYearId')}, {sort: {order: 1}});
 	},
 
-	weeks: function(weekCount) {
-		weeks = []
-		for (let i = 0; i < weekCount; i++) {
-			let number = i + 1;
-            weeks.push({number: number, label: 'Week ' + number});
-        }
-        return weeks;
+	weeks: function(termId) {
+        return Weeks.find({termId: termId});
 	},
 
 	searching() {
@@ -106,8 +178,8 @@ Template.subjectsNew.events({
 	},
 
 	'change .js-times-per-week'(event) {
-		$('.js-times-per-week-preset option').removeProp('selected');
-		$('.js-times-per-week-preset option:disabled').prop('selected', true);
+		$('#' + event.currentTarget.dataset.termId + ' .js-times-per-week-preset option').removeProp('selected');
+		$('#' + event.currentTarget.dataset.termId + ' .js-times-per-week-preset option:disabled').prop('selected', true);
 	},
 
 	'keyup #search-resources'(event, template) {
@@ -126,6 +198,7 @@ Template.subjectsNew.events({
 	'click .js-clear-search'(event, template) {
 		event.preventDefault();
 
+		Alerts.remove({type: 'addResource'});
 		$('#search-resources').val('');
 		template.searchQuery.set('');
 		template.searching.set(false);
@@ -135,17 +208,41 @@ Template.subjectsNew.events({
 		event.preventDefault();
 
 		let resource = Resources.findOne({_id: event.currentTarget.id});
-		console.log(resource.type)
-		LocalResources.insert({id: resource._id, type: resource.type, title: resource.title});
+		let localResource = LocalResources.findOne({id: resource._id})
+		if (localResource) {
+			Alerts.insert({
+				type: 'addResource',
+				colorClass: 'bg-warning',
+				iconClass: 'fss-icn-warning',
+				message: localResource.title + ' is already attached to this subject.',
+			});
+		} else {
+			LocalResources.insert({id: resource._id, type: resource.type, title: resource.title});
 
-		$('#search-resources').val('');
-		template.searchQuery.set('');
-		template.searching.set(false);
+			Alerts.remove({type: 'addResource'});
+			$('#search-resources').val('');
+			template.searchQuery.set('');
+			template.searching.set(false);
+		}
 	},
 
 	'click .js-remove-resource'(event) {
 		event.preventDefault();
 
+		Alerts.remove({type: 'addResource'});
 		LocalResources.remove({id: event.currentTarget.id});
-	}
+	},
+
+	'submit .js-form-subjects-new'(event) {
+		event.preventDefault();
+	},
 });
+
+
+
+
+
+
+
+
+

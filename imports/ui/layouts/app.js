@@ -37,7 +37,7 @@ import '../pages/planning/planningList.js';
 	// Subjects
 	import '../pages/planning/subjects/subjectsNew.js';
 	import '../pages/planning/subjects/subjectsList.js';
-	// import '../pages/planning/subjects/subjectsId.js';
+	import '../pages/planning/subjects/subjectsId.js';
 	// Students
 	import '../pages/planning/students/studentsNew.js';
 	import '../pages/planning/students/studentsList.js';

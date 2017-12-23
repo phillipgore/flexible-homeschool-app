@@ -1,6 +1,6 @@
 import {Terms} from '../terms.js';
 
-Meteor.publish('allTerms', function(schoolYearId) {
+Meteor.publish('allTerms', function() {
 	if (!this.userId) {
 		return this.ready();
 	}

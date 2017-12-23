@@ -24,6 +24,27 @@ i {
 }
 
 
+.fss-btn-edit:before {
+  content: "\e91b";
+}
+.fss-btn-close-circle:before {
+  content: "\e92b";
+}
+.fss-btn-new-circle:before {
+  content: "\e92c";
+}
+.fss-btn-search:before {
+  content: "\e92d";
+}
+.fss-btn-searching:before {
+  content: "\e92e";
+}
+.fss-list-notes:before {
+  content: "\e92a";
+}
+.fss-btn-notes:before {
+  content: "\e929";
+}
 .fss-list-app:before {
   content: "\e906";
 }
@@ -45,32 +66,17 @@ i {
 .fss-btn-close:before {
   content: "\e901";
 }
-.fss-btn-close-circle:before {
-  content: "\e92b";
-}
 .fss-btn-more:before {
   content: "\e902";
 }
 .fss-btn-new:before {
   content: "\e903";
 }
-.fss-btn-new-circle:before {
-  content: "\e92c";
-}
-.fss-btn-notes:before {
-  content: "\e929";
-}
 .fss-btn-planing:before {
   content: "\e904";
 }
 .fss-btn-reporting:before {
   content: "\e905";
-}
-.fss-btn-search:before {
-  content: "\e92d";
-}
-.fss-btn-searching:before {
-  content: "\e92e";
 }
 .fss-btn-settings:before {
   content: "\e907";
@@ -131,12 +137,6 @@ i {
 }
 .fss-list-delete:before {
   content: "\e91a";
-}
-.fss-list-edit:before {
-  content: "\e91b";
-}
-.fss-list-notes:before {
-  content: "\e92a";
 }
 .fss-list-resources:before {
   content: "\e91c";

@@ -1,38 +1,32 @@
 import {Mongo} from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
 
-export const Terms = new Mongo.Collection('terms');
+export const Weeks = new Mongo.Collection('weeks');
 
-Terms.allow({
+Weeks.allow({
   insert: () => false,
   update: () => false,
   remove: () => false
 });
 
-Terms.deny({
+Weeks.deny({
   insert: () => true,
   update: () => true,
   remove: () => true
 });
 
-const TermsSchema = new SimpleSchema({
+const WeeksSchema = new SimpleSchema({
 	order: {
         type: Number,
-        label: "order",
-    	optional: true
+        label: "order"
     },
-    // weeksPerTerm: {
-    //     type: Number,
-    //     label: "Weeks Per Term",
-    //     optional: true
-    // },
 	archived: {
 		type: Boolean,
 		defaultValue: false,
 	},
-    schoolYearId: {
+    termId: {
         type: String,
-        label: "School Year ID"
+        label: "Term ID"
     },
 	groupId: {
 		type: String,
@@ -73,4 +67,4 @@ const TermsSchema = new SimpleSchema({
 	}
 });
 
-Terms.attachSchema(TermsSchema);
+Weeks.attachSchema(WeeksSchema);

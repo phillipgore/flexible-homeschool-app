@@ -17,8 +17,8 @@ Template.schoolYearsId.onRendered( function() {
 		leftIcon: 'fss-btn-back',
 		leftCaret: false,
 		label: '',
-		rightUrl: '',
-		rightIcon: 'fss-btn-settings',
+		rightUrl: '/planning/schoolyears/' + FlowRouter.getParam('id') + '/edit',
+		rightIcon: 'fss-btn-edit',
 		rightCaret: false,
 	});
 

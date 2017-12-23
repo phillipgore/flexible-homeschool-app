@@ -22,11 +22,13 @@ const LessonsSchema = new SimpleSchema({
 	},
 	completedOn: {
         type: Date,
-        label: "Completed On"
+        label: "Completed On",
+        optional: true
     },
     completionTime: {
         type: Number,
         label: "Completion Time",
+        optional: true
     },
     description: {
         type: String,
@@ -41,9 +43,9 @@ const LessonsSchema = new SimpleSchema({
         type: String,
         label: "Subject ID"
     },
-    studentId: {
+    weekId: {
         type: String,
-        label: "Student ID"
+        label: "Week ID"
     },
 	groupId: {
 		type: String,

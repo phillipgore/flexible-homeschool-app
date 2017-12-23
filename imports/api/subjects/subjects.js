@@ -18,37 +18,27 @@ Subjects.deny({
 const SubjectsSchema = new SimpleSchema({
 	order: {
         type: Number,
-        label: "Order"
+        label: "Order",
+        optional: true
     },
     name: {
         type: String,
-        label: "Label",
+        label: "Subject Name",
     },
     description: {
         type: String,
         label: "Description",
         optional: true
     },
-    schedule: {
-    	type: Object,
-    	label: "Schedule"
-    },
-    'schedule.weekOfTerm': {
-        type: Number,
-        label: "Week Of Term"
-    },
-    'schedule.lessonsPerWeek': {
-        type: Number,
-        label: "Lessons Per Week"
+    resources: {
+        type: Array,
+        label: "Attached Resources",
+        optional: true
     },
 	archived: {
 		type: Boolean,
 		defaultValue: false,
 	},
-    termId: {
-        type: String,
-        label: "Student ID"
-    },
     studentId: {
         type: String,
         label: "Student ID"

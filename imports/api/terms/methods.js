@@ -5,9 +5,8 @@ import {Terms} from './terms.js';
 
 Meteor.methods({
 	insertTerm(termProperties) {
-		termProperties.forEach(function(term) {
-			Terms.insert(term);
-		})
+		const termId = Terms.insert(termProperties);
+		return termId;
 	},
 
 	updateTerm: function(termId, termProperties) {

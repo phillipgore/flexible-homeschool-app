@@ -5,8 +5,7 @@ import {Lessons} from './lessons.js';
 
 Meteor.methods({
 	insertLesson(lessonProperties) {
-		const lessonId = Lessons.insert(lessonProperties);
-		return lessonId
+		Lessons.insert(lessonProperties);
 	},
 
 	updateLesson: function(lessonId, lessonProperties) {

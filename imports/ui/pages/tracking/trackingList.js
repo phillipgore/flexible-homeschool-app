@@ -2,7 +2,7 @@ import {Template} from 'meteor/templating';
 import { Students } from '../../../api/students/students.js';
 import './trackingList.html';
 
-Template.subjectsNew.onCreated( () => {
+Template.trackingList.onCreated( function() {
 	// Subscriptions
 	this.subscribe('allStudents');
 });
