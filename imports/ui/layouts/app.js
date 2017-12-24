@@ -30,18 +30,22 @@ import '../pages/planning/planningList.js';
 	import '../pages/planning/schoolYears/schoolYearsNew.js';
 	import '../pages/planning/schoolYears/schoolYearsList.js';
 	import '../pages/planning/schoolYears/schoolYearsId.js';
+	import '../pages/planning/schoolYears/schoolYearsEdit.js';
 	// Resources
 	import '../pages/planning/resources/resourcesNew.js';
 	import '../pages/planning/resources/resourcesList.js';
 	import '../pages/planning/resources/resourcesId.js';
+	import '../pages/planning/resources/resourcesEdit.js';
 	// Subjects
 	import '../pages/planning/subjects/subjectsNew.js';
 	import '../pages/planning/subjects/subjectsList.js';
 	import '../pages/planning/subjects/subjectsId.js';
+	import '../pages/planning/subjects/subjectsEdit.js';
 	// Students
 	import '../pages/planning/students/studentsNew.js';
 	import '../pages/planning/students/studentsList.js';
 	import '../pages/planning/students/studentsId.js';
+	import '../pages/planning/students/studentsEdit.js';
 
 
 // Tracking

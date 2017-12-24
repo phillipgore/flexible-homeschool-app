@@ -172,23 +172,23 @@ FlowRouter.route('/planning/subjects/:id/edit', {
 
 
 // Notes
-FlowRouter.route('/planning/notes/list', {
-	name: 'notesList',
-	action() {
-		BlazeLayout.render('app', {
-			main: 'notesList',
-		});
-	},
-});
+// FlowRouter.route('/planning/notes/list', {
+// 	name: 'notesList',
+// 	action() {
+// 		BlazeLayout.render('app', {
+// 			main: 'notesList',
+// 		});
+// 	},
+// });
 
-FlowRouter.route('/planning/notes/new', {
-	name: 'notesNew',
-	action() {
-		BlazeLayout.render('app', {
-			main: 'notesNew',
-		});
-	},
-});
+// FlowRouter.route('/planning/notes/new', {
+// 	name: 'notesNew',
+// 	action() {
+// 		BlazeLayout.render('app', {
+// 			main: 'notesNew',
+// 		});
+// 	},
+// });
 
 // FlowRouter.route('/planning/notes/:id', {
 // 	name: 'notesId',
