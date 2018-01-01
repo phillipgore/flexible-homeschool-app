@@ -13,7 +13,7 @@ Meteor.methods({
 		Students.update(studentId, {$set: studentProperties});
 	},
 
-	archiveStudent: function(studentId) {
-		Students.update(studentId, {$set: {archive: true}});
+	deleteStudent: function(studentId) {
+		Students.update(studentId, {$set: {deleted: true}});
 	}
 })

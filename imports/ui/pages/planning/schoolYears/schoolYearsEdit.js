@@ -10,11 +10,9 @@ Template.schoolYearsEdit.onRendered( function() {
 	Session.set({
 		leftUrl: '',
 		leftIcon: '',
-		leftCaret: false,
 		label: 'Edit School Year',
 		rightUrl: '',
 		rightIcon: '',
-		rightCaret: false,
 	});
 
 	// Navbar Settings
@@ -22,7 +20,9 @@ Template.schoolYearsEdit.onRendered( function() {
 })
 
 Template.schoolYearsEdit.helpers({
-	
+	cancelPath: function() {
+		return '/planning/schoolyears/view/' + FlowRouter.getParam('id');
+	},
 });
 
 Template.schoolYearsEdit.events({

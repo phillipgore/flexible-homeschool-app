@@ -1,8 +1,20 @@
 import {Template} from 'meteor/templating';
-import './resourcesFormLink.html';
+import './resourcesNewLink.html';
 
-Template.resourcesFormLink.onRendered( function() {
-// Form Validation and Submission
+Template.resourcesNewLink.onRendered( function() {
+	// Toolbar Settings
+	Session.set({
+		leftUrl: '',
+		leftIcon: '',
+		label: 'New Link Resource',
+		rightUrl: '',
+		rightIcon: '',
+	});
+
+	// Navbar Settings
+	Session.set('activeNav', 'planningList');
+
+	// Form Validation and Submission
 	$('.js-form-resources-link-new').validate({
 		rules: {
 			title: { required: true },
@@ -26,11 +38,11 @@ Template.resourcesFormLink.onRendered( function() {
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',
-						iconClass: 'fss-icn-danger',
+						iconClass: 'fss-danger',
 						message: error.reason,
 					});
 				} else {
-					FlowRouter.go('/planning/resources/list');
+					FlowRouter.go('/planning/resources/view/' + resourceId);
 				}
 			});
 
@@ -39,7 +51,7 @@ Template.resourcesFormLink.onRendered( function() {
 	});
 });
 
-Template.resourcesFormLink.events({
+Template.resourcesNewLink.events({
 	'submit .js-form-resources-link-new'(event) {
 		event.preventDefault();
 	},

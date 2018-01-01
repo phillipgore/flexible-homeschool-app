@@ -13,7 +13,7 @@ Meteor.methods({
 		Terms.update(termId, {$set: termProperties});
 	},
 
-	archiveTerm: function(termId) {
-		Terms.update(termId, {$set: {archive: true}});
+	deleteTerm: function(termId) {
+		Terms.update(termId, {$set: {deleted: true}});
 	}
 })

@@ -41,11 +41,9 @@ Template.subjectsNew.onRendered( function() {
 	Session.set({
 		leftUrl: '',
 		leftIcon: '',
-		leftCaret: false,
 		label: 'New Subject',
 		rightUrl: '',
 		rightIcon: '',
-		rightCaret: false,
 	});
 
 	// Navbar Settings
@@ -100,7 +98,7 @@ Template.subjectsNew.onRendered( function() {
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',
-						iconClass: 'fss-icn-danger',
+						iconClass: 'fss-danger',
 						message: error.reason,
 					});
 				} else {
@@ -111,11 +109,11 @@ Template.subjectsNew.onRendered( function() {
 							if (error) {
 								Alerts.insert({
 									colorClass: 'bg-danger',
-									iconClass: 'fss-icn-danger',
+									iconClass: 'fss-danger',
 									message: error.reason,
 								});
 							} else {
-								FlowRouter.go('/planning/subjects/' + subjectId);
+								FlowRouter.go('/planning/subjects/view/' + subjectId);
 							}
 						});
 					});
@@ -213,7 +211,7 @@ Template.subjectsNew.events({
 			Alerts.insert({
 				type: 'addResource',
 				colorClass: 'bg-warning',
-				iconClass: 'fss-icn-warning',
+				iconClass: 'fss-warning',
 				message: localResource.title + ' is already attached to this subject.',
 			});
 		} else {

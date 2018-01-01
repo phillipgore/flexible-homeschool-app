@@ -23,147 +23,152 @@ i {
     -moz-osx-font-smoothing: grayscale;
 }
 
-
-.fss-btn-edit:before {
-  content: "\e91b";
-}
-.fss-btn-close-circle:before {
-  content: "\e92b";
-}
-.fss-btn-new-circle:before {
-  content: "\e92c";
-}
-.fss-btn-search:before {
-  content: "\e92d";
-}
-.fss-btn-searching:before {
-  content: "\e92e";
-}
-.fss-list-notes:before {
-  content: "\e92a";
-}
-.fss-btn-notes:before {
-  content: "\e929";
-}
-.fss-list-app:before {
-  content: "\e906";
-}
-.fss-list-audio:before {
-  content: "\e925";
-}
-.fss-list-book:before {
-  content: "\e926";
-}
-.fss-list-link:before {
-  content: "\e927";
-}
-.fss-list-video:before {
-  content: "\e928";
-}
-.fss-btn-back:before {
+.fss-actions:before {
   content: "\e900";
 }
-.fss-btn-close:before {
+.fss-app:before {
   content: "\e901";
 }
-.fss-btn-more:before {
+.fss-audio:before {
   content: "\e902";
 }
-.fss-btn-new:before {
+.fss-back:before {
   content: "\e903";
 }
-.fss-btn-planing:before {
+.fss-billing:before {
   content: "\e904";
 }
-.fss-btn-reporting:before {
+.fss-book:before {
   content: "\e905";
 }
-.fss-btn-settings:before {
-  content: "\e907";
-}
-.fss-btn-students:before {
-  content: "\e908";
-}
-.fss-btn-tracking:before {
-  content: "\e909";
-}
 .fss-caret-down:before {
-  content: "\e90a";
+  content: "\e906";
 }
 .fss-caret-left:before {
-  content: "\e90b";
+  content: "\e907";
 }
 .fss-caret-right:before {
-  content: "\e90c";
+  content: "\e908";
 }
 .fss-caret-up:before {
-  content: "\e90d";
+  content: "\e909";
 }
 .fss-carets-up-down:before {
-  content: "\e90e";
+  content: "\e90a";
 }
 .fss-cc-amex:before {
-  content: "\e90f";
+  content: "\e90b";
 }
 .fss-cc-diners:before {
-  content: "\e910";
+  content: "\e90c";
 }
 .fss-cc-discover:before {
-  content: "\e911";
+  content: "\e90d";
 }
 .fss-cc-jcb:before {
-  content: "\e912";
+  content: "\e90e";
 }
-.fss-cc-mastercard:before {
-  content: "\e913";
+.fss-cc-master-card:before {
+  content: "\e90f";
 }
 .fss-cc-visa:before {
+  content: "\e910";
+}
+.fss-close-circle:before {
+  content: "\e911";
+}
+.fss-close:before {
+  content: "\e912";
+}
+.fss-danger:before {
+  content: "\e913";
+}
+.fss-delete:before {
   content: "\e914";
 }
-.fss-icn-danger:before {
+.fss-edit:before {
   content: "\e915";
 }
-.fss-icn-info:before {
+.fss-info:before {
   content: "\e916";
 }
-.fss-icn-success:before {
+.fss-link:before {
   content: "\e917";
 }
-.fss-icn-warning:before {
+.fss-logo:before {
   content: "\e918";
 }
-.fss-list-billing:before {
+.fss-new-circle:before {
   content: "\e919";
 }
-.fss-list-delete:before {
+.fss-new:before {
   content: "\e91a";
 }
-.fss-list-resources:before {
+.fss-notes:before {
+  content: "\e91b";
+}
+.fss-planning:before {
   content: "\e91c";
 }
-.fss-list-schoolyears:before {
+.fss-reporting:before {
   content: "\e91d";
 }
-.fss-list-signout:before {
+.fss-resources:before {
   content: "\e91e";
 }
-.fss-list-students:before {
+.fss-school-years:before {
   content: "\e91f";
 }
-.fss-list-subjects:before {
+.fss-search:before {
   content: "\e920";
 }
-.fss-list-support:before {
+.fss-searching:before {
   content: "\e921";
 }
-.fss-list-terms:before {
+.fss-settings:before {
   content: "\e922";
 }
-.fss-list-users:before {
+.fss-signout:before {
   content: "\e923";
 }
-.fss-logo:before {
+.fss-students:before {
   content: "\e924";
+}
+.fss-subjects:before {
+  content: "\e925";
+}
+.fss-success:before {
+  content: "\e926";
+}
+.fss-support:before {
+  content: "\e927";
+}
+.fss-terms:before {
+  content: "\e928";
+}
+.fss-tracking:before {
+  content: "\e929";
+}
+.fss-users:before {
+  content: "\e92a";
+}
+.fss-video:before {
+  content: "\e92b";
+}
+.fss-warning:before {
+  content: "\e92c";
+}
+
+.fss-fw-16 {
+    width: 16px;
+    text-align: center;
+    display: inline-block;
+}
+
+.fss-fw-22 {
+    width: 22px;
+    text-align: center;
+    display: inline-block;
 }
 
 .fss-spin {

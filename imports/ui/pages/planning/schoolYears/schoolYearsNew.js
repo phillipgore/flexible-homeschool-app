@@ -15,11 +15,9 @@ Template.schoolYearsNew.onRendered( function() {
 	Session.set({
 		leftUrl: '',
 		leftIcon: '',
-		leftCaret: false,
 		label: 'New School Year',
 		rightUrl: '',
 		rightIcon: '',
-		rightCaret: false,
 	});
 
 	// Navbar Settings
@@ -62,7 +60,7 @@ Template.schoolYearsNew.onRendered( function() {
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',
-						iconClass: 'fss-icn-danger',
+						iconClass: 'fss-danger',
 						message: error.reason,
 					});
 				} else {
@@ -75,7 +73,7 @@ Template.schoolYearsNew.onRendered( function() {
 							if (error) {
 								Alerts.insert({
 									colorClass: 'bg-danger',
-									iconClass: 'fss-icn-danger',
+									iconClass: 'fss-danger',
 									message: error.reason,
 								});
 							} else {
@@ -85,15 +83,15 @@ Template.schoolYearsNew.onRendered( function() {
 								    weekProperties.push({order: i + 1, termId: termId});
 								}
 
-								Meteor.call('insertWeeks', weekProperties, function(error, termId) {
+								Meteor.call('insertWeeks', weekProperties, function(error) {
 									if (error) {
 										Alerts.insert({
 											colorClass: 'bg-danger',
-											iconClass: 'fss-icn-danger',
+											iconClass: 'fss-danger',
 											message: error.reason,
 										});
 									} else {
-										FlowRouter.go('/planning/schoolyears/list');
+										FlowRouter.go('/planning/schoolyears/view/' + schoolYearId);
 									}
 								});
 							}
@@ -134,7 +132,7 @@ Template.schoolYearsNew.events({
 			Alerts.insert({
 				type: 'terms',
 				colorClass: 'bg-warning',
-				iconClass: 'fss-icn-warning',
+				iconClass: 'fss-warning',
 				message: "You have exceeded 52 weeks.",
 			});
 		}

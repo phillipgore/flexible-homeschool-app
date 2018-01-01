@@ -14,7 +14,7 @@ Meteor.methods({
 		Weeks.update(termId, {$set: termProperties});
 	},
 
-	archiveWeek: function(weekId) {
-		Weeks.update(termId, {$set: {archive: true}});
+	deleteWeek: function(weekId) {
+		Weeks.update(termId, {$set: {deleted: true}});
 	}
 })

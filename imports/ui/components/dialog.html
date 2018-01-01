@@ -1,0 +1,16 @@
+<template name="dialog">
+	{{#if dialog}}
+		<div class="dialog-container">
+			<div class="dialog clearfix">
+				{{#if dialog.heading}}
+				<div class="dialog-heading">{{dialog.heading}}</div>
+				{{/if}}
+				{{#if dialog.message}}
+				<div class="dialog-message">{{dialog.message}}</div>
+				{{/if}}
+				<button class="js-dialog-cancel dialog-btn">Cancel</button>
+				<button class="js-dialog-confirmed dialog-btn">OK</button>
+			</div>
+		</div>
+	{{/if}}
+</template>

@@ -11,12 +11,8 @@ Template.resourcesList.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
 		leftUrl: '/planning/list',
-		leftIcon: 'fss-btn-back',
-		leftCaret: false,
+		leftIcon: 'fss-back',
 		label: 'Resources',
-		rightUrl: '/planning/resources/new',
-		rightIcon: 'fss-btn-new',
-		rightCaret: false,
 	});
 
 	// Navbar Settings

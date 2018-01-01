@@ -12,11 +12,9 @@ Template.trackingList.onRendered( function() {
 	Session.set({
 		leftUrl: '',
 		leftIcon: '',
-		leftCaret: false,
 		label: 'Tracking',
 		rightUrl: '',
 		rightIcon: '',
-		rightCaret: false,
 	});
 
 	// Navbar Settings

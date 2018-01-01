@@ -6,11 +6,9 @@ Template.settingsList.onRendered( function() {
 	Session.set({
 		leftUrl: '',
 		leftIcon: '',
-		leftCaret: false,
 		label: 'Settings',
 		rightUrl: '',
 		rightIcon: '',
-		rightCaret: false,
 	});
 
 	// Navbar Settings
@@ -19,10 +17,10 @@ Template.settingsList.onRendered( function() {
 
 Template.settingsList.helpers({
 	items: [
-		{divider: false, classes: '', icon: 'fss-list-users', label: 'Users', url: '/users'},
-		{divider: false, classes: '', icon: 'fss-list-billing', label: 'Billing', url: '/billing'},
-		{divider: false, classes: '', icon: 'fss-list-support', label: 'Support', url: '/support'},
-		{divider: true, classes: 'js-sign-out', icon: 'fss-list-signout', label: 'Sign Out', url: '#'},
+		{divider: false, classes: '', icon: 'fss-users', label: 'Users', url: '/users'},
+		{divider: false, classes: '', icon: 'fss-billing', label: 'Billing', url: '/billing'},
+		{divider: false, classes: '', icon: 'fss-support', label: 'Support', url: '/support'},
+		{divider: true, classes: 'js-sign-out', icon: 'fss-signout', label: 'Sign Out', url: '#'},
 	]
 });
 
@@ -33,7 +31,7 @@ Template.settingsList.events({
 			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',
-					iconClass: 'fss-icn-danger',
+					iconClass: 'fss-danger',
 					message: error.reason,
 				});
 			} else {

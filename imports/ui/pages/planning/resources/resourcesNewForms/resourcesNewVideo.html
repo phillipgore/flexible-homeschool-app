@@ -1,6 +1,7 @@
-<template name="resourcesFormVideo">
-	<form class="js-form-resources-video-new row m-tn-h-18 | m-xs-h-72">
-		<div class="well bg-gray-lighter m-tn-b-36">
+<template name="resourcesNewVideo">
+	{{> toolbar}}
+	<main class="app-content no-subbar app-content-preceeds-toolbar">
+		<form class="js-form-resources-video-new row m-tn-t-18 m-tn-h-18 | m-xs-h-72">
 			<label>Title</label>
 			<input type="text" name="title" id="title" placeholder="John Adams Miniseries" autocomplete="off">
 
@@ -30,12 +31,12 @@
 			<input type="text" name="link" id="link" placeholder="http://www.hbo.com/john-adams" autocomplete="off">
 
 			<label>Descripton</label>
-			<textarea class="m-tn-b-neg-3" name="description" id="description" placeholder="Adapted from David McCull..." rows="4"></textarea>
-		</div>
+			<textarea class="m-tn-b-36" name="description" id="description" placeholder="Adapted from David McCull..." rows="4"></textarea>
 
-		<footer class="toolbar toolbar-bottom toolbar-gray">
-			<a href="{{pathFor 'resourcesList'}}" class="btn btn-gray-darker fl-tn-left">Cancel</a>
-			<button type="submit" class="fl-tn-right">Save</button>
-		</footer>
-	</form>
+			<footer class="toolbar toolbar-bottom toolbar-gray">
+				<a href="{{pathFor 'resourcesList'}}" class="btn btn-gray-darker fl-tn-left">Cancel</a>
+				<button type="submit" class="fl-tn-right">Save</button>
+			</footer>
+		</form>
+	</main>
 </template>

@@ -13,7 +13,7 @@ Meteor.methods({
 		SchoolYears.update(schoolYearId, {$set: schoolYearProperties});
 	},
 
-	archiveSchoolYear: function(schoolYearId) {
-		SchoolYears.update(schoolYearId, {$set: {archive: true}});
+	deleteSchoolYear: function(schoolYearId) {
+		SchoolYears.update(schoolYearId, {$set: {deleted: true}});
 	}
 })

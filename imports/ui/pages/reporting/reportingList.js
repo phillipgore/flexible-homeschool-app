@@ -6,11 +6,9 @@ Template.reportingList.onRendered( function() {
 	Session.set({
 		leftUrl: '',
 		leftIcon: '',
-		leftCaret: false,
 		label: 'Reporting',
 		rightUrl: '/reporting/new',
-		rightIcon: 'fss-btn-new',
-		rightCaret: false,
+		rightIcon: 'fss-new',
 	});
 
 	// Navbar Settings

@@ -40,7 +40,7 @@ Template.createAccount.onRendered( function() {
 					} else {
 						Alerts.insert({
 							colorClass: 'bg-danger',
-							iconClass: 'fss-icn-danger',
+							iconClass: 'fss-danger',
 							message: error.reason,
 						});
 					}

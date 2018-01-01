@@ -56,6 +56,11 @@ button, .btn {
 		}
 	}
 
+	&.btn-block {
+		display: block;
+		width: 100%;
+	}
+
 	&:hover, &:focus, &:active {
     	outline: none;
     	border: 0;

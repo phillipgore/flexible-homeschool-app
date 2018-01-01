@@ -35,7 +35,7 @@ const LessonsSchema = new SimpleSchema({
         label: "Description",
         optional: true
     },
-	archived: {
+	deleted: {
 		type: Boolean,
 		defaultValue: false,
 	},

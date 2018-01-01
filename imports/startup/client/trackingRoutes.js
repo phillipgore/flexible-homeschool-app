@@ -8,10 +8,10 @@ FlowRouter.route('/tracking/list', {
 });
 
 FlowRouter.route('/tracking/students/:id', {
-	name: 'studentsId',
+	name: 'studentsView',
 	action() {
 		BlazeLayout.render('app', {
-			main: 'studentsId',
+			main: 'studentsView',
 		});
 	},
 });

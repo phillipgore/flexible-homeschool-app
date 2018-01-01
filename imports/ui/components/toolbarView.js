@@ -1,7 +1,7 @@
 import {Template} from 'meteor/templating';
-import './toolbar.html';
+import './toolbarView.html';
 
-Template.toolbar.helpers({
+Template.toolbarView.helpers({
 	leftUrl() {
 		return Session.get('leftUrl');
 	},
@@ -11,10 +11,10 @@ Template.toolbar.helpers({
 	label() {
 		return Session.get('label');
 	},
-	rightUrl() {
-		return Session.get('rightUrl');
+	editUrl() {
+		return Session.get('editUrl');
 	},
-	rightIcon() {
-		return Session.get('rightIcon');
+	deleteClass() {
+		return Session.get('deleteClass');
 	},
 })

@@ -35,7 +35,7 @@ const SubjectsSchema = new SimpleSchema({
         label: "Attached Resources",
         optional: true
     },
-	archived: {
+	deleted: {
 		type: Boolean,
 		defaultValue: false,
 	},

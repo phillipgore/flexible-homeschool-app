@@ -6,7 +6,8 @@ Meteor.publish('allSubjects', function() {
 	}
 
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-	return Subjects.find({groupId: groupId}, {sort: {order: 1}});
+
+	return Subjects.find({groupId: groupId, deleted: false}, {sort: {order: 1}});
 });
 
 Meteor.publish('subject', function(subjectId) {
@@ -15,5 +16,10 @@ Meteor.publish('subject', function(subjectId) {
 	}
 
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-	return Subjects.find({groupId: groupId, _id: subjectId});
+	let resourceIds = Subjects.findOne({groupId: groupId, deleted: false, _id: subjectId}).resources;
+
+	return [
+		Subjects.find({groupId: groupId, deleted: false, _id: subjectId});
+		Resources.find({groupId: groupId, deleted: false, _id: {$in: resourceIds}});
+	]
 });

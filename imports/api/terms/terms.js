@@ -26,7 +26,7 @@ const TermsSchema = new SimpleSchema({
     //     label: "Weeks Per Term",
     //     optional: true
     // },
-	archived: {
+	deleted: {
 		type: Boolean,
 		defaultValue: false,
 	},

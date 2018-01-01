@@ -28,14 +28,14 @@
 					<input type="text" name="searchResources" id="search-resources" placeholder="Search Resources" autocomplete="off">
 					<div class="icn-left">
 						{{#if searching}}
-						<i class="fss-btn-searching fss-spin"></i>
+						<i class="fss-searching fss-spin"></i>
 						{{else}}
-						<i class="fss-btn-search"></i>
+						<i class="fss-search"></i>
 						{{/if}}
 					</div>
 					<a href="#" class="js-clear-search icn-right">
 						<div class="btn btn-circle bg-danger small">
-							<i class="fss-btn-close"></i>
+							<i class="fss-close"></i>
 						</div>
 					</a>
 				</div>
@@ -45,11 +45,11 @@
 					{{#each resource in resources}}
 					<li class="list-item">
 						<div class="list-item-inner p-tn-rl-9">
-							<div class="list-item-icon"><i class="fss-list-{{resource.type}} txt-primary"></i></div>
+							<div class="list-item-icon"><i class="fss-{{resource.type}} txt-primary"></i></div>
 							<div class="list-label">{{resource.title}}</div>
 							<div class="list-item-btn">
 								<a id="{{resource._id}}" href="#" class="js-add-resource btn btn-circle small">
-									<i class="fss-btn-new"></i>
+									<i class="fss-new"></i>
 								</a>
 							</div>
 						</div>
@@ -70,11 +70,11 @@
 					<li class="list-item">
 						<div class="list-item-inner dark-border top-border p-tn-rl-9 m-tn-rl-neg-9">
 							<input type="hidden" name="resourceId" id="resource-id" value="{{resource.id}}">
-							<div class="list-item-icon"><i class="fss-list-{{resource.type}} txt-primary"></i></div>
+							<div class="list-item-icon"><i class="fss-{{resource.type}} txt-primary"></i></div>
 							<div class="list-label">{{resource.title}}</div>
 							<div class="list-item-btn">
 								<a id="{{resource.id}}" href="#" class="js-remove-resource btn btn-circle bg-danger small">
-									<i class="fss-btn-close"></i>
+									<i class="fss-close"></i>
 								</a>
 							</div>
 						</div>

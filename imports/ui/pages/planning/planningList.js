@@ -6,11 +6,9 @@ Template.planningList.onRendered( function() {
 	Session.set({
 		leftUrl: '',
 		leftIcon: '',
-		leftCaret: false,
 		label: 'Planning',
 		rightUrl: '',
 		rightIcon: '',
-		rightCaret: false,
 	});
 
 	// Navbar Settings
@@ -19,10 +17,10 @@ Template.planningList.onRendered( function() {
 
 Template.planningList.helpers({
 	items: [
-		// {divider: false, classes: '', icon: 'fss-list-notes', label: 'All Notes', url: '/planning/notes'},
-		{divider: false, classes: '', icon: 'fss-list-students', label: 'Students', url: '/planning/students/list'},
-		{divider: false, classes: '', icon: 'fss-list-schoolyears', label: 'School Years', url: '/planning/schoolyears/list'},
-		{divider: false, classes: '', icon: 'fss-list-resources', label: 'Resources', url: '/planning/resources/list'},
-		{divider: false, classes: '', icon: 'fss-list-subjects', label: 'Subjects', url: '/planning/subjects/list'},
+		// {divider: false, classes: '', icon: 'fss-notes', label: 'All Notes', url: '/planning/notes'},
+		{divider: false, classes: '', icon: 'fss-students', label: 'Students', url: '/planning/students/list'},
+		{divider: false, classes: '', icon: 'fss-school-years', label: 'School Years', url: '/planning/schoolyears/list'},
+		{divider: false, classes: '', icon: 'fss-resources', label: 'Resources', url: '/planning/resources/list'},
+		{divider: false, classes: '', icon: 'fss-subjects', label: 'Subjects', url: '/planning/subjects/list'},
 	]
 });

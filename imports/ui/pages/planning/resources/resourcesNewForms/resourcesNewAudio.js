@@ -1,9 +1,21 @@
 import {Template} from 'meteor/templating';
-import './resourcesFormBook.html';
+import './resourcesNewAudio.html';
 
-Template.resourcesFormBook.onRendered( function() {
-// Form Validation and Submission
-	$('.js-form-resources-book-new').validate({
+Template.resourcesNewAudio.onRendered( function() {
+	// Toolbar Settings
+	Session.set({
+		leftUrl: '',
+		leftIcon: '',
+		label: 'New Audio Resource',
+		rightUrl: '',
+		rightIcon: '',
+	});
+
+	// Navbar Settings
+	Session.set('activeNav', 'planningList');
+
+	// Form Validation and Submission
+	$('.js-form-resources-audio-new').validate({
 		rules: {
 			title: { required: true },
 			link: { url: true },
@@ -17,14 +29,12 @@ Template.resourcesFormBook.onRendered( function() {
 
 		submitHandler() {
 			const resourceProperties = {
-				type: 'book',
-				searchIndex: ['Books', 'KindleStore'],
+				type: 'audio',
+				searchIndex: ['Music', 'MP3Downloads'],
 				title: event.target.title.value.trim(),
-				author: event.target.author.value.trim(),
+				artist: event.target.artist.value.trim(),
 				availability: event.target.availability.value.trim(),
 				link: event.target.link.value.trim(),
-				publisher: event.target.publisher.value.trim(),
-				publicationDate: event.target.publicationDate.value.trim(),
 				description: event.target.description.value.trim(),
 			};
 
@@ -32,11 +42,11 @@ Template.resourcesFormBook.onRendered( function() {
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',
-						iconClass: 'fss-icn-danger',
+						iconClass: 'fss-danger',
 						message: error.reason,
 					});
 				} else {
-					FlowRouter.go('/planning/resources/list');
+					FlowRouter.go('/planning/resources/view/' + resourceId);
 				}
 			});
 
@@ -45,8 +55,8 @@ Template.resourcesFormBook.onRendered( function() {
 	});
 });
 
-Template.resourcesNew.events({
-	'submit .js-form-resources-book-new'(event) {
+Template.resourcesNewAudio.events({
+	'submit .js-form-resources-audio-new'(event) {
 		event.preventDefault();
 	},
 });

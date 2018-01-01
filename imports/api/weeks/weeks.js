@@ -20,7 +20,7 @@ const WeeksSchema = new SimpleSchema({
         type: Number,
         label: "order"
     },
-	archived: {
+	deleted: {
 		type: Boolean,
 		defaultValue: false,
 	},

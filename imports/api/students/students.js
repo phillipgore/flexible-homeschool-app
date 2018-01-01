@@ -31,7 +31,8 @@ const StudentsSchema = new SimpleSchema({
     },
     nickname: {
         type: String,
-        label: "Nickname"
+        label: "Nickname",
+        optional: true
     },
     preferredFirstName: {
         type: Object,
@@ -49,7 +50,7 @@ const StudentsSchema = new SimpleSchema({
         type: Date,
         label: "Birthday"
     },
-	archived: {
+	deleted: {
 		type: Boolean,
 		defaultValue: false,
 	},

@@ -18,7 +18,7 @@ Template.resetPassword.onRendered( function() {
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',
-						iconClass: 'fss-icn-danger',
+						iconClass: 'fss-danger',
 						message: error.reason,
 					});
 				} else {

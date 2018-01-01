@@ -12,7 +12,7 @@ Meteor.methods({
 		Lessons.update(lessonId, {$set: lessonProperties});
 	},
 
-	archiveLesson: function(lessonId) {
-		Lessons.update(lessonId, {$set: {archive: true}});
+	deleteLesson: function(lessonId) {
+		Lessons.update(lessonId, {$set: {deleted: true}});
 	}
 })

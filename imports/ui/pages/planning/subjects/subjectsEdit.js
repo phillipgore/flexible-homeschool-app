@@ -10,11 +10,9 @@ Template.subjectsEdit.onRendered( function() {
 	Session.set({
 		leftUrl: '',
 		leftIcon: '',
-		leftCaret: false,
 		label: 'Edit Subject',
 		rightUrl: '',
 		rightIcon: '',
-		rightCaret: false,
 	});
 
 	// Navbar Settings
@@ -22,7 +20,9 @@ Template.subjectsEdit.onRendered( function() {
 })
 
 Template.subjectsEdit.helpers({
-	
+	cancelPath: function() {
+		return '/planning/subjects/view/' + FlowRouter.getParam('id');
+	},
 });
 
 Template.subjectsEdit.events({

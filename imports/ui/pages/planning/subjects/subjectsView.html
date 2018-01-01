@@ -1,5 +1,6 @@
-<template name="subjectsId">
-	{{> toolbar dynamicToolbarLabel=dynamicToolbarLabel}}
+<template name="subjectsView">
+	{{> dialog}}
+	{{> toolbarView dynamicToolbarLabel=dynamicToolbarLabel}}
 	<main class="app-content no-subbar app-content-preceeds-toolbar">
 		<div class="p-tn-9">
 			<ul class="info-list">
@@ -8,7 +9,7 @@
 					{{subject.name}}
 				</li>
 				<li class="list-item">
-					<span class="list-label">End Year:</span> 
+					<span class="list-label">Description:</span> 
 					{{subject.description}}
 				</li>
 			</ul>

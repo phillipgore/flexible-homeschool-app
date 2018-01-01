@@ -5,8 +5,11 @@ import './app.html';
 
 
 // Components
+import '../components/dialog.js';
 import '../components/toolbar.js';
 import '../components/toolbarLogo.html';
+import '../components/toolbarResources.js';
+import '../components/toolbarView.js';
 import '../components/subbarAccounts.html';
 import '../components/subbarYearTerm.html';
 import '../components/subbar.html';
@@ -29,22 +32,26 @@ import '../pages/planning/planningList.js';
 	//School Years
 	import '../pages/planning/schoolYears/schoolYearsNew.js';
 	import '../pages/planning/schoolYears/schoolYearsList.js';
-	import '../pages/planning/schoolYears/schoolYearsId.js';
+	import '../pages/planning/schoolYears/schoolYearsView.js';
 	import '../pages/planning/schoolYears/schoolYearsEdit.js';
 	// Resources
-	import '../pages/planning/resources/resourcesNew.js';
+	import '../pages/planning/resources/resourcesNewForms/resourcesNewApp.js';
+	import '../pages/planning/resources/resourcesNewForms/resourcesNewAudio.js';
+	import '../pages/planning/resources/resourcesNewForms/resourcesNewBook.js';
+	import '../pages/planning/resources/resourcesNewForms/resourcesNewLink.js';
+	import '../pages/planning/resources/resourcesNewForms/resourcesNewVideo.js';
 	import '../pages/planning/resources/resourcesList.js';
-	import '../pages/planning/resources/resourcesId.js';
+	import '../pages/planning/resources/resourcesView.js';
 	import '../pages/planning/resources/resourcesEdit.js';
 	// Subjects
 	import '../pages/planning/subjects/subjectsNew.js';
 	import '../pages/planning/subjects/subjectsList.js';
-	import '../pages/planning/subjects/subjectsId.js';
+	import '../pages/planning/subjects/subjectsView.js';
 	import '../pages/planning/subjects/subjectsEdit.js';
 	// Students
 	import '../pages/planning/students/studentsNew.js';
 	import '../pages/planning/students/studentsList.js';
-	import '../pages/planning/students/studentsId.js';
+	import '../pages/planning/students/studentsView.js';
 	import '../pages/planning/students/studentsEdit.js';
 
 

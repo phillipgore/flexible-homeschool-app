@@ -10,11 +10,9 @@ Template.resourcesEdit.onRendered( function() {
 	Session.set({
 		leftUrl: '',
 		leftIcon: '',
-		leftCaret: false,
 		label: 'Edit Resource',
 		rightUrl: '',
 		rightIcon: '',
-		rightCaret: false,
 	});
 
 	// Navbar Settings
@@ -22,7 +20,9 @@ Template.resourcesEdit.onRendered( function() {
 })
 
 Template.resourcesEdit.helpers({
-	
+	cancelPath: function() {
+		return '/planning/resources/view/' + FlowRouter.getParam('id');
+	},
 });
 
 Template.resourcesEdit.events({

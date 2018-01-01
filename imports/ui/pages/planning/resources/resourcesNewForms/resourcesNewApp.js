@@ -1,9 +1,21 @@
 import {Template} from 'meteor/templating';
-import './resourcesFormVideo.html';
+import './resourcesNewApp.html';
 
-Template.resourcesFormVideo.onRendered( function() {
-// Form Validation and Submission
-	$('.js-form-resources-video-new').validate({
+Template.resourcesNewApp.onRendered( function() {
+	// Toolbar Settings
+	Session.set({
+		leftUrl: '',
+		leftIcon: '',
+		label: 'New App Resource',
+		rightUrl: '',
+		rightIcon: '',
+	});
+
+	// Navbar Settings
+	Session.set('activeNav', 'planningList');
+
+	// Form Validation and Submission
+	$('.js-form-resources-app-new').validate({
 		rules: {
 			title: { required: true },
 			link: { url: true },
@@ -15,10 +27,9 @@ Template.resourcesFormVideo.onRendered( function() {
 
 		submitHandler() {
 			const resourceProperties = {
-				type: 'video',
-				searchIndex: ['Movies', 'UnboxVideo'],
+				type: 'app',
+				searchIndex: ['Software', 'MobileApps'],
 				title: event.target.title.value.trim(),
-				director: event.target.director.value.trim(),
 				availability: event.target.availability.value.trim(),
 				link: event.target.link.value.trim(),
 				description: event.target.description.value.trim(),
@@ -28,11 +39,11 @@ Template.resourcesFormVideo.onRendered( function() {
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',
-						iconClass: 'fss-icn-danger',
+						iconClass: 'fss-danger',
 						message: error.reason,
 					});
 				} else {
-					FlowRouter.go('/planning/resources/list');
+					FlowRouter.go('/planning/resources/view/' + resourceId);
 				}
 			});
 
@@ -41,8 +52,8 @@ Template.resourcesFormVideo.onRendered( function() {
 	});
 });
 
-Template.resourcesFormVideo.events({
-	'submit .js-form-resources-video-new'(event) {
+Template.resourcesNewApp.events({
+	'submit .js-form-resources-app-new'(event) {
 		event.preventDefault();
 	},
 });

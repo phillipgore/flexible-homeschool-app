@@ -6,11 +6,9 @@ Template.studentsNew.onRendered( function() {
 	Session.set({
 		leftUrl: '',
 		leftIcon: '',
-		leftCaret: false,
 		label: 'New Student',
 		rightUrl: '',
 		rightIcon: '',
-		rightCaret: false,
 	});
 
 	// Navbar Settings
@@ -53,11 +51,11 @@ Template.studentsNew.onRendered( function() {
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',
-						iconClass: 'fss-icn-danger',
+						iconClass: 'fss-danger',
 						message: error.reason,
 					});
 				} else {
-					FlowRouter.go('/planning/students/' + studentId);
+					FlowRouter.go('/planning/students/view/' + studentId);
 				}
 			});
 

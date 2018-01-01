@@ -11,12 +11,10 @@ Template.subjectsList.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
 		leftUrl: '/planning/list',
-		leftIcon: 'fss-btn-back',
-		leftCaret: false,
+		leftIcon: 'fss-back',
 		label: 'Subjects',
 		rightUrl: '/planning/subjects/new',
-		rightIcon: 'fss-btn-new',
-		rightCaret: false,
+		rightIcon: 'fss-new',
 	});
 
 	// Navbar Settings

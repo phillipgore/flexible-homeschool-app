@@ -6,7 +6,7 @@ Meteor.publish('allTerms', function() {
 	}
 
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-	return Terms.find({groupId: groupId}, {sort: {order: 1}});
+	return Terms.find({groupId: groupId, deleted: false}, {sort: {order: 1}});
 });
 
 Meteor.publish('schoolYearsTerms', function(schoolYearId) {
@@ -15,5 +15,5 @@ Meteor.publish('schoolYearsTerms', function(schoolYearId) {
 	}
 
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-	return Terms.find({groupId: groupId, schoolYearId: schoolYearId}, {sort: {order: 1}});
+	return Terms.find({groupId: groupId, deleted: false, schoolYearId: schoolYearId}, {sort: {order: 1}});
 });

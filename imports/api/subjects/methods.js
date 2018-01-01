@@ -13,7 +13,7 @@ Meteor.methods({
 		Subjects.update(subjectId, {$set: subjectProperties});
 	},
 
-	archiveSubject: function(subjectId) {
-		Subjects.update(subjectId, {$set: {archive: true}});
+	deleteSubject: function(subjectId) {
+		Subjects.update(subjectId, {$set: {deleted: true}});
 	}
 })

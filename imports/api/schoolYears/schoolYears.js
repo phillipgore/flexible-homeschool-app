@@ -24,7 +24,7 @@ const SchoolYearsSchema = new SimpleSchema({
         type: String,
         label: 'End Year',
     },
-	archived: {
+	deleted: {
 		type: Boolean,
 		defaultValue: false,
 	},

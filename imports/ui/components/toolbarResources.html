@@ -1,0 +1,56 @@
+<template name="toolbarResources">
+	<header class="toolbar toolbar-primary">
+		<div class="row">
+			<div class="col-tn-1of6">
+				{{#if leftIcon}}
+				<a class="btn-tool fl-tn-left txt-tn-left p-tn-l-18" href="{{leftUrl}}">
+					<i class="{{leftIcon}}"></i>
+				</a>
+				{{else}}
+				&nbsp;
+				{{/if}}
+			</div>
+			<div class="col-tn-4of6 |  m-tn-t-12">
+				{{#if label}}
+				<h1 class="txt-tn-center txt-ellipsis">{{label}}</h1>
+				{{/if}}
+				{{#if dynamicToolbarLabel}}
+				<h1 class="txt-tn-center txt-ellipsis">{{dynamicToolbarLabel}}</h1>
+				{{/if}}
+			</div>
+			<div class="col-tn-1of6">
+				<a class="btn-dropdown btn-tool fl-tn-right txt-tn-right p-tn-r-18" href="#actions">
+					<i class="fss-new"></i>
+				</a>
+			</div>
+		</div>
+	</header>
+
+	<ul id="actions" class="dropdown-menu dropdown-tool m-tn-rl-9 hide">
+		<li class="dropdown-item">
+			<a class="dropdown-item-link" href="{{pathFor 'resourcesNewBook'}}">
+				<i class="fss-book fss-fw-16 m-tn-r-4"></i> Book
+			</a>
+		</li>
+		<li class="dropdown-item">
+			<a class="dropdown-item-link" href="{{pathFor 'resourcesNewLink'}}">
+				<i class="fss-link fss-fw-16 m-tn-r-4"></i> Link
+			</a>
+		</li>
+		<li class="dropdown-item">
+			<a class="dropdown-item-link" href="{{pathFor 'resourcesNewVideo'}}">
+				<i class="fss-video fss-fw-16 m-tn-r-4"></i> Video
+			</a>
+		</li>
+		<li class="dropdown-item">
+			<a class="dropdown-item-link" href="{{pathFor 'resourcesNewAudio'}}">
+				<i class="fss-audio fss-fw-16 m-tn-r-4"></i> Audio
+			</a>
+		</li>
+		<li class="dropdown-item">
+			<a class="dropdown-item-link" href="{{pathFor 'resourcesNewApp'}}">
+				<i class="fss-app fss-fw-16 m-tn-r-4"></i> App
+			</a>
+		</li>
+	</ul>
+</template>

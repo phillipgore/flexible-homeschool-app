@@ -1,4 +1,4 @@
-<template name="toolbar">
+<template name="toolbarView">
 	<header class="toolbar toolbar-primary">
 		<div class="row">
 			<div class="col-tn-1of6">
@@ -19,12 +19,23 @@
 				{{/if}}
 			</div>
 			<div class="col-tn-1of6">
-				{{#if rightIcon}}
-				<a class="btn-tool fl-tn-right txt-tn-right p-tn-r-18" href="{{rightUrl}}">
-					<i class="{{rightIcon}}"></i>
+				<a class="btn-dropdown btn-tool fl-tn-right txt-tn-right p-tn-r-18" href="#actions">
+					<i class="fss-actions"></i>
 				</a>
-				{{/if}}
 			</div>
 		</div>
 	</header>
+
+	<ul id="actions" class="dropdown-menu dropdown-tool m-tn-rl-9 hide">
+		<li class="dropdown-item">
+			<a class="dropdown-item-link" href="{{editUrl}}">
+				<i class="fss-edit fss-fw-16 m-tn-r-4"></i> Edit
+			</a>
+		</li>
+		<li class="dropdown-item">
+			<a class="dropdown-item-link {{deleteClass}}" href="#">
+				<i class="fss-delete fss-fw-16 m-tn-r-4"></i> Delete
+			</a>
+		</li>
+	</ul>
 </template>

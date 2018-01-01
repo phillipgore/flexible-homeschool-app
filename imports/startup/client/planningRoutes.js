@@ -29,16 +29,16 @@ FlowRouter.route('/planning/students/new', {
 	},
 });
 
-FlowRouter.route('/planning/students/:id', {
-	name: 'studentsId',
+FlowRouter.route('/planning/students/view/:id', {
+	name: 'studentsView',
 	action() {
 		BlazeLayout.render('app', {
-			main: 'studentsId',
+			main: 'studentsView',
 		});
 	},
 });
 
-FlowRouter.route('/planning/students/:id/edit', {
+FlowRouter.route('/planning/students/edit/:id', {
 	name: 'studentsEdit',
 	action() {
 		BlazeLayout.render('app', {
@@ -70,16 +70,16 @@ FlowRouter.route('/planning/schoolyears/list', {
 	},
 });
 
-FlowRouter.route('/planning/schoolyears/:id', {
-	name: 'schoolYearsId',
+FlowRouter.route('/planning/schoolyears/view/:id', {
+	name: 'schoolYearsView',
 	action() {
 		BlazeLayout.render('app', {
-			main: 'schoolYearsId',
+			main: 'schoolYearsView',
 		});
 	},
 });
 
-FlowRouter.route('/planning/schoolyears/:id/edit', {
+FlowRouter.route('/planning/schoolyears/edit/:id', {
 	name: 'schoolYearsEdit',
 	action() {
 		BlazeLayout.render('app', {
@@ -101,6 +101,8 @@ FlowRouter.route('/planning/resources/list', {
 	},
 });
 
+
+
 FlowRouter.route('/planning/resources/new', {
 	name: 'resourcesNew',
 	action() {
@@ -110,16 +112,63 @@ FlowRouter.route('/planning/resources/new', {
 	},
 });
 
-FlowRouter.route('/planning/resources/:id', {
-	name: 'resourcesId',
+
+
+FlowRouter.route('/planning/resources/new/book', {
+	name: 'resourcesNewBook',
 	action() {
 		BlazeLayout.render('app', {
-			main: 'resourcesId',
+			main: 'resourcesNewBook',
 		});
 	},
 });
 
-FlowRouter.route('/planning/resources/:id/edit', {
+FlowRouter.route('/planning/resources/new/link', {
+	name: 'resourcesNewLink',
+	action() {
+		BlazeLayout.render('app', {
+			main: 'resourcesNewLink',
+		});
+	},
+});
+
+FlowRouter.route('/planning/resources/new/video', {
+	name: 'resourcesNewVideo',
+	action() {
+		BlazeLayout.render('app', {
+			main: 'resourcesNewVideo',
+		});
+	},
+});
+
+FlowRouter.route('/planning/resources/new/audio', {
+	name: 'resourcesNewAudio',
+	action() {
+		BlazeLayout.render('app', {
+			main: 'resourcesNewAudio',
+		});
+	},
+});
+
+FlowRouter.route('/planning/resources/new/app', {
+	name: 'resourcesNewApp',
+	action() {
+		BlazeLayout.render('app', {
+			main: 'resourcesNewApp',
+		});
+	},
+});
+
+FlowRouter.route('/planning/resources/view/:id', {
+	name: 'resourcesView',
+	action() {
+		BlazeLayout.render('app', {
+			main: 'resourcesView',
+		});
+	},
+});
+
+FlowRouter.route('/planning/resources/edit/:id', {
 	name: 'resourcesEdit',
 	action() {
 		BlazeLayout.render('app', {
@@ -150,16 +199,16 @@ FlowRouter.route('/planning/subjects/new', {
 	},
 });
 
-FlowRouter.route('/planning/subjects/:id', {
-	name: 'subjectsId',
+FlowRouter.route('/planning/subjects/view/:id', {
+	name: 'subjectsView',
 	action() {
 		BlazeLayout.render('app', {
-			main: 'subjectsId',
+			main: 'subjectsView',
 		});
 	},
 });
 
-FlowRouter.route('/planning/subjects/:id/edit', {
+FlowRouter.route('/planning/subjects/edit/:id', {
 	name: 'subjectsEdit',
 	action() {
 		BlazeLayout.render('app', {
@@ -190,7 +239,7 @@ FlowRouter.route('/planning/subjects/:id/edit', {
 // 	},
 // });
 
-// FlowRouter.route('/planning/notes/:id', {
+// FlowRouter.route('/planning/notes/view/:id', {
 // 	name: 'notesId',
 // 	action() {
 // 		BlazeLayout.render('app', {
@@ -199,7 +248,7 @@ FlowRouter.route('/planning/subjects/:id/edit', {
 // 	},
 // });
 
-// FlowRouter.route('/planning/notes/:id/edit', {
+// FlowRouter.route('/planning/notes/edit/:id', {
 // 	name: 'subjectsEdit',
 // 	action() {
 // 		BlazeLayout.render('app', {
