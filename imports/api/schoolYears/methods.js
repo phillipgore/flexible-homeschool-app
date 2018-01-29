@@ -14,6 +14,6 @@ Meteor.methods({
 	},
 
 	deleteSchoolYear: function(schoolYearId) {
-		SchoolYears.update(schoolYearId, {$set: {deleted: true}});
+		SchoolYears.update(schoolYearId, {$set: {deletedOn: new Date()}});
 	}
 })

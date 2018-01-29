@@ -17,7 +17,7 @@ Template.schoolYearsView.onRendered( function() {
 		leftIcon: 'fss-back',
 		label: '',
 		editUrl: '/planning/schoolyears/edit/' + FlowRouter.getParam('id'),
-		deleteClass: 'js-delete-school-year'
+		deleteClass: 'js-delete-school-year',
 	});
 
 	// Navbar Settings
@@ -46,10 +46,11 @@ Template.schoolYearsView.events({
 		Dialogs.insert({
 			heading: 'Confirmation',
 			message: 'Are you sure you want to delete this School Year?',
+			confirmClass: 'js-delete-school-year-confirmed',
 		});
 	},
 
-	'click .js-dialog-confirmed'(event) {
+	'click .js-delete-school-year-confirmed'(event) {
 		event.preventDefault();
 		const dialogId = Dialogs.findOne()._id;
 		Dialogs.remove({_id: dialogId});

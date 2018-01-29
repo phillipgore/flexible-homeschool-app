@@ -33,6 +33,12 @@ Accounts.onCreateUser((options, user) => {
 	if (options.info) {
 		user.info = options.info;
 	}
+	if (options.group) {
+		user.group = options.group;
+	}
+	if (options.status) {
+		user.status = options.status;
+	}
 	return user;
 });
 

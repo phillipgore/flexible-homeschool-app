@@ -33,22 +33,26 @@ const SubjectsSchema = new SimpleSchema({
     resources: {
         type: Array,
         label: "Attached Resources",
-        optional: true
+		optional: true
     },
-	deleted: {
-		type: Boolean,
-		defaultValue: false,
+	'resources.$': {
+		type: String,
+        label: "Attached Resources",
 	},
     studentId: {
         type: String,
         label: "Student ID"
+    },
+    schoolYearId: {
+        type: String,
+        label: "School Year ID"
     },
 	groupId: {
 		type: String,
 		label: "Group ID",
 		autoValue: function() {
 			if ( this.isInsert ) {
-				return Meteor.user().info.groupId;
+				return Meteor.user().group.groupId;
 			}
 		}
 	},
@@ -79,6 +83,11 @@ const SubjectsSchema = new SimpleSchema({
 				return new Date();
 			}
 		}
+	},
+	deletedOn: {
+		type: Date,
+		label: "Deleted On Date",
+        optional: true
 	}
 });
 

@@ -1,0 +1,60 @@
+<template name="toolbarUsersView">
+	<header class="toolbar toolbar-primary">
+		<div class="row">
+			<div class="col-tn-1of6">
+				{{#if leftIcon}}
+				<a class="btn-tool fl-tn-left txt-tn-left p-tn-l-18" href="{{leftUrl}}">
+					<i class="{{leftIcon}}"></i>
+				</a>
+				{{else}}
+				&nbsp;
+				{{/if}}
+			</div>
+			<div class="col-tn-4of6 |  m-tn-t-12">
+				{{#if label}}
+				<h1 class="txt-tn-center txt-ellipsis">{{label}}</h1>
+				{{/if}}
+				{{#if dynamicToolbarLabel}}
+				<h1 class="txt-tn-center txt-ellipsis">{{dynamicToolbarLabel}}</h1>
+				{{/if}}
+			</div>
+			<div class="col-tn-1of6">
+				<a class="btn-dropdown btn-tool fl-tn-right txt-tn-right p-tn-r-18" href="#actions">
+					<i class="fss-actions"></i>
+				</a>
+			</div>
+		</div>
+	</header>
+
+	<ul id="actions" class="dropdown-menu dropdown-tool m-tn-rl-9 hide">
+		<li class="dropdown-item">
+			{{#if editUrl}}
+				<a class="dropdown-item-link" href="{{editUrl}}">
+					<i class="fss-edit fss-fw-16 m-tn-r-4"></i> Edit
+				</a>
+			{{/if}}
+			{{#if dynamicToolbarEditUrl}}
+				<a class="dropdown-item-link" href="{{dynamicToolbarEditUrl}}">
+					<i class="fss-edit fss-fw-16 m-tn-r-4"></i> Edit
+				</a>
+			{{/if}}
+		</li>
+		<li class="dropdown-item">
+			{{#if deleteClass}}
+				<a class="dropdown-item-link {{deleteClass}}" href="#">
+					<i class="fss-delete fss-fw-16 m-tn-r-4"></i> Delete
+				</a>
+			{{/if}}
+			{{#if pauseClass}}
+			<a class="dropdown-item-link {{pauseClass}}" href="#">
+				<i class="fss-pause-circle fss-fw-16 m-tn-r-4"></i> Pause
+			</a>
+			{{/if}}
+			{{#if unpauseClass}}
+			<a class="dropdown-item-link {{unpauseClass}}" href="#">
+				<i class="fss-play-circle fss-fw-16 m-tn-r-4"></i> Unpause
+			</a>
+			{{/if}}
+		</li>
+	</ul>
+</template>

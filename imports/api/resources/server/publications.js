@@ -5,8 +5,8 @@ Meteor.publish('allResources', function() {
 		return this.ready();
 	}
 
-	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-	return Resources.find({groupId: groupId, deleted: false}, {sort: {title: 1}});
+	let groupId = Meteor.users.findOne({_id: this.userId}).group.groupId;
+	return Resources.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {title: 1}});
 });
 
 Meteor.publish('resource', function(resourceId) {
@@ -14,21 +14,19 @@ Meteor.publish('resource', function(resourceId) {
 		return this.ready();
 	}
 
-	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-	return Resources.find({groupId: groupId, deleted: false, _id: resourceId});
+	let groupId = Meteor.users.findOne({_id: this.userId}).group.groupId;
+	return Resources.find({groupId: groupId, deletedOn: { $exists: false }, _id: resourceId});
 });
 
 Meteor.publish( 'searchResources', function( search ) {	
 	if ( search ) {
-		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
+		let groupId = Meteor.users.findOne({_id: this.userId}).group.groupId;
 		let regex = new RegExp( search, 'i' );
 
-		let query = {groupId: groupId, deleted: false, $or: [ { title: regex }, { author: regex }, { artist: regex }, { director: regex } ]};
+		let query = {groupId: groupId, deletedOn: { $exists: false }, $or: [ { title: regex }, { author: regex }, { artist: regex }, { director: regex } ]};
 		let projection = { limit: 100, sort: { title: 1 } };
 
 		return Resources.find( query, projection );
 	}
-
-	
 	return this.ready();
 });

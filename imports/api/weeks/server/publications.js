@@ -5,8 +5,8 @@ Meteor.publish('allWeeks', function() {
 		return this.ready();
 	}
 
-	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-	return Weeks.find({groupId: groupId, deleted: false}, {sort: {order: 1}});
+	let groupId = Meteor.users.findOne({_id: this.userId}).group.groupId;
+	return Weeks.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {order: 1}});
 });
 
 Meteor.publish('termWeeks', function(termId) {
@@ -14,6 +14,6 @@ Meteor.publish('termWeeks', function(termId) {
 		return this.ready();
 	}
 
-	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-	return Weeks.find({groupId: groupId, deleted: false, termId: termId}, {sort: {order: 1}});
+	let groupId = Meteor.users.findOne({_id: this.userId}).group.groupId;
+	return Weeks.find({groupId: groupId, deletedOn: { $exists: false }, termId: termId}, {sort: {order: 1}});
 });

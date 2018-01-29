@@ -14,6 +14,6 @@ Meteor.methods({
 	},
 
 	deleteResource: function(resourceId) {
-		Resources.update(resourceId, {$set: {deleted: true}});
+		Resources.update(resourceId, {$set: {deletedOn: new Date()}});
 	}
 })

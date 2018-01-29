@@ -24,16 +24,12 @@ const SchoolYearsSchema = new SimpleSchema({
         type: String,
         label: 'End Year',
     },
-	deleted: {
-		type: Boolean,
-		defaultValue: false,
-	},
 	groupId: {
 		type: String,
 		label: 'Group ID',
 		autoValue: function() {
 			if ( this.isInsert ) {
-				return Meteor.user().info.groupId;
+				return Meteor.user().group.groupId;
 			}
 		}
 	},
@@ -64,6 +60,11 @@ const SchoolYearsSchema = new SimpleSchema({
 				return new Date();
 			}
 		}
+	},
+	deletedOn: {
+		type: Date,
+		label: "Deleted On Date",
+        optional: true
 	}
 });
 

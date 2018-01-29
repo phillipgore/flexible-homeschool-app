@@ -11,9 +11,10 @@ Meteor.methods({
 
 	updateSubject: function(subjectId, subjectProperties) {
 		Subjects.update(subjectId, {$set: subjectProperties});
+		return subjectId;
 	},
 
 	deleteSubject: function(subjectId) {
-		Subjects.update(subjectId, {$set: {deleted: true}});
+		Subjects.update(subjectId, {$set: {deletedOn: new Date()}});
 	}
 })

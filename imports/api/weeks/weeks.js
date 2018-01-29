@@ -20,10 +20,6 @@ const WeeksSchema = new SimpleSchema({
         type: Number,
         label: "order"
     },
-	deleted: {
-		type: Boolean,
-		defaultValue: false,
-	},
     termId: {
         type: String,
         label: "Term ID"
@@ -33,7 +29,7 @@ const WeeksSchema = new SimpleSchema({
 		label: "Group ID",
 		autoValue: function() {
 			if ( this.isInsert ) {
-				return Meteor.user().info.groupId;
+				return Meteor.user().group.groupId;
 			}
 		}
 	},
@@ -64,6 +60,11 @@ const WeeksSchema = new SimpleSchema({
 				return new Date();
 			}
 		}
+	},
+	deletedOn: {
+		type: Date,
+		label: "Deleted On Date",
+        optional: true
 	}
 });
 

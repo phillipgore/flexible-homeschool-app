@@ -16,6 +16,11 @@ Lessons.deny({
 });
 
 const LessonsSchema = new SimpleSchema({
+	order: {
+        type: Number,
+        label: "order",
+    	optional: true
+    },
 	completed: {
 		type: Boolean,
 		defaultValue: false,
@@ -35,10 +40,6 @@ const LessonsSchema = new SimpleSchema({
         label: "Description",
         optional: true
     },
-	deleted: {
-		type: Boolean,
-		defaultValue: false,
-	},
     subjectId: {
         type: String,
         label: "Subject ID"
@@ -52,7 +53,7 @@ const LessonsSchema = new SimpleSchema({
 		label: "Group ID",
 		autoValue: function() {
 			if ( this.isInsert ) {
-				return Meteor.user().info.groupId;
+				return Meteor.user().group.groupId;
 			}
 		}
 	},
@@ -83,6 +84,11 @@ const LessonsSchema = new SimpleSchema({
 				return new Date();
 			}
 		}
+	},
+	deletedOn: {
+		type: Date,
+		label: "Deleted On Date",
+        optional: true
 	}
 });
 

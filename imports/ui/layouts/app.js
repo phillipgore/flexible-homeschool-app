@@ -9,6 +9,7 @@ import '../components/dialog.js';
 import '../components/toolbar.js';
 import '../components/toolbarLogo.html';
 import '../components/toolbarResources.js';
+import '../components/toolbarUsersView.js';
 import '../components/toolbarView.js';
 import '../components/subbarAccounts.html';
 import '../components/subbarYearTerm.html';
@@ -35,6 +36,11 @@ import '../pages/planning/planningList.js';
 	import '../pages/planning/schoolYears/schoolYearsView.js';
 	import '../pages/planning/schoolYears/schoolYearsEdit.js';
 	// Resources
+	import '../pages/planning/resources/resourcesEditForms/resourcesEditApp.js';
+	import '../pages/planning/resources/resourcesEditForms/resourcesEditAudio.js';
+	import '../pages/planning/resources/resourcesEditForms/resourcesEditBook.js';
+	import '../pages/planning/resources/resourcesEditForms/resourcesEditLink.js';
+	import '../pages/planning/resources/resourcesEditForms/resourcesEditVideo.js';
 	import '../pages/planning/resources/resourcesNewForms/resourcesNewApp.js';
 	import '../pages/planning/resources/resourcesNewForms/resourcesNewAudio.js';
 	import '../pages/planning/resources/resourcesNewForms/resourcesNewBook.js';
@@ -42,7 +48,6 @@ import '../pages/planning/planningList.js';
 	import '../pages/planning/resources/resourcesNewForms/resourcesNewVideo.js';
 	import '../pages/planning/resources/resourcesList.js';
 	import '../pages/planning/resources/resourcesView.js';
-	import '../pages/planning/resources/resourcesEdit.js';
 	// Subjects
 	import '../pages/planning/subjects/subjectsNew.js';
 	import '../pages/planning/subjects/subjectsList.js';
@@ -65,6 +70,11 @@ import '../pages/reporting/reportingList.js';
 
 // Settings
 import '../pages/settings/settingsList.js';
+import '../pages/settings/users/usersList.js';
+import '../pages/settings/users/usersNew.js';
+import '../pages/settings/users/usersView.js';
+import '../pages/settings/users/usersEdit.js';
+import '../pages/settings/users/usersVerifySent.js';
 
 Alerts = new Mongo.Collection(null);
 

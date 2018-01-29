@@ -13,8 +13,8 @@ Template.resourcesView.onRendered( function() {
 		leftUrl: '/planning/resources/list',
 		leftIcon: 'fss-back',
 		label: '',
-		editUrl: '/planning/resources/edit/' + FlowRouter.getParam('id'),
-		deleteClass: 'js-delete-resource'
+		editUrl: '',
+		deleteClass: 'js-delete-resource',
 	});
 
 	// Navbar Settings
@@ -31,12 +31,17 @@ Template.resourcesView.helpers({
 		return resouce && resouce.title;
 	},
 
+	dynamicToolbarEditUrl: function() {
+		let resouce = Resources.findOne({_id: FlowRouter.getParam('id')});
+		return resouce && '/planning/resources/edit/' + FlowRouter.getParam('id') + '/' + resouce.type;
+	},
+
 	availabilityStatment: function(availability) {
 		if (availability === 'own') {
 			return 'I have it.'
 		}
-		if (availability === 'library') {
-			return 'The Library has it.'
+		if (availability === 'borrow') {
+			return 'I can borrow it.'
 		}
 		return 'I need it.'
 	}
@@ -49,10 +54,11 @@ Template.resourcesView.events({
 		Dialogs.insert({
 			heading: 'Confirmation',
 			message: 'Are you sure you want to delete this Resource?',
+			confirmClass: 'js-delete-resource-confirmed',
 		});
 	},
 
-	'click .js-dialog-confirmed'(event) {
+	'click .js-delete-resource-confirmed'(event) {
 		event.preventDefault();
 		const dialogId = Dialogs.findOne()._id;
 		Meteor.call('deleteResource', FlowRouter.getParam('id'), function(error) {

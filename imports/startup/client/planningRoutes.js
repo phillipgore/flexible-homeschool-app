@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 FlowRouter.route('/planning/list', {
 	name: 'planningList',
 	action() {
@@ -101,63 +103,15 @@ FlowRouter.route('/planning/resources/list', {
 	},
 });
 
-
-
-FlowRouter.route('/planning/resources/new', {
+FlowRouter.route('/planning/resources/new/:type', {
 	name: 'resourcesNew',
-	action() {
+	action: function(params) {
 		BlazeLayout.render('app', {
-			main: 'resourcesNew',
+			main: 'resourcesNew' + _.capitalize(params.type),
 		});
 	},
 });
 
-
-
-FlowRouter.route('/planning/resources/new/book', {
-	name: 'resourcesNewBook',
-	action() {
-		BlazeLayout.render('app', {
-			main: 'resourcesNewBook',
-		});
-	},
-});
-
-FlowRouter.route('/planning/resources/new/link', {
-	name: 'resourcesNewLink',
-	action() {
-		BlazeLayout.render('app', {
-			main: 'resourcesNewLink',
-		});
-	},
-});
-
-FlowRouter.route('/planning/resources/new/video', {
-	name: 'resourcesNewVideo',
-	action() {
-		BlazeLayout.render('app', {
-			main: 'resourcesNewVideo',
-		});
-	},
-});
-
-FlowRouter.route('/planning/resources/new/audio', {
-	name: 'resourcesNewAudio',
-	action() {
-		BlazeLayout.render('app', {
-			main: 'resourcesNewAudio',
-		});
-	},
-});
-
-FlowRouter.route('/planning/resources/new/app', {
-	name: 'resourcesNewApp',
-	action() {
-		BlazeLayout.render('app', {
-			main: 'resourcesNewApp',
-		});
-	},
-});
 
 FlowRouter.route('/planning/resources/view/:id', {
 	name: 'resourcesView',
@@ -168,11 +122,11 @@ FlowRouter.route('/planning/resources/view/:id', {
 	},
 });
 
-FlowRouter.route('/planning/resources/edit/:id', {
+FlowRouter.route('/planning/resources/edit/:id/:type', {
 	name: 'resourcesEdit',
-	action() {
+	action: function(params, queryParams) {
 		BlazeLayout.render('app', {
-			main: 'resourcesEdit',
+			main: 'resourcesEdit' + _.capitalize(params.type),
 		});
 	},
 });

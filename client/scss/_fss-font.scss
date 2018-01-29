@@ -23,6 +23,15 @@ i {
     -moz-osx-font-smoothing: grayscale;
 }
 
+.fss-users-female:before {
+  content: "\e92f";
+}
+.fss-play-circle:before {
+  content: "\e92e";
+}
+.fss-pause-circle:before {
+  content: "\e92d";
+}
 .fss-actions:before {
   content: "\e900";
 }

@@ -1,12 +1,10 @@
 import {Template} from 'meteor/templating';
 import { Subjects } from '../../../../api/subjects/subjects.js';
-import { Students } from '../../../../api/students/students.js';
 import './subjectsView.html';
 
 Template.subjectsView.onCreated( function() {
 	// Subscriptions
 	this.subscribe('subject', FlowRouter.getParam('id'));
-
 });
 
 Template.subjectsView.onRendered( function() {
@@ -16,7 +14,7 @@ Template.subjectsView.onRendered( function() {
 		leftIcon: 'fss-back',
 		label: '',
 		editUrl: '/planning/subjects/edit/' + FlowRouter.getParam('id'),
-		deleteClass: 'js-delete-subject'
+		deleteClass: 'js-delete-subject',
 	});
 
 	// Navbar Settings
@@ -41,10 +39,11 @@ Template.subjectsView.events({
 		Dialogs.insert({
 			heading: 'Confirmation',
 			message: 'Are you sure you want to delete this Subject?',
+			confirmClass: 'js-delete-subject-confirmed',
 		});
 	},
 
-	'click .js-dialog-confirmed'(event) {
+	'click .js-delete-subject-confirmed'(event) {
 		event.preventDefault();
 		const dialogId = Dialogs.findOne()._id;
 		Dialogs.remove({_id: dialogId});

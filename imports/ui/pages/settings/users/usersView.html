@@ -1,0 +1,35 @@
+<template name="usersView">
+	{{> dialog}}
+	{{> toolbarUsersView dynamicToolbarLabel=dynamicToolbarLabel}}
+	<main class="app-content no-subbar app-content-preceeds-toolbar">
+		<div class="p-tn-9">
+			<ul class="info-list">
+				<li class="list-item">
+					<span class="list-item-label">First:</span> 
+					{{user.info.firstName}}
+				</li>
+				<li class="list-item">
+					<span class="list-item-label">Last:</span> {{user.info.lastName}}
+				</li>
+				<li class="list-item">
+					<span class="list-item-label">Relationship to Students:</span> {{user.info.relationshipToStudents}}
+				</li>
+				<li class="list-item">
+					<span class="list-item-label">Email:</span> {{user.emails.[0].address}}
+				</li>
+				<li class="list-item">
+					<span class="list-item-label">Role:</span> {{user.info.role}}
+				</li>
+				<li class="list-item">
+					<span class="list-item-label">Verified:</span> {{verified user.emails.[0].verified}}
+				</li>
+			</ul>
+			<div class="txt-tn-center m-tn-t-30">
+				{{#unless user.emails.[0].verified}}
+					<a href="" class="btn">Resend Verification Email</a>
+				{{/unless}}
+			</div>
+		</div>
+	</main>
+	{{> navbar }}
+</template>

@@ -17,7 +17,7 @@ Template.settingsList.onRendered( function() {
 
 Template.settingsList.helpers({
 	items: [
-		{divider: false, classes: '', icon: 'fss-users', label: 'Users', url: '/users'},
+		{divider: false, classes: '', icon: 'fss-users', label: 'Users', url: '/settings/users/list'},
 		{divider: false, classes: '', icon: 'fss-billing', label: 'Billing', url: '/billing'},
 		{divider: false, classes: '', icon: 'fss-support', label: 'Support', url: '/support'},
 		{divider: true, classes: 'js-sign-out', icon: 'fss-signout', label: 'Sign Out', url: '#'},

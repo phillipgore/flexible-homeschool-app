@@ -1,0 +1,47 @@
+<template name="usersList">
+	{{> toolbar}}
+	<main class="app-content no-subbar app-content-preceeds-toolbar">
+		<ul class="list">
+			{{#if users.count}}
+				<li class="list-item-label p-tn-rl-9">Active</li>
+				{{#each user in users}}
+					<li class="list-item">
+						<a href="/settings/users/view/{{user._id}}" class="list-item-link p-tn-rl-9">
+							<div class="list-item-icon"><i class="txt-primary fss-users"></i></div> 
+							<div class="list-item-label">{{user.info.firstName}} {{user.info.lastName}} 
+								<span class="list-item-sublabel">({{user.info.relationshipToStudents}})</span>
+							</div>
+						</a>
+					</li>
+				{{/each}}
+			{{/if}}
+			{{#if usersPending.count}}
+				<li class="list-item-label p-tn-rl-9">Pending Verification</li>
+				{{#each user in usersPending}}
+					<li class="list-item">
+						<a href="/settings/users/view/{{user._id}}" class="list-item-link p-tn-rl-9">
+							<div class="list-item-icon"><i class="txt-primary fss-users"></i></div> 
+							<div class="list-item-label">{{user.info.firstName}} {{user.info.lastName}} 
+								<span class="list-item-sublabel">({{user.info.relationshipToStudents}})</span>
+							</div>
+						</a>
+					</li>
+				{{/each}}
+			{{/if}}
+			{{#if usersPaused.count}}
+				<li class="list-item-label p-tn-rl-9">Paused</li>
+				{{#each user in usersPaused}}
+					<li class="list-item">
+						<a href="/settings/users/view/{{user._id}}" class="list-item-link p-tn-rl-9">
+							<div class="list-item-icon"><i class="txt-primary fss-users"></i></div> 
+							<div class="list-item-label">{{user.info.firstName}} {{user.info.lastName}} 
+								<span class="list-item-sublabel">({{user.info.relationshipToStudents}})</span>
+							</div>
+						</a>
+					</li>
+				{{/each}}
+			{{/if}}
+		</ul>
+	</main>
+	{{> navbar }}
+</template>

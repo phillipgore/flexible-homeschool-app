@@ -4,15 +4,24 @@ import SimpleSchema from 'simpl-schema';
 import {Lessons} from './lessons.js';
 
 Meteor.methods({
-	insertLesson(lessonProperties) {
-		Lessons.insert(lessonProperties);
+	batchInsertLessons(lessonProperties) {
+		lessonProperties.forEach(function(lesson, index) { 
+			console.log('insert: ' + index)
+			Lessons.insert(lesson);
+		});
 	},
 
-	updateLesson: function(lessonId, lessonProperties) {
-		Lessons.update(lessonId, {$set: lessonProperties});
+	batchUpdateLessons: function(lessonProperties) {
+		lessonProperties.forEach(function(lesson, index) {
+			console.log('update: ' + index) 
+			Lessons.update(lesson._id, {$set: lesson});
+		});
 	},
 
-	deleteLesson: function(lessonId) {
-		Lessons.update(lessonId, {$set: {deleted: true}});
+	batchRemoveLessons: function(lessonIds) {
+		lessonIds.forEach(function(lessonId, index) {
+			console.log('remove: ' + index)
+			Lessons.remove(lessonId);
+		});
 	}
 })

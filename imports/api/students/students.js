@@ -50,16 +50,12 @@ const StudentsSchema = new SimpleSchema({
         type: Date,
         label: "Birthday"
     },
-	deleted: {
-		type: Boolean,
-		defaultValue: false,
-	},
 	groupId: {
 		type: String,
 		label: "Group ID",
 		autoValue: function() {
 			if ( this.isInsert ) {
-				return Meteor.user().info.groupId;
+				return Meteor.user().group.groupId;
 			}
 		}
 	},
@@ -90,6 +86,11 @@ const StudentsSchema = new SimpleSchema({
 				return new Date();
 			}
 		}
+	},
+	deletedOn: {
+		type: Date,
+		label: "Deleted On Date",
+        optional: true
 	}
 });
 

@@ -29,7 +29,15 @@ Template.createAccount.onRendered( function() {
 					firstName: event.target.firstName.value.trim(),
 					lastName: event.target.lastName.value.trim(),
 					relationshipToStudents: event.target.relationshipToStudents.value.trim(),
+					role: 'Administrator',
+					paused: null,
+				},
+				group: {
 					groupId: new Mongo.ObjectID().toHexString(),
+				},
+				status: {
+					active: true,
+					updatedOn: new Date(),
 				}
 			}
 

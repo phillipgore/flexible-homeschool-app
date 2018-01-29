@@ -15,7 +15,7 @@ Template.studentsView.onRendered( function() {
 		leftIcon: 'fss-back',
 		label: '',
 		editUrl: '/planning/students/edit/' + FlowRouter.getParam('id'),
-		deleteClass: 'js-delete-student'
+		deleteClass: 'js-delete-student',
 	});
 
 	// Navbar Settings
@@ -51,10 +51,11 @@ Template.studentsView.events({
 		Dialogs.insert({
 			heading: 'Confirmation',
 			message: 'Are you sure you want to delete this Student?',
+			confirmClass: 'js-delete-student-confirmed',
 		});
 	},
 
-	'click .js-dialog-confirmed'(event) {
+	'click .js-delete-student-confirmed'(event) {
 		event.preventDefault();
 		const dialogId = Dialogs.findOne()._id;
 		Dialogs.remove({_id: dialogId});

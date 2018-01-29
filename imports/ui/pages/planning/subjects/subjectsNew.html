@@ -46,7 +46,7 @@
 					<li class="list-item">
 						<div class="list-item-inner p-tn-rl-9">
 							<div class="list-item-icon"><i class="fss-{{resource.type}} txt-primary"></i></div>
-							<div class="list-label">{{resource.title}}</div>
+							<div class="list-item-label">{{resource.title}}</div>
 							<div class="list-item-btn">
 								<a id="{{resource._id}}" href="#" class="js-add-resource btn btn-circle small">
 									<i class="fss-new"></i>
@@ -64,14 +64,14 @@
 			</div>
 
 			<div class="well bg-gray-lighter p-tn-b-0 m-tn-b-18">
-				<label class="m-tn-b-9">Resources</label>
+				<label class="m-tn-b-9">Attached Resources</label>
 				<ul class="list">
 					{{#each resource in localResources}}
 					<li class="list-item">
 						<div class="list-item-inner dark-border top-border p-tn-rl-9 m-tn-rl-neg-9">
 							<input type="hidden" name="resourceId" id="resource-id" value="{{resource.id}}">
 							<div class="list-item-icon"><i class="fss-{{resource.type}} txt-primary"></i></div>
-							<div class="list-label">{{resource.title}}</div>
+							<div class="list-item-label">{{resource.title}}</div>
 							<div class="list-item-btn">
 								<a id="{{resource.id}}" href="#" class="js-remove-resource btn btn-circle bg-danger small">
 									<i class="fss-close"></i>
@@ -104,7 +104,7 @@
 
 			{{#each term in terms}}
 			<div id="{{term._id}}" class="well bg-gray-lighter m-tn-b-9">
-				<h3 class="m-tn-b-12">Term {{term.order}}: Times Per Week</h3>
+				<h3 class="m-tn-b-9">Term {{term.order}}: Times Per Week</h3>
 				<label>Preset All Weeks To</label>
 				<div class="fss-select">
 					<select data-term-id="{{term._id}}" class="js-times-per-week-preset" name="timesPerWeekPreset" id="times-per-week-preset">

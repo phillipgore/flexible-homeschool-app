@@ -4,7 +4,6 @@ import { Resources } from '../../../../api/resources/resources.js';
 import { SchoolYears } from '../../../../api/schoolYears/schoolYears.js';
 import { Terms } from '../../../../api/terms/terms.js';
 import { Weeks } from '../../../../api/weeks/weeks.js';
-import _ from 'lodash'
 import './subjectsNew.html';
 
 LocalResources = new Mongo.Collection(null);
@@ -90,7 +89,7 @@ Template.subjectsNew.onRendered( function() {
 
 			event.target.timesPerWeek.forEach(function(times, index) {
 				for (i = 0; i < parseInt(times.value); i++) { 
-				    lessonProperties.push({order: parseInt(index + 1), weekId: times.dataset.weekId});
+				    lessonProperties.push({order: parseFloat((index + 1) + '.' + (i + 1)), weekId: times.dataset.weekId});
 				}
 			});
 
@@ -104,19 +103,20 @@ Template.subjectsNew.onRendered( function() {
 				} else {
 					lessonProperties.forEach(function(lesson) {
 						lesson.subjectId = subjectId;
-
-						Meteor.call('insertLesson', lesson, function(error) {
-							if (error) {
-								Alerts.insert({
-									colorClass: 'bg-danger',
-									iconClass: 'fss-danger',
-									message: error.reason,
-								});
-							} else {
-								FlowRouter.go('/planning/subjects/view/' + subjectId);
-							}
-						});
 					});
+
+					Meteor.call('batchInsertLessons', lessonProperties, function(error) {
+						if (error) {
+							Alerts.insert({
+								colorClass: 'bg-danger',
+								iconClass: 'fss-danger',
+								message: error.reason,
+							});
+						} else {
+							FlowRouter.go('/planning/subjects/view/' + subjectId);
+						}
+					});
+					
 				}
 			});
 
@@ -132,10 +132,6 @@ Template.subjectsNew.helpers({
 
 	schoolYears: function() {
 		return SchoolYears.find({}, {sort: {startYear: 1}});
-	},
-
-	currentSchoolYear: function() {
-		return SchoolYears.findOne({_id: Session.get('schoolYearId')}, {sort: {startYear: 1}});
 	},
 
 	terms: function() {

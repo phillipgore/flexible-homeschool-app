@@ -21,15 +21,6 @@ const TermsSchema = new SimpleSchema({
         label: "order",
     	optional: true
     },
-    // weeksPerTerm: {
-    //     type: Number,
-    //     label: "Weeks Per Term",
-    //     optional: true
-    // },
-	deleted: {
-		type: Boolean,
-		defaultValue: false,
-	},
     schoolYearId: {
         type: String,
         label: "School Year ID"
@@ -39,7 +30,7 @@ const TermsSchema = new SimpleSchema({
 		label: "Group ID",
 		autoValue: function() {
 			if ( this.isInsert ) {
-				return Meteor.user().info.groupId;
+				return Meteor.user().group.groupId;
 			}
 		}
 	},
@@ -70,6 +61,11 @@ const TermsSchema = new SimpleSchema({
 				return new Date();
 			}
 		}
+	},
+	deletedOn: {
+		type: Date,
+		label: "Deleted On Date",
+        optional: true
 	}
 });
 

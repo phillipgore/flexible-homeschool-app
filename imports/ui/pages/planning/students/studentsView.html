@@ -5,22 +5,22 @@
 		<div class="p-tn-9">
 			<ul class="info-list">
 				<li class="list-item">
-					<span class="list-label">First:</span> 
+					<span class="list-item-label">First:</span> 
 					{{student.firstName}}{{#if preferredFirstName student.preferredFirstName.type 'firstName'}}*{{/if}}
 				</li>
 				<li class="list-item">
-					<span class="list-label">Middle:</span> 
+					<span class="list-item-label">Middle:</span> 
 					{{student.middleName}}{{#if preferredFirstName student.preferredFirstName.type 'middleName'}}*{{/if}}
 				</li>
 				<li class="list-item">
-					<span class="list-label">Last:</span> {{student.lastName}}
+					<span class="list-item-label">Last:</span> {{student.lastName}}
 				</li>
 				<li class="list-item">
-					<span class="list-label">Nickname:</span> 
+					<span class="list-item-label">Nickname:</span> 
 					{{student.nickname}}{{#if preferredFirstName student.preferredFirstName.type 'nickname'}}*{{/if}}
 				</li>
 				<li class="list-item">
-					<span class="list-label">Birthday:</span> {{birthday student.birthday}}
+					<span class="list-item-label">Birthday:</span> {{birthday student.birthday}}
 				</li>
 			</ul>
 		</div>

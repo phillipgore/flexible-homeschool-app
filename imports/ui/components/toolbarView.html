@@ -28,14 +28,23 @@
 
 	<ul id="actions" class="dropdown-menu dropdown-tool m-tn-rl-9 hide">
 		<li class="dropdown-item">
-			<a class="dropdown-item-link" href="{{editUrl}}">
-				<i class="fss-edit fss-fw-16 m-tn-r-4"></i> Edit
-			</a>
+			{{#if editUrl}}
+				<a class="dropdown-item-link" href="{{editUrl}}">
+					<i class="fss-edit fss-fw-16 m-tn-r-4"></i> Edit
+				</a>
+			{{/if}}
+			{{#if dynamicToolbarEditUrl}}
+				<a class="dropdown-item-link" href="{{dynamicToolbarEditUrl}}">
+					<i class="fss-edit fss-fw-16 m-tn-r-4"></i> Edit
+				</a>
+			{{/if}}
 		</li>
 		<li class="dropdown-item">
-			<a class="dropdown-item-link {{deleteClass}}" href="#">
-				<i class="fss-delete fss-fw-16 m-tn-r-4"></i> Delete
-			</a>
+			{{#if deleteClass}}
+				<a class="dropdown-item-link {{deleteClass}}" href="#">
+					<i class="fss-delete fss-fw-16 m-tn-r-4"></i> Delete
+				</a>
+			{{/if}}
 		</li>
 	</ul>
 </template>

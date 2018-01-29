@@ -14,6 +14,6 @@ Meteor.methods({
 	},
 
 	deleteTerm: function(termId) {
-		Terms.update(termId, {$set: {deleted: true}});
+		Terms.update(termId, {$set: {deletedOn: new Date()}});
 	}
 })

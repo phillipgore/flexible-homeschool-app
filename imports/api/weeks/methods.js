@@ -15,6 +15,6 @@ Meteor.methods({
 	},
 
 	deleteWeek: function(weekId) {
-		Weeks.update(termId, {$set: {deleted: true}});
+		Weeks.update(termId, {$set: {deletedOn: new Date()}});
 	}
 })

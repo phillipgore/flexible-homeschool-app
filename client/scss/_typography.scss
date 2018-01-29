@@ -15,7 +15,7 @@ h2 {
 h3 {
 	margin: 0px;
 	padding: 0px;
-	font-size: 16px;
+	font-size: 14px;
 	font-weight: 400;
 }
 
@@ -27,6 +27,9 @@ p {
 
 .txt-primary, .txt-success { color: $color-primary; }
 .txt-secondary, .txt-danger { color: $color-danger; }
+.txt-warning { color: $color-warning; }
+.txt-info { color: $color-info; }
+.txt-royal { color: $color-royal; }
 .txt-gray-darkest { color: $color-gray-darkest; }
 .txt-gray-darker { color: $color-gray-darker; }
 .txt-gray-dark { color: $color-gray-dark; }
