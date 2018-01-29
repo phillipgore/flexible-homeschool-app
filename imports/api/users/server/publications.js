@@ -7,11 +7,10 @@ Meteor.publish('allUsers', function (){
 	return Meteor.users.find({'group.groupId': groupId}, {fields: {emails: 1, info: 1, group: 1, status: 1}});
 });
 
-Meteor.publish('user', function(userId) {
+Meteor.publish('signedInUser', function() {
 	if (!this.userId) {
 		return this.ready();
 	}
 
-	let groupId = Meteor.users.findOne({_id: this.userId}).group.groupId;
-	return Meteor.users.find({'group.groupId': groupId}, {fields: {emails: 1, info: 1, group: 1, status: 1}}, {sort: {'info.lastName': 1, 'info.firstName': 1}});
+	return Meteor.users.find({_id: this.userId}, {fields: {emails: 1, info: 1}});
 });

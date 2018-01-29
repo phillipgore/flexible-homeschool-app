@@ -1,0 +1,8 @@
+{
+	"public": {
+
+	},
+	"private": {
+		"mailUrl": "smtp://All%20Natural%20Apps:GiItv6X41AWalXp38bHt2Q@smtp.mandrillapp.com:587"
+	}
+}

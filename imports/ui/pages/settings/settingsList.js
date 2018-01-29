@@ -1,6 +1,11 @@
 import {Template} from 'meteor/templating';
 import './settingsList.html';
 
+Template.settingsList.onCreated( function() {
+	// Subscriptions
+	this.subscribe('signedInUser');
+});
+
 Template.settingsList.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
@@ -20,8 +25,11 @@ Template.settingsList.helpers({
 		{divider: false, classes: '', icon: 'fss-users', label: 'Users', url: '/settings/users/list'},
 		{divider: false, classes: '', icon: 'fss-billing', label: 'Billing', url: '/billing'},
 		{divider: false, classes: '', icon: 'fss-support', label: 'Support', url: '/support'},
-		{divider: true, classes: 'js-sign-out', icon: 'fss-signout', label: 'Sign Out', url: '#'},
-	]
+	],
+
+	userName: function() {
+		return Meteor.users.findOne().info.firstName +' '+ Meteor.users.findOne().info.lastName;
+	}
 });
 
 Template.settingsList.events({

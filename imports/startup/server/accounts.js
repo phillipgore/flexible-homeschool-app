@@ -1,9 +1,11 @@
+process.env.MAIL_URL = Meteor.settings.private.mailUrl;
+
 Accounts.config({
   sendVerificationEmail: true,
 });
 
 Accounts.emailTemplates = {
-	from: 'All Natural Contact <no-reply@flexibleschoolschedule.com>',
+	from: 'Flexible School Schedule <no-reply@flexibleschoolschedule.com>',
 	siteName: 'Flexible School Schedule',
 
 	resetPassword: {
