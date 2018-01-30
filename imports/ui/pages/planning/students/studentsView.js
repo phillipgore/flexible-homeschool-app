@@ -1,7 +1,6 @@
 import {Template} from 'meteor/templating';
 import { Students } from '../../../../api/students/students.js';
 import './studentsView.html';
-import moment from 'moment';
 
 Template.studentsView.onCreated( function() {
 	// Subscriptions
@@ -38,10 +37,6 @@ Template.studentsView.helpers({
 		}
 		return false;
 	},
-
-	birthday: function(date) {
-		return moment(date).format('MMMM D, YYYY')
-	}
 });
 
 Template.studentsView.events({

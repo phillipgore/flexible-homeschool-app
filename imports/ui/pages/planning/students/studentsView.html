@@ -20,7 +20,7 @@
 					{{student.nickname}}{{#if preferredFirstName student.preferredFirstName.type 'nickname'}}*{{/if}}
 				</li>
 				<li class="list-item">
-					<span class="list-item-label">Birthday:</span> {{birthday student.birthday}}
+					<span class="list-item-label">Birthday:</span> {{dateFormat student.birthday}}
 				</li>
 			</ul>
 		</div>

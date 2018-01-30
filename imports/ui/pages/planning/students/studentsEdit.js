@@ -1,7 +1,6 @@
 import {Template} from 'meteor/templating';
 import { Students } from '../../../../api/students/students.js';
 import './studentsEdit.html';
-import moment from 'moment';
 
 Template.studentsEdit.onCreated( function() {
 	// Subscriptions
@@ -88,10 +87,6 @@ Template.studentsEdit.helpers({
 			return false;
 		}
 		return true;
-	},
-
-	birthday: function(date) {
-		return moment(date).format('MMMM D, YYYY')
 	},
 
 	cancelPath: function() {
