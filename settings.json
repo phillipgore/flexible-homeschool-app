@@ -1,8 +1,9 @@
 {
 	"public": {
-
+		"stripe": "pk_test_dhoL0CRdma4rH7zRocFxEQE3"
 	},
 	"private": {
+		"stripe": "sk_test_0nq9Rcs12kkEN5xNfdNzd6Pw",
 		"mailUrl": "smtp://All%20Natural%20Apps:GiItv6X41AWalXp38bHt2Q@smtp.mandrillapp.com:587"
 	}
 }

@@ -4,6 +4,7 @@ import './settingsList.html';
 Template.settingsList.onCreated( function() {
 	// Subscriptions
 	this.subscribe('signedInUser');
+	this.subscribe('group');
 });
 
 Template.settingsList.onRendered( function() {
@@ -23,12 +24,16 @@ Template.settingsList.onRendered( function() {
 Template.settingsList.helpers({
 	items: [
 		{divider: false, classes: '', icon: 'fss-users', label: 'Users', url: '/settings/users/list'},
-		{divider: false, classes: '', icon: 'fss-billing', label: 'Billing', url: '/billing'},
+		{divider: false, classes: '', icon: 'fss-billing', label: 'Billing', url: '/settings/billing/list'},
 		{divider: false, classes: '', icon: 'fss-support', label: 'Support', url: '/support'},
 	],
 
-	userName: function() {
-		return Meteor.users.findOne().info.firstName +' '+ Meteor.users.findOne().info.lastName;
+	user: function() {
+		return Meteor.users.findOne();
+	},
+
+	test: function() {
+		return Session.get('card').brand;
 	}
 });
 

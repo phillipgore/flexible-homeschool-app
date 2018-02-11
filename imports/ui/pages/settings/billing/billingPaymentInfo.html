@@ -1,0 +1,30 @@
+<template name="billingPaymentInfo">	
+	{{> toolbar}}
+	<main class="app-content no-subbar app-content-preceeds-toolbar">
+		<div class="p-tn-18">
+			<h2>Card On File:</h2>
+			<div class="clearfix">
+				<div class="dis-tn-inline-block fl-tn-left m-tn-r-12">
+					<i class="txt-primary font-size-60 {{cardClass}}"></i>
+				</div>
+				<p class="font-weight-400 p-tn-t-15">...{{card.last4}}</p>
+				<p class="p-sm font-weight-400 txt-gray-darkest">Expires: {{monthFormat card.exp_month}}/{{card.exp_year}}</p>
+			</div>
+
+			<h2 class="m-tn-t-36 m-tn-b-9">Update Card:</h2>
+			<form class="js-form-update-credit-card row">
+				<div class="well bg-gray-lighter m-tn-b-72">
+					{{> creditCard}}
+				</div>
+
+				<input type="hidden" name="email" id="email" value="{{user.emails.[0].address}}">
+				<input type="hidden" name="groupId" id="groupId" value="{{group._id}}">
+
+				<footer class="toolbar toolbar-bottom toolbar-gray">
+					<a href="/settings/billing/list" class="btn btn-gray-darker fl-tn-left">Cancel</a>
+					<button type="submit" class="fl-tn-right">Update</button>
+				</footer>
+			</form>
+		</div>
+	</main>
+</template>

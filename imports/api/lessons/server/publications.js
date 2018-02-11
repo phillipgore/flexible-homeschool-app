@@ -5,7 +5,7 @@ Meteor.publish('allLessons', function() {
 		return this.ready();
 	}
 
-	let groupId = Meteor.users.findOne({_id: this.userId}).group.groupId;
+	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
 	return Lessons.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {order: 1}});
 });
 
@@ -14,7 +14,7 @@ Meteor.publish('lesson', function(lessonId) {
 		return this.ready();
 	}
 
-	let groupId = Meteor.users.findOne({_id: this.userId}).group.groupId;
+	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
 	return Lessons.find({groupId: groupId, deletedOn: { $exists: false }, _id: lessonId});
 });
 
@@ -23,6 +23,6 @@ Meteor.publish('subjectLessons', function(subjectId) {
 		return this.ready();
 	}
 
-	let groupId = Meteor.users.findOne({_id: this.userId}).group.groupId;
+	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
 	return Lessons.find({groupId: groupId, deletedOn: { $exists: false }, subjectId: subjectId}, {sort: {order: 1}});
 });

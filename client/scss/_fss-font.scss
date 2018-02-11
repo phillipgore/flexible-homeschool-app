@@ -23,6 +23,9 @@ i {
     -moz-osx-font-smoothing: grayscale;
 }
 
+.fss-invoices:before {
+  content: "\e930";
+}
 .fss-users-female:before {
   content: "\e92f";
 }

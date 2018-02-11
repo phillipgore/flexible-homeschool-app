@@ -29,7 +29,7 @@ const SchoolYearsSchema = new SimpleSchema({
 		label: 'Group ID',
 		autoValue: function() {
 			if ( this.isInsert ) {
-				return Meteor.user().group.groupId;
+				return Meteor.user().info.groupId;
 			}
 		}
 	},

@@ -3,8 +3,8 @@ Meteor.publish('allUsers', function (){
 		return this.ready();
 	}
 
-	let groupId = Meteor.users.findOne({_id: this.userId}).group.groupId;
-	return Meteor.users.find({'group.groupId': groupId}, {fields: {emails: 1, info: 1, group: 1, status: 1}});
+	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
+	return Meteor.users.find({'info.groupId': groupId}, {fields: {emails: 1, info: 1, group: 1, status: 1}});
 });
 
 Meteor.publish('signedInUser', function() {

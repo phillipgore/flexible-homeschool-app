@@ -11,11 +11,15 @@ form {
 		padding: 0px;
 		color: $color-primary;
 
-		&.error {
+		&.error, &.cc-error {
 			color: $color-danger;
 			font-weight: 300;
-			margin-top: -5px;
-			margin-bottom: 9px;
+			margin-top: -8px;
+			margin-bottom: 12px;
+		}
+
+		&.cc-error {
+			margin-top: -13px;
 		}
 	}
 
@@ -44,6 +48,7 @@ form {
 		background-color: #fff;
 		font-family: $font-family-default;
 		font-size: 16px;
+
 
 		&::placeholder {
 		  color: $color-gray;
@@ -243,4 +248,30 @@ form {
 		}
 	}
 }
+
+.StripeElement {
+	width: 100%;
+	padding: 8px 11px;
+	border: 1px solid $color-gray-dark;
+	border-radius: 3px;
+	margin-bottom: 17px;
+	background-color: #fff;
+	font-family: $font-family-default;
+	font-size: 16px;
+}
+
+.StripeElement--focus {
+	outline: none;
+	border-color: $color-primary;
+}
+
+.StripeElement--invalid, .cc-error {
+  border-color: $color-danger;
+  color: $color-danger;
+}
+
+.StripeElement--webkit-autofill {
+  background-color: #fefde5 !important;
+}
+
 

@@ -1,4 +1,5 @@
 import {Template} from 'meteor/templating';
+// import { Groups } from '../../api/groups/groups.js';
 
 // Application
 import './app.html';
@@ -15,17 +16,18 @@ import '../components/subbarAccounts.html';
 import '../components/subbarYearTerm.html';
 import '../components/subbar.html';
 import '../components/navbar.js';
+import '../components/creditCard.js';
 
 
 // Accounts
 import '../pages/accounts/createAccount.js';
-import '../pages/accounts/verifySent.js';
-import '../pages/accounts/verifySuccess.js';
+import '../pages/accounts/verify/verifySent.js';
+import '../pages/accounts/verify/verifySuccess.js';
 import '../pages/accounts/signIn.js';
-import '../pages/accounts/reset.js';
-import '../pages/accounts/resetSent.js';
-import '../pages/accounts/resetPassword.js';
-import '../pages/accounts/resetSuccess.js';
+import '../pages/accounts/reset/reset.js';
+import '../pages/accounts/reset/resetSent.js';
+import '../pages/accounts/reset/resetPassword.js';
+import '../pages/accounts/reset/resetSuccess.js';
 
 
 // Planning
@@ -70,11 +72,17 @@ import '../pages/reporting/reportingList.js';
 
 // Settings
 import '../pages/settings/settingsList.js';
-import '../pages/settings/users/usersList.js';
-import '../pages/settings/users/usersNew.js';
-import '../pages/settings/users/usersView.js';
-import '../pages/settings/users/usersEdit.js';
-import '../pages/settings/users/usersVerifySent.js';
+	// Users
+	import '../pages/settings/users/usersList.js';
+	import '../pages/settings/users/usersNew.js';
+	import '../pages/settings/users/usersView.js';
+	import '../pages/settings/users/usersEdit.js';
+	import '../pages/settings/users/usersVerifySent.js';
+	// Billing
+	import '../pages/settings/billing/billingIssues.js';
+	import '../pages/settings/billing/billingList.js';
+	import '../pages/settings/billing/billingInvoices.js';
+	import '../pages/settings/billing/billingPaymentInfo.js';
 
 Alerts = new Mongo.Collection(null);
 

@@ -1,23 +1,3 @@
-function checkSignIn(context) {
-	const routeName = context.route.name;
-	if (Meteor.userId()) {
-		FlowRouter.redirect('/planning/list');
-	}
-};
-
-function checkSignOut(context) {
-	const routeName = context.route.name;
-	if (!Meteor.userId()) {
-		FlowRouter.redirect('/sign-in');
-	}
-};
-
-FlowRouter.triggers.enter([checkSignIn], {only: ['createAccount', 'verifySent', 'signIn', 'reset', 'resetSent', 'resetPassword']});
-FlowRouter.triggers.enter([checkSignOut], {except: ['createAccount', 'verifySent', 'signIn', 'reset', 'resetSent', 'resetPassword']});
-
-
-
-
 FlowRouter.route('/', {
 	name: 'createAccount',
 	action() {

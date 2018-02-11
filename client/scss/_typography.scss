@@ -23,6 +23,10 @@ p {
 	margin: 0px;
 	padding: 0px;
 	line-height: 1.25; 
+
+	&.p-sm {
+		font-size: 12px;
+	}
 }
 
 .txt-primary, .txt-success { color: $color-primary; }
@@ -47,6 +51,9 @@ p {
 .font-weight-700 { font-weight: 700; }
 .font-weight-800 { font-weight: 800; }
 .font-weight-900 { font-weight: 900; }
+
+.font-size-30 { font-size: 30px; }
+.font-size-60 { font-size: 60px; }
 
 .txt-capitalize {
 	text-transform: capitalize;

@@ -1,0 +1,20 @@
+<template name="billingList">
+	{{> toolbar}}
+	<main class="app-content no-subbar app-content-preceeds-toolbar">
+		<ul class="list">
+			<li class="list-item">
+				<a href="/settings/billing/invoices" class="list-item-link bg-white p-tn-rl-9">
+					<div class="list-item-icon"><i class="txt-primary fss-invoices"></i></div> 
+					<div class="list-item-label">Invoices</div>
+				</a>
+			</li>
+			<li class="list-item">
+				<a href="/settings/billing/payment/info" class="list-item-link bg-white p-tn-rl-9">
+					<div class="list-item-icon"><i class="txt-primary {{cardClass}}"></i></div> 
+					<div class="list-item-label">Payment Info</div>
+				</a>
+			</li>
+		</ul>
+	</main>
+	{{> navbar }}
+</template>

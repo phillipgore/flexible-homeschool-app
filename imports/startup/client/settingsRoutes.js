@@ -55,3 +55,43 @@ FlowRouter.route('/settings/users/edit/:id', {
 		});
 	},
 });
+
+
+
+
+// Billing
+FlowRouter.route('/settings/billing/list', {
+	name: 'billingList',
+	action() {
+		BlazeLayout.render('app', {
+			main: 'billingList',
+		});
+	},
+});
+
+FlowRouter.route('/settings/billing/issues', {
+	name: 'billingIssues',
+	action() {
+		BlazeLayout.render('app', {
+			main: 'billingIssues',
+		});
+	},
+});
+
+FlowRouter.route('/settings/billing/invoices', {
+	name: 'billingInvoices',
+	action() {
+		BlazeLayout.render('app', {
+			main: 'billingInvoices',
+		});
+	},
+});
+
+FlowRouter.route('/settings/billing/payment/info', {
+	name: 'billingPaymentInfo',
+	action() {
+		BlazeLayout.render('app', {
+			main: 'billingPaymentInfo',
+		});
+	},
+});

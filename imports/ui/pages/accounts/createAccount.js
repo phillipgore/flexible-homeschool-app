@@ -1,65 +1,16 @@
 import {Template} from 'meteor/templating';
+import {Plans} from '../../../api/plans/plans.js';
+import Stripe from '../../../modules/stripe';
+import {cardValidation, emailValidation, passwordValidation, requiredValidation} from '../../../modules/functions';
 import './createAccount.html';
 
+Template.createAccount.onCreated( function() {
+	// Subscriptions
+	this.subscribe('allPlans');
+});
+
 Template.createAccount.onRendered( function() {	
-	$('.js-form-create-account').validate({
-		rules: {
-			firstName: { required: true },
-			lastName: { required: true },
-			email: { required: true, email: true },
-			password: { required: true },
-			retypePassword: { required: true, equalTo: "#password" },
-			creditCard: { required: true, creditcard: true },
-			cvc: { required: true, digits: true, minlength: 3, maxlength: 3 },
-		},
-		messages: {
-			firstName: { required: "Required." },
-			lastName: { required: "Required." },
-			email: { required: "Required.", email: "Please enter a valid email address." },
-			password: { required: "Required." },
-			retypePassword: { required: "Required.", equalTo: "Passwords do not match." },
-			creditCard: { required: "Required.", creditcard: "Please enter a valid credit card." },
-			cvc: { required: "Required.", digits: "Invalid.", minlength: "Invalid.", maxlength: "Invalid." },
-		},
-		submitHandler() {	
-			const user = {
-				email: event.target.email.value.trim(),
-				password: event.target.password.value.trim(),
-				info: {
-					firstName: event.target.firstName.value.trim(),
-					lastName: event.target.lastName.value.trim(),
-					relationshipToStudents: event.target.relationshipToStudents.value.trim(),
-					role: 'Administrator',
-					paused: null,
-				},
-				group: {
-					groupId: new Mongo.ObjectID().toHexString(),
-				},
-				status: {
-					active: true,
-					updatedOn: new Date(),
-				}
-			}
-
-			Accounts.createUser(user, function(error) {
-				if (error) {
-					if (error.reason === 'unverified') {
-						FlowRouter.go('/verify/sent');
-					} else {
-						Alerts.insert({
-							colorClass: 'bg-danger',
-							iconClass: 'fss-danger',
-							message: error.reason,
-						});
-					}
-				} else {
-					FlowRouter.go('/verify/sent');
-				}
-			});
-
-			return false;
-		}
-	});
+	
 });
 
 Template.createAccount.helpers({
@@ -74,15 +25,182 @@ Template.createAccount.helpers({
 		{label: 'I Am Grandpa', value: 'Grandpa'},
 		{label: 'I Am Aunt', value: 'Aunt'},
 		{label: 'I Am Uncle', value: 'Uncle'},
-	]
+	],
+
+	plan: function() {
+		return Plans.findOne();
+	},
 });
 
 Template.createAccount.events({
-	'click .js-show-coupon'(event) {
-		$('.js-show-coupon').addClass('hide');
-		$('.js-coupon').removeClass('hide').focus();
-	},
 	'submit .js-form-create-account'(event) {
 		event.preventDefault();
+
+		let groupProperties = {
+			subscriptionStatus: 'pending',
+		}
+
+		let user = {
+			email: event.target.email.value.trim(),
+			password: event.target.password.value.trim(),
+			info: {
+				firstName: event.target.firstName.value.trim(),
+				lastName: event.target.lastName.value.trim(),
+				relationshipToStudents: event.target.relationshipToStudents.value.trim(),
+				role: 'Administrator',
+				groupId: null,
+			},
+			status: {
+				active: true,
+				updatedOn: new Date(),
+			}
+		}
+
+		let subscriptionProperties = {
+			customer: {
+				email: user.email,
+				metadata: {
+					groupId: null,
+				}
+			},
+			subscription: {
+				customer: null,
+				items: [{plan: 'standard'}],
+			},
+		}
+
+		if (event.target.coupon.value.trim() != '') {
+			subscriptionProperties.subscription.coupon = event.target.coupon.value.trim()
+		}
+
+		let accountForm = [];
+		let passwordsPresent = [];
+		if (requiredValidation(user.info.firstName)) {
+			$('#first-name').removeClass('error');
+			$('.first-name-errors').text('');
+		} else {
+			$('#first-name').addClass('error');
+			$('.first-name-errors').text('Required.');
+			accountForm.push(false);
+		}
+
+		if (requiredValidation(user.info.lastName)) {
+			$('#last-name').removeClass('error');
+			$('.last-name-errors').text('');
+		} else {
+			$('#last-name').addClass('error');
+			$('.last-name-errors').text('Required.');
+			accountForm.push(false);
+		}
+
+		if (requiredValidation(subscriptionProperties.customer.email)) {
+			$('#email').removeClass('error');
+			$('.email-errors').text('');
+
+			if (emailValidation(subscriptionProperties.customer.email)) {
+				$('#email').removeClass('error');
+				$('.email-errors').text('');
+			} else {
+				$('#email').addClass('error');
+				$('.email-errors').text('Please enter a valid email address.');
+				accountForm.push(false);
+			}
+
+		} else {
+			$('#email').addClass('error');
+			$('.email-errors').text('Required.');
+			accountForm.push(false);
+		}
+
+		if (requiredValidation(user.password)) {
+			$('#password').removeClass('error');
+			$('.password-errors').text('');
+			passwordsPresent.push(true);
+		} else {
+			$('#password').addClass('error');
+			$('.password-errors').text('Required.');
+			accountForm.push(false);
+		}
+
+		if (requiredValidation(event.target.retypePassword.value.trim())) {
+			$('#retype-password').removeClass('error');
+			$('.retype-password-errors').text('');
+			passwordsPresent.push(true);
+		} else {
+			$('#retype-password').addClass('error');
+			$('.retype-password-errors').text('Required.');
+			accountForm.push(false);
+		}
+
+		if (passwordsPresent.length === 2) {
+			if (passwordValidation(user.password, event.target.retypePassword.value.trim())) {
+				$('#password, #retype-password').removeClass('error');
+				$('.password-errors, .retype-password-errors').text('');
+			} else {
+				$('#password, #retype-password').addClass('error');
+				$('.password-errors, .retype-password-errors').text('Passwords must match.');
+				accountForm.push(false);
+			}
+		}
+
+		
+		if (cardValidation() && accountForm.indexOf(false) === -1) {
+			Meteor.call('insertGroup', groupProperties, function(error, groupId) {
+				if (error) {
+					Alerts.insert({
+						colorClass: 'bg-danger',
+						iconClass: 'fss-danger',
+						message: error.reason,
+					});
+				} else {
+					user.info.groupId = groupId;
+					subscriptionProperties.customer.metadata.groupId = groupId;
+					
+					Accounts.createUser(user, function(error) {
+						if (error && error.reason != 'unverified') {
+							Alerts.insert({
+								colorClass: 'bg-danger',
+								iconClass: 'fss-danger',
+								message: error.reason,
+							});
+						} else { 
+							stripe.createToken(Session.get('cardNumber')).then((result) => {
+								if (result.error) {
+									FlowRouter.go('/verify/sent');
+								} else {
+									let cardId = result.token.card.id
+									subscriptionProperties.customer.source = result.token.id;
+									Meteor.call('createSubscription', subscriptionProperties, function(error, updatedGroupProperties) {
+										if (error) {
+											Alerts.insert({
+												colorClass: 'bg-danger',
+												iconClass: 'fss-danger',
+												message: error.reason,
+											});
+										} else {
+											console.log(cardId)
+											updatedGroupProperties.stripeCardId = cardId
+											Meteor.call('updateGroup', groupId, updatedGroupProperties, function(error) {
+												if (error) {
+													Alerts.insert({
+														colorClass: 'bg-danger',
+														iconClass: 'fss-danger',
+														message: error.reason,
+													});
+												} else {
+													FlowRouter.go('/verify/sent');
+												}
+											});
+										}
+									});
+								}
+							});
+						}
+					});
+				}
+			});
+
+			return false;
+		}
 	},
 });

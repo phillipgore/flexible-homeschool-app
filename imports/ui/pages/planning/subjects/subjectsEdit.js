@@ -132,19 +132,13 @@ Template.subjectsEdit.onRendered( function() {
 					property.weekId = newLessonProperties[index].weekId;
 					updateLessonProperties.push(property)
 				});
-
-				// console.log('remove: ' + removeLessonIds)
-				// console.log('update: ' + updateLessonProperties)
-
 			} else if (lessons.count() < newLessonProperties.length) {
-				// console.log(newLessonProperties)
 				let dif = newLessonProperties.length - lessons.count();
 
 				let currentLessonProperties = Lessons.find().fetch();
 				for (i = 0; i < dif; i++) { 
 				    currentLessonProperties.push({order: parseFloat((i + lessons.count()) + '.' + (i + 1)), weekId: null});
 				}
-				// console.log(currentLessonProperties)
 
 				let subjectId = FlowRouter.getParam('id');
 				let allLessonProperties = []
@@ -161,9 +155,6 @@ Template.subjectsEdit.onRendered( function() {
 				var updateLessonProperties = allLessonProperties.slice(0, startSlice);
 				var insertLessonProperties = allLessonProperties.slice(endSlice);
 
-				// console.log('update: ' + updateLessonProperties)
-				// console.log('insert: ' + insertLessonProperties)
-
 			} else {
 				let currentLessonProperties = Lessons.find()
 				var updateLessonProperties = []
@@ -173,13 +164,7 @@ Template.subjectsEdit.onRendered( function() {
 					updateLessonProperties.push(property)
 				});
 
-				// console.log('update: ' + updateLessonProperties)
-
 			}
-
-			console.log(updateLessonProperties);
-			console.log(insertLessonProperties);
-			console.log(removeLessonIds);
 
 			Meteor.call('updateSubject', FlowRouter.getParam('id'), subjectProperties, function(error, subjectId) {
 				if (error) {

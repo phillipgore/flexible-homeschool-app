@@ -18,11 +18,12 @@ Lessons.deny({
 const LessonsSchema = new SimpleSchema({
 	order: {
         type: Number,
-        label: "order",
+        label: "Order",
     	optional: true
     },
 	completed: {
 		type: Boolean,
+		label: "Completed",
 		defaultValue: false,
 	},
 	completedOn: {
@@ -53,7 +54,7 @@ const LessonsSchema = new SimpleSchema({
 		label: "Group ID",
 		autoValue: function() {
 			if ( this.isInsert ) {
-				return Meteor.user().group.groupId;
+				return Meteor.user().info.groupId;
 			}
 		}
 	},

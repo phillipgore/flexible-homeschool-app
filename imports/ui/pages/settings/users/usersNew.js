@@ -86,7 +86,7 @@ Template.usersNew.helpers({
 	],
 
 	groupId: function() {
-		return Meteor.users.findOne().group.groupId;
+		return Meteor.users.findOne().info.groupId;
 	}
 });
 

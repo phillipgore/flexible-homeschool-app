@@ -5,7 +5,7 @@ Meteor.publish('allSchoolYears', function() {
 		return this.ready();
 	}
 
-	let groupId = Meteor.users.findOne({_id: this.userId}).group.groupId;
+	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
 	return SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}});
 });
 
@@ -14,6 +14,6 @@ Meteor.publish('schoolYear', function(schooYearId) {
 		return this.ready();
 	}
 
-	let groupId = Meteor.users.findOne({_id: this.userId}).group.groupId;
+	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
 	return SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }, _id: schooYearId});
 });
