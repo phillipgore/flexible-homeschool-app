@@ -120,6 +120,10 @@ Template.creditCard.helpers({
 		}
 		return yearArray;
 	},
+
+	hideCoupon: function() {
+		return Session.get('hideCoupon');
+	}
 });
 
 Template.creditCard.events({

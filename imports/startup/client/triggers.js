@@ -24,13 +24,29 @@ function checkPaymentError(context) {
 	});
 };
 
-function clearCardData(context) {
-	Session.set('card', '');
+function checkSubscriptionPaused(context) {
+	FlowRouter.subsReady('groupStatus', function() {
+		if (Groups.findOne().subscriptionStatus === 'paused') {
+			FlowRouter.redirect('/settings/billing/list');
+		}
+	});
+};
+
+function creditCardData(context) {
+	Session.set({
+		card: '',
+		hideCoupon: false,
+		cardNumber: 'none',
+		cardCvc: 'none',
+		cardExpiry: 'none',
+		postalCode: 'none',
+	});
 };
 
 FlowRouter.triggers.enter([checkSignIn], {only: ['createAccount', 'verifySent', 'signIn', 'reset', 'resetSent', 'resetPassword']});
 FlowRouter.triggers.enter([checkSignOut, checkPaymentError], {except: ['createAccount', 'verifySent', 'signIn', 'reset', 'resetSent', 'resetPassword']});
-FlowRouter.triggers.enter([clearCardData], {except: ['billingList']});
+FlowRouter.triggers.enter([checkSubscriptionPaused], {except: ['createAccount', 'verifySent', 'signIn', 'reset', 'resetSent', 'resetPassword', 'billingList', 'billingInvoices', 'billingEdit', 'supportList']});
+FlowRouter.triggers.enter([creditCardData], {except: []});
 
 
 

@@ -31,44 +31,24 @@ const GroupsSchema = new SimpleSchema({
         label: "Stripe Card ID",
         optional: true
     },
+    stripePaymentAttempt: {
+        type: Number,
+        label: "Stripe Payment Attempt",
+        optional: true
+    },
 	subscriptionStatus: {
 		type: String,
-		label: "Subscription Status",
+		label: "Account Status",
         optional: true
 	},
-	subscriptionError: {
-		type: Object,
-		label: "Subscription Error",
+    subscriptionPausedOn: {
+        type: Date,
+        label: "Account Paused On Date",
         optional: true
-	},
-	'subscriptionError.message': {
+    },
+	subscriptionErrorMessage: {
         type: String,
         label: "Subscription Error Message",
-        optional: true
-    },
-	'subscriptionError.type': {
-        type: String,
-        label: "Subscription Error Type",
-        optional: true
-    },
-	'subscriptionError.param': {
-        type: String,
-        label: "Subscription Error Param",
-        optional: true
-    },
-	'subscriptionError.code': {
-        type: String,
-        label: "Subscription Error Code",
-        optional: true
-    },
-	'subscriptionError.statusCode': {
-        type: String,
-        label: "Subscription Status",
-        optional: true
-    },
-	'subscriptionError.requestId': {
-        type: String,
-        label: "Subscription ID",
         optional: true
     },
 	createdOn: {

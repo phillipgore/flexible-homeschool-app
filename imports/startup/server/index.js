@@ -2,6 +2,7 @@ import './browser-policy.js';
 import './accounts.js';
 import './fixtures.js';
 import './stripe.js';
+import './endpoints.js';
 
 import '../../api/plans/plans.js';
 import '../../api/plans/server/publications.js';

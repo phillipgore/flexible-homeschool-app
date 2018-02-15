@@ -1,3 +1,34 @@
 <template name="billingInvoices">
+	{{> toolbar}}
+	<main class="app-content no-subbar app-content-preceeds-toolbar">
+		<ul class="list">
+				<li class="list-item">
+					<a href="#" class="list-item-link bg-white p-tn-rl-9">
+						<div class="list-item-icon"><i class="txt-warning fss-circle"></i></div> 
+						<div class="list-item-label">
+							{{centsToDollars upcomingInvoices.lines.data.[0].amount}}
+							<p class="p-sm font-weight-400 txt-gray-darkest dis-tn-inline-block">
+								(Due: {{stripeDateFormat upcomingInvoices.date}})
+							</p>
+						</div>
+					</a>
+				</li>
 
+			{{#each invoice in invoices.data}}
+				<li class="list-item">
+					<a href="#" class="list-item-link bg-white p-tn-rl-9">
+						<div class="list-item-icon"><i class="{{invoiceStatus invoice.attempted invoice.paid}} fss-circle"></i></div> 
+						<div class="list-item-label">
+							{{centsToDollars invoice.lines.data.[0].amount}}
+							<p class="p-sm font-weight-400 txt-gray-darkest dis-tn-inline-block">
+								({{stripeDateFormat invoice.lines.data.[0].period.start}} -
+								{{stripeDateFormat invoice.lines.data.[0].period.end}})
+							</p>
+						</div>
+					</a>
+				</li>
+			{{/each}}
+		</ul>
+	</main>
+	{{> navbar }}
 </template>

@@ -1,4 +1,6 @@
 import {Template} from 'meteor/templating';
+import { Groups } from '../../../../api/groups/groups.js';
+import moment from 'moment';
 import './billingList.html';
 
 Template.billingList.onCreated( function() {
@@ -13,7 +15,6 @@ Template.billingList.onCreated( function() {
 				message: error.reason,
 			});
 		} else {
-			console.log(result)
 			Session.set('card', result);
 		}
 	})
@@ -38,8 +39,8 @@ Template.billingList.helpers({
 		return Meteor.users.findOne();
 	},
 
-	card: function() {
-		return JSON.stringify(Session.get('card'));
+	group: function() {
+		return Groups.findOne({});
 	},
 
 	cardClass: function() {
@@ -69,4 +70,105 @@ Template.billingList.helpers({
 			return 'fss-billing';
 		}
 	},
+
+	accountPausedOrPending: function (subscriptionStatus) {
+		if (subscriptionStatus === 'pausePending' || subscriptionStatus === 'paused') {
+			return true;
+		}
+		return false;
+	},
+
+	accountPausePending: function (subscriptionStatus) {
+		if (subscriptionStatus === 'pausePending') {
+			return true;
+		}
+		return false;
+	},
+
+	accountPaused: function (subscriptionStatus) {
+		if (subscriptionStatus === 'paused') {
+			return true;
+		}
+		return false;
+	},
+});
+
+Template.billingList.events({
+	'click .js-pause-account'(event) {
+		event.preventDefault();
+
+		let groupId = $('.js-pause-account').attr('id');
+
+		Meteor.call('pauseSubscription', function(error, result) {
+			if (error) {
+				Alerts.insert({
+					colorClass: 'bg-danger',
+					iconClass: 'fss-danger',
+					message: error.reason,
+				});
+			} else {
+				let date = new Date(result.current_period_end * 1000);
+				let subscriptionPausedOn = date.toUTCString();
+
+				let groupProperties = {
+					subscriptionStatus: 'pausePending', 
+					subscriptionPausedOn: subscriptionPausedOn,
+				}
+
+				Meteor.call('updateGroup', groupId, groupProperties, function(error) {
+					if (error) {
+						Alerts.insert({
+							colorClass: 'bg-danger',
+							iconClass: 'fss-danger',
+							message: error.reason,
+						});
+					} else {
+						Alerts.insert({
+							colorClass: 'bg-info',
+							iconClass: 'fss-info',
+							message: 'Your account has been paused. You may unpause it at anytime.',
+						});
+					}
+				});
+			}
+		})
+	},
+
+	'click .js-unpause-account'(event) {
+		event.preventDefault();
+
+		let groupId = $('.js-unpause-account').attr('id');
+
+		Meteor.call('unpauseSubscription', function(error, result) {
+			if (error) {
+				Alerts.insert({
+					colorClass: 'bg-danger',
+					iconClass: 'fss-danger',
+					message: error.reason,
+				});
+			} else {
+				let groupProperties = {
+					subscriptionStatus: 'active',
+					stripeSubscriptionId: result.id,
+				}
+
+				Meteor.call('updateGroup', groupId, groupProperties, function(error) {
+					if (error) {
+						Alerts.insert({
+							colorClass: 'bg-danger',
+							iconClass: 'fss-danger',
+							message: error.reason,
+						});
+					} else {
+						Alerts.insert({
+							colorClass: 'bg-info',
+							iconClass: 'fss-info',
+							message: 'Your account has been unpaused. Welcome back.',
+						});
+					}
+				});
+			}
+		})
+	},
+
 });

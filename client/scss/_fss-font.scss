@@ -23,18 +23,6 @@ i {
     -moz-osx-font-smoothing: grayscale;
 }
 
-.fss-invoices:before {
-  content: "\e930";
-}
-.fss-users-female:before {
-  content: "\e92f";
-}
-.fss-play-circle:before {
-  content: "\e92e";
-}
-.fss-pause-circle:before {
-  content: "\e92d";
-}
 .fss-actions:before {
   content: "\e900";
 }
@@ -86,89 +74,104 @@ i {
 .fss-cc-visa:before {
   content: "\e910";
 }
-.fss-close-circle:before {
+.fss-circle:before {
   content: "\e911";
 }
-.fss-close:before {
+.fss-close-circle:before {
   content: "\e912";
 }
-.fss-danger:before {
+.fss-close:before {
   content: "\e913";
 }
-.fss-delete:before {
+.fss-danger:before {
   content: "\e914";
 }
-.fss-edit:before {
+.fss-delete:before {
   content: "\e915";
 }
-.fss-info:before {
+.fss-edit:before {
   content: "\e916";
 }
-.fss-link:before {
+.fss-info:before {
   content: "\e917";
 }
-.fss-logo:before {
+.fss-invoices:before {
   content: "\e918";
 }
-.fss-new-circle:before {
+.fss-link:before {
   content: "\e919";
 }
-.fss-new:before {
+.fss-logo:before {
   content: "\e91a";
 }
-.fss-notes:before {
+.fss-new-circle:before {
   content: "\e91b";
 }
-.fss-planning:before {
+.fss-new:before {
   content: "\e91c";
 }
-.fss-reporting:before {
+.fss-notes:before {
   content: "\e91d";
 }
-.fss-resources:before {
+.fss-pause-circle:before {
   content: "\e91e";
 }
-.fss-school-years:before {
+.fss-planning:before {
   content: "\e91f";
 }
-.fss-search:before {
+.fss-play-circle:before {
   content: "\e920";
 }
-.fss-searching:before {
+.fss-reporting:before {
   content: "\e921";
 }
-.fss-settings:before {
+.fss-resources:before {
   content: "\e922";
 }
-.fss-signout:before {
+.fss-school-years:before {
   content: "\e923";
 }
-.fss-students:before {
+.fss-search:before {
   content: "\e924";
 }
-.fss-subjects:before {
+.fss-searching:before {
   content: "\e925";
 }
-.fss-success:before {
+.fss-settings:before {
   content: "\e926";
 }
-.fss-support:before {
+.fss-signout:before {
   content: "\e927";
 }
-.fss-terms:before {
+.fss-students:before {
   content: "\e928";
 }
-.fss-tracking:before {
+.fss-subjects:before {
   content: "\e929";
 }
-.fss-users:before {
+.fss-success:before {
   content: "\e92a";
 }
-.fss-video:before {
+.fss-support:before {
   content: "\e92b";
 }
-.fss-warning:before {
+.fss-terms:before {
   content: "\e92c";
+}
+.fss-tracking:before {
+  content: "\e92d";
+}
+.fss-users-female:before {
+  content: "\e92e";
+}
+.fss-users:before {
+  content: "\e92f";
+}
+.fss-video:before {
+  content: "\e930";
+}
+.fss-warning:before {
+  content: "\e931";
 }
 
 .fss-fw-16 {

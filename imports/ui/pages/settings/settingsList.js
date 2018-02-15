@@ -1,4 +1,5 @@
 import {Template} from 'meteor/templating';
+import {Groups} from '../../../api/groups/groups.js';
 import './settingsList.html';
 
 Template.settingsList.onCreated( function() {
@@ -22,19 +23,13 @@ Template.settingsList.onRendered( function() {
 });
 
 Template.settingsList.helpers({
-	items: [
-		{divider: false, classes: '', icon: 'fss-users', label: 'Users', url: '/settings/users/list'},
-		{divider: false, classes: '', icon: 'fss-billing', label: 'Billing', url: '/settings/billing/list'},
-		{divider: false, classes: '', icon: 'fss-support', label: 'Support', url: '/support'},
-	],
-
 	user: function() {
 		return Meteor.users.findOne();
 	},
 
-	test: function() {
-		return Session.get('card').brand;
-	}
+	group: function() {
+		return Groups.findOne({});
+	},
 });
 
 Template.settingsList.events({

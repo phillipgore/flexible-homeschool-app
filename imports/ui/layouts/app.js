@@ -78,11 +78,13 @@ import '../pages/settings/settingsList.js';
 	import '../pages/settings/users/usersView.js';
 	import '../pages/settings/users/usersEdit.js';
 	import '../pages/settings/users/usersVerifySent.js';
+	// Support
+	import '../pages/settings/support/supportList.js';
 	// Billing
-	import '../pages/settings/billing/billingIssues.js';
+	import '../pages/settings/billing/billingError.js';
 	import '../pages/settings/billing/billingList.js';
 	import '../pages/settings/billing/billingInvoices.js';
-	import '../pages/settings/billing/billingPaymentInfo.js';
+	import '../pages/settings/billing/billingEdit.js';
 
 Alerts = new Mongo.Collection(null);
 

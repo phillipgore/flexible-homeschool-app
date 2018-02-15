@@ -69,6 +69,7 @@
   [class*='col-tn'] {
     width: 100%;
     float: left;
+    positon: relative;
   }
 
   .fl-tn-left { float: left; }
@@ -282,6 +283,7 @@
   [class*='col-xs'] {
     width: 100%;
     float: left;
+    positon: relative;
   }
 
   .col-xs-1of1 { width: 100%; }
@@ -487,6 +489,7 @@
   [class*='col-sm'] {
     width: 100%;
     float: left;
+    positon: relative;
   }
 
   .fl-sm-left { float: left; }
@@ -696,6 +699,7 @@
   [class*='col-md'] {
     width: 100%;
     float: left;
+    positon: relative;
   }
 
   .fl-md-left { float: left; }
@@ -905,6 +909,7 @@
   [class*='col-lg'] {
     width: 100%;
     float: left;
+    positon: relative;
   }
 
   .fl-lg-left { float: left; }
@@ -1114,6 +1119,7 @@
   [class*='col-xl'] {
     width: 100%;
     float: left;
+    positon: relative;
   }
 
   .fl-xl-left { float: left; }

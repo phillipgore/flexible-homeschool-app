@@ -1,8 +1,15 @@
-<template name="billingIssues">
+<template name="billingError">
 	{{> toolbar}}
 	<main class="app-content no-subbar app-content-preceeds-toolbar">
 		<h1 class="txt-tn-center m-tn-t-24 m-tn-h-18">Oops!</h1>
-		<p class="txt-tn-center txt-danger font-weight-400 m-tn-b-12 m-tn-h-18">{{group.subscriptionError.message}} Please reenter your payment information.</p>
+		<p class="txt-tn-center txt-danger font-weight-400 m-tn-b-12 m-tn-h-18">
+			{{#if group.subscriptionErrorMessage}}
+				{{group.subscriptionErrorMessage}}
+			{{else}}
+				There was a problem with your card.
+			{{/if}}
+			Please reenter your payment information.
+		</p>
 		<form class="js-form-update-credit-card row m-tn-h-18">
 			<div class="well bg-gray-lighter m-tn-b-72">
 				{{> creditCard}}

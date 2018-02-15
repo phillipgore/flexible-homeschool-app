@@ -1,7 +1,10 @@
-<template name="billingPaymentInfo">	
+<template name="billingEdit">	
 	{{> toolbar}}
 	<main class="app-content no-subbar app-content-preceeds-toolbar">
 		<div class="p-tn-18">
+			{{#if group.stripePaymentAttempt}}
+				<p class="txt-tn-center txt-danger font-weight-400 m-tn-b-36 m-tn-h-9">{{attemptMessage group.stripePaymentAttempt}}</p>
+			{{/if}}
 			<h2>Card On File:</h2>
 			<div class="clearfix">
 				<div class="dis-tn-inline-block fl-tn-left m-tn-r-12">
@@ -17,7 +20,6 @@
 					{{> creditCard}}
 				</div>
 
-				<input type="hidden" name="email" id="email" value="{{user.emails.[0].address}}">
 				<input type="hidden" name="groupId" id="groupId" value="{{group._id}}">
 
 				<footer class="toolbar toolbar-bottom toolbar-gray">

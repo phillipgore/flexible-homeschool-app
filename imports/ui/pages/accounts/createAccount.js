@@ -178,7 +178,6 @@ Template.createAccount.events({
 												message: error.reason,
 											});
 										} else {
-											console.log(cardId)
 											updatedGroupProperties.stripeCardId = cardId
 											Meteor.call('updateGroup', groupId, updatedGroupProperties, function(error) {
 												if (error) {

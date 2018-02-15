@@ -2,17 +2,25 @@
 	{{> toolbar}}
 	<main class="app-content no-subbar app-content-preceeds-toolbar bg-gray-lightest">
 		<ul class="list">
-			{{#each item in items}}
-				{{#if item.divider}}
-					<li class="list-spacer"></li>
-				{{/if}}
-				<li class="list-item">
-					<a href="{{item.url}}" class="{{item.classes}} list-item-link bg-white p-tn-rl-9">
-						<div class="list-item-icon"><i class="txt-primary {{item.icon}}"></i></div> 
-						<div class="list-item-label">{{item.label}}</div>
-					</a>
-				</li>
-			{{/each}}
+			<li class="list-item">
+				<a href="/settings/users/list" class="list-item-link bg-white p-tn-rl-9">
+					<div class="list-item-icon"><i class="txt-primary fss-users"></i></div> 
+					<div class="list-item-label">Users</div>
+				</a>
+			</li>
+			<li class="list-item">
+				<a href="/settings/billing/list" class="list-item-link bg-white p-tn-rl-9">
+					<div class="list-item-icon"><i class="txt-primary fss-billing"></i></div> 
+					<div class="list-item-label">Billing</div>
+					{{#if group.stripePaymentAttempt}}<div class="list-item-badge"></div>{{/if}}
+				</a>
+			</li>
+			<li class="list-item">
+				<a href="/settings/support/list" class="list-item-link bg-white p-tn-rl-9">
+					<div class="list-item-icon"><i class="txt-primary fss-support"></i></div> 
+					<div class="list-item-label">Support</div>
+				</a>
+			</li>
 			<li class="list-spacer"></li>
 			<li class="list-item">
 				<a href="#" class="js-sign-out list-item-link bg-white p-tn-rl-9">
@@ -21,7 +29,6 @@
 				</a>
 			</li>
 		</ul>
-		{{test}}
 	</main>
 	{{> navbar }}
 </template>

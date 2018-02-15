@@ -87,11 +87,24 @@ FlowRouter.route('/settings/billing/invoices', {
 	},
 });
 
-FlowRouter.route('/settings/billing/payment/info', {
-	name: 'billingPaymentInfo',
+FlowRouter.route('/settings/billing/edit', {
+	name: 'billingEdit',
 	action() {
 		BlazeLayout.render('app', {
-			main: 'billingPaymentInfo',
+			main: 'billingEdit',
+		});
+	},
+});
+
+
+
+
+// Billing
+FlowRouter.route('/settings/support/list', {
+	name: 'supportList',
+	action() {
+		BlazeLayout.render('app', {
+			main: 'supportList',
 		});
 	},
 });

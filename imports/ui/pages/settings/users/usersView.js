@@ -11,7 +11,7 @@ Template.usersView.onRendered( function() {
 	Session.set({
 		leftUrl: '/settings/users/list',
 		leftIcon: 'fss-back',
-		label: '',
+		label: 'User',
 		editUrl: '/settings/users/edit/' + FlowRouter.getParam('id'),
 	});
 
@@ -44,10 +44,10 @@ Template.usersView.helpers({
 		return Meteor.users.findOne({_id: FlowRouter.getParam('id')});
 	},
 	
-	dynamicToolbarLabel: function() {
-		let user = Meteor.users.findOne({_id: FlowRouter.getParam('id')});
-		return user && user.info.firstName +' '+ user.info.lastName;
-	},
+	// dynamicToolbarLabel: function() {
+	// 	let user = Meteor.users.findOne({_id: FlowRouter.getParam('id')});
+	// 	return user && user.info.firstName +' '+ user.info.lastName;
+	// },
 
 	verified: function(verified) {
 		if (verified) {
