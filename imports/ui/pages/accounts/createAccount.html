@@ -7,11 +7,11 @@
 
 			<div class="m-tn-b-30">
 				<div class="col-tn-1of2 p-tn-r-3">
-					<input type="text" name="firstName" id="first-name" placeholder="First Name" autocomplete="off" value="Phillip">
+					<input type="text" name="firstName" id="first-name" placeholder="First Name" autocomplete="off">
 					<label class="error first-name-errors"></label>
 				</div>
 				<div class="col-tn-1of2 p-tn-l-3">
-					<input type="text" name="lastName" id="last-name" placeholder="Last Name" autocomplete="off" value="Gore">
+					<input type="text" name="lastName" id="last-name" placeholder="Last Name" autocomplete="off">
 					<label class="error last-name-errors"></label>
 				</div>
 				<div class="fss-select">
@@ -25,16 +25,16 @@
 			
 			
 			<div class="m-tn-b-24">
-				<input type="email" name="email" id="email" placeholder="Email" autocomplete="off" value="phillipagore@me.com">
+				<input type="email" name="email" id="email" placeholder="Email" autocomplete="off">
 				<label class="error email-errors"></label>
-				<input type="password" name="password" id="password" placeholder="Password" autocomplete="off" value="Vandalia">
+				<input type="password" name="password" id="password" placeholder="Password" autocomplete="off">
 				<label class="error password-errors"></label>
-				<input type="password" name="retypePassword" id="retype-password" placeholder="Retype Password" autocomplete="off" value="Vandalia">
+				<input type="password" name="retypePassword" id="retype-password" placeholder="Retype Password" autocomplete="off">
 				<label class="error retype-password-errors"></label>
 			</div>
 			
 			<h1 class="txt-tn-center">Payment Info</h1>
-			<p class="txt-tn-center txt-gray-darkest font-weight-400 m-tn-b-12">One Simple Price: {{centsToDollars plan.price}} per month</p>
+			<p class="txt-tn-center txt-gray-darkest font-weight-400 m-tn-b-12">One Simple Price: $10.00 per month</p>
 
 			<div class="well bg-gray-lighter m-tn-b-72">
 				{{> creditCard}}

@@ -1,5 +1,4 @@
 import {Template} from 'meteor/templating';
-import {Plans} from '../../../api/plans/plans.js';
 import Stripe from '../../../modules/stripe';
 import {cardValidation, emailValidation, passwordValidation, requiredValidation} from '../../../modules/functions';
 import './createAccount.html';
@@ -26,10 +25,6 @@ Template.createAccount.helpers({
 		{label: 'I Am Aunt', value: 'Aunt'},
 		{label: 'I Am Uncle', value: 'Uncle'},
 	],
-
-	plan: function() {
-		return Plans.findOne();
-	},
 });
 
 Template.createAccount.events({

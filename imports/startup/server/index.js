@@ -4,9 +4,6 @@ import './fixtures.js';
 import './stripe.js';
 import './endpoints.js';
 
-import '../../api/plans/plans.js';
-import '../../api/plans/server/publications.js';
-
 import '../../api/groups/groups.js';
 import '../../api/groups/methods.js';
 import '../../api/groups/server/publications.js';
