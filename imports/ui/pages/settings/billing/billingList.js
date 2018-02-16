@@ -35,6 +35,13 @@ Template.billingList.onRendered( function() {
 });
 
 Template.billingList.helpers({
+	dataReady: function() {
+		if (Session.get('card')) {
+			return true;
+		}
+		return false;
+	},
+
 	user: function() {
 		return Meteor.users.findOne();
 	},
@@ -96,6 +103,7 @@ Template.billingList.helpers({
 Template.billingList.events({
 	'click .js-pause-account'(event) {
 		event.preventDefault();
+		$('.list-item-loading').show();
 
 		let groupId = $('.js-pause-account').attr('id');
 
@@ -122,12 +130,14 @@ Template.billingList.events({
 							iconClass: 'fss-danger',
 							message: error.reason,
 						});
+						$('.list-item-loading').hide();
 					} else {
 						Alerts.insert({
 							colorClass: 'bg-info',
 							iconClass: 'fss-info',
 							message: 'Your account has been paused. You may unpause it at anytime.',
 						});
+						$('.list-item-loading').hide();
 					}
 				});
 			}
@@ -136,6 +146,7 @@ Template.billingList.events({
 
 	'click .js-unpause-account'(event) {
 		event.preventDefault();
+		$('.list-item-loading').show();
 
 		let groupId = $('.js-unpause-account').attr('id');
 
@@ -146,6 +157,7 @@ Template.billingList.events({
 					iconClass: 'fss-danger',
 					message: error.reason,
 				});
+				$('.list-item-loading').hide();
 			} else {
 				let groupProperties = {
 					subscriptionStatus: 'active',
@@ -159,12 +171,14 @@ Template.billingList.events({
 							iconClass: 'fss-danger',
 							message: error.reason,
 						});
+						$('.list-item-loading').hide();
 					} else {
 						Alerts.insert({
 							colorClass: 'bg-info',
 							iconClass: 'fss-info',
 							message: 'Your account has been unpaused. Welcome back.',
 						});
+						$('.list-item-loading').hide();
 					}
 				});
 			}

@@ -35,6 +35,13 @@ Template.billingEdit.onRendered( function() {
 });
 
 Template.billingEdit.helpers({
+	dataReady: function() {
+		if (Session.get('card') && Groups.findOne({})) {
+			return true;
+		}
+		return false;
+	},
+
 	user: function() {
 		return Meteor.users.findOne();
 	},
@@ -98,6 +105,8 @@ Template.billingEdit.helpers({
 Template.billingEdit.events({
 	'submit .js-form-update-credit-card'(event) {
 		event.preventDefault();
+		$('.js-loading').show();
+		$('.js-submit').prop('disabled', true);
 
 		let groupId = event.target.groupId.value.trim();
 
@@ -109,6 +118,9 @@ Template.billingEdit.events({
 						iconClass: 'fss-danger',
 						message: result.error,
 					});
+					
+					$('.js-loading').hide();
+					$('.js-submit').prop('disabled', false);
 				} else {
 					let cardId = result.token.card.id;
 					Meteor.call('updateCard', result.token.id, function(error, result) {
@@ -118,6 +130,9 @@ Template.billingEdit.events({
 								iconClass: 'fss-danger',
 								message: error.reason,
 							});
+					
+							$('.js-loading').hide();
+							$('.js-submit').prop('disabled', false);
 						} else {
 							let groupProperties = {
 								stripeCardId: result.default_source, 
@@ -130,6 +145,9 @@ Template.billingEdit.events({
 										iconClass: 'fss-danger',
 										message: error.reason,
 									});
+					
+									$('.js-loading').hide();
+									$('.js-submit').prop('disabled', false);
 								} else {
 									FlowRouter.go('/planning/list');
 								}

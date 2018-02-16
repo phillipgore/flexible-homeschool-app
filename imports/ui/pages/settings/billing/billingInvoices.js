@@ -44,6 +44,13 @@ Template.billingInvoices.onRendered( function() {
 });
 
 Template.billingInvoices.helpers({
+	dataReady: function() {
+		if (Session.get('upcomingInvoices') && Session.get('invoices')) {
+			return true;
+		}
+		return false;
+	},
+
 	invoices: function() {
 		return Session.get('invoices');
 	},

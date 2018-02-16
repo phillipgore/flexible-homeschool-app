@@ -50,6 +50,8 @@ Template.billingError.events({
 
 	'submit .js-form-update-credit-card'(event) {
 		event.preventDefault();
+		$('.js-loading').show();
+		$('.js-submit').prop('disabled', true);
 
 		let subscriptionProperties = {
 			customer: {
@@ -82,6 +84,9 @@ Template.billingError.events({
 								iconClass: 'fss-danger',
 								message: error.reason,
 							});
+					
+							$('.js-loading').hide();
+							$('.js-submit').prop('disabled', false);
 						} else {
 							updatedGroupProperties.stripeCardId = cardId
 							Meteor.call('updateGroup', subscriptionProperties.customer.metadata.groupId, updatedGroupProperties, function(error) {
@@ -91,6 +96,9 @@ Template.billingError.events({
 										iconClass: 'fss-danger',
 										message: error.reason,
 									});
+					
+									$('.js-loading').hide();
+									$('.js-submit').prop('disabled', false);
 								} else {
 									FlowRouter.go('/planning/list');
 								}

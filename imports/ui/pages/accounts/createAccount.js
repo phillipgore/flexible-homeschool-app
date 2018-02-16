@@ -4,8 +4,7 @@ import {cardValidation, emailValidation, passwordValidation, requiredValidation}
 import './createAccount.html';
 
 Template.createAccount.onCreated( function() {
-	// Subscriptions
-	this.subscribe('allPlans');
+	
 });
 
 Template.createAccount.onRendered( function() {	
@@ -30,6 +29,8 @@ Template.createAccount.helpers({
 Template.createAccount.events({
 	'submit .js-form-create-account'(event) {
 		event.preventDefault();
+		$('.js-loading').show();
+		$('.js-submit').prop('disabled', true);
 
 		let groupProperties = {
 			subscriptionStatus: 'pending',
@@ -147,6 +148,9 @@ Template.createAccount.events({
 						iconClass: 'fss-danger',
 						message: error.reason,
 					});
+					
+					$('.js-loading').hide();
+					$('.js-submit').prop('disabled', false);
 				} else {
 					user.info.groupId = groupId;
 					subscriptionProperties.customer.metadata.groupId = groupId;
@@ -158,6 +162,9 @@ Template.createAccount.events({
 								iconClass: 'fss-danger',
 								message: error.reason,
 							});
+					
+							$('.js-loading').hide();
+							$('.js-submit').prop('disabled', false);
 						} else { 
 							stripe.createToken(Session.get('cardNumber')).then((result) => {
 								if (result.error) {
@@ -172,6 +179,9 @@ Template.createAccount.events({
 												iconClass: 'fss-danger',
 												message: error.reason,
 											});
+					
+											$('.js-loading').hide();
+											$('.js-submit').prop('disabled', false);
 										} else {
 											updatedGroupProperties.stripeCardId = cardId
 											Meteor.call('updateGroup', groupId, updatedGroupProperties, function(error) {
@@ -181,6 +191,9 @@ Template.createAccount.events({
 														iconClass: 'fss-danger',
 														message: error.reason,
 													});
+					
+													$('.js-loading').hide();
+													$('.js-submit').prop('disabled', false);
 												} else {
 													FlowRouter.go('/verify/sent');
 												}
