@@ -19,7 +19,7 @@ function checkSignOut(context) {
 function checkPaymentError(context) {
 	FlowRouter.subsReady('groupStatus', function() {
 		if (Groups.findOne().subscriptionStatus === 'error') {
-			FlowRouter.redirect('/settings/billing/issues');
+			FlowRouter.redirect('/settings/billing/error');
 		}
 	});
 };

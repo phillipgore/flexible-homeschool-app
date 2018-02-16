@@ -73,7 +73,7 @@ Template.billingError.events({
 		if (cardValidation()) {
 			stripe.createToken(Session.get('cardNumber')).then((result) => {
 				if (result.error) {
-					FlowRouter.go('/settings/billing/issues');
+					FlowRouter.go('/settings/billing/error');
 				} else {
 					let cardId = result.token.card.id
 					subscriptionProperties.customer.source = result.token.id;

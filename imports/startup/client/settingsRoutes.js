@@ -69,11 +69,11 @@ FlowRouter.route('/settings/billing/list', {
 	},
 });
 
-FlowRouter.route('/settings/billing/issues', {
-	name: 'billingIssues',
+FlowRouter.route('/settings/billing/error', {
+	name: 'billingError',
 	action() {
 		BlazeLayout.render('app', {
-			main: 'billingIssues',
+			main: 'billingError',
 		});
 	},
 });
