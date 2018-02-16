@@ -12,7 +12,7 @@ Template.studentsView.onRendered( function() {
 	Session.set({
 		leftUrl: '/planning/students/list',
 		leftIcon: 'fss-back',
-		label: '',
+		label: 'Student',
 		editUrl: '/planning/students/edit/' + FlowRouter.getParam('id'),
 		deleteClass: 'js-delete-student',
 	});
@@ -24,11 +24,6 @@ Template.studentsView.onRendered( function() {
 Template.studentsView.helpers({
 	student: function() {
 		return Students.findOne({_id: FlowRouter.getParam('id')});
-	},
-	
-	dynamicToolbarLabel: function() {
-		let student = Students.findOne({_id: FlowRouter.getParam('id')});
-		return student && student.preferredFirstName.name +' '+ student.lastName;
 	},
 
 	preferredFirstName: function(currentType, type) {

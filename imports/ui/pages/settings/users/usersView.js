@@ -43,11 +43,6 @@ Template.usersView.helpers({
 	user: function() {
 		return Meteor.users.findOne({_id: FlowRouter.getParam('id')});
 	},
-	
-	// dynamicToolbarLabel: function() {
-	// 	let user = Meteor.users.findOne({_id: FlowRouter.getParam('id')});
-	// 	return user && user.info.firstName +' '+ user.info.lastName;
-	// },
 
 	verified: function(verified) {
 		if (verified) {

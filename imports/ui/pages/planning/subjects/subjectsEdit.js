@@ -82,6 +82,9 @@ Template.subjectsEdit.onRendered( function() {
 		},
 
 		submitHandler() {
+			$('.js-loading').show();
+			$('.js-submit').prop('disabled', true);
+
 			let resourceIds = []
 			LocalResources.find().forEach(function(resource) {
 				resourceIds.push(resource.id);
@@ -173,6 +176,9 @@ Template.subjectsEdit.onRendered( function() {
 						iconClass: 'fss-danger',
 						message: error.reason,
 					});
+					
+					$('.js-loading').hide();
+					$('.js-submit').prop('disabled', false);
 				} else {
 					if (insertLessonProperties) {
 						Meteor.call('batchInsertLessons', insertLessonProperties, function(error) {
@@ -182,6 +188,9 @@ Template.subjectsEdit.onRendered( function() {
 									iconClass: 'fss-danger',
 									message: error.reason,
 								});
+					
+								$('.js-loading').hide();
+								$('.js-submit').prop('disabled', false);
 							}
 						});
 					}
@@ -193,7 +202,10 @@ Template.subjectsEdit.onRendered( function() {
 									colorClass: 'bg-danger',
 									iconClass: 'fss-danger',
 									message: error.reason,
-								});
+								}); 
+					
+								$('.js-loading').hide();
+								$('.js-submit').prop('disabled', false);
 							}
 						});
 					}
@@ -205,6 +217,9 @@ Template.subjectsEdit.onRendered( function() {
 								iconClass: 'fss-danger',
 								message: error.reason,
 							});
+					
+							$('.js-loading').hide();
+							$('.js-submit').prop('disabled', false);
 						} else {
 							FlowRouter.go('/planning/subjects/view/' + subjectId);
 						}

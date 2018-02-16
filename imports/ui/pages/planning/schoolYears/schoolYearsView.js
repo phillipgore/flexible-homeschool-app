@@ -15,7 +15,7 @@ Template.schoolYearsView.onRendered( function() {
 	Session.set({
 		leftUrl: '/planning/schoolYears/list',
 		leftIcon: 'fss-back',
-		label: '',
+		label: 'School Year',
 		editUrl: '/planning/schoolyears/edit/' + FlowRouter.getParam('id'),
 		deleteClass: 'js-delete-school-year',
 	});
@@ -31,11 +31,6 @@ Template.schoolYearsView.helpers({
 
 	terms: function() {
 		return Terms.find({schoolYearId: FlowRouter.getParam('id')})
-	},
-	
-	dynamicToolbarLabel: function() {
-		let schoolYears = SchoolYears.findOne({_id: FlowRouter.getParam('id')});
-		return schoolYears && schoolYears.startYear +"-"+ schoolYears.endYear;
 	},
 });
 

@@ -12,6 +12,9 @@ Template.signIn.onRendered( function() {
 			password: { required: "Required." },
 		},
 		submitHandler() {
+			$('.js-loading').show();
+			$('.js-submit').prop('disabled', true);
+
 			const email = event.target.email.value.trim();
 			const password = event.target.password.value.trim();
 
@@ -25,6 +28,9 @@ Template.signIn.onRendered( function() {
 							iconClass: 'fss-danger',
 							message: error.reason + '.',
 						});
+					
+						$('.js-loading').hide();
+						$('.js-submit').prop('disabled', false);
 					}
 				} else {
 					FlowRouter.go('/planning/list');

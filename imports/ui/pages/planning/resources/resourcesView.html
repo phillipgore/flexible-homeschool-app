@@ -1,6 +1,6 @@
 <template name="resourcesView">
 	{{> dialog}}
-	{{> toolbarView dynamicToolbarLabel=dynamicToolbarLabel dynamicToolbarEditUrl=dynamicToolbarEditUrl}}
+	{{> toolbarView dynamicToolbarEditUrl=dynamicToolbarEditUrl}}	
 	<main class="app-content no-subbar app-content-preceeds-toolbar">
 		<div class="p-tn-9">
 			<ul class="info-list">
@@ -43,7 +43,7 @@
 				{{#if resource.publicationDate}}
 				<li class="list-item">
 					<span class="list-item-label">Publication Date:</span> 
-					{{resource.publicationDate}}
+					{{dateFormat resource.publicationDate}}
 				</li>
 				{{/if}}
 				{{#if resource.link}}
@@ -61,5 +61,8 @@
 			</ul>
 		</div>
 	</main>
+	{{#unless Template.subscriptionsReady}}
+		{{> loading}}
+	{{/unless}}
 	{{> navbar }}
 </template>

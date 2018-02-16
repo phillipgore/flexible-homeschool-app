@@ -4,5 +4,8 @@
 	<main class="app-content app-content-preceeds-toolbar">
 		
 	</main>
+	{{#unless Template.subscriptionsReady}}
+		{{> loading}}
+	{{/unless}}
 	{{> navbar }}
 </template>

@@ -12,7 +12,7 @@ Template.subjectsView.onRendered( function() {
 	Session.set({
 		leftUrl: '/planning/subjects/list',
 		leftIcon: 'fss-back',
-		label: '',
+		label: 'Subject',
 		editUrl: '/planning/subjects/edit/' + FlowRouter.getParam('id'),
 		deleteClass: 'js-delete-subject',
 	});
@@ -24,11 +24,6 @@ Template.subjectsView.onRendered( function() {
 Template.subjectsView.helpers({
 	subject: function() {
 		return Subjects.findOne({_id: FlowRouter.getParam('id')});
-	},
-	
-	dynamicToolbarLabel: function() {
-		let subjects = Subjects.findOne({_id: FlowRouter.getParam('id')});
-		return subjects && subjects.name;
 	},
 });
 

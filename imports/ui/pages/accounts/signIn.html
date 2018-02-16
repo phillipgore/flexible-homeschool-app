@@ -12,8 +12,12 @@
 			</div>
 
 			<footer class="toolbar toolbar-bottom toolbar-gray">
-				<button type="submit" class="fl-tn-right">Sign In</button>
+				<button type="submit" class="js-submit fl-tn-right">Sign In</button>
 			</footer>
 		</form>
 	</main>
+	{{#unless Template.subscriptionsReady}}
+		{{> loading}}
+	{{/unless}}
+	{{> saving message="Signing In"}}
 </template>

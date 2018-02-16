@@ -10,16 +10,22 @@ Template.reset.onRendered( function() {
 			email: { required: "Required.", email: "Please enter a valid email address." },
 		},
 		submitHandler() {
+			$('.js-loading').show();
+			$('.js-submit').prop('disabled', true);
+
 			const email = event.target.email.value.trim();
 			
-			Accounts.forgotPassword({email: email}, function(error){
-				if (error)
+			Accounts.forgotPassword({email: email}, function(error) {
+				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',
 						iconClass: 'fss-danger',
 						message: error.reason,
 					});
-				else {
+					
+					$('.js-loading').hide();
+					$('.js-submit').prop('disabled', false);
+				} else {
 					FlowRouter.go('/reset/sent');
 				}
 			});

@@ -43,6 +43,9 @@ Template.schoolYearsNew.onRendered( function() {
 		},		
 
 		submitHandler() {
+			$('.js-loading').show();
+			$('.js-submit').prop('disabled', true);
+
 			let termProperties = []
 
 			event.target.weeksPerTerm.forEach(function(weeks, index) {
@@ -63,6 +66,9 @@ Template.schoolYearsNew.onRendered( function() {
 						iconClass: 'fss-danger',
 						message: error.reason,
 					});
+					
+					$('.js-loading').hide();
+					$('.js-submit').prop('disabled', false);
 				} else {
 					termProperties.forEach(function(term) {
 						const weeksPerTerm = term.weeksPerTerm;
@@ -76,6 +82,9 @@ Template.schoolYearsNew.onRendered( function() {
 									iconClass: 'fss-danger',
 									message: error.reason,
 								});
+					
+								$('.js-loading').hide();
+								$('.js-submit').prop('disabled', false);
 							} else {
 								let weekProperties = []
 								
@@ -90,6 +99,9 @@ Template.schoolYearsNew.onRendered( function() {
 											iconClass: 'fss-danger',
 											message: error.reason,
 										});
+					
+										$('.js-loading').hide();
+										$('.js-submit').prop('disabled', false);
 									} else {
 										FlowRouter.go('/planning/schoolyears/view/' + schoolYearId);
 									}

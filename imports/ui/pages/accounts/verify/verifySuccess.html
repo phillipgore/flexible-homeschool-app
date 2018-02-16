@@ -7,4 +7,7 @@
 		<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36">Your email has been verified.</p>
 		<a class="btn" href="{{pathFor 'studentsList'}}">Sign In</a>
 	</main>
+	{{#unless Template.subscriptionsReady}}
+		{{> loading}}
+	{{/unless}}
 </template>

@@ -39,5 +39,8 @@
 			<p class="m-tn-18 txt-gray-darkest">Your account is paused. You are not being billed nor do you have acces to your data. You may unpause your account at any time.</p>
 		{{/if}}
 	</main>
+	{{#unless Template.subscriptionsReady}}
+		{{> loading}}
+	{{/unless}}
 	{{> navbar }}
 </template>

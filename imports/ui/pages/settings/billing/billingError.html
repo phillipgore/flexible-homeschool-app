@@ -20,8 +20,12 @@
 
 			<footer class="toolbar toolbar-bottom toolbar-gray">
 				<a href="#" class="js-sign-out btn btn-gray-darker fl-tn-left">Sign Out</a>
-				<button type="submit" class="fl-tn-right">Update</button>
+				<button type="submit" class="js-submit fl-tn-right">Update</button>
 			</footer>
 		</form>
 	</main>
+	{{#unless Template.subscriptionsReady}}
+		{{> loading}}
+	{{/unless}}
+	{{> updating}}
 </template>

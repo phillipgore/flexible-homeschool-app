@@ -1,6 +1,6 @@
 <template name="schoolYearsView">
 	{{> dialog}}
-	{{> toolbarView dynamicToolbarLabel=dynamicToolbarLabel}}
+	{{> toolbarView}}
 	<main class="app-content no-subbar app-content-preceeds-toolbar">
 		<div class="p-tn-9">
 			<ul class="info-list">
@@ -15,5 +15,8 @@
 			</ul>
 		</div>
 	</main>
+	{{#unless Template.subscriptionsReady}}
+		{{> loading}}
+	{{/unless}}
 	{{> navbar }}
 </template>

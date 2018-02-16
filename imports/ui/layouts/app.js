@@ -6,6 +6,9 @@ import './app.html';
 
 
 // Components
+import '../components/loading.js';
+import '../components/saving.js';
+import '../components/updating.js';
 import '../components/dialog.js';
 import '../components/toolbar.js';
 import '../components/toolbarLogo.html';

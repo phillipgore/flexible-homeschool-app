@@ -12,7 +12,7 @@ Template.resourcesView.onRendered( function() {
 	Session.set({
 		leftUrl: '/planning/resources/list',
 		leftIcon: 'fss-back',
-		label: '',
+		label: 'Resource',
 		editUrl: '',
 		deleteClass: 'js-delete-resource',
 	});
@@ -24,11 +24,6 @@ Template.resourcesView.onRendered( function() {
 Template.resourcesView.helpers({
 	resource: function() {
 		return Resources.findOne({_id: FlowRouter.getParam('id')});
-	},
-	
-	dynamicToolbarLabel: function() {
-		let resouce = Resources.findOne({_id: FlowRouter.getParam('id')});
-		return resouce && resouce.title;
 	},
 
 	dynamicToolbarEditUrl: function() {

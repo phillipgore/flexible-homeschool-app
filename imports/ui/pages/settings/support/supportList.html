@@ -6,5 +6,8 @@
 			<h1 class="m-tn-t-27">Coming Soon</h1>
 		</div>
 	</main>
+	{{#unless Template.subscriptionsReady}}
+		{{> loading}}
+	{{/unless}}
 	{{> navbar }}
 </template>

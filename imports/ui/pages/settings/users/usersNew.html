@@ -55,8 +55,11 @@
 
 			<footer class="toolbar toolbar-bottom toolbar-gray">
 				<a href="{{pathFor 'usersList'}}" class="btn btn-gray-darker fl-tn-left">Cancel</a>
-				<button type="submit" class="fl-tn-right">Create User</button>
+				<button type="submit" class="js-submit fl-tn-right">Create User</button>
 			</footer>
 		</form>
 	</main>
+	{{#unless Template.subscriptionsReady}}
+		{{> loading}}
+	{{/unless}}
 </template>

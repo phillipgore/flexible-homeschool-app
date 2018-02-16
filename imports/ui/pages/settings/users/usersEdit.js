@@ -27,7 +27,10 @@ Template.usersEdit.onRendered( function() {
 			lastName: { required: "Required." },
 			email: { required: "Required.", email: "Please enter a valid email address." },
 		},
-		submitHandler() {	
+		submitHandler() {
+			$('.js-loading').show();
+			$('.js-submit').prop('disabled', true);
+	
 			const userProperties = {
 				"emails.0.address": event.target.email.value.trim(),
 				info: {
@@ -45,6 +48,9 @@ Template.usersEdit.onRendered( function() {
 						iconClass: 'fss-danger',
 						message: error.reason,
 					});
+					
+					$('.js-loading').hide();
+					$('.js-submit').prop('disabled', false);
 				} else {
 					FlowRouter.go('/settings/users/view/' + FlowRouter.getParam('id'));
 				}

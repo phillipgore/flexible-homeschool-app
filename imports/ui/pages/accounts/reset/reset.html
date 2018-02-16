@@ -8,8 +8,12 @@
 			<p class="txt-tn-center">Enter the email associated with your account and we will send you a link to reset your password.</p>
 
 			<footer class="toolbar toolbar-bottom toolbar-gray">
-				<button type="submit" class="fl-tn-right">Send Email</button>
+				<button type="submit" class="js-submit fl-tn-right">Send Email</button>
 			</footer>
 		</form>
 	</main>
+	{{#unless Template.subscriptionsReady}}
+		{{> loading}}
+	{{/unless}}
+	{{> saving}}
 </template>

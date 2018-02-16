@@ -31,7 +31,10 @@ Template.usersNew.onRendered( function() {
 			password: { required: "Required." },
 			retypePassword: { required: "Required.", equalTo: "Passwords do not match." },
 		},
-		submitHandler() {	
+		submitHandler() {
+			$('.js-loading').show();
+			$('.js-submit').prop('disabled', true);
+	
 			const user = {
 				email: event.target.email.value.trim(),
 				password: event.target.password.value.trim(),
@@ -60,6 +63,9 @@ Template.usersNew.onRendered( function() {
 							iconClass: 'fss-danger',
 							message: error.reason,
 						});
+					
+						$('.js-loading').hide();
+						$('.js-submit').prop('disabled', false);
 					}
 				} else {
 					FlowRouter.go('/settings/users/verify/sent');

@@ -36,6 +36,9 @@ Template.studentsEdit.onRendered( function() {
 		},		
 
 		submitHandler() {
+			$('.js-loading').show();
+			$('.js-submit').prop('disabled', true);
+
 			const studentProperties = {
 				firstName: event.target.firstName.value.trim(),
 				middleName: event.target.middleName.value.trim(),
@@ -60,6 +63,9 @@ Template.studentsEdit.onRendered( function() {
 						iconClass: 'fss-danger',
 						message: error.reason,
 					});
+					
+					$('.js-loading').hide();
+					$('.js-submit').prop('disabled', false);
 				} else {
 					FlowRouter.go('/planning/students/view/' + FlowRouter.getParam('id'));
 				}

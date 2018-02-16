@@ -1,0 +1,39 @@
+.loading-container {
+	position: absolute;
+	top: 50px;
+	right: 0px;
+	left: 0px;
+	bottom: 51px;
+	z-index: 4000;
+	background-color: $color-white;
+
+	&.loading-saving, &.loading-updating {
+		display: none;
+	}
+
+	.loader {		
+		padding-top: 40%;
+		text-align: center;
+
+		.loader-icon {
+			margin: 0px auto;
+			width: 45px;
+			height: 45px;
+			padding-top: 10px;
+			border-radius: 3px;
+			background-color: $color-gray-lightest;
+			border: 1px solid $color-gray-darker;
+			color: $color-gray-darkest;
+			font-size: 23px;
+			text-align: center;
+		}
+
+		.loader-message {
+			margin-top: 18px;
+			font-size: 16px;
+			text-align: center;
+			font-weight: 400;
+			color: $color-gray-darkest;
+		}
+	}
+}

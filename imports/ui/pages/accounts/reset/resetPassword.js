@@ -11,7 +11,10 @@ Template.resetPassword.onRendered( function() {
 			password: { required: "Required." },
 			retypePassword: { required: "Required.", equalTo: "Passwords do not match." },
 		},
-		submitHandler() {	
+		submitHandler() {
+			$('.js-loading').show();
+			$('.js-submit').prop('disabled', true);
+	
 			const password = event.target.password.value.trim();
 
 			Accounts.resetPassword(FlowRouter.getParam('token'), password, function(error) {
@@ -21,6 +24,9 @@ Template.resetPassword.onRendered( function() {
 						iconClass: 'fss-danger',
 						message: error.reason,
 					});
+					
+					$('.js-loading').hide();
+					$('.js-submit').prop('disabled', false);
 				} else {
 					FlowRouter.go('/reset/success');
 				}

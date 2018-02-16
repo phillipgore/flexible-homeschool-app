@@ -6,4 +6,7 @@
 		<h1>Password Reset Sent</h1>
 		<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36">We sent you an email with a password reset link.</p>
 	</main>
+	{{#unless Template.subscriptionsReady}}
+		{{> loading}}
+	{{/unless}}
 </template>
