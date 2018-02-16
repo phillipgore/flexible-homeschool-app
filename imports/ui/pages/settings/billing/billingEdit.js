@@ -149,7 +149,12 @@ Template.billingEdit.events({
 									$('.js-loading').hide();
 									$('.js-submit').prop('disabled', false);
 								} else {
-									FlowRouter.go('/planning/list');
+									FlowRouter.go('/settings/billing/list');
+									Alerts.insert({
+										colorClass: 'bg-info',
+										iconClass: 'fss-info',
+										message: 'Your card has been updated.',
+									});
 								}
 							});
 						}
