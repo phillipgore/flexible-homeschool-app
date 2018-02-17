@@ -1,10 +1,17 @@
 <template name="navbar">
 	<nav class="navbar row">
 		<div class="col-tn-1of4">
-			<a class="js-btn-nav js-btn-nav-planning-list btn-nav {{active 'planningList'}}" href="{{pathFor 'planningList'}}">
-				<i class="fss-planning btn-nav-icon"></i>
-				<div class="btn-nav-label">Planning</div>
-			</a>
+			{{#if userRestricted user.info.role}}
+				<span data-section="planning" data-role="{{user.info.role}}" class="js-navbar-restricted btn-nav disabled">
+					<i class="fss-planning btn-nav-icon"></i>
+					<div class="btn-nav-label">Planning</div>
+				</span>
+			{{else}}
+				<a class="js-btn-nav js-btn-nav-planning-list btn-nav {{active 'planningList'}}" href="{{pathFor 'planningList'}}">
+					<i class="fss-planning btn-nav-icon"></i>
+					<div class="btn-nav-label">Planning</div>
+				</a>
+			{{/if}}
 		</div>
 		<div class="col-tn-1of4">
 			<a class="js-btn-nav js-btn-nav-tracking-list btn-nav {{active 'trackingList'}}" href="{{pathFor 'trackingList'}}">

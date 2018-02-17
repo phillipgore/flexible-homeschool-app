@@ -1,0 +1,14 @@
+.view-icon {
+	position: relative;
+	z-index: 60;
+	width: 72px;
+	height: 72px;
+	border-radius: 36px;
+	padding-top: 11px;
+	margin: -36px auto 12px;
+	border: 6px solid $color-gray-dark;
+	background-color: $color-white;
+	color: $color-gray-dark;
+	text-align: center;
+	font-size: 36px;
+}

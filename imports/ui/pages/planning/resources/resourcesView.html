@@ -1,64 +1,38 @@
 <template name="resourcesView">
 	{{> dialog}}
 	{{> toolbarView dynamicToolbarEditUrl=dynamicToolbarEditUrl}}	
-	<main class="app-content no-subbar app-content-preceeds-toolbar">
-		<div class="p-tn-9">
-			<ul class="info-list">
-				<li class="list-item txt-capitalize">
-					<span class="list-item-label">Type:</span> 
-					{{resource.type}}
-				</li>
-				<li class="list-item">
-					<span class="list-item-label">Availability:</span> 
-					{{availabilityStatment resource.availability}}
-				</li>
-				<li class="list-item">
-					<span class="list-item-label">Title:</span> 
-					{{resource.title}}
-				</li>
-				{{#if resource.author}}
-				<li class="list-item">
-					<span class="list-item-label">Author:</span> 
-					{{resource.author}}
-				</li>
-				{{/if}}
-				{{#if resource.director}}
-				<li class="list-item">
-					<span class="list-item-label">Director:</span> 
-					{{resource.director}}
-				</li>
-				{{/if}}
-				{{#if resource.artist}}
-				<li class="list-item">
-					<span class="list-item-label">Artist:</span> 
-					{{resource.artist}}
-				</li>
-				{{/if}}
-				{{#if resource.publisher}}
-				<li class="list-item">
-					<span class="list-item-label">Publisher:</span> 
-					{{resource.publisher}}
-				</li>
-				{{/if}}
-				{{#if resource.publicationDate}}
-				<li class="list-item">
-					<span class="list-item-label">Publication Date:</span> 
-					{{dateFormat resource.publicationDate}}
-				</li>
-				{{/if}}
-				{{#if resource.link}}
-				<li class="list-item">
-					<span class="list-item-label">Link:</span> 
-					{{resource.link}}
-				</li>
-				{{/if}}
-				{{#if resource.description}}
-				<li class="list-item">
-					<span class="list-item-label">Description:</span> 
-					{{resource.description}}
-				</li>
-				{{/if}}
-			</ul>
+	<main class="app-content no-subbar app-content-preceeds-toolbar txt-tn-center">
+		<div class="view-icon">
+			<i class="{{resourceIcon resource.type}}"></i>
+		</div>
+		<h1 class="m-tn-b-3">{{resource.title}}</h1>
+		{{#if resource.availability}}
+			<p class="p-sm font-weight-400 txt-gray-darkest m-tn-h-9">
+				{{availabilityStatment resource.availability}}
+			</p>
+		{{/if}}
+		<div class="bg-gray-lighter  m-tn-t-72 p-tn-18">				
+			{{#if resource.author}}
+				<h3 class="m-tn-b-6">Author: {{resource.author}}</h3>
+			{{/if}}
+			{{#if resource.director}}
+				<h3 class="m-tn-b-6">Director: {{resource.director}}</h3>
+			{{/if}}
+			{{#if resource.artist}}
+				<h3 class="m-tn-b-6">Artist: {{resource.artist}}</h3>
+			{{/if}}
+			{{#if resource.publisher}}
+				<h3 class="m-tn-b-6">Publisher: {{resource.publisher}}</h3>
+			{{/if}}
+			{{#if resource.publicationDate}}
+				<h3 class="m-tn-b-6">Publication Date: {{dateFormat resource.publicationDate}}</h3>
+			{{/if}}
+			{{#if resource.link}}
+				<h3 class="m-tn-b-6">{{resource.link}}</h3>
+			{{/if}}
+			{{#if resource.description}}
+				<h3>Description: {{resource.description}}</h3>
+			{{/if}}
 		</div>
 	</main>
 	{{#unless Template.subscriptionsReady}}

@@ -1,28 +1,17 @@
 <template name="studentsView">
 	{{> dialog}}
 	{{> toolbarView}}
-	<main class="app-content no-subbar app-content-preceeds-toolbar">
-		<div class="p-tn-9">
-			<ul class="info-list">
-				<li class="list-item">
-					<span class="list-item-label">First:</span> 
-					{{student.firstName}}{{#if preferredFirstName student.preferredFirstName.type 'firstName'}}*{{/if}}
-				</li>
-				<li class="list-item">
-					<span class="list-item-label">Middle:</span> 
-					{{student.middleName}}{{#if preferredFirstName student.preferredFirstName.type 'middleName'}}*{{/if}}
-				</li>
-				<li class="list-item">
-					<span class="list-item-label">Last:</span> {{student.lastName}}
-				</li>
-				<li class="list-item">
-					<span class="list-item-label">Nickname:</span> 
-					{{student.nickname}}{{#if preferredFirstName student.preferredFirstName.type 'nickname'}}*{{/if}}
-				</li>
-				<li class="list-item">
-					<span class="list-item-label">Birthday:</span> {{dateFormat student.birthday}}
-				</li>
-			</ul>
+	<main class="app-content no-subbar app-content-preceeds-toolbar txt-tn-center">
+		<div class="view-icon">
+			<i class="fss-students"></i>
+		</div>
+		<h1 class="m-tn-b-3">{{student.preferredFirstName.name}} {{student.lastName}}</h1>
+		<p class="p-sm font-weight-400 txt-gray-darkest m-tn-h-9 m-tn-b-72">
+			{{student.firstName}} {{student.middleName}} {{student.lastName}} ({{student.nickname}})
+		</p>
+		<div class="bg-gray-lighter p-tn-18">
+			<h3 class="m-tn-b-6">{{dateFormat student.birthday}}</h3>
+			<h3>Age: {{age student.birthday}}</h3>
 		</div>
 	</main>
 	{{#unless Template.subscriptionsReady}}

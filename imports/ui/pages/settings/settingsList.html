@@ -3,21 +3,36 @@
 	<main class="app-content no-subbar app-content-preceeds-toolbar bg-gray-lightest">
 		<ul class="list">
 			<li class="list-item">
-				<a href="/settings/users/list" class="list-item-link bg-white p-tn-rl-9">
-					<div class="list-item-icon"><i class="txt-primary fss-users"></i></div> 
-					<div class="list-item-label">Users</div>
-				</a>
+				{{#if userRestricted user.info.role}}
+					<span data-section="users" data-role="{{user.info.role}}" class="js-restricted list-item-inner disabled bg-white p-tn-rl-9">
+						<div class="list-item-icon"><i class="fss-users"></i></div> 
+						<div class="list-item-label">Users</div>
+					</span>
+				{{else}}
+					<a href="/settings/users/list" class="list-item-link bg-white p-tn-rl-9">
+						<div class="list-item-icon"><i class="fss-users"></i></div> 
+						<div class="list-item-label">Users</div>
+					</a>
+				{{/if}}
 			</li>
 			<li class="list-item">
-				<a href="/settings/billing/list" class="list-item-link bg-white p-tn-rl-9">
-					<div class="list-item-icon"><i class="txt-primary fss-billing"></i></div> 
-					<div class="list-item-label">Billing</div>
-					{{#if group.stripePaymentAttempt}}<div class="list-item-badge"></div>{{/if}}
-				</a>
+				{{#if userRestricted user.info.role}}
+					<span data-section="billing" data-role="{{user.info.role}}" class="js-restricted list-item-inner disabled bg-white p-tn-rl-9">
+						<div class="list-item-icon"><i class="fss-billing"></i></div> 
+						<div class="list-item-label">Billing</div>
+						{{#if group.stripePaymentAttempt}}<div class="list-item-badge"></div>{{/if}}
+					</span>
+				{{else}}
+					<a href="/settings/billing/list" class="list-item-link bg-white p-tn-rl-9">
+						<div class="list-item-icon"><i class="fss-billing"></i></div> 
+						<div class="list-item-label">Billing</div>
+						{{#if group.stripePaymentAttempt}}<div class="list-item-badge"></div>{{/if}}
+					</a>
+				{{/if}}
 			</li>
 			<li class="list-item">
 				<a href="/settings/support/list" class="list-item-link bg-white p-tn-rl-9">
-					<div class="list-item-icon"><i class="txt-primary fss-support"></i></div> 
+					<div class="list-item-icon"><i class="fss-support"></i></div> 
 					<div class="list-item-label">Support</div>
 				</a>
 			</li>
@@ -29,6 +44,7 @@
 				</a>
 			</li>
 		</ul>
+		<div class="js-role dis-tn-none">{{user.info.role}}</div>
 	</main>
 	{{#unless Template.subscriptionsReady}}
 		{{> loading}}

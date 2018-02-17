@@ -12,7 +12,7 @@ Template.resourcesView.onRendered( function() {
 	Session.set({
 		leftUrl: '/planning/resources/list',
 		leftIcon: 'fss-back',
-		label: 'Resource',
+		label: '',
 		editUrl: '',
 		deleteClass: 'js-delete-resource',
 	});
@@ -24,6 +24,24 @@ Template.resourcesView.onRendered( function() {
 Template.resourcesView.helpers({
 	resource: function() {
 		return Resources.findOne({_id: FlowRouter.getParam('id')});
+	},
+
+	resourceIcon: function(resource) {
+		if (resource === 'app') {
+			return 'fss-app';
+		}
+		if (resource === 'audio') {
+			return 'fss-audio';
+		}
+		if (resource === 'book') {
+			return 'fss-book';
+		}
+		if (resource === 'link') {
+			return 'fss-link';
+		}
+		if (resource === 'video') {
+			return 'fss-video';
+		}
 	},
 
 	dynamicToolbarEditUrl: function() {

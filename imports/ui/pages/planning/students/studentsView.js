@@ -12,7 +12,7 @@ Template.studentsView.onRendered( function() {
 	Session.set({
 		leftUrl: '/planning/students/list',
 		leftIcon: 'fss-back',
-		label: 'Student',
+		label: '',
 		editUrl: '/planning/students/edit/' + FlowRouter.getParam('id'),
 		deleteClass: 'js-delete-student',
 	});

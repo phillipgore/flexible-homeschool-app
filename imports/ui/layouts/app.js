@@ -1,5 +1,5 @@
 import {Template} from 'meteor/templating';
-// import { Groups } from '../../api/groups/groups.js';
+import { Groups } from '../../api/groups/groups.js';
 
 // Application
 import './app.html';
@@ -81,6 +81,7 @@ import '../pages/settings/settingsList.js';
 	import '../pages/settings/users/usersView.js';
 	import '../pages/settings/users/usersEdit.js';
 	import '../pages/settings/users/usersVerifySent.js';
+	import '../pages/settings/users/usersRestricted.js';
 	// Support
 	import '../pages/settings/support/supportList.js';
 	// Billing
@@ -90,6 +91,12 @@ import '../pages/settings/settingsList.js';
 	import '../pages/settings/billing/billingEdit.js';
 
 Alerts = new Mongo.Collection(null);
+
+Template.app.onCreated( function() {
+	// Subscriptions
+	const userData = this.subscribe('userData');
+	const groupStatus = this.subscribe('groupStatus');
+});
 
 Template.app.helpers({
 	alerts: function() {

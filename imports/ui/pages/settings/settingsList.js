@@ -4,7 +4,6 @@ import './settingsList.html';
 
 Template.settingsList.onCreated( function() {
 	// Subscriptions
-	this.subscribe('signedInUser');
 	this.subscribe('group');
 });
 
@@ -27,12 +26,29 @@ Template.settingsList.helpers({
 		return Meteor.users.findOne();
 	},
 
+	userRestricted: function(role) {
+		if (role === 'Observer' || role === 'User') {
+			return true;
+		}
+		return false;
+	},
+
 	group: function() {
 		return Groups.findOne({});
 	},
 });
 
 Template.settingsList.events({
+	'click .js-restricted '(event) {
+		let role = $(event.currentTarget).attr('data-role');
+		let section = $(event.currentTarget).attr('data-section');
+		Alerts.insert({
+			colorClass: 'bg-info',
+			iconClass: 'fss-info',
+			message: 'The role of "' + role + '" is not allowed to access the ' + section + ' section.',
+		});
+	},
+
 	'click .js-sign-out'(event) {
 		event.preventDefault();
 		Accounts.logout(function(error) {

@@ -56,6 +56,15 @@ FlowRouter.route('/settings/users/edit/:id', {
 	},
 });
 
+FlowRouter.route('/settings/users/restricted', {
+	name: 'usersRestricted',
+	action() {
+		BlazeLayout.render('app', {
+			main: 'usersRestricted',
+		});
+	},
+});
+
 
 
 

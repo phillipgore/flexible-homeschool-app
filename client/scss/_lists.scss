@@ -34,6 +34,7 @@ ul.list {
 				font-size: 18px;
 				margin-right: 9px;
 				text-align: center;
+				color: $color-primary;
 			}
 
 			.list-item-label {
@@ -91,6 +92,16 @@ ul.list {
 					content: "\e925";
 					display: inline-block;
     				animation: rotation 1.5s infinite linear;
+				}
+			}
+
+			&.disabled {
+				.list-item-icon {
+					color: $color-gray-dark;
+				}
+
+				.list-item-label {
+					color: $color-gray-darker;
 				}
 			}
 

@@ -11,7 +11,7 @@ Template.usersView.onRendered( function() {
 	Session.set({
 		leftUrl: '/settings/users/list',
 		leftIcon: 'fss-back',
-		label: 'User',
+		label: '',
 		editUrl: '/settings/users/edit/' + FlowRouter.getParam('id'),
 	});
 

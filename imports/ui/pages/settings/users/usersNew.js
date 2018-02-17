@@ -43,8 +43,6 @@ Template.usersNew.onRendered( function() {
 					lastName: event.target.lastName.value.trim(),
 					relationshipToStudents: event.target.relationshipToStudents.value.trim(),
 					role: event.target.role.value.trim(),
-				},
-				group: {
 					groupId: event.target.groupId.value.trim(),
 				},
 				status: {

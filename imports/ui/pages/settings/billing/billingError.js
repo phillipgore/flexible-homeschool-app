@@ -7,7 +7,6 @@ import './billingError.html';
 Template.billingError.onCreated( function() {
 	// Subscriptions
 	this.subscribe('group');
-	this.subscribe('signedInUser');
 });
 
 Template.billingError.onRendered( function() {

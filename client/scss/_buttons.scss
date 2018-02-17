@@ -157,4 +157,13 @@ button, .btn {
 			color: $color-primary;
 		}
 	}
+
+	&.disabled {
+		color: $color-gray-darker;
+
+		.btn-nav-icon {
+			color: $color-gray-dark;
+		}
+
+	}
 }
