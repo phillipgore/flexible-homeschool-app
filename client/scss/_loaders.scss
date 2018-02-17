@@ -16,16 +16,22 @@
 		text-align: center;
 
 		.loader-icon {
+			position: relative;
 			margin: 0px auto;
 			width: 45px;
 			height: 45px;
-			padding-top: 10px;
 			border-radius: 3px;
 			background-color: $color-gray-lightest;
 			border: 1px solid $color-gray-darker;
 			color: $color-gray-darkest;
 			font-size: 23px;
 			text-align: center;
+
+			i {
+				position: absolute;
+				top: 11px;
+				left: 11px;
+			}
 		}
 
 		.loader-message {
