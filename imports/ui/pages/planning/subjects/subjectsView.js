@@ -1,10 +1,16 @@
 import {Template} from 'meteor/templating';
 import { Subjects } from '../../../../api/subjects/subjects.js';
+import { Students } from '../../../../api/students/students.js';
+import { Resources } from '../../../../api/resources/resources.js';
+import { SchoolYears } from '../../../../api/schoolYears/schoolYears.js';
+import { Terms } from '../../../../api/terms/terms.js';
+import { Weeks } from '../../../../api/weeks/weeks.js';
+import { Lessons } from '../../../../api/lessons/lessons.js';
 import './subjectsView.html';
 
 Template.subjectsView.onCreated( function() {
 	// Subscriptions
-	this.subscribe('subject', FlowRouter.getParam('id'));
+	this.subscribe('subjectComplete', FlowRouter.getParam('id'));
 });
 
 Template.subjectsView.onRendered( function() {
@@ -24,6 +30,31 @@ Template.subjectsView.onRendered( function() {
 Template.subjectsView.helpers({
 	subject: function() {
 		return Subjects.findOne({_id: FlowRouter.getParam('id')});
+	},
+
+	student: function() {
+		return Students.findOne();
+	},
+
+	resources: function() {
+		return Resources.find();
+	},
+
+	schoolYear: function() {
+		return SchoolYears.findOne();
+	},
+
+	terms: function() {
+		return Terms.find();
+	},
+
+	termLessons: function(termId) {
+		let weekIds = Weeks.find({termId: termId}).map(week => week._id);
+		let lessonCount = Lessons.find({weekId: {$in: weekIds}}).fetch().length;
+		if (lessonCount === 1) {
+			return lessonCount + ' Lesson';
+		}
+		return lessonCount + ' Lessons';
 	},
 });
 

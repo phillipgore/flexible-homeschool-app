@@ -2,7 +2,7 @@ import {Template} from 'meteor/templating';
 import './schoolYearsEdit.html';
 
 Template.schoolYearsEdit.onCreated( function() {
-	
+	this.subscribe('schoolYearComplete', FlowRouter.getParam('id'));
 });
 
 Template.schoolYearsEdit.onRendered( function() {

@@ -1,13 +1,12 @@
 import {Template} from 'meteor/templating';
 import { SchoolYears } from '../../../../api/schoolYears/schoolYears.js';
 import { Terms } from '../../../../api/terms/terms.js';
+import { Weeks } from '../../../../api/weeks/weeks.js';
 import './schoolYearsView.html';
 
 Template.schoolYearsView.onCreated( function() {
 	// Subscriptions
-	this.subscribe('schoolYear', FlowRouter.getParam('id'));
-	this.subscribe('schoolYearsTerms', FlowRouter.getParam('id'));
-
+	this.subscribe('schoolYearComplete', FlowRouter.getParam('id'));
 });
 
 Template.schoolYearsView.onRendered( function() {
@@ -30,7 +29,15 @@ Template.schoolYearsView.helpers({
 	},
 
 	terms: function() {
-		return Terms.find({schoolYearId: FlowRouter.getParam('id')})
+		return Terms.find({schoolYearId: FlowRouter.getParam('id')});
+	},
+
+	termWeeks: function(termId) {
+		let weekCount = Weeks.find({termId: termId}).fetch().length;
+		if (weekCount === 1) {
+			return weekCount + ' Week';
+		}
+		return weekCount + ' Weeks';
 	},
 });
 

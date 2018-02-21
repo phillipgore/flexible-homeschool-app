@@ -28,6 +28,7 @@ Template.schoolYearsNew.onRendered( function() {
 		rules: {
 			startYear: { required: true, number: true, date: true },
 			endYear: { number: true, date: true },
+			weeksPerTerm1: { required: true, number: true },
 		},
 		messages: {
 			startYear: { 
@@ -40,6 +41,10 @@ Template.schoolYearsNew.onRendered( function() {
 				number: "Must be a valid 4 digit year.",
 				date: "Must be a valid 4 digit year.",
 			},
+			weeksPerTerm1: { 
+				required: "Must have at least one term.", 
+				number: "Must be a valid 4 digit year.",
+			},
 		},		
 
 		submitHandler() {
@@ -48,11 +53,17 @@ Template.schoolYearsNew.onRendered( function() {
 
 			let termProperties = []
 
-			event.target.weeksPerTerm.forEach(function(weeks, index) {
+			// event.target.weeksPerTerm.forEach(function(weeks, index) {
+			// 	if (weeks.value) {
+			// 		termProperties.push({order: parseInt(index + 1), weeksPerTerm: parseInt(weeks.value)})
+			// 	}
+			// })
+
+			$(event.target).find('.js-weeks-per-term').each(function(index, weeks) {
 				if (weeks.value) {
 					termProperties.push({order: parseInt(index + 1), weeksPerTerm: parseInt(weeks.value)})
 				}
-			})
+			});
 
 			const schoolYearProperties = {
 				startYear: event.target.startYear.value.trim(),

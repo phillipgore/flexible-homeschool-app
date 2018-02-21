@@ -20,7 +20,25 @@ Template.registerHelper('stripeDateFormat', (date) => {
 });
 
 Template.registerHelper('age', (date) => {
-  return moment().diff(date, 'years');
+	let years = moment().diff(date, 'years');
+	if (years === 1) {
+		return years + ' Year Old';
+	}
+	return years + ' Years Old';
+});
+
+Template.registerHelper('sPlural', (number) => {
+	if (number === 1) {
+		return '';
+	}
+	return 's';
+});
+
+Template.registerHelper('esPlural', (number) => {
+	if (number === 1) {
+		return '';
+	}
+	return 'es';
 });
 
 Template.registerHelper('centsToDollars', ( cents ) => {

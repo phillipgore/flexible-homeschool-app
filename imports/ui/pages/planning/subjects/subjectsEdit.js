@@ -341,7 +341,7 @@ Template.subjectsEdit.events({
 				type: 'addResource',
 				colorClass: 'bg-warning',
 				iconClass: 'fss-warning',
-				message: localResource.title + ' is already attached to this subject.',
+				message: '"' +localResource.title + '" is already attached to this subject.',
 			});
 		} else {
 			LocalResources.insert({id: resource._id, type: resource.type, title: resource.title});

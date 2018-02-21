@@ -2,15 +2,40 @@
 	{{> dialog}}
 	{{> toolbarView}}
 	<main class="app-content no-subbar app-content-preceeds-toolbar txt-tn-center">
-		<div class="view-icon">
-			<i class="fss-subjects"></i>
+		<div class="view-heading">
+			<div class="view-icon">
+				<i class="fss-subjects"></i>
+			</div>
+			<div class="view-title">
+				<h1 class="m-tn-b-3">{{subject.name}}</h1>
+				<h3 class="txt-gray-darkest">
+					{{student.preferredFirstName.name}} {{student.lastName}}
+				</h3>
+			</div>
 		</div>
-		<h1 class="m-tn-b-3">{{subject.name}}</h1>
-		<!-- <p class="p-sm font-weight-400 txt-gray-darkest m-tn-h-9">
+		
+		<div class="view-info m-tn-rl-9 m-tn-b-36 p-tn-18 txt-tn-left">
+			{{#if resources}}
+				<label>Description</label>
+				<p>{{subject.description}}</p>
+			{{/if}}
 
-		</p> -->
-		<div class="bg-gray-lighter p-tn-18 m-tn-t-72">
-			<h3>{{subject.description}}</h3>
+			{{#if resources}}
+				<label class="p-tn-b-12">Resources</label>
+				<ul class="info-list">
+					{{#each resource in resources}}
+						<li class="list-item"><i class="fss-{{resource.type}} txt-primary"></i> {{resource.title}}</li>
+					{{/each}}
+				</ul>
+			{{/if}}
+
+			<label>School Year</label>
+			<p>{{schoolYear.startYear}} - {{schoolYear.endYear}}</p>
+			
+			{{#each term in terms}}
+				<label>Term {{term.order}}</label>
+				<p>{{termLessons term._id}}</p>
+			{{/each}}
 		</div>
 	</main>
 	{{#unless Template.subscriptionsReady}}

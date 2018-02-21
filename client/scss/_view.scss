@@ -1,14 +1,82 @@
-.view-icon {
-	position: relative;
+.view-heading {
+	position: fixed;
+	top: 50px;
+	left: 0px;
+	right: 0px;
 	z-index: 60;
-	width: 72px;
-	height: 72px;
-	border-radius: 36px;
-	padding-top: 11px;
-	margin: -36px auto 12px;
-	border: 6px solid $color-gray-dark;
-	background-color: $color-white;
-	color: $color-gray-dark;
-	text-align: center;
-	font-size: 36px;
+	padding-bottom: 9px;
+	background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 95%, rgba(255,255,255,0) 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(255,255,255,1) 95%,rgba(255,255,255,0) 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(255,255,255,1) 95%,rgba(255,255,255,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff',GradientType=0 ); /* IE6-9 */
+
+	.view-icon {
+		position: absolute;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		width: 72px;
+		height: 72px;
+		border-radius: 36px;
+		padding-top: 11px;
+		border: 6px solid $color-gray-dark;
+		background-color: $color-white;
+		color: $color-gray-dark;
+		text-align: center;
+		font-size: 36px;
+	}
+
+	.view-title {
+		margin: 45px 9px 0px;
+		text-align: center;
+	}
+}
+
+.view-info {
+	border-radius: 3px;
+	background-color: $color-gray-lightest;
+	border: 1px solid $color-gray-dark;
+	margin-top: 121px;
+
+	label {
+		display: block;
+		font-size: 12px;
+		font-weight: 500;
+		margin: 0px;
+		padding: 0px;
+		color: $color-primary;
+	}
+
+	p {
+		margin-bottom: 18px;
+
+		&:last-of-type, 
+		&:last-child,
+		&:only-of-type,
+		&:only-child, {
+			margin-bottom: 0px;
+		}
+	}
+
+	a {
+		margin-bottom: 18px;
+		color: $color-black;
+		font-size: 16px;
+		padding: 0px;
+		line-height: 1.25;
+		font-weight: 300;
+		text-decoration: none;
+		display: block;
+
+		i {
+			color: $color-primary;
+		}
+
+		&:hover {
+			color: $color-primary;
+
+			i {
+				color: $color-gray-darkest;
+			}
+		}
+	}
 }

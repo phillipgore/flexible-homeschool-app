@@ -2,36 +2,55 @@
 	{{> dialog}}
 	{{> toolbarView dynamicToolbarEditUrl=dynamicToolbarEditUrl}}	
 	<main class="app-content no-subbar app-content-preceeds-toolbar txt-tn-center">
-		<div class="view-icon">
-			<i class="{{resourceIcon resource.type}}"></i>
+		<div class="view-heading">
+			<div class="view-icon">
+				<i class="{{resourceIcon resource.type}}"></i>
+			</div>
+			<div class="view-title">
+				<h1 class="m-tn-b-3">{{resource.title}}</h1>
+				{{#if resource.availability}}
+					<h3 class="p-sm txt-gray-darkest">
+						{{availabilityStatment resource.availability}}
+					</h3>
+				{{/if}}
+			</div>
 		</div>
-		<h1 class="m-tn-b-3">{{resource.title}}</h1>
-		{{#if resource.availability}}
-			<p class="p-sm font-weight-400 txt-gray-darkest m-tn-h-9">
-				{{availabilityStatment resource.availability}}
-			</p>
-		{{/if}}
-		<div class="bg-gray-lighter  m-tn-t-72 p-tn-18">				
+		<div class="view-info m-tn-rl-9 m-tn-b-36 p-tn-18 txt-tn-left">
 			{{#if resource.author}}
-				<h3 class="m-tn-b-6">Author: {{resource.author}}</h3>
+				<label>Author</label>
+				<p>{{resource.author}}</p>
 			{{/if}}
+
 			{{#if resource.director}}
-				<h3 class="m-tn-b-6">Director: {{resource.director}}</h3>
+				<label>Director</label>
+				<p>{{resource.director}}</p>
 			{{/if}}
+
 			{{#if resource.artist}}
-				<h3 class="m-tn-b-6">Artist: {{resource.artist}}</h3>
+				<label>Artist</label>
+				<p>{{resource.artist}}</p>
 			{{/if}}
+
 			{{#if resource.publisher}}
-				<h3 class="m-tn-b-6">Publisher: {{resource.publisher}}</h3>
+				<label>Publisher</label>
+				<p>{{resource.publisher}}</p>
 			{{/if}}
+
 			{{#if resource.publicationDate}}
-				<h3 class="m-tn-b-6">Publication Date: {{dateFormat resource.publicationDate}}</h3>
+				<label>Publication Date</label>
+				<p>{{dateFormat resource.publicationDate}}</p>
 			{{/if}}
+
 			{{#if resource.link}}
-				<h3 class="m-tn-b-6">{{resource.link}}</h3>
+				<label>Link</label>
+				<a href="{{resource.link}}" target="_blank" class="txt-ellipsis">
+					<i class="fss-link"></i> {{resource.link}}
+				</a>
 			{{/if}}
+			
 			{{#if resource.description}}
-				<h3>Description: {{resource.description}}</h3>
+				<label>Description</label>
+				<p>{{resource.description}}</p>
 			{{/if}}
 		</div>
 	</main>

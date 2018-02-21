@@ -2,16 +2,23 @@
 	{{> dialog}}
 	{{> toolbarView}}
 	<main class="app-content no-subbar app-content-preceeds-toolbar txt-tn-center">
-		<div class="view-icon">
-			<i class="fss-school-years"></i>
+		<div class="view-heading">
+			<div class="view-icon">
+				<i class="fss-school-years"></i>
+			</div>
+			<div class="view-title">
+				<h1 class="m-tn-b-3">{{schoolYear.startYear}} - {{schoolYear.endYear}}</h1>
+				<h3 class="p-sm txt-gray-darkest">
+					{{terms.count}} Term{{sPlural terms.count}}
+				</h3>
+			</div>
 		</div>
-		<h1 class="m-tn-b-3">{{schoolYear.startYear}} - {{schoolYear.endYear}}</h1>
-		<p class="p-sm font-weight-400 txt-gray-darkest m-tn-h-9 m-tn-b-72">
-			{{terms.count}} Terms
-		</p>
-		<div class="bg-gray-lighter p-tn-18">
-			<h3 class="m-tn-b-6">Weeks: </h3>
-			<h3 class="m-tn-b-6">Subjects: </h3>
+		
+		<div class="view-info m-tn-rl-9 m-tn-b-36 p-tn-18 txt-tn-left">
+			{{#each term in terms}}
+				<label>Term {{term.order}}</label>
+				<p>{{termWeeks term._id}}</p>
+			{{/each}}
 		</div>
 	</main>
 	{{#unless Template.subscriptionsReady}}

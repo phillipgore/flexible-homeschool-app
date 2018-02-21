@@ -2,22 +2,30 @@
 	{{> dialog}}
 	{{> toolbarUsersView}}
 	<main class="app-content no-subbar app-content-preceeds-toolbar txt-tn-center">
-		<div class="view-icon">
-			<i class="fss-users"></i>
+		<div class="view-heading">
+			<div class="view-icon">
+				<i class="fss-users"></i>
+			</div>
+			<div class="view-title">
+				<h1 class="m-tn-b-3">{{user.info.firstName}} {{user.info.lastName}}</h1>
+				<h3 class="p-sm txt-gray-darkest">
+					{{user.info.relationshipToStudents}}
+				</h3>
+			</div>
 		</div>
-		<h1 class="m-tn-b-3">{{user.info.firstName}} {{user.info.lastName}}</h1>
-		<p class="p-sm font-weight-400 txt-gray-darkest m-tn-h-9 m-tn-b-72">
-			{{user.info.relationshipToStudents}}
-		</p>
-		<div class="bg-gray-lighter p-tn-18">
-			<h3 class="m-tn-b-6">{{user.emails.[0].address}}</h3>
-			<h3 class="m-tn-b-6">Role: {{user.info.role}}</h3>
+		<div class="view-info m-tn-rl-9 m-tn-b-36 p-tn-18 txt-tn-left">
+			<label>Email</label>
+			<a href="mailto:{{user.emails.[0].address}}" class="txt-ellipsis">
+				<i class="fss-email"></i> {{user.emails.[0].address}}
+			</a>
+			<label>Role</label>
+			<p class="m-tn-b-6">{{user.info.role}}</p>
 		</div>
-		<div class="txt-tn-center m-tn-t-30">
-			{{#unless user.emails.[0].verified}}
+		{{#unless user.emails.[0].verified}}
+			<div class="txt-tn-center m-tn-t-30">
 				<a href="" class="btn">Resend Verification Email</a>
-			{{/unless}}
-		</div>
+			</div>
+		{{/unless}}
 	</main>
 	{{#unless Template.subscriptionsReady}}
 		{{> loading}}

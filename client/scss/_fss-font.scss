@@ -23,6 +23,9 @@ i {
     -moz-osx-font-smoothing: grayscale;
 }
 
+.fss-email:before {
+  content: "\e932";
+}
 .fss-actions:before {
   content: "\e900";
 }

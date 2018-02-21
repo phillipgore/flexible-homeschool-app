@@ -19,7 +19,7 @@
 					<label class="col-tn-3of11">Terms</label>
 					<label class="col-tn-8of11">Total Weeks: <span class="js-total"></span></label>
 				</div>
-				<div class="js-term-inputs m-tn-b-neg-12">
+				<div class="js-term-inputs m-tn-b-neg-6">
 					{{#each localTerm in localTerms}}
 						<div class="js-term-input row">
 							<div class="font-weight-400 col-tn-3of11 p-tn-t-9 p-tn-r-6">
@@ -27,7 +27,7 @@
 							</div>
 							<div class="col-tn-8of11 pos-relative p-tn-r-36">
 								<input type="hidden" name="order" id="order" value="{{indexIncrement @index}}">
-								<input class="js-weeks-per-term" type="number" name="weeksPerTerm" id="weeks-per-term" placeholder="12" autocomplete="off" maxlength="2">
+								<input class="js-weeks-per-term" type="number" name="weeksPerTerm{{indexIncrement @index}}" id="weeks-per-term" placeholder="12" autocomplete="off" maxlength="2">
 								<span class="pos-absolute pos-top-right p-tn-t-3">
 									<a href="#" id="{{localTerm._id}}" class="js-term-delete btn btn-circle btn-secondary fl-tn-right" tabindex="-1">
 										<i class="fss-close"></i>
