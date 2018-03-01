@@ -20,9 +20,6 @@ Template.schoolYearsNew.onRendered( function() {
 		rightIcon: '',
 	});
 
-	// Navbar Settings
-	Session.set('activeNav', 'planningList');
-
 	// Form Validation and Submission
 	$('.js-form-school-year-new').validate({
 		rules: {
@@ -51,24 +48,17 @@ Template.schoolYearsNew.onRendered( function() {
 			$('.js-loading').show();
 			$('.js-submit').prop('disabled', true);
 
+			const schoolYearProperties = {
+				startYear: event.target.startYear.value.trim(),
+				endYear: event.target.endYear.value.trim(),
+			}
+
 			let termProperties = []
-
-			// event.target.weeksPerTerm.forEach(function(weeks, index) {
-			// 	if (weeks.value) {
-			// 		termProperties.push({order: parseInt(index + 1), weeksPerTerm: parseInt(weeks.value)})
-			// 	}
-			// })
-
 			$(event.target).find('.js-weeks-per-term').each(function(index, weeks) {
 				if (weeks.value) {
 					termProperties.push({order: parseInt(index + 1), weeksPerTerm: parseInt(weeks.value)})
 				}
 			});
-
-			const schoolYearProperties = {
-				startYear: event.target.startYear.value.trim(),
-				endYear: event.target.endYear.value.trim(),
-			}
 
 			Meteor.call('insertSchoolYear', schoolYearProperties, function(error, schoolYearId) {
 				if (error) {
@@ -103,7 +93,7 @@ Template.schoolYearsNew.onRendered( function() {
 								    weekProperties.push({order: i + 1, termId: termId});
 								}
 
-								Meteor.call('insertWeeks', weekProperties, function(error) {
+								Meteor.call('batchInsertWeeks', weekProperties, function(error) {
 									if (error) {
 										Alerts.insert({
 											colorClass: 'bg-danger',

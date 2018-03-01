@@ -20,5 +20,5 @@ Meteor.methods({
 		lessonIds.forEach(function(lessonId, index) {
 			Lessons.remove(lessonId);
 		});
-	}
+	},
 })

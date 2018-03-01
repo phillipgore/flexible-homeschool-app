@@ -53,4 +53,34 @@ export function requiredValidation(input) {
 		return true;
 	}
 	return false;
+};
+
+export function yearValidation(year) {
+	let yearArray = year.split('');
+	let digits = ['1', '2', '3', '4', '5', '6', '7', '9', '0'];
+	let digitCheck = false;
+
+	yearArray.forEach((digit) => {
+		if (digits.indexOf(digit) === -1) {
+			digitCheck = false
+		}
+		digitCheck = true;
+	})
+
+	if (yearArray.length === 4 && digitCheck === true && yearArray[0] != '0') {
+		return true;
+	}
+	return false;
 }
+
+
+
+
+
+
+
+
+
+
+
+

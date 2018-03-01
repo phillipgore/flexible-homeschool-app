@@ -1,7 +1,7 @@
 <template name="schoolYearsNew">
 	{{> toolbar}}
 	<main class="app-content no-subbar app-content-preceeds-toolbar">
-		<form class="js-form-school-year-new row m-tn-t-18 m-tn-h-18 | m-xs-h-72">
+		<form class="js-form-school-year-new row m-tn-t-18 m-tn-h-18 | m-xs-h-72" novalidate>
 
 			<div class="row m-tn-b-6">
 				<div class="col-tn-1of2 p-tn-r-3">
@@ -28,6 +28,7 @@
 							<div class="col-tn-8of11 pos-relative p-tn-r-36">
 								<input type="hidden" name="order" id="order" value="{{indexIncrement @index}}">
 								<input class="js-weeks-per-term" type="number" name="weeksPerTerm{{indexIncrement @index}}" id="weeks-per-term" placeholder="12" autocomplete="off" maxlength="2">
+								<label class="error js-weeks-per-term-errors"></label>
 								<span class="pos-absolute pos-top-right p-tn-t-3">
 									<a href="#" id="{{localTerm._id}}" class="js-term-delete btn btn-circle btn-secondary fl-tn-right" tabindex="-1">
 										<i class="fss-close"></i>
