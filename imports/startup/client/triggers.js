@@ -1,11 +1,14 @@
 import { Groups } from '../../api/groups/groups.js';
+import { Students } from '../../api/students/students.js';
+import { SchoolYears } from '../../api/schoolYears/schoolYears.js';
 var userData = Meteor.subscribe('userData');
 var groupStatus = Meteor.subscribe('groupStatus');
+var planningStatusCounts = Meteor.subscribe('planningStatusCounts');
 
 FlowRouter.wait();
 
 Tracker.autorun(() => {
-	if (userData.ready() && groupStatus.ready() && !FlowRouter._initialized) {
+	if (userData.ready() && groupStatus.ready() && planningStatusCounts.ready() && !FlowRouter._initialized) {
 		FlowRouter.initialize()
 	}
 });
@@ -55,6 +58,33 @@ function creditCardData(context) {
 		cardExpiry: 'none',
 		postalCode: 'none',
 	});
+};
+
+function checkSubjectsAvailable(context) {
+	let studentsCount = Students.find().count();
+	let schoolYearsCount = SchoolYears.find().count();
+
+	if (!studentsCount || !schoolYearsCount) {
+		FlowRouter.redirect('/planning/list');
+		function count(count) {
+			if (count === 0) {
+				return 'no';
+			}
+			return count;
+		}
+		function label(count, label) {
+			if (count === 1) {
+				return label;
+			}
+			return label + 's';
+		}
+		Alerts.insert({
+			colorClass: 'bg-info',
+			iconClass: 'fss-info',
+			message: 'You currently have ' + count(studentsCount) +' '+ label(studentsCount, 'Student') + ' and ' + count(schoolYearsCount) +' '+ label(schoolYearsCount, 'School Year') + '. You must have at least one of each to work with Subjects.',
+		});
+
+	}
 };
 
 FlowRouter.triggers.enter([checkSignIn], {only: ['createAccount', 'verifySent', 'signIn', 'reset', 'resetSent', 'resetPassword']});
@@ -115,6 +145,5 @@ FlowRouter.triggers.enter([checkRoleObserver], {only: [
 	'subjectsEdit',
 ]});
 
-
-
+FlowRouter.triggers.enter([checkSubjectsAvailable], {only: ['subjectsList', 'subjectsNew', 'subjectsView', 'subjectsEdit']});
 

@@ -1,8 +1,9 @@
 import './browser-policy.js';
 import './accounts.js';
-import './fixtures.js';
 import './stripe.js';
 import './endpoints.js';
+
+import '../../api/counts/server/publications.js';
 
 import '../../api/groups/groups.js';
 import '../../api/groups/methods.js';

@@ -2,17 +2,39 @@
 	{{> toolbar}}
 	<main class="app-content no-subbar app-content-preceeds-toolbar">
 		<ul class="list">
-			{{#each item in items}}
-				{{#if item.divider}}
-					<li class="list-spacer"></li>
-				{{/if}}
+			<li class="list-item">
+				<a href="/planning/students/list" class="list-item-link p-tn-rl-9">
+					<div class="list-item-icon"><i class="txt-primary fss-students"></i></div> 
+					<div class="list-item-label">Students</div>
+				</a>
+			</li>
+			<li class="list-item">
+				<a href="/planning/schoolyears/list" class="list-item-link p-tn-rl-9">
+					<div class="list-item-icon"><i class="txt-primary fss-school-years"></i></div> 
+					<div class="list-item-label">School Years</div>
+				</a>
+			</li>
+			<li class="list-item">
+				<a href="/planning/resources/list" class="list-item-link p-tn-rl-9">
+					<div class="list-item-icon"><i class="txt-primary fss-resources"></i></div> 
+					<div class="list-item-label">Resources</div>
+				</a>
+			</li>
+			{{#if subjectAvailable}}
 				<li class="list-item">
-					<a href="{{item.url}}" class="{{item.classes}} list-item-link p-tn-rl-9">
-						<div class="list-item-icon"><i class="txt-primary {{item.icon}}"></i></div> 
-						<div class="list-item-label">{{item.label}}</div>
+					<a href="/planning/subjects/list" class="list-item-link p-tn-rl-9">
+						<div class="list-item-icon"><i class="txt-primary fss-subjects"></i></div> 
+						<div class="list-item-label">Subjects</div>
 					</a>
 				</li>
-			{{/each}}
+			{{else}}
+				<li class="list-item">
+					<a href="/planning/subjects/list" class="list-item-link p-tn-rl-9">
+						<div class="list-item-icon"><i class="txt-gray-dark fss-subjects"></i></div> 
+						<div class="list-item-label txt-gray-darker">Subjects</div>
+					</a>
+				</li>
+			{{/if}}
 		</ul>
 	</main>
 	{{#unless Template.subscriptionsReady}}

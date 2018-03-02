@@ -1,8 +1,8 @@
 <template name="usersView">
 	{{> dialog}}
 	{{> toolbarUsersView}}
-	<main class="app-content no-subbar app-content-preceeds-toolbar txt-tn-center">
-		<div class="view-heading">
+	<main class="app-content no-subbar app-content-preceeds-toolbar">
+		<div class="view-heading m-tn-h-9 m-tn-v-21">
 			<div class="view-icon">
 				<i class="fss-users"></i>
 			</div>
@@ -13,7 +13,7 @@
 				</h3>
 			</div>
 		</div>
-		<div class="view-info m-tn-rl-9 m-tn-b-36 p-tn-18 txt-tn-left">
+		<div class="view-info m-tn-rl-9 m-tn-b-36 p-tn-18">
 			<label>Email</label>
 			<a href="mailto:{{user.emails.[0].address}}" class="txt-ellipsis">
 				<i class="fss-email"></i> {{user.emails.[0].address}}

@@ -14,7 +14,7 @@ Template.schoolYearsView.onRendered( function() {
 	Session.set({
 		leftUrl: '/planning/schoolYears/list',
 		leftIcon: 'fss-back',
-		label: '',
+		label: 'School Year',
 		editUrl: '/planning/schoolyears/edit/' + FlowRouter.getParam('id'),
 		deleteClass: 'js-delete-school-year',
 	});

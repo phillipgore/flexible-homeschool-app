@@ -15,5 +15,5 @@ Meteor.methods({
 
 	deleteStudent: function(studentId) {
 		Students.update(studentId, {$set: {deletedOn: new Date()}});
-	}
+	},
 })

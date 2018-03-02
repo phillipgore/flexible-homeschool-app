@@ -1,8 +1,8 @@
 <template name="resourcesView">
 	{{> dialog}}
 	{{> toolbarView dynamicToolbarEditUrl=dynamicToolbarEditUrl}}	
-	<main class="app-content no-subbar app-content-preceeds-toolbar txt-tn-center">
-		<div class="view-heading">
+	<main class="app-content no-subbar app-content-preceeds-toolbar">
+		<div class="view-heading m-tn-h-9 m-tn-v-21">
 			<div class="view-icon">
 				<i class="{{resourceIcon resource.type}}"></i>
 			</div>
@@ -15,7 +15,7 @@
 				{{/if}}
 			</div>
 		</div>
-		<div class="view-info m-tn-rl-9 m-tn-b-36 p-tn-18 txt-tn-left">
+		<div class="view-info m-tn-rl-9 m-tn-b-36 p-tn-18">
 			{{#if resource.author}}
 				<label>Author</label>
 				<p>{{resource.author}}</p>

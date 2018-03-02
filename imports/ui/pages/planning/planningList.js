@@ -1,5 +1,12 @@
 import {Template} from 'meteor/templating';
+import { Students } from '../../../api/students/students.js';
+import { SchoolYears } from '../../../api/schoolYears/schoolYears.js';
 import './planningList.html';
+
+Template.planningList.onCreated( function() {
+	// Subscriptions
+	this.subscribe('planningStatusCounts');
+});
 
 Template.planningList.onRendered( function() {
 	// Toolbar Settings
@@ -22,5 +29,12 @@ Template.planningList.helpers({
 		{divider: false, classes: '', icon: 'fss-school-years', label: 'School Years', url: '/planning/schoolyears/list'},
 		{divider: false, classes: '', icon: 'fss-resources', label: 'Resources', url: '/planning/resources/list'},
 		{divider: false, classes: '', icon: 'fss-subjects', label: 'Subjects', url: '/planning/subjects/list'},
-	]
+	],
+
+	subjectAvailable: function() {
+		if (Students.find().count() && SchoolYears.find().count()) {
+			return true;
+		}
+		return false;
+	},
 });

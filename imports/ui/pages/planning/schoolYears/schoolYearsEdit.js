@@ -320,15 +320,6 @@ Template.schoolYearsEdit.events({
 				}
 			});
 
-			// console.log('Term Lessons Delete: ' + lessonDeleteIds.length);
-			// console.log('Term Weeks Delete: ' + weekDeleteIds.length);
-			// console.log('Terms Delete: ' + termDeleteIds.length);
-
-			// console.log('Terms Update: ' + JSON.stringify(termUpdateProperties, undefined, 2));
-			// console.log('Terms Insert: ' + JSON.stringify(termInsertProperties, undefined, 2));
-			// console.log('Weeks Insert: ' + JSON.stringify(weekInsertProperties, undefined, 2));
-			// console.log('Lessons Update: ' + JSON.stringify(lessonUpdateProperties, undefined, 2));
-
 			Meteor.call('updateSchoolYear', FlowRouter.getParam('id'), schoolYearProperties, function(error) {
 				if (error) {
 					Alerts.insert({

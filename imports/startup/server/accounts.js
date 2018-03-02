@@ -1,3 +1,5 @@
+import {Groups} from '../../api/groups/groups.js';
+
 process.env.MAIL_URL = Meteor.settings.private.mailUrl;
 
 Accounts.config({

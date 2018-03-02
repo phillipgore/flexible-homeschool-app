@@ -18,7 +18,7 @@ Template.subjectsView.onRendered( function() {
 	Session.set({
 		leftUrl: '/planning/subjects/list',
 		leftIcon: 'fss-back',
-		label: '',
+		label: 'Subject',
 		editUrl: '/planning/subjects/edit/' + FlowRouter.getParam('id'),
 		deleteClass: 'js-delete-subject',
 	});

@@ -1,16 +1,24 @@
 <template name="studentsList">
 	{{> toolbar}}
 	<main class="app-content no-subbar app-content-preceeds-toolbar">
-		<ul class="list">
-			{{#each student in students}}
-				<li class="list-item">
-					<a href="/planning/students/view/{{student._id}}" class="list-item-link p-tn-rl-9">
-						<div class="list-item-icon"><i class="txt-primary fss-students"></i></div> 
-						<div class="list-item-label">{{student.preferredFirstName.name}} {{student.lastName}}</div>
-					</a>
-				</li>
-			{{/each}}
-		</ul>
+		{{#if students.count}}
+			<ul class="list">
+				{{#each student in students}}
+					<li class="list-item">
+						<a href="/planning/students/view/{{student._id}}" class="list-item-link p-tn-rl-9">
+							<div class="list-item-icon"><i class="txt-primary fss-students"></i></div> 
+							<div class="list-item-label">{{student.preferredFirstName.name}} {{student.lastName}}</div>
+						</a>
+					</li>
+				{{/each}}
+			</ul>
+		{{else}}
+			<div class="txt-tn-center m-tn-t-72">
+				<i class="fss-students font-size-64 txt-gray"></i>
+				<h1 class="m-tn-t-36">Add Your First Student</h1>
+				<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36">Click the plus icon above to add your first Student.</p>
+			</div>
+		{{/if}}
 	</main>
 	{{#unless Template.subscriptionsReady}}
 		{{> loading}}

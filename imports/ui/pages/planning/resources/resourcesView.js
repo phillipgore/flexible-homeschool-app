@@ -12,7 +12,7 @@ Template.resourcesView.onRendered( function() {
 	Session.set({
 		leftUrl: '/planning/resources/list',
 		leftIcon: 'fss-back',
-		label: '',
+		label: 'Resource',
 		editUrl: '',
 		deleteClass: 'js-delete-resource',
 	});

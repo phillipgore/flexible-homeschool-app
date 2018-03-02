@@ -1,16 +1,24 @@
 <template name="schoolYearsList">
 	{{> toolbar}}
 	<main class="app-content no-subbar app-content-preceeds-toolbar">
-		<ul class="list">
-			{{#each schoolYear in schoolYears}}
-				<li class="list-item">
-					<a href="/planning/schoolyears/view/{{schoolYear._id}}" class="list-item-link p-tn-rl-9">
-						<div class="list-item-icon"><i class="txt-primary fss-school-years"></i></div> 
-						<div class="list-item-label">{{schoolYear.startYear}}-{{schoolYear.endYear}}</div>
-					</a>
-				</li>
-			{{/each}}
-		</ul>
+		{{#if schoolYears.count}}
+			<ul class="list">
+				{{#each schoolYear in schoolYears}}
+					<li class="list-item">
+						<a href="/planning/schoolyears/view/{{schoolYear._id}}" class="list-item-link p-tn-rl-9">
+							<div class="list-item-icon"><i class="txt-primary fss-school-years"></i></div> 
+							<div class="list-item-label">{{schoolYear.startYear}}-{{schoolYear.endYear}}</div>
+						</a>
+					</li>
+				{{/each}}
+			</ul>
+		{{else}}
+			<div class="txt-tn-center m-tn-t-72">
+				<i class="fss-school-years font-size-64 txt-gray"></i>
+				<h1 class="m-tn-t-36">Add Your First School Year</h1>
+				<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36">Click the plus icon above to add your first School Year.</p>
+			</div>
+		{{/if}}
 	</main>
 	{{#unless Template.subscriptionsReady}}
 		{{> loading}}

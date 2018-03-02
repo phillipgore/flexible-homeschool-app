@@ -122,8 +122,8 @@ Template.subjectsEdit.onRendered( function() {
 					let overLessons = removeLessonIds.length - dif;
 					Alerts.insert({
 						colorClass: 'bg-danger',
-							iconClass: 'fss-danger',
-							message: "These changes would delete lessons you have already worked on. Add at least " + overLessons + " lessons to the subject.",
+						iconClass: 'fss-danger',
+						message: "These changes would delete lessons you have already worked on. Add at least " + overLessons + " lessons to the subject.",
 					});
 					return false;
 				}
