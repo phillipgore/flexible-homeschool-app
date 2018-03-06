@@ -5,6 +5,14 @@
 	"private": {
 		"stripe": "sk_test_0nq9Rcs12kkEN5xNfdNzd6Pw",
 		"mailUrl": "smtp://All%20Natural%20Apps:GiItv6X41AWalXp38bHt2Q@smtp.mandrillapp.com:587",
-		"freeCode": "43d7a54e-1012-40ab-b188-f7bd92f018fb"
+		"freeCode": "43d7a54e-1012-40ab-b188-f7bd92f018fb",
+		"appAdmin": {
+			"email": "admin@allnaturalapps.com",
+			"password": "6578ayanal6578"
+		},
+		"dev": {
+			"email": "dev@test.com",
+			"password": "dev"
+		}
 	}
 }

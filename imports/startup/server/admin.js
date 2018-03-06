@@ -4,8 +4,8 @@ import {Groups} from '../../api/groups/groups.js';
 if (!Groups.find({appAdmin: true}).count()) {	
 	let users = [
 		{
-			email: 'admin@allnaturalapps.com',
-			password: '6578ayanal6578',
+			email: Meteor.settings.private.appAdmin.email,
+			password: Meteor.settings.private.appAdmin.password,
 			info: {
 				firstName: 'Phillip',
 				lastName: 'Gore',
@@ -19,8 +19,8 @@ if (!Groups.find({appAdmin: true}).count()) {
 			}
 		},
 		{
-			email: 'dev@test.com',
-			password: 'dev',
+			email: Meteor.settings.private.dev.email,
+			password: Meteor.settings.private.dev.password,
 			info: {
 				firstName: 'Test',
 				lastName: 'Account',
