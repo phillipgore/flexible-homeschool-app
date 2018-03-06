@@ -60,7 +60,11 @@ Template.subbarYearStudent.events({
 		event.preventDefault();
 
 		let schoolYearId = $(event.currentTarget).attr('id');
-		Session.set('selectedSchoolYear', SchoolYears.findOne({_id: schoolYearId}))
+		if (schoolYearId === 'all-years') {
+			Session.set('selectedSchoolYear', {_id: 'all-years', startYear: 'All', endYear: 'Years'})
+		} else {
+			Session.set('selectedSchoolYear', SchoolYears.findOne({_id: schoolYearId}))
+		}
 	},
 
 	'click .js-students'(event) {

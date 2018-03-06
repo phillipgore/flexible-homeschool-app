@@ -21,7 +21,18 @@ Template.resourcesList.onRendered( function() {
 
 Template.resourcesList.helpers({
 	resources: function() {
-		return Resources.find({}, {sort: {title: 1}});
+		let typeId = Session.get('selectedType') && Session.get('selectedType')._id;
+		let availabilityId = Session.get('selectedAvailability') && Session.get('selectedAvailability')._id;
+		if (typeId === 'all-types' && availabilityId != 'all-availabilities') {
+			return Resources.find({availability: availabilityId}, {sort: {title: 1}});
+		}
+		if (typeId != 'all-types' && availabilityId === 'all-availabilities') {
+			return Resources.find({type: typeId}, {sort: {title: 1}});
+		}
+		if (typeId === 'all-types' && availabilityId === 'all-availabilities') {
+			return Resources.find({}, {sort: {title: 1}});
+		}
+		return Resources.find({type: typeId, availability: availabilityId}, {sort: {title: 1}});
 	},
 });
 

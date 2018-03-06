@@ -1,0 +1,46 @@
+<template name="subbarTypeAvailability">
+	<asside class="subbar">
+		<div class="row">
+			<div class="col-tn-1of2">
+				<a id="{{selectedType._id}}" href="#types" class="js-dropdown btn-sub">
+					{{selectedType.label}} <i class="fss-caret-down"></i>
+				</a>
+			</div>
+			<div class="col-tn-1of2">
+				<a id="{{selectedType._id}}" href="#availabilities" class="js-dropdown btn-sub last">
+					{{selectedAvailability.label}} <i class="fss-caret-down"></i>
+				</a>
+			</div>
+		</div>
+	</asside>
+
+	<ul id="types" class="dropdown-menu dropdown-sub m-tn-rl-9 hide">
+		{{#each type in types}}
+			<li class="dropdown-item">
+				<a id="{{type._id}}" class="js-types dropdown-item-link" href="#">
+					<div class="dropdown-item-label">{{type.label}}</div>
+					{{#if activeListItem selectedType._id type._id}}
+						<div class="dropdown-item-icon-right">
+							<i class="fss-planning txt-gray-darker"></i>
+						</div>
+					{{/if}}
+				</a>
+			</li>
+		{{/each}}
+	</ul>
+
+	<ul id="availabilities" class="dropdown-menu dropdown-sub m-tn-rl-9 hide">
+		{{#each availability in availabilities}}
+			<li class="dropdown-item">
+				<a id="{{availability._id}}" class="js-availabilities dropdown-item-link" href="#">
+					<div class="dropdown-item-label">{{availability.label}}</div>
+					{{#if activeListItem selectedAvailability._id availability._id}}
+						<div class="dropdown-item-icon-right">
+							<i class="fss-planning txt-gray-darker"></i>
+						</div>
+					{{/if}}
+				</a>
+			</li>
+		{{/each}}
+	</ul>
+</template>

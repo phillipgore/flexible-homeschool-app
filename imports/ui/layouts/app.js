@@ -18,6 +18,7 @@ import '../components/toolbarView.js';
 import '../components/subbarAccounts.html';
 import '../components/subbarYearTerm.html';
 import '../components/subbarYearStudent.js';
+import '../components/subbarTypeAvailability.js';
 import '../components/subbar.html';
 import '../components/navbar.js';
 import '../components/creditCard.js';

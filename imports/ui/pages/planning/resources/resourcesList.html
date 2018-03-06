@@ -1,6 +1,7 @@
 <template name="resourcesList">
 	{{> toolbarResources}}
-	<main class="app-content no-subbar app-content-preceeds-toolbar">
+	{{> subbarTypeAvailability}}
+	<main class="app-content app-content-preceeds-toolbar">
 		{{#if resources.count}}
 			<ul class="list">
 				{{#each resource in resources}}

@@ -25,7 +25,11 @@ Template.subjectsList.onRendered( function() {
 
 Template.subjectsList.helpers({
 	subjects: function() {
-		return Subjects.find({studentId: Session.get('selectedStudent')._id, schoolYearId: Session.get('selectedSchoolYear')._id}, {sort: {studentId: 1, order: 1}});
+		if (Session.get('selectedSchoolYear') && Session.get('selectedSchoolYear')._id === 'all-years') {
+			return Session.get('selectedStudent') && Subjects.find({studentId: Session.get('selectedStudent')._id}, {sort: {order: 1}});
+		} else {
+			return Session.get('selectedStudent') && Subjects.find({studentId: Session.get('selectedStudent')._id, schoolYearId: Session.get('selectedSchoolYear')._id}, {sort: {order: 1}});
+		}
 	},
 });
 
