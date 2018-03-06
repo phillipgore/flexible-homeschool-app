@@ -114,31 +114,13 @@ Template.billingList.events({
 					iconClass: 'fss-danger',
 					message: error.reason,
 				});
+				$('.list-item-loading').hide();
 			} else {
-				let date = new Date(result.current_period_end * 1000);
-				let subscriptionPausedOn = date.toUTCString();
-
-				let groupProperties = {
-					subscriptionStatus: 'pausePending', 
-					subscriptionPausedOn: subscriptionPausedOn,
-				}
-
-				Meteor.call('updateGroup', groupId, groupProperties, function(error) {
-					if (error) {
-						Alerts.insert({
-							colorClass: 'bg-danger',
-							iconClass: 'fss-danger',
-							message: error.reason,
-						});
-						$('.list-item-loading').hide();
-					} else {
-						Alerts.insert({
-							colorClass: 'bg-info',
-							iconClass: 'fss-info',
-							message: 'Your account has been paused. You may unpause it at anytime.',
-						});
-						$('.list-item-loading').hide();
-					}
+				$('.list-item-loading').hide();
+				Alerts.insert({
+					colorClass: 'bg-info',
+					iconClass: 'fss-info',
+					message: 'Your account has been paused. You may unpause it at anytime.',
 				});
 			}
 		})
@@ -159,27 +141,11 @@ Template.billingList.events({
 				});
 				$('.list-item-loading').hide();
 			} else {
-				let groupProperties = {
-					subscriptionStatus: 'active',
-					stripeSubscriptionId: result.id,
-				}
-
-				Meteor.call('updateGroup', groupId, groupProperties, function(error) {
-					if (error) {
-						Alerts.insert({
-							colorClass: 'bg-danger',
-							iconClass: 'fss-danger',
-							message: error.reason,
-						});
-						$('.list-item-loading').hide();
-					} else {
-						Alerts.insert({
-							colorClass: 'bg-info',
-							iconClass: 'fss-info',
-							message: 'Your account has been unpaused. Welcome back.',
-						});
-						$('.list-item-loading').hide();
-					}
+				$('.list-item-loading').hide();
+				Alerts.insert({
+					colorClass: 'bg-info',
+					iconClass: 'fss-info',
+					message: 'Your account has been unpaused. Welcome back.',
 				});
 			}
 		})

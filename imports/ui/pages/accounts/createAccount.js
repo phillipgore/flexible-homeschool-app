@@ -32,9 +32,10 @@ Template.createAccount.events({
 		$('.js-loading').show();
 		$('.js-submit').prop('disabled', true);
 
-		let groupProperties = {
-			subscriptionStatus: 'pending',
-		}
+
+		// let groupProperties = {
+		// 	subscriptionStatus: 'pending',
+		// }
 
 		let user = {
 			email: event.target.email.value.trim(),
@@ -141,7 +142,7 @@ Template.createAccount.events({
 
 		
 		if (cardValidation() && accountForm.indexOf(false) === -1) {
-			Meteor.call('insertGroup', groupProperties, function(error, groupId) {
+			Meteor.call('insertGroup', function(error, groupId) {
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',
@@ -170,9 +171,8 @@ Template.createAccount.events({
 								if (result.error) {
 									FlowRouter.go('/verify/sent');
 								} else {
-									let cardId = result.token.card.id
 									subscriptionProperties.customer.source = result.token.id;
-									Meteor.call('createSubscription', subscriptionProperties, function(error, updatedGroupProperties) {
+									Meteor.call('createSubscription', groupId, result.token.card.id, subscriptionProperties, function(error, updatedGroupProperties) {
 										if (error) {
 											Alerts.insert({
 												colorClass: 'bg-danger',
@@ -183,21 +183,7 @@ Template.createAccount.events({
 											$('.js-loading').hide();
 											$('.js-submit').prop('disabled', false);
 										} else {
-											updatedGroupProperties.stripeCardId = cardId
-											Meteor.call('updateGroup', groupId, updatedGroupProperties, function(error) {
-												if (error) {
-													Alerts.insert({
-														colorClass: 'bg-danger',
-														iconClass: 'fss-danger',
-														message: error.reason,
-													});
-					
-													$('.js-loading').hide();
-													$('.js-submit').prop('disabled', false);
-												} else {
-													FlowRouter.go('/verify/sent');
-												}
-											});
+											FlowRouter.go('/verify/sent');
 										}
 									});
 								}

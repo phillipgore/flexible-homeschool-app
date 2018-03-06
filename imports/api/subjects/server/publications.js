@@ -36,8 +36,10 @@ Meteor.publish('subjectComplete', function(subjectId) {
 	return [
 		Subjects.find({groupId: groupId, deletedOn: { $exists: false }, _id: subjectId}),
 		Resources.find({groupId: groupId, deletedOn: { $exists: false }, _id: {$in: subject.resources}}),
+		
 		Students.find({groupId: groupId, deletedOn: { $exists: false }, _id: subject.studentId}),
 		SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }, _id: subject.schoolYearId}),
+
 		Terms.find({groupId: groupId, deletedOn: { $exists: false }, schoolYearId: subject.schoolYearId}, {sort: {order: 1}}),
 		Weeks.find({groupId: groupId, deletedOn: { $exists: false }, termId: {$in: termIds}}, {sort: {order: 1}}),
 		Lessons.find({groupId: groupId, deletedOn: { $exists: false }, subjectId: subject._id}, {sort: {order: 1}}),

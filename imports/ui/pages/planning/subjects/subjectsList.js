@@ -1,10 +1,12 @@
 import {Template} from 'meteor/templating';
 import { Subjects } from '../../../../api/subjects/subjects.js';
+import { Students } from '../../../../api/students/students.js';
 import './subjectsList.html';
 
 Template.subjectsList.onCreated( function() {
 	// Subscriptions
 	this.subscribe('allSubjects');
+	this.subscribe('allStudents');
 });
 
 Template.subjectsList.onRendered( function() {
@@ -23,7 +25,7 @@ Template.subjectsList.onRendered( function() {
 
 Template.subjectsList.helpers({
 	subjects: function() {
-		return Subjects.find({}, {sort: {order: 1}});
+		return Subjects.find({studentId: Session.get('selectedStudent')._id, schoolYearId: Session.get('selectedSchoolYear')._id}, {sort: {studentId: 1, order: 1}});
 	},
 });
 

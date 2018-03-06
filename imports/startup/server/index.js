@@ -1,7 +1,9 @@
 import './browser-policy.js';
 import './accounts.js';
+import './admin.js';
 import './stripe.js';
 import './endpoints.js';
+import './fixtures.js';
 
 import '../../api/counts/server/publications.js';
 

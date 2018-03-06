@@ -51,6 +51,16 @@ const GroupsSchema = new SimpleSchema({
         label: "Subscription Error Message",
         optional: true
     },
+    appAdmin: {
+        type: Boolean,
+        label: "Application Admin Group",
+        defaultValue: false,
+    },
+    testData: {
+        type: Boolean,
+        label: "Test Data",
+        defaultValue: false,
+    },
 	createdOn: {
 		type: Date,
 		label: "Created On Date",

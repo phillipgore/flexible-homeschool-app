@@ -39,6 +39,9 @@ ul.list {
 
 			.list-item-label {
 				padding-right: 28px;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
 
 				.list-item-sublabel {
 					font-size: 12px;

@@ -74,9 +74,8 @@ Template.billingError.events({
 				if (result.error) {
 					FlowRouter.go('/settings/billing/error');
 				} else {
-					let cardId = result.token.card.id
 					subscriptionProperties.customer.source = result.token.id;
-					Meteor.call('createSubscription', subscriptionProperties, function(error, updatedGroupProperties) {
+					Meteor.call('createSubscription', subscriptionProperties.customer.metadata.groupId, result.token.card.id, subscriptionProperties, function(error, updatedGroupProperties) {
 						if (error) {
 							Alerts.insert({
 								colorClass: 'bg-danger',
@@ -87,21 +86,7 @@ Template.billingError.events({
 							$('.js-loading').hide();
 							$('.js-submit').prop('disabled', false);
 						} else {
-							updatedGroupProperties.stripeCardId = cardId
-							Meteor.call('updateGroup', subscriptionProperties.customer.metadata.groupId, updatedGroupProperties, function(error) {
-								if (error) {
-									Alerts.insert({
-										colorClass: 'bg-danger',
-										iconClass: 'fss-danger',
-										message: error.reason,
-									});
-					
-									$('.js-loading').hide();
-									$('.js-submit').prop('disabled', false);
-								} else {
-									FlowRouter.go('/planning/list');
-								}
-							});
+							FlowRouter.go('/planning/list');
 						}
 					});
 				}

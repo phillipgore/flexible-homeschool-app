@@ -5,10 +5,11 @@ const stripe = stripePackage(Meteor.settings.private.stripe);
 
 
 Meteor.methods({
-	createSubscription: async function(subscriptionProperties) {
+	createSubscription: async function(groupId, cardId, subscriptionProperties) {
 
 		let updatedGroupProperties = {
 			subscriptionStatus: 'pending',
+			stripeCardId: cardId,
 		};
 
 		let result = await stripe.customers.create(
@@ -24,37 +25,53 @@ Meteor.methods({
 			updatedGroupProperties.subscriptionStatus = 'active';
 			updatedGroupProperties.stripeSubscriptionId = subscription.id;
 			updatedGroupProperties.subscriptionErrorMessage = null;
-
-			return updatedGroupProperties
 		}).catch((error) => {
 			updatedGroupProperties.subscriptionStatus = 'error';
 			updatedGroupProperties.subscriptionErrorMessage = error.raw.message;
-
-			return updatedGroupProperties;
 		});
 
-		return result;
+		Groups.update(groupId, {$set: updatedGroupProperties}, function(error, result) {
+			if (error) {
+				throw new Meteor.Error(500, error);
+			} else {
+				return result;
+			}
+		});
 	},
 
 	pauseSubscription: async function() {
 		let groupId = Meteor.user().info.groupId;
 		let subscriptionId = Groups.findOne({_id: groupId}).stripeSubscriptionId;
+		let groupProperties = {
+			subscriptionStatus: 'pausePending', 
+		}
 
 		let result = await stripe.subscriptions.del(
 			subscriptionId, {at_period_end: true}
 		).then((confirmation) => {
-			return confirmation;
+			let date = new Date(confirmation.current_period_end * 1000);
+			groupProperties.subscriptionPausedOn = date.toUTCString();
 		}).catch((error) => {
 			throw new Meteor.Error(500, error.message);
 		});
 
-		return result
+		Groups.update(groupId, {$set: groupProperties}, function(error, result) {
+			if (error) {
+				throw new Meteor.Error(500, error);
+			} else {
+				return result;
+			}
+		});
+
 	},
 
 	unpauseSubscription: async function() {
 		let groupId = Meteor.user().info.groupId;
 		let customerId = Groups.findOne({_id: groupId}).stripeCustomerId;
 		let subscriptionId = Groups.findOne({_id: groupId}).stripeSubscriptionId;
+		let groupProperties = {
+			subscriptionStatus: 'active',
+		}
 
 		let result = stripe.subscriptions.retrieve(
 			subscriptionId
@@ -64,12 +81,10 @@ Meteor.methods({
 					customer: customerId,
 					items: [{plan: 'standard'}]
 				}).then((subscription) => {
-					return subscription
+					groupProperties.stripeSubscriptionId = result.id;
 				}).catch((error) => {
 					throw new Meteor.Error(500, error.message);
 				});
-
-				return result;
 			}
 			if (subscription.status === 'active' && subscription.cancel_at_period_end === true) {
 				let result = stripe.subscriptions.update(subscription.id, {
@@ -78,18 +93,24 @@ Meteor.methods({
 						plan: 'standard',
 					}]
 				}).then((subscription) => {
-					return subscription
+					groupProperties.stripeSubscriptionId = result.id
 				}).catch((error) => {
 					throw new Meteor.Error(500, error.message);
 				});
-
-				return result;
 			}
+			return subscription;
 		}).catch((error) => {
 			throw new Meteor.Error(500, error.message);
 		});
 
-		return result
+		Groups.update(groupId, {$set: groupProperties}, function(error, result) {
+			if (error) {
+				throw new Meteor.Error(500, error);
+			} else {
+				return result;
+			}
+		});
+
 	},
 
 	getCard: async function() {
@@ -141,16 +162,25 @@ Meteor.methods({
 	updateCard: async function(tokenId) {
 		let groupId = Meteor.user().info.groupId;
 		let customerId = Groups.findOne({_id: groupId}).stripeCustomerId;
+		let groupProperties = {
+			subscriptionErrorMessage: null
+		};
 
 		let result = await stripe.customers.update(customerId, {
 			source: tokenId
 		}).then((customer) => {
-			return customer;
+			groupProperties.stripeCardId = customer.default_source;
 		}).catch((error) => {
 			throw new Meteor.Error(500, error.message);
 		});
 
-		return result;
+		Groups.update(groupId, {$set: groupProperties}, function(error, result) {
+			if (error) {
+				throw new Meteor.Error(500, error);
+			} else {
+				return result;
+			}
+		});
 	},
 });
 

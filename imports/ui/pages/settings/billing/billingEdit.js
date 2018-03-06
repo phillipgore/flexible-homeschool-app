@@ -134,28 +134,11 @@ Template.billingEdit.events({
 							$('.js-loading').hide();
 							$('.js-submit').prop('disabled', false);
 						} else {
-							let groupProperties = {
-								stripeCardId: result.default_source, 
-								subscriptionErrorMessage: null
-							};
-							Meteor.call('updateGroup', groupId, groupProperties, function(error) {
-								if (error) {
-									Alerts.insert({
-										colorClass: 'bg-danger',
-										iconClass: 'fss-danger',
-										message: error.reason,
-									});
-					
-									$('.js-loading').hide();
-									$('.js-submit').prop('disabled', false);
-								} else {
-									FlowRouter.go('/settings/billing/list');
-									Alerts.insert({
-										colorClass: 'bg-info',
-										iconClass: 'fss-info',
-										message: 'Your card has been updated.',
-									});
-								}
+							FlowRouter.go('/settings/billing/list');
+							Alerts.insert({
+								colorClass: 'bg-info',
+								iconClass: 'fss-info',
+								message: 'Your card has been updated.',
 							});
 						}
 					});

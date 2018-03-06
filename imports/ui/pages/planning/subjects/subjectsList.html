@@ -1,6 +1,7 @@
 <template name="subjectsList">
 	{{> toolbar}}
-	<main class="app-content no-subbar app-content-preceeds-toolbar">
+	{{> subbarYearStudent}}
+	<main class="app-content app-content-preceeds-toolbar">
 		{{#if subjects.count}}
 			<ul class="list">
 				{{#each subject in subjects}}

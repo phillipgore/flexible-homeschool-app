@@ -1,5 +1,5 @@
 import bodyParser from 'body-parser';
-import { Picker } from 'meteor/meteorhacks:picker';
+import {Picker} from 'meteor/meteorhacks:picker';
 import {Groups} from '../../api/groups/groups';
 
 Picker.middleware(bodyParser.json());

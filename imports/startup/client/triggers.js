@@ -13,39 +13,45 @@ Tracker.autorun(() => {
 	}
 });
 
-function checkSignIn(context) {
+function checkSignIn(context, redirect) {
 	if (Meteor.userId()) {
-		FlowRouter.redirect('/planning/list');
+		redirect('/planning/list');
 	}
 };
 
-function checkSignOut(context) {
+function checkSignOut(context, redirect) {
 	if (!Meteor.userId()) {
-		FlowRouter.redirect('/sign-in');
+		redirect('/sign-in');
 	}
 };
 
-function checkRoleUser(context) {
+function checkRoleUser(context, redirect) {
 	if (Meteor.user().info.role === 'User') {
-		FlowRouter.redirect('/settings/users/restricted');
+		redirect('/settings/users/restricted');
 	}
 };
 
-function checkRoleObserver(context) {
+function checkRoleObserver(context, redirect) {
 	if (Meteor.user().info.role === 'Observer') {
-		FlowRouter.redirect('/settings/users/restricted');
+		redirect('/settings/users/restricted');
 	}
 };
 
-function checkPaymentError(context) {
+function checkRoleApplication (context, redirect) {
+	if (Meteor.user().info.role === 'Application Administrator' || Meteor.user().info.role === 'Developer') {
+		redirect('/settings/list');
+	} 
+};
+
+function checkPaymentError(context, redirect) {
 	if (Groups.findOne().subscriptionStatus === 'error') {
-		FlowRouter.redirect('/settings/users/restricted');
+		redirect('/settings/billing/error');
 	}
 };
 
-function checkSubscriptionPaused(context) {
+function checkSubscriptionPaused(context, redirect) {
 	if (Groups.findOne().subscriptionStatus === 'paused') {
-		FlowRouter.redirect('/settings/billing/list');
+		redirect('/settings/billing/list');
 	}
 };
 
@@ -89,6 +95,7 @@ function checkSubjectsAvailable(context) {
 
 FlowRouter.triggers.enter([checkSignIn], {only: ['createAccount', 'verifySent', 'signIn', 'reset', 'resetSent', 'resetPassword']});
 FlowRouter.triggers.enter([checkSignOut, checkPaymentError], {except: ['createAccount', 'verifySent', 'signIn', 'reset', 'resetSent', 'resetPassword']});
+FlowRouter.triggers.enter([checkSubjectsAvailable], {only: ['subjectsList', 'subjectsNew', 'subjectsView', 'subjectsEdit']});
 FlowRouter.triggers.enter([creditCardData], {except: []});
 
 FlowRouter.triggers.enter([checkSubscriptionPaused], {except: [
@@ -145,5 +152,15 @@ FlowRouter.triggers.enter([checkRoleObserver], {only: [
 	'subjectsEdit',
 ]});
 
-FlowRouter.triggers.enter([checkSubjectsAvailable], {only: ['subjectsList', 'subjectsNew', 'subjectsView', 'subjectsEdit']});
+FlowRouter.triggers.enter([checkRoleApplication], {only: [
+	'usersList',
+	'usersNew',
+	'usersVerifySent',
+	'usersView',
+	'usersEdit',
+	'billingList', 
+	'billingError', 
+	'billingInvoices', 
+	'billingEdit'
+]});
 

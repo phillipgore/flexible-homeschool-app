@@ -33,7 +33,7 @@ Template.subjectsView.helpers({
 	},
 
 	student: function() {
-		return Students.findOne();
+		return Students.findOne({userId: { $exists: true }});
 	},
 
 	resources: function() {
@@ -41,7 +41,7 @@ Template.subjectsView.helpers({
 	},
 
 	schoolYear: function() {
-		return SchoolYears.findOne();
+		return SchoolYears.findOne({userId: { $exists: true }});
 	},
 
 	terms: function() {

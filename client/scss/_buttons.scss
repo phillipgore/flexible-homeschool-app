@@ -126,10 +126,17 @@ button, .btn {
     	outline: none;
     	border: 0;
     	text-decoration: none;
+    	border-right: 1px solid $color-white;
 	}
 
 	&.last {
 		border-right: none;
+		
+		&:hover, &:focus, &:active {
+	    	outline: none;
+	    	border: 0;
+	    	text-decoration: none;
+		}
 	}
 }
 

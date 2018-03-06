@@ -35,7 +35,7 @@ Template.usersNew.onRendered( function() {
 			$('.js-loading').show();
 			$('.js-submit').prop('disabled', true);
 	
-			const user = {
+			const userProperties = {
 				email: event.target.email.value.trim(),
 				password: event.target.password.value.trim(),
 				info: {
@@ -51,7 +51,7 @@ Template.usersNew.onRendered( function() {
 				}
 			}
 
-			Accounts.createUser(user, function(error) {
+			Accounts.createUser(userProperties, function(error) {
 				if (error) {
 					if (error.reason === 'unverified') {
 						FlowRouter.go('/settings/users/verify/sent');

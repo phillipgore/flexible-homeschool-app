@@ -67,6 +67,22 @@ ul.dropdown-menu {
 				text-align: center;
 			}
 
+			.dropdown-item-icon-right {
+				display: inline-block;
+				float: right;
+				font-size: 16px;
+				padding-top: 1px;
+				margin-right: 9px;
+				text-align: center;
+			}
+
+			.dropdown-item-label {
+				display: inline-block;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+
 			&:hover {
 				color: $color-black;
 				text-decoration: none;

@@ -17,6 +17,7 @@ import '../components/toolbarUsersView.js';
 import '../components/toolbarView.js';
 import '../components/subbarAccounts.html';
 import '../components/subbarYearTerm.html';
+import '../components/subbarYearStudent.js';
 import '../components/subbar.html';
 import '../components/navbar.js';
 import '../components/creditCard.js';
@@ -116,7 +117,7 @@ Template.app.events({
 
 
 	// Dropdown Button
-	'click .btn-dropdown'(event) {
+	'click .js-dropdown'(event) {
 		event.preventDefault();
 		let menuId = $(event.currentTarget).attr('href');
 
@@ -144,7 +145,7 @@ Template.app.events({
 
 	// Universal Click Event
 	'click'(event) {
-		if (!$(event.currentTarget).hasClass('btn-dropdown')) {
+		if (!$(event.currentTarget).hasClass('js-dropdown')) {
 			$('.dropdown-menu').fadeOut(100);
 		}
 	},

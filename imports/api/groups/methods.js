@@ -4,13 +4,9 @@ import SimpleSchema from 'simpl-schema';
 import {Groups} from './groups.js';
 
 Meteor.methods({
-	insertGroup(groupProperties) {
-		let groupId = Groups.insert(groupProperties);
+	insertGroup: function() {
+		let groupId = Groups.insert({subscriptionStatus: 'pending'});
 		return groupId;
-	},
-
-	updateGroup: function(groupId, groupProperties) {
-		Groups.update(groupId, {$set: groupProperties});
 	},
 
 	pauseGroup: function(groupId) {

@@ -1,5 +1,8 @@
 Meteor.methods({
 	updateUser: function(userId, userProperties) {
+		if (userProperties.info.role === 'Application Administrator' || userProperties.info.role === 'Developer') {
+			userProperties.info.role = 'User'
+		}
 		Meteor.users.update(userId, {$set: userProperties});
 	},
 
@@ -18,7 +21,7 @@ Meteor.methods({
 		if (Meteor.users.findOne({_id: userId}).emails[0].verified) {
 			throw new Meteor.Error('no-delete-verified', 'Verified users can be paused but not deleted.');
 		}
-
+		
 		Meteor.users.remove(userId);
 	}
 })

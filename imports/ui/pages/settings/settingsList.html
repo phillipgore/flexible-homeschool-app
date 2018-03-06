@@ -30,6 +30,25 @@
 					</a>
 				{{/if}}
 			</li>
+			{{#if applicationAdministrator user.info.role}}
+				{{#if group.testData}}
+					<li class="list-item">
+						<a href="#" class="js-remove-test-data list-item-link bg-white p-tn-rl-9">
+							<div class="list-item-icon"><i class="fss-data txt-danger"></i></div> 
+							<div class="list-item-label txt-danger">Remove All Test Data</div>
+							<div class="list-item-loading"></div>
+						</a>
+					</li>
+				{{else}}
+					<li class="list-item">
+						<a href="#" class="js-add-test-data list-item-link bg-white p-tn-rl-9">
+							<div class="list-item-icon"><i class="fss-data"></i></div> 
+							<div class="list-item-label">Add Test Data</div>
+							<div class="list-item-loading"></div>
+						</a>
+					</li>
+				{{/if}}
+			{{/if}}
 			<li class="list-item">
 				<a href="/settings/support/list" class="list-item-link bg-white p-tn-rl-9">
 					<div class="list-item-icon"><i class="fss-support"></i></div> 
@@ -37,6 +56,7 @@
 				</a>
 			</li>
 			<li class="list-spacer"></li>
+
 			<li class="list-item">
 				<a href="#" class="js-sign-out list-item-link bg-white p-tn-rl-9">
 					<div class="list-item-icon"><i class="txt-primary fss-signout"></i></div> 
