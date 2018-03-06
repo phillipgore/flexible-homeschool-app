@@ -24,6 +24,10 @@ Template.subjectsList.onRendered( function() {
 });
 
 Template.subjectsList.helpers({
+	subjectsCount: function() {
+		return Subjects.find().count();
+	},
+
 	subjects: function() {
 		if (Session.get('selectedSchoolYear') && Session.get('selectedSchoolYear')._id === 'all-years') {
 			return Session.get('selectedStudent') && Subjects.find({studentId: Session.get('selectedStudent')._id}, {sort: {order: 1}});

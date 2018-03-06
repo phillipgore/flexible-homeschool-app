@@ -1,22 +1,30 @@
 <template name="subjectsList">
 	{{> toolbar}}
-	{{#if subjects.count}}
+	{{#if subjectsCount}}
 		{{> subbarYearStudent}}
 	{{else}}
 		{{> subbar}}
 	{{/if}}
 	<main class="app-content app-content-preceeds-toolbar">
-		{{#if subjects.count}}
-			<ul class="list">
-				{{#each subject in subjects}}
-					<li class="list-item">
-						<a href="/planning/subjects/view/{{subject._id}}" class="list-item-link p-tn-rl-9">
-							<div class="list-item-icon"><i class="txt-primary fss-subjects"></i></div> 
-							<div class="list-item-label">{{subject.name}}</div>
-						</a>
-					</li>
-				{{/each}}
-			</ul>
+		{{#if subjectsCount}}
+			{{#if subjects.count}}
+				<ul class="list">
+					{{#each subject in subjects}}
+						<li class="list-item">
+							<a href="/planning/subjects/view/{{subject._id}}" class="list-item-link p-tn-rl-9">
+								<div class="list-item-icon"><i class="txt-primary fss-subjects"></i></div> 
+								<div class="list-item-label">{{subject.name}}</div>
+							</a>
+						</li>
+					{{/each}}
+				</ul>
+			{{else}}
+				<div class="txt-tn-center m-tn-t-72">
+					<i class="fss-subjects font-size-64 txt-gray"></i>
+					<h1 class="m-tn-t-36">Sorry</h1>
+					<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36">No subjects fit the selected criteria.</p>
+				</div>
+			{{/if}}
 		{{else}}
 			<div class="txt-tn-center m-tn-t-72">
 				<i class="fss-subjects font-size-64 txt-gray"></i>

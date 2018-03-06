@@ -20,6 +20,10 @@ Template.resourcesList.onRendered( function() {
 });
 
 Template.resourcesList.helpers({
+	resourcesCount: function() {
+		return Resources.find().count();
+	},
+
 	resources: function() {
 		let typeId = Session.get('selectedType') && Session.get('selectedType')._id;
 		let availabilityId = Session.get('selectedAvailability') && Session.get('selectedAvailability')._id;
