@@ -19,7 +19,11 @@ Template.subbarYearStudent.onCreated( function() {
 				return year.toString();
 			}
 			
-	    	Session.set('selectedSchoolYear', SchoolYears.findOne({startYear: startYear(moment().year())}))
+			if (SchoolYears.findOne({startYear: { $gte: startYear(moment().year())}}, {sort: {starYear: 1}})) {
+	    		Session.set('selectedSchoolYear', SchoolYears.findOne({startYear: { $gte: startYear(moment().year())}}, {sort: {starYear: 1}}));
+			} else {
+				Session.set('selectedSchoolYear', SchoolYears.findOne({startYear: { $lte: startYear(moment().year())}}, {sort: {starYear: 1}}));
+			}
 	    })
 	});
 
