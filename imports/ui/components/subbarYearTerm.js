@@ -11,7 +11,7 @@ Template.subbarYearTerm.onCreated( function() {
 
 	template.autorun( () => {
 		template.subscribe('allSchoolYears', () => {
-			if (!Session.get('selectedSchoolYear')) {
+			if (!Session.equals('selectedSchoolYear', '')) {
 				let year = moment().year();
 				let month = moment().month();
 				function startYear(year) {
@@ -32,7 +32,7 @@ Template.subbarYearTerm.onCreated( function() {
 
 	template.autorun( () => {
 		template.subscribe('allTerms', () => {
-			if (!Session.get('selectedTerm')) {
+			if (!Session.equals('selectedTerm', '')) {
 		    	Session.set('selectedTerm', Terms.findOne({schoolYearId: Session.get('selectedSchoolYear')._id}, {sort: {order: 1,}}));
 		    }
 	    })

@@ -50,7 +50,7 @@ Template.trackingList.helpers({
 		let lessonsCompletedTotal = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: weeksIds}, completed: true}).count();
 		let percentComplete = lessonsCompletedTotal / lessonsTotal * 100;
 		if (percentComplete > 0 && percentComplete < 1) {
-			return 1;
+			return Session.get('selectedSchoolYear') && 1;
 		}
 		return Math.floor(percentComplete);
 	},
