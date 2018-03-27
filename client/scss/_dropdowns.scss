@@ -43,6 +43,7 @@ ul.dropdown-menu {
 	&.dropdown-sub {
 		top: 89px;
 		background-color: $color-gray;
+		// overflow-y: auto;
 
 		li.dropdown-item {
 

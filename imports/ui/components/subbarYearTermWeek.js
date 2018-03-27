@@ -1,12 +1,17 @@
 import {Template} from 'meteor/templating';
 import {SchoolYears} from '../../api/schoolYears/schoolYears.js';
 import {Terms} from '../../api/terms/terms.js';
+import {Subjects} from '../../api/subjects/subjects.js';
 import {Weeks} from '../../api/weeks/weeks.js';
+import {Lessons} from '../../api/lessons/lessons.js';
 import moment from 'moment';
 import './subbarYearTermWeek.html';
 
 Template.subbarYearTermWeek.onCreated( function() {
 	// Subscriptions
+	// this.subscribe('allSubjectsProgress');
+	this.subscribe('allLessonsProgress');
+
 	let template = Template.instance();
 
 	template.autorun( () => {
@@ -56,6 +61,20 @@ Template.subbarYearTermWeek.helpers({
 		return Session.get('selectedSchoolYear');
 	},
 
+	yearStatus: function(schoolYearId) {
+		let subjectIds = Subjects.find({schoolYearId: schoolYearId}).map(subject => (subject._id));
+		let lessonsTotal = Lessons.find({subjectId: {$in: subjectIds}}).count();
+		let lessonsCompletedTotal = Lessons.find({subjectId: {$in: subjectIds}, completed: true}).count();
+
+		if (!lessonsCompletedTotal) {
+			return 'txt-gray-darker';
+		}
+		if (lessonsTotal === lessonsCompletedTotal) {
+			return 'txt-primary';
+		}
+		return 'txt-secondary';
+	},
+
 	terms: function() {
 		return Session.get('selectedSchoolYear') && Terms.find({schoolYearId: Session.get('selectedSchoolYear')._id}, {sort: {order: 1}});
 	},
@@ -64,12 +83,41 @@ Template.subbarYearTermWeek.helpers({
 		return Session.get('selectedTerm');
 	},
 
+	termStatus: function(selectedSchoolYearId, termId) {
+		let subjectIds = Subjects.find({schoolYearId: selectedSchoolYearId}).map(subject => (subject._id));
+		let weeksIds = Weeks.find({termId: termId}).map(week => (week._id))
+		let lessonsTotal = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: weeksIds}}).count();
+		let lessonsCompletedTotal = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: weeksIds}, completed: true}).count();
+
+		if (!lessonsCompletedTotal) {
+			return 'txt-gray-darker';
+		}
+		if (lessonsTotal === lessonsCompletedTotal) {
+			return 'txt-primary';
+		}
+		return 'txt-secondary';
+	},
+
 	weeks: function() {
 		return Session.get('selectedTerm') && Weeks.find({termId: Session.get('selectedTerm')._id}, {sort: {order: 1}});
 	},
 
 	selectedWeek: function() {
 		return Session.get('selectedWeek');
+	},
+
+	weekStatus: function(selectedSchoolYearId, weekId) {
+		let subjectIds = Subjects.find({schoolYearId: selectedSchoolYearId}).map(subject => (subject._id));
+		let lessonsTotal = Lessons.find({subjectId: {$in: subjectIds}, weekId: weekId}).count();
+		let lessonsCompletedTotal = Lessons.find({subjectId: {$in: subjectIds}, weekId: weekId, completed: true}).count();
+
+		if (!lessonsCompletedTotal) {
+			return 'txt-gray-darker';
+		}
+		if (lessonsTotal === lessonsCompletedTotal) {
+			return 'txt-primary';
+		}
+		return 'txt-secondary';
 	},
 
 	activeListItem: function(currentItem, item) {
