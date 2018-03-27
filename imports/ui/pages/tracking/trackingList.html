@@ -13,16 +13,16 @@
 							</div>
 						</div>
 						<div class="meter">
-							<div class="meter-progress {{yearsProgressStatus student._id}}" style="width: {{yearsProgress student._id}}%;">
-								<div class="meter-label">Year's Progress: {{yearsProgress student._id}}%</div>
+							<div class="meter-progress {{yearsProgressStatus student._id selectedSchoolYear._id selectedTerm._id}}" style="width: {{yearsProgress student._id selectedSchoolYear._id selectedTerm._id}}%;">
+								<div class="meter-label">Year's Progress: {{yearsProgress student._id selectedSchoolYear._id selectedTerm._id}}%</div>
 							</div>
-							<div class="meter-label">Year's Progress: {{yearsProgress student._id}}%</div>
+							<div class="meter-label">Year's Progress: {{yearsProgress student._id selectedSchoolYear._id selectedTerm._id}}%</div>
 						</div>
 						<div class="meter">
-							<div class="meter-progress {{termsProgressStatus student._id}}" style="width: {{termsProgress student._id}}%;">
-								<div class="meter-label">Term's Progress: {{termsProgress student._id}}%</div>
+							<div class="meter-progress {{termsProgressStatus student._id selectedSchoolYear._id}}" style="width: {{termsProgress student._id selectedSchoolYear._id selectedTerm._id}}%;">
+								<div class="meter-label">Term's Progress: {{termsProgress student._id selectedSchoolYear._id selectedTerm._id}}%</div>
 							</div>
-							<div class="meter-label">Term's Progress: {{termsProgress student._id}}%</div>
+							<div class="meter-label">Term's Progress: {{termsProgress student._id selectedSchoolYear._id selectedTerm._id}}%</div>
 						</div>
 					</a>
 				</li>

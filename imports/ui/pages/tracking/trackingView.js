@@ -41,20 +41,28 @@ Template.trackingView.helpers({
 		return Students.findOne({_id: FlowRouter.getParam('id')});
 	},
 
-	subjects: function() {
-		return Subjects.find({schoolYearId: Session.get('selectedSchoolYear')._id});
+	selectedSchoolYear: function() {
+		return Session.get('selectedSchoolYear');
 	},
 
-	lessons: function(subjectId) {
-		return Lessons.find({weekId: Session.get('selectedWeek')._id, subjectId: subjectId});
+	selectedWeek: function() {
+		return Session.get('selectedWeek');
 	},
 
-	lessonsCount: function(subjectId) {
-		return Lessons.find({weekId: Session.get('selectedWeek')._id, subjectId: subjectId}).count();
+	subjects: function(selectedSchoolYearId) {
+		return Subjects.find({schoolYearId: selectedSchoolYearId});
 	},
 
-	lessonPosition: function(subjectId, lessonId) {
-		let lessonIds = Lessons.find({weekId: Session.get('selectedWeek')._id, subjectId: subjectId}).map(lesson => (lesson._id))
+	lessons: function(subjectId, selectedWeekId) {
+		return Lessons.find({weekId: selectedWeekId, subjectId: subjectId});
+	},
+
+	lessonCount: function(subjectId, selectedWeekId) {
+		return Lessons.find({weekId: selectedWeekId, subjectId: subjectId}).count();
+	},
+
+	lessonPosition: function(subjectId, lessonId, selectedWeekId) {
+		let lessonIds = Lessons.find({weekId: selectedWeekId, subjectId: subjectId}).map(lesson => (lesson._id))
 		return Lessons.find() && lessonIds.indexOf(lessonId);
 	},
 
@@ -62,8 +70,8 @@ Template.trackingView.helpers({
 		return moment();
 	},
 
-	lessonStatus: function(lessonCompleted, subjectId) {
-		let lessonsIncompleteCount = Lessons.find({weekId: Session.get('selectedWeek')._id, subjectId: subjectId, completed: false}).count()
+	lessonStatus: function(lessonCompleted, subjectId, selectedWeekId) {
+		let lessonsIncompleteCount = Lessons.find({weekId: selectedWeekId, subjectId: subjectId, completed: false}).count()
 		if (!lessonsIncompleteCount) {
 			return 'btn-primary';
 		}

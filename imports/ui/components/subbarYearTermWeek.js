@@ -57,7 +57,7 @@ Template.subbarYearTermWeek.helpers({
 	},
 
 	terms: function() {
-		return Terms.find({schoolYearId: Session.get('selectedSchoolYear')._id}, {sort: {order: 1}});
+		return Session.get('selectedSchoolYear') && Terms.find({schoolYearId: Session.get('selectedSchoolYear')._id}, {sort: {order: 1}});
 	},
 
 	selectedTerm: function() {
@@ -65,7 +65,7 @@ Template.subbarYearTermWeek.helpers({
 	},
 
 	weeks: function() {
-		return Weeks.find({termId: Session.get('selectedTerm')._id}, {sort: {order: 1}});
+		return Session.get('selectedTerm') && Weeks.find({termId: Session.get('selectedTerm')._id}, {sort: {order: 1}});
 	},
 
 	selectedWeek: function() {
