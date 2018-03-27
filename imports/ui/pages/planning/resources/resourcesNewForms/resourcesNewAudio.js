@@ -1,4 +1,6 @@
 import {Template} from 'meteor/templating';
+
+import autosize from 'autosize';
 import './resourcesNewAudio.html';
 
 Template.resourcesNewAudio.onRendered( function() {
@@ -13,6 +15,9 @@ Template.resourcesNewAudio.onRendered( function() {
 
 	// Navbar Settings
 	Session.set('activeNav', 'planningList');
+
+	// Textarea Autoresize
+	autosize($('#description'));
 
 	// Form Validation and Submission
 	$('.js-form-resources-audio-new').validate({

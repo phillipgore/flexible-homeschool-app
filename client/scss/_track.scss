@@ -1,0 +1,113 @@
+.track {
+	position: relative;
+	background-color: $color-white;
+
+	.track-label {
+		color: $color-black;
+		font-size: 14px;
+		font-weight: 600;
+	}
+
+	.track-icon {
+		display: inline-block;
+		float: left;
+		font-size: 14px;
+		padding-top: 1px;
+		margin-right: 6px;
+		text-align: center;
+	}
+
+	.track-btn-container {
+		margin-top: 6px;
+
+		button {
+			border-radius: 0px;
+			border-right: 1px solid $color-white;
+			background-color: $color-gray-lighter;
+
+			&.btn-primary {
+				background-color: $color-primary;
+			}
+
+			&.btn-secondary {
+				background-color: $color-danger;
+			}
+
+			&:first-of-type {
+				border-radius: 18px 0px 0px 18px;
+			}
+
+			&:last-of-type {
+				border-radius: 0px 18px 18px 0px;
+			}
+
+			&:only-of-type {
+				border-radius: 18px;
+			}
+		}
+	}
+
+	.track-input {
+		position: absolute;
+		display: none;
+		top: 78px;
+		right: 0px;
+		left: 0px;
+		bottom: 0px;
+
+		.track-arrow {
+			position: relative;
+			height: 10px;
+
+			&:before {
+				position: absolute;
+				content: '';
+				width: 0; 
+				height: 0; 
+				border-left: 11px solid transparent;
+				border-right: 11px solid transparent;
+				border-bottom: 11px solid $color-gray-dark;
+				left: 50%;
+				transform: translate(-50%);
+				z-index: 5;
+			}
+
+			&:after {
+				position: absolute;
+				top: 1px;
+				left: 2px;
+				content: '';
+				width: 0; 
+				height: 0; 
+				border-left: 9px solid transparent;
+				border-right: 9px solid transparent;
+				border-bottom: 9px solid $color-gray-lightest;
+				left: 50%;
+				transform: translate(-50%);
+				z-index: 15;
+			}
+		}
+
+		.track-form {
+			position: absolute;
+			top: 9px;
+			right: 0px;
+			bottom: 0px;
+			left: 0px;
+			border-top: 1px solid $color-gray-dark;
+			background-color: $color-gray-lightest;
+			z-index: 10;
+			padding: 9px;
+			min-height: 460px;
+		}
+	}
+
+	&.active {
+		position: absolute;
+		top: 80px;
+		right: 0px;
+		bottom: 0px;
+		left: 0px;
+		z-index: 10;
+	}
+}

@@ -3,7 +3,7 @@
 		<div class="row">
 			<div class="col-tn-1of2">
 				<a id="{{selectedSchoolYear._id}}" href="#years" class="js-dropdown btn-sub">
-					{{selectedSchoolYear.startYear}} {{#unless activeListItem selectedSchoolYear._id 'all-years'}}- {{/unless}}{{selectedSchoolYear.endYear}} <i class="fss-caret-down"></i>
+					{{selectedSchoolYear.startYear}}{{#unless activeListItem selectedSchoolYear._id 'all-years'}}-{{/unless}}{{selectedSchoolYear.endYear}} <i class="fss-caret-down"></i>
 				</a>
 			</div>
 			<div class="col-tn-1of2">
@@ -28,7 +28,7 @@
 		{{#each schoolYear in schoolYears}}
 			<li class="dropdown-item">
 				<a id="{{schoolYear._id}}" class="js-school-years dropdown-item-link" href="#">
-					<div class="dropdown-item-label">{{schoolYear.startYear}} - {{schoolYear.endYear}}</div>
+					<div class="dropdown-item-label">{{schoolYear.startYear}}-{{schoolYear.endYear}}</div>
 					{{#if activeListItem selectedSchoolYear._id schoolYear._id}}
 						<div class="dropdown-item-icon-right">
 							<i class="fss-planning txt-gray-darker"></i>

@@ -25,5 +25,9 @@
 		color: $color-white;
 		background-color: $color-danger;
 		width: 0%;
+
+		&.meter-progress-primary {
+			background-color: $color-primary;
+		}
 	}
 }

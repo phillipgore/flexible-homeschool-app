@@ -1,14 +1,19 @@
-<template name="subbarYearTerm">
+<template name="subbarYearTermWeek">
 	<asside class="subbar">
 		<div class="row">
-			<div class="col-tn-1of2">
+			<div class="col-tn-1of3">
 				<a id="{{selectedSchoolYear._id}}" href="#years" class="js-dropdown btn-sub">
 					{{selectedSchoolYear.startYear}}-{{selectedSchoolYear.endYear}} <i class="fss-caret-down"></i>
 				</a>
 			</div>
-			<div class="col-tn-1of2">
-				<a id="{{selectedTerm._id}}" href="#terms" class="js-dropdown btn-sub last">
+			<div class="col-tn-1of3">
+				<a id="{{selectedTerm._id}}" href="#terms" class="js-dropdown btn-sub">
 					Term {{selectedTerm.order}} <i class="fss-caret-down"></i>
+				</a>
+			</div>
+			<div class="col-tn-1of3">
+				<a id="{{selectedWeek._id}}" href="#weeks" class="js-dropdown btn-sub last">
+					Week {{selectedWeek.order}} <i class="fss-caret-down"></i>
 				</a>
 			</div>
 		</div>
@@ -35,6 +40,21 @@
 				<a id="{{term._id}}" class="js-terms dropdown-item-link" href="#">
 					<div class="dropdown-item-label">Term {{term.order}}</div>
 					{{#if activeListItem selectedTerm._id term._id}}
+						<div class="dropdown-item-icon-right">
+							<i class="fss-planning txt-gray-darker"></i>
+						</div>
+					{{/if}}
+				</a>
+			</li>
+		{{/each}}
+	</ul>
+
+	<ul id="weeks" class="dropdown-menu dropdown-sub m-tn-rl-9 hide">
+		{{#each week in weeks}}
+			<li class="dropdown-item">
+				<a id="{{week._id}}" class="js-weeks dropdown-item-link" href="#">
+					<div class="dropdown-item-label">Week {{week.order}}</div>
+					{{#if activeListItem selectedWeek._id week._id}}
 						<div class="dropdown-item-icon-right">
 							<i class="fss-planning txt-gray-darker"></i>
 						</div>

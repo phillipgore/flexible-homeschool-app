@@ -16,6 +16,25 @@ Meteor.publish('allSubjects', function() {
 	return Subjects.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {order: 1}});
 });
 
+Meteor.publish('allSubjectsProgress', function() {
+	if (!this.userId) {
+		return this.ready();
+	}
+
+	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
+
+	return Subjects.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {order: 1}, fields: {studentId: 1, schoolYearId: 1}});
+});
+
+Meteor.publish('studentSubjects', function(studentId) {
+	if (!this.userId) {
+		return this.ready();
+	}
+
+	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;	
+	return Subjects.find({groupId: groupId, studentId: studentId, deletedOn: { $exists: false }});
+});
+
 Meteor.publish('subject', function(subjectId) {
 	if (!this.userId) {
 		return this.ready();

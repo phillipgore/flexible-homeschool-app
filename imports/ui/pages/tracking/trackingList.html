@@ -5,7 +5,7 @@
 		<ul class="data-list">
 			{{#each student in students}}
 				<li class="list-item">
-					<a href="/students/{{student._id}}" class="list-item-link p-tn-rl-9">
+					<a href="/tracking/students/view/{{student._id}}" class="list-item-link p-tn-rl-9">
 						<div class="clearfix">
 							<div class="list-item-icon"><i class="txt-primary fss-students"></i></div> 
 							<div class="list-item-label">
@@ -13,16 +13,16 @@
 							</div>
 						</div>
 						<div class="meter">
-							<div class="meter-progress">
-								<div class="meter-label">Year's Progress</div>
+							<div class="meter-progress {{yearsProgressStatus student._id}}" style="width: {{yearsProgress student._id}}%;">
+								<div class="meter-label">Year's Progress: {{yearsProgress student._id}}%</div>
 							</div>
-							<div class="meter-label">Year's Progress</div>
+							<div class="meter-label">Year's Progress: {{yearsProgress student._id}}%</div>
 						</div>
 						<div class="meter">
-							<div class="meter-progress">
-								<div class="meter-label">Term's Progress</div>
+							<div class="meter-progress {{termsProgressStatus student._id}}" style="width: {{termsProgress student._id}}%;">
+								<div class="meter-label">Term's Progress: {{termsProgress student._id}}%</div>
 							</div>
-							<div class="meter-label">Term's Progress</div>
+							<div class="meter-label">Term's Progress: {{termsProgress student._id}}%</div>
 						</div>
 					</a>
 				</li>

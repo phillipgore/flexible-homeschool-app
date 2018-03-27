@@ -11,9 +11,17 @@
 				{{/if}}
 			</div>
 			<div class="col-tn-4of6 |  m-tn-t-12">
-				{{#if label}}
-				<h1 class="txt-tn-center txt-ellipsis">{{label}}</h1>
-				{{/if}}
+				<h1 class="txt-tn-center txt-ellipsis">
+					{{#if dynamicFirstName}}
+						{{dynamicFirstName}}
+					{{/if}}
+					{{#if dynamicLastName}}
+						{{dynamicLastName}}
+					{{/if}}
+					{{#if label}}
+						{{label}}
+					{{/if}}
+				</h1>
 			</div>
 			<div class="col-tn-1of6">
 				{{#if rightIcon}}

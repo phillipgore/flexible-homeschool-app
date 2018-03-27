@@ -1,16 +1,17 @@
 import {Template} from 'meteor/templating';
 import {SchoolYears} from '../../api/schoolYears/schoolYears.js';
-import {Students} from '../../api/students/students.js';
+import {Terms} from '../../api/terms/terms.js';
+import {Weeks} from '../../api/weeks/weeks.js';
 import moment from 'moment';
-import './subbarYearStudent.html';
+import './subbarYearTerm.html';
 
-Template.subbarYearStudent.onCreated( function() {
+Template.subbarYearTerm.onCreated( function() {
 	// Subscriptions
 	let template = Template.instance();
 
 	template.autorun( () => {
 		template.subscribe('allSchoolYears', () => {
-			if (!Session.equals('selectedSchoolYear')) {
+			if (!Session.get('selectedSchoolYear')) {
 				let year = moment().year();
 				let month = moment().month();
 				function startYear(year) {
@@ -30,15 +31,15 @@ Template.subbarYearStudent.onCreated( function() {
 	});
 
 	template.autorun( () => {
-		template.subscribe('allStudents', () => {
-			if (!Session.equals('selectedStudent')) {
-	    		Session.set('selectedStudent', Students.findOne({}, {sort: {birthday: 1, lastName: 1, firstName: 1}}));
-	    	}
+		template.subscribe('allTerms', () => {
+			if (!Session.get('selectedTerm')) {
+		    	Session.set('selectedTerm', Terms.findOne({schoolYearId: Session.get('selectedSchoolYear')._id}, {sort: {order: 1,}}));
+		    }
 	    })
 	});
 });
 
-Template.subbarYearStudent.helpers({
+Template.subbarYearTerm.helpers({
 	schoolYears: function() {
 		return SchoolYears.find({}, {sort: {startYear: 1}});
 	},
@@ -47,12 +48,12 @@ Template.subbarYearStudent.helpers({
 		return Session.get('selectedSchoolYear');
 	},
 
-	students: function() {
-		return Students.find({}, {sort: {birthday: 1, lastName: 1, firstName: 1}});
+	terms: function() {
+		return Session.get('selectedSchoolYear') && Terms.find({schoolYearId: Session.get('selectedSchoolYear')._id}, {sort: {order: 1}});
 	},
 
-	selectedStudent: function() {
-		return Session.get('selectedStudent');
+	selectedTerm: function() {
+		return Session.get('selectedTerm');
 	},
 
 	activeListItem: function(currentItem, item) {
@@ -63,22 +64,26 @@ Template.subbarYearStudent.helpers({
 	},
 });
 
-Template.subbarYearStudent.events({
+Template.subbarYearTerm.events({
 	'click .js-school-years'(event) {
 		event.preventDefault();
 
 		let schoolYearId = $(event.currentTarget).attr('id');
-		if (schoolYearId === 'all-years') {
-			Session.set('selectedSchoolYear', {_id: 'all-years', startYear: 'All', endYear: 'Years'})
-		} else {
-			Session.set('selectedSchoolYear', SchoolYears.findOne({_id: schoolYearId}))
+		if (schoolYearId != Session.get('selectedSchoolYear')._id) {
+			Session.set('selectedSchoolYear', SchoolYears.findOne({_id: schoolYearId}));
+			Session.set('selectedTerm', Terms.findOne({schoolYearId: schoolYearId}, {sort: {order: 1,}}));
+			Session.set('selectedWeek', Weeks.findOne({termId: Session.get('selectedTerm')._id}, {sort: {order: 1,}}));
 		}
 	},
 
-	'click .js-students'(event) {
+	'click .js-terms'(event) {
 		event.preventDefault();
 
-		let studentId = $(event.currentTarget).attr('id');
-		Session.set('selectedStudent', Students.findOne({_id: studentId}));
+		let termId = $(event.currentTarget).attr('id');
+		if (termId != Session.get('selectedTerm')._id) {
+			Session.set('selectedTerm', Terms.findOne({_id: termId}));
+			Session.set('selectedWeek', Weeks.findOne({termId: termId}, {sort: {order: 1,}}));
+		}
 	},
 });
+

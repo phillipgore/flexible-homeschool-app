@@ -1,4 +1,6 @@
 import {Template} from 'meteor/templating';
+
+import autosize from 'autosize';
 import './resourcesNewVideo.html';
 
 Template.resourcesNewVideo.onRendered( function() {
@@ -13,6 +15,9 @@ Template.resourcesNewVideo.onRendered( function() {
 
 	// Navbar Settings
 	Session.set('activeNav', 'planningList');
+
+	// Textarea Autoresize
+	autosize($('#description'));
 
 	// Form Validation and Submission
 	$('.js-form-resources-video-new').validate({

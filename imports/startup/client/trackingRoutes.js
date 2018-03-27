@@ -7,11 +7,11 @@ FlowRouter.route('/tracking/list', {
 	},
 });
 
-FlowRouter.route('/tracking/students/:id', {
-	name: 'studentsView',
+FlowRouter.route('/tracking/students/view/:id', {
+	name: 'trackingView',
 	action() {
 		BlazeLayout.render('app', {
-			main: 'studentsView',
+			main: 'trackingView',
 		});
 	},
 });

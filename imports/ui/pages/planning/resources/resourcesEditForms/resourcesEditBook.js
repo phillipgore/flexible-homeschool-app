@@ -1,5 +1,7 @@
 import {Template} from 'meteor/templating';
 import { Resources } from '../../../../../api/resources/resources.js';
+
+import autosize from 'autosize';
 import './resourcesEditBook.html';
 
 Template.resourcesEditBook.onCreated( function() {
@@ -19,6 +21,9 @@ Template.resourcesEditBook.onRendered( function() {
 
 	// Navbar Settings
 	Session.set('activeNav', 'planningList');
+
+	// Textarea Autoresize
+	autosize($('#description'));
 	
 	// Form Validation and Submission
 	$('.js-form-resources-book-edit').validate({

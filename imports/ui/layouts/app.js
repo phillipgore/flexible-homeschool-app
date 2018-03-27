@@ -16,7 +16,8 @@ import '../components/toolbarResources.js';
 import '../components/toolbarUsersView.js';
 import '../components/toolbarView.js';
 import '../components/subbarAccounts.html';
-import '../components/subbarYearTerm.html';
+import '../components/subbarYearTerm.js';
+import '../components/subbarYearTermWeek.js';
 import '../components/subbarYearStudent.js';
 import '../components/subbarTypeAvailability.js';
 import '../components/subbar.html';
@@ -69,6 +70,7 @@ import '../pages/planning/planningList.js';
 
 // Tracking
 import '../pages/tracking/trackingList.js';
+import '../pages/tracking/trackingView.js';
 
 
 // Reporting
@@ -126,8 +128,10 @@ Template.app.events({
 
 		if ($(menuId).is(':visible')) {
 			$(menuId).fadeOut(100);
+			$(menuId).removeAttr('style');
 		} else {
-			$(menuId).fadeIn(200);
+			let maxMenuHeight = $('.app-content').height() - 18;
+			$(menuId).css({maxHeight: maxMenuHeight}).fadeIn(200);
 		}
 	},
 
