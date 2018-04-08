@@ -62,7 +62,7 @@ Template.trackingView.helpers({
 	},
 
 	lessonPosition: function(subjectId, lessonId, selectedWeekId) {
-		let lessonIds = Lessons.find({weekId: selectedWeekId, subjectId: subjectId}).map(lesson => (lesson._id))
+		let lessonIds = Lessons.find({weekId: selectedWeekId, subjectId: subjectId}, {sort: {order: 1}}).map(lesson => (lesson._id))
 		return Lessons.find() && lessonIds.indexOf(lessonId);
 	},
 
@@ -71,7 +71,7 @@ Template.trackingView.helpers({
 	},
 
 	lessonStatus: function(lessonCompleted, subjectId, selectedWeekId) {
-		let lessonsIncompleteCount = Lessons.find({weekId: selectedWeekId, subjectId: subjectId, completed: false}).count()
+		let lessonsIncompleteCount = Lessons.find({weekId: selectedWeekId, subjectId: subjectId, completed: false}, {sort: {order: 1}}).count()
 		if (!lessonsIncompleteCount) {
 			return 'btn-primary';
 		}
