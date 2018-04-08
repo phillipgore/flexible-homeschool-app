@@ -44,6 +44,9 @@ Accounts.onCreateUser((options, user) => {
 	if (options.status) {
 		user.status = options.status;
 	}
+	if (options.reportSettings) {
+		user.reportSettings = options.reportSettings;
+	}
 	return user;
 });
 

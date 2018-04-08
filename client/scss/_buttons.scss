@@ -16,6 +16,16 @@ a {
 	    color: transparent;
 	    text-shadow: 0 0 0 #000;
 	}
+
+	&.icn-inline {
+		i {
+			display: inline-block;
+			float: left;
+			font-size: 18px;
+			margin-right: 3px;
+			text-align: center;
+		}
+	}
 }
 
 button, .btn {
@@ -93,11 +103,12 @@ button, .btn {
 	text-decoration: none;
 	background-color: transparent;
 	border: none;
-	width: 50px;
+	// width: 42px;
 	height: 50px;
 	border-radius: 0px;
 	display: block;
-	padding-top: 15px;
+	// padding-top: 15px;
+	padding: 15px 12px 0px;
 
 	&:hover, &:focus, &:active {
     	outline: none;

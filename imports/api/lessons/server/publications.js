@@ -16,7 +16,7 @@ Meteor.publish('allLessonsProgress', function() {
 	}
 
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-	return Lessons.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {order: 1}, fields: {completed: 1, subjectId: 1, weekId: 1}});
+	return Lessons.find({groupId: groupId, deletedOn: { $exists: false }}, {fields: {completed: 1, subjectId: 1, weekId: 1}});
 });
 
 Meteor.publish('lesson', function(lessonId) {

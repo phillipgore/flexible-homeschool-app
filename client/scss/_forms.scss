@@ -76,6 +76,7 @@ form {
 
 	textarea {
 		margin-bottom: 9px;
+		resize: none;
 	}
 
 	.icn-overlay {
@@ -186,6 +187,10 @@ form {
 					display: none;
 					font-size: 12px;
 				}
+
+				&.bold {
+					font-weight: 600;
+				}
 			}
 
 			input[type=radio] {
@@ -206,9 +211,13 @@ form {
 		}
 	}
 
+	.checkbox-collection {
+		padding: 5px 0px 0px;
+	}
+
 	.checkbox {
 		display: inline-block;
-		padding: 1px 0px 0px;
+		padding: 0px;
 		margin: 0px 0px 11px;
 		height: 20px;
 
@@ -229,6 +238,10 @@ form {
 			.checkbox-option-not-available {
 				display: none;
 				font-size: 12px;
+			}
+
+			&.bold {
+				font-weight: 600;
 			}
 		}
 

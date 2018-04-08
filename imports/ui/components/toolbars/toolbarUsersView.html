@@ -1,9 +1,9 @@
-<template name="toolbarView">
+<template name="toolbarUsersView">
 	<header class="toolbar toolbar-primary">
 		<div class="row">
 			<div class="col-tn-1of6">
 				{{#if leftIcon}}
-				<a class="btn-tool fl-tn-left txt-tn-left p-tn-l-18" href="{{leftUrl}}">
+				<a class="btn-tool fl-tn-left" href="{{leftUrl}}">
 					<i class="{{leftIcon}}"></i>
 				</a>
 				{{else}}
@@ -16,7 +16,7 @@
 				{{/if}}
 			</div>
 			<div class="col-tn-1of6">
-				<a class="js-dropdown btn-tool fl-tn-right txt-tn-right p-tn-r-18" href="#actions">
+				<a class="js-dropdown btn-tool fl-tn-right" href="#actions">
 					<i class="fss-actions"></i>
 				</a>
 			</div>
@@ -41,6 +41,16 @@
 				<a class="dropdown-item-link {{deleteClass}}" href="#">
 					<i class="fss-delete fss-fw-16 m-tn-r-4"></i> Delete
 				</a>
+			{{/if}}
+			{{#if pauseClass}}
+			<a class="dropdown-item-link {{pauseClass}}" href="#">
+				<i class="fss-pause-circle fss-fw-16 m-tn-r-4"></i> Pause
+			</a>
+			{{/if}}
+			{{#if unpauseClass}}
+			<a class="dropdown-item-link {{unpauseClass}}" href="#">
+				<i class="fss-play-circle fss-fw-16 m-tn-r-4"></i> Unpause
+			</a>
 			{{/if}}
 		</li>
 	</ul>

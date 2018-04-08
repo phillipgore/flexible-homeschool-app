@@ -3,6 +3,15 @@ h1 {
 	padding: 0px;
 	font-size: 20px;
 	font-weight: 400;
+
+	i {
+		display: inline-block;
+		float: left;
+		font-size: 22px;
+		margin-right: 6px;
+		text-align: center;
+	}
+
 }
 
 h2 {
@@ -10,6 +19,14 @@ h2 {
 	padding: 0px;
 	font-size: 18px;
 	font-weight: 400;
+
+	i {
+		display: inline-block;
+		float: left;
+		font-size: 21px;
+		margin-right: 6px;
+		text-align: center;
+	}
 }
 
 h3 {
@@ -23,6 +40,14 @@ p {
 	margin: 0px;
 	padding: 0px;
 	line-height: 1.25; 
+
+	i {
+		display: inline-block;
+		float: left;
+		font-size: 20px;
+		margin-right: 3px;
+		text-align: center;
+	}
 
 	&.p-sm {
 		font-size: 12px;
@@ -53,6 +78,8 @@ p {
 .font-weight-800 { font-weight: 800; }
 .font-weight-900 { font-weight: 900; }
 
+.font-size-16 { font-size: 16px; }
+.font-size-24 { font-size: 24px; }
 .font-size-30 { font-size: 30px; }
 .font-size-60 { font-size: 60px; }
 .font-size-64 { font-size: 64px; }

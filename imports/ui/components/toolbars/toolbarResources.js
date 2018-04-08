@@ -11,4 +11,13 @@ Template.toolbarResources.helpers({
 	label() {
 		return Session.get('label');
 	},
-})
+});
+
+Template.toolbarResources.events({
+	'click .js-print'(event) {
+		event.preventDefault();
+
+		window.print();
+		return false;		
+	},
+});

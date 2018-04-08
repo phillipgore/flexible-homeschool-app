@@ -5,8 +5,16 @@
 			<label>Title</label>
 			<input type="text" name="title" id="title" placeholder="John Adams Miniseries" autocomplete="off" value="{{resource.title}}">
 
-			<label>Director</label>
-			<input type="text" name="director" id="director" placeholder="Tom Hooper" autocomplete="off" value="{{resource.director}}">
+			<div class="row">
+				<div class="col-tn-1of2 p-tn-r-3">
+					<label>Director's First Name</label>
+					<input type="text" name="directorFirstName" id="directorFirstName" placeholder="S.E." autocomplete="off" value="{{resource.directorFirstName}}">
+				</div>
+				<div class="col-tn-1of2 p-tn-l-3">
+					<label>Director's Last Name</label>
+					<input type="text" name="directorLastName" id="directorLastName" placeholder="S.E." autocomplete="off" value="{{resource.directorLastName}}">
+				</div>
+			</div>
 
 			<label>Availability</label>
 			<div class="radio-collection m-tn-b-12">
@@ -16,9 +24,9 @@
 					<div class="radio-label">I own it.</div>
 				</label><br>
 				<label class="radio">
-					<input class="js-radio-borrow" type="radio" name="availability" value="borrow" checked="{{availability resource.availability 'borrow'}}">
+					<input class="js-radio-borrowed" type="radio" name="availability" value="borrowed" checked="{{availability resource.availability 'borrowed'}}">
 					<div class="radio-icon"></div> 
-					<div class="radio-label">I can borrow it.</div>
+					<div class="radio-label">I borrowed it.</div>
 				</label><br>
 				<label class="radio">
 					<input class="js-radio-need" type="radio" name="availability" value="need" checked="{{availability resource.availability 'need'}}">

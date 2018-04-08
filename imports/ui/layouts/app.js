@@ -6,23 +6,28 @@ import './app.html';
 
 
 // Components
-import '../components/loading.js';
-import '../components/saving.js';
-import '../components/updating.js';
-import '../components/dialog.js';
-import '../components/toolbar.js';
-import '../components/toolbarLogo.html';
-import '../components/toolbarResources.js';
-import '../components/toolbarUsersView.js';
-import '../components/toolbarView.js';
-import '../components/subbarAccounts.html';
-import '../components/subbarYearTerm.js';
-import '../components/subbarYearTermWeek.js';
-import '../components/subbarYearStudent.js';
-import '../components/subbarTypeAvailability.js';
-import '../components/subbar.html';
-import '../components/navbar.js';
 import '../components/creditCard.js';
+import '../components/dialog.js';
+import '../components/navbar.js';
+	// Loaders
+	import '../components/loaders/loading.js';
+	import '../components/loaders/saving.js';
+	import '../components/loaders/updating.js';
+	// Subbars
+	import '../components/subbars/subbar.html';
+	import '../components/subbars/subbarAccounts.html';
+	import '../components/subbars/subbarReporting.js';
+	import '../components/subbars/subbarTypeAvailability.js';
+	import '../components/subbars/subbarYearStudent.js';
+	import '../components/subbars/subbarYearTerm.js';
+	import '../components/subbars/subbarYearTermWeek.js';
+	// Toolbars
+	import '../components/toolbars/toolbar.js';
+	import '../components/toolbars/toolbarLogo.html';
+	import '../components/toolbars/toolbarPrint.js';
+	import '../components/toolbars/toolbarResources.js';
+	import '../components/toolbars/toolbarUsersView.js';
+	import '../components/toolbars/toolbarView.js';
 
 
 // Accounts
@@ -75,6 +80,12 @@ import '../pages/tracking/trackingView.js';
 
 // Reporting
 import '../pages/reporting/reportingList.js';
+import '../pages/reporting/reportingSettingsEdit.js';
+import '../pages/reporting/reports/reportingSchoolYears.js';
+import '../pages/reporting/reports/reportingTerms.js';
+import '../pages/reporting/reports/reportingSubjects.js';
+import '../pages/reporting/reports/reportingResources.js';
+import '../pages/reporting/reports/reportingLessons.js';
 
 
 // Settings

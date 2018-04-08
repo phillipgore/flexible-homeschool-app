@@ -2,8 +2,9 @@
 	{{> toolbar}}
 	{{> subbarYearTerm}}
 	<main class="app-content app-content-preceeds-toolbar">
-		<ul class="data-list">
-			{{#each student in students}}
+		{{#if students.count}}
+			<ul class="data-list">
+				{{#each student in students}}
 				<li class="list-item">
 					<a href="/tracking/students/view/{{student._id}}" class="list-item-link p-tn-rl-9">
 						<div class="clearfix">
@@ -19,15 +20,22 @@
 							<div class="meter-label">Year's Progress: {{yearsProgress student._id selectedSchoolYear._id selectedTerm._id}}%</div>
 						</div>
 						<div class="meter">
-							<div class="meter-progress {{termsProgressStatus student._id selectedSchoolYear._id}}" style="width: {{termsProgress student._id selectedSchoolYear._id selectedTerm._id}}%;">
+							<div class="meter-progress {{termsProgressStatus student._id selectedSchoolYear._id selectedTerm._id}}" style="width: {{termsProgress student._id selectedSchoolYear._id selectedTerm._id}}%;">
 								<div class="meter-label">Term's Progress: {{termsProgress student._id selectedSchoolYear._id selectedTerm._id}}%</div>
 							</div>
 							<div class="meter-label">Term's Progress: {{termsProgress student._id selectedSchoolYear._id selectedTerm._id}}%</div>
 						</div>
 					</a>
 				</li>
-			{{/each}}
-		</ul>
+				{{/each}}
+			</ul>
+		{{else}}
+			<div class="txt-tn-center m-tn-t-72">
+				<i class="fss-students font-size-64 txt-gray"></i>
+				<h1 class="m-tn-t-36">Add Your First Student</h1>
+				<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36">Go to <a href="{{pathFor 'studentsNew'}}">planning/students/new</a> to add your first Student.</p>
+			</div>
+		{{/if}}
 	</main>
 	{{#unless Template.subscriptionsReady}}
 		{{> loading}}

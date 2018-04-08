@@ -15,6 +15,14 @@ Meteor.publish('userRole', function() {
 	return Meteor.users.find({_id: this.userId}, {fields: {'info.role': 1}});
 });
 
+Meteor.publish('userReportSettings', function() {
+	if (!this.userId) {
+		return this.ready();
+	}
+
+	return Meteor.users.find({_id: this.userId}, {fields: {'reportSettings': 1}});
+});
+
 Meteor.publish('userData', function() {
 	if (!this.userId) {
 		return this.ready();

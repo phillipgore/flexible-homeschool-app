@@ -1,8 +1,22 @@
 <template name="reportingList">
-	{{> toolbar}}
-	{{> subbar}}
-	<main class="app-content app-content-preceeds-toolbar">
-		
+	{{> toolbarPrint}}
+	{{> subbarReporting}}
+	<main class="app-content app-content-preceeds-toolbar bg-gray-lightest">
+		{{#if reportsAvailable}}
+			<div class="p-tn-trl-9">
+				{{> reportingSchoolYears}}
+				{{> reportingTerms}}
+				{{> reportingSubjects}}
+				{{> reportingLessons}}
+				{{> reportingResources}}
+			</div>
+		{{else}}
+			<div class="txt-tn-center m-tn-t-72">
+				<i class="fss-reporting font-size-64 txt-gray"></i>
+				<h1 class="m-tn-t-36">Add Data</h1>
+				<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36">Go to <a href="{{pathFor 'planningList'}}">planning/list</a> to add data so a report can be generated.</p>
+			</div>
+		{{/if}}
 	</main>
 	{{#unless Template.subscriptionsReady}}
 		{{> loading}}

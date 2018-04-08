@@ -28,6 +28,10 @@ ul.list {
 				border-color: $color-gray;
 			}
 
+			&.padding-bottom-none {
+				padding-bottom: 0px;
+			}
+
 			.list-item-icon {
 				display: inline-block;
 				float: left;
@@ -152,7 +156,7 @@ ul.data-list {
 
 	li.list-item {
 
-		a.list-item-link {
+		a.list-item-link, .list-item-inner {
 			display: block;
 			padding-top: 16px;
 			padding-bottom: 16px;
@@ -161,6 +165,10 @@ ul.data-list {
 			color: $color-black;
 			font-size: 14px;
 			font-weight: 600;
+
+			&.padding-top-none {
+				padding-bottom: 0px;
+			}
 
 			.list-item-icon {
 				display: inline-block;

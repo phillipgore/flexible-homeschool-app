@@ -1,9 +1,9 @@
 import {Template} from 'meteor/templating';
-import {SchoolYears} from '../../api/schoolYears/schoolYears.js';
-import {Terms} from '../../api/terms/terms.js';
-import {Subjects} from '../../api/subjects/subjects.js';
-import {Weeks} from '../../api/weeks/weeks.js';
-import {Lessons} from '../../api/lessons/lessons.js';
+import {SchoolYears} from '../../../api/schoolYears/schoolYears.js';
+import {Terms} from '../../../api/terms/terms.js';
+import {Subjects} from '../../../api/subjects/subjects.js';
+import {Weeks} from '../../../api/weeks/weeks.js';
+import {Lessons} from '../../../api/lessons/lessons.js';
 import moment from 'moment';
 import './subbarYearTermWeek.html';
 

@@ -1,17 +1,21 @@
 <template name="subbarYearTerm">
 	<asside class="subbar">
-		<div class="row">
-			<div class="col-tn-1of2">
-				<a id="{{selectedSchoolYear._id}}" href="#years" class="js-dropdown btn-sub">
-					{{selectedSchoolYear.startYear}}-{{selectedSchoolYear.endYear}} <i class="fss-caret-down"></i>
-				</a>
+		{{#if schoolYears.count}}
+			{{#if terms.count}}
+			<div class="row">
+				<div class="col-tn-1of2">
+					<a id="{{selectedSchoolYear._id}}" href="#years" class="js-dropdown btn-sub">
+						{{selectedSchoolYear.startYear}}-{{selectedSchoolYear.endYear}} <i class="fss-caret-down"></i>
+					</a>
+				</div>
+				<div class="col-tn-1of2">
+					<a id="{{selectedTerm._id}}" href="#terms" class="js-dropdown btn-sub last">
+						Term {{selectedTerm.order}} <i class="fss-caret-down"></i>
+					</a>
+				</div>
 			</div>
-			<div class="col-tn-1of2">
-				<a id="{{selectedTerm._id}}" href="#terms" class="js-dropdown btn-sub last">
-					Term {{selectedTerm.order}} <i class="fss-caret-down"></i>
-				</a>
-			</div>
-		</div>
+			{{/if}}
+		{{/if}}
 	</asside>
 
 	<ul id="years" class="dropdown-menu dropdown-sub m-tn-rl-9 hide">

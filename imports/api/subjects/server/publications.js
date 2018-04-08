@@ -23,7 +23,7 @@ Meteor.publish('allSubjectsProgress', function() {
 
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
 
-	return Subjects.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {order: 1}, fields: {studentId: 1, schoolYearId: 1}});
+	return Subjects.find({groupId: groupId, deletedOn: { $exists: false }}, {fields: {studentId: 1, schoolYearId: 1}});
 });
 
 Meteor.publish('studentSubjects', function(studentId) {

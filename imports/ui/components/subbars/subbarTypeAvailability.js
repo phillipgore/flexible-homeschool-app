@@ -22,7 +22,7 @@ Template.subbarTypeAvailability.helpers({
 	availabilities: [
 		{_id: 'all-availabilities', label: 'All Availabilities'},
 		{_id: 'own', label: 'I Own It'},
-		{_id: 'borrow', label: 'I Can Borrow It'},
+		{_id: 'borrowed', label: 'I Borrowed It'},
 		{_id: 'need', label: 'I Need It'},
 	],
 
@@ -66,7 +66,7 @@ Template.subbarTypeAvailability.events({
 		let availabilities = [
 			{_id: 'all-availabilities', label: 'All Availabilities'},
 			{_id: 'own', label: 'I Own It'},
-			{_id: 'borrow', label: 'I Can Borrow It'},
+			{_id: 'borrowed', label: 'I Borrowed It'},
 			{_id: 'need', label: 'I Need It'},
 		];
 		let availabilityIds = availabilities.map(availability => (availability._id));

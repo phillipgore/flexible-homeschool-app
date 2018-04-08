@@ -7,6 +7,7 @@ FlowRouter.route('/tracking/list', {
 	},
 });
 
+
 FlowRouter.route('/tracking/students/view/:id', {
 	name: 'trackingView',
 	action() {

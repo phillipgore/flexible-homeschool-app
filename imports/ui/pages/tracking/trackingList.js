@@ -45,6 +45,7 @@ Template.trackingList.helpers({
 		let lessonsTotal = Lessons.find({subjectId: {$in: subjectIds}}).count();
 		let lessonsCompletedTotal = Lessons.find({subjectId: {$in: subjectIds}, completed: true}).count();
 		let percentComplete = lessonsCompletedTotal / lessonsTotal * 100;
+		
 		if (percentComplete > 0 && percentComplete < 1) {
 			return 1;
 		}
@@ -57,6 +58,7 @@ Template.trackingList.helpers({
 		let lessonsTotal = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: weeksIds}}).count();
 		let lessonsCompletedTotal = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: weeksIds}, completed: true}).count();
 		let percentComplete = lessonsCompletedTotal / lessonsTotal * 100;
+
 		if (percentComplete > 0 && percentComplete < 1) {
 			return 1;
 		}
@@ -66,6 +68,7 @@ Template.trackingList.helpers({
 	yearsProgressStatus: function(studentId, selectedSchoolYearId) {
 		let subjectIds = Subjects.find({studentId: studentId, schoolYearId: selectedSchoolYearId}).map(subject => (subject._id));
 		let lessonsIncompleteTotal = Lessons.find({subjectId: {$in: subjectIds}, completed: false}).count();
+
 		if (!lessonsIncompleteTotal) {
 			return 'meter-progress-primary';
 		}
@@ -76,6 +79,7 @@ Template.trackingList.helpers({
 		let subjectIds = Subjects.find({studentId: studentId, schoolYearId: selectedSchoolYearId}).map(subject => (subject._id));
 		let weeksIds = Weeks.find({termId: selectedTermId}).map(week => (week._id))
 		let lessonsIncompleteTotal = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: weeksIds}, completed: false}).count();
+
 		if (!lessonsIncompleteTotal) {
 			return 'meter-progress-primary';
 		}

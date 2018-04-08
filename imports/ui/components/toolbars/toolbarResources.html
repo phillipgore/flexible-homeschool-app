@@ -1,23 +1,26 @@
 <template name="toolbarResources">
 	<header class="toolbar toolbar-primary">
 		<div class="row">
-			<div class="col-tn-1of6">
+			<div class="col-tn-2of7">
 				{{#if leftIcon}}
-				<a class="btn-tool fl-tn-left txt-tn-left p-tn-l-18" href="{{leftUrl}}">
+				<a class="btn-tool fl-tn-left" href="{{leftUrl}}">
 					<i class="{{leftIcon}}"></i>
 				</a>
 				{{else}}
 				&nbsp;
 				{{/if}}
 			</div>
-			<div class="col-tn-4of6 |  m-tn-t-12">
+			<div class="col-tn-3of7 |  m-tn-t-12">
 				{{#if label}}
 				<h1 class="txt-tn-center txt-ellipsis">{{label}}</h1>
 				{{/if}}
 			</div>
-			<div class="col-tn-1of6">
-				<a class="js-dropdown btn-tool fl-tn-right txt-tn-right p-tn-r-18" href="#actions">
+			<div class="col-tn-2of7">
+				<a class="js-dropdown btn-tool fl-tn-right" href="#actions">
 					<i class="fss-new"></i>
+				</a>
+				<a class="js-print btn-tool fl-tn-right" href="#">
+					<i class="fss-print"></i>
 				</a>
 			</div>
 		</div>

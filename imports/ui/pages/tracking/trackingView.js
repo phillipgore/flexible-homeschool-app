@@ -54,7 +54,7 @@ Template.trackingView.helpers({
 	},
 
 	lessons: function(subjectId, selectedWeekId) {
-		return Lessons.find({weekId: selectedWeekId, subjectId: subjectId});
+		return Lessons.find({weekId: selectedWeekId, subjectId: subjectId}, {sort: {order: 1}});
 	},
 
 	lessonCount: function(subjectId, selectedWeekId) {

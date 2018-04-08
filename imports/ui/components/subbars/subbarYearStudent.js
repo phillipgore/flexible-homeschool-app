@@ -1,6 +1,6 @@
 import {Template} from 'meteor/templating';
-import {SchoolYears} from '../../api/schoolYears/schoolYears.js';
-import {Students} from '../../api/students/students.js';
+import {SchoolYears} from '../../../api/schoolYears/schoolYears.js';
+import {Students} from '../../../api/students/students.js';
 import moment from 'moment';
 import './subbarYearStudent.html';
 

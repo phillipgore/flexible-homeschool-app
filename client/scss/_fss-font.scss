@@ -23,6 +23,12 @@ i {
     -moz-osx-font-smoothing: grayscale;
 }
 
+.fss-print:before {
+  content: "\e935";
+}
+.fss-activity:before {
+  content: "\e934";
+}
 .fss-data:before {
   content: "\e933";
 }

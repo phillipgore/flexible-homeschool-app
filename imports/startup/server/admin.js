@@ -16,6 +16,35 @@ if (!Groups.find({appAdmin: true}).count()) {
 			status: {
 				active: true,
 				updatedOn: new Date(),
+			},
+			reportSettings: {
+				schoolYearReportVisible: true,
+				schoolYearStatsVisible: true,
+				schoolYearProgressVisible: true,
+				schoolYearTimesVisible: true,
+
+				termsReportVisible: false,
+				termsStatsVisible: true,
+				termsProgressVisible: true,
+				termsTimesVisible: true,
+				
+				subjectsReportVisible: true,
+				subjectsStatsVisible: true,
+				subjectsProgressVisible: true,
+				subjectsTimesVisible: true,
+				subjectsResourcesVisible: true,
+
+				resourcesReportVisible: false,
+				resourcesOriginatorVisible: true,
+				resourcesPublicationVisible: true,
+				resourcesSubjectsVisible: true,
+				resourcesLinkVisible: true,
+				resourcesDescriptionVisible: true,
+				
+				lessonsReportVisible: false,
+				lessonsDateVisible: true,
+				lessonsTimeVisible: true,
+				lessonsDescriptionVisible: false,
 			}
 		},
 		{
@@ -31,6 +60,35 @@ if (!Groups.find({appAdmin: true}).count()) {
 			status: {
 				active: true,
 				updatedOn: new Date(),
+			},
+			reportSettings: {
+				schoolYearReportVisible: true,
+				schoolYearStatsVisible: true,
+				schoolYearProgressVisible: true,
+				schoolYearTimesVisible: true,
+
+				termsReportVisible: false,
+				termsStatsVisible: true,
+				termsProgressVisible: true,
+				termsTimesVisible: true,
+				
+				subjectsReportVisible: true,
+				subjectsStatsVisible: true,
+				subjectsProgressVisible: true,
+				subjectsTimesVisible: true,
+				subjectsResourcesVisible: true,
+
+				resourcesReportVisible: false,
+				resourcesOriginatorVisible: true,
+				resourcesPublicationVisible: true,
+				resourcesSubjectsVisible: true,
+				resourcesLinkVisible: true,
+				resourcesDescriptionVisible: true,
+				
+				lessonsReportVisible: false,
+				lessonsDateVisible: true,
+				lessonsTimeVisible: true,
+				lessonsDescriptionVisible: false,
 			}
 		}
 	]

@@ -39,25 +39,40 @@ const ResourcesSchema = new SimpleSchema({
         type: String,
         label: "Title"
     },
-	author: {
+	authorFirstName: {
         type: String,
-        label: "Author",
+        label: "Author First Name",
         optional: true
     },
-	director: {
+    authorLastName: {
         type: String,
-        label: "Director",
+        label: "Author Last Name",
         optional: true
     },
-	artist: {
+	directorFirstName: {
         type: String,
-        label: "Artist",
+        label: "Director First Name",
+        optional: true
+    },
+    directorFirstName: {
+        type: String,
+        label: "Director Last Name",
+        optional: true
+    },
+	artistFirstName: {
+        type: String,
+        label: "Artist First Name",
+        optional: true
+    },
+    artistFirstName: {
+        type: String,
+        label: "Artist Last Name",
         optional: true
     },
 	availability: {
         type: String,
         label: "Availability",
-        allowedValues: ['own', 'borrow', 'need'],
+        allowedValues: ['own', 'borrowed', 'need'],
         optional: true
     },
     publisher: {

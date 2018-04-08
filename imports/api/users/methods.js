@@ -1,9 +1,15 @@
+import { Match } from 'meteor/check'
+
 Meteor.methods({
 	updateUser: function(userId, userProperties) {
 		if (userProperties.info.role === 'Application Administrator' || userProperties.info.role === 'Developer') {
 			userProperties.info.role = 'User'
 		}
 		Meteor.users.update(userId, {$set: userProperties});
+	},
+
+	updateUserReportSettings: function(userId, reportSettingsProperties) {
+		Meteor.users.update(userId, {$set: reportSettingsProperties});
 	},
 
 	pauseUser: function(userId) {

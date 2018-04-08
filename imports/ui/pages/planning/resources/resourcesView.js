@@ -44,6 +44,13 @@ Template.resourcesView.helpers({
 		}
 	},
 
+	resourceOrigin: function(firstName, lastName) {
+		if (firstName || lastName) {
+			return true;
+		}
+		return false;
+	},
+
 	dynamicToolbarEditUrl: function() {
 		let resouce = Resources.findOne({_id: FlowRouter.getParam('id')});
 		return resouce && '/planning/resources/edit/' + FlowRouter.getParam('id') + '/' + resouce.type;
@@ -53,8 +60,8 @@ Template.resourcesView.helpers({
 		if (availability === 'own') {
 			return 'I have it.'
 		}
-		if (availability === 'borrow') {
-			return 'I can borrow it.'
+		if (availability === 'borrowed') {
+			return 'I borrowed it.'
 		}
 		return 'I need it.'
 	}

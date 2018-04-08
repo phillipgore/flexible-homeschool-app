@@ -1,0 +1,253 @@
+<template name="reportingSettingsEdit">
+	{{> toolbar}}
+	<main class="app-content no-subbar app-content-preceeds-toolbar">
+		<form class="js-form-report-settings-update">
+			<ul class="list">
+				<!-- School Year -->
+				<li class="list-item">
+					<div class="list-item-inner p-tn-rl-9">
+						<label class="checkbox">
+							<input class="js-checkbox" type="checkbox" name="schoolYearReportVisible" value="{{user.reportSettings.schoolYearReportVisible}}" checked="{{user.reportSettings.schoolYearReportVisible}}">
+							<div class="checkbox-icon"></div> 
+							<div class="checkbox-label bold">School Year</div>
+						</label>
+					</div>
+				</li>
+				<li class="list-item">
+					<div class="list-item-inner p-tn-r-9 p-tn-l-36">
+						<label class="checkbox">
+							<input class="js-checkbox" type="checkbox" name="schoolYearStatsVisible" value="{{user.reportSettings.schoolYearStatsVisible}}" checked="{{user.reportSettings.schoolYearStatsVisible}}">
+							<div class="checkbox-icon"></div> 
+							<div class="checkbox-label">Schedule</div>
+						</label>
+					</div>
+				</li>
+				<li class="list-item">
+					<div class="list-item-inner p-tn-r-9 p-tn-l-36">
+						<label class="checkbox">
+							<input class="js-checkbox" type="checkbox" name="schoolYearProgressVisible" value="{{user.reportSettings.schoolYearProgressVisible}}" checked="{{user.reportSettings.schoolYearProgressVisible}}">
+							<div class="checkbox-icon"></div> 
+							<div class="checkbox-label">Progress Bar</div>
+						</label>
+					</div>
+				</li>
+				<li class="list-item">
+					<div class="list-item-inner p-tn-r-9 p-tn-l-36">
+						<label class="checkbox">
+							<input class="js-checkbox" type="checkbox" name="schoolYearTimesVisible" value="{{user.reportSettings.schoolYearTimesVisible}}" checked="{{user.reportSettings.schoolYearTimesVisible}}">
+							<div class="checkbox-icon"></div> 
+							<div class="checkbox-label">Statistics</div>
+						</label>
+					</div>
+				</li>
+
+
+
+				<!-- Terms -->
+				<li class="list-item">
+					<div class="list-item-inner p-tn-rl-9">
+						<label class="checkbox">
+							<input class="js-checkbox" type="checkbox" name="termsReportVisible" value="{{user.reportSettings.termsReportVisible}}" checked="{{user.reportSettings.termsReportVisible}}">
+							<div class="checkbox-icon"></div> 
+							<div class="checkbox-label bold">Terms</div>
+						</label>
+					</div>
+				</li>
+				<li class="list-item">
+					<div class="list-item-inner p-tn-r-9 p-tn-l-36">
+						<label class="checkbox">
+							<input class="js-checkbox" type="checkbox" name="termsStatsVisible" value="{{user.reportSettings.termsStatsVisible}}" checked="{{user.reportSettings.termsStatsVisible}}">
+							<div class="checkbox-icon"></div> 
+							<div class="checkbox-label">Schedule</div>
+						</label>
+					</div>
+				</li>
+				<li class="list-item">
+					<div class="list-item-inner p-tn-r-9 p-tn-l-36">
+						<label class="checkbox">
+							<input class="js-checkbox" type="checkbox" name="termsProgressVisible" value="{{user.reportSettings.termsProgressVisible}}" checked="{{user.reportSettings.termsProgressVisible}}">
+							<div class="checkbox-icon"></div> 
+							<div class="checkbox-label">Progress Bar</div>
+						</label>
+					</div>
+				</li>
+				<li class="list-item">
+					<div class="list-item-inner p-tn-r-9 p-tn-l-36">
+						<label class="checkbox">
+							<input class="js-checkbox" type="checkbox" name="termsTimesVisible" value="{{user.reportSettings.termsTimesVisible}}" checked="{{user.reportSettings.termsTimesVisible}}">
+							<div class="checkbox-icon"></div> 
+							<div class="checkbox-label">Statistics</div>
+						</label>
+					</div>
+				</li>
+
+
+
+				<!-- Subjects -->
+				<li class="list-item">
+					<div class="list-item-inner p-tn-rl-9">
+						<label class="checkbox">
+							<input class="js-checkbox" type="checkbox" name="subjectsReportVisible" value="{{user.reportSettings.subjectsReportVisible}}" checked="{{user.reportSettings.subjectsReportVisible}}">
+							<div class="checkbox-icon"></div> 
+							<div class="checkbox-label bold">Subjects</div>
+						</label>
+					</div>
+				</li>
+				<li class="list-item">
+					<div class="list-item-inner p-tn-r-9 p-tn-l-36">
+						<label class="checkbox">
+							<input class="js-checkbox" type="checkbox" name="subjectsStatsVisible" value="{{user.reportSettings.subjectsStatsVisible}}" checked="{{user.reportSettings.subjectsStatsVisible}}">
+							<div class="checkbox-icon"></div> 
+							<div class="checkbox-label">Schedule</div>
+						</label>
+					</div>
+				</li>
+				<li class="list-item">
+					<div class="list-item-inner p-tn-r-9 p-tn-l-36">
+						<label class="checkbox">
+							<input class="js-checkbox" type="checkbox" name="subjectsProgressVisible" value="{{user.reportSettings.subjectsProgressVisible}}" checked="{{user.reportSettings.subjectsProgressVisible}}">
+							<div class="checkbox-icon"></div> 
+							<div class="checkbox-label">Progress Bar</div>
+						</label>
+					</div>
+				</li>
+				<li class="list-item">
+					<div class="list-item-inner p-tn-r-9 p-tn-l-36">
+						<label class="checkbox">
+							<input class="js-checkbox" type="checkbox" name="subjectsTimesVisible" value="{{user.reportSettings.subjectsTimesVisible}}" checked="{{user.reportSettings.subjectsTimesVisible}}">
+							<div class="checkbox-icon"></div> 
+							<div class="checkbox-label">Statistics</div>
+						</label>
+					</div>
+				</li>
+
+				<li class="list-item">
+					<div class="list-item-inner p-tn-r-9 p-tn-l-36">
+						<label class="checkbox">
+							<input class="js-checkbox" type="checkbox" name="subjectsResourcesVisible" value="{{user.reportSettings.subjectsResourcesVisible}}" checked="{{user.reportSettings.subjectsResourcesVisible}}">
+							<div class="checkbox-icon"></div> 
+							<div class="checkbox-label">Resource Titles</div>
+						</label>
+					</div>
+				</li>
+
+
+
+
+				<!-- Lessons -->
+				<li class="list-item">
+					<div class="list-item-inner p-tn-rl-9">
+						<label class="checkbox">
+							<input class="js-checkbox" type="checkbox" name="lessonsReportVisible" value="{{user.reportSettings.lessonsReportVisible}}" checked="{{user.reportSettings.lessonsReportVisible}}">
+							<div class="checkbox-icon"></div> 
+							<div class="checkbox-label bold">Lessons</div>
+						</label>
+					</div>
+				</li>
+
+				<li class="list-item">
+					<div class="list-item-inner p-tn-rl-9 p-tn-l-36">
+						<label class="checkbox">
+							<input class="js-checkbox" type="checkbox" name="lessonsDateVisible" value="{{user.reportSettings.lessonsDateVisible}}" checked="{{user.reportSettings.lessonsDateVisible}}">
+							<div class="checkbox-icon"></div> 
+							<div class="checkbox-label">Completion Date</div>
+						</label>
+					</div>
+				</li>
+
+				<li class="list-item">
+					<div class="list-item-inner p-tn-rl-9 p-tn-l-36">
+						<label class="checkbox">
+							<input class="js-checkbox" type="checkbox" name="lessonsTimeVisible" value="{{user.reportSettings.lessonsTimeVisible}}" checked="{{user.reportSettings.lessonsTimeVisible}}">
+							<div class="checkbox-icon"></div> 
+							<div class="checkbox-label">Completion Time</div>
+						</label>
+					</div>
+				</li>
+
+				<li class="list-item">
+					<div class="list-item-inner p-tn-rl-9 p-tn-l-36">
+						<label class="checkbox">
+							<input class="js-checkbox" type="checkbox" name="lessonsDescriptionVisible" value="{{user.reportSettings.lessonsDescriptionVisible}}" checked="{{user.reportSettings.lessonsDescriptionVisible}}">
+							<div class="checkbox-icon"></div> 
+							<div class="checkbox-label">Description</div>
+						</label>
+					</div>
+				</li>
+
+
+
+
+				<!-- Resources -->
+				<li class="list-item">
+					<div class="list-item-inner p-tn-rl-9">
+						<label class="checkbox">
+							<input class="js-checkbox" type="checkbox" name="resourcesReportVisible" value="{{user.reportSettings.resourcesReportVisible}}" checked="{{user.reportSettings.resourcesReportVisible}}">
+							<div class="checkbox-icon"></div> 
+							<div class="checkbox-label bold">Resources</div>
+						</label>
+					</div>
+				</li>
+
+				<li class="list-item">
+					<div class="list-item-inner p-tn-rl-9 p-tn-l-36">
+						<label class="checkbox">
+							<input class="js-checkbox" type="checkbox" name="resourcesOriginatorVisible" value="{{user.reportSettings.resourcesOriginatorVisible}}" checked="{{user.reportSettings.resourcesOriginatorVisible}}">
+							<div class="checkbox-icon"></div> 
+							<div class="checkbox-label">Author, Director or Artist</div>
+						</label>
+					</div>
+				</li>
+
+				<li class="list-item">
+					<div class="list-item-inner p-tn-rl-9 p-tn-l-36">
+						<label class="checkbox">
+							<input class="js-checkbox" type="checkbox" name="resourcesPublicationVisible" value="{{user.reportSettings.resourcesPublicationVisible}}" checked="{{user.reportSettings.resourcesPublicationVisible}}">
+							<div class="checkbox-icon"></div> 
+							<div class="checkbox-label">Publication Information</div>
+						</label>
+					</div>
+				</li>
+
+				<li class="list-item">
+					<div class="list-item-inner p-tn-rl-9 p-tn-l-36">
+						<label class="checkbox">
+							<input class="js-checkbox" type="checkbox" name="resourcesSubjectsVisible" value="{{user.reportSettings.resourcesSubjectsVisible}}" checked="{{user.reportSettings.resourcesSubjectsVisible}}">
+							<div class="checkbox-icon"></div> 
+							<div class="checkbox-label">Subjects</div>
+						</label>
+					</div>
+				</li>
+
+				<li class="list-item">
+					<div class="list-item-inner p-tn-rl-9 p-tn-l-36">
+						<label class="checkbox">
+							<input class="js-checkbox" type="checkbox" name="resourcesLinkVisible" value="{{user.reportSettings.resourcesLinkVisible}}" checked="{{user.reportSettings.resourcesLinkVisible}}">
+							<div class="checkbox-icon"></div> 
+							<div class="checkbox-label">Link</div>
+						</label>
+					</div>
+				</li>
+
+				<li class="list-item">
+					<div class="list-item-inner p-tn-rl-9 p-tn-l-36">
+						<label class="checkbox">
+							<input class="js-checkbox" type="checkbox" name="resourcesDescriptionVisible" value="{{user.reportSettings.resourcesDescriptionVisible}}" checked="{{user.reportSettings.resourcesDescriptionVisible}}">
+							<div class="checkbox-icon"></div> 
+							<div class="checkbox-label">Description</div>
+						</label>
+					</div>
+				</li>
+			</ul>
+
+			<footer class="toolbar toolbar-bottom">
+				<a href="{{pathFor 'reportingList'}}" class="btn btn-gray-darker fl-tn-left">Cancel</a>
+				<button type="submit" class="js-submit fl-tn-right">Update</button>
+			</footer>
+		</form>
+	</main>
+	{{#unless Template.subscriptionsReady}}
+		{{> loading}}
+	{{/unless}}
+	{{> updating}}
+</template>

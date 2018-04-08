@@ -1,0 +1,35 @@
+<template name="toolbar">
+	<header class="toolbar toolbar-primary">
+		<div class="row">
+			<div class="col-tn-1of6">
+				{{#if leftIcon}}
+				<a class="btn-tool fl-tn-left" href="{{leftUrl}}">
+					<i class="{{leftIcon}}"></i>
+				</a>
+				{{else}}
+				&nbsp;
+				{{/if}}
+			</div>
+			<div class="col-tn-4of6 |  m-tn-t-12">
+				<h1 class="txt-tn-center txt-ellipsis">
+					{{#if dynamicFirstName}}
+						{{dynamicFirstName}}
+					{{/if}}
+					{{#if dynamicLastName}}
+						{{dynamicLastName}}
+					{{/if}}
+					{{#if label}}
+						{{label}}
+					{{/if}}
+				</h1>
+			</div>
+			<div class="col-tn-1of6">
+				{{#if rightIcon}}
+				<a class="btn-tool fl-tn-right" href="{{rightUrl}}">
+					<i class="{{rightIcon}}"></i>
+				</a>
+				{{/if}}
+			</div>
+		</div>
+	</header>
+</template>

@@ -16,19 +16,19 @@
 			</div>
 		</div>
 		<div class="view-info m-tn-rl-9 m-tn-b-36 p-tn-18">
-			{{#if resource.author}}
+			{{#if resourceOrigin resource.authorFirstName resource.authorLastName}}
 				<label>Author</label>
-				<p>{{resource.author}}</p>
+				<p>{{resource.authorFirstName}} {{resource.authorLastName}}</p>
 			{{/if}}
 
-			{{#if resource.director}}
+			{{#if resourceOrigin resource.directorFirstName resource.directorLastName}}
 				<label>Director</label>
-				<p>{{resource.director}}</p>
+				<p>{{resource.directorFirstName}} {{resource.directorLastName}}</p>
 			{{/if}}
 
-			{{#if resource.artist}}
+			{{#if resourceOrigin resource.artistFirstName resource.artistLastName}}
 				<label>Artist</label>
-				<p>{{resource.artist}}</p>
+				<p>{{resource.artistFirstName}} {{resource.artistLastName}}</p>
 			{{/if}}
 
 			{{#if resource.publisher}}
@@ -43,7 +43,7 @@
 
 			{{#if resource.link}}
 				<label>Link</label>
-				<a href="{{resource.link}}" target="_blank" class="txt-ellipsis">
+				<a href="{{resource.link}}" target="_blank" class="icn-inline txt-ellipsis">
 					<i class="fss-link"></i> {{resource.link}}
 				</a>
 			{{/if}}

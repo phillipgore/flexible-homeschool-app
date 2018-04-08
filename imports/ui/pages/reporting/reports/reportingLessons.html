@@ -1,0 +1,61 @@
+<template name="reportingLessons">
+	{{#if user.reportSettings.lessonsReportVisible}}
+		<div class="report p-tn-trl-18 m-tn-b-9">
+		{{#each subject in subjects selectedSchoolYear._id selectedStudent._id}}
+				<div class="report-section">
+					{{#each term in terms subject._id}}
+						{{#each week in weeks subject._id}}
+							<div class="font-weight-normal p-tn-b-9">
+								<div class="clearfix m-tn-b-12">
+									<h2><i class="fss-subjects txt-primary"></i>{{subject.name}}</h2>
+								</div>
+								{{#each lesson in lessons week._id subject._id}}
+									<div class="m-tn-b-27">
+										<p class="m-tn-b-9">
+											Term {{term.order}}, Week {{week.order}}, Lesson {{lessonOrder @index}}
+										</p>
+										{{#if user.reportSettings.lessonsDateVisible}}
+											<p class="m-tn-b-9">
+												<span class="txt-gray-darker">Completion Time:</span> {{dateFormat lesson.completedOn}}
+											</p>
+										{{/if}}
+										{{#if user.reportSettings.lessonsTimeVisible}}
+											<p class="m-tn-b-9">
+												<span class="txt-gray-darker">Completion Time:</span> {{lesson.completionTime}}m
+											</p>
+										{{/if}}
+										{{#if user.reportSettings.lessonsDescriptionVisible}}
+											{{#if lesson.description}}
+												<p class="m-tn-b-9"><span class="txt-gray-darker">Description:</span> {{lesson.description}}</p>
+											{{/if}}
+										{{/if}}
+									</div>
+								{{/each}}
+							</div>
+						{{/each}}
+					{{/each}}
+				</div>
+		{{/each}}
+		</div>
+	{{/if}}
+</template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
