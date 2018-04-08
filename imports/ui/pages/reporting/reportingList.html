@@ -1,7 +1,7 @@
 <template name="reportingList">
 	{{> toolbarPrint}}
 	{{> subbarReporting}}
-	<main class="app-content app-content-preceeds-toolbar bg-gray-lightest">
+	<main class="app-content app-content-preceeds-toolbar {{#if reportsAvailable}}bg-gray-lightest{{/if}}">
 		{{#if reportsAvailable}}
 			<div class="p-tn-trl-9">
 				{{> reportingSchoolYears}}
