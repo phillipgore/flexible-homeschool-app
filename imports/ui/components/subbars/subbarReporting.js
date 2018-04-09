@@ -10,7 +10,7 @@ Template.subbarReporting.onCreated( function() {
 
 	template.autorun( () => {
 		template.subscribe('allSchoolYears', () => {
-			if (!Session.equals('selectedSchoolYear', '')) {
+			if (!Session.get('selectedSchoolYear')) {
 				let year = moment().year();
 				let month = moment().month();
 				function startYear(year) {
@@ -31,7 +31,7 @@ Template.subbarReporting.onCreated( function() {
 
 	template.autorun( () => {
 		template.subscribe('allStudents', () => {
-			if (!Session.equals('selectedStudent', '')) {
+			if (!Session.get('selectedStudent')) {
 	    		Session.set('selectedStudent', Students.findOne({}, {sort: {birthday: 1, lastName: 1, firstName: 1}}));
 	    	}
 	    })
