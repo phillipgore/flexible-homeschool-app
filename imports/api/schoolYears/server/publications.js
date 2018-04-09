@@ -10,7 +10,7 @@ Meteor.publish('basicSchoolYears', function() {
 	}
 
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-	return SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}, fields: {starYear: 1, endYear: 1}});
+	return SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}, fields: {startYear: 1, endYear: 1}});
 });
 
 Meteor.publish('allSchoolYears', function() {

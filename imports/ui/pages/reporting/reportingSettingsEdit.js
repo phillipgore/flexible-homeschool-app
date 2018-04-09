@@ -84,7 +84,7 @@ Template.reportingSettingsEdit.events({
 				$('.js-loading').hide();
 				$('.js-submit').prop('disabled', false);
 			} else {
-				FlowRouter.go('/reporting/list');
+				// FlowRouter.go('/reporting/list');
 			}
 		});
 

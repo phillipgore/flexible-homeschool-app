@@ -1,27 +1,17 @@
 import {Template} from 'meteor/templating';
 import {Groups} from '../../api/groups/groups.js';
-import {SchoolYears} from '../../../api/schoolYears/schoolYears.js';
-import {Students} from '../../../api/students/students.js';
+import {SchoolYears} from '../../api/schoolYears/schoolYears.js';
+import {Students} from '../../api/students/students.js';
+import moment from 'moment';
 import './navbar.html';
 
 Template.navbar.onCreated( function() {
 	// Subscriptions
-	this.subscribe('basicStudents');
-	this.subscribe('basicSchoolYears');
-
-	if (!Session.set('selectedSchoolYearId')) {
-		Session.set('selectedSchoolYearId', FlowRouter.getParam('selectedSchoolYearId'))
-	}
-
-	if (!Session.set('selectedStudentId')) {
-		Session.set('selectedStudentId', FlowRouter.getParam('selectedStudentId'));
-	}
-
 	let template = Template.instance();
 
 	template.autorun( () => {
 		template.subscribe('basicSchoolYears', () => {
-			if (!Session.get('selectedSchoolYear')) {
+			if (!Session.get('selectedSchoolYearId')) {
 				let year = moment().year();
 				let month = moment().month();
 				function startYear(year) {
@@ -32,9 +22,9 @@ Template.navbar.onCreated( function() {
 				}
 				
 				if (SchoolYears.findOne({startYear: { $gte: startYear(moment().year())}}, {sort: {starYear: 1}})) {
-		    		Session.set('selectedSchoolYear', SchoolYears.findOne({startYear: { $gte: startYear(moment().year())}}, {sort: {starYear: 1}}));
+		    		Session.set('selectedSchoolYearId', SchoolYears.findOne({startYear: { $gte: startYear(moment().year())}}, {sort: {starYear: 1}})._id);
 				} else {
-					Session.set('selectedSchoolYear', SchoolYears.findOne({startYear: { $lte: startYear(moment().year())}}, {sort: {starYear: 1}}));
+					Session.set('selectedSchoolYearId', SchoolYears.findOne({startYear: { $lte: startYear(moment().year())}}, {sort: {starYear: 1}})._id);
 				}
 			}
 	    })
@@ -42,8 +32,8 @@ Template.navbar.onCreated( function() {
 
 	template.autorun( () => {
 		template.subscribe('allStudents', () => {
-			if (!Session.get('selectedStudent')) {
-	    		Session.set('selectedStudent', Students.findOne({}, {sort: {birthday: 1, lastName: 1, firstName: 1}}));
+			if (!Session.get('selectedStudentId')) {
+	    		Session.set('selectedStudentId', Students.findOne({}, {sort: {birthday: 1, lastName: 1, firstName: 1}})._id);
 	    	}
 	    })
 	});
@@ -70,6 +60,14 @@ Template.navbar.helpers({
 
 	group: function() {
 		return Groups.findOne({});
+	},
+
+	selectedSchoolYearId: function() {
+		return Session.get('selectedSchoolYearId');
+	},
+
+	selectedStudentId: function() {
+		return Session.get('selectedStudentId');
 	},
 });
 
