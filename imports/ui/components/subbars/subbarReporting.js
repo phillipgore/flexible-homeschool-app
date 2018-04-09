@@ -5,37 +5,12 @@ import moment from 'moment';
 import './subbarReporting.html';
 
 Template.subbarReporting.onCreated( function() {
+	Session.set('selectedSchoolYearId', FlowRouter.getParam('selectedSchoolYearId'))
+	Session.set('selectedStudentId', FlowRouter.getParam('selectedStudentId'))
+	
 	// Subscriptions
-	let template = Template.instance();
-
-	template.autorun( () => {
-		template.subscribe('allSchoolYears', () => {
-			if (!Session.equals('selectedSchoolYear', '')) {
-				let year = moment().year();
-				let month = moment().month();
-				function startYear(year) {
-					if (month < 6) {
-						return year = (year - 1).toString();
-					}
-					return year.toString();
-				}
-				
-				if (SchoolYears.findOne({startYear: { $gte: startYear(moment().year())}}, {sort: {starYear: 1}})) {
-		    		Session.set('selectedSchoolYear', SchoolYears.findOne({startYear: { $gte: startYear(moment().year())}}, {sort: {starYear: 1}}));
-				} else {
-					Session.set('selectedSchoolYear', SchoolYears.findOne({startYear: { $lte: startYear(moment().year())}}, {sort: {starYear: 1}}));
-				}
-			}
-	    })
-	});
-
-	template.autorun( () => {
-		template.subscribe('allStudents', () => {
-			if (!Session.equals('selectedStudent', '')) {
-	    		Session.set('selectedStudent', Students.findOne({}, {sort: {birthday: 1, lastName: 1, firstName: 1}}));
-	    	}
-	    })
-	});
+	this.subscribe('allStudents');
+	this.subscribe('allSchoolYears');
 });
 
 Template.subbarReporting.helpers({
@@ -44,7 +19,7 @@ Template.subbarReporting.helpers({
 	},
 
 	selectedSchoolYear: function() {
-		return Session.get('selectedSchoolYear');
+		return SchoolYears.find({_id: FlowRouter.getParam('selectedSchoolYearId')})
 	},
 
 	students: function() {
@@ -52,7 +27,7 @@ Template.subbarReporting.helpers({
 	},
 
 	selectedStudent: function() {
-		return Session.get('selectedStudent');
+		return Students.find({_id: FlowRouter.getParam('selectedStudentId')})
 	},
 
 	subbarAvailable: function() {
@@ -71,23 +46,23 @@ Template.subbarReporting.helpers({
 });
 
 Template.subbarReporting.events({
-	'click .js-school-years'(event) {
-		event.preventDefault();
+	// 'click .js-school-years'(event) {
+	// 	event.preventDefault();
 
-		let schoolYearId = $(event.currentTarget).attr('id');
-		if (schoolYearId === 'all-years') {
-			Session.set('selectedSchoolYear', {_id: 'all-years', startYear: 'All', endYear: 'Years'})
-		} else {
-			Session.set('selectedSchoolYear', SchoolYears.findOne({_id: schoolYearId}))
-		}
-	},
+	// 	let schoolYearId = $(event.currentTarget).attr('id');
+	// 	if (schoolYearId === 'all-years') {
+	// 		Session.set('selectedSchoolYear', {_id: 'all-years', startYear: 'All', endYear: 'Years'})
+	// 	} else {
+	// 		Session.set('selectedSchoolYear', SchoolYears.findOne({_id: schoolYearId}))
+	// 	}
+	// },
 
-	'click .js-students'(event) {
-		event.preventDefault();
+	// 'click .js-students'(event) {
+	// 	event.preventDefault();
 
-		let studentId = $(event.currentTarget).attr('id');
-		Session.set('selectedStudent', Students.findOne({_id: studentId}));
-	}
+	// 	let studentId = $(event.currentTarget).attr('id');
+	// 	Session.set('selectedStudent', Students.findOne({_id: studentId}));
+	// }
 });
 
 

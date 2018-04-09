@@ -4,6 +4,15 @@ import {Weeks} from '../../weeks/weeks.js';
 import {Subjects} from '../../subjects/subjects.js';
 import {Lessons} from '../../lessons/lessons.js';
 
+Meteor.publish('basicSchoolYears', function() {
+	if (!this.userId) {
+		return this.ready();
+	}
+
+	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
+	return SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}, fields: {starYear: 1, endYear: 1}});
+});
+
 Meteor.publish('allSchoolYears', function() {
 	if (!this.userId) {
 		return this.ready();

@@ -1,6 +1,53 @@
 import {Template} from 'meteor/templating';
 import {Groups} from '../../api/groups/groups.js';
+import {SchoolYears} from '../../../api/schoolYears/schoolYears.js';
+import {Students} from '../../../api/students/students.js';
 import './navbar.html';
+
+Template.navbar.onCreated( function() {
+	// Subscriptions
+	this.subscribe('basicStudents');
+	this.subscribe('basicSchoolYears');
+
+	if (!Session.set('selectedSchoolYearId')) {
+		Session.set('selectedSchoolYearId', FlowRouter.getParam('selectedSchoolYearId'))
+	}
+
+	if (!Session.set('selectedStudentId')) {
+		Session.set('selectedStudentId', FlowRouter.getParam('selectedStudentId'));
+	}
+
+	let template = Template.instance();
+
+	template.autorun( () => {
+		template.subscribe('basicSchoolYears', () => {
+			if (!Session.get('selectedSchoolYear')) {
+				let year = moment().year();
+				let month = moment().month();
+				function startYear(year) {
+					if (month < 6) {
+						return year = (year - 1).toString();
+					}
+					return year.toString();
+				}
+				
+				if (SchoolYears.findOne({startYear: { $gte: startYear(moment().year())}}, {sort: {starYear: 1}})) {
+		    		Session.set('selectedSchoolYear', SchoolYears.findOne({startYear: { $gte: startYear(moment().year())}}, {sort: {starYear: 1}}));
+				} else {
+					Session.set('selectedSchoolYear', SchoolYears.findOne({startYear: { $lte: startYear(moment().year())}}, {sort: {starYear: 1}}));
+				}
+			}
+	    })
+	});
+
+	template.autorun( () => {
+		template.subscribe('allStudents', () => {
+			if (!Session.get('selectedStudent')) {
+	    		Session.set('selectedStudent', Students.findOne({}, {sort: {birthday: 1, lastName: 1, firstName: 1}}));
+	    	}
+	    })
+	});
+});
 
 Template.navbar.helpers({
 	user: function() {
