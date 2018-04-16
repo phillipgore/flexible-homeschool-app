@@ -58,30 +58,6 @@ Template.subbarReporting.helpers({
 	},
 });
 
-Template.subbarReporting.events({
-	'click .js-school-years'(event) {
-		event.preventDefault();
-
-		let newSchoolYearId = $(event.currentTarget).attr('id');
-		if (Session.get('selectedSchoolYearId') != newSchoolYearId) {
-			Session.set('selectedSchoolYearId', newSchoolYearId);
-			FlowRouter.go($(event.currentTarget).attr('href'));
-		}
-		return false;
-	},
-
-	'click .js-students'(event) {
-		event.preventDefault();
-
-		let newStudentId = $(event.currentTarget).attr('id');
-		if (Session.get('selectedStudentId') != newStudentId) {
-			Session.set('selectedStudentId', newStudentId);
-			FlowRouter.go($(event.currentTarget).attr('href'));
-		}
-		return false;
-	},
-});
-
 
 
 

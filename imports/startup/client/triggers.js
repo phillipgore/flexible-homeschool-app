@@ -1,6 +1,8 @@
 import { Groups } from '../../api/groups/groups.js';
-import { Students } from '../../api/students/students.js';
 import { SchoolYears } from '../../api/schoolYears/schoolYears.js';
+import { Students } from '../../api/students/students.js';
+import { Terms } from '../../api/terms/terms.js';
+import { Weeks } from '../../api/weeks/weeks.js';
 import moment from 'moment';
 
 let year = moment().year();
@@ -35,6 +37,24 @@ function checkSignOut(context, redirect) {
 	if (!Meteor.userId()) {
 		redirect('/sign-in');
 	}
+};
+
+function navbarData(context) {
+	if (!Session.get('selectedSchoolYearId')) {
+		Session.set('selectedSchoolYearId', SchoolYears.findOne()._id);
+	}
+
+	if (!Session.get('selectedStudentId')) {
+		Session.set('selectedStudentId', Students.findOne({}, {sort: {birthday: 1, lastName: 1, firstName: 1}})._id);
+	}
+
+	if (!Session.get('selectedTermId') && Session.get('selectedSchoolYearId')) {
+    	Session.set('selectedTermId', Terms.findOne({schoolYearId: Session.get('selectedSchoolYearId')}, {sort: {order: 1,}})._id);
+    }
+
+    if (!Session.get('selectedWeekId') && Session.get('selectedTermId')) {
+    	Session.set('selectedWeekId', Weeks.findOne({termId: Session.get('selectedTermId')}, {sort: {order: 1,}})._id);
+    }
 };
 
 function checkRoleUser(context, redirect) {
@@ -106,7 +126,7 @@ function checkSubjectsAvailable(context) {
 };
 
 FlowRouter.triggers.enter([checkSignIn], {only: ['createAccount', 'verifySent', 'signIn', 'reset', 'resetSent', 'resetPassword']});
-FlowRouter.triggers.enter([checkSignOut, checkPaymentError], {except: ['createAccount', 'verifySent', 'signIn', 'reset', 'resetSent', 'resetPassword']});
+FlowRouter.triggers.enter([checkSignOut, navbarData, checkPaymentError], {except: ['createAccount', 'verifySent', 'signIn', 'reset', 'resetSent', 'resetPassword']});
 FlowRouter.triggers.enter([checkSubjectsAvailable], {only: ['subjectsList', 'subjectsNew', 'subjectsView', 'subjectsEdit']});
 FlowRouter.triggers.enter([creditCardData], {except: []});
 

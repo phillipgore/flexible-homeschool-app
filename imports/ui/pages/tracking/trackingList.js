@@ -11,7 +11,6 @@ TrackingStats = new Mongo.Collection('trackingStats');
 
 Template.trackingList.onCreated( function() {
 	// Subscriptions
-	this.subscribe('termsSubbar', null, FlowRouter.getParam('selectedSchoolYearId'));
 	this.subscribe('trackingStats', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'));
 });
 
@@ -43,7 +42,7 @@ Template.trackingList.helpers({
 	},
 
 	selectedWeekId: function() {
-		return TermsSubbar.findOne({termId: FlowRouter.getParam('selectedTermId')}).firstWeekId;
+		return TermsSubbar.findOne({termId: FlowRouter.getParam('selectedTermId')}) && TermsSubbar.findOne({termId: FlowRouter.getParam('selectedTermId')}).firstWeekId;
 	},
 
 	yearsProgressStatus: function(yearProgress) {

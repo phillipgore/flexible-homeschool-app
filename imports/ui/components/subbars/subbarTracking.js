@@ -73,30 +73,6 @@ Template.subbarTracking.helpers({
 	},
 });
 
-Template.subbarTracking.events({
-	'click .js-school-years'(event) {
-		event.preventDefault();
-
-		let newSchoolYearId = $(event.currentTarget).attr('id');
-		if (Session.get('selectedSchoolYearId') != newSchoolYearId) {
-			Session.set('selectedSchoolYearId', newSchoolYearId);
-			FlowRouter.go($(event.currentTarget).attr('href'));
-		}
-		return false;
-	},
-
-	'click .js-terms'(event) {
-		event.preventDefault();
-
-		let newTermId = $(event.currentTarget).attr('id');
-		if (Session.get('selectedTermId') != newTermId) {
-			Session.set('selectedTermId', newTermId);
-			FlowRouter.go($(event.currentTarget).attr('href'));
-		}
-		return false;
-	},
-});
-
 
 
 

@@ -1,10 +1,3 @@
-import {Template} from 'meteor/templating';
-import { Groups } from '../../api/groups/groups.js';
-import { SchoolYears } from '../../api/schoolYears/schoolYears.js';
-import { Students } from '../../api/students/students.js';
-import { Terms } from '../../api/terms/terms.js';
-import { Weeks } from '../../api/weeks/weeks.js';
-
 // Application
 import './app.html';
 
@@ -109,29 +102,18 @@ import '../pages/settings/settingsList.js';
 	import '../pages/settings/billing/billingInvoices.js';
 	import '../pages/settings/billing/billingEdit.js';
 
+import {Template} from 'meteor/templating';
+import { Groups } from '../../api/groups/groups.js';
+import { SchoolYears } from '../../api/schoolYears/schoolYears.js';
+import { Students } from '../../api/students/students.js';
+import { Terms } from '../../api/terms/terms.js';
+import { Weeks } from '../../api/weeks/weeks.js';
+import moment from 'moment';
+
 Alerts = new Mongo.Collection(null);
 SchoolYearsSubbar = new Mongo.Collection('schoolYearsSubbar');
 TermsSubbar = new Mongo.Collection('termsSubbar');
 WeeksSubbar = new Mongo.Collection('weeksSubbar');
-import moment from 'moment';
-
-Template.app.onCreated( function() {
-	if (!Session.get('selectedSchoolYearId')) {
-		Session.set('selectedSchoolYearId', SchoolYears.findOne()._id);
-	}
-
-	if (!Session.get('selectedStudentId')) {
-		Session.set('selectedStudentId', Students.findOne({}, {sort: {birthday: 1, lastName: 1, firstName: 1}})._id);
-	}
-
-	if (!Session.get('selectedTermId') && Session.get('selectedSchoolYearId')) {
-    	Session.set('selectedTermId', Terms.findOne({schoolYearId: Session.get('selectedSchoolYearId')}, {sort: {order: 1,}})._id);
-    }
-
-    if (!Session.get('selectedWeekId') && Session.get('selectedTermId')) {
-    	Session.set('selectedWeekId', Weeks.findOne({termId: Session.get('selectedTermId')}, {sort: {order: 1,}})._id);
-    }
-});
 
 Template.app.helpers({
 	alerts: function() {
