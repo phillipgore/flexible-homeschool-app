@@ -1,19 +1,14 @@
-<template name="subbarReporting">
+<template name="subbarSubjects">
 	<asside class="subbar">
 		<div class="row">
-			<div class="col-tn-5of12">
+			<div class="col-tn-1of2">
 				<a id="{{selectedStudent._id}}" href="#students" class="js-dropdown btn-sub">
 					{{selectedStudent.preferredFirstName.name}} {{selectedStudent.lastName}} <i class="fss-caret-down"></i>
 				</a>
 			</div>
-			<div class="col-tn-5of12">
-				<a id="{{selectedSchoolYear._id}}" href="#years" class="js-dropdown btn-sub">
+			<div class="col-tn-1of2">
+				<a id="{{selectedSchoolYear._id}}" href="#years" class="js-dropdown btn-sub last">
 					{{selectedSchoolYear.startYear}}-{{selectedSchoolYear.endYear}} <i class="fss-caret-down"></i>
-				</a>
-			</div>
-			<div class="col-tn-1of6">
-				<a href="{{pathFor 'reportingSettingsEdit'}}" class="js-report-settings-btn btn-sub last txt-tn-center p-tn-t-7">
-					<i class="fss-actions"></i>
 				</a>
 			</div>
 		</div>
@@ -37,7 +32,7 @@
 	<ul id="years" class="dropdown-menu dropdown-sub m-tn-rl-9 hide">
 		{{#each schoolYear in schoolYears}}
 			<li class="dropdown-item">
-				<a id="{{schoolYear.schoolYearId}}" class="js-school-years dropdown-item-link" href="{{pathFor 'reportingList' selectedSchoolYearId=schoolYear.schoolYearId selectedStudentId=selectedStudentId}}">
+				<a id="{{schoolYear.schoolYearId}}" class="js-school-years dropdown-item-link" href="{{pathFor 'subjectsList' selectedSchoolYearId=schoolYear.schoolYearId selectedStudentId=selectedStudentId}}">
 					<div class="dropdown-item-icon"><i class="fss-circle {{yearStatus schoolYear.status}}"></i></div>
 					<div class="dropdown-item-label">{{schoolYear.startYear}}-{{schoolYear.endYear}}</div>
 					{{#if activeListItem selectedSchoolYearId schoolYear.schoolYearId}}

@@ -24,6 +24,14 @@ Template.reportingSettingsEdit.helpers({
 	user: function() {
 		return Meteor.user();
 	},
+
+	selectedSchoolYearId: function() {
+		return Session.get('selectedSchoolYearId');
+	},
+
+	selectedStudentId: function() {
+		return Session.get('selectedStudentId');
+	},
 });
 
 Template.reportingSettingsEdit.events({
@@ -84,7 +92,7 @@ Template.reportingSettingsEdit.events({
 				$('.js-loading').hide();
 				$('.js-submit').prop('disabled', false);
 			} else {
-				// FlowRouter.go('/reporting/list');
+				FlowRouter.go('/reporting/list/' + Session.get('selectedSchoolYearId') +"/"+ Session.get('selectedStudentId'));
 			}
 		});
 

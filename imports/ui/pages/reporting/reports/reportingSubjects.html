@@ -1,7 +1,7 @@
 <template name="reportingSubjects">
 	{{#if user.reportSettings.subjectsReportVisible}}
 		<div class="report p-tn-trl-18 m-tn-b-9">
-			{{#each subject in subjects selectedSchoolYear._id selectedStudent._id}}
+			{{#each subject in subjects}}
 				<div class="report-section">
 					<div class="clearfix m-tn-b-12">
 							<h2><i class="fss-subjects txt-primary"></i> {{subject.name}}</h2>
@@ -9,11 +9,11 @@
 					{{#if user.reportSettings.subjectsStatsVisible}}
 						<div class="row font-weight-normal txt-tn-center m-tn-b-12">
 							<div class="col-tn-1of3 right-border">
-								<div class="font-size-24 m-tn-b-3">{{termsCountSubject subject._id selectedSchoolYear._id selectedStudent._id}}</div>
+								<div class="font-size-24 m-tn-b-3">{{termsCountSubject subject._id}}</div>
 								<div class="txt-gray-darker">Terms</div>
 							</div>
 							<div class="col-tn-1of3 right-border">
-								<div class="font-size-24 m-tn-b-3">{{weeksCountSubject subject._id selectedSchoolYear._id selectedStudent._id}}</div>
+								<div class="font-size-24 m-tn-b-3">{{weeksCountSubject subject._id}}</div>
 								<div class="txt-gray-darker">Weeks</div>
 							</div>
 							<div class="col-tn-1of3">

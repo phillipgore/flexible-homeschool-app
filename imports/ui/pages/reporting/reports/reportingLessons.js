@@ -14,22 +14,8 @@ Template.reportingLessons.helpers({
 		return Meteor.users.findOne();
 	},
 
-	subjects: function(selectedSchoolYearId, selectedStudentId) {
-		let subjectIds = Subjects.find({schoolYearId: selectedSchoolYearId, studentId: selectedStudentId}).map(subject => (subject._id));
-		let updatedSubjectIds = _.uniq( Lessons.find({subjectId: {$in: subjectIds}, completed: true}).map(lesson => (lesson.subjectId)) );
-		return Subjects.find({_id: {$in: updatedSubjectIds}})
-	},
-
-
-
-
-	// Selections
-	selectedSchoolYear: function() {
-		return Session.get('selectedSchoolYear');
-	},
-
-	selectedStudent: function() {
-		return Session.get('selectedStudent');
+	subjects: function() {
+		return Subjects.find()
 	},
 
 
@@ -46,8 +32,8 @@ Template.reportingLessons.helpers({
 		return Weeks.find({_id: {$in: weekIds}});
 	},
 
-	lessons: function(weekId, subjectId) {
-		return Lessons.find({weekId: weekId, subjectId: subjectId, completed: true}, {sort: {order: 1}});
+	lessons: function(subjectId, weekId) {
+		return Lessons.find({subjectId: subjectId, weekId: weekId, subjectId: subjectId, completed: true}, {sort: {order: 1}});
 	},
 
 	lessonOrder: function(lessonOrder) {

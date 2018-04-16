@@ -1,12 +1,8 @@
 import {Template} from 'meteor/templating';
+import { Counts } from 'meteor/tmeasday:publish-counts';
 import { Students } from '../../../api/students/students.js';
 import { SchoolYears } from '../../../api/schoolYears/schoolYears.js';
 import './planningList.html';
-
-Template.planningList.onCreated( function() {
-	// Subscriptions
-	this.subscribe('planningStatusCounts');
-});
 
 Template.planningList.onRendered( function() {
 	// Toolbar Settings
@@ -32,9 +28,17 @@ Template.planningList.helpers({
 	],
 
 	subjectAvailable: function() {
-		if (Students.find().count() && SchoolYears.find().count()) {
+		if (Counts.get('schoolYearCount') && Counts.get('studentCount')) {
 			return true;
 		}
 		return false;
+	},
+
+	selectedSchoolYearId: function() {
+		return Session.get('selectedSchoolYearId');
+	},
+
+	selectedStudentId: function() {
+		return Session.get('selectedStudentId');
 	},
 });

@@ -5,40 +5,6 @@ import {Students} from '../../api/students/students.js';
 import moment from 'moment';
 import './navbar.html';
 
-Template.navbar.onCreated( function() {
-	// Subscriptions
-	let template = Template.instance();
-
-	template.autorun( () => {
-		template.subscribe('basicSchoolYears', () => {
-			if (!Session.get('selectedSchoolYearId')) {
-				let year = moment().year();
-				let month = moment().month();
-				function startYear(year) {
-					if (month < 6) {
-						return year = (year - 1).toString();
-					}
-					return year.toString();
-				}
-				
-				if (SchoolYears.findOne({startYear: { $gte: startYear(moment().year())}}, {sort: {starYear: 1}})) {
-		    		Session.set('selectedSchoolYearId', SchoolYears.findOne({startYear: { $gte: startYear(moment().year())}}, {sort: {starYear: 1}})._id);
-				} else {
-					Session.set('selectedSchoolYearId', SchoolYears.findOne({startYear: { $lte: startYear(moment().year())}}, {sort: {starYear: 1}})._id);
-				}
-			}
-	    })
-	});
-
-	template.autorun( () => {
-		template.subscribe('allStudents', () => {
-			if (!Session.get('selectedStudentId')) {
-	    		Session.set('selectedStudentId', Students.findOne({}, {sort: {birthday: 1, lastName: 1, firstName: 1}})._id);
-	    	}
-	    })
-	});
-});
-
 Template.navbar.helpers({
 	user: function() {
 		return Meteor.users.findOne();
@@ -68,6 +34,10 @@ Template.navbar.helpers({
 
 	selectedStudentId: function() {
 		return Session.get('selectedStudentId');
+	},
+
+	selectedTermId: function() {
+		return Session.get('selectedTermId');
 	},
 });
 

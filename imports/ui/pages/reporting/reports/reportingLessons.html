@@ -1,7 +1,7 @@
 <template name="reportingLessons">
 	{{#if user.reportSettings.lessonsReportVisible}}
 		<div class="report p-tn-trl-18 m-tn-b-9">
-		{{#each subject in subjects selectedSchoolYear._id selectedStudent._id}}
+		{{#each subject in subjects}}
 				<div class="report-section">
 					{{#each term in terms subject._id}}
 						{{#each week in weeks subject._id}}
@@ -9,7 +9,7 @@
 								<div class="clearfix m-tn-b-12">
 									<h2><i class="fss-subjects txt-primary"></i>{{subject.name}}</h2>
 								</div>
-								{{#each lesson in lessons week._id subject._id}}
+								{{#each lesson in lessons subject._id week._id}}
 									<div class="m-tn-b-27">
 										<p class="m-tn-b-9">
 											Term {{term.order}}, Week {{week.order}}, Lesson {{lessonOrder @index}}

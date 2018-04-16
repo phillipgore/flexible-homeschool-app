@@ -1,29 +1,29 @@
 <template name="trackingList">
 	{{> toolbar}}
-	{{> subbarYearTerm}}
+	{{> subbarTracking}}
 	<main class="app-content app-content-preceeds-toolbar">
-		{{#if students.count}}
+		{{#if stats.count}}
 			<ul class="data-list">
-				{{#each student in students}}
+				{{#each stat in stats}}
 				<li class="list-item">
-					<a href="/tracking/students/view/{{student._id}}" class="list-item-link p-tn-rl-9">
+					<a href="/tracking/students/view/{{stat.studentId}}/{{selectedSchoolYearId}}/{{selectedTermId}}/{{selectedWeekId}}" class="list-item-link p-tn-rl-9">
 						<div class="clearfix">
 							<div class="list-item-icon"><i class="txt-primary fss-students"></i></div> 
 							<div class="list-item-label">
-								{{student.preferredFirstName.name}} {{student.lastName}} <i class="fss-caret-right"></i>
+								{{stat.preferredFirstName.name}} {{stat.lastName}} <i class="fss-caret-right"></i>
 							</div>
 						</div>
 						<div class="meter">
-							<div class="meter-progress {{yearsProgressStatus student._id selectedSchoolYear._id selectedTerm._id}}" style="width: {{yearsProgress student._id selectedSchoolYear._id selectedTerm._id}}%;">
-								<div class="meter-label">Year's Progress: {{yearsProgress student._id selectedSchoolYear._id selectedTerm._id}}%</div>
+							<div class="meter-progress {{yearsProgressStatus stat.yearProgress}}" style="width: {{stat.yearProgress}}%;">
+								<div class="meter-label">Year's Progress: {{stat.yearProgress}}%</div>
 							</div>
-							<div class="meter-label">Year's Progress: {{yearsProgress student._id selectedSchoolYear._id selectedTerm._id}}%</div>
+							<div class="meter-label">Year's Progress: {{stat.yearProgress}}%</div>
 						</div>
 						<div class="meter">
-							<div class="meter-progress {{termsProgressStatus student._id selectedSchoolYear._id selectedTerm._id}}" style="width: {{termsProgress student._id selectedSchoolYear._id selectedTerm._id}}%;">
-								<div class="meter-label">Term's Progress: {{termsProgress student._id selectedSchoolYear._id selectedTerm._id}}%</div>
+							<div class="meter-progress {{termsProgressStatus stat.termProgress}}" style="width: {{stat.termProgress}}%;">
+								<div class="meter-label">Term's Progress: {{stat.termProgress}}%</div>
 							</div>
-							<div class="meter-label">Term's Progress: {{termsProgress student._id selectedSchoolYear._id selectedTerm._id}}%</div>
+							<div class="meter-label">Term's Progress: {{stat.termProgress}}%</div>
 						</div>
 					</a>
 				</li>

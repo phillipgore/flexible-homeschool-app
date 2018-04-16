@@ -14,29 +14,24 @@ Template.reportingResources.helpers({
 		return Meteor.users.findOne();
 	},
 
-	subjects: function(selectedSchoolYearId, selectedStudentId) {
-		return Subjects.find({schoolYearId: selectedSchoolYearId, studentId: selectedStudentId})
-	},
-
 
 
 
 	// Selections
 	selectedSchoolYear: function() {
-		return Session.get('selectedSchoolYear');
+		return SchoolYears.find({_id: Session.get('selectedSchoolYearId')})
 	},
 
 	selectedStudent: function() {
-		return Session.get('selectedStudent');
+		return Students.find({_id: Session.get('selectedStudentId')})
 	},
 
 
 
 
 	// Subject Resources
-	resources: function(selectedSchoolYearId, selectedStudentId) {
-		let resourceIds = _.flatten( Subjects.find({schoolYearId: selectedSchoolYearId, studentId: selectedStudentId}).map(subject => (subject.resources)) );
-		return Resources.find({_id: {$in: resourceIds}})
+	resources: function() {
+		return Resources.find()
 	},
 
 	resourceOrigin: function(firstName, lastName) {

@@ -37,12 +37,12 @@ Meteor.publish('subjectLessons', function(subjectId) {
 	return Lessons.find({groupId: groupId, deletedOn: { $exists: false }, subjectId: subjectId}, {sort: {order: 1}});
 });
 
-Meteor.publish('studentLessons', function(studentId) {
+Meteor.publish('studentWeekLessons', function(studentId, weekId) {
 	if (!this.userId) {
 		return this.ready();
 	}
 
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
 	let subjectIds = Subjects.find({studentId: studentId}).map(subject => subject._id);
-	return Lessons.find({groupId: groupId, deletedOn: { $exists: false }, subjectId: {$in: subjectIds}}, {sort: {order: 1}});
+	return Lessons.find({groupId: groupId, deletedOn: { $exists: false }, subjectId: {$in: subjectIds}, weekId: weekId}, {sort: {order: 1}});
 });

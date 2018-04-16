@@ -1,5 +1,9 @@
 import {Template} from 'meteor/templating';
 import { Groups } from '../../api/groups/groups.js';
+import { SchoolYears } from '../../api/schoolYears/schoolYears.js';
+import { Students } from '../../api/students/students.js';
+import { Terms } from '../../api/terms/terms.js';
+import { Weeks } from '../../api/weeks/weeks.js';
 
 // Application
 import './app.html';
@@ -17,10 +21,10 @@ import '../components/navbar.js';
 	import '../components/subbars/subbar.html';
 	import '../components/subbars/subbarAccounts.html';
 	import '../components/subbars/subbarReporting.js';
-	import '../components/subbars/subbarTypeAvailability.js';
-	import '../components/subbars/subbarYearStudent.js';
-	import '../components/subbars/subbarYearTerm.js';
-	import '../components/subbars/subbarYearTermWeek.js';
+	import '../components/subbars/subbarResources.js';
+	import '../components/subbars/subbarSubjects.js';
+	import '../components/subbars/subbarTracking.js';
+	import '../components/subbars/subbarTrackingStudent.js';
 	// Toolbars
 	import '../components/toolbars/toolbar.js';
 	import '../components/toolbars/toolbarLogo.html';
@@ -106,11 +110,27 @@ import '../pages/settings/settingsList.js';
 	import '../pages/settings/billing/billingEdit.js';
 
 Alerts = new Mongo.Collection(null);
+SchoolYearsSubbar = new Mongo.Collection('schoolYearsSubbar');
+TermsSubbar = new Mongo.Collection('termsSubbar');
+WeeksSubbar = new Mongo.Collection('weeksSubbar');
+import moment from 'moment';
 
 Template.app.onCreated( function() {
-	// Subscriptions
-	const userData = this.subscribe('userData');
-	const groupStatus = this.subscribe('groupStatus');
+	if (!Session.get('selectedSchoolYearId')) {
+		Session.set('selectedSchoolYearId', SchoolYears.findOne()._id);
+	}
+
+	if (!Session.get('selectedStudentId')) {
+		Session.set('selectedStudentId', Students.findOne({}, {sort: {birthday: 1, lastName: 1, firstName: 1}})._id);
+	}
+
+	if (!Session.get('selectedTermId') && Session.get('selectedSchoolYearId')) {
+    	Session.set('selectedTermId', Terms.findOne({schoolYearId: Session.get('selectedSchoolYearId')}, {sort: {order: 1,}})._id);
+    }
+
+    if (!Session.get('selectedWeekId') && Session.get('selectedTermId')) {
+    	Session.set('selectedWeekId', Weeks.findOne({termId: Session.get('selectedTermId')}, {sort: {order: 1,}})._id);
+    }
 });
 
 Template.app.helpers({

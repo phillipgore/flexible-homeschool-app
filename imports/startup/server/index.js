@@ -1,3 +1,4 @@
+import { ReactiveVar } from 'meteor/reactive-var'
 import './browser-policy.js';
 import './accounts.js';
 import './admin.js';
@@ -5,7 +6,8 @@ import './stripe.js';
 import './endpoints.js';
 import './fixtures.js';
 
-import '../../api/counts/server/publications.js';
+import '../../api/stats/server/publications.js';
+import '../../api/dropdowns/server/publications.js';
 
 import '../../api/groups/groups.js';
 import '../../api/groups/methods.js';

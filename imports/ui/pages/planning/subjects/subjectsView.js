@@ -16,7 +16,7 @@ Template.subjectsView.onCreated( function() {
 Template.subjectsView.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
-		leftUrl: '/planning/subjects/list',
+		leftUrl: '/planning/subjects/list/' + Session.get('selectedSchoolYearId') +"/"+ Session.get('selectedStudentId'),
 		leftIcon: 'fss-back',
 		label: 'Subject',
 		editUrl: '/planning/subjects/edit/' + FlowRouter.getParam('id'),

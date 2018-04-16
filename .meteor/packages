@@ -31,3 +31,5 @@ browser-policy@1.1.0
 tmeasday:publish-counts
 neoromantic:pickadate
 check
+random
+peerlibrary:reactive-publish@=0.3.0
