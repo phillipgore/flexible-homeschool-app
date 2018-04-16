@@ -2,9 +2,9 @@ import {Template} from 'meteor/templating';
 import {SchoolYears} from '../../../api/schoolYears/schoolYears.js';
 import {Students} from '../../../api/students/students.js';
 import moment from 'moment';
-import './subbarReporting.html';
+import './subbarSubjects.html';
 
-Template.subbarReporting.onCreated( function() {
+Template.subbarSubjects.onCreated( function() {
 	// Subscriptions
 	this.subscribe('schoolYearsSubbar', FlowRouter.getParam('selectedStudentId'));
 	this.subscribe('allStudents');
@@ -13,7 +13,7 @@ Template.subbarReporting.onCreated( function() {
 	Session.set('selectedStudentId', FlowRouter.getParam('selectedStudentId'));
 });
 
-Template.subbarReporting.helpers({
+Template.subbarSubjects.helpers({
 	schoolYears: function() {
 		return SchoolYearsSubbar.find({}, {sort: {startYear: 1}});
 	},
@@ -58,7 +58,7 @@ Template.subbarReporting.helpers({
 	},
 });
 
-Template.subbarReporting.events({
+Template.subbarSubjects.events({
 	'click .js-school-years'(event) {
 		event.preventDefault();
 
@@ -81,12 +81,3 @@ Template.subbarReporting.events({
 		return false;
 	},
 });
-
-
-
-
-
-
-
-
-

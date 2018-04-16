@@ -1,22 +1,22 @@
 <template name="trackingView">
 	{{> toolbar dynamicFirstName=student.preferredFirstName.name dynamicLastName=student.lastName}}
-	{{> subbarYearTermWeek}}
+	{{> subbarTrackingStudent}}
 	<main class="app-content app-content-preceeds-toolbar">
-		{{#each subject in subjects selectedSchoolYear._id}}
+		{{#each subject in subjects}}
 			<div class="js-subject track p-tn-t-18">
 				<div class="clearfix m-tn-h-9">
 					<div class="track-icon"><i class="txt-primary fss-subjects"></i></div>
 					<div class="track-label">{{subject.name}}</div>
 				</div>
 				<div class="row track-btn-container m-tn-h-9">
-					{{#each lesson in lessons subject._id selectedWeek._id}}
-						<button data-lesson-id="{{lesson._id}}" class="js-lesson-btn col-tn-1of{{lessonCount subject._id selectedWeek._id}} {{lessonStatus lesson.completed subject._id selectedWeek._id}}"></button>
+					{{#each lesson in lessons subject._id}}
+						<button data-lesson-id="{{lesson._id}}" class="js-lesson-btn col-tn-1of{{lessonCount subject._id}} {{lessonStatus lesson.completed subject._id}}"></button>
 					{{/each}}
 				</div>
-				{{#each lesson in lessons subject._id selectedWeek._id}}
+				{{#each lesson in lessons subject._id}}
 					<div id="{{lesson._id}}" class="js-lesson-input track-input">
 						<div class="row m-tn-h-9">
-							<div class="track-arrow offset-tn-{{lessonPosition subject._id lesson._id selectedWeek._id}}of{{lessonCount subject._id selectedWeek._id}} col-tn-1of{{lessonCount subject._id selectedWeek._id}}">
+							<div class="track-arrow offset-tn-{{lessonPosition subject._id lesson._id}}of{{lessonCount subject._id}} col-tn-1of{{lessonCount subject._id}}">
 							</div>
 						</div>
 						

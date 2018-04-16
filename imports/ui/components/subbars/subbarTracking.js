@@ -1,19 +1,22 @@
 import {Template} from 'meteor/templating';
 import {SchoolYears} from '../../../api/schoolYears/schoolYears.js';
-import {Students} from '../../../api/students/students.js';
+import {Terms} from '../../../api/terms/terms.js';
+import {Subjects} from '../../../api/subjects/subjects.js';
+import {Weeks} from '../../../api/weeks/weeks.js';
+import {Lessons} from '../../../api/lessons/lessons.js';
 import moment from 'moment';
-import './subbarReporting.html';
+import './subbarTracking.html';
 
-Template.subbarReporting.onCreated( function() {
+Template.subbarTracking.onCreated( function() {
 	// Subscriptions
-	this.subscribe('schoolYearsSubbar', FlowRouter.getParam('selectedStudentId'));
-	this.subscribe('allStudents');
-	
+	this.subscribe('schoolYearsSubbar');
+	this.subscribe('termsSubbar', null, FlowRouter.getParam('selectedSchoolYearId'));
+
 	Session.set('selectedSchoolYearId', FlowRouter.getParam('selectedSchoolYearId'));
-	Session.set('selectedStudentId', FlowRouter.getParam('selectedStudentId'));
+	Session.set('selectedTermId', FlowRouter.getParam('selectedTermId'));
 });
 
-Template.subbarReporting.helpers({
+Template.subbarTracking.helpers({
 	schoolYears: function() {
 		return SchoolYearsSubbar.find({}, {sort: {startYear: 1}});
 	},
@@ -38,18 +41,30 @@ Template.subbarReporting.helpers({
 		}
 	},
 
-	students: function() {
-		return Students.find({}, {sort: {birthday: 1, lastName: 1, firstName: 1}});
+	terms: function() {
+		return TermsSubbar.find({}, {sort: {order: 1}});
 	},
 
-	selectedStudentId: function() {
-		return FlowRouter.getParam('selectedStudentId');
+	selectedTermId: function() {
+		return FlowRouter.getParam('selectedTermId');
 	},
 
-	selectedStudent: function() {
-		return Students.findOne({_id: FlowRouter.getParam('selectedStudentId')});
+	selectedTerm: function() {
+		return TermsSubbar.findOne({termId: FlowRouter.getParam('selectedTermId')});
 	},
-	
+
+	termStatus: function(termStatus) {
+		if (termStatus === 'pending') {
+			return 'txt-gray-darker';
+		}
+		if (termStatus === 'partial') {
+			return 'txt-secondary';
+		}
+		if (termStatus === 'completed') {
+			return 'txt-primary';
+		}
+	},
+
 	activeListItem: function(currentItem, item) {
 		if (currentItem === item) {
 			return true;
@@ -58,7 +73,7 @@ Template.subbarReporting.helpers({
 	},
 });
 
-Template.subbarReporting.events({
+Template.subbarTracking.events({
 	'click .js-school-years'(event) {
 		event.preventDefault();
 
@@ -70,12 +85,12 @@ Template.subbarReporting.events({
 		return false;
 	},
 
-	'click .js-students'(event) {
+	'click .js-terms'(event) {
 		event.preventDefault();
 
-		let newStudentId = $(event.currentTarget).attr('id');
-		if (Session.get('selectedStudentId') != newStudentId) {
-			Session.set('selectedStudentId', newStudentId);
+		let newTermId = $(event.currentTarget).attr('id');
+		if (Session.get('selectedTermId') != newTermId) {
+			Session.set('selectedTermId', newTermId);
 			FlowRouter.go($(event.currentTarget).attr('href'));
 		}
 		return false;

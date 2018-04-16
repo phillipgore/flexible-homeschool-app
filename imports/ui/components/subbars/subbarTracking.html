@@ -1,0 +1,84 @@
+<template name="subbarTracking">
+	<asside class="subbar">
+		{{#if schoolYears.count}}
+			{{#if terms.count}}
+			<div class="row">
+				<div class="col-tn-1of2">
+					<a id="{{selectedSchoolYearId}}" href="#years" class="js-dropdown btn-sub">
+						{{selectedSchoolYear.startYear}}-{{selectedSchoolYear.endYear}} <i class="fss-caret-down"></i>
+					</a>
+				</div>
+				<div class="col-tn-1of2">
+					<a id="{{selectedTermId}}" href="#terms" class="js-dropdown btn-sub last">
+						Term {{selectedTerm.order}} <i class="fss-caret-down"></i>
+					</a>
+				</div>
+			</div>
+			{{/if}}
+		{{/if}}
+	</asside>
+
+	<!-- <ul id="years" class="dropdown-menu dropdown-sub m-tn-rl-9 hide">
+		{{#each schoolYear in schoolYears}}
+			<li class="dropdown-item">
+				<a id="{{schoolYear._id}}" class="js-school-year dropdown-item-link" href="/tracking/list/{{schoolYear.schoolYearId}}/{{schoolYear.firstTermId}}">
+					<div class="dropdown-item-icon"><i class="fss-circle {{yearStatus schoolYear._id}}"></i></div>
+					<div class="dropdown-item-label">{{schoolYear.startYear}}-{{schoolYear.endYear}}</div>
+					{{#if activeListItem selectedSchoolYearId schoolYear._id}}
+						<div class="dropdown-item-icon-right">
+							<i class="fss-planning txt-gray-darker"></i>
+						</div>
+					{{/if}}
+				</a>
+			</li>
+		{{/each}}
+	</ul> -->
+
+	<ul id="years" class="dropdown-menu dropdown-sub m-tn-rl-9 hide">
+		{{#each schoolYear in schoolYears}}
+			<li class="dropdown-item">
+				<a id="{{schoolYear.schoolYearId}}" class="js-school-years dropdown-item-link" href="/tracking/list/{{schoolYear.schoolYearId}}/{{schoolYear.firstTermId}}">
+					<div class="dropdown-item-icon"><i class="fss-circle {{yearStatus schoolYear.status}}"></i></div>
+					<div class="dropdown-item-label">{{schoolYear.startYear}}-{{schoolYear.endYear}}</div>
+					{{#if activeListItem selectedSchoolYearId schoolYear.schoolYearId}}
+						<div class="dropdown-item-icon-right">
+							<i class="fss-planning txt-gray-darker"></i>
+						</div>
+					{{/if}}
+				</a>
+			</li>
+		{{/each}}
+	</ul>
+
+	<!-- <ul id="terms" class="dropdown-menu dropdown-sub m-tn-rl-9 hide">
+		{{#each term in terms}}
+			<li class="dropdown-item">
+				<a id="{{term._id}}" class="js-terms dropdown-item-link" href="{{pathFor 'trackingList' selectedSchoolYearId=selectedSchoolYearId selectedTermId=term.termId}}">
+					<div class="dropdown-item-icon"><i class="fss-circle {{termStatus term._id}}"></i></div>
+					<div class="dropdown-item-label">Term {{term.order}}</div>
+					{{#if activeListItem selectedTermId term._id}}
+						<div class="dropdown-item-icon-right">
+							<i class="fss-planning txt-gray-darker"></i>
+						</div>
+					{{/if}}
+				</a>
+			</li>
+		{{/each}}
+	</ul> -->
+
+	<ul id="terms" class="dropdown-menu dropdown-sub m-tn-rl-9 hide">
+		{{#each term in terms}}
+			<li class="dropdown-item">
+				<a id="{{term.termId}}" class="js-terms dropdown-item-link" href="{{pathFor 'trackingList' selectedSchoolYearId=selectedSchoolYearId selectedTermId=term.termId}}">
+					<div class="dropdown-item-icon"><i class="fss-circle {{termStatus term.status}}"></i></div>
+					<div class="dropdown-item-label">Term {{term.order}}</div>
+					{{#if activeListItem selectedTermId term.termId}}
+						<div class="dropdown-item-icon-right">
+							<i class="fss-planning txt-gray-darker"></i>
+						</div>
+					{{/if}}
+				</a>
+			</li>
+		{{/each}}
+	</ul>
+</template>

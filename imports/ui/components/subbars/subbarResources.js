@@ -1,7 +1,7 @@
 import {Template} from 'meteor/templating';
-import './subbarTypeAvailability.html';
+import './subbarResources.html';
 
-Template.subbarTypeAvailability.onCreated( function() {
+Template.subbarResources.onCreated( function() {
 	// Subscriptions
 	let template = Template.instance();
 
@@ -9,7 +9,7 @@ Template.subbarTypeAvailability.onCreated( function() {
 	Session.set('selectedAvailability', {_id: 'all-availabilities', label: 'All Availabilities'});
 });
 
-Template.subbarTypeAvailability.helpers({
+Template.subbarResources.helpers({
 	types: [
 		{_id: 'all-types', label: 'All Types'},
 		{_id: 'book', label: 'Book'},
@@ -42,7 +42,7 @@ Template.subbarTypeAvailability.helpers({
 	},
 });
 
-Template.subbarTypeAvailability.events({
+Template.subbarResources.events({
 	'click .js-types'(event) {
 		event.preventDefault();
 

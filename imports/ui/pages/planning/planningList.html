@@ -22,14 +22,14 @@
 			</li>
 			{{#if subjectAvailable}}
 				<li class="list-item">
-					<a href="/planning/subjects/list" class="list-item-link p-tn-rl-9">
+					<a href="{{pathFor 'subjectsList' selectedSchoolYearId=selectedSchoolYearId selectedStudentId=selectedStudentId}}" class="list-item-link p-tn-rl-9">
 						<div class="list-item-icon"><i class="txt-primary fss-subjects"></i></div> 
 						<div class="list-item-label">Subjects</div>
 					</a>
 				</li>
 			{{else}}
 				<li class="list-item">
-					<a href="/planning/subjects/list" class="list-item-link p-tn-rl-9">
+					<a href="{{pathFor 'subjectsList' selectedSchoolYearId=selectedSchoolYearId selectedStudentId=selectedStudentId}}" class="list-item-link p-tn-rl-9">
 						<div class="list-item-icon"><i class="txt-gray-dark fss-subjects"></i></div> 
 						<div class="list-item-label txt-gray-darker">Subjects</div>
 					</a>

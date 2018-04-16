@@ -1,16 +1,18 @@
 import {Template} from 'meteor/templating';
 import { Students } from '../../../api/students/students.js';
 import { Subjects } from '../../../api/subjects/subjects.js';
+import { SchoolYears } from '../../../api/schoolYears/schoolYears.js';
+import { Terms } from '../../../api/terms/terms.js';
 import { Weeks } from '../../../api/weeks/weeks.js';
 import { Lessons } from '../../../api/lessons/lessons.js';
 import './trackingList.html';
 
+TrackingStats = new Mongo.Collection('trackingStats');
+
 Template.trackingList.onCreated( function() {
 	// Subscriptions
-	this.subscribe('allStudents');
-	this.subscribe('allSubjectsProgress');
-	this.subscribe('allWeeksProgress');
-	this.subscribe('allLessonsProgress');
+	this.subscribe('termsSubbar', null, FlowRouter.getParam('selectedSchoolYearId'));
+	this.subscribe('trackingStats', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'));
 });
 
 Template.trackingList.onRendered( function() {
@@ -28,59 +30,31 @@ Template.trackingList.onRendered( function() {
 });
 
 Template.trackingList.helpers({
-	students: function() {
-		return Students.find({}, {sort: {birthday: 1, lastName: 1, firstName: 1}});
+	stats: function() {
+		return TrackingStats.find({}, {sort: {birthday: 1, lastName: 1, firstName: 1}});
 	},
 
-	selectedSchoolYear: function() {
-		return Session.get('selectedSchoolYear');
+	selectedSchoolYearId: function() {
+		return FlowRouter.getParam('selectedSchoolYearId');
 	},
 
-	selectedTerm: function() {
-		return Session.get('selectedTerm');
+	selectedTermId: function() {
+		return FlowRouter.getParam('selectedTermId');
 	},
 
-	yearsProgress: function(studentId, selectedSchoolYearId) {
-		let subjectIds = Subjects.find({studentId: studentId, schoolYearId: selectedSchoolYearId}).map(subject => (subject._id));
-		let lessonsTotal = Lessons.find({subjectId: {$in: subjectIds}}).count();
-		let lessonsCompletedTotal = Lessons.find({subjectId: {$in: subjectIds}, completed: true}).count();
-		let percentComplete = lessonsCompletedTotal / lessonsTotal * 100;
-		
-		if (percentComplete > 0 && percentComplete < 1) {
-			return 1;
-		}
-		return Math.floor(percentComplete);
+	selectedWeekId: function() {
+		return TermsSubbar.findOne({termId: FlowRouter.getParam('selectedTermId')}).firstWeekId;
 	},
 
-	termsProgress: function(studentId, selectedSchoolYearId, selectedTermId) {
-		let subjectIds = Subjects.find({studentId: studentId, schoolYearId: selectedSchoolYearId}).map(subject => (subject._id));
-		let weeksIds = Weeks.find({termId: selectedTermId}).map(week => (week._id))
-		let lessonsTotal = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: weeksIds}}).count();
-		let lessonsCompletedTotal = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: weeksIds}, completed: true}).count();
-		let percentComplete = lessonsCompletedTotal / lessonsTotal * 100;
-
-		if (percentComplete > 0 && percentComplete < 1) {
-			return 1;
-		}
-		return Math.floor(percentComplete);
-	},
-
-	yearsProgressStatus: function(studentId, selectedSchoolYearId) {
-		let subjectIds = Subjects.find({studentId: studentId, schoolYearId: selectedSchoolYearId}).map(subject => (subject._id));
-		let lessonsIncompleteTotal = Lessons.find({subjectId: {$in: subjectIds}, completed: false}).count();
-
-		if (!lessonsIncompleteTotal) {
+	yearsProgressStatus: function(yearProgress) {
+		if (yearProgress === 100) {
 			return 'meter-progress-primary';
 		}
 		return false;
 	},
 
-	termsProgressStatus: function(studentId, selectedSchoolYearId, selectedTermId) {
-		let subjectIds = Subjects.find({studentId: studentId, schoolYearId: selectedSchoolYearId}).map(subject => (subject._id));
-		let weeksIds = Weeks.find({termId: selectedTermId}).map(week => (week._id))
-		let lessonsIncompleteTotal = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: weeksIds}, completed: false}).count();
-
-		if (!lessonsIncompleteTotal) {
+	termsProgressStatus: function(termProgress) {
+		if (termProgress === 100) {
 			return 'meter-progress-primary';
 		}
 		return false;

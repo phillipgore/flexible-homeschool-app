@@ -1,4 +1,6 @@
 import { Template } from 'meteor/templating';
+import { SchoolYears } from '../../../api/schoolYears/schoolYears.js';
+import { Students } from '../../../api/students/students.js';
 import { Resources } from '../../../api/resources/resources.js';
 import { Subjects } from '../../../api/subjects/subjects.js';
 import { Terms } from '../../../api/terms/terms.js';
@@ -12,11 +14,7 @@ import './reportingList.html';
 Template.reportingList.onCreated( function() {
 	// Subscriptions
 	this.subscribe('userReportSettings');
-	this.subscribe('allResources');
-	this.subscribe('allSubjects');
-	this.subscribe('allTerms');
-	this.subscribe('allWeeks');
-	this.subscribe('allLessons');
+	this.subscribe('schoolYearReport', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
 });
 
 Template.reportingList.onRendered( function() {
@@ -40,7 +38,7 @@ Template.reportingList.helpers({
 	
 	// Selections
 	reportsAvailable: function() {
-		if (!Session.get('selectedSchoolYear') || !Session.get('selectedStudent')) {
+		if (!Session.get('selectedSchoolYearId') || !Session.get('selectedStudentId')) {
 			return false;
 		}
 		return true

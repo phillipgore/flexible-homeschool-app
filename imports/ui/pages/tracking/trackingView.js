@@ -12,10 +12,8 @@ import './trackingView.html';
 Template.trackingView.onCreated( function() {
 	// Subscriptions
 	this.subscribe('student', FlowRouter.getParam('id'));
-	this.subscribe('studentSubjects', FlowRouter.getParam('id'));
-	this.subscribe('allTerms');
-	this.subscribe('allWeeks');
-	this.subscribe('studentLessons', FlowRouter.getParam('id'));
+	this.subscribe('studentWeekSubjects', FlowRouter.getParam('id'), FlowRouter.getParam('selectedWeekId'));
+	this.subscribe('studentWeekLessons', FlowRouter.getParam('id'), FlowRouter.getParam('selectedWeekId'));
 
 	Tracker.autorun(function() {
 		Session.get('selectedSchoolYear');
@@ -30,10 +28,13 @@ Template.trackingView.onCreated( function() {
 Template.trackingView.onRendered( function() {
 	// ToolbarView Settings
 	Session.set({
-		leftUrl: '/tracking/list',
+		leftUrl: '/tracking/list/' + FlowRouter.getParam('selectedSchoolYearId') +"/"+ Session.get('selectedTermId'),
 		leftIcon: 'fss-back',
 		label: '',
 	});
+
+	// Navbar Settings
+	Session.set('activeNav', 'trackingList');
 });
 
 Template.trackingView.helpers({
@@ -41,28 +42,24 @@ Template.trackingView.helpers({
 		return Students.findOne({_id: FlowRouter.getParam('id')});
 	},
 
-	selectedSchoolYear: function() {
-		return Session.get('selectedSchoolYear');
+	selectedSchoolYearId: function() {
+		return FlowRouter.getParam('selectedSchoolYearId');
 	},
 
-	selectedWeek: function() {
-		return Session.get('selectedWeek');
+	subjects: function() {
+		return Subjects.find();
 	},
 
-	subjects: function(selectedSchoolYearId) {
-		return Subjects.find({schoolYearId: selectedSchoolYearId});
+	lessons: function(subjectId) {
+		return Lessons.find({weekId: FlowRouter.getParam('selectedWeekId'), subjectId: subjectId}, {sort: {order: 1}});
 	},
 
-	lessons: function(subjectId, selectedWeekId) {
-		return Lessons.find({weekId: selectedWeekId, subjectId: subjectId}, {sort: {order: 1}});
+	lessonCount: function(subjectId) {
+		return Lessons.find({weekId: FlowRouter.getParam('selectedWeekId'), subjectId: subjectId}).count();
 	},
 
-	lessonCount: function(subjectId, selectedWeekId) {
-		return Lessons.find({weekId: selectedWeekId, subjectId: subjectId}).count();
-	},
-
-	lessonPosition: function(subjectId, lessonId, selectedWeekId) {
-		let lessonIds = Lessons.find({weekId: selectedWeekId, subjectId: subjectId}, {sort: {order: 1}}).map(lesson => (lesson._id))
+	lessonPosition: function(subjectId, lessonId) {
+		let lessonIds = Lessons.find({weekId: FlowRouter.getParam('selectedWeekId'), subjectId: subjectId}, {sort: {order: 1}}).map(lesson => (lesson._id))
 		return Lessons.find() && lessonIds.indexOf(lessonId);
 	},
 
@@ -70,8 +67,8 @@ Template.trackingView.helpers({
 		return moment();
 	},
 
-	lessonStatus: function(lessonCompleted, subjectId, selectedWeekId) {
-		let lessonsIncompleteCount = Lessons.find({weekId: selectedWeekId, subjectId: subjectId, completed: false}, {sort: {order: 1}}).count()
+	lessonStatus: function(lessonCompleted, subjectId) {
+		let lessonsIncompleteCount = Lessons.find({weekId: FlowRouter.getParam('selectedWeekId'), subjectId: subjectId, completed: false}, {sort: {order: 1}}).count()
 		if (!lessonsIncompleteCount) {
 			return 'btn-primary';
 		}

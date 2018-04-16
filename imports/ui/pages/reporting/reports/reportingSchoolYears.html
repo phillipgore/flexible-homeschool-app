@@ -7,29 +7,29 @@
 			{{#if user.reportSettings.schoolYearStatsVisible}}
 				<div class="row font-weight-normal txt-tn-center m-tn-b-18 m-tn-l-neg-21 m-tn-r-neg-12">
 					<div class="col-tn-1of4 right-border">
-						<div class="font-size-24 m-tn-b-3">{{termsCountSchoolYear selectedSchoolYear._id}}</div>
+						<div class="font-size-24 m-tn-b-3">{{termsCount}}</div>
 						<div class="txt-gray-darker">Terms</div>
 					</div>
 					<div class="col-tn-1of4 right-border">
-						<div class="font-size-24 m-tn-b-3">{{subjectsCountSchoolYear selectedSchoolYear._id selectedStudent._id}}</div>
+						<div class="font-size-24 m-tn-b-3">{{subjectsCount}}</div>
 						<div class="txt-gray-darker">Subjects</div>
 					</div>
 					<div class="col-tn-1of4 right-border">
-						<div class="font-size-24 m-tn-b-3">{{weeksCountSchoolYear selectedSchoolYear._id}}</div>
+						<div class="font-size-24 m-tn-b-3">{{weeksCount}}</div>
 						<div class="txt-gray-darker">Weeks</div>
 					</div>
 					<div class="col-tn-1of4">
-						<div class="font-size-24 m-tn-b-3">{{lessonsCountSchoolYear selectedSchoolYear._id selectedStudent._id}}</div>
+						<div class="font-size-24 m-tn-b-3">{{lessonsCount}}</div>
 						<div class="txt-gray-darker">Lessons</div>
 					</div>
 				</div>
 			{{/if}}
 			{{#if user.reportSettings.schoolYearProgressVisible}}
 				<div class="meter meter-large m-tn-b-18">
-					<div class="meter-progress {{yearsProgressStatus selectedStudent._id selectedSchoolYear._id}}" style="width: {{yearsProgress selectedStudent._id selectedSchoolYear._id selectedTerm._id}}%;">
-						<div class="meter-label">Year's Progress: {{yearsProgress selectedStudent._id selectedSchoolYear._id selectedTerm._id}}%</div>
+					<div class="meter-progress {{yearsProgressStatus}}" style="width: {{yearsProgress}}%;">
+						<div class="meter-label">Year's Progress: {{yearsProgress}}%</div>
 					</div>
-					<div class="meter-label">Year's Progress: {{yearsProgress selectedStudent._id selectedSchoolYear._id selectedTerm._id}}%</div>
+					<div class="meter-label">Year's Progress: {{yearsProgress}}%</div>
 				</div>
 			{{/if}}
 			{{#if user.reportSettings.schoolYearTimesVisible}}
@@ -48,10 +48,6 @@
 					</p>
 				</div>
 			{{/if}}
-		</div>
-	{{else}}
-		<div class="report p-tn-trl-18 m-tn-b-9">
-			<h1 class="txt-tn-center p-tn-b-18">{{selectedSchoolYear.startYear}}-{{selectedSchoolYear.endYear}}</h1>
 		</div>
 	{{/if}}
 </template>

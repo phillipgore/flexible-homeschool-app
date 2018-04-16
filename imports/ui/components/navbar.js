@@ -1,5 +1,8 @@
 import {Template} from 'meteor/templating';
 import {Groups} from '../../api/groups/groups.js';
+import {SchoolYears} from '../../api/schoolYears/schoolYears.js';
+import {Students} from '../../api/students/students.js';
+import moment from 'moment';
 import './navbar.html';
 
 Template.navbar.helpers({
@@ -23,6 +26,18 @@ Template.navbar.helpers({
 
 	group: function() {
 		return Groups.findOne({});
+	},
+
+	selectedSchoolYearId: function() {
+		return Session.get('selectedSchoolYearId');
+	},
+
+	selectedStudentId: function() {
+		return Session.get('selectedStudentId');
+	},
+
+	selectedTermId: function() {
+		return Session.get('selectedTermId');
 	},
 });
 

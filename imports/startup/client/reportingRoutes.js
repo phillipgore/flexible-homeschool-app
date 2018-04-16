@@ -1,8 +1,9 @@
 import _ from 'lodash'
 
-FlowRouter.route('/reporting/list', {
+FlowRouter.route('/reporting/list/:selectedSchoolYearId/:selectedStudentId', {
 	name: 'reportingList',
 	action() {
+		BlazeLayout.reset();
 		BlazeLayout.render('app', {
 			main: 'reportingList',
 		});

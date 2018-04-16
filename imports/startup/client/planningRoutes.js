@@ -135,9 +135,10 @@ FlowRouter.route('/planning/resources/edit/:id/:type', {
 
 
 // Subjects
-FlowRouter.route('/planning/subjects/list', {
+FlowRouter.route('/planning/subjects/list/:selectedSchoolYearId/:selectedStudentId', {
 	name: 'subjectsList',
 	action() {
+		BlazeLayout.reset();
 		BlazeLayout.render('app', {
 			main: 'subjectsList',
 		});

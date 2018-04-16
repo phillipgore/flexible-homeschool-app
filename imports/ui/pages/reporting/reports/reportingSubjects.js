@@ -14,26 +14,15 @@ Template.reportingSubjects.helpers({
 		return Meteor.users.findOne();
 	},
 
-	subjects: function(selectedSchoolYearId, selectedStudentId) {
-		return Subjects.find({schoolYearId: selectedSchoolYearId, studentId: selectedStudentId})
-	},
-
-	
-
-	// Selections
-	selectedSchoolYear: function() {
-		return Session.get('selectedSchoolYear');
-	},
-
-	selectedStudent: function() {
-		return Session.get('selectedStudent');
+	subjects: function() {
+		return Subjects.find()
 	},
 
 
 
 
 	// School Year Totals
-	termsCountSubject: function(subjectId, selectedSchoolYearId, selectedStudentId) {
+	termsCountSubject: function(subjectId) {
 		let weekIds = Lessons.find({subjectId: subjectId}).map(lesson => (lesson.weekId));
 		return _.uniq( Weeks.find({_id: {$in: weekIds}}).map(week => (week.termId)) ).length;
 	},
@@ -44,7 +33,7 @@ Template.reportingSubjects.helpers({
 		return minutesConvert(minutes);
 	},
 
-	weeksCountSubject: function(subjectId, selectedSchoolYearId, selectedStudentId) {
+	weeksCountSubject: function(subjectId) {
 		return _.uniq( Lessons.find({subjectId: subjectId}).map(lesson => (lesson.weekId)) ).length;
 	},
 
@@ -98,7 +87,6 @@ Template.reportingSubjects.helpers({
 	},
 
 	lastSubject: function(index, subjectCount) {
-		console.log((index + 1) +" "+ subjectCount)
 		if (index + 1 === subjectCount) {
 			return true;
 		}

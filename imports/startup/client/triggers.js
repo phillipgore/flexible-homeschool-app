@@ -1,14 +1,26 @@
 import { Groups } from '../../api/groups/groups.js';
 import { Students } from '../../api/students/students.js';
 import { SchoolYears } from '../../api/schoolYears/schoolYears.js';
+import moment from 'moment';
+
+let year = moment().year();
+let month = moment().month();
+function startYear(year) {
+	if (month < 6) {
+		return year = (year - 1).toString();
+	}
+	return year.toString();
+}
+
 var userData = Meteor.subscribe('userData');
 var groupStatus = Meteor.subscribe('groupStatus');
 var planningStatusCounts = Meteor.subscribe('planningStatusCounts');
+var firstSchoolYear = Meteor.subscribe('firstSchoolYear', startYear(moment().year()));
 
 FlowRouter.wait();
 
 Tracker.autorun(() => {
-	if (userData.ready() && groupStatus.ready() && planningStatusCounts.ready() && !FlowRouter._initialized) {
+	if (userData.ready() && groupStatus.ready() && planningStatusCounts.ready() && firstSchoolYear.ready() && !FlowRouter._initialized) {
 		FlowRouter.initialize()
 	}
 });
