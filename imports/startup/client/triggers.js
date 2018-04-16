@@ -16,13 +16,13 @@ function startYear(year) {
 
 var userData = Meteor.subscribe('userData');
 var groupStatus = Meteor.subscribe('groupStatus');
-var planningStatusCounts = Meteor.subscribe('planningStatusCounts');
+var planningStatusStats = Meteor.subscribe('planningStatusStats');
 var firstSchoolYear = Meteor.subscribe('firstSchoolYear', startYear(moment().year()));
 
 FlowRouter.wait();
 
 Tracker.autorun(() => {
-	if (userData.ready() && groupStatus.ready() && planningStatusCounts.ready() && firstSchoolYear.ready() && !FlowRouter._initialized) {
+	if (userData.ready() && groupStatus.ready() && planningStatusStats.ready() && firstSchoolYear.ready() && !FlowRouter._initialized) {
 		FlowRouter.initialize()
 	}
 });
@@ -40,6 +40,14 @@ function checkSignOut(context, redirect) {
 };
 
 function navbarData(context) {
+	if (!Session.get('selectedResourceType')) {
+		Session.set('selectedResourceType', 'all');
+	}
+
+	if (!Session.get('selectedResourceAvailability')) {
+		Session.set('selectedResourceAvailability', 'all');
+	}
+
 	if (!Session.get('selectedSchoolYearId')) {
 		Session.set('selectedSchoolYearId', SchoolYears.findOne()._id);
 	}

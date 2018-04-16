@@ -94,9 +94,10 @@ FlowRouter.route('/planning/schoolyears/edit/:id', {
 
 
 // Resources
-FlowRouter.route('/planning/resources/list', {
+FlowRouter.route('/planning/resources/list/:selectedResourceType/:selectedResourceAvailability', {
 	name: 'resourcesList',
 	action() {
+		BlazeLayout.reset();
 		BlazeLayout.render('app', {
 			main: 'resourcesList',
 		});

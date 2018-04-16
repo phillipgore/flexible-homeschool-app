@@ -150,7 +150,6 @@ Meteor.publish('weeksSubbar', function(studentId, schoolYearId, termId) {
 			let lessonsTotal = Lessons.find({subjectId: {$in: subjectIds}, weekId: week._id}).count();
 			let lessonsCompletedTotal = Lessons.find({subjectId: {$in: subjectIds}, weekId: week._id, completed: true}).count();
 
-			// console.log(week._id +" "+ week.order +" "+ lessonsTotal +" "+ lessonsCompletedTotal)
 			week.weekId = week._id;
 			if (!lessonsCompletedTotal) {
 				week.status = 'pending'

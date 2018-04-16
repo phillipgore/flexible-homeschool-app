@@ -9,6 +9,24 @@ Meteor.publish('allResources', function() {
 	return Resources.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {title: 1}});
 });
 
+Meteor.publish('scopedResources', function(type, availability) {
+	if (!this.userId) {
+		return this.ready();
+	}
+
+	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
+
+	if (type === 'all' && availability === "all") {
+		return Resources.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {title: 1}});
+	} else if (type != 'all' && availability != "all") {
+		return Resources.find({groupId: groupId, deletedOn: { $exists: false }, type: type, availability: availability}, {sort: {title: 1}});
+	} else if (type === 'all' && availability != "all") {
+		return Resources.find({groupId: groupId, deletedOn: { $exists: false }, availability: availability}, {sort: {title: 1}});
+	} else if (type != 'all' && availability === "all") {
+		return Resources.find({groupId: groupId, deletedOn: { $exists: false }, type: type}, {sort: {title: 1}});
+	}
+});
+
 Meteor.publish('resource', function(resourceId) {
 	if (!this.userId) {
 		return this.ready();

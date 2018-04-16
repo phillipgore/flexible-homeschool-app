@@ -2,9 +2,20 @@ import {Template} from 'meteor/templating';
 import { Resources } from '../../../../api/resources/resources.js';
 import './resourcesList.html';
 
+import _ from 'lodash'
+
 Template.resourcesList.onCreated( function() {
 	// Subscriptions\
-	this.subscribe('allResources');
+	if (FlowRouter.getParam('selectedResourceType') === 'link') {
+		this.subscribe('scopedResources', FlowRouter.getParam('selectedResourceType'), 'all');
+		Session.set('selectedResourceAvailability', 'all');
+	} else {
+		this.subscribe('scopedResources', FlowRouter.getParam('selectedResourceType'), FlowRouter.getParam('selectedResourceAvailability'));
+		Session.set('selectedResourceAvailability', FlowRouter.getParam('selectedResourceAvailability'));
+	}
+	this.subscribe('resourceStats');
+
+	Session.set('selectedResourceType', FlowRouter.getParam('selectedResourceType'));
 });
 
 Template.resourcesList.onRendered( function() {
@@ -20,26 +31,19 @@ Template.resourcesList.onRendered( function() {
 });
 
 Template.resourcesList.helpers({
-	resourcesCount: function() {
-		return Resources.find().count();
-	},
-
 	resources: function() {
-		let typeId = Session.get('selectedType') && Session.get('selectedType')._id;
-		let availabilityId = Session.get('selectedAvailability') && Session.get('selectedAvailability')._id;
-		if (typeId === 'all-types' && availabilityId != 'all-availabilities') {
-			return Resources.find({availability: availabilityId}, {sort: {title: 1}});
-		}
-		if (typeId != 'all-types' && availabilityId === 'all-availabilities') {
-			return Resources.find({type: typeId}, {sort: {title: 1}});
-		}
-		if (typeId === 'all-types' && availabilityId === 'all-availabilities') {
-			return Resources.find({}, {sort: {title: 1}});
-		}
-		return Resources.find({type: typeId, availability: availabilityId}, {sort: {title: 1}});
+		return Resources.find({}, {sort: {title: 1}});
 	},
-});
 
-Template.resourcesList.events({
-	
+	selectedResourceType: function() {
+		return FlowRouter.getParam('selectedResourceType');
+	},
+
+	selectedResourceAvailability: function() {
+		return Session.get('selectedResourceAvailability');
+	},
+
+	resourceCount: function(type, availability) {
+		return Counts.get(type + _.capitalize(availability) + 'Count');
+	},
 });

@@ -1,17 +1,11 @@
 import {Template} from 'meteor/templating';
 import './subbarResources.html';
 
-Template.subbarResources.onCreated( function() {
-	// Subscriptions
-	let template = Template.instance();
-
-	Session.set('selectedType', {_id: 'all-types', label: 'All Types'});
-	Session.set('selectedAvailability', {_id: 'all-availabilities', label: 'All Availabilities'});
-});
+import _ from 'lodash'
 
 Template.subbarResources.helpers({
 	types: [
-		{_id: 'all-types', label: 'All Types'},
+		{_id: 'all', label: 'All Types'},
 		{_id: 'book', label: 'Book'},
 		{_id: 'link', label: 'Link'},
 		{_id: 'video', label: 'Video'},
@@ -20,18 +14,57 @@ Template.subbarResources.helpers({
 	],
 
 	availabilities: [
-		{_id: 'all-availabilities', label: 'All Availabilities'},
+		{_id: 'all', label: 'All Availabilities'},
 		{_id: 'own', label: 'I Own It'},
 		{_id: 'borrowed', label: 'I Borrowed It'},
 		{_id: 'need', label: 'I Need It'},
 	],
 
-	selectedType: function() {
-		return Session.get('selectedType');
+	selectedResourceType: function() {
+		return Session.get('selectedResourceType');
 	},
 
-	selectedAvailability: function() {
-		return Session.get('selectedAvailability');
+	selectedResourceAvailability: function() {
+		return Session.get('selectedResourceAvailability');
+	},
+
+	typeLabel: function(type) {
+		if (type === 'all') { return 'All Types' };
+		if (type === 'book') { return 'Book' };
+		if (type === 'link') { return 'Link' };
+		if (type === 'video') { return 'Video' };
+		if (type === 'audio') { return 'Audio' };
+		if (type === 'app') { return 'App' };
+	},
+
+	typeAvailability: function(type, availability) {
+		if (Counts.get(type + 'AllCount')) {
+			return 'txt-primary'
+		}
+		return 'txt-gray-darker'
+	},
+
+	availabilityLabel: function(type) {
+		if (type === 'all') { return 'All Availabilities' };
+		if (type === 'own') { return 'I Own It' };
+		if (type === 'borrowed') { return 'I Borrowed It' };
+		if (type === 'need') { return 'I Need It' };
+	},
+
+	availabilityStatus: function(type, availability) {
+		if (availability === 'all' && Counts.get(type + _.capitalize(availability) +'Count')) {
+			return 'txt-primary'
+		}
+		if (availability === 'own' && Counts.get(type + _.capitalize(availability) +'Count')) {
+			return 'txt-royal'
+		}
+		if (availability === 'borrowed' && Counts.get(type + _.capitalize(availability) +'Count')) {
+			return 'txt-info'
+		}
+		if (availability === 'need' && Counts.get(type + _.capitalize(availability) +'Count')) {
+			return 'txt-warning'
+		}
+		return 'txt-gray-darker'
 	},
 
 	activeListItem: function(currentItem, item) {
@@ -40,36 +73,20 @@ Template.subbarResources.helpers({
 		}
 		return false;
 	},
+
+	isLink: function(type) {
+		if (type === 'link') {
+			return true;
+		}
+		return false;
+	}
 });
 
-Template.subbarResources.events({
-	'click .js-types'(event) {
-		event.preventDefault();
 
-		let typeId = $(event.currentTarget).attr('id');
-		let types = [
-			{_id: 'all-types', label: 'All Types'},
-			{_id: 'book', label: 'Book'},
-			{_id: 'link', label: 'Link'},
-			{_id: 'video', label: 'Video'},
-			{_id: 'audio', label: 'Audio'},
-			{_id: 'app', label: 'App'},
-		];
-		let typeIds = types.map(type => (type._id));
-		Session.set('selectedType', types[typeIds.indexOf(typeId)]);
-	},
 
-	'click .js-availabilities'(event) {
-		event.preventDefault();
 
-		let availabilityId = $(event.currentTarget).attr('id');
-		let availabilities = [
-			{_id: 'all-availabilities', label: 'All Availabilities'},
-			{_id: 'own', label: 'I Own It'},
-			{_id: 'borrowed', label: 'I Borrowed It'},
-			{_id: 'need', label: 'I Need It'},
-		];
-		let availabilityIds = availabilities.map(availability => (availability._id));
-		Session.set('selectedAvailability', availabilities[availabilityIds.indexOf(availabilityId)]);
-	},
-});
+
+
+
+
+

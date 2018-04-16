@@ -41,4 +41,12 @@ Template.planningList.helpers({
 	selectedStudentId: function() {
 		return Session.get('selectedStudentId');
 	},
+
+	selectedResourceType: function() {
+		return Session.get('selectedResourceType');
+	},
+
+	selectedResourceAvailability: function() {
+		return Session.get('selectedResourceAvailability');
+	},
 });
