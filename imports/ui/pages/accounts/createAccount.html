@@ -46,7 +46,7 @@
 		</form>
 	</main>
 	{{#unless Template.subscriptionsReady}}
-		{{> loading}}
+		{{> loading subbar=true}}
 	{{/unless}}
-	{{> saving message="Creating Account"}}
+	{{> saving message="Creating Account" subbar=true}}
 </template>

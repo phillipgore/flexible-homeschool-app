@@ -12,6 +12,13 @@ TrackingStats = new Mongo.Collection('trackingStats');
 Template.trackingList.onCreated( function() {
 	// Subscriptions
 	this.subscribe('trackingStats', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'));
+
+	// Subbar Subscriptions
+	this.subscribe('schoolYearsSubbar');
+	this.subscribe('termsSubbar', null, FlowRouter.getParam('selectedSchoolYearId'));
+
+	Session.set('selectedSchoolYearId', FlowRouter.getParam('selectedSchoolYearId'));
+	Session.set('selectedTermId', FlowRouter.getParam('selectedTermId'));
 });
 
 Template.trackingList.onRendered( function() {

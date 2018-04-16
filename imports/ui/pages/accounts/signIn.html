@@ -17,7 +17,7 @@
 		</form>
 	</main>
 	{{#unless Template.subscriptionsReady}}
-		{{> loading}}
+		{{> loading subbar=true}}
 	{{/unless}}
-	{{> saving message="Signing In"}}
+	{{> saving message="Signing In" subbar=true}}
 </template>

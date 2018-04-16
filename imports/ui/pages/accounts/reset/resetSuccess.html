@@ -8,6 +8,6 @@
 		<a class="btn" href="{{pathFor 'studentsList'}}">Sign In</a>
 	</main>
 	{{#unless Template.subscriptionsReady}}
-		{{> loading}}
+		{{> loading subbar=true}}
 	{{/unless}}
 </template>

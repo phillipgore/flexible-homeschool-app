@@ -15,6 +15,13 @@ Template.reportingList.onCreated( function() {
 	// Subscriptions
 	this.subscribe('userReportSettings');
 	this.subscribe('schoolYearReport', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
+	
+	// Subbar Subscriptions
+	this.subscribe('schoolYearsSubbar', FlowRouter.getParam('selectedStudentId'));
+	this.subscribe('allStudents');
+	
+	Session.set('selectedSchoolYearId', FlowRouter.getParam('selectedSchoolYearId'));
+	Session.set('selectedStudentId', FlowRouter.getParam('selectedStudentId'));
 });
 
 Template.reportingList.onRendered( function() {

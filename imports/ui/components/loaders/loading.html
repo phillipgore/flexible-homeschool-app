@@ -1,5 +1,8 @@
 <template name="loading">
 	<div class="loading-container">
+		{{#if subbar}}
+			{{> subbar}}
+		{{/if}}
 		<div class="loader">
 			<div class="loader-icon">
 				<i class="fss-searching fss-spin"></i>

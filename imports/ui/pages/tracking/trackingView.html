@@ -52,8 +52,8 @@
 		{{/each}}
 	</main>
 	{{#unless Template.subscriptionsReady}}
-		{{> loading}}
+		{{> loading subbar=true}}
 	{{/unless}}
 	{{> navbar }}
-	{{> updating}}
+	{{> updating subbar=true}}
 </template>

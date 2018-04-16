@@ -4,15 +4,6 @@ import {Students} from '../../../api/students/students.js';
 import moment from 'moment';
 import './subbarReporting.html';
 
-Template.subbarReporting.onCreated( function() {
-	// Subscriptions
-	this.subscribe('schoolYearsSubbar', FlowRouter.getParam('selectedStudentId'));
-	this.subscribe('allStudents');
-	
-	Session.set('selectedSchoolYearId', FlowRouter.getParam('selectedSchoolYearId'));
-	Session.set('selectedStudentId', FlowRouter.getParam('selectedStudentId'));
-});
-
 Template.subbarReporting.helpers({
 	schoolYears: function() {
 		return SchoolYearsSubbar.find({}, {sort: {startYear: 1}});

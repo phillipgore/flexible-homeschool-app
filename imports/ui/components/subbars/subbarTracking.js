@@ -7,15 +7,6 @@ import {Lessons} from '../../../api/lessons/lessons.js';
 import moment from 'moment';
 import './subbarTracking.html';
 
-Template.subbarTracking.onCreated( function() {
-	// Subscriptions
-	this.subscribe('schoolYearsSubbar');
-	this.subscribe('termsSubbar', null, FlowRouter.getParam('selectedSchoolYearId'));
-
-	Session.set('selectedSchoolYearId', FlowRouter.getParam('selectedSchoolYearId'));
-	Session.set('selectedTermId', FlowRouter.getParam('selectedTermId'));
-});
-
 Template.subbarTracking.helpers({
 	schoolYears: function() {
 		return SchoolYearsSubbar.find({}, {sort: {startYear: 1}});

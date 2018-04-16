@@ -7,17 +7,6 @@ import {Lessons} from '../../../api/lessons/lessons.js';
 import moment from 'moment';
 import './subbarTrackingStudent.html';
 
-Template.subbarTrackingStudent.onCreated( function() {
-	// Subscriptions
-	this.subscribe('schoolYearsSubbar', FlowRouter.getParam('id'));
-	this.subscribe('termsSubbar', FlowRouter.getParam('id'), FlowRouter.getParam('selectedSchoolYearId'));
-	this.subscribe('weeksSubbar', FlowRouter.getParam('id'), FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'));
-
-	Session.set('selectedSchoolYearId', FlowRouter.getParam('selectedSchoolYearId'));
-	Session.set('selectedTermId', FlowRouter.getParam('selectedTermId'));
-	Session.set('selectedWeekId', FlowRouter.getParam('selectedWeekId'));
-});
-
 Template.subbarTrackingStudent.helpers({
 	selectedStudentId: function() {
 		return FlowRouter.getParam('id');
