@@ -16,7 +16,7 @@ Template.trackingView.onCreated( function() {
 	this.subscribe('studentWeekLessons', FlowRouter.getParam('id'), FlowRouter.getParam('selectedWeekId'));
 
 	// Subbar Subscriptions
-	this.subscribe('schoolYearsSubbar', FlowRouter.getParam('id'));
+	// this.subscribe('schoolYearsSubbar', FlowRouter.getParam('id'));
 	this.subscribe('termsSubbar', FlowRouter.getParam('id'), FlowRouter.getParam('selectedSchoolYearId'));
 	this.subscribe('weeksSubbar', FlowRouter.getParam('id'), FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'));
 

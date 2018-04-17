@@ -14,8 +14,9 @@ Template.trackingList.onCreated( function() {
 	this.subscribe('trackingStats', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'));
 
 	// Subbar Subscriptions
-	this.subscribe('schoolYearsSubbar');
+	// this.subscribe('schoolYearsSubbar');
 	this.subscribe('termsSubbar', null, FlowRouter.getParam('selectedSchoolYearId'));
+	this.subscribe('trackingStudents', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'));
 
 	Session.set('selectedSchoolYearId', FlowRouter.getParam('selectedSchoolYearId'));
 	Session.set('selectedTermId', FlowRouter.getParam('selectedTermId'));
@@ -48,8 +49,8 @@ Template.trackingList.helpers({
 		return FlowRouter.getParam('selectedTermId');
 	},
 
-	selectedWeekId: function() {
-		return TermsSubbar.findOne({termId: FlowRouter.getParam('selectedTermId')}) && TermsSubbar.findOne({termId: FlowRouter.getParam('selectedTermId')}).firstWeekId;
+	selectedWeekId: function(studentId) {
+		return TrackingStudents.findOne({studentId: studentId}) && TrackingStudents.findOne({studentId: studentId}).firstWeekId;
 	},
 
 	yearsProgressStatus: function(yearProgress) {

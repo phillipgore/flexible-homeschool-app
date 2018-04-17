@@ -111,9 +111,9 @@ import { Weeks } from '../../api/weeks/weeks.js';
 import moment from 'moment';
 
 Alerts = new Mongo.Collection(null);
-SchoolYearsSubbar = new Mongo.Collection('schoolYearsSubbar');
 TermsSubbar = new Mongo.Collection('termsSubbar');
 WeeksSubbar = new Mongo.Collection('weeksSubbar');
+TrackingStudents = new Mongo.Collection('trackingStudents');
 
 Template.app.helpers({
 	alerts: function() {

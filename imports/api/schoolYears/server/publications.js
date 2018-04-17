@@ -7,30 +7,6 @@ import {Resources} from '../../resources/resources.js';
 import {Lessons} from '../../lessons/lessons.js';
 import _ from 'lodash'
 
-Meteor.publish('firstSchoolYear', function(startYear) {
-	if (!this.userId) {
-		return this.ready();
-	}
-
-	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-
-	function schoolYearId(year) {
-		if (SchoolYears.findOne({startYear: {$gte: startYear}}, {sort: {starYear: 1}})) {
-			return SchoolYears.findOne({startYear: {$gte: startYear}, groupId: groupId, deletedOn: { $exists: false }}, {sort: {starYear: 1}})._id;
-		}
-		return SchoolYears.findOne({startYear: {$lte: startYear}, groupId: groupId, deletedOn: { $exists: false }}, {sort: {starYear: 1}})._id
-	};
-	
-	let termId = Terms.findOne({groupId: groupId, schoolYearId: schoolYearId(startYear), deletedOn: { $exists: false }}, {sort: {order: 1}})._id;
-
-	return [
-		SchoolYears.find({_id: schoolYearId(startYear), groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}, fields: {startYear: 1, endYear: 1}, limit: 1}),
-		Students.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}, fields: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}, limit: 1}),
-		Terms.find({groupId: groupId, schoolYearId: schoolYearId(startYear), deletedOn: { $exists: false }}, {sort: {order: 1}, fields: {order: 1, schoolYearId: 1}, limit: 1}),
-		Weeks.find({groupId: groupId, termId: termId, deletedOn: { $exists: false }}, {sort: {order: 1}, fields: {order: 1, termId: 1}, limit: 1}),
-	]
-});
-
 Meteor.publish('allSchoolYears', function() {
 	if (!this.userId) {
 		return this.ready();

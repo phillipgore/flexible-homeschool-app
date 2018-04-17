@@ -17,7 +17,7 @@ Template.reportingList.onCreated( function() {
 	this.subscribe('schoolYearReport', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
 	
 	// Subbar Subscriptions
-	this.subscribe('schoolYearsSubbar', FlowRouter.getParam('selectedStudentId'));
+	// this.subscribe('schoolYearsSubbar', FlowRouter.getParam('selectedStudentId'));
 	this.subscribe('allStudents');
 	
 	Session.set('selectedSchoolYearId', FlowRouter.getParam('selectedSchoolYearId'));

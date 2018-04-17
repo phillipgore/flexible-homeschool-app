@@ -1,3 +1,4 @@
+import {Students} from '../../students/students.js';
 import {SchoolYears} from '../../schoolYears/schoolYears.js';
 import {Terms} from '../../terms/terms.js';
 import {Subjects} from '../../subjects/subjects.js';
@@ -33,8 +34,8 @@ Meteor.publish('schoolYearsSubbar', function(studentId) {
 			let weekIds = _.uniq( Lessons.find({subjectId: {$in: subjectIds}}).map(lesson => (lesson.weekId)) );
 			let termIds = _.uniq( Weeks.find({_id: {$in: weekIds}}, {sort: {order: 1}}).map(week => (week.termId)) );
 
-			let LessonsCompleteWeekIds = _.uniq( Lessons.find({subjectId: {$in: subjectIds}, completed: true}, {sort: {order: 1}}).map(lesson => (lesson.weekId)) );
-			let LessonsIncompleteWeekId = Lessons.findOne({subjectId: {$in: subjectIds}, completed: false}, {sort: {order: 1}}).weekId;
+			let LessonsCompleteWeekIds = _.uniq( Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: weekIds}, completed: true}, {sort: {order: 1}}).map(lesson => (lesson.weekId)) );
+			let LessonsIncompleteWeekId = Lessons.findOne({weekId: {$in: weekIds}, completed: false}, {sort: {order: 1}}).weekId;
 			let LessonsPartialWeekIds = _.uniq( Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: LessonsCompleteWeekIds}, completed: false}, {sort: {order: 1}}).map(lesson => (lesson.weekId)) );
 
 			let weekPartial = Weeks.findOne({_id: {$in: LessonsPartialWeekIds}}, {sort: {order: 1}});
@@ -169,6 +170,67 @@ Meteor.publish('weeksSubbar', function(studentId, schoolYearId, termId) {
 		self.ready();
 	});
 });
+
+Meteor.publish('trackingStudents', function(schoolYearId, termId) {
+	this.autorun(function (computation) {
+		if (!this.userId) {
+			return this.ready();
+		}
+
+		let self = this;
+
+		let students = []
+		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
+		let originalStudents = Students.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}, fields: {_id: 1}});
+
+		originalStudents.map((student) => {
+
+			let subjectIds = Subjects.find({studentId: student._id, schoolYearId: schoolYearId}).map(subject => (subject._id));
+			let weekIds = Weeks.find({termId: termId}, {sort: {order: 1}}).map(week => (week._id));
+
+			let lessonsTotal = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: weekIds}}).count();
+			let lessonsCompletedTotal = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: weekIds}, completed: true}).count();
+
+			let LessonsCompleteWeekIds = _.uniq( Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: weekIds}, completed: true}, {sort: {order: 1}}).map(lesson => (lesson.weekId)) );
+			let LessonsIncompleteWeekId = Lessons.findOne({weekId: {$in: weekIds}, completed: false}, {sort: {order: 1}}).weekId;
+			let LessonsPartialWeekIds = _.uniq( Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: LessonsCompleteWeekIds}, completed: false}, {sort: {order: 1}}).map(lesson => (lesson.weekId)) );
+
+			let weekPartial = Weeks.findOne({_id: {$in: LessonsPartialWeekIds}}, {sort: {order: 1}});
+			let weekIncomplete = Weeks.findOne({_id: LessonsIncompleteWeekId});
+
+			student.studentId = student._id;
+
+			if (!lessonsCompletedTotal) {
+				student.firstWeekId = Weeks.findOne({_id: {$in: weekIds}}, {sort: {order: 1}})._id;
+			} else if (lessonsCompletedTotal > 0 && lessonsTotal != lessonsCompletedTotal) {
+				if (weekPartial) {
+					student.firstWeekId = weekPartial._id;
+				} else {
+					student.firstWeekId = weekIncomplete._id;
+				}
+			} else if (lessonsTotal === lessonsCompletedTotal) {
+				student.firstWeekId = Weeks.findOne({_id: {$in: weekIds}}, {sort: {order: 1}})._id;
+			}
+			
+			students.push(student);
+		});
+
+		students.forEach(function(student) {
+			self.added('trackingStudents', Random.id(), student);
+		});
+
+		self.ready();
+	});
+});
+
+
+
+
+
+
+
+
+
 
 
 
