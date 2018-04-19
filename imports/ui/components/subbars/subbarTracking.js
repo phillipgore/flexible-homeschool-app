@@ -9,7 +9,7 @@ import './subbarTracking.html';
 
 Template.subbarTracking.helpers({
 	schoolYears: function() {
-		return SchoolYearsSubbar.find({}, {sort: {startYear: 1}});
+		return SchoolYears.find({}, {sort: {startYear: 1}});
 	},
 
 	selectedSchoolYearId: function() {
@@ -17,7 +17,7 @@ Template.subbarTracking.helpers({
 	},
 
 	selectedSchoolYear: function() {
-		return SchoolYearsSubbar.findOne({schoolYearId: FlowRouter.getParam('selectedSchoolYearId')});
+		return SchoolYears.findOne({_id: FlowRouter.getParam('selectedSchoolYearId')});
 	},
 
 	yearStatus: function(schoolYearStatus) {
@@ -33,7 +33,7 @@ Template.subbarTracking.helpers({
 	},
 
 	terms: function() {
-		return TermsSubbar.find({}, {sort: {order: 1}});
+		return Terms.find({}, {sort: {order: 1}});
 	},
 
 	selectedTermId: function() {
@@ -41,7 +41,7 @@ Template.subbarTracking.helpers({
 	},
 
 	selectedTerm: function() {
-		return TermsSubbar.findOne({termId: FlowRouter.getParam('selectedTermId')});
+		return Terms.findOne({_id: FlowRouter.getParam('selectedTermId')});
 	},
 
 	termStatus: function(termStatus) {

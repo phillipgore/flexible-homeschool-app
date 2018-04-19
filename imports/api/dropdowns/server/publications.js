@@ -4,10 +4,11 @@ import {Terms} from '../../terms/terms.js';
 import {Subjects} from '../../subjects/subjects.js';
 import {Weeks} from '../../weeks/weeks.js';
 import {Lessons} from '../../lessons/lessons.js';
+import _ from 'lodash'
 
 Meteor.publish('schoolYearsSubbar', function(studentId) {
 	this.autorun(function (computation) {
-		if (!this.userId) {
+		if (!this.userId || !SchoolYears.find().count() || !Subjects.find().count() || !Lessons.find().count() || !Terms.find().count()) {
 			return this.ready();
 		}
 
@@ -19,10 +20,10 @@ Meteor.publish('schoolYearsSubbar', function(studentId) {
 
 		originalSchoolYears.map((schoolYear) => {
 			function getSubjectIds(studentId, schoolYear) {
-				if (studentId) {
-				    return Subjects.find({studentId: studentId, schoolYearId: schoolYear._id}).map(subject => (subject._id));
+				if (_.isNil(studentId)) {
+				    return Subjects.find({schoolYearId: schoolYear._id}).map(subject => (subject._id));
 				} else {
-					return Subjects.find({schoolYearId: schoolYear._id}).map(subject => (subject._id));
+					return Subjects.find({studentId: studentId, schoolYearId: schoolYear._id}).map(subject => (subject._id));
 				}
 			}
 
@@ -57,7 +58,7 @@ Meteor.publish('schoolYearsSubbar', function(studentId) {
 				schoolYear.status = 'partial'
 			} else if (lessonsTotal === lessonsCompletedTotal) {
 				schoolYear.firstTermId = Terms.findOne({_id: {$in: termIds}}, {sort: {order: 1}})._id;
-				schoolYear.firstWeekId = Weeks.findOne({_id: {$in: weekIds}}, {sort: {order: 1}})._id
+				schoolYear.firstWeekId = Weeks.findOne({_id: {$in: weekIds}}, {sort: {order: -1}})._id
 				schoolYear.status = 'completed'
 			}
 
@@ -74,7 +75,7 @@ Meteor.publish('schoolYearsSubbar', function(studentId) {
 
 Meteor.publish('termsSubbar', function(studentId, schoolYearId) {
 	this.autorun(function (computation) {
-		if (!this.userId) {
+		if (!this.userId || !SchoolYears.find().count() || !Subjects.find().count() || !Lessons.find().count() || !Terms.find().count()) {
 			return this.ready();
 		}
 
@@ -118,7 +119,7 @@ Meteor.publish('termsSubbar', function(studentId, schoolYearId) {
 				}
 				term.status = 'partial'
 			} else if (lessonsTotal === lessonsCompletedTotal) {
-				term.firstWeekId = Weeks.findOne({_id: {$in: weekIds}}, {sort: {order: 1}})._id;
+				term.firstWeekId = Weeks.findOne({_id: {$in: weekIds}}, {sort: {order: -1}})._id;
 				term.status = 'completed'
 			}
 			
@@ -135,7 +136,7 @@ Meteor.publish('termsSubbar', function(studentId, schoolYearId) {
 
 Meteor.publish('weeksSubbar', function(studentId, schoolYearId, termId) {
 	this.autorun(function (computation) {
-		if (!this.userId) {
+		if (!this.userId || !SchoolYears.find().count() || !Subjects.find().count() || !Lessons.find().count() || !Terms.find().count()) {
 			return this.ready();
 		}
 
@@ -173,7 +174,7 @@ Meteor.publish('weeksSubbar', function(studentId, schoolYearId, termId) {
 
 Meteor.publish('trackingStudents', function(schoolYearId, termId) {
 	this.autorun(function (computation) {
-		if (!this.userId) {
+		if (!this.userId || !SchoolYears.find().count() || !Subjects.find().count() || !Lessons.find().count() || !Terms.find().count()) {
 			return this.ready();
 		}
 
@@ -209,7 +210,7 @@ Meteor.publish('trackingStudents', function(schoolYearId, termId) {
 					student.firstWeekId = weekIncomplete._id;
 				}
 			} else if (lessonsTotal === lessonsCompletedTotal) {
-				student.firstWeekId = Weeks.findOne({_id: {$in: weekIds}}, {sort: {order: 1}})._id;
+				student.firstWeekId = Weeks.findOne({_id: {$in: weekIds}}, {sort: {order: -1}})._id;
 			}
 			
 			students.push(student);

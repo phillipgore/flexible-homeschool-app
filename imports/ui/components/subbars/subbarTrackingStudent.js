@@ -13,7 +13,7 @@ Template.subbarTrackingStudent.helpers({
 	},
 
 	schoolYears: function() {
-		return SchoolYearsSubbar.find({}, {sort: {startYear: 1}});
+		return SchoolYears.find({}, {sort: {startYear: 1}});
 	},
 
 	selectedSchoolYearId: function() {
@@ -21,7 +21,7 @@ Template.subbarTrackingStudent.helpers({
 	},
 
 	selectedSchoolYear: function() {
-		return SchoolYearsSubbar.findOne({schoolYearId: FlowRouter.getParam('selectedSchoolYearId')});
+		return SchoolYears.findOne({_id: FlowRouter.getParam('selectedSchoolYearId')});
 	},
 
 	yearStatus: function(schoolYearStatus) {
@@ -37,7 +37,7 @@ Template.subbarTrackingStudent.helpers({
 	},
 
 	terms: function() {
-		return TermsSubbar.find({}, {sort: {order: 1}});
+		return Terms.find({}, {sort: {order: 1}});
 	},
 
 	selectedTermId: function() {
@@ -45,7 +45,7 @@ Template.subbarTrackingStudent.helpers({
 	},
 
 	selectedTerm: function() {
-		return TermsSubbar.findOne({termId: FlowRouter.getParam('selectedTermId')});
+		return Terms.findOne({_id: FlowRouter.getParam('selectedTermId')});
 	},
 
 	termStatus: function(termStatus) {
@@ -61,7 +61,7 @@ Template.subbarTrackingStudent.helpers({
 	},
 
 	weeks: function() {
-		return WeeksSubbar.find({}, {sort: {order: 1}});
+		return Weeks.find({}, {sort: {order: 1}});
 	},
 
 	selectedWeekId: function() {
@@ -69,7 +69,7 @@ Template.subbarTrackingStudent.helpers({
 	},
 
 	selectedWeek: function() {
-		return WeeksSubbar.findOne({weekId: FlowRouter.getParam('selectedWeekId')});
+		return Weeks.findOne({_id: FlowRouter.getParam('selectedWeekId')});
 	},
 
 	weekStatus: function(weekStatus) {

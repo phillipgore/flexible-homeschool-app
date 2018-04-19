@@ -22,10 +22,10 @@
 	<ul id="years" class="dropdown-menu dropdown-sub m-tn-rl-9 hide">
 		{{#each schoolYear in schoolYears}}
 			<li class="dropdown-item">
-				<a id="{{schoolYear.schoolYearId}}" class="js-school-years dropdown-item-link" href="/tracking/students/view/{{selectedStudentId}}/{{schoolYear.schoolYearId}}/{{schoolYear.firstTermId}}/{{schoolYear.firstWeekId}}">
+				<a id="{{schoolYear._id}}" class="js-school-years dropdown-item-link" href="/tracking/students/view/{{selectedStudentId}}/{{schoolYear._id}}/{{schoolYear.firstTermId}}/{{schoolYear.firstWeekId}}">
 					<div class="dropdown-item-icon"><i class="fss-circle {{yearStatus schoolYear.status}}"></i></div>
 					<div class="dropdown-item-label">{{schoolYear.startYear}}-{{schoolYear.endYear}}</div>
-					{{#if activeListItem selectedSchoolYearId schoolYear.schoolYearId}}
+					{{#if activeListItem selectedSchoolYearId schoolYear._id}}
 						<div class="dropdown-item-icon-right">
 							<i class="fss-planning txt-gray-darker"></i>
 						</div>
@@ -38,10 +38,10 @@
 	<ul id="terms" class="dropdown-menu dropdown-sub m-tn-rl-9 hide">
 		{{#each term in terms}}
 			<li class="dropdown-item">
-				<a id="{{term.termId}}" class="js-terms dropdown-item-link" href="/tracking/students/view/{{selectedStudentId}}/{{selectedSchoolYearId}}/{{term.termId}}/{{term.firstWeekId}}">
+				<a id="{{term._id}}" class="js-terms dropdown-item-link" href="/tracking/students/view/{{selectedStudentId}}/{{selectedSchoolYearId}}/{{term._id}}/{{term.firstWeekId}}">
 					<div class="dropdown-item-icon"><i class="fss-circle {{termStatus term.status}}"></i></div>
 					<div class="dropdown-item-label">Term {{term.order}}</div>
-					{{#if activeListItem selectedTermId term.termId}}
+					{{#if activeListItem selectedTermId term._id}}
 						<div class="dropdown-item-icon-right">
 							<i class="fss-planning txt-gray-darker"></i>
 						</div>
@@ -54,10 +54,10 @@
 	<ul id="weeks" class="dropdown-menu dropdown-sub m-tn-rl-9 hide">
 		{{#each week in weeks}}
 			<li class="dropdown-item">
-				<a id="{{week.weekId}}" class="js-weeks dropdown-item-link" href="/tracking/students/view/{{selectedStudentId}}/{{selectedSchoolYearId}}/{{selectedTermId}}/{{week.weekId}}">
+				<a id="{{week._id}}" class="js-weeks dropdown-item-link" href="/tracking/students/view/{{selectedStudentId}}/{{selectedSchoolYearId}}/{{selectedTermId}}/{{week._id}}">
 					<div class="dropdown-item-icon"><i class="fss-circle {{weekStatus week.status}}"></i></div>
 					<div class="dropdown-item-label">Week {{week.order}}</div>
-					{{#if activeListItem selectedWeekId week.weekId}}
+					{{#if activeListItem selectedWeekId week._id}}
 						<div class="dropdown-item-icon-right">
 							<i class="fss-planning txt-gray-darker"></i>
 						</div>

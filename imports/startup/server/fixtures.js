@@ -284,7 +284,7 @@ Meteor.methods({
 			delete schoolYear.terms;
 			let schoolYearId = SchoolYears.insert(schoolYear);
 
-			termProperties.forEach((term, index) => {
+			termProperties.forEach(function (term, index) {
 				term.schoolYearId = schoolYearId;
 				let weekCount = term.weeksPerTerm;
 				delete term.weeksPerTerm;

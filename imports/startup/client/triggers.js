@@ -10,33 +10,33 @@ import moment from 'moment';
 let year = moment().year();
 let month = moment().month();
 
-function startYear(year) {
+function startYearFunction(year) {
 	if (month < 6) {
 		return year = (year - 1).toString();
 	}
 	return year.toString();
 }
 
-var userData = Meteor.subscribe('userData');
-var groupStatus = Meteor.subscribe('groupStatus');
-var planningStatusStats = Meteor.subscribe('planningStatusStats');
-var allStudents = Meteor.subscribe('allStudents');
-var schoolYearsSubbar = Meteor.subscribe('schoolYearsSubbar');
-var startYear = startYear(moment().year());
+let userData = Meteor.subscribe('userData');
+let groupStatus = Meteor.subscribe('groupStatus');
+let planningStatusStats = Meteor.subscribe('planningStatusStats');
+let allStudents = Meteor.subscribe('allStudents');
+let schoolYearsPath = Meteor.subscribe('schoolYearsPath');
+let startYear = startYearFunction(year);
 
 FlowRouter.wait();
 
 Tracker.autorun(() => {
-	if (userData.ready() && groupStatus.ready() && planningStatusStats.ready() && allStudents.ready() && schoolYearsSubbar.ready() && !FlowRouter._initialized) {
+	if (userData.ready() && groupStatus.ready() && planningStatusStats.ready() && allStudents.ready() && schoolYearsPath.ready() && !FlowRouter._initialized) {
 		FlowRouter.initialize()
 	}
 });
 
 function schoolYearId(year) {
-	if (SchoolYearsSubbar.findOne({startYear: {$gte: startYear}}, {sort: {starYear: 1}})) {
-		return SchoolYearsSubbar.findOne({startYear: {$gte: startYear}}, {sort: {starYear: 1}}).schoolYearId;
+	if (SchoolYears.findOne({startYear: {$gte: startYear}}, {sort: {starYear: 1}})) {
+		return SchoolYears.findOne({startYear: {$gte: startYear}}, {sort: {starYear: 1}})._id;
 	}
-	return SchoolYearsSubbar.findOne({startYear: {$lte: startYear}}, {sort: {starYear: 1}}).schoolYearId;
+	return SchoolYears.findOne({startYear: {$lte: startYear}}, {sort: {starYear: 1}})._id;
 };
 
 
@@ -61,21 +61,28 @@ function navbarData(context) {
 		Session.set('selectedResourceAvailability', 'all');
 	}
 
-	if (!Session.get('selectedSchoolYearId')) {
-		Session.set('selectedSchoolYearId', schoolYearId(startYear));
+	if (SchoolYears.find().count()) {
+		if (!Session.get('selectedSchoolYearId')) {
+			Session.set('selectedSchoolYearId', schoolYearId(startYear));
+		}
+
+		if (!Session.get('selectedStudentId')) {
+			Session.set('selectedStudentId', Students.findOne({}, {sort: {birthday: 1, lastName: 1, firstName: 1}})._id);
+		}
+
+		if (!Session.get('selectedTermId') && Session.get('selectedSchoolYearId')) {
+	    	Session.set('selectedTermId', SchoolYears.findOne({_id: Session.get('selectedSchoolYearId')}, {sort: {order: 1,}}).firstTermId);
+	    }
+
+	    if (!Session.get('selectedWeekId') && Session.get('selectedTermId')) {
+	    	Session.set('selectedWeekId', SchoolYears.findOne({_id: Session.get('selectedSchoolYearId')}, {sort: {order: 1,}}).firstWeekId);
+	    }
+	} else {
+			Session.set('selectedSchoolYearId', 'empty');
+			Session.set('selectedStudentId', 'empty');
+	    	Session.set('selectedTermId', 'empty');
+	    	Session.set('selectedWeekId', 'empty');
 	}
-
-	if (!Session.get('selectedStudentId')) {
-		Session.set('selectedStudentId', Students.findOne({}, {sort: {birthday: 1, lastName: 1, firstName: 1}})._id);
-	}
-
-	if (!Session.get('selectedTermId') && Session.get('selectedSchoolYearId')) {
-    	Session.set('selectedTermId', SchoolYearsSubbar.findOne({schoolYearId: Session.get('selectedSchoolYearId')}, {sort: {order: 1,}}).firstTermId);
-    }
-
-    if (!Session.get('selectedWeekId') && Session.get('selectedTermId')) {
-    	Session.set('selectedWeekId', SchoolYearsSubbar.findOne({schoolYearId: Session.get('selectedSchoolYearId')}, {sort: {order: 1,}}).firstWeekId);
-    }
 };
 
 function checkRoleUser(context, redirect) {

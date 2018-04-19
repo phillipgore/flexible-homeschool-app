@@ -5,6 +5,7 @@ import {Weeks} from '../../weeks/weeks.js';
 import {Subjects} from '../../subjects/subjects.js';
 import {Resources} from '../../resources/resources.js';
 import {Lessons} from '../../lessons/lessons.js';
+import {schoolYearsStatusAndUrlIds} from '../../../modules/server/functions';
 import _ from 'lodash'
 
 Meteor.publish('allSchoolYears', function() {
@@ -14,6 +15,33 @@ Meteor.publish('allSchoolYears', function() {
 
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
 	return SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}, fields: {startYear: 1, endYear: 1}});
+});
+
+Meteor.publish('schoolYearsPath', function(studentId) {
+	if (!this.userId) {
+		return this.ready();
+	}
+
+	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
+	let subHandle = SchoolYears
+		.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}, fields: {startYear: 1, endYear: 1}})
+		.observeChanges({
+			added: (id, schoolYear) => {
+				schoolYear = schoolYearsStatusAndUrlIds(schoolYear, studentId);
+				this.added('schoolYears', id, schoolYear);
+			},
+			changed: (id, schoolYear) => {
+				schoolYear = schoolYearsStatusAndUrlIds(schoolYear, studentId);
+				this.changed('schoolYears', id, schoolYear);
+			},
+			removed: (id) => {
+				this.removed('schoolYears', id);
+			}
+		});
+	this.ready();
+	this.onStop(() => {
+		subHandle.stop();
+	});
 });
 
 Meteor.publish('schoolYear', function(schoolYearId) {

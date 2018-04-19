@@ -7,16 +7,10 @@ import { Weeks } from '../../../api/weeks/weeks.js';
 import { Lessons } from '../../../api/lessons/lessons.js';
 import './trackingList.html';
 
-TrackingStats = new Mongo.Collection('trackingStats');
-
 Template.trackingList.onCreated( function() {
 	// Subscriptions
-	this.subscribe('trackingStats', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'));
-
-	// Subbar Subscriptions
-	// this.subscribe('schoolYearsSubbar');
-	this.subscribe('termsSubbar', null, FlowRouter.getParam('selectedSchoolYearId'));
-	this.subscribe('trackingStudents', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'));
+	this.subscribe('allStudentStats', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'));
+	this.subscribe('termsPath', FlowRouter.getParam('selectedSchoolYearId'), null)
 
 	Session.set('selectedSchoolYearId', FlowRouter.getParam('selectedSchoolYearId'));
 	Session.set('selectedTermId', FlowRouter.getParam('selectedTermId'));
@@ -37,8 +31,8 @@ Template.trackingList.onRendered( function() {
 });
 
 Template.trackingList.helpers({
-	stats: function() {
-		return TrackingStats.find({}, {sort: {birthday: 1, lastName: 1, firstName: 1}});
+	students: function() {
+		return Students.find({}, {sort: {birthday: 1, lastName: 1, firstName: 1}});
 	},
 
 	selectedSchoolYearId: function() {
@@ -47,10 +41,6 @@ Template.trackingList.helpers({
 
 	selectedTermId: function() {
 		return FlowRouter.getParam('selectedTermId');
-	},
-
-	selectedWeekId: function(studentId) {
-		return TrackingStudents.findOne({studentId: studentId}) && TrackingStudents.findOne({studentId: studentId}).firstWeekId;
 	},
 
 	yearsProgressStatus: function(yearProgress) {
