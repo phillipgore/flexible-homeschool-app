@@ -5,8 +5,9 @@ import {Resources} from '../../resources/resources.js';
 import {Subjects} from '../../subjects/subjects.js';
 import {Weeks} from '../../weeks/weeks.js';
 import {Lessons} from '../../lessons/lessons.js';
+import {allSchoolYearsStatusAndPaths} from '../../../modules/server/functions';
 
-Meteor.publish('planningStatusStats', function() {
+Meteor.publish('initialStats', function() {
 	if (!this.userId) {
 		return this.ready();
 	}
@@ -49,4 +50,25 @@ Meteor.publish('resourceStats', function() {
 	Counts.publish(this, 'videoNeedCount', Resources.find({type: 'video', availability: 'need', groupId: groupId, deletedOn: { $exists: false }}));
 	Counts.publish(this, 'audioNeedCount', Resources.find({type: 'audio', availability: 'need', groupId: groupId, deletedOn: { $exists: false }}));
 	Counts.publish(this, 'appNeedCount', Resources.find({type: 'app', availability: 'need', groupId: groupId, deletedOn: { $exists: false }}));
+});
+
+Meteor.publish('initialPaths', function() {
+	this.autorun(function (computation) {
+		if (!this.userId) {
+			return this.ready();
+		}
+
+		let self = this;
+
+		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
+		let schoolYears = SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}, fields: {startYear: 1, endYear: 1}});
+
+		schoolYears.map((schoolYear) => {
+			schoolYear = allSchoolYearsStatusAndPaths(schoolYear, schoolYear._id);
+			schoolYear.schoolYearId = schoolYear._id;
+			self.added('initialPaths', Random.id(), schoolYear);
+		});
+
+		self.ready();
+	});
 });

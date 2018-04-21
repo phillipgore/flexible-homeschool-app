@@ -6,25 +6,25 @@ import {Terms} from '../../terms/terms.js';
 import {Weeks} from '../../weeks/weeks.js';
 import {Lessons} from '../../lessons/lessons.js';
 
-Meteor.publish('allSubjects', function() {
-	if (!this.userId) {
-		return this.ready();
-	}
+// Meteor.publish('allSubjects', function() {
+// 	if (!this.userId) {
+// 		return this.ready();
+// 	}
 
-	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
+// 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
 
-	return Subjects.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {order: 1}});
-});
+// 	return Subjects.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {order: 1}});
+// });
 
-Meteor.publish('allSubjectsProgress', function() {
-	if (!this.userId) {
-		return this.ready();
-	}
+// Meteor.publish('allSubjectsProgress', function() {
+// 	if (!this.userId) {
+// 		return this.ready();
+// 	}
 
-	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
+// 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
 
-	return Subjects.find({groupId: groupId, deletedOn: { $exists: false }}, {fields: {studentId: 1, schoolYearId: 1}});
-});
+// 	return Subjects.find({groupId: groupId, deletedOn: { $exists: false }}, {fields: {studentId: 1, schoolYearId: 1}});
+// });
 
 Meteor.publish('schooYearStudentSubjects', function(schoolYearId, studentId) {
 	if (!this.userId) {

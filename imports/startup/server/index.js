@@ -7,7 +7,6 @@ import './endpoints.js';
 import './fixtures.js';
 
 import '../../api/stats/server/publications.js';
-import '../../api/dropdowns/server/publications.js';
 
 import '../../api/groups/groups.js';
 import '../../api/groups/methods.js';

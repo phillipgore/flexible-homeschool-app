@@ -1,13 +1,13 @@
 import {Resources} from '../resources.js';
 
-Meteor.publish('allResources', function() {
-	if (!this.userId) {
-		return this.ready();
-	}
+// Meteor.publish('allResources', function() {
+// 	if (!this.userId) {
+// 		return this.ready();
+// 	}
 
-	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-	return Resources.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {title: 1}});
-});
+// 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
+// 	return Resources.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {title: 1}});
+// });
 
 Meteor.publish('scopedResources', function(type, availability) {
 	if (!this.userId) {

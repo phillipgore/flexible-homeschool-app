@@ -5,7 +5,8 @@ import {Weeks} from '../../weeks/weeks.js';
 import {Subjects} from '../../subjects/subjects.js';
 import {Resources} from '../../resources/resources.js';
 import {Lessons} from '../../lessons/lessons.js';
-import {schoolYearsStatusAndUrlIds} from '../../../modules/server/functions';
+import {allSchoolYearsStatusAndPaths} from '../../../modules/server/functions';
+import {studentSchoolYearsStatusAndPaths} from '../../../modules/server/functions';
 import _ from 'lodash'
 
 Meteor.publish('allSchoolYears', function() {
@@ -17,41 +18,62 @@ Meteor.publish('allSchoolYears', function() {
 	return SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}, fields: {startYear: 1, endYear: 1}});
 });
 
-Meteor.publish('schoolYearsPath', function(studentId) {
-	if (!this.userId) {
-		return this.ready();
-	}
+Meteor.publish('allSchoolYearsPath', function() {
+	this.autorun(function (computation) {
+		if (!this.userId) {
+			return this.ready();
+		}
 
-	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-	let subHandle = SchoolYears
-		.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}, fields: {startYear: 1, endYear: 1}})
-		.observeChanges({
-			added: (id, schoolYear) => {
-				schoolYear = schoolYearsStatusAndUrlIds(schoolYear, studentId);
-				this.added('schoolYears', id, schoolYear);
-			},
-			changed: (id, schoolYear) => {
-				schoolYear = schoolYearsStatusAndUrlIds(schoolYear, studentId);
-				this.changed('schoolYears', id, schoolYear);
-			},
-			removed: (id) => {
-				this.removed('schoolYears', id);
-			}
+		Terms.find();
+		Weeks.find();
+		Lessons.find();
+
+		let self = this;
+
+		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
+		let schoolYears = SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}, fields: {startYear: 1, endYear: 1}});
+
+		schoolYears.map((schoolYear) => {
+			schoolYear = allSchoolYearsStatusAndPaths(schoolYear, schoolYear._id);
+			self.added('schoolYears', schoolYear._id, schoolYear);
 		});
-	this.ready();
-	this.onStop(() => {
-		subHandle.stop();
+
+		self.ready();
 	});
 });
 
-Meteor.publish('schoolYear', function(schoolYearId) {
-	if (!this.userId) {
-		return this.ready();
-	}
+Meteor.publish('studentSchoolYearsPath', function(studentId) {
+	this.autorun(function (computation) {
+		if (!this.userId) {
+			return this.ready();
+		}
 
-	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-	return SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }, _id: schoolYearId});
+		Terms.find();
+		Weeks.find();
+		Lessons.find();
+
+		let self = this;
+
+		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
+		let schoolYears = SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}, fields: {startYear: 1, endYear: 1}});
+
+		schoolYears.map((schoolYear) => {
+			schoolYear = studentSchoolYearsStatusAndPaths(schoolYear, schoolYear._id, studentId);
+			self.added('schoolYears', schoolYear._id, schoolYear);
+		});
+
+		self.ready();
+	});
 });
+
+// Meteor.publish('schoolYear', function(schoolYearId) {
+// 	if (!this.userId) {
+// 		return this.ready();
+// 	}
+
+// 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
+// 	return SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }, _id: schoolYearId});
+// });
 
 Meteor.publish('schoolYearComplete', function(schoolYearId) {
 	if (!this.userId) {
@@ -74,21 +96,21 @@ Meteor.publish('schoolYearComplete', function(schoolYearId) {
 	];
 });
 
-Meteor.publish('schoolYearTrack', function(schoolYearId) {
-	if (!this.userId) {
-		return this.ready();
-	}
+// Meteor.publish('schoolYearTrack', function(schoolYearId) {
+// 	if (!this.userId) {
+// 		return this.ready();
+// 	}
 
-	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-	let termIds = Terms.find({groupId: groupId, schoolYearId: schoolYearId}).map(term => (term._id));
+// 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
+// 	let termIds = Terms.find({groupId: groupId, schoolYearId: schoolYearId}).map(term => (term._id));
 
-	return [
-		SchoolYears.find({_id: schoolYearId, groupId: groupId, deletedOn: { $exists: false }}),
-		Subjects.find({groupId: groupId}, {fields: {studentId: 1, schoolYearId: 1}}),
-		Weeks.find({groupId: groupId, termId: {$in: termIds}}, {fields: {termId: 1}}),
-		Lessons.find({groupId: groupId}, {sort: {order: 1}, fields: {order: 1, completed: 1, subjectId: 1, weekId: 1}}),
-	]
-});
+// 	return [
+// 		SchoolYears.find({_id: schoolYearId, groupId: groupId, deletedOn: { $exists: false }}),
+// 		Subjects.find({groupId: groupId}, {fields: {studentId: 1, schoolYearId: 1}}),
+// 		Weeks.find({groupId: groupId, termId: {$in: termIds}}, {fields: {termId: 1}}),
+// 		Lessons.find({groupId: groupId}, {sort: {order: 1}, fields: {order: 1, completed: 1, subjectId: 1, weekId: 1}}),
+// 	]
+// });
 
 Meteor.publish('schoolYearReport', function(schoolYearId, studentId) {
 	if (!this.userId) {
@@ -101,7 +123,7 @@ Meteor.publish('schoolYearReport', function(schoolYearId, studentId) {
 	let resourceIds = _.flatten( Subjects.find({groupId: groupId, schoolYearId: schoolYearId, studentId: studentId}).map(subject => (subject.resources)) );
 
 	return [
-		SchoolYears.find({_id: schoolYearId, groupId: groupId, deletedOn: { $exists: false }}),
+		// SchoolYears.find({_id: schoolYearId, groupId: groupId, deletedOn: { $exists: false }}),
 		Terms.find({groupId: groupId, schoolYearId: schoolYearId}),
 		Weeks.find({groupId: groupId, termId: {$in: termIds}}),
 		Subjects.find({groupId: groupId, schoolYearId: schoolYearId, studentId: studentId}),

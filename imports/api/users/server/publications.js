@@ -7,13 +7,13 @@ Meteor.publish('allUsers', function (){
 	return Meteor.users.find({'info.groupId': groupId}, {fields: {emails: 1, info: 1, group: 1, status: 1}});
 });
 
-Meteor.publish('userRole', function() {
-	if (!this.userId) {
-		return this.ready();
-	}
+// Meteor.publish('userRole', function() {
+// 	if (!this.userId) {
+// 		return this.ready();
+// 	}
 
-	return Meteor.users.find({_id: this.userId}, {fields: {'info.role': 1}});
-});
+// 	return Meteor.users.find({_id: this.userId}, {fields: {'info.role': 1}});
+// });
 
 Meteor.publish('userReportSettings', function() {
 	if (!this.userId) {

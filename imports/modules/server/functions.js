@@ -14,8 +14,40 @@ function status (lessonsTotal, lessonsCompletedTotal) {
 	return 'partial'
 };
 
-export function studentStatusAndUrlIds(student, schoolYearId, termId) {
-	let subjectIds = Subjects.find({studentId: student._id, schoolYearId: schoolYearId}).map(subject => (subject._id));
+function getFirstLesson (lessons) {
+	lessonWeekIds = []
+	let lessonsCompletedWeekIds = [];
+	let lessonIncompletedWeekIds = []
+	lessons.forEach(function(lesson) {
+		lessonWeekIds.push(lesson.weekId)
+		if (lesson.completed) {
+			lessonsCompletedWeekIds.push(lesson.weekId);
+		} else {
+			lessonIncompletedWeekIds.push(lesson.weekId);
+		}
+	});
+
+	let partialWeeks = [];
+	lessonWeekIds.forEach(function(weekId) {
+		if (lessonsCompletedWeekIds.includes(weekId) && lessonIncompletedWeekIds.includes(weekId)) {
+			partialWeeks.push(weekId);
+		}
+	});
+
+	let lessonIds = lessons.map(lesson => (lesson._id));
+	if (partialWeeks.length) {
+		return Lessons.findOne({weekId: partialWeeks[0]});
+	}
+
+	if (Lessons.find({_id: {$in: lessonIds}, completed: false}, {sort: {order: 1}}).count()) {
+		return Lessons.findOne({_id: {$in: lessonIds}, completed: false}, {sort: {order: 1}});
+	}
+
+	return Lessons.findOne({_id: {$in: lessonIds}, completed: true}, {sort: {order: -1}});
+};
+
+export function studentStatusAndPaths(student, studentId, schoolYearId, termId) {
+	let subjectIds = Subjects.find({studentId: studentId, schoolYearId: schoolYearId}).map(subject => (subject._id));
 
 	// Year Status
 	let yearLessonsTotal = Lessons.find({subjectId: {$in: subjectIds}}).count();
@@ -41,121 +73,103 @@ export function studentStatusAndUrlIds(student, schoolYearId, termId) {
 	student.termProgress =  Math.floor(termPercentComplete);
 
 	// First Week URL ID
-	let LessonsCompleteWeekIds = _.uniq( Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: termWeeksIds}, completed: true}, {sort: {order: 1}}).map(lesson => (lesson.weekId)) );
-	let LessonsPartialWeekIds = _.uniq( Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: LessonsCompleteWeekIds}, completed: false}, {sort: {order: 1}}).map(lesson => (lesson.weekId)) );
+	let weekIds = Weeks.find({termId: termId}).map(week => (week._id));
+	let lessons = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: weekIds}});
+	let firstLesson = getFirstLesson(lessons);
+	let firstWeek = Weeks.findOne({_id: firstLesson.weekId});
 
-	let LessonsIncompleteWeekIds = _.uniq( Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: termWeeksIds}, completed: false}, {sort: {order: 1}}).map(lesson => (lesson.weekId)) );
-
-	let weekPartial = Weeks.findOne({_id: {$in: LessonsPartialWeekIds}}, {sort: {order: 1}});
-	let weekIncomplete = Weeks.findOne({_id: LessonsIncompleteWeekIds[0]});
-
-	student.studentId = student._id;
-
-	if (!termLessonsCompletedTotal) {
-		student.firstWeekId = Weeks.findOne({_id: {$in: termWeeksIds}}, {sort: {order: 1}})._id;
-	} else if (termLessonsCompletedTotal > 0 && termLessonsTotal != termLessonsCompletedTotal) {
-		if (weekPartial) {
-			student.firstWeekId = weekPartial._id;
-		} else {
-			student.firstWeekId = weekIncomplete._id;
-		}
-	} else if (termLessonsTotal === termLessonsCompletedTotal) {
-		student.firstWeekId = Weeks.findOne({_id: {$in: termWeeksIds}}, {sort: {order: -1}})._id;
-	}
+	student.firstWeekId = firstWeek._id;
 
 	return student;
 };
 
-export function schoolYearsStatusAndUrlIds(schoolYear, studentId) {
-	function getSubjectIds(schoolYear, studentId) {
-		if (_.isNil(studentId)) {
-		    return Subjects.find({schoolYearId: schoolYear._id}).map(subject => (subject._id));
-		} else {
-			return Subjects.find({studentId: studentId, schoolYearId: schoolYear._id}).map(subject => (subject._id));
-		}
-	}
+export function allSchoolYearsStatusAndPaths(schoolYear, schoolYearId) {
+	if (schoolYearId) {
+		let subjectIds = Subjects.find({schoolYearId: schoolYearId}).map(subject => (subject._id));
 
-	let subjectIds = getSubjectIds(schoolYear, studentId);
+		let lessons = Lessons.find({subjectId: {$in: subjectIds}});
+		let lessonsCompleted = Lessons.find({subjectId: {$in: subjectIds}, completed: true});
 
-	// Status
-	let lessonsTotal = Lessons.find({subjectId: {$in: subjectIds}}).count();
-	let lessonsCompletedTotal = Lessons.find({subjectId: {$in: subjectIds}, completed: true}).count();
-	schoolYear.status = status(lessonsTotal, lessonsCompletedTotal);
+		let firstLesson = getFirstLesson(lessons);
+		let firstWeek = Weeks.findOne({_id: firstLesson.weekId});
 
-	// First Term and First Week
-	let termIds = Terms.find({schoolYearId: schoolYear._id}).map(term => (term._id))
-	let weekIds = Weeks.find({termId: {$in: termIds}}).map(week => (week._id))
-
-	let LessonsCompleteWeekIds = _.uniq( Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: weekIds}, completed: true}, {sort: {order: 1}}).map(lesson => (lesson.weekId)) );
-	let LessonsPartialWeekIds = _.uniq( Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: LessonsCompleteWeekIds}, completed: false}, {sort: {order: 1}}).map(lesson => (lesson.weekId)) );
-
-	let LessonsIncompleteWeekIds = _.uniq( Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: weekIds}, completed: false}, {sort: {order: 1}}).map(lesson => (lesson.weekId)) );
-
-	let weekPartial = Weeks.findOne({_id: {$in: LessonsPartialWeekIds}}, {sort: {order: 1}});
-	let weekIncomplete = Weeks.findOne({_id: LessonsIncompleteWeekIds[0]});
-
-	if (!lessonsCompletedTotal) {
-		schoolYear.firstTermId = Terms.findOne({_id: {$in: termIds}}, {sort: {order: 1}})._id;
-		schoolYear.firstWeekId = Weeks.findOne({_id: {$in: weekIds}}, {sort: {order: 1}})._id;
-	} else if (lessonsCompletedTotal > 0 && lessonsTotal != lessonsCompletedTotal) {
-		if (weekPartial) {
-			schoolYear.firstTermId = weekPartial.termId;
-			schoolYear.firstWeekId = weekPartial._id;
-		} else {
-			schoolYear.firstTermId = weekIncomplete.termId;
-			schoolYear.firstWeekId = weekIncomplete._id;
-		}
-	} else if (lessonsTotal === lessonsCompletedTotal) {
-		schoolYear.firstTermId = Terms.findOne({_id: {$in: termIds}}, {sort: {order: 1}})._id;
-		schoolYear.firstWeekId = Weeks.findOne({_id: {$in: weekIds}}, {sort: {order: -1}})._id
+		schoolYear.status = status(lessons.count(), lessonsCompleted.count());
+		schoolYear.firstTermId = firstWeek.termId;
+		schoolYear.firstWeekId = firstLesson.weekId;
 	}
 
 	return schoolYear;
 };
 
-export function termStatusAndUrlIds(term, studentId) {
-	function getSubjectIds(term, studentId) {
-		if (_.isNil(studentId)) {
-		    return Lessons.find({termId: term._id}).map(lesson => (lesson.subjectId));
-		} else {
-			return Lessons.find({studentId: studentId, termId: term._id}).map(lesson => (lesson.subjectId));
-		}
+export function studentSchoolYearsStatusAndPaths(schoolYear, schoolYearId, studentId) {
+	if (schoolYearId) {
+		let subjectIds = Subjects.find({studentId: studentId, schoolYearId: schoolYearId}).map(subject => (subject._id));
+
+		let lessons = Lessons.find({subjectId: {$in: subjectIds}});
+		let lessonsCompleted = Lessons.find({subjectId: {$in: subjectIds}, completed: true});
+
+		let firstLesson = getFirstLesson(lessons);
+		let firstWeek = Weeks.findOne({_id: firstLesson.weekId});
+
+		schoolYear.status = status(lessons.count(), lessonsCompleted.count());
+		schoolYear.firstTermId = firstWeek.termId;
+		schoolYear.firstWeekId = firstLesson.weekId;
 	}
 
-	let subjectIds = getSubjectIds(term, studentId);
-	let termWeeksIds = Weeks.find({termId: term._id}).map(week => (week._id));
+	return schoolYear;
+};
 
-	let lessonsTotal = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: termWeeksIds}}).count();
-	let lessonsCompletedTotal = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: termWeeksIds}, completed: true}).count();
-	term.status = status(lessonsTotal, lessonsCompletedTotal);
+export function allTermStatusAndPaths(term, termId, schoolYearId) {
+	if (termId) {
+		let subjectIds = Subjects.find({schoolYearId: schoolYearId}).map(subject => (subject._id));
+		let weekIds = Weeks.find({termId: termId}).map(week => (week._id));
 
-	let LessonsCompleteWeekIds = _.uniq( Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: termWeeksIds}, completed: true}, {sort: {order: 1}}).map(lesson => (lesson.weekId)) );
-	let LessonsPartialWeekIds = _.uniq( Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: LessonsCompleteWeekIds}, completed: false}, {sort: {order: 1}}).map(lesson => (lesson.weekId)) );
+		let lessons = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: weekIds}});
+		let lessonsCompleted = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: weekIds}, completed: true});
 
-	let LessonsIncompleteWeekIds = _.uniq( Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: termWeeksIds}, completed: false}, {sort: {order: 1}}).map(lesson => (lesson.weekId)) );
-
-	let weekPartial = Weeks.findOne({_id: {$in: LessonsPartialWeekIds}}, {sort: {order: 1}});
-	let weekIncomplete = Weeks.findOne({_id: LessonsIncompleteWeekIds[0]});
-
-	if (!lessonsCompletedTotal) {
-		term.firstWeekId = Weeks.findOne({_id: {$in: termWeeksIds}}, {sort: {order: 1}})._id;
-	} else if (lessonsCompletedTotal > 0 && lessonsTotal != lessonsCompletedTotal) {
-		if (weekPartial) {
-			term.firstWeekId = weekPartial._id;
-		} else {
-			term.firstWeekId = weekIncomplete._id;
-		}
-	} else if (lessonsTotal === lessonsCompletedTotal) {
-		term.firstWeekId = Weeks.findOne({_id: {$in: termWeeksIds}}, {sort: {order: -1}})._id;
+		let firstLesson = getFirstLesson(lessons);
+		let firstWeek = Weeks.findOne({_id: firstLesson.weekId});
+		
+		term.status = status(lessons.count(), lessonsCompleted.count());
+		term.firstWeekId = firstWeek._id;
 	}
-
 	return term;
 };
 
-export function weekStatsAndUrlIds(week) {
-	let lessonsTotal = Lessons.find({weekId: week._id}).count();
-	let lessonsCompletedTotal = Lessons.find({weekId: week._id, completed: true}).count();
-	week.status = status(lessonsTotal, lessonsCompletedTotal);
+export function studentTermStatusAndPaths(term, termId, schoolYearId, studentId) {
+	if (termId) {
+		let subjectIds = Subjects.find({studentId: studentId, schoolYearId: schoolYearId}).map(subject => (subject._id));
+		let weekIds = Weeks.find({termId: termId}).map(week => (week._id));
 
+		let lessons = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: weekIds}});
+		let lessonsCompleted = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: weekIds}, completed: true});
+
+		let firstLesson = getFirstLesson(lessons);
+		let firstWeek = Weeks.findOne({_id: firstLesson.weekId});
+		
+		term.status = status(lessons.count(), lessonsCompleted.count());
+		term.firstWeekId = firstWeek._id;
+	}
+	return term;
+};
+
+export function weekStatus(week, weekId, studentId) {
+	if (weekId) {
+		function getSubjectIds(schoolYear, studentId) {
+			if (_.isNil(studentId)) {
+			    return Subjects.find({schoolYearId: schoolYearId}).map(subject => (subject._id));
+			} else {
+				return Subjects.find({studentId: studentId, schoolYearId: schoolYearId}).map(subject => (subject._id));
+			}
+		}
+
+		let termId = Weeks.findOne({_id: weekId}).termId;
+		let schoolYearId = Terms.findOne({_id: termId}).schoolYearId;
+		let subjectIds = getSubjectIds(schoolYearId, studentId);
+
+		let lessonsTotal = Lessons.find({subjectId: {$in: subjectIds}, weekId: weekId}).count();
+		let lessonsCompletedTotal = Lessons.find({subjectId: {$in: subjectIds}, weekId: weekId, completed: true}).count();
+		week.status = status(lessonsTotal, lessonsCompletedTotal);
+	}
 	return week;
 };

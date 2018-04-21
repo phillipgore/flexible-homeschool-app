@@ -3,7 +3,7 @@ import { SchoolYears } from '../../api/schoolYears/schoolYears.js';
 import { Students } from '../../api/students/students.js';
 import { Terms } from '../../api/terms/terms.js';
 import { Weeks } from '../../api/weeks/weeks.js';
-SchoolYearsSubbar = new Mongo.Collection('schoolYearsSubbar');
+InitialPaths = new Mongo.Collection('initialPaths');
 
 import moment from 'moment';
 
@@ -19,24 +19,24 @@ function startYearFunction(year) {
 
 let userData = Meteor.subscribe('userData');
 let groupStatus = Meteor.subscribe('groupStatus');
-let planningStatusStats = Meteor.subscribe('planningStatusStats');
+let initialStats = Meteor.subscribe('initialStats');
 let allStudents = Meteor.subscribe('allStudents');
-let schoolYearsPath = Meteor.subscribe('schoolYearsPath');
+let initialPaths = Meteor.subscribe('initialPaths');
 let startYear = startYearFunction(year);
 
 FlowRouter.wait();
 
 Tracker.autorun(() => {
-	if (userData.ready() && groupStatus.ready() && planningStatusStats.ready() && allStudents.ready() && schoolYearsPath.ready() && !FlowRouter._initialized) {
+	if (userData.ready() && groupStatus.ready() && initialStats.ready() && allStudents.ready() && initialPaths.ready() && !FlowRouter._initialized) {
 		FlowRouter.initialize()
 	}
 });
 
 function schoolYearId(year) {
-	if (SchoolYears.findOne({startYear: {$gte: startYear}}, {sort: {starYear: 1}})) {
-		return SchoolYears.findOne({startYear: {$gte: startYear}}, {sort: {starYear: 1}})._id;
+	if (InitialPaths.findOne({startYear: {$gte: startYear}}, {sort: {starYear: 1}})) {
+		return InitialPaths.findOne({startYear: {$gte: startYear}}, {sort: {starYear: 1}}).schoolYearId;
 	}
-	return SchoolYears.findOne({startYear: {$lte: startYear}}, {sort: {starYear: 1}})._id;
+	return InitialPaths.findOne({startYear: {$lte: startYear}}, {sort: {starYear: 1}}).schoolYearId;
 };
 
 
@@ -61,7 +61,7 @@ function navbarData(context) {
 		Session.set('selectedResourceAvailability', 'all');
 	}
 
-	if (SchoolYears.find().count()) {
+	if (InitialPaths.find().count()) {
 		if (!Session.get('selectedSchoolYearId')) {
 			Session.set('selectedSchoolYearId', schoolYearId(startYear));
 		}
@@ -71,11 +71,11 @@ function navbarData(context) {
 		}
 
 		if (!Session.get('selectedTermId') && Session.get('selectedSchoolYearId')) {
-	    	Session.set('selectedTermId', SchoolYears.findOne({_id: Session.get('selectedSchoolYearId')}, {sort: {order: 1,}}).firstTermId);
+	    	Session.set('selectedTermId', InitialPaths.findOne({schoolYearId: Session.get('selectedSchoolYearId')}).firstTermId);
 	    }
 
 	    if (!Session.get('selectedWeekId') && Session.get('selectedTermId')) {
-	    	Session.set('selectedWeekId', SchoolYears.findOne({_id: Session.get('selectedSchoolYearId')}, {sort: {order: 1,}}).firstWeekId);
+	    	Session.set('selectedWeekId', InitialPaths.findOne({schoolYearId: Session.get('selectedSchoolYearId')}).firstWeekId);
 	    }
 	} else {
 			Session.set('selectedSchoolYearId', 'empty');
@@ -127,8 +127,8 @@ function creditCardData(context) {
 };
 
 function checkSubjectsAvailable(context) {
-	let studentsCount = Students.find().count();
-	let schoolYearsCount = SchoolYears.find().count();
+	let studentsCount = Counts.get('studentCount');
+	let schoolYearsCount = Counts.get('schoolYearCount');
 
 	if (!studentsCount || !schoolYearsCount) {
 		FlowRouter.redirect('/planning/list');

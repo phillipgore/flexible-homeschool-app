@@ -9,8 +9,9 @@ import './trackingList.html';
 
 Template.trackingList.onCreated( function() {
 	// Subscriptions
+	this.subscribe('allSchoolYearsPath', FlowRouter.getParam('id'));
 	this.subscribe('allStudentStats', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'));
-	this.subscribe('termsPath', FlowRouter.getParam('selectedSchoolYearId'), null)
+	this.subscribe('allTermsPath', FlowRouter.getParam('selectedSchoolYearId'))
 
 	Session.set('selectedSchoolYearId', FlowRouter.getParam('selectedSchoolYearId'));
 	Session.set('selectedTermId', FlowRouter.getParam('selectedTermId'));

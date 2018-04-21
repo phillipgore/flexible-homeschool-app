@@ -5,6 +5,7 @@ import './subjectsList.html';
 
 Template.subjectsList.onCreated( function() {
 	// Subscriptions
+	this.subscribe('studentSchoolYearsPath', FlowRouter.getParam('selectedStudentId'));
 	this.subscribe('schooYearStudentSubjects', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
 	
 	Session.set('selectedSchoolYearId', FlowRouter.getParam('selectedSchoolYearId'));

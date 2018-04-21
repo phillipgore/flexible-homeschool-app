@@ -6,7 +6,7 @@ import './subbarReporting.html';
 
 Template.subbarReporting.helpers({
 	schoolYears: function() {
-		return SchoolYearsSubbar.find({}, {sort: {startYear: 1}});
+		return SchoolYears.find({}, {sort: {startYear: 1}});
 	},
 
 	selectedSchoolYearId: function() {
@@ -14,7 +14,7 @@ Template.subbarReporting.helpers({
 	},
 
 	selectedSchoolYear: function() {
-		return SchoolYearsSubbar.findOne({schoolYearId: FlowRouter.getParam('selectedSchoolYearId')});
+		return SchoolYears.findOne({_id: FlowRouter.getParam('selectedSchoolYearId')});
 	},
 
 	yearStatus: function(schoolYearStatus) {
