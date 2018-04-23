@@ -9,7 +9,7 @@ import './trackingList.html';
 
 Template.trackingList.onCreated( function() {
 	// Subscriptions
-	this.subscribe('allSchoolYearsPath', FlowRouter.getParam('id'));
+	this.subscribe('allSchoolYearsPath', FlowRouter.getParam('selectedStudentId'));
 	this.subscribe('allStudentStats', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'));
 	this.subscribe('allTermsPath', FlowRouter.getParam('selectedSchoolYearId'))
 
@@ -34,6 +34,14 @@ Template.trackingList.onRendered( function() {
 Template.trackingList.helpers({
 	students: function() {
 		return Students.find({}, {sort: {birthday: 1, lastName: 1, firstName: 1}});
+	},
+
+	schoolYears: function() {
+		return SchoolYears.find({}, {sort: {startYear: 1}});
+	},
+
+	terms: function() {
+		return Terms.find({}, {sort: {order: 1}});
 	},
 
 	selectedSchoolYearId: function() {

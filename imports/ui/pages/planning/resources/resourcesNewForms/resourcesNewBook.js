@@ -69,6 +69,16 @@ Template.resourcesNewBook.onRendered( function() {
 	});
 });
 
+Template.resourcesNewBook.helpers({
+	selectedResourceType: function() {
+		return Session.get('selectedResourceType');
+	},
+
+	selectedResourceAvailability: function() {
+		return Session.get('selectedResourceAvailability');
+	},
+});
+
 Template.resourcesNewBook.events({
 	'submit .js-form-resources-book-new'(event) {
 		event.preventDefault();

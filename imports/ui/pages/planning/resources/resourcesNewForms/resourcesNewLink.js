@@ -62,6 +62,16 @@ Template.resourcesNewLink.onRendered( function() {
 	});
 });
 
+Template.resourcesNewLink.helpers({
+	selectedResourceType: function() {
+		return Session.get('selectedResourceType');
+	},
+
+	selectedResourceAvailability: function() {
+		return Session.get('selectedResourceAvailability');
+	},
+});
+
 Template.resourcesNewLink.events({
 	'submit .js-form-resources-link-new'(event) {
 		event.preventDefault();

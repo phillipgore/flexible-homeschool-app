@@ -13,7 +13,7 @@ Template.schoolYearsEdit.onCreated( function() {
 	let template = Template.instance();
 
 	template.autorun( () => {
-		template.subscribe('schoolYearComplete', FlowRouter.getParam('id'), () => {
+		template.subscribe('schoolYearComplete', FlowRouter.getParam('selectedSchoolYearId'), () => {
 			LocalTerms.remove({});
 			let termCount = 1;
 			Terms.find().forEach(function(term) {
@@ -104,7 +104,7 @@ Template.schoolYearsEdit.helpers({
 	},
 
 	cancelPath: function() {
-		return '/planning/schoolyears/view/' + FlowRouter.getParam('id');
+		return '/planning/schoolyears/view/' + FlowRouter.getParam('selectedSchoolYearId');
 	},
 });
 
@@ -320,7 +320,7 @@ Template.schoolYearsEdit.events({
 				}
 			});
 
-			Meteor.call('updateSchoolYear', FlowRouter.getParam('id'), schoolYearProperties, function(error) {
+			Meteor.call('updateSchoolYear', FlowRouter.getParam('selectedSchoolYearId'), schoolYearProperties, function(error) {
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',
@@ -433,7 +433,7 @@ Template.schoolYearsEdit.events({
 			if (termInsertProperties.length) {
 				termInsertProperties.forEach(function(term) {
 					const weeksPerTerm = term.weeksPerTerm;
-					term.schoolYearId = FlowRouter.getParam('id');
+					term.schoolYearId = FlowRouter.getParam('selectedSchoolYearId');
 					delete term.weeksPerTerm;
 
 					Meteor.call('insertTerm', term, function(error, termId) {
@@ -471,7 +471,7 @@ Template.schoolYearsEdit.events({
 				});
 			}
 
-			FlowRouter.go('/planning/schoolyears/view/' + FlowRouter.getParam('id'));
+			FlowRouter.go('/planning/schoolyears/view/' + FlowRouter.getParam('selectedSchoolYearId'));
 		}
 
 		return false;

@@ -10,7 +10,7 @@ import './subjectsView.html';
 
 Template.subjectsView.onCreated( function() {
 	// Subscriptions
-	this.subscribe('subjectComplete', FlowRouter.getParam('id'));
+	this.subscribe('subjectComplete', FlowRouter.getParam('selectedSubjectId'));
 });
 
 Template.subjectsView.onRendered( function() {
@@ -19,7 +19,7 @@ Template.subjectsView.onRendered( function() {
 		leftUrl: '/planning/subjects/list/' + Session.get('selectedSchoolYearId') +"/"+ Session.get('selectedStudentId'),
 		leftIcon: 'fss-back',
 		label: 'Subject',
-		editUrl: '/planning/subjects/edit/' + FlowRouter.getParam('id'),
+		editUrl: '/planning/subjects/edit/' + FlowRouter.getParam('selectedSubjectId'),
 		deleteClass: 'js-delete-subject',
 	});
 
@@ -29,7 +29,7 @@ Template.subjectsView.onRendered( function() {
 
 Template.subjectsView.helpers({
 	subject: function() {
-		return Subjects.findOne({_id: FlowRouter.getParam('id')});
+		return Subjects.findOne({_id: FlowRouter.getParam('selectedSubjectId')});
 	},
 
 	student: function() {
@@ -73,7 +73,7 @@ Template.subjectsView.events({
 		event.preventDefault();
 		const dialogId = Dialogs.findOne()._id;
 		Dialogs.remove({_id: dialogId});
-		Meteor.call('deleteSubject', FlowRouter.getParam('id'), function(error) {
+		Meteor.call('deleteSubject', FlowRouter.getParam('selectedSubjectId'), function(error) {
 			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',

@@ -12,16 +12,16 @@ Template.usersView.onRendered( function() {
 		leftUrl: '/settings/users/list',
 		leftIcon: 'fss-back',
 		label: 'User',
-		editUrl: '/settings/users/edit/' + FlowRouter.getParam('id'),
+		editUrl: '/settings/users/edit/' + FlowRouter.getParam('selectedUserId'),
 	});
 
-	if ( !Meteor.users.findOne({_id: FlowRouter.getParam('id')}).status.active ) {
+	if ( !Meteor.users.findOne({_id: FlowRouter.getParam('selectedUserId')}).status.active ) {
 		Session.set({
 			deleteClass: '',
 			pauseClass: '',
 			unpauseClass: 'js-unpause-user',
 		});
-	} else if ( Meteor.users.findOne( {_id: FlowRouter.getParam('id')} ).emails[0].verified ) {
+	} else if ( Meteor.users.findOne( {_id: FlowRouter.getParam('selectedUserId')} ).emails[0].verified ) {
 		Session.set({
 			deleteClass: '',
 			pauseClass: 'js-pause-user',
@@ -41,7 +41,7 @@ Template.usersView.onRendered( function() {
 
 Template.usersView.helpers({
 	user: function() {
-		return Meteor.users.findOne({_id: FlowRouter.getParam('id')});
+		return Meteor.users.findOne({_id: FlowRouter.getParam('selectedUserId')});
 	},
 
 	verified: function(verified) {
@@ -65,7 +65,7 @@ Template.usersView.events({
 			return false;
 		}
 
-		if (Meteor.users.findOne({_id: FlowRouter.getParam('id')}).info.role === 'Administrator') {
+		if (Meteor.users.findOne({_id: FlowRouter.getParam('selectedUserId')}).info.role === 'Administrator') {
 			Alerts.insert({
 				colorClass: 'bg-danger',
 				iconClass: 'fss-danger',
@@ -74,7 +74,7 @@ Template.usersView.events({
 			return false;
 		}
 		
-		Meteor.call('pauseUser', FlowRouter.getParam('id'), function(error) {
+		Meteor.call('pauseUser', FlowRouter.getParam('selectedUserId'), function(error) {
 			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',
@@ -90,7 +90,7 @@ Template.usersView.events({
 	'click .js-unpause-user'(event) {
 		event.preventDefault();
 		
-		Meteor.call('unpauseUser', FlowRouter.getParam('id'), function(error) {
+		Meteor.call('unpauseUser', FlowRouter.getParam('selectedUserId'), function(error) {
 			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',
@@ -117,7 +117,7 @@ Template.usersView.events({
 		event.preventDefault();
 		const dialogId = Dialogs.findOne()._id;
 		Dialogs.remove({_id: dialogId});
-		Meteor.call('removeUser', FlowRouter.getParam('id'), function(error) {
+		Meteor.call('removeUser', FlowRouter.getParam('selectedUserId'), function(error) {
 			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',

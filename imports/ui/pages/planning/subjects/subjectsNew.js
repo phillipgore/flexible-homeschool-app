@@ -168,7 +168,15 @@ Template.subjectsNew.helpers({
 
 	localResources() {
 		return LocalResources.find();
-	}
+	},
+
+	selectedSchoolYearId: function() {
+		return Session.get('selectedSchoolYearId');
+	},
+
+	selectedStudentId: function() {
+		return Session.get('selectedStudentId');
+	},
 });
 
 Template.subjectsNew.events({

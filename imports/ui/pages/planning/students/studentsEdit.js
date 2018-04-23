@@ -4,7 +4,7 @@ import './studentsEdit.html';
 
 Template.studentsEdit.onCreated( function() {
 	// Subscriptions
-	this.subscribe('student', FlowRouter.getParam('id'));
+	this.subscribe('student', FlowRouter.getParam('selectedStudentId'));
 });
 
 Template.studentsEdit.onRendered( function() {
@@ -56,7 +56,7 @@ Template.studentsEdit.onRendered( function() {
 				studentProperties.preferredFirstName = {type: 'nickname', name: studentProperties.nickname};
 			}
 			
-			Meteor.call('updateStudent', FlowRouter.getParam('id'), studentProperties, function(error, studentId) {
+			Meteor.call('updateStudent', FlowRouter.getParam('selectedStudentId'), studentProperties, function(error, studentId) {
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',
@@ -67,7 +67,7 @@ Template.studentsEdit.onRendered( function() {
 					$('.js-loading').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
-					FlowRouter.go('/planning/students/view/' + FlowRouter.getParam('id'));
+					FlowRouter.go('/planning/students/view/' + FlowRouter.getParam('selectedStudentId'));
 				}
 			});
 
@@ -78,7 +78,7 @@ Template.studentsEdit.onRendered( function() {
 
 Template.studentsEdit.helpers({
 	student: function() {
-		return Students.findOne({_id: FlowRouter.getParam('id')});
+		return Students.findOne({_id: FlowRouter.getParam('selectedStudentId')});
 	},
 
 	preferredFirstName: function(currentType, type) {
@@ -96,7 +96,7 @@ Template.studentsEdit.helpers({
 	},
 
 	cancelPath: function() {
-		return '/planning/students/view/' + FlowRouter.getParam('id');
+		return '/planning/students/view/' + FlowRouter.getParam('selectedStudentId');
 	},
 });
 

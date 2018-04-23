@@ -42,7 +42,7 @@ Template.usersEdit.onRendered( function() {
 				},
 			}
 
-			Meteor.call('updateUser', FlowRouter.getParam('id'), userProperties, function(error) {
+			Meteor.call('updateUser', FlowRouter.getParam('selectedUserId'), userProperties, function(error) {
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',
@@ -53,7 +53,7 @@ Template.usersEdit.onRendered( function() {
 					$('.js-loading').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
-					FlowRouter.go('/settings/users/view/' + FlowRouter.getParam('id'));
+					FlowRouter.go('/settings/users/view/' + FlowRouter.getParam('selectedUserId'));
 				}
 			});
 
@@ -77,7 +77,7 @@ Template.usersEdit.helpers({
 	],
 
 	user: function() {
-		return Meteor.users.findOne({_id: FlowRouter.getParam('id')});
+		return Meteor.users.findOne({_id: FlowRouter.getParam('selectedUserId')});
 	},
 
 	activeRelationship: function(currentRelationship, relationship) {
@@ -102,7 +102,7 @@ Template.usersEdit.helpers({
 	},
 
 	cancelPath: function() {
-		return '/settings/users/view/' + FlowRouter.getParam('id');
+		return '/settings/users/view/' + FlowRouter.getParam('selectedUserId');
 	},
 });
 

@@ -1,7 +1,6 @@
 <template name="subbarTracking">
 	<asside class="subbar">
-		{{#if schoolYears.count}}
-			{{#if terms.count}}
+		{{#if schoolYears.count}}			
 			<div class="row">
 				<div class="col-tn-1of2">
 					<a id="{{selectedSchoolYearId}}" href="#years" class="js-dropdown btn-sub">
@@ -9,12 +8,17 @@
 					</a>
 				</div>
 				<div class="col-tn-1of2">
-					<a id="{{selectedTermId}}" href="#terms" class="js-dropdown btn-sub last">
-						Term {{selectedTerm.order}} <i class="fss-caret-down"></i>
-					</a>
+					{{#if terms.count}}
+						<a id="{{selectedTermId}}" href="#terms" class="js-dropdown btn-sub last">
+							Term {{selectedTerm.order}} <i class="fss-caret-down"></i>
+						</a>
+					{{else}}
+						<span class="js-dropdown btn-sub txt-gray-darkest last">
+							No Terms
+						</span>
+					{{/if}}
 				</div>
 			</div>
-			{{/if}}
 		{{/if}}
 	</asside>
 

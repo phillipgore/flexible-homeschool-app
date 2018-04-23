@@ -4,13 +4,13 @@ import './resourcesView.html';
 
 Template.resourcesView.onCreated( function() {
 	// Subscriptions
-	this.subscribe('resource', FlowRouter.getParam('id'));
+	this.subscribe('resource', FlowRouter.getParam('selectedResourceId'));
 });
 
 Template.resourcesView.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
-		leftUrl: '/planning/resources/list',
+		leftUrl: '/planning/resources/list/' + Session.get('selectedResourceType') +'/'+ Session.get('selectedResourceAvailability'),
 		leftIcon: 'fss-back',
 		label: 'Resource',
 		editUrl: '',
@@ -23,7 +23,7 @@ Template.resourcesView.onRendered( function() {
 
 Template.resourcesView.helpers({
 	resource: function() {
-		return Resources.findOne({_id: FlowRouter.getParam('id')});
+		return Resources.findOne({_id: FlowRouter.getParam('selectedResourceId')});
 	},
 
 	resourceIcon: function(resource) {
@@ -52,8 +52,8 @@ Template.resourcesView.helpers({
 	},
 
 	dynamicToolbarEditUrl: function() {
-		let resouce = Resources.findOne({_id: FlowRouter.getParam('id')});
-		return resouce && '/planning/resources/edit/' + FlowRouter.getParam('id') + '/' + resouce.type;
+		let resouce = Resources.findOne({_id: FlowRouter.getParam('selectedResourceId')});
+		return resouce && '/planning/resources/edit/' + FlowRouter.getParam('selectedResourceId') + '/' + resouce.type;
 	},
 
 	availabilityStatment: function(availability) {
@@ -81,7 +81,7 @@ Template.resourcesView.events({
 	'click .js-delete-resource-confirmed'(event) {
 		event.preventDefault();
 		const dialogId = Dialogs.findOne()._id;
-		Meteor.call('deleteResource', FlowRouter.getParam('id'), function(error) {
+		Meteor.call('deleteResource', FlowRouter.getParam('selectedResourceId'), function(error) {
 			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',

@@ -63,6 +63,16 @@ Template.resourcesNewApp.onRendered( function() {
 	});
 });
 
+Template.resourcesNewApp.helpers({
+	selectedResourceType: function() {
+		return Session.get('selectedResourceType');
+	},
+
+	selectedResourceAvailability: function() {
+		return Session.get('selectedResourceAvailability');
+	},
+});
+
 Template.resourcesNewApp.events({
 	'submit .js-form-resources-app-new'(event) {
 		event.preventDefault();

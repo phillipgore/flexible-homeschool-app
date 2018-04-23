@@ -2,54 +2,78 @@
 	{{> toolbar dynamicFirstName=student.preferredFirstName.name dynamicLastName=student.lastName}}
 	{{> subbarTrackingStudent}}
 	<main class="app-content app-content-preceeds-toolbar">
-		{{#each subject in subjects}}
-			<div class="js-subject track p-tn-t-18">
-				<div class="clearfix m-tn-h-9">
-					<div class="track-icon"><i class="txt-primary fss-subjects"></i></div>
-					<div class="track-label">{{subject.name}}</div>
-				</div>
-				<div class="row track-btn-container m-tn-h-9">
-					{{#each lesson in lessons subject._id}}
-						<button data-lesson-id="{{lesson._id}}" class="js-lesson-btn col-tn-1of{{lessonCount subject._id}} {{lessonStatus lesson.completed subject._id}}"></button>
-					{{/each}}
-				</div>
-				{{#each lesson in lessons subject._id}}
-					<div id="{{lesson._id}}" class="js-lesson-input track-input">
-						<div class="row m-tn-h-9">
-							<div class="track-arrow offset-tn-{{lessonPosition subject._id lesson._id}}of{{lessonCount subject._id}} col-tn-1of{{lessonCount subject._id}}">
+		{{#if terms.count}}
+			{{#if weeks.count}}
+				{{#if subjects.count}}
+					{{#each subject in subjects}}
+						<div class="js-subject track p-tn-t-18">
+							<div class="clearfix m-tn-h-9">
+								<div class="track-icon"><i class="txt-primary fss-subjects"></i></div>
+								<div class="track-label">{{subject.name}}</div>
 							</div>
-						</div>
-						
-						<form id="js-form-{{lesson._id}}" class="js-form-lessons-update track-form">
-							
-							<div class="checkbox-collection p-tn-t-6">
-								<label class="checkbox">
-									<input class="js-completed-checkbox" type="checkbox" name="completed" value="{{lesson.completed}}" checked="{{lesson.completed}}">
-									<div class="checkbox-icon"></div> 
-									<div class="checkbox-label">Mark Complete</div>
-								</label>
+							<div class="row track-btn-container m-tn-h-9">
+								{{#each lesson in lessons subject._id}}
+									<button data-lesson-id="{{lesson._id}}" class="js-lesson-btn col-tn-1of{{lessonCount subject._id}} {{lessonStatus lesson.completed subject._id}}"></button>
+								{{/each}}
 							</div>
+							{{#each lesson in lessons subject._id}}
+								<div id="{{lesson._id}}" class="js-lesson-input track-input">
+									<div class="row m-tn-h-9">
+										<div class="track-arrow offset-tn-{{lessonPosition subject._id lesson._id}}of{{lessonCount subject._id}} col-tn-1of{{lessonCount subject._id}}">
+										</div>
+									</div>
+									
+									<form id="js-form-{{lesson._id}}" class="js-form-lessons-update track-form">
+										
+										<div class="checkbox-collection p-tn-t-6">
+											<label class="checkbox">
+												<input class="js-completed-checkbox" type="checkbox" name="completed" value="{{lesson.completed}}" checked="{{lesson.completed}}">
+												<div class="checkbox-icon"></div> 
+												<div class="checkbox-label">Mark Complete</div>
+											</label>
+										</div>
 
-							<label>Completeion Date</label>
-							<input type="text" id="completed-on-{{lesson._id}}" name="completedOn" class="js-completed-on" placeholder="{{dateFormat todaysDate}}" value="{{dateFormat todaysDate}}">
-							<label>Completion Time</label>
-							<div class="row">
-								<div class="col-tn-1of5">
-									<input type="number" name="completionTime" id="completion-time" placeholder="30" autocomplete="off" value="{{lesson.completionTime}}">
+										<label>Completeion Date</label>
+										<input type="text" id="completed-on-{{lesson._id}}" name="completedOn" class="js-completed-on" placeholder="{{dateFormat todaysDate}}" value="{{dateFormat todaysDate}}">
+										<label>Completion Time</label>
+										<div class="row">
+											<div class="col-tn-1of5">
+												<input type="number" name="completionTime" id="completion-time" placeholder="30" autocomplete="off" value="{{lesson.completionTime}}">
+											</div>
+											<div class="col-tn-4of5 font-weight-normal p-tn-l-6 p-tn-t-9">Minutes</div>
+										</div>
+										<label>Descripton</label>
+										<textarea class="m-tn-b-36" name="description" id="description-{{lesson._id}}" rows="4" placeholder="In this session we..." value="{{lesson.description}}"></textarea>
+										<footer class="toolbar toolbar-bottom toolbar-gray">
+											<button data-close-id="{{lesson._id}}" class="js-close btn btn-gray-darker fl-tn-left">Cancel</button>
+											<button type="submit" class="js-submit fl-tn-right">Update</button>
+										</footer>
+									</form>
 								</div>
-								<div class="col-tn-4of5 font-weight-normal p-tn-l-6 p-tn-t-9">Minutes</div>
-							</div>
-							<label>Descripton</label>
-							<textarea class="m-tn-b-36" name="description" id="description-{{lesson._id}}" rows="4" placeholder="In this session we..." value="{{lesson.description}}"></textarea>
-							<footer class="toolbar toolbar-bottom toolbar-gray">
-								<button data-close-id="{{lesson._id}}" class="js-close btn btn-gray-darker fl-tn-left">Cancel</button>
-								<button type="submit" class="js-submit fl-tn-right">Update</button>
-							</footer>
-						</form>
+							{{/each}}
+						</div>
+					{{/each}}
+				{{else}}
+					<div class="txt-tn-center m-tn-t-72">
+						<i class="fss-subjects font-size-64 txt-gray"></i>
+						<h1 class="m-tn-t-36">Add A Subject</h1>
+						<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36">Go to <a href="{{pathFor 'subjectsNew'}}">"New Subject"</a> to add a Subject.</p>
 					</div>
-				{{/each}}
+				{{/if}}
+			{{else}}
+				<div class="txt-tn-center m-tn-t-72">
+					<i class="fss-school-years font-size-64 txt-gray"></i>
+					<h1 class="m-tn-t-36">Add Weeks</h1>
+					<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36">Go to <a href="{{pathFor 'schoolYearsEdit' selectedSchoolYearId=selectedSchoolYearId}}">"Edit School Year"</a> to add Weeks.</p>
+				</div>
+			{{/if}}
+		{{else}}
+			<div class="txt-tn-center m-tn-t-72">
+				<i class="fss-school-years font-size-64 txt-gray"></i>
+				<h1 class="m-tn-t-36">Add Terms and Weeks</h1>
+				<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36">Go to <a href="{{pathFor 'schoolYearsEdit' selectedSchoolYearId=selectedSchoolYearId}}">"Edit School Year"</a> to add Terms and Weeks.</p>
 			</div>
-		{{/each}}
+		{{/if}}
 	</main>
 	{{#unless Template.subscriptionsReady}}
 		{{> loading subbar=true}}

@@ -67,6 +67,16 @@ Template.resourcesNewAudio.onRendered( function() {
 	});
 });
 
+Template.resourcesNewAudio.helpers({
+	selectedResourceType: function() {
+		return Session.get('selectedResourceType');
+	},
+
+	selectedResourceAvailability: function() {
+		return Session.get('selectedResourceAvailability');
+	},
+});
+
 Template.resourcesNewAudio.events({
 	'submit .js-form-resources-audio-new'(event) {
 		event.preventDefault();

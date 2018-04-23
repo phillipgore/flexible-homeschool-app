@@ -31,7 +31,7 @@ FlowRouter.route('/planning/students/new', {
 	},
 });
 
-FlowRouter.route('/planning/students/view/:id', {
+FlowRouter.route('/planning/students/view/:selectedStudentId', {
 	name: 'studentsView',
 	action() {
 		BlazeLayout.render('app', {
@@ -40,7 +40,7 @@ FlowRouter.route('/planning/students/view/:id', {
 	},
 });
 
-FlowRouter.route('/planning/students/edit/:id', {
+FlowRouter.route('/planning/students/edit/:selectedStudentId', {
 	name: 'studentsEdit',
 	action() {
 		BlazeLayout.render('app', {
@@ -72,7 +72,7 @@ FlowRouter.route('/planning/schoolyears/list', {
 	},
 });
 
-FlowRouter.route('/planning/schoolyears/view/:id', {
+FlowRouter.route('/planning/schoolyears/view/:selectedSchoolYearId', {
 	name: 'schoolYearsView',
 	action() {
 		BlazeLayout.render('app', {
@@ -81,7 +81,7 @@ FlowRouter.route('/planning/schoolyears/view/:id', {
 	},
 });
 
-FlowRouter.route('/planning/schoolyears/edit/:id', {
+FlowRouter.route('/planning/schoolyears/edit/:selectedSchoolYearId', {
 	name: 'schoolYearsEdit',
 	action() {
 		BlazeLayout.render('app', {
@@ -104,17 +104,17 @@ FlowRouter.route('/planning/resources/list/:selectedResourceType/:selectedResour
 	},
 });
 
-FlowRouter.route('/planning/resources/new/:type', {
+FlowRouter.route('/planning/resources/new/:selectedResourceType', {
 	name: 'resourcesNew',
 	action: function(params) {
 		BlazeLayout.render('app', {
-			main: 'resourcesNew' + _.capitalize(params.type),
+			main: 'resourcesNew' + _.capitalize(params.selectedResourceType),
 		});
 	},
 });
 
 
-FlowRouter.route('/planning/resources/view/:id', {
+FlowRouter.route('/planning/resources/view/:selectedResourceId', {
 	name: 'resourcesView',
 	action() {
 		BlazeLayout.render('app', {
@@ -123,11 +123,11 @@ FlowRouter.route('/planning/resources/view/:id', {
 	},
 });
 
-FlowRouter.route('/planning/resources/edit/:id/:type', {
+FlowRouter.route('/planning/resources/edit/:selectedResourceId/:selectedResourceType', {
 	name: 'resourcesEdit',
 	action: function(params, queryParams) {
 		BlazeLayout.render('app', {
-			main: 'resourcesEdit' + _.capitalize(params.type),
+			main: 'resourcesEdit' + _.capitalize(params.selectedResourceType),
 		});
 	},
 });
@@ -155,7 +155,7 @@ FlowRouter.route('/planning/subjects/new', {
 	},
 });
 
-FlowRouter.route('/planning/subjects/view/:id', {
+FlowRouter.route('/planning/subjects/view/:selectedSubjectId', {
 	name: 'subjectsView',
 	action() {
 		BlazeLayout.render('app', {
@@ -164,7 +164,7 @@ FlowRouter.route('/planning/subjects/view/:id', {
 	},
 });
 
-FlowRouter.route('/planning/subjects/edit/:id', {
+FlowRouter.route('/planning/subjects/edit/:selectedSubjectId', {
 	name: 'subjectsEdit',
 	action() {
 		BlazeLayout.render('app', {

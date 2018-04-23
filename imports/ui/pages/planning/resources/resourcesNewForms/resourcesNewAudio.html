@@ -42,7 +42,7 @@
 			<textarea class="m-tn-b-36" name="description" id="description" placeholder="The first box set from..." rows="4"></textarea>
 
 			<footer class="toolbar toolbar-bottom toolbar-gray">
-				<a href="{{pathFor 'resourcesList'}}" class="btn btn-gray-darker fl-tn-left">Cancel</a>
+				<a href="{{pathFor 'resourcesList' selectedResourceType=selectedResourceType selectedResourceAvailability=selectedResourceAvailability}}" class="btn btn-gray-darker fl-tn-left">Cancel</a>
 				<button type="submit" class="js-submit fl-tn-right">Save</button>
 			</footer>
 		</form>

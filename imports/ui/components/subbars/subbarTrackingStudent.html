@@ -7,14 +7,26 @@
 				</a>
 			</div>
 			<div class="col-tn-1of3">
-				<a id="{{selectedTermId}}" href="#terms" class="js-dropdown btn-sub">
-					Term {{selectedTerm.order}} <i class="fss-caret-down"></i>
-				</a>
+				{{#if terms.count}}
+					<a id="{{selectedTermId}}" href="#terms" class="js-dropdown btn-sub">
+						Term {{selectedTerm.order}} <i class="fss-caret-down"></i>
+					</a>
+				{{else}}
+					<span class="js-dropdown btn-sub txt-gray-darkest">
+						No Terms
+					</span>
+				{{/if}}
 			</div>
 			<div class="col-tn-1of3">
-				<a id="{{selectedWeekId}}" href="#weeks" class="js-dropdown btn-sub last">
-					Week {{selectedWeek.order}} <i class="fss-caret-down"></i>
-				</a>
+				{{#if weeks.count}}
+					<a id="{{selectedWeekId}}" href="#weeks" class="js-dropdown btn-sub last">
+						Week {{selectedWeek.order}} <i class="fss-caret-down"></i>
+					</a>
+				{{else}}
+					<span class="btn-sub last txt-gray-darkest">
+						No Weeks
+					</span>
+				{{/if}}
 			</div>
 		</div>
 	</asside>

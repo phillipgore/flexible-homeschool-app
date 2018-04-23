@@ -25,7 +25,7 @@ Template.schoolYearsNew.onRendered( function() {
 		rules: {
 			startYear: { required: true, number: true, date: true },
 			endYear: { number: true, date: true },
-			weeksPerTerm1: { required: true, number: true },
+			weeksPerTerm1: { required: true, number: true, min: 1 },
 		},
 		messages: {
 			startYear: { 
@@ -41,6 +41,7 @@ Template.schoolYearsNew.onRendered( function() {
 			weeksPerTerm1: { 
 				required: "Must have at least one term.", 
 				number: "Must be a valid 4 digit year.",
+				min: "Must have at least one week."
 			},
 		},		
 

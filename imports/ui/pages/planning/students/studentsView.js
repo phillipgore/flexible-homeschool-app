@@ -4,7 +4,7 @@ import './studentsView.html';
 
 Template.studentsView.onCreated( function() {
 	// Subscriptions
-	this.subscribe('student', FlowRouter.getParam('id'));
+	this.subscribe('student', FlowRouter.getParam('selectedStudentId'));
 });
 
 Template.studentsView.onRendered( function() {
@@ -13,7 +13,7 @@ Template.studentsView.onRendered( function() {
 		leftUrl: '/planning/students/list',
 		leftIcon: 'fss-back',
 		label: 'Student',
-		editUrl: '/planning/students/edit/' + FlowRouter.getParam('id'),
+		editUrl: '/planning/students/edit/' + FlowRouter.getParam('selectedStudentId'),
 		deleteClass: 'js-delete-student',
 	});
 
@@ -23,7 +23,7 @@ Template.studentsView.onRendered( function() {
 
 Template.studentsView.helpers({
 	student: function() {
-		return Students.findOne({_id: FlowRouter.getParam('id')});
+		return Students.findOne({_id: FlowRouter.getParam('selectedStudentId')});
 	},
 
 	preferredFirstName: function(currentType, type) {
@@ -49,7 +49,7 @@ Template.studentsView.events({
 		event.preventDefault();
 		const dialogId = Dialogs.findOne()._id;
 		Dialogs.remove({_id: dialogId});
-		Meteor.call('deleteStudent', FlowRouter.getParam('id'), function(error) {
+		Meteor.call('deleteStudent', FlowRouter.getParam('selectedStudentId'), function(error) {
 			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',

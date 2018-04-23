@@ -9,7 +9,7 @@ import './subbarTrackingStudent.html';
 
 Template.subbarTrackingStudent.helpers({
 	selectedStudentId: function() {
-		return FlowRouter.getParam('id');
+		return FlowRouter.getParam('selectedStudentId');
 	},
 
 	schoolYears: function() {

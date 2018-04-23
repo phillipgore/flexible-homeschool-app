@@ -12,18 +12,18 @@ LocalResources = new Mongo.Collection(null);
 
 Template.subjectsEdit.onCreated( function() {
 	// Subscriptions
-	this.subscribe('subject', FlowRouter.getParam('id'), function() {
+	this.subscribe('subject', FlowRouter.getParam('selectedSubjectId'), function() {
 		Session.set('schoolYearId', Subjects.findOne().schoolYearId)
 	});
 	this.subscribe('allStudents');
 	this.subscribe('allSchoolYears');
 	this.subscribe('allTerms');
 	this.subscribe('allWeeks');
-	this.subscribe('subjectLessons', FlowRouter.getParam('id'));
+	this.subscribe('subjectLessons', FlowRouter.getParam('selectedSubjectId'));
 
 	let template = Template.instance();
 
-	template.subjectId = new ReactiveVar(FlowRouter.getParam('id'))
+	template.subjectId = new ReactiveVar(FlowRouter.getParam('selectedSubjectId'))
 	template.searchQuery = new ReactiveVar();
 	template.searching   = new ReactiveVar( false );
 
@@ -143,7 +143,7 @@ Template.subjectsEdit.onRendered( function() {
 				    currentLessonProperties.push({order: parseFloat((i + lessons.count()) + '.' + (i + 1)), weekId: null});
 				}
 
-				let subjectId = FlowRouter.getParam('id');
+				let subjectId = FlowRouter.getParam('selectedSubjectId');
 				let allLessonProperties = []
 				currentLessonProperties.forEach(function(property, index) {
 					property.order = newLessonProperties[index].order;
@@ -169,7 +169,7 @@ Template.subjectsEdit.onRendered( function() {
 
 			}
 
-			Meteor.call('updateSubject', FlowRouter.getParam('id'), subjectProperties, function(error, subjectId) {
+			Meteor.call('updateSubject', FlowRouter.getParam('selectedSubjectId'), subjectProperties, function(error, subjectId) {
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',
@@ -291,7 +291,7 @@ Template.subjectsEdit.helpers({
 	},
 
 	cancelPath: function() {
-		return '/planning/subjects/view/' + FlowRouter.getParam('id');
+		return '/planning/subjects/view/' + FlowRouter.getParam('selectedSubjectId');
 	},
 });
 

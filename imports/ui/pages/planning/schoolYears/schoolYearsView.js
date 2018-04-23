@@ -6,7 +6,7 @@ import './schoolYearsView.html';
 
 Template.schoolYearsView.onCreated( function() {
 	// Subscriptions
-	this.subscribe('schoolYearComplete', FlowRouter.getParam('id'));
+	this.subscribe('schoolYearComplete', FlowRouter.getParam('selectedSchoolYearId'));
 });
 
 Template.schoolYearsView.onRendered( function() {
@@ -15,7 +15,7 @@ Template.schoolYearsView.onRendered( function() {
 		leftUrl: '/planning/schoolYears/list',
 		leftIcon: 'fss-back',
 		label: 'School Year',
-		editUrl: '/planning/schoolyears/edit/' + FlowRouter.getParam('id'),
+		editUrl: '/planning/schoolyears/edit/' + FlowRouter.getParam('selectedSchoolYearId'),
 		deleteClass: 'js-delete-school-year',
 	});
 
@@ -25,11 +25,11 @@ Template.schoolYearsView.onRendered( function() {
 
 Template.schoolYearsView.helpers({
 	schoolYear: function() {
-		return SchoolYears.findOne({_id: FlowRouter.getParam('id')});
+		return SchoolYears.findOne({_id: FlowRouter.getParam('selectedSchoolYearId')});
 	},
 
 	terms: function() {
-		return Terms.find({schoolYearId: FlowRouter.getParam('id')});
+		return Terms.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId')});
 	},
 
 	termWeeks: function(termId) {
@@ -56,7 +56,7 @@ Template.schoolYearsView.events({
 		event.preventDefault();
 		const dialogId = Dialogs.findOne()._id;
 		Dialogs.remove({_id: dialogId});
-		Meteor.call('deleteSchoolYear', FlowRouter.getParam('id'), function(error) {
+		Meteor.call('deleteSchoolYear', FlowRouter.getParam('selectedSchoolYearId'), function(error) {
 			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',

@@ -28,7 +28,7 @@
 							</div>
 							<div class="col-tn-8of11 pos-relative p-tn-r-36">
 								<input class="js-term-order" type="hidden" name="order" id="js-term-order" value="{{indexIncrement @index}}">
-								<input class="js-weeks-per-term" type="number" name="weeksPerTerm{{indexIncrement @index}}" id="weeks-per-term" placeholder="12" autocomplete="off" maxlength="2" value="{{termWeekCount localTerm.id}}">
+								<input class="js-weeks-per-term" type="number" name="weeksPerTerm{{indexIncrement @index}}" id="weeks-per-term" placeholder="12" autocomplete="off" maxlength="2" min="1" value="{{termWeekCount localTerm.id}}">
 								<label class="error js-weeks-per-term-errors"></label>
 								<span class="pos-absolute pos-top-right p-tn-t-3">
 									{{#if termDeletable localTerm.id}}

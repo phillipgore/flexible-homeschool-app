@@ -6,7 +6,7 @@ import './resourcesEditAudio.html';
 
 Template.resourcesEditAudio.onCreated( function() {
 	// Subscriptions
-	this.subscribe('resource', FlowRouter.getParam('id'));
+	this.subscribe('resource', FlowRouter.getParam('selectedResourceId'));
 });
 
 Template.resourcesEditAudio.onRendered( function() {
@@ -53,7 +53,7 @@ Template.resourcesEditAudio.onRendered( function() {
 				description: event.target.description.value.trim(),
 			};
 
-			Meteor.call('updateResource', FlowRouter.getParam('id'), resourceProperties, function(error) {
+			Meteor.call('updateResource', FlowRouter.getParam('selectedResourceId'), resourceProperties, function(error) {
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',
@@ -64,7 +64,7 @@ Template.resourcesEditAudio.onRendered( function() {
 					$('.js-loading').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
-					FlowRouter.go('/planning/resources/view/' + FlowRouter.getParam('id'));
+					FlowRouter.go('/planning/resources/view/' + FlowRouter.getParam('selectedResourceId'));
 				}
 			});
 

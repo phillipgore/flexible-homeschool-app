@@ -11,14 +11,14 @@ import './trackingView.html';
 
 Template.trackingView.onCreated( function() {
 	// Subscriptions
-	this.subscribe('student', FlowRouter.getParam('id'));
-	this.subscribe('studentWeekSubjects', FlowRouter.getParam('id'), FlowRouter.getParam('selectedWeekId'));
-	this.subscribe('studentWeekLessons', FlowRouter.getParam('id'), FlowRouter.getParam('selectedWeekId'));
+	this.subscribe('student', FlowRouter.getParam('selectedStudentId'));
+	this.subscribe('studentWeekSubjects', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedWeekId'));
+	this.subscribe('studentWeekLessons', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedWeekId'));
 
 	// Subbar Subscriptions
-	this.subscribe('studentSchoolYearsPath', FlowRouter.getParam('id'));
-	this.subscribe('studentTermsPath', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('id'));
-	this.subscribe('weeksPath', FlowRouter.getParam('selectedTermId'), FlowRouter.getParam('id'));
+	this.subscribe('studentSchoolYearsPath', FlowRouter.getParam('selectedStudentId'));
+	this.subscribe('studentTermsPath', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
+	this.subscribe('weeksPath', FlowRouter.getParam('selectedTermId'), FlowRouter.getParam('selectedStudentId'));
 
 	Session.set('selectedSchoolYearId', FlowRouter.getParam('selectedSchoolYearId'));
 	Session.set('selectedTermId', FlowRouter.getParam('selectedTermId'));
@@ -48,7 +48,7 @@ Template.trackingView.onRendered( function() {
 
 Template.trackingView.helpers({
 	student: function() {
-		return Students.findOne({_id: FlowRouter.getParam('id')});
+		return Students.findOne({_id: FlowRouter.getParam('selectedStudentId')});
 	},
 
 	selectedSchoolYearId: function() {
@@ -57,6 +57,14 @@ Template.trackingView.helpers({
 
 	subjects: function() {
 		return Subjects.find();
+	},
+
+	terms: function() {
+		return Terms.find({}, {sort: {order: 1}});
+	},
+
+	weeks: function() {
+		return Weeks.find({}, {sort: {order: 1}});
 	},
 
 	lessons: function(subjectId) {

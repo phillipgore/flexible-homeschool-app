@@ -9,7 +9,7 @@ FlowRouter.route('/tracking/list/:selectedSchoolYearId/:selectedTermId', {
 });
 
 
-FlowRouter.route('/tracking/students/view/:id/:selectedSchoolYearId/:selectedTermId/:selectedWeekId', {
+FlowRouter.route('/tracking/students/view/:selectedStudentId/:selectedSchoolYearId/:selectedTermId/:selectedWeekId', {
 	name: 'trackingView',
 	action() {
 		BlazeLayout.reset();

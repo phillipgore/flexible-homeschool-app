@@ -38,7 +38,7 @@ FlowRouter.route('/settings/users/verify/sent', {
 	},
 });
 
-FlowRouter.route('/settings/users/view/:id', {
+FlowRouter.route('/settings/users/view/:selectedUserId', {
 	name: 'usersView',
 	action() {
 		BlazeLayout.render('app', {
@@ -47,7 +47,7 @@ FlowRouter.route('/settings/users/view/:id', {
 	},
 });
 
-FlowRouter.route('/settings/users/edit/:id', {
+FlowRouter.route('/settings/users/edit/:selectedUserId', {
 	name: 'usersEdit',
 	action() {
 		BlazeLayout.render('app', {

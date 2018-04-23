@@ -53,32 +53,57 @@ export function studentStatusAndPaths(student, studentId, schoolYearId, termId) 
 	let yearLessonsTotal = Lessons.find({subjectId: {$in: subjectIds}}).count();
 	let yearLessonsCompletedTotal = Lessons.find({subjectId: {$in: subjectIds}, completed: true}).count();
 	let yearPercentComplete = yearLessonsCompletedTotal / yearLessonsTotal * 100;
-	
+
 	if (yearPercentComplete > 0 && yearPercentComplete < 1) {
 		student.yearProgress = 1;
 	} else {
-		student.yearProgress = Math.floor(yearPercentComplete);
+		if (_.isNaN(Math.floor(yearPercentComplete))) {
+			student.yearProgress =  0;
+		} else {
+			student.yearProgress =  Math.floor(yearPercentComplete);
+		}
 	}
 
 	// Term Status
-	let termWeeksIds = Weeks.find({termId: termId}).map(week => (week._id));
+	if (termId) {
+		let termWeeksIds = Weeks.find({termId: termId}).map(week => (week._id));
 
-	let termLessonsTotal = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: termWeeksIds}}).count();
-	let termLessonsCompletedTotal = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: termWeeksIds}, completed: true}).count();
-	let termPercentComplete = termLessonsCompletedTotal / termLessonsTotal * 100;
+		let termLessonsTotal = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: termWeeksIds}}).count();
+		let termLessonsCompletedTotal = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: termWeeksIds}, completed: true}).count();
+		let termPercentComplete = termLessonsCompletedTotal / termLessonsTotal * 100;
 
-	if (termPercentComplete > 0 && termPercentComplete < 1) {
-		student.termProgress = 1;
+		if (termPercentComplete > 0 && termPercentComplete < 1) {
+			student.termProgress = 1;
+		} else {
+			if (_.isNaN(Math.floor(termPercentComplete))) {
+				student.termProgress =  0;
+			} else {
+				student.termProgress =  Math.floor(termPercentComplete);
+			}
+		}
+
+		// First Week URL ID
+		let weekIds = Weeks.find({termId: termId}).map(week => (week._id));
+		let lessons = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: weekIds}});
+
+		if (lessons.count()) {
+			let firstLesson = getFirstLesson(lessons);
+			let firstWeek = Weeks.findOne({_id: firstLesson.weekId});
+
+			student.firstWeekId = firstWeek._id;
+		} else {
+			let firstWeek = Weeks.findOne({termId: termId}, {sort: {order: 1}})
+
+			if (firstWeek) {
+				student.firstWeekId = firstWeek._id;
+			} else {
+				student.firstWeekId = 'empty';	
+			}
+		}
+	} else {
+		student.termProgress =  0;
+		student.firstWeekId = 'empty';
 	}
-	student.termProgress =  Math.floor(termPercentComplete);
-
-	// First Week URL ID
-	let weekIds = Weeks.find({termId: termId}).map(week => (week._id));
-	let lessons = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: weekIds}});
-	let firstLesson = getFirstLesson(lessons);
-	let firstWeek = Weeks.findOne({_id: firstLesson.weekId});
-
-	student.firstWeekId = firstWeek._id;
 
 	return student;
 };
@@ -89,13 +114,31 @@ export function allSchoolYearsStatusAndPaths(schoolYear, schoolYearId) {
 
 		let lessons = Lessons.find({subjectId: {$in: subjectIds}});
 		let lessonsCompleted = Lessons.find({subjectId: {$in: subjectIds}, completed: true});
-
-		let firstLesson = getFirstLesson(lessons);
-		let firstWeek = Weeks.findOne({_id: firstLesson.weekId});
-
 		schoolYear.status = status(lessons.count(), lessonsCompleted.count());
-		schoolYear.firstTermId = firstWeek.termId;
-		schoolYear.firstWeekId = firstLesson.weekId;
+
+		if (Terms.find({schoolYearId: schoolYearId}).count()) {
+			if (lessons.count()) {
+				let firstLesson = getFirstLesson(lessons);
+				let firstWeek = Weeks.findOne({_id: firstLesson.weekId});
+
+				schoolYear.firstTermId = firstWeek.termId;
+				schoolYear.firstWeekId = firstLesson.weekId;
+			} else {
+				let firstTerm = Terms.findOne({schoolYearId: schoolYearId}, {sort: {order: 1}})
+				let firstWeek = Weeks.findOne({termId: firstTerm._id}, {sort: {order: 1}})
+
+				schoolYear.firstTermId = firstTerm._id;
+
+				if (firstWeek) {
+					schoolYear.firstWeekId = firstWeek._id;
+				} else {
+					schoolYear.firstWeekId = 'empty';	
+				}
+			}	
+		} else {
+			schoolYear.firstTermId = 'empty';
+			schoolYear.firstWeekId = 'empty';
+		}
 	}
 
 	return schoolYear;
@@ -107,13 +150,31 @@ export function studentSchoolYearsStatusAndPaths(schoolYear, schoolYearId, stude
 
 		let lessons = Lessons.find({subjectId: {$in: subjectIds}});
 		let lessonsCompleted = Lessons.find({subjectId: {$in: subjectIds}, completed: true});
-
-		let firstLesson = getFirstLesson(lessons);
-		let firstWeek = Weeks.findOne({_id: firstLesson.weekId});
-
 		schoolYear.status = status(lessons.count(), lessonsCompleted.count());
-		schoolYear.firstTermId = firstWeek.termId;
-		schoolYear.firstWeekId = firstLesson.weekId;
+
+		if (Terms.find({schoolYearId: schoolYearId}).count()) {
+			if (lessons.count()) {
+				let firstLesson = getFirstLesson(lessons);
+				let firstWeek = Weeks.findOne({_id: firstLesson.weekId});
+
+				schoolYear.firstTermId = firstWeek.termId;
+				schoolYear.firstWeekId = firstLesson.weekId;
+			} else {
+				let firstTerm = Terms.findOne({schoolYearId: schoolYearId}, {sort: {order: 1}})
+				let firstWeek = Weeks.findOne({termId: firstTerm._id}, {sort: {order: 1}})
+
+				schoolYear.firstTermId = firstTerm._id;
+
+				if (firstWeek) {
+					schoolYear.firstWeekId = firstWeek._id;
+				} else {
+					schoolYear.firstWeekId = 'empty';	
+				}
+			}	
+		} else {
+			schoolYear.firstTermId = 'empty';
+			schoolYear.firstWeekId = 'empty';
+		}
 	}
 
 	return schoolYear;
@@ -126,12 +187,26 @@ export function allTermStatusAndPaths(term, termId, schoolYearId) {
 
 		let lessons = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: weekIds}});
 		let lessonsCompleted = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: weekIds}, completed: true});
-
-		let firstLesson = getFirstLesson(lessons);
-		let firstWeek = Weeks.findOne({_id: firstLesson.weekId});
-		
 		term.status = status(lessons.count(), lessonsCompleted.count());
-		term.firstWeekId = firstWeek._id;
+
+		if (termId) {
+			if (lessons.count()) {
+				let firstLesson = getFirstLesson(lessons);
+				let firstWeek = Weeks.findOne({_id: firstLesson.weekId});
+
+				term.firstWeekId = firstWeek._id;
+			} else {
+				let firstWeek = Weeks.findOne({termId: termId}, {sort: {order: 1}})
+
+				if (firstWeek) {
+					term.firstWeekId = firstWeek._id;
+				} else {
+					term.firstWeekId = 'empty';	
+				}
+			}
+		} else {
+			term.firstWeekId = 'empty';
+		}
 	}
 	return term;
 };
@@ -143,12 +218,26 @@ export function studentTermStatusAndPaths(term, termId, schoolYearId, studentId)
 
 		let lessons = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: weekIds}});
 		let lessonsCompleted = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: weekIds}, completed: true});
-
-		let firstLesson = getFirstLesson(lessons);
-		let firstWeek = Weeks.findOne({_id: firstLesson.weekId});
-		
 		term.status = status(lessons.count(), lessonsCompleted.count());
-		term.firstWeekId = firstWeek._id;
+
+		if (termId) {
+			if (lessons.count()) {
+				let firstLesson = getFirstLesson(lessons);
+				let firstWeek = Weeks.findOne({_id: firstLesson.weekId});
+			
+				term.firstWeekId = firstWeek._id;
+			} else {
+				let firstWeek = Weeks.findOne({termId: termId}, {sort: {order: 1}})
+
+				if (firstWeek) {
+					term.firstWeekId = firstWeek._id;
+				} else {
+					term.firstWeekId = 'empty';	
+				}
+			}
+		} else {
+			term.firstWeekId = 'empty';
+		}
 	}
 	return term;
 };
@@ -164,7 +253,7 @@ export function weekStatus(week, weekId, studentId) {
 		}
 
 		let termId = Weeks.findOne({_id: weekId}).termId;
-		let schoolYearId = Terms.findOne({_id: termId}).schoolYearId;
+		let schoolYearId = Terms.findOne({_id: termId}, {sort: {order: 1}}).schoolYearId;
 		let subjectIds = getSubjectIds(schoolYearId, studentId);
 
 		let lessonsTotal = Lessons.find({subjectId: {$in: subjectIds}, weekId: weekId}).count();

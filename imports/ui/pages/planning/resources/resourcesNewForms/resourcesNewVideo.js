@@ -65,6 +65,16 @@ Template.resourcesNewVideo.onRendered( function() {
 	});
 });
 
+Template.resourcesNewVideo.helpers({
+	selectedResourceType: function() {
+		return Session.get('selectedResourceType');
+	},
+
+	selectedResourceAvailability: function() {
+		return Session.get('selectedResourceAvailability');
+	},
+});
+
 Template.resourcesNewVideo.events({
 	'submit .js-form-resources-video-new'(event) {
 		event.preventDefault();

@@ -43,12 +43,11 @@ Template.reportingList.helpers({
 		return Meteor.users.findOne();
 	},
 	
-	// Selections
 	reportsAvailable: function() {
-		if (!Session.get('selectedSchoolYearId') || !Session.get('selectedStudentId')) {
+		if (Session.get('selectedSchoolYearId') === 'empty' || Session.get('selectedStudentId') === 'empty') {
 			return false;
 		}
-		return true
+		return true;
 	},
 });
 

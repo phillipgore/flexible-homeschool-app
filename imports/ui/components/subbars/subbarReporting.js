@@ -47,6 +47,13 @@ Template.subbarReporting.helpers({
 		}
 		return false;
 	},
+	
+	reportsAvailable: function() {
+		if (Session.get('selectedSchoolYearId') === 'empty' || Session.get('selectedStudentId') === 'empty') {
+			return false;
+		}
+		return true;
+	},
 });
 
 

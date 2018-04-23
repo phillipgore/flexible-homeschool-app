@@ -1,5 +1,6 @@
 <template name="subbarReporting">
 	<asside class="subbar">
+		{{#if reportsAvailable}}
 		<div class="row">
 			<div class="col-tn-5of12">
 				<a id="{{selectedStudentId}}" href="#students" class="js-dropdown btn-sub">
@@ -17,6 +18,7 @@
 				</a>
 			</div>
 		</div>
+		{{/if}}
 	</asside>
 
 	<ul id="students" class="dropdown-menu dropdown-sub m-tn-rl-9 hide">
