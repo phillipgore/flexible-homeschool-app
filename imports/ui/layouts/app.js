@@ -134,7 +134,7 @@ Template.app.events({
 		event.preventDefault();
 		let menuId = $(event.currentTarget).attr('href');
 
-		$('.dropdown-menu').not(menuId).fadeOut(100);
+		$('.dropdown-menu, .list-item-dropdown-menu').not(menuId).fadeOut(100);
 
 		if ($(menuId).is(':visible')) {
 			$(menuId).fadeOut(100);
@@ -161,7 +161,7 @@ Template.app.events({
 	// Universal Click Event
 	'click'(event) {
 		if (!$(event.currentTarget).hasClass('js-dropdown')) {
-			$('.dropdown-menu').fadeOut(100);
+			$('.dropdown-menu, .list-item-dropdown-menu').fadeOut(100);
 		}
 	},
 });

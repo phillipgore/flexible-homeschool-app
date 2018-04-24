@@ -9,6 +9,89 @@ ul.list {
 	}
 
 	li.list-item {
+		position: relative;
+
+		.list-item-dropdown {
+			position: absolute;
+			top: 0px;
+			right: 0px;
+			height: 49px;
+			width: 37px;
+
+			&:before {
+				font-family: 'Flexible-School-Schedule' !important;
+				content: "\e911";
+				font-size: 20px;
+				color: inherit;
+				position: absolute;
+				top: 15px;
+				left: 9px;
+			}
+
+			&:after {
+				font-family: 'Flexible-School-Schedule' !important;	
+				content: " \e907";
+				font-size: 13px;
+				color: $color-white;
+				position: absolute;
+				top: 17px;
+				right: 17px;
+				z-index: 1;
+			}
+		}
+
+		.list-item-dropdown-loader {
+			position: absolute;
+			top: 0px;
+			right: 0px;
+			height: 49px;
+			width: 37px;
+			text-align: center;
+			padding-top: 17px;
+			font-size: 16px;
+		}
+
+		.list-item-dropdown-menu {
+			position: absolute;
+			top: 0px;
+			right: 0px;
+			bottom: 0px;
+			left: 0px;
+			// background-color: lightgreen;
+
+			.list-item-dropdown-options {
+				background-color: $color-gray;
+				height: 31px;
+				// max-width: 320px;
+				margin: 9px 36px 9px 9px;
+				padding: 7px 9px 0px;
+				border-radius: 16px;
+				font-size: 14px;
+				float: right;
+
+				a {
+					color: $color-black;
+					text-decoration: none;
+					margin-right: 20px;
+
+					&:last-of-type {
+						margin-right: 4px;
+					}
+
+					&:hover {
+						text-decoration: none;
+					}
+
+					i {
+						display: inline-block;
+						float: left;
+						font-size: 16px;
+						margin-right: 3px;
+						text-align: center;
+					}
+				}
+			}
+		}
 
 		a.list-item-link, .list-item-inner {
 			display: block;
@@ -98,7 +181,7 @@ ul.list {
 					font-family: 'Flexible-School-Schedule' !important;	
 					content: "\e925";
 					display: inline-block;
-    				animation: rotation 1.5s infinite linear;
+    				animation: rotation 1.0s infinite linear;
 				}
 			}
 

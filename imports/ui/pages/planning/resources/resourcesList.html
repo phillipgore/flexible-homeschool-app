@@ -10,11 +10,22 @@
 			{{#if resourceCount selectedResourceType selectedResourceAvailability}}
 				<ul class="list">
 					{{#each resource in resources}}
-						<li class="list-item">
+						<li id="{{resource._id}}" class="list-item">
 							<a href="/planning/resources/view/{{resource._id}}" class="list-item-link p-tn-rl-9">
 								<div class="list-item-icon"><i class="txt-primary fss-{{resource.type}} fss-fw-16"></i></div> 
 								<div class="list-item-label">{{resource.title}}</div>
 							</a>
+							{{#unless isLink resource.type}}
+								<div class="list-item-dropdown-loader hide"><i class="fss-searching fss-spin txt-gray-darkest"></i></div>
+								<a href="#dropdown{{resource._id}}" class="js-dropdown list-item-dropdown {{availability resource.availability}}"></a>
+								<div id="dropdown{{resource._id}}" class="list-item-dropdown-menu hide">
+									<div class="list-item-dropdown-options clearfix">
+										<a id="own" data-resource-id="{{resource._id}}" href="#" class="js-resouce-availability-btn fl-tn-left"><i class="fss-circle txt-royal"></i> Own</a>
+										<a id="borrowed" data-resource-id="{{resource._id}}" href="#" class="js-resouce-availability-btn fl-tn-left"><i class="fss-circle txt-info"></i> Borrowed</a>
+										<a id="need" data-resource-id="{{resource._id}}" href="#" class="js-resouce-availability-btn fl-tn-left"><i class="fss-circle txt-warning"></i> Need</a>
+									</div>
+								</div>
+							{{/unless}}
 						</li>
 					{{/each}}
 				</ul>
