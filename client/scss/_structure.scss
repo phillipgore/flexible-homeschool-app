@@ -1,0 +1,141 @@
+* {
+	box-sizing: border-box;
+}
+
+html {
+	font-family: $font-family-default;
+	font-weight: $font-weight-default;
+	font-size: $font-size-default;
+}
+
+html, body {
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+}
+
+body {
+  min-height: 100%;
+  margin: 0px;
+  padding: 0px;
+}
+
+hr {
+	border: 0;
+    height: 1px;
+    padding: 0px;
+    margin: 0px;
+    background: $color-gray;
+}
+
+#__blaze-root {
+	height: 100%;
+	min-height: 100%;
+	position: relative;
+}
+
+.app-content {
+	padding-top: 80px;
+	min-height: 100%;
+
+	&.app-content-preceeds-toolbar {
+		padding-bottom: 50px;
+	}
+}
+
+.no-subbar {
+	padding-top: 50px;
+}
+
+@media only screen and (min-width: 0px) {
+	.frame-container-outer {
+		overflow-x: hidden;
+		min-height: 100vh;
+	}
+
+	.frame-contaner-inner {
+		width: 300%;
+		min-height: 100vh;
+	}
+
+	.frame-one {
+		width: 33.3333%;
+		min-height: 100vh;
+		float: left;
+	}
+	.frame-two {
+		width: 33.3333%;
+		left: 100%;
+		min-height: 100vh;
+		float: left;
+	}
+
+	.frame-three {
+		width: 33.3333%;
+		left: 200%;
+		min-height: 100vh;
+		float: left;
+	}
+
+	.frame-position-two {
+		margin-left: -100%;
+	}
+
+	.frame-position-three {
+		margin-left: -200%;
+	}
+}
+
+@media only screen and (min-width: 640px) {
+	.frame-contaner-inner {
+		width: 150%;
+	}
+
+	.frame-one {
+		overflow-y: hidden;
+	}
+
+	.frame-two {
+		border-left: 1px solid $color-gray;
+		overflow-y: hidden;
+	}
+
+	.frame-three {
+		border-left: 1px solid $color-gray;
+		overflow-y: hidden;
+	}
+
+	.frame-position-two {
+		margin-left: -50%;
+	}
+
+	.frame-position-three {
+		margin-left: -50%;
+	}
+}
+
+@media only screen and (min-width: 960px) {
+	.frame-contaner-inner {
+		width: 100%;
+	}
+
+	.frame-one {
+		width: 288px;
+	}
+
+	.frame-two {
+		width: 288px;
+	}
+
+	.frame-three {
+		width: calc(100% - 576px);
+	}
+
+	.frame-position-two {
+		margin-left: 0px;
+	}
+
+	.frame-position-three {
+		margin-left: 0px;
+	}
+}

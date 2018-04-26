@@ -2,7 +2,7 @@ FlowRouter.route('/', {
 	name: 'createAccount',
 	action() {
 		BlazeLayout.render('app', {
-			main: 'createAccount',
+			frameOne: 'createAccount',
 		});
 	},
 });
@@ -11,7 +11,7 @@ FlowRouter.route('/verify/sent', {
 	name: 'verifySent',
 	action() {
 		BlazeLayout.render('app', {
-			main: 'verifySent',
+			frameOne: 'verifySent',
 		});
 	},
 });
@@ -33,7 +33,7 @@ FlowRouter.route('/verify/success', {
 	name: 'verifySuccess',
 	action() {
 		BlazeLayout.render('app', {
-			main: 'verifySuccess',
+			frameOne: 'verifySuccess',
 		});
 	},
 });
@@ -42,7 +42,7 @@ FlowRouter.route('/sign-in', {
 	name: 'signIn',
 	action() {
 		BlazeLayout.render('app', {
-			main: 'signIn',
+			frameOne: 'signIn',
 		});
 	},
 });
@@ -51,7 +51,7 @@ FlowRouter.route('/reset', {
 	name: 'reset',
 	action() {
 		BlazeLayout.render('app', {
-			main: 'reset',
+			frameOne: 'reset',
 		});
 	},
 });
@@ -60,7 +60,7 @@ FlowRouter.route('/reset/sent', {
 	name: 'resetSent',
 	action() {
 		BlazeLayout.render('app', {
-			main: 'resetSent',
+			frameOne: 'resetSent',
 		});
 	},
 });
@@ -69,7 +69,7 @@ FlowRouter.route('/reset/password/:token', {
 	name: 'resetPassword',
 	action: function(params, queryParams) {
         BlazeLayout.render('app', {
-			main: 'resetPassword',
+			frameOne: 'resetPassword',
 		});
     },
 });
@@ -78,7 +78,7 @@ FlowRouter.route('/reset/success', {
 	name: 'resetSuccess',
 	action() {
 		BlazeLayout.render('app', {
-			main: 'resetSuccess',
+			frameOne: 'resetSuccess',
 		});
 	},
 });

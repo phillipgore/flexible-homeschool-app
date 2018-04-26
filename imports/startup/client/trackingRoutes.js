@@ -3,7 +3,7 @@ FlowRouter.route('/tracking/list/:selectedSchoolYearId/:selectedTermId', {
 	action() {
 		BlazeLayout.reset();
 		BlazeLayout.render('app', {
-			main: 'trackingList',
+			frameOne: 'trackingList',
 		});
 	},
 });
@@ -14,7 +14,7 @@ FlowRouter.route('/tracking/students/view/:selectedStudentId/:selectedSchoolYear
 	action() {
 		BlazeLayout.reset();
 		BlazeLayout.render('app', {
-			main: 'trackingView',
+			frameOne: 'trackingView',
 		});
 	},
 });

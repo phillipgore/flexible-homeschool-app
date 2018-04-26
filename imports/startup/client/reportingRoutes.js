@@ -5,7 +5,7 @@ FlowRouter.route('/reporting/list/:selectedSchoolYearId/:selectedStudentId', {
 	action() {
 		BlazeLayout.reset();
 		BlazeLayout.render('app', {
-			main: 'reportingList',
+			frameOne: 'reportingList',
 		});
 	},
 });
@@ -14,7 +14,7 @@ FlowRouter.route('/reporting/settings/edit', {
 	name: 'reportingSettingsEdit',
 	action() {
 		BlazeLayout.render('app', {
-			main: 'reportingSettingsEdit',
+			frameOne: 'reportingSettingsEdit',
 		});
 	},
 });

@@ -8,6 +8,20 @@
 		</div>
 		{{/each}}
 	</div> 
-	
-	{{> Template.dynamic template=main}}
+
+	<div class="frame-container-outer">
+		<div class="frame-contaner-inner">
+			<div class="frame-one"> 
+				{{> Template.dynamic template=frameOne}}
+			</div>
+			<div class="frame-two"> 
+				{{> Template.dynamic template=frameTwo}}
+			</div>
+			<div class="frame-three"> 
+				{{> Template.dynamic template=frameThree}}
+			</div>
+		</div>
+	</div>
+
+	{{> navbar}}
 </template>
