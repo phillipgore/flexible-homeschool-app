@@ -106,7 +106,7 @@ hr {
 	}
 
 	.frame-position-two {
-		margin-left: -50%;
+		margin-left: 0px;
 	}
 
 	.frame-position-three {
@@ -114,7 +114,7 @@ hr {
 	}
 }
 
-@media only screen and (min-width: 960px) {
+@media only screen and (min-width: 896px) {
 	.frame-contaner-inner {
 		width: 100%;
 	}

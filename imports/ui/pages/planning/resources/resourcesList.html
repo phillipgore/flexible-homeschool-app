@@ -17,7 +17,7 @@
 							</a>
 							{{#unless isLink resource.type}}
 								<div class="list-item-dropdown-loader hide"><i class="fss-searching fss-spin txt-gray-darkest"></i></div>
-								<a href="#dropdown{{resource._id}}" class="js-dropdown list-item-dropdown {{availability resource.availability}}"></a>
+								<a href="#" data-menu="#dropdown{{resource._id}}" class="js-dropdown list-item-dropdown {{availability resource.availability}}"></a>
 								<div id="dropdown{{resource._id}}" class="list-item-dropdown-menu hide">
 									<div class="list-item-dropdown-options clearfix">
 										<a id="own" data-resource-id="{{resource._id}}" href="#" class="js-resouce-availability-btn fl-tn-left"><i class="fss-circle txt-royal"></i> Own</a>

@@ -3,12 +3,12 @@
 		{{#if reportsAvailable}}
 		<div class="row">
 			<div class="col-tn-5of12">
-				<a id="{{selectedStudentId}}" href="#students" class="js-dropdown btn-sub">
+				<a id="{{selectedStudentId}}" href="#" data-menu="#students" class="js-dropdown btn-sub">
 					{{selectedStudent.preferredFirstName.name}} {{selectedStudent.lastName}} <i class="fss-caret-down"></i>
 				</a>
 			</div>
 			<div class="col-tn-5of12">
-				<a id="{{selectedSchoolYearId}}" href="#years" class="js-dropdown btn-sub">
+				<a id="{{selectedSchoolYearId}}" href="#" data-menu="#years" class="js-dropdown btn-sub">
 					{{selectedSchoolYear.startYear}}-{{selectedSchoolYear.endYear}} <i class="fss-caret-down"></i>
 				</a>
 			</div>

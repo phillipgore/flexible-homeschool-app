@@ -2,13 +2,13 @@
 	<asside class="subbar">
 		<div class="row">
 			<div class="col-tn-1of2">
-				<a id="{{selectedResourceType}}" href="#types" class="js-dropdown btn-sub">
+				<a id="{{selectedResourceType}}" href="#" data-menu="#types" class="js-dropdown btn-sub">
 					{{typeLabel selectedResourceType}} <i class="fss-caret-down"></i>
 				</a>
 			</div>
 			<div class="col-tn-1of2">
 				{{#unless isLink selectedResourceType}}
-					<a id="{{selectedResourceAvailability}}" href="#availabilities" class="js-dropdown btn-sub last">
+					<a id="{{selectedResourceAvailability}}" href="#" data-menu="#availabilities" class="js-dropdown btn-sub last">
 						{{availabilityLabel selectedResourceAvailability}} <i class="fss-caret-down"></i>
 					</a>
 				{{else}}

@@ -20,6 +20,8 @@ import '../components/navbar.js';
 	import '../components/subbars/subbarTrackingStudent.js';
 	// Toolbars
 	import '../components/toolbars/toolbar.js';
+	import '../components/toolbars/toolbarSmall.html';
+	import '../components/toolbars/toolbarLarge.html';
 	import '../components/toolbars/toolbarLogo.html';
 	import '../components/toolbars/toolbarPrint.js';
 	import '../components/toolbars/toolbarResources.js';
@@ -112,9 +114,18 @@ import moment from 'moment';
 
 Alerts = new Mongo.Collection(null);
 
+
 Template.app.helpers({
 	alerts: function() {
 		return Alerts.find();
+	},
+
+	backButton() {
+		// console.log(Session.get('selectedFramePosition'))
+		if (Session.get('selectedFramePosition') === 1 || Session.get('selectedFramePosition') === 2) {
+			return false;
+		}
+		return true;
 	},
 });
 
@@ -132,7 +143,7 @@ Template.app.events({
 	// Dropdown Button
 	'click .js-dropdown'(event) {
 		event.preventDefault();
-		let menuId = $(event.currentTarget).attr('href');
+		let menuId = $(event.currentTarget).attr('data-menu');
 
 		$('.dropdown-menu, .list-item-dropdown-menu').not(menuId).fadeOut(100);
 
@@ -140,7 +151,7 @@ Template.app.events({
 			$(menuId).fadeOut(100);
 			$(menuId).removeAttr('style');
 		} else {
-			let maxMenuHeight = $('.app-content').height() - 18;
+			let maxMenuHeight = $('#__blaze-root').height() - 59;
 			$(menuId).css({maxHeight: maxMenuHeight}).fadeIn(200);
 		}
 	},
@@ -162,6 +173,32 @@ Template.app.events({
 	'click'(event) {
 		if (!$(event.currentTarget).hasClass('js-dropdown')) {
 			$('.dropdown-menu, .list-item-dropdown-menu').fadeOut(100);
+		}
+	},
+
+	// Frame Positon
+	'click .frame-one a'(event) {
+		$('.frame-contaner-inner').removeClass('frame-position-three');
+		$('.frame-contaner-inner').addClass('frame-position-two');
+		Session.set('selectedFramePosition', 2);
+	},
+
+	'click .frame-two a'(event) {
+		$('.frame-contaner-inner').removeClass('frame-position-two');
+		$('.frame-contaner-inner').addClass('frame-position-three');
+		Session.set('selectedFramePosition', 3);
+	},
+
+	'click .js-btn-back'(event) {
+		let newFramePosition = Session.get('selectedFramePosition') - 1;
+		console.log(newFramePosition)
+
+		if (newFramePosition === 2) {
+			$('.frame-contaner-inner').removeClass('frame-position-three');
+			$('.frame-contaner-inner').addClass('frame-position-two');
+		} else {
+			$('.frame-contaner-inner').removeClass('frame-position-two, frame-position-three');
+			Session.set('selectedFramePosition', 1);
 		}
 	},
 });

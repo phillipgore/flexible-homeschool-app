@@ -16,7 +16,7 @@
 				{{/if}}
 			</div>
 			<div class="col-tn-2of7">
-				<a class="js-dropdown btn-tool fl-tn-right" href="#actions">
+				<a class="js-dropdown btn-tool fl-tn-right" href="#" data-menu="#newResources">
 					<i class="fss-new"></i>
 				</a>
 				<a class="js-print btn-tool fl-tn-right" href="#">
@@ -26,29 +26,29 @@
 		</div>
 	</header>
 
-	<ul id="actions" class="dropdown-menu dropdown-tool m-tn-rl-9 hide">
+	<ul id="newResources" class="dropdown-menu dropdown-tool m-tn-rl-9 hide">
 		<li class="dropdown-item">
-			<a class="dropdown-item-link" href="{{pathFor 'resourcesNew' type='book'}}">
+			<a class="dropdown-item-link" href="{{pathFor 'resourcesNew' selectedResourceType='book'}}">
 				<i class="fss-book fss-fw-16 m-tn-r-4"></i> Book
 			</a>
 		</li>
 		<li class="dropdown-item">
-			<a class="dropdown-item-link" href="{{pathFor 'resourcesNew' type='link'}}">
+			<a class="dropdown-item-link" href="{{pathFor 'resourcesNew' selectedResourceType='link'}}">
 				<i class="fss-link fss-fw-16 m-tn-r-4"></i> Link
 			</a>
 		</li>
 		<li class="dropdown-item">
-			<a class="dropdown-item-link" href="{{pathFor 'resourcesNew' type='video'}}">
+			<a class="dropdown-item-link" href="{{pathFor 'resourcesNew' selectedResourceType='video'}}">
 				<i class="fss-video fss-fw-16 m-tn-r-4"></i> Video
 			</a>
 		</li>
 		<li class="dropdown-item">
-			<a class="dropdown-item-link" href="{{pathFor 'resourcesNew' type='audio'}}">
+			<a class="dropdown-item-link" href="{{pathFor 'resourcesNew' selectedResourceType='audio'}}">
 				<i class="fss-audio fss-fw-16 m-tn-r-4"></i> Audio
 			</a>
 		</li>
 		<li class="dropdown-item">
-			<a class="dropdown-item-link" href="{{pathFor 'resourcesNew' type='app'}}">
+			<a class="dropdown-item-link" href="{{pathFor 'resourcesNew' selectedResourceType='app'}}">
 				<i class="fss-app fss-fw-16 m-tn-r-4"></i> App
 			</a>
 		</li>

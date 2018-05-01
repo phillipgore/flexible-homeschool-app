@@ -42,7 +42,7 @@ Template.navbar.helpers({
 });
 
 Template.navbar.events({
-	'click .js-navbar-restricted '(event) {
+	'click .js-navbar-restricted'(event) {
 		let role = $(event.currentTarget).attr('data-role');
 		let section = $(event.currentTarget).attr('data-section');
 		Alerts.insert({
@@ -50,5 +50,9 @@ Template.navbar.events({
 			iconClass: 'fss-info',
 			message: 'The role of "' + role + '" is not allowed to access the ' + section + ' section.',
 		});
-	}
+	},
+
+	'click .js-btn-nav'(event) {
+		$('.frame-contaner-inner').removeClass('frame-position-two, frame-position-three');
+	},
 });

@@ -2,12 +2,12 @@
 	<asside class="subbar">
 		<div class="row">
 			<div class="col-tn-1of2">
-				<a id="{{selectedStudent._id}}" href="#students" class="js-dropdown btn-sub">
+				<a id="{{selectedStudent._id}}" href="#" data-menu="#students" class="js-dropdown btn-sub">
 					{{selectedStudent.preferredFirstName.name}} {{selectedStudent.lastName}} <i class="fss-caret-down"></i>
 				</a>
 			</div>
 			<div class="col-tn-1of2">
-				<a id="{{selectedSchoolYear._id}}" href="#years" class="js-dropdown btn-sub last">
+				<a id="{{selectedSchoolYear._id}}" href="#" data-menu="#years" class="js-dropdown btn-sub last">
 					{{selectedSchoolYear.startYear}}-{{selectedSchoolYear.endYear}} <i class="fss-caret-down"></i>
 				</a>
 			</div>

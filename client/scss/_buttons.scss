@@ -115,6 +115,53 @@ button, .btn {
     	border: 0;
     	text-decoration: none;
 	}
+
+	@media only screen and (min-width: 768px) {
+		width: 57px;
+		height: 32px;
+		padding: 8px 0px;
+		margin: 9px 0px 0px 9px;
+		border-radius: 3px;
+		display: inline-block;
+		float: left;
+		font-size: 16px;
+		color: $color-white;
+		background-color: $color-primary-light;
+
+		&.btn-tool-icn-lg {
+			padding: 6px 0px;
+			i {
+				font-size: 20px;
+			}
+		}
+
+		&.disabled {
+			color: $color-primary-lighter;
+		}
+	}
+}
+
+@media only screen and (min-width: 768px) {
+	.btn-tool-dropdown {
+		width: 57px;
+		margin-left: 9px;
+		float: left;
+		position: relative;
+
+		.btn-tool {
+			margin-left: 0px;
+		}
+	}
+}
+
+.btn-tool-spacer {
+	width: 19px;
+	margin-right: 9px;
+	height: 32px;
+	margin-top: 9px;
+	border-right: 1px solid $color-primary-lighter;
+	display: inline-block;
+	float: left;
 }
 
 .btn-sub {
@@ -196,4 +243,47 @@ button, .btn {
 		}
 
 	}
+
+	@media only screen and (min-width: 896px) {
+		background-color: $color-primary-light;
+		height: 32px;
+		padding: 8px 0px;
+		margin-top: 9px;
+
+		.btn-nav-icon {
+			color: $color-white;
+			font-size: 16px;
+		}
+
+		.btn-nav-label {
+			display: none;
+		}
+
+		&.first {
+			border-radius: 3px 0px 0px 3px;
+		}
+
+		&.last {
+			border-radius: 0px 3px 3px 0px ;
+		}
+
+		&.active {
+			background-color: $color-primary-lightest;
+
+			.btn-nav-icon {
+				color: $color-primary;
+			}
+		}
+	}
 }
+
+
+
+
+
+
+
+
+
+
+

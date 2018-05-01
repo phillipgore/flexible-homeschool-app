@@ -3,13 +3,13 @@
 		{{#if schoolYears.count}}			
 			<div class="row">
 				<div class="col-tn-1of2">
-					<a id="{{selectedSchoolYearId}}" href="#years" class="js-dropdown btn-sub">
+					<a id="{{selectedSchoolYearId}}" href="#" data-menu="#years" class="js-dropdown btn-sub">
 						{{selectedSchoolYear.startYear}}-{{selectedSchoolYear.endYear}} <i class="fss-caret-down"></i>
 					</a>
 				</div>
 				<div class="col-tn-1of2">
 					{{#if terms.count}}
-						<a id="{{selectedTermId}}" href="#terms" class="js-dropdown btn-sub last">
+						<a id="{{selectedTermId}}" href="#" data-menu="#terms" class="js-dropdown btn-sub last">
 							Term {{selectedTerm.order}} <i class="fss-caret-down"></i>
 						</a>
 					{{else}}

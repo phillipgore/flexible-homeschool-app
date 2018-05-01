@@ -5,6 +5,10 @@ import './studentsList.html';
 Template.studentsList.onCreated( function() {
 	// Subscriptions
 	this.subscribe('allStudents');
+
+	Tracker.autorun(function() {
+		Session.set('selectedStudentId', FlowRouter.getParam('selectedStudentId'));
+	});
 });
 
 Template.studentsList.onRendered( function() {
@@ -25,4 +29,15 @@ Template.studentsList.helpers({
 	students: function() {
 		return Students.find({}, {sort: {birthday: 1, lastName: 1, firstName: 1}});
 	},
+
+	selectedStudentId: function() {
+		return FlowRouter.getParam('selectedStudentId');
+	},
+
+	active: function(currentId, id) {
+		if (currentId === id) {
+			return true;
+		}
+		return false;
+	}
 });

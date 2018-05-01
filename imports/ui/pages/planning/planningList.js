@@ -49,4 +49,11 @@ Template.planningList.helpers({
 	selectedResourceAvailability: function() {
 		return Session.get('selectedResourceAvailability');
 	},
+
+	active: function(route) {
+		if (FlowRouter.current().name === route) {
+			return true;
+		}
+		return false;
+	}
 });

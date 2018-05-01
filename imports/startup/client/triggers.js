@@ -3,6 +3,7 @@ import { SchoolYears } from '../../api/schoolYears/schoolYears.js';
 import { Students } from '../../api/students/students.js';
 import { Terms } from '../../api/terms/terms.js';
 import { Weeks } from '../../api/weeks/weeks.js';
+InitialIds = new Mongo.Collection('initialIds');
 InitialPaths = new Mongo.Collection('initialPaths');
 
 import moment from 'moment';
@@ -19,15 +20,15 @@ function startYearFunction(year) {
 
 let userData = Meteor.subscribe('userData');
 let groupStatus = Meteor.subscribe('groupStatus');
+let initialIds = Meteor.subscribe('initialIds');
 let initialStats = Meteor.subscribe('initialStats');
-let allStudents = Meteor.subscribe('allStudents');
 let initialPaths = Meteor.subscribe('initialPaths');
 let startYear = startYearFunction(year);
 
 FlowRouter.wait();
 
 Tracker.autorun(() => {
-	if (userData.ready() && groupStatus.ready() && initialStats.ready() && allStudents.ready() && initialPaths.ready() && !FlowRouter._initialized) {
+	if (userData.ready() && groupStatus.ready() && initialStats.ready() && initialPaths.ready() && initialIds.ready() && !FlowRouter._initialized) {
 		FlowRouter.initialize()
 	}
 });
@@ -53,6 +54,10 @@ function checkSignOut(context, redirect) {
 };
 
 function navbarData(context) {
+	if (!Session.get('selectedFramePosition')) {
+		Session.set('selectedFramePosition', 1);
+	}
+	
 	if (!Session.get('selectedResourceType')) {
 		Session.set('selectedResourceType', 'all');
 	}
@@ -61,13 +66,22 @@ function navbarData(context) {
 		Session.set('selectedResourceAvailability', 'all');
 	}
 
+	if (InitialIds.find().count()) {
+		if (!Session.get('selectedStudentId')) {
+			Session.set('selectedStudentId', InitialIds.findOne().studentId);
+		}
+
+		if (!Session.get('selectedResourceId')) {
+			Session.set('selectedResourceId', InitialIds.findOne().resourceId);
+	    }
+	} else {
+			Session.set('selectedStudentId', 'empty');
+			Session.get('selectedResourceId', 'empty');
+	}
+
 	if (InitialPaths.find().count()) {
 		if (!Session.get('selectedSchoolYearId')) {
 			Session.set('selectedSchoolYearId', schoolYearId(startYear));
-		}
-
-		if (!Session.get('selectedStudentId')) {
-			Session.set('selectedStudentId', Students.findOne({}, {sort: {birthday: 1, lastName: 1, firstName: 1}})._id);
 		}
 
 		if (!Session.get('selectedTermId') && Session.get('selectedSchoolYearId')) {
@@ -79,7 +93,6 @@ function navbarData(context) {
 	    }
 	} else {
 			Session.set('selectedSchoolYearId', 'empty');
-			Session.set('selectedStudentId', 'empty');
 	    	Session.set('selectedTermId', 'empty');
 	    	Session.set('selectedWeekId', 'empty');
 	}

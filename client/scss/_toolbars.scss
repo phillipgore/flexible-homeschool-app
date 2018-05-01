@@ -4,7 +4,7 @@
 	top: 0px;
 	right: 0px;
 	left: 0px;
-	z-index: 50;
+	z-index: 100;
 	text-align: center;
 	color: $color-white;
 
@@ -28,6 +28,54 @@
 		font-size: 20px; 
 		margin-top: 13px;
 	}
+
+	&.toolbar-small, &.toolbar-large {
+		display: none;
+	}
+
+	@media only screen and (min-width: 768px) {
+		display: none;
+
+		&.toolbar-small {
+			display: block;
+
+			.toolbar-small-left {
+				width: 144px;
+				float: left;
+				display: inline-block;
+			}
+
+			.toolbar-small-right {
+				float: right;
+				display: inline-block;
+				padding-right: 18px;
+			}
+		}
+	}
+
+	@media only screen and (min-width: 896px) {
+		display: none;
+
+		&.toolbar-small {
+			display: none;
+		}
+
+		&.toolbar-large {
+			display: block;
+
+			.toolbar-large-left {
+				width: 288px;
+				float: left;
+				display: inline-block;
+			}
+
+			.toolbar-large-right {
+				float: right;
+				display: inline-block;
+				padding-right: 18px;
+			}
+		}
+	}
 }
 
 .subbar {
@@ -47,6 +95,12 @@
 	left: 0px;
 	background-color: $color-gray-lightest;
 	border-top: 1px solid $color-gray-dark;
+
+	@media only screen and (min-width: 896px) {
+		position: static;
+		background-color: transparent;
+		border: none;
+	}
 }
 
 .navbar-badge {

@@ -17,7 +17,8 @@ FlowRouter.route('/planning/students/list', {
 	name: 'studentsList',
 	action() {
 		BlazeLayout.render('app', {
-			frameOne: 'studentsList',
+			frameOne: 'planningList',
+			frameTwo: 'studentsList',
 		});
 	},
 });
@@ -26,7 +27,9 @@ FlowRouter.route('/planning/students/new', {
 	name: 'studentsNew',
 	action() {
 		BlazeLayout.render('app', {
-			frameOne: 'studentsNew',
+			frameOne: 'planningList',
+			frameTwo: 'studentsList',
+			frameThree: 'studentsNew',
 		});
 	},
 });
@@ -35,7 +38,9 @@ FlowRouter.route('/planning/students/view/:selectedStudentId', {
 	name: 'studentsView',
 	action() {
 		BlazeLayout.render('app', {
-			frameOne: 'studentsView',
+			frameOne: 'planningList',
+			frameTwo: 'studentsList',
+			frameThree: 'studentsView',
 		});
 	},
 });
@@ -44,7 +49,9 @@ FlowRouter.route('/planning/students/edit/:selectedStudentId', {
 	name: 'studentsEdit',
 	action() {
 		BlazeLayout.render('app', {
-			frameOne: 'studentsEdit',
+			frameOne: 'planningList',
+			frameTwo: 'studentsList',
+			frameThree: 'studentsEdit',
 		});
 	},
 });

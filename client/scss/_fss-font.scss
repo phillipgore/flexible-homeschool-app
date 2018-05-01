@@ -23,6 +23,24 @@ i {
     -moz-osx-font-smoothing: grayscale;
 }
 
+.fss-back-circle:before {
+  content: "\e93b";
+}
+.fss-users-new:before {
+  content: "\e93a";
+}
+.fss-resources-new:before {
+  content: "\e936";
+}
+.fss-school-years-new:before {
+  content: "\e937";
+}
+.fss-students-new:before {
+  content: "\e938";
+}
+.fss-subjects-new:before {
+  content: "\e939";
+}
 .fss-print:before {
   content: "\e935";
 }

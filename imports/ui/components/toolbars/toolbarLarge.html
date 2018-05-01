@@ -1,0 +1,82 @@
+<template name="toolbarLarge">
+	<header class="toolbar toolbar-large toolbar-primary">
+		<div class="row">
+			<div class="toolbar-large-left">
+				{{> navbar}}
+			</div>
+			<div class="toolbar-large-right">
+				<div class="btn-tool-dropdown">
+					<a class="js-dropdown btn-tool" href="#" data-menu="#newPlanning" title="New Student, School Year, Subject or User">
+						<i class="fss-new-circle btn-tool-icon"></i>
+					</a>
+					<ul id="newPlanning" class="dropdown-menu dropdown-tool txt-tn-left m-tn-rl-9 hide">
+						<div class="dropdown-arrow"></div>
+						<li class="dropdown-item">
+							<a class="dropdown-item-link" href="{{pathFor 'studentsNew'}}">
+								<i class="fss-students fss-fw-16 m-tn-r-4"></i> Student
+							</a>
+						</li>
+						<li class="dropdown-item">
+							<a class="dropdown-item-link" href="{{pathFor 'schoolYearsNew'}}">
+								<i class="fss-school-years fss-fw-16 m-tn-r-4"></i> School Year
+							</a>
+						</li>
+						<li class="dropdown-item">
+							<a class="dropdown-item-link" href="{{pathFor 'subjectsNew'}}">
+								<i class="fss-subjects fss-fw-16 m-tn-r-4"></i> Subject
+							</a>
+						</li>
+						<li class="dropdown-item">
+							<a class="dropdown-item-link" href="{{pathFor 'usersNew'}}">
+								<i class="fss-users fss-fw-16 m-tn-r-4"></i> User
+							</a>
+						</li>
+					</ul>
+				</div>
+
+				<div class="btn-tool-dropdown">
+					<a class="js-dropdown btn-tool btn-tool-icn-lg" href="#" data-menu="#newResources" title="New Resource">
+						<i class="fss-resources-new btn-tool-icon"></i>
+					</a>
+					<ul id="newResources" class="dropdown-menu dropdown-tool txt-tn-left m-tn-rl-9 hide">
+						<div class="dropdown-arrow"></div>
+						<li class="dropdown-item">
+							<a class="dropdown-item-link" href="{{pathFor 'resourcesNew' selectedResourceType='book'}}">
+								<i class="fss-book fss-fw-16 m-tn-r-4"></i> Book
+							</a>
+						</li>
+						<li class="dropdown-item">
+							<a class="dropdown-item-link" href="{{pathFor 'resourcesNew' selectedResourceType='link'}}">
+								<i class="fss-link fss-fw-16 m-tn-r-4"></i> Link
+							</a>
+						</li>
+						<li class="dropdown-item">
+							<a class="dropdown-item-link" href="{{pathFor 'resourcesNew' selectedResourceType='video'}}">
+								<i class="fss-video fss-fw-16 m-tn-r-4"></i> Video
+							</a>
+						</li>
+						<li class="dropdown-item">
+							<a class="dropdown-item-link" href="{{pathFor 'resourcesNew' selectedResourceType='audio'}}">
+								<i class="fss-audio fss-fw-16 m-tn-r-4"></i> Audio
+							</a>
+						</li>
+						<li class="dropdown-item">
+							<a class="dropdown-item-link" href="{{pathFor 'resourcesNew' selectedResourceType='app'}}">
+								<i class="fss-app fss-fw-16 m-tn-r-4"></i> App
+							</a>
+						</li>
+					</ul>
+				</div>
+
+				<div class="btn-tool-spacer"></div>
+
+				<a class="btn-tool" href="#" title="Edit Selection">
+					<i class="fss-edit btn-tool-icon"></i>
+				</a>
+				<a class="btn-tool" href="#" title="Delete Selection">
+					<i class="fss-delete btn-tool-icon"></i>
+				</a>
+			</div>
+		</div>
+	</header>
+</template>

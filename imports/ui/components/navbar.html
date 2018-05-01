@@ -1,34 +1,34 @@
 <template name="navbar">
 	<nav class="navbar row">
-		<div class="col-md-3of4 offset-md-1of8 | col-lg-2of5 offset-lg-3of10">
+		<div class="col-md-3of4 offset-md-1of8 | col-lg-4of5 offset-lg-1of10">
 			<div class="col-tn-1of4">
 				{{#if userRestricted user.info.role}}
-					<span data-section="planning" data-role="{{user.info.role}}" class="js-navbar-restricted btn-nav disabled">
+					<span data-section="planning" data-role="{{user.info.role}}" class="js-navbar-restricted btn-nav first disabled" title="Planning">
 						<i class="fss-planning btn-nav-icon"></i>
 						<div class="btn-nav-label">Planning</div>
 					</span>
 				{{else}}
-					<a class="js-btn-nav js-btn-nav-planning-list btn-nav {{active 'planningList'}}" href="{{pathFor 'planningList'}}">
+					<a class="js-btn-nav js-btn-nav-planning-list btn-nav first {{active 'planningList'}}" href="{{pathFor 'studentsView' selectedStudentId=selectedStudentId}}" title="Planning">
 						<i class="fss-planning btn-nav-icon"></i>
 						<div class="btn-nav-label">Planning</div>
 					</a>
 				{{/if}}
 			</div>
 			<div class="col-tn-1of4">
-				<a class="js-btn-nav js-btn-nav-tracking-list btn-nav {{active 'trackingList'}}" href="{{pathFor 'trackingList' selectedSchoolYearId=selectedSchoolYearId selectedTermId=selectedTermId}}">
+				<a class="js-btn-nav js-btn-nav-tracking-list btn-nav {{active 'trackingList'}}" href="{{pathFor 'trackingList' selectedSchoolYearId=selectedSchoolYearId selectedTermId=selectedTermId}}" title="Tracking">
 					<i class="fss-tracking btn-nav-icon"></i>
 					<div class="btn-nav-label">Tracking</div>
 				</a>
 			</div>
 			<div class="col-tn-1of4">
-				<a class="js-btn-nav js-btn-nav-reporting-list btn-nav {{active 'reportingList'}}" href="{{pathFor 'reportingList' selectedSchoolYearId=selectedSchoolYearId selectedStudentId=selectedStudentId}}">
+				<a class="js-btn-nav js-btn-nav-reporting-list btn-nav {{active 'reportingList'}}" href="{{pathFor 'reportingList' selectedSchoolYearId=selectedSchoolYearId selectedStudentId=selectedStudentId}}" title="Reporting">
 					<i class="fss-reporting btn-nav-icon"></i>
 					<div class="btn-nav-label">Reporting</div>
 				</a>
 			</div>
 			<div class="col-tn-1of4">
 				{{#if group.stripePaymentAttempt}}<div class="navbar-badge"></div>{{/if}}
-				<a class="js-btn-nav js-btn-nav-settings-list btn-nav {{active 'settingsList'}}" href="{{pathFor 'settingsList'}}">
+				<a class="js-btn-nav js-btn-nav-settings-list btn-nav last {{active 'settingsList'}}" href="{{pathFor 'settingsList'}}" title="Settings">
 					<i class="fss-settings btn-nav-icon"></i>
 					<div class="btn-nav-label">Settings</div>
 				</a>

@@ -3,7 +3,7 @@
 	<main class="app-content no-subbar app-content-preceeds-toolbar">
 		<ul class="list">
 			<li class="list-item">
-				<a href="/planning/students/list" class="list-item-link p-tn-rl-9">
+				<a href="{{pathFor 'studentsView' selectedStudentId=selectedStudentId}}" class="list-item-link p-tn-rl-9 {{#if active studentView}}active{{/if}}">
 					<div class="list-item-icon"><i class="txt-primary fss-students"></i></div> 
 					<div class="list-item-label">Students</div>
 				</a>
