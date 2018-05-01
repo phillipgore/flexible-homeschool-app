@@ -5,6 +5,7 @@ import './studentsView.html';
 Template.studentsView.onCreated( function() {
 	// Subscriptions
 	this.subscribe('student', FlowRouter.getParam('selectedStudentId'));
+	Session.set('selectedStudentId', FlowRouter.getParam('selectedStudentId'));
 });
 
 Template.studentsView.onRendered( function() {
