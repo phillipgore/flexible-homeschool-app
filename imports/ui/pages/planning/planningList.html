@@ -3,19 +3,19 @@
 	<main class="app-content no-subbar app-content-preceeds-toolbar">
 		<ul class="list">
 			<li class="list-item">
-				<a href="{{pathFor 'studentsView' selectedStudentId=selectedStudentId}}" class="list-item-link p-tn-rl-9 {{#if active studentView}}active{{/if}}">
+				<a href="/planning/students/view/{{selectedStudentId}}" class="list-item-link p-tn-rl-9 {{#if active currentRouteName 'studentsView'}}active{{/if}}">
 					<div class="list-item-icon"><i class="txt-primary fss-students"></i></div> 
-					<div class="list-item-label">Students</div>
+					<div class="list-item-label">Students {{selectedStudentId}}</div>
 				</a>
 			</li>
 			<li class="list-item">
-				<a href="/planning/schoolyears/list" class="list-item-link p-tn-rl-9">
+				<a href="/planning/schoolyears/view/{{selectedSchoolYearId}}" class="list-item-link p-tn-rl-9 {{#if active currentRouteName 'schoolYearsView'}}active{{/if}}">
 					<div class="list-item-icon"><i class="txt-primary fss-school-years"></i></div> 
-					<div class="list-item-label">School Years</div>
+					<div class="list-item-label">School Years {{selectedSchoolYearId}}</div>
 				</a>
 			</li>
 			<li class="list-item">
-				<a href="/planning/resources/list/{{selectedResourceType}}/{{selectedResourceAvailability}}" class="list-item-link p-tn-rl-9">
+				<a href="/planning/resources/list/{{selectedResourceType}}/{{selectedResourceAvailability}}" class="list-item-link p-tn-rl-9 {{#if active currentRouteName 'resourcesView'}}active{{/if}}">
 					<div class="list-item-icon"><i class="txt-primary fss-resources"></i></div> 
 					<div class="list-item-label">Resources</div>
 				</a>
@@ -29,13 +29,14 @@
 				</li>
 			{{else}}
 				<li class="list-item">
-					<a href="{{pathFor 'subjectsList' selectedSchoolYearId=selectedSchoolYearId selectedStudentId=selectedStudentId}}" class="list-item-link p-tn-rl-9">
+					<a href="{{pathFor 'subjectsList' selectedSchoolYearId=selectedSchoolYearId selectedStudentId=selectedStudentId}}" class="list-item-link p-tn-rl-9 {{#if active currentRouteName 'subjectsView'}}active{{/if}}">
 						<div class="list-item-icon"><i class="txt-gray-dark fss-subjects"></i></div> 
 						<div class="list-item-label txt-gray-darker">Subjects</div>
 					</a>
 				</li>
 			{{/if}}
 		</ul>
+		{{test.selectedFramePosition}}
 	</main>
 	{{#unless Template.subscriptionsReady}}
 		{{> loading}}

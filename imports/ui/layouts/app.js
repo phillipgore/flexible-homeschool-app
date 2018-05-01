@@ -20,8 +20,8 @@ import '../components/navbar.js';
 	import '../components/subbars/subbarTrackingStudent.js';
 	// Toolbars
 	import '../components/toolbars/toolbar.js';
-	import '../components/toolbars/toolbarSmall.html';
-	import '../components/toolbars/toolbarLarge.html';
+	import '../components/toolbars/toolbarSmall.js';
+	import '../components/toolbars/toolbarLarge.js';
 	import '../components/toolbars/toolbarLogo.html';
 	import '../components/toolbars/toolbarPrint.js';
 	import '../components/toolbars/toolbarResources.js';
@@ -114,18 +114,9 @@ import moment from 'moment';
 
 Alerts = new Mongo.Collection(null);
 
-
 Template.app.helpers({
 	alerts: function() {
 		return Alerts.find();
-	},
-
-	backButton() {
-		// console.log(Session.get('selectedFramePosition'))
-		if (Session.get('selectedFramePosition') === 1 || Session.get('selectedFramePosition') === 2) {
-			return false;
-		}
-		return true;
 	},
 });
 
@@ -191,11 +182,11 @@ Template.app.events({
 
 	'click .js-btn-back'(event) {
 		let newFramePosition = Session.get('selectedFramePosition') - 1;
-		console.log(newFramePosition)
 
 		if (newFramePosition === 2) {
 			$('.frame-contaner-inner').removeClass('frame-position-three');
 			$('.frame-contaner-inner').addClass('frame-position-two');
+			Session.set('selectedFramePosition', 2);
 		} else {
 			$('.frame-contaner-inner').removeClass('frame-position-two, frame-position-three');
 			Session.set('selectedFramePosition', 1);

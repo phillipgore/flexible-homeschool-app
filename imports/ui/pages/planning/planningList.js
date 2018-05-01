@@ -4,8 +4,7 @@ import { Students } from '../../../api/students/students.js';
 import { SchoolYears } from '../../../api/schoolYears/schoolYears.js';
 import './planningList.html';
 
-Template.planningList.onRendered( function() {
-	// Toolbar Settings
+Template.planningList.onRendered( function() {// Toolbar Settings
 	Session.set({
 		leftUrl: '',
 		leftIcon: '',
@@ -50,10 +49,10 @@ Template.planningList.helpers({
 		return Session.get('selectedResourceAvailability');
 	},
 
-	active: function(route) {
-		if (FlowRouter.current().name === route) {
+	active: function(currentRoute, route) {
+		if (currentRoute === route) {
 			return true;
 		}
 		return false;
-	}
+	},
 });

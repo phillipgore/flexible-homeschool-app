@@ -5,6 +5,10 @@ import './schoolYearsList.html';
 Template.schoolYearsList.onCreated( function() {
 	// Subscriptions
 	this.subscribe('allSchoolYears');
+
+	Tracker.autorun(function() {
+		Session.set('selectedSchoolYearId', FlowRouter.getParam('selectedSchoolYearId'));
+	});
 });
 
 Template.schoolYearsList.onRendered( function() {
@@ -25,6 +29,17 @@ Template.schoolYearsList.helpers({
 	schoolYears: function() {
 		return SchoolYears.find({}, {sort: {startYear: 1}});
 	},
+
+	selectedSchoolYearId: function() {
+		return FlowRouter.getParam('selectedSchoolYearId');
+	},
+
+	active: function(currentId, id) {
+		if (currentId === id) {
+			return true;
+		}
+		return false;
+	}
 });
 
 Template.schoolYearsList.events({

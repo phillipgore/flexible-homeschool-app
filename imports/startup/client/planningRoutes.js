@@ -74,7 +74,9 @@ FlowRouter.route('/planning/schoolyears/list', {
 	name: 'schoolYearsList',
 	action() {
 		BlazeLayout.render('app', {
-			frameOne: 'schoolYearsList',
+			frameOne: 'planningList',
+			frameTwo: 'schoolYearsList',
+			frameThree: 'schoolYearsView',
 		});
 	},
 });
@@ -83,7 +85,9 @@ FlowRouter.route('/planning/schoolyears/view/:selectedSchoolYearId', {
 	name: 'schoolYearsView',
 	action() {
 		BlazeLayout.render('app', {
-			frameOne: 'schoolYearsView',
+			frameOne: 'planningList',
+			frameTwo: 'schoolYearsList',
+			frameThree: 'schoolYearsView',
 		});
 	},
 });
@@ -92,7 +96,9 @@ FlowRouter.route('/planning/schoolyears/edit/:selectedSchoolYearId', {
 	name: 'schoolYearsEdit',
 	action() {
 		BlazeLayout.render('app', {
-			frameOne: 'schoolYearsEdit',
+			frameOne: 'planningList',
+			frameTwo: 'schoolYearsList',
+			frameThree: 'schoolYearsView',
 		});
 	},
 });
