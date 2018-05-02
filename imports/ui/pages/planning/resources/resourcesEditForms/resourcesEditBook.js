@@ -12,8 +12,6 @@ Template.resourcesEditBook.onCreated( function() {
 Template.resourcesEditBook.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
-		leftUrl: '',
-		leftIcon: '',
 		label: 'Edit Book Resource',
 		rightUrl: '',
 		rightIcon: '',

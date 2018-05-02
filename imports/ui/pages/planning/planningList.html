@@ -3,19 +3,19 @@
 	<main class="app-content no-subbar app-content-preceeds-toolbar">
 		<ul class="list">
 			<li class="list-item">
-				<a href="/planning/students/view/{{selectedStudentId}}" class="list-item-link p-tn-rl-9 {{#if active currentRouteName 'studentsView'}}active{{/if}}">
+				<a href="/planning/students/view/{{selectedStudentId}}" class="js-planning list-item-link p-tn-rl-9 {{#if active currentRouteName 'studentsView'}}active{{/if}}">
 					<div class="list-item-icon"><i class="txt-primary fss-students"></i></div> 
-					<div class="list-item-label">Students {{selectedStudentId}}</div>
+					<div class="list-item-label">Students</div>
 				</a>
 			</li>
 			<li class="list-item">
-				<a href="/planning/schoolyears/view/{{selectedSchoolYearId}}" class="list-item-link p-tn-rl-9 {{#if active currentRouteName 'schoolYearsView'}}active{{/if}}">
+				<a href="/planning/schoolyears/view/{{selectedSchoolYearId}}" class="js-planning list-item-link p-tn-rl-9 {{#if active currentRouteName 'schoolYearsView'}}active{{/if}}">
 					<div class="list-item-icon"><i class="txt-primary fss-school-years"></i></div> 
-					<div class="list-item-label">School Years {{selectedSchoolYearId}}</div>
+					<div class="list-item-label">School Years</div>
 				</a>
 			</li>
 			<li class="list-item">
-				<a href="/planning/resources/list/{{selectedResourceType}}/{{selectedResourceAvailability}}" class="list-item-link p-tn-rl-9 {{#if active currentRouteName 'resourcesView'}}active{{/if}}">
+				<a href="/planning/resources/view/{{selectedResourceType}}/{{selectedResourceAvailability}}/{{selectedResourceId}}" class="js-planning list-item-link p-tn-rl-9 {{#if active currentRouteName 'resourcesView'}}active{{/if}}">
 					<div class="list-item-icon"><i class="txt-primary fss-resources"></i></div> 
 					<div class="list-item-label">Resources</div>
 				</a>
@@ -29,7 +29,7 @@
 				</li>
 			{{else}}
 				<li class="list-item">
-					<a href="{{pathFor 'subjectsList' selectedSchoolYearId=selectedSchoolYearId selectedStudentId=selectedStudentId}}" class="list-item-link p-tn-rl-9 {{#if active currentRouteName 'subjectsView'}}active{{/if}}">
+					<a href="{{pathFor 'subjectsList' selectedSchoolYearId=selectedSchoolYearId selectedStudentId=selectedStudentId}}" class="js-planning list-item-link p-tn-rl-9 {{#if active currentRouteName 'subjectsView'}}active{{/if}}">
 						<div class="list-item-icon"><i class="txt-gray-dark fss-subjects"></i></div> 
 						<div class="list-item-label txt-gray-darker">Subjects</div>
 					</a>

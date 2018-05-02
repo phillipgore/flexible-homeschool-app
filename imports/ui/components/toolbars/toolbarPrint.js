@@ -2,11 +2,11 @@ import {Template} from 'meteor/templating';
 import './toolbarPrint.html';
 
 Template.toolbarPrint.helpers({
-	leftUrl() {
-		return Session.get('leftUrl');
-	},
-	leftIcon() {
-		return Session.get('leftIcon');
+	backButton: function() {
+		if (Session.get('selectedFramePosition') === 1) {
+			return false;
+		}
+		return true;
 	},
 	label() {
 		return Session.get('label');

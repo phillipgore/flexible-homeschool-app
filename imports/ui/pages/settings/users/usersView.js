@@ -9,8 +9,6 @@ Template.usersView.onCreated( function() {
 Template.usersView.onRendered( function() {
 	// ToolbarView Settings
 	Session.set({
-		leftUrl: '/settings/users/list',
-		leftIcon: 'fss-back',
 		label: 'User',
 		editUrl: '/settings/users/edit/' + FlowRouter.getParam('selectedUserId'),
 	});

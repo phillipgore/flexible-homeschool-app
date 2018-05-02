@@ -9,8 +9,6 @@ Template.usersEdit.onCreated( function() {
 Template.usersEdit.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
-		leftUrl: '',
-		leftIcon: '',
 		label: 'Edit User',
 		rightUrl: '',
 		rightIcon: '',

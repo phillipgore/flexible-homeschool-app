@@ -20,8 +20,6 @@ Template.trackingList.onCreated( function() {
 Template.trackingList.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
-		leftUrl: '',
-		leftIcon: '',
 		label: 'Tracking',
 		rightUrl: '',
 		rightIcon: '',

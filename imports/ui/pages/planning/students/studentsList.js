@@ -5,17 +5,11 @@ import './studentsList.html';
 Template.studentsList.onCreated( function() {
 	// Subscriptions
 	this.subscribe('allStudents');
-
-	Tracker.autorun(function() {
-		Session.set('selectedStudentId', FlowRouter.getParam('selectedStudentId'));
-	});
 });
 
 Template.studentsList.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
-		leftUrl: '/planning/list',
-		leftIcon: 'fss-back',
 		label: 'Students',
 		rightUrl: '/planning/students/new',
 		rightIcon: 'fss-new',
@@ -34,8 +28,8 @@ Template.studentsList.helpers({
 		return FlowRouter.getParam('selectedStudentId');
 	},
 
-	active: function(currentId, id) {
-		if (currentId === id) {
+	active: function(id) {
+		if (Session.get('selectedStudentId') === id) {
 			return true;
 		}
 		return false;

@@ -5,17 +5,11 @@ import './schoolYearsList.html';
 Template.schoolYearsList.onCreated( function() {
 	// Subscriptions
 	this.subscribe('allSchoolYears');
-
-	Tracker.autorun(function() {
-		Session.set('selectedSchoolYearId', FlowRouter.getParam('selectedSchoolYearId'));
-	});
 });
 
 Template.schoolYearsList.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
-		leftUrl: '/planning/list',
-		leftIcon: 'fss-back',
 		label: 'School Years',
 		rightUrl: '/planning/schoolyears/new',
 		rightIcon: 'fss-new',
@@ -34,14 +28,10 @@ Template.schoolYearsList.helpers({
 		return FlowRouter.getParam('selectedSchoolYearId');
 	},
 
-	active: function(currentId, id) {
-		if (currentId === id) {
+	active: function(id) {
+		if (Session.get('selectedSchoolYearId') === id) {
 			return true;
 		}
 		return false;
 	}
-});
-
-Template.schoolYearsList.events({
-	
 });

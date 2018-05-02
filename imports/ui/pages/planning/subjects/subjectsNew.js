@@ -38,8 +38,6 @@ Template.subjectsNew.onRendered( function() {
 
 	// Toolbar Settings
 	Session.set({
-		leftUrl: '',
-		leftIcon: '',
 		label: 'New Subject',
 		rightUrl: '',
 		rightIcon: '',

@@ -18,10 +18,9 @@ Meteor.publish('initialIds', function() {
 		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
 
 		let studentId = Students.findOne({groupId: groupId, deletedOn: { $exists: false }}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}})._id;
-		let schoolYearId = SchoolYears.findOne({groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}})._id;
 		let resourceId = Resources.findOne({groupId: groupId, deletedOn: { $exists: false }}, {sort: {title: 1}})._id;
 		
-		self.added('initialIds', Random.id(), {studentId: studentId, schoolYearId: schoolYearId, resourceId: resourceId});
+		self.added('initialIds', Random.id(), {studentId: studentId, resourceId: resourceId});
 
 		self.ready();
 	});

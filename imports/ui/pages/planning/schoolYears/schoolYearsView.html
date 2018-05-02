@@ -20,8 +20,11 @@
 				<p>{{termWeeks term._id}}</p>
 			{{/each}}
 		</div>
-	</main>
 	{{#unless Template.subscriptionsReady}}
+		<div class="orange">Wow!</div>
+	{{/unless}}
+	</main>
+	{{#unless subscriptionReady}}
 		{{> loading}}
 	{{/unless}}
 </template>

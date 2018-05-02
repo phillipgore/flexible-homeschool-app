@@ -10,8 +10,6 @@ Template.studentsEdit.onCreated( function() {
 Template.studentsEdit.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
-		leftUrl: '',
-		leftIcon: '',
 		label: 'Edit Student',
 		rightUrl: '',
 		rightIcon: '',

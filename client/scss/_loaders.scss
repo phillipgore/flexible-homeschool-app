@@ -43,3 +43,53 @@
 		}
 	}
 }
+
+.frame-one{
+	.loading-container {
+		z-index: 5000;
+	}
+}
+
+@media only screen and (min-width: 640px) {
+	.frame-two {
+		.loading-container {
+			width: 50%;
+			left: auto;
+			border-left: 1px solid $color-gray;
+		}
+	}
+
+	.frame-three {
+		.loading-container {
+			width: 50%;
+			left: auto;
+			border-left: 1px solid $color-gray;
+		}
+	}
+}
+
+@media only screen and (min-width: 896px) {
+	.frame-two {
+		.loading-container {
+			left: 288px;
+			width: 288px;
+		}
+	}
+
+	.frame-three {
+		.loading-container {
+			width: calc(100% - 576px);
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+
+

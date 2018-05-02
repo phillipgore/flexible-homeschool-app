@@ -1,28 +1,6 @@
 import _ from 'lodash'
 
-FlowRouter.route('/planning/list', {
-	name: 'planningList',
-	action() {
-		BlazeLayout.render('app', {
-			frameOne: 'planningList',
-		});
-	},
-});
-
-
-
-
 // Students
-FlowRouter.route('/planning/students/list', {
-	name: 'studentsList',
-	action() {
-		BlazeLayout.render('app', {
-			frameOne: 'planningList',
-			frameTwo: 'studentsList',
-		});
-	},
-});
-
 FlowRouter.route('/planning/students/new', {
 	name: 'studentsNew',
 	action() {
@@ -65,18 +43,9 @@ FlowRouter.route('/planning/schoolyears/new', {
 	action() {
 		LocalTerms.remove();
 		BlazeLayout.render('app', {
-			frameOne: 'schoolYearsNew',
-		});
-	},
-});
-
-FlowRouter.route('/planning/schoolyears/list', {
-	name: 'schoolYearsList',
-	action() {
-		BlazeLayout.render('app', {
 			frameOne: 'planningList',
 			frameTwo: 'schoolYearsList',
-			frameThree: 'schoolYearsView',
+			frameThree: 'schoolYearsNew',
 		});
 	},
 });
@@ -107,40 +76,36 @@ FlowRouter.route('/planning/schoolyears/edit/:selectedSchoolYearId', {
 
 
 // Resources
-FlowRouter.route('/planning/resources/list/:selectedResourceType/:selectedResourceAvailability', {
-	name: 'resourcesList',
-	action() {
-		BlazeLayout.reset();
-		BlazeLayout.render('app', {
-			frameOne: 'resourcesList',
-		});
-	},
-});
-
-FlowRouter.route('/planning/resources/new/:selectedResourceType', {
+FlowRouter.route('/planning/resources/new/:selectedResourceType/:selectedResourceAvailability/:selectedResourceType', {
 	name: 'resourcesNew',
 	action: function(params) {
 		BlazeLayout.render('app', {
-			frameOne: 'resourcesNew' + _.capitalize(params.selectedResourceType),
+			frameOne: 'planningList',
+			frameTwo: 'resourcesList',
+			frameThree: 'resourcesNew' + _.capitalize(params.selectedResourceType),
 		});
 	},
 });
 
 
-FlowRouter.route('/planning/resources/view/:selectedResourceId', {
+FlowRouter.route('/planning/resources/view/:selectedResourceType/:selectedResourceAvailability/:selectedResourceId', {
 	name: 'resourcesView',
 	action() {
 		BlazeLayout.render('app', {
-			frameOne: 'resourcesView',
+			frameOne: 'planningList',
+			frameTwo: 'resourcesList',
+			frameThree: 'resourcesView',
 		});
 	},
 });
 
-FlowRouter.route('/planning/resources/edit/:selectedResourceId/:selectedResourceType', {
+FlowRouter.route('/planning/resources/edit/:selectedResourceId/:selectedResourceType/:selectedResourceId', {
 	name: 'resourcesEdit',
 	action: function(params, queryParams) {
 		BlazeLayout.render('app', {
-			frameOne: 'resourcesEdit' + _.capitalize(params.selectedResourceType),
+			frameOne: 'planningList',
+			frameTwo: 'resourcesList',
+			frameThree: 'resourcesEdit' + _.capitalize(params.selectedResourceType),
 		});
 	},
 });

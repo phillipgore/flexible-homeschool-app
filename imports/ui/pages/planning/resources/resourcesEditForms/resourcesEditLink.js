@@ -12,8 +12,6 @@ Template.resourcesEditLink.onCreated( function() {
 Template.resourcesEditLink.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
-		leftUrl: '',
-		leftIcon: '',
 		label: 'Edit Link Resource',
 		rightUrl: '',
 		rightIcon: '',

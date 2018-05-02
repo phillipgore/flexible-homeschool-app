@@ -2,11 +2,11 @@ import {Template} from 'meteor/templating';
 import './toolbarUsersView.html';
 
 Template.toolbarUsersView.helpers({
-	leftUrl() {
-		return Session.get('leftUrl');
-	},
-	leftIcon() {
-		return Session.get('leftIcon');
+	backButton: function() {
+		if (Session.get('selectedFramePosition') === 1) {
+			return false;
+		}
+		return true;
 	},
 	label() {
 		return Session.get('label');

@@ -6,8 +6,6 @@ import './resourcesNewBook.html';
 Template.resourcesNewBook.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
-		leftUrl: '',
-		leftIcon: '',
 		label: 'New Book Resource',
 		rightUrl: '',
 		rightIcon: '',

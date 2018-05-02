@@ -12,8 +12,6 @@ Template.resourcesEditVideo.onCreated( function() {
 Template.resourcesEditVideo.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
-		leftUrl: '',
-		leftIcon: '',
 		label: 'Edit Video Resource',
 		rightUrl: '',
 		rightIcon: '',

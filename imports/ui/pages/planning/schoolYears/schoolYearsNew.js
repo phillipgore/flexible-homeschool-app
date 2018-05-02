@@ -13,8 +13,6 @@ Template.schoolYearsNew.onRendered( function() {
 
 	// Toolbar Settings
 	Session.set({
-		leftUrl: '',
-		leftIcon: '',
 		label: 'New School Year',
 		rightUrl: '',
 		rightIcon: '',

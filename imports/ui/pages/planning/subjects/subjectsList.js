@@ -15,8 +15,6 @@ Template.subjectsList.onCreated( function() {
 Template.subjectsList.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
-		leftUrl: '/planning/list',
-		leftIcon: 'fss-back',
 		label: 'Subjects',
 		rightUrl: '/planning/subjects/new',
 		rightIcon: 'fss-new',

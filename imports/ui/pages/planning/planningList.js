@@ -4,10 +4,9 @@ import { Students } from '../../../api/students/students.js';
 import { SchoolYears } from '../../../api/schoolYears/schoolYears.js';
 import './planningList.html';
 
-Template.planningList.onRendered( function() {// Toolbar Settings
+Template.planningList.onRendered( function() {
+	// Toolbar Settings
 	Session.set({
-		leftUrl: '',
-		leftIcon: '',
 		label: 'Planning',
 		rightUrl: '',
 		rightIcon: '',
@@ -49,10 +48,20 @@ Template.planningList.helpers({
 		return Session.get('selectedResourceAvailability');
 	},
 
+	selectedResourceId: function() {
+		return Session.get('selectedResourceId')
+	},
+
 	active: function(currentRoute, route) {
 		if (currentRoute === route) {
 			return true;
 		}
 		return false;
+	},
+});
+
+Template.planningList.events({
+	'click .js-planning'(event) {
+		Session.set('currentPlanningPath', $(event.currentTarget).attr('href'))
 	},
 });

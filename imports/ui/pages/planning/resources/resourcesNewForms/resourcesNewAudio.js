@@ -6,8 +6,6 @@ import './resourcesNewAudio.html';
 Template.resourcesNewAudio.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
-		leftUrl: '',
-		leftIcon: '',
 		label: 'New Audio Resource',
 		rightUrl: '',
 		rightIcon: '',

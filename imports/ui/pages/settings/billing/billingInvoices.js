@@ -32,8 +32,6 @@ Template.billingInvoices.onCreated( function() {
 Template.billingInvoices.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
-		leftUrl: '/settings/billing/list',
-		leftIcon: 'fss-back',
 		label: 'Invoices',
 		rightUrl: '',
 		rightIcon: '',

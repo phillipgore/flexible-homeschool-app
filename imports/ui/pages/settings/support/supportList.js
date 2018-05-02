@@ -4,8 +4,6 @@ import './supportList.html';
 Template.supportList.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
-		leftUrl: '',
-		leftIcon: '',
 		label: 'Support',
 		rightUrl: '',
 		rightIcon: '',

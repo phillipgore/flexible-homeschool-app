@@ -4,8 +4,6 @@ import './studentsNew.html';
 Template.studentsNew.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
-		leftUrl: '',
-		leftIcon: '',
 		label: 'New Student',
 		rightUrl: '',
 		rightIcon: '',

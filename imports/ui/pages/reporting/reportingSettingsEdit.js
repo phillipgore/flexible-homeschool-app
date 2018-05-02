@@ -9,8 +9,6 @@ Template.reportingSettingsEdit.onCreated( function() {
 Template.reportingSettingsEdit.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
-		leftUrl: '',
-		leftIcon: '',
 		label: 'Report Settings',
 		rightUrl: '',
 		rightIcon: '',

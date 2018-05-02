@@ -12,8 +12,6 @@ Template.resourcesEditAudio.onCreated( function() {
 Template.resourcesEditAudio.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
-		leftUrl: '',
-		leftIcon: '',
 		label: 'Edit Audio Resource',
 		rightUrl: '',
 		rightIcon: '',

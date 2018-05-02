@@ -37,8 +37,6 @@ Template.trackingView.onCreated( function() {
 Template.trackingView.onRendered( function() {
 	// ToolbarView Settings
 	Session.set({
-		leftUrl: '/tracking/list/' + FlowRouter.getParam('selectedSchoolYearId') +"/"+ Session.get('selectedTermId'),
-		leftIcon: 'fss-back',
 		label: '',
 	});
 

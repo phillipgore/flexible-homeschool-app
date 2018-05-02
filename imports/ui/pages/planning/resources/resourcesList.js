@@ -21,8 +21,6 @@ Template.resourcesList.onCreated( function() {
 Template.resourcesList.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
-		leftUrl: '/planning/list',
-		leftIcon: 'fss-back',
 		label: 'Resources',
 	});
 
@@ -55,7 +53,6 @@ Template.resourcesList.helpers({
 	},
 
 	availability: function(availability) {
-		console.log(availability)
 		if (availability === 'own') {
 			return 'txt-royal'
 		}

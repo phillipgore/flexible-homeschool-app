@@ -10,8 +10,6 @@ Template.settingsList.onCreated( function() {
 Template.settingsList.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
-		leftUrl: '',
-		leftIcon: '',
 		label: 'Settings',
 		rightUrl: '',
 		rightIcon: '',

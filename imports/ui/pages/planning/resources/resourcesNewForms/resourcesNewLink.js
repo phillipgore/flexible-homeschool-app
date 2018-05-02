@@ -6,8 +6,6 @@ import './resourcesNewLink.html';
 Template.resourcesNewLink.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
-		leftUrl: '',
-		leftIcon: '',
 		label: 'New Link Resource',
 		rightUrl: '',
 		rightIcon: '',

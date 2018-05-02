@@ -10,8 +10,6 @@ Template.resourcesView.onCreated( function() {
 Template.resourcesView.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
-		leftUrl: '/planning/resources/list/' + Session.get('selectedResourceType') +'/'+ Session.get('selectedResourceAvailability'),
-		leftIcon: 'fss-back',
 		label: 'Resource',
 		editUrl: '',
 		deleteClass: 'js-delete-resource',

@@ -148,6 +148,14 @@ Template.app.events({
 	},
 
 
+	// Universal Click Event
+	'click'(event) {
+		if (!$(event.currentTarget).hasClass('js-dropdown')) {
+			$('.dropdown-menu, .list-item-dropdown-menu').fadeOut(100);
+		}
+	},
+
+
 	// FSS Alerts
 	'click .js-alert-close'(event) {
 		event.preventDefault();
@@ -159,13 +167,6 @@ Template.app.events({
 		}, 350);
 	},
 
-
-	// Universal Click Event
-	'click'(event) {
-		if (!$(event.currentTarget).hasClass('js-dropdown')) {
-			$('.dropdown-menu, .list-item-dropdown-menu').fadeOut(100);
-		}
-	},
 
 	// Frame Positon
 	'click .frame-one a'(event) {
@@ -188,9 +189,20 @@ Template.app.events({
 			$('.frame-contaner-inner').addClass('frame-position-two');
 			Session.set('selectedFramePosition', 2);
 		} else {
-			$('.frame-contaner-inner').removeClass('frame-position-two, frame-position-three');
+			$('.frame-contaner-inner').removeClass('frame-position-two');
+			$('.frame-contaner-inner').removeClass('frame-position-three');
 			Session.set('selectedFramePosition', 1);
 		}
+	},
+
+
+	// List Selections
+	'click .js-student'(event) {
+		Session.set('selectedStudentId', $(event.currentTarget).attr('id'));
+	},
+
+	'click .js-school-year'(event) {
+		Session.set('selectedSchoolYearId', $(event.currentTarget).attr('id'));
 	},
 });
 

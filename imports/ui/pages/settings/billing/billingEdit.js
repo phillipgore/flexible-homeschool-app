@@ -24,8 +24,6 @@ Template.billingEdit.onCreated( function() {
 Template.billingEdit.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
-		leftUrl: '',
-		leftIcon: '',
 		label: 'Edit Payment',
 		rightUrl: '',
 		rightIcon: '',

@@ -6,8 +6,6 @@ import './resourcesNewApp.html';
 Template.resourcesNewApp.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
-		leftUrl: '',
-		leftIcon: '',
 		label: 'New App Resource',
 		rightUrl: '',
 		rightIcon: '',

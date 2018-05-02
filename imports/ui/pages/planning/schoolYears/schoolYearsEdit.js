@@ -28,8 +28,6 @@ Template.schoolYearsEdit.onCreated( function() {
 Template.schoolYearsEdit.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
-		leftUrl: '',
-		leftIcon: '',
 		label: 'Edit School Year',
 		rightUrl: '',
 		rightIcon: '',

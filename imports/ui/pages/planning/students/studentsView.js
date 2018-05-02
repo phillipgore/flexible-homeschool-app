@@ -4,15 +4,14 @@ import './studentsView.html';
 
 Template.studentsView.onCreated( function() {
 	// Subscriptions
-	this.subscribe('student', FlowRouter.getParam('selectedStudentId'));
-	Session.set('selectedStudentId', FlowRouter.getParam('selectedStudentId'));
+	Tracker.autorun(() => {
+		this.studentData = Meteor.subscribe('student', FlowRouter.getParam('selectedStudentId'));
+	});
 });
 
 Template.studentsView.onRendered( function() {
 	// ToolbarView Settings
 	Session.set({
-		leftUrl: '/planning/students/list',
-		leftIcon: 'fss-back',
 		label: 'Student',
 		editUrl: '/planning/students/edit/' + FlowRouter.getParam('selectedStudentId'),
 		deleteClass: 'js-delete-student',
@@ -23,6 +22,10 @@ Template.studentsView.onRendered( function() {
 });
 
 Template.studentsView.helpers({
+	subscriptionReady: function() {
+		return Template.instance().studentData.ready();
+	},
+	
 	student: function() {
 		return Students.findOne({_id: FlowRouter.getParam('selectedStudentId')});
 	},

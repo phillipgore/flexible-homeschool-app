@@ -27,8 +27,6 @@ Template.reportingList.onCreated( function() {
 Template.reportingList.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
-		leftUrl: '',
-		leftIcon: '',
 		label: 'Reporting',
 		rightUrl: '',
 		rightIcon: '',

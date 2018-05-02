@@ -102,8 +102,10 @@ ul.list {
 			color: $color-black;
 			position: relative;
 
-			&.active {
-				background-color: $color-gray-lighter;
+			@media only screen and (min-width: 640px) {
+				&.active {
+					background-color: $color-gray-lighter;
+				}
 			}
 
 			&.top-border {

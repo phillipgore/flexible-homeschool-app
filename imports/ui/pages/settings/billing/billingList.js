@@ -23,8 +23,6 @@ Template.billingList.onCreated( function() {
 Template.billingList.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
-		leftUrl: '/settings/list',
-		leftIcon: 'fss-back',
 		label: 'Billing',
 		rightUrl: '',
 		rightIcon: '',

@@ -43,7 +43,7 @@ function schoolYearId(year) {
 
 function checkSignIn(context, redirect) {
 	if (Meteor.userId()) {
-		redirect('/planning/list');
+		redirect('/planning/students/view/' + Session.get('selectedStudentId'));
 	}
 };
 
@@ -76,7 +76,7 @@ function navbarData(context) {
 	    }
 	} else {
 			Session.set('selectedStudentId', 'empty');
-			Session.get('selectedResourceId', 'empty');
+			Session.set('selectedResourceId', 'empty');
 	}
 
 	if (InitialPaths.find().count()) {
@@ -95,6 +95,10 @@ function navbarData(context) {
 			Session.set('selectedSchoolYearId', 'empty');
 	    	Session.set('selectedTermId', 'empty');
 	    	Session.set('selectedWeekId', 'empty');
+	}
+
+	if (!Session.get('currentPlanningPath')) {
+		Session.set('currentPlanningPath', '/planning/students/view/' + Session.get('selectedStudentId'))
 	}
 };
 
@@ -167,7 +171,7 @@ function checkSubjectsAvailable(context) {
 };
 
 FlowRouter.triggers.enter([checkSignIn], {only: ['createAccount', 'verifySent', 'signIn', 'reset', 'resetSent', 'resetPassword']});
-FlowRouter.triggers.enter([checkSignOut, navbarData, checkPaymentError], {except: ['createAccount', 'verifySent', 'signIn', 'reset', 'resetSent', 'resetPassword']});
+FlowRouter.triggers.enter([navbarData, checkSignOut, checkPaymentError], {except: ['createAccount', 'verifySent', 'signIn', 'reset', 'resetSent', 'resetPassword']});
 FlowRouter.triggers.enter([checkSubjectsAvailable], {only: ['subjectsList', 'subjectsNew', 'subjectsView', 'subjectsEdit']});
 FlowRouter.triggers.enter([creditCardData], {except: []});
 

@@ -6,14 +6,14 @@ import './schoolYearsView.html';
 
 Template.schoolYearsView.onCreated( function() {
 	// Subscriptions
-	this.subscribe('schoolYearComplete', FlowRouter.getParam('selectedSchoolYearId'));
+	Tracker.autorun(() => {
+		this.schoolYearData = Meteor.subscribe('schoolYearComplete', FlowRouter.getParam('selectedSchoolYearId'));
+	});
 });
 
 Template.schoolYearsView.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
-		leftUrl: '/planning/schoolYears/list',
-		leftIcon: 'fss-back',
 		label: 'School Year',
 		editUrl: '/planning/schoolyears/edit/' + FlowRouter.getParam('selectedSchoolYearId'),
 		deleteClass: 'js-delete-school-year',
@@ -24,6 +24,10 @@ Template.schoolYearsView.onRendered( function() {
 });
 
 Template.schoolYearsView.helpers({
+	subscriptionReady: function() {
+		return Template.instance().schoolYearData.ready();
+	},
+	
 	schoolYear: function() {
 		return SchoolYears.findOne({_id: FlowRouter.getParam('selectedSchoolYearId')});
 	},

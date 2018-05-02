@@ -12,8 +12,6 @@ Template.resourcesEditApp.onCreated( function() {
 Template.resourcesEditApp.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
-		leftUrl: '',
-		leftIcon: '',
 		label: 'Edit App Resource',
 		rightUrl: '',
 		rightIcon: '',

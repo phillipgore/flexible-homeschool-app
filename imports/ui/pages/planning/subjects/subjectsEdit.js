@@ -49,8 +49,6 @@ Template.subjectsEdit.onCreated( function() {
 Template.subjectsEdit.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
-		leftUrl: '',
-		leftIcon: '',
 		label: 'Edit Subject',
 		rightUrl: '',
 		rightIcon: '',

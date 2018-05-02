@@ -20,7 +20,7 @@
 			<p class="m-tn-b-6">{{dateFormat student.birthday}}</p>
 		</div>
 	</main>
-	{{#unless Template.subscriptionsReady}}
+	{{#unless subscriptionReady}}
 		{{> loading}}
 	{{/unless}}
 </template>

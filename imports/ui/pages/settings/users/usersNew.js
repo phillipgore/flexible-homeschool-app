@@ -9,8 +9,6 @@ Template.usersNew.onCreated( function() {
 Template.usersNew.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
-		leftUrl: '',
-		leftIcon: '',
 		label: 'New User',
 		rightUrl: '',
 		rightIcon: '',

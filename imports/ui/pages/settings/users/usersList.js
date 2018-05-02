@@ -9,8 +9,6 @@ Template.usersList.onCreated( function() {
 Template.usersList.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
-		leftUrl: '/settings/list',
-		leftIcon: 'fss-back',
 		label: 'Users',
 		rightUrl: '/settings/users/new',
 		rightIcon: 'fss-new',

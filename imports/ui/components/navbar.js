@@ -39,6 +39,10 @@ Template.navbar.helpers({
 	selectedTermId: function() {
 		return Session.get('selectedTermId');
 	},
+
+	currentPlanningPath: function() {
+		return Session.get('currentPlanningPath');
+	},
 });
 
 Template.navbar.events({
@@ -53,6 +57,8 @@ Template.navbar.events({
 	},
 
 	'click .js-btn-nav'(event) {
-		$('.frame-contaner-inner').removeClass('frame-position-two, frame-position-three');
+		$('.frame-contaner-inner').removeClass('frame-position-two');
+		$('.frame-contaner-inner').removeClass('frame-position-three');
+		Session.set('selectedFramePosition', 1);
 	},
 });

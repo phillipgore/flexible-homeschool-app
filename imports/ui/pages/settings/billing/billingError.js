@@ -12,8 +12,6 @@ Template.billingError.onCreated( function() {
 Template.billingError.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
-		leftUrl: '',
-		leftIcon: '',
 		label: 'Billing Issues',
 		rightUrl: '',
 		rightIcon: '',

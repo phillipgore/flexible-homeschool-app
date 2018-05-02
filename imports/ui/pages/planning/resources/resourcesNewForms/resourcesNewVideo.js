@@ -6,8 +6,6 @@ import './resourcesNewVideo.html';
 Template.resourcesNewVideo.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
-		leftUrl: '',
-		leftIcon: '',
 		label: 'New Video Resource',
 		rightUrl: '',
 		rightIcon: '',
