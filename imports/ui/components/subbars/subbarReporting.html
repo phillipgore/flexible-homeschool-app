@@ -1,25 +1,23 @@
 <template name="subbarReporting">
-	<asside class="subbar">
-		{{#if reportsAvailable}}
-		<div class="row">
-			<div class="col-tn-5of12">
-				<a id="{{selectedStudentId}}" href="#" data-menu="#students" class="js-dropdown btn-sub">
-					{{selectedStudent.preferredFirstName.name}} {{selectedStudent.lastName}} <i class="fss-caret-down"></i>
-				</a>
-			</div>
-			<div class="col-tn-5of12">
-				<a id="{{selectedSchoolYearId}}" href="#" data-menu="#years" class="js-dropdown btn-sub">
-					{{selectedSchoolYear.startYear}}-{{selectedSchoolYear.endYear}} <i class="fss-caret-down"></i>
-				</a>
-			</div>
-			<div class="col-tn-1of6">
-				<a href="{{pathFor 'reportingSettingsEdit'}}" class="js-report-settings-btn btn-sub last txt-tn-center p-tn-t-7">
-					<i class="fss-actions"></i>
-				</a>
-			</div>
+	{{#if reportsAvailable}}
+	<div class="row">
+		<div class="col-tn-5of12">
+			<a id="{{selectedStudentId}}" href="#" data-menu="#students" class="js-dropdown btn-sub">
+				{{selectedStudent.preferredFirstName.name}} {{selectedStudent.lastName}} <i class="fss-caret-down"></i>
+			</a>
 		</div>
-		{{/if}}
-	</asside>
+		<div class="col-tn-5of12">
+			<a id="{{selectedSchoolYearId}}" href="#" data-menu="#years" class="js-dropdown btn-sub">
+				{{selectedSchoolYear.startYear}}-{{selectedSchoolYear.endYear}} <i class="fss-caret-down"></i>
+			</a>
+		</div>
+		<div class="col-tn-1of6">
+			<a href="{{pathFor 'reportingSettingsEdit'}}" class="js-report-settings-btn btn-sub last txt-tn-center p-tn-t-7">
+				<i class="fss-actions"></i>
+			</a>
+		</div>
+	</div>
+	{{/if}}
 
 	<ul id="students" class="dropdown-menu dropdown-sub m-tn-rl-9 hide">
 		{{#each student in students}}

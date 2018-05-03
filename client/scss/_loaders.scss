@@ -1,6 +1,6 @@
 .loading-container {
 	position: fixed;
-	top: 50px;
+	top: 80px;
 	right: 0px;
 	left: 0px;
 	bottom: 51px;
@@ -71,6 +71,7 @@
 @media only screen and (min-width: 896px) {
 	.frame-two {
 		.loading-container {
+			bottom: 0px;
 			left: 288px;
 			width: 288px;
 		}
@@ -78,6 +79,7 @@
 
 	.frame-three {
 		.loading-container {
+			bottom: 0px;
 			width: calc(100% - 576px);
 		}
 	}

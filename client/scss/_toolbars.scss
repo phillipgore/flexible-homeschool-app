@@ -36,30 +36,6 @@
 	@media only screen and (min-width: 768px) {
 		display: none;
 
-		&.toolbar-small {
-			display: block;
-
-			.toolbar-small-left {
-				width: 144px;
-				float: left;
-				display: inline-block;
-			}
-
-			.toolbar-small-right {
-				float: right;
-				display: inline-block;
-				padding-right: 18px;
-			}
-		}
-	}
-
-	@media only screen and (min-width: 896px) {
-		display: none;
-
-		&.toolbar-small {
-			display: none;
-		}
-
 		&.toolbar-large {
 			display: block;
 

@@ -1,10 +1,15 @@
 import {Template} from 'meteor/templating';
 import {SchoolYears} from '../../../api/schoolYears/schoolYears.js';
 import {Students} from '../../../api/students/students.js';
+import {Subjects} from '../../../api/subjects/subjects.js';
 import moment from 'moment';
 import './subbarSubjects.html';
 
 Template.subbarSubjects.helpers({
+	subjectsCount: function() {
+		return Subjects.find().count();
+	},
+
 	schoolYears: function() {
 		return SchoolYears.find({}, {sort: {startYear: 1}});
 	},

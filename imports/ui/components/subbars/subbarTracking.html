@@ -1,26 +1,24 @@
 <template name="subbarTracking">
-	<asside class="subbar">
-		{{#if schoolYears.count}}			
-			<div class="row">
-				<div class="col-tn-1of2">
-					<a id="{{selectedSchoolYearId}}" href="#" data-menu="#years" class="js-dropdown btn-sub">
-						{{selectedSchoolYear.startYear}}-{{selectedSchoolYear.endYear}} <i class="fss-caret-down"></i>
-					</a>
-				</div>
-				<div class="col-tn-1of2">
-					{{#if terms.count}}
-						<a id="{{selectedTermId}}" href="#" data-menu="#terms" class="js-dropdown btn-sub last">
-							Term {{selectedTerm.order}} <i class="fss-caret-down"></i>
-						</a>
-					{{else}}
-						<span class="js-dropdown btn-sub txt-gray-darkest last">
-							No Terms
-						</span>
-					{{/if}}
-				</div>
+	{{#if schoolYears.count}}			
+		<div class="row">
+			<div class="col-tn-1of2">
+				<a id="{{selectedSchoolYearId}}" href="#" data-menu="#years" class="js-dropdown btn-sub">
+					{{selectedSchoolYear.startYear}}-{{selectedSchoolYear.endYear}} <i class="fss-caret-down"></i>
+				</a>
 			</div>
-		{{/if}}
-	</asside>
+			<div class="col-tn-1of2">
+				{{#if terms.count}}
+					<a id="{{selectedTermId}}" href="#" data-menu="#terms" class="js-dropdown btn-sub last">
+						Term {{selectedTerm.order}} <i class="fss-caret-down"></i>
+					</a>
+				{{else}}
+					<span class="js-dropdown btn-sub txt-gray-darkest last">
+						No Terms
+					</span>
+				{{/if}}
+			</div>
+		</div>
+	{{/if}}
 
 	<ul id="years" class="dropdown-menu dropdown-sub m-tn-rl-9 hide">
 		{{#each schoolYear in schoolYears}}

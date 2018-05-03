@@ -11,7 +11,6 @@ import '../components/navbar.js';
 	import '../components/loaders/saving.js';
 	import '../components/loaders/updating.js';
 	// Subbars
-	import '../components/subbars/subbar.html';
 	import '../components/subbars/subbarAccounts.html';
 	import '../components/subbars/subbarReporting.js';
 	import '../components/subbars/subbarResources.js';

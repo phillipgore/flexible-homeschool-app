@@ -1,5 +1,5 @@
 <template name="subbarResources">
-	<asside class="subbar">
+	{{#if resourceCount 'all' 'all'}}
 		<div class="row">
 			<div class="col-tn-1of2">
 				<a id="{{selectedResourceType}}" href="#" data-menu="#types" class="js-dropdown btn-sub">
@@ -18,7 +18,7 @@
 				{{/unless}}
 			</div>
 		</div>
-	</asside>
+	{{/if}}
 
 	<ul id="types" class="dropdown-menu dropdown-sub m-tn-rl-9 hide">
 		{{#each type in types}}

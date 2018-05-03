@@ -1,10 +1,5 @@
 <template name="subjectsList">
 	{{> toolbar}}
-	{{#if subjectsCount}}
-		{{> subbarSubjects}}
-	{{else}}
-		{{> subbar}}
-	{{/if}}
 	<main class="app-content app-content-preceeds-toolbar">
 		{{#if subjectsCount}}
 			{{#if subjects.count}}

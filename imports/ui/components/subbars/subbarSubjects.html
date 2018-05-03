@@ -1,5 +1,5 @@
 <template name="subbarSubjects">
-	<asside class="subbar">
+	{{#if subjectsCount}}
 		<div class="row">
 			<div class="col-tn-1of2">
 				<a id="{{selectedStudent._id}}" href="#" data-menu="#students" class="js-dropdown btn-sub">
@@ -12,7 +12,7 @@
 				</a>
 			</div>
 		</div>
-	</asside>
+	{{/if}}
 
 	<ul id="students" class="dropdown-menu dropdown-sub m-tn-rl-9 hide">
 		{{#each student in students}}

@@ -20,6 +20,10 @@ Template.subbarResources.helpers({
 		{_id: 'need', label: 'I Need It'},
 	],
 
+	resourceCount: function(type, availability) {
+		return Counts.get(type + _.capitalize(availability) + 'Count');
+	},
+
 	selectedResourceType: function() {
 		return Session.get('selectedResourceType');
 	},

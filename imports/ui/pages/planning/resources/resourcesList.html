@@ -1,10 +1,5 @@
 <template name="resourcesList">
 	{{> toolbarResources}}
-	{{#if resourceCount 'all' 'all'}}
-		{{> subbarResources}}
-	{{else}}
-		{{> subbar}}
-	{{/if}}
 	<main class="app-content app-content-preceeds-toolbar">
 		{{#if resourceCount 'all' 'all'}}
 			{{#if resourceCount selectedResourceType selectedResourceAvailability}}
