@@ -43,7 +43,7 @@
 	&.loading-updating, 
 	&.loading-deleting, 
 	&.loading-signing-out {
-		display: none;
+		// display: none;
 	}
 
 	.loader {		
@@ -53,20 +53,14 @@
 		.loader-icon {
 			position: relative;
 			margin: 0px auto;
-			width: 45px;
-			height: 45px;
+			width: 44px;
+			height: 44px;
 			border-radius: 3px;
 			background-color: $color-gray-lightest;
 			border: 1px solid $color-gray-darker;
 			color: $color-gray-darkest;
 			font-size: 23px;
-			text-align: center;
-
-			i {
-				position: absolute;
-				top: 11px;
-				left: 11px;
-			}
+			padding-top: 9px;
 		}
 
 		.loader-message {
