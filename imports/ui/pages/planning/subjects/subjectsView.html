@@ -1,44 +1,47 @@
 <template name="subjectsView">
 	{{> dialog}}
 	{{> toolbarView}}
-	<main class="app-content app-content-preceeds-toolbar">
-		<div class="view-heading m-tn-h-9 m-tn-v-21">
-			<div class="view-icon">
-				<i class="fss-subjects"></i>
+	<main class="app-content app-content-preceeds-toolbar app-content-data">
+		{{#if subject}}
+			<div class="view-heading m-tn-b-21">
+				<div class="view-icon">
+					<i class="fss-subjects"></i>
+				</div>
+				<div class="view-title">
+					<h1 class="m-tn-b-3">{{subject.name}}</h1>
+					<h3 class="txt-gray-darkest">
+						{{subject.preferredFirstName}} {{subject.lastName}}
+					</h3>
+				</div>
 			</div>
-			<div class="view-title">
-				<h1 class="m-tn-b-3">{{subject.name}}</h1>
-				<h3 class="txt-gray-darkest">
-					{{student.preferredFirstName.name}} {{student.lastName}}
-				</h3>
-			</div>
-		</div>
-		
-		<div class="view-info m-tn-rl-9 m-tn-b-36 p-tn-18">
-			{{#if resources}}
-				<label>Description</label>
-				<p>{{subject.description}}</p>
-			{{/if}}
-
-			{{#if resources.count}}
-				<label class="p-tn-b-12">Resources</label>
-				<ul class="info-list">
-					{{#each resource in resources}}
-						<li class="list-item"><i class="fss-{{resource.type}} txt-primary"></i> {{resource.title}}</li>
-					{{/each}}
-				</ul>
-			{{/if}}
-
-			<label>School Year</label>
-			<p>{{schoolYear.startYear}} - {{schoolYear.endYear}}</p>
 			
-			{{#each term in terms}}
-				<label>Term {{term.order}}</label>
-				<p>{{termLessons term._id}}</p>
-			{{/each}}
-		</div>
+			<div class="view-info p-tn-18">
+				{{#if subject.resources.length}}
+					<label>Description</label>
+					<p>{{subject.description}}</p>
+				{{/if}}
+
+				{{#if subject.resources.length}}
+					<label class="p-tn-b-12">Resources</label>
+					<ul class="info-list">
+						{{#each resource in resources subject.resources}}
+							<li class="list-item txt-ellipsis p-tn-b-3"><i class="fss-{{resource.type}} txt-primary"></i> {{resource.title}}</li>
+						{{/each}}
+					</ul>
+				{{/if}}
+
+				<label>School Year</label>
+				<p>{{subject.startYear}} - {{subject.endYear}}</p>
+				
+				{{#each term in subject.termStats}}
+					<label>Term {{term.termOrder}}</label>
+					<p>{{term.lessonCount}} Lesson{{sPlural term.lessonCount}}</p>
+				{{/each}}
+			</div>
+		{{/if}}
 	</main>
-	{{#unless Template.subscriptionsReady}}
+	{{> deleting}}
+	{{#unless subscriptionReady}}
 		{{> loading}}
 	{{/unless}}
 </template>

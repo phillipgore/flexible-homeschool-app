@@ -103,6 +103,7 @@ Template.schoolYearsNew.onRendered( function() {
 										$('.js-loading').hide();
 										$('.js-submit').prop('disabled', false);
 									} else {
+										Session.set('selectedSchoolYearId', schoolYearId)
 										FlowRouter.go('/planning/schoolyears/view/' + schoolYearId);
 									}
 								});
@@ -119,6 +120,10 @@ Template.schoolYearsNew.onRendered( function() {
 });
 
 Template.schoolYearsNew.helpers({
+	selectedSchoolYearId: function() {
+		return Session.get('selectedSchoolYearId');
+	},
+
 	localTerms: function() {
 		return LocalTerms.find();
 	},

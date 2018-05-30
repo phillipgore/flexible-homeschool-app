@@ -1,5 +1,32 @@
 /* Media Query for extra tiny (tn) screens. */
 @media only screen and (min-width: 0px) {
+  /* --------------- Margin auto --------------- */
+
+  /* Margin: One Side auto */
+  .m-tn-t-auto { margin-top: auto; }
+  .m-tn-r-auto { margin-right: auto; }
+  .m-tn-b-auto { margin-bottom: auto; }
+  .m-tn-l-auto { margin-left: auto; }
+
+  /* Margin: Two Sides auto */
+  .m-tn-tr-auto { margin-top: auto; margin-right: auto; }
+  .m-tn-tb-auto, .m-tn-v-auto { margin-top: auto; margin-bottom: auto; }
+  .m-tn-tl-auto { margin-top: auto; margin-left: auto; }
+  .m-tn-rb-auto { margin-right: auto; margin-bottom: auto; }
+  .m-tn-rl-auto, .m-tn-h-auto { margin-right: auto; margin-left: auto; }
+  .m-tn-bl-auto { margin-bottom: auto; margin-left: auto; }
+
+  /* Margin: Three Sides auto */
+  .m-tn-trb-auto { margin-top: auto; margin-right: auto; margin-bottom: auto; }
+  .m-tn-trl-auto { margin-top: auto; margin-right: auto; margin-left: auto; }
+  .m-tn-tbl-auto { margin-top: auto; margin-bottom: auto; margin-left: auto; }
+  .m-tn-rbl-auto { margin-right: auto; margin-bottom: auto; margin-left: auto; }
+
+  /* Margin: Four Sides auto */
+  .m-tn-auto, .m-tn-trbl-auto { margin: auto; }
+
+
+
   /* --------------- Margin 0px --------------- */
 
   /* Margin: One Side 0px */
@@ -1054,6 +1081,33 @@
 
 /* Media Query for extra small (xs) screens. */
 @media only screen and (min-width: 480px) {
+  /* --------------- Margin auto --------------- */
+
+  /* Margin: One Side auto */
+  .m-xs-t-auto { margin-top: auto; }
+  .m-xs-r-auto { margin-right: auto; }
+  .m-xs-b-auto { margin-bottom: auto; }
+  .m-xs-l-auto { margin-left: auto; }
+
+  /* Margin: Two Sides auto */
+  .m-xs-tr-auto { margin-top: auto; margin-right: auto; }
+  .m-xs-tb-auto, .m-xs-v-auto { margin-top: auto; margin-bottom: auto; }
+  .m-xs-tl-auto { margin-top: auto; margin-left: auto; }
+  .m-xs-rb-auto { margin-right: auto; margin-bottom: auto; }
+  .m-xs-rl-auto, .m-xs-h-auto { margin-right: auto; margin-left: auto; }
+  .m-xs-bl-auto { margin-bottom: auto; margin-left: auto; }
+
+  /* Margin: Three Sides auto */
+  .m-xs-trb-auto { margin-top: auto; margin-right: auto; margin-bottom: auto; }
+  .m-xs-trl-auto { margin-top: auto; margin-right: auto; margin-left: auto; }
+  .m-xs-tbl-auto { margin-top: auto; margin-bottom: auto; margin-left: auto; }
+  .m-xs-rbl-auto { margin-right: auto; margin-bottom: auto; margin-left: auto; }
+
+  /* Margin: Four Sides auto */
+  .m-xs-auto, .m-xs-trbl-auto { margin: auto; }
+
+
+
   /* --------------- Margin 0px --------------- */
 
   /* Margin: One Side 0px */
@@ -2108,6 +2162,33 @@
 
 /* Media Query for small (sm) screens. */
 @media only screen and (min-width: 640px) {
+  /* --------------- Margin auto --------------- */
+
+  /* Margin: One Side auto */
+  .m-sm-t-auto { margin-top: auto; }
+  .m-sm-r-auto { margin-right: auto; }
+  .m-sm-b-auto { margin-bottom: auto; }
+  .m-sm-l-auto { margin-left: auto; }
+
+  /* Margin: Two Sides auto */
+  .m-sm-tr-auto { margin-top: auto; margin-right: auto; }
+  .m-sm-tb-auto, .m-sm-v-auto { margin-top: auto; margin-bottom: auto; }
+  .m-sm-tl-auto { margin-top: auto; margin-left: auto; }
+  .m-sm-rb-auto { margin-right: auto; margin-bottom: auto; }
+  .m-sm-rl-auto, .m-sm-h-auto { margin-right: auto; margin-left: auto; }
+  .m-sm-bl-auto { margin-bottom: auto; margin-left: auto; }
+
+  /* Margin: Three Sides auto */
+  .m-sm-trb-auto { margin-top: auto; margin-right: auto; margin-bottom: auto; }
+  .m-sm-trl-auto { margin-top: auto; margin-right: auto; margin-left: auto; }
+  .m-sm-tbl-auto { margin-top: auto; margin-bottom: auto; margin-left: auto; }
+  .m-sm-rbl-auto { margin-right: auto; margin-bottom: auto; margin-left: auto; }
+
+  /* Margin: Four Sides auto */
+  .m-sm-auto, .m-sm-trbl-auto { margin: auto; }
+
+
+
   /* --------------- Margin 0px --------------- */
 
   /* Margin: One Side 0px */
@@ -3162,6 +3243,33 @@
 
 /* Media Query for medium (md) screens. */
 @media only screen and (min-width: 768px) {
+  /* --------------- Margin auto --------------- */
+
+  /* Margin: One Side auto */
+  .m-md-t-auto { margin-top: auto; }
+  .m-md-r-auto { margin-right: auto; }
+  .m-md-b-auto { margin-bottom: auto; }
+  .m-md-l-auto { margin-left: auto; }
+
+  /* Margin: Two Sides auto */
+  .m-md-tr-auto { margin-top: auto; margin-right: auto; }
+  .m-md-tb-auto, .m-md-v-auto { margin-top: auto; margin-bottom: auto; }
+  .m-md-tl-auto { margin-top: auto; margin-left: auto; }
+  .m-md-rb-auto { margin-right: auto; margin-bottom: auto; }
+  .m-md-rl-auto, .m-md-h-auto { margin-right: auto; margin-left: auto; }
+  .m-md-bl-auto { margin-bottom: auto; margin-left: auto; }
+
+  /* Margin: Three Sides auto */
+  .m-md-trb-auto { margin-top: auto; margin-right: auto; margin-bottom: auto; }
+  .m-md-trl-auto { margin-top: auto; margin-right: auto; margin-left: auto; }
+  .m-md-tbl-auto { margin-top: auto; margin-bottom: auto; margin-left: auto; }
+  .m-md-rbl-auto { margin-right: auto; margin-bottom: auto; margin-left: auto; }
+
+  /* Margin: Four Sides auto */
+  .m-md-auto, .m-md-trbl-auto { margin: auto; }
+
+
+
   /* --------------- Margin 0px --------------- */
 
   /* Margin: One Side 0px */
@@ -4216,6 +4324,33 @@
 
 /* Media Query for large (lg) screens. */
 @media only screen and (min-width: 896px) {
+  /* --------------- Margin auto --------------- */
+
+  /* Margin: One Side auto */
+  .m-lg-t-auto { margin-top: auto; }
+  .m-lg-r-auto { margin-right: auto; }
+  .m-lg-b-auto { margin-bottom: auto; }
+  .m-lg-l-auto { margin-left: auto; }
+
+  /* Margin: Two Sides auto */
+  .m-lg-tr-auto { margin-top: auto; margin-right: auto; }
+  .m-lg-tb-auto, .m-lg-v-auto { margin-top: auto; margin-bottom: auto; }
+  .m-lg-tl-auto { margin-top: auto; margin-left: auto; }
+  .m-lg-rb-auto { margin-right: auto; margin-bottom: auto; }
+  .m-lg-rl-auto, .m-lg-h-auto { margin-right: auto; margin-left: auto; }
+  .m-lg-bl-auto { margin-bottom: auto; margin-left: auto; }
+
+  /* Margin: Three Sides auto */
+  .m-lg-trb-auto { margin-top: auto; margin-right: auto; margin-bottom: auto; }
+  .m-lg-trl-auto { margin-top: auto; margin-right: auto; margin-left: auto; }
+  .m-lg-tbl-auto { margin-top: auto; margin-bottom: auto; margin-left: auto; }
+  .m-lg-rbl-auto { margin-right: auto; margin-bottom: auto; margin-left: auto; }
+
+  /* Margin: Four Sides auto */
+  .m-lg-auto, .m-lg-trbl-auto { margin: auto; }
+
+
+
   /* --------------- Margin 0px --------------- */
 
   /* Margin: One Side 0px */
@@ -5270,6 +5405,33 @@
 
 /* Media Query for extra large (xl) screens. */
 @media only screen and (min-width: 1200px) {
+  /* --------------- Margin auto --------------- */
+
+  /* Margin: One Side auto */
+  .m-xl-t-auto { margin-top: auto; }
+  .m-xl-r-auto { margin-right: auto; }
+  .m-xl-b-auto { margin-bottom: auto; }
+  .m-xl-l-auto { margin-left: auto; }
+
+  /* Margin: Two Sides auto */
+  .m-xl-tr-auto { margin-top: auto; margin-right: auto; }
+  .m-xl-tb-auto, .m-xl-v-auto { margin-top: auto; margin-bottom: auto; }
+  .m-xl-tl-auto { margin-top: auto; margin-left: auto; }
+  .m-xl-rb-auto { margin-right: auto; margin-bottom: auto; }
+  .m-xl-rl-auto, .m-xl-h-auto { margin-right: auto; margin-left: auto; }
+  .m-xl-bl-auto { margin-bottom: auto; margin-left: auto; }
+
+  /* Margin: Three Sides auto */
+  .m-xl-trb-auto { margin-top: auto; margin-right: auto; margin-bottom: auto; }
+  .m-xl-trl-auto { margin-top: auto; margin-right: auto; margin-left: auto; }
+  .m-xl-tbl-auto { margin-top: auto; margin-bottom: auto; margin-left: auto; }
+  .m-xl-rbl-auto { margin-right: auto; margin-bottom: auto; margin-left: auto; }
+
+  /* Margin: Four Sides auto */
+  .m-xl-auto, .m-xl-trbl-auto { margin: auto; }
+
+
+
   /* --------------- Margin 0px --------------- */
 
   /* Margin: One Side 0px */

@@ -1,117 +1,22 @@
-// Application
-import './app.html';
-
-
-// Components
-import '../components/creditCard.js';
-import '../components/dialog.js';
-import '../components/navbar.js';
-	// Loaders
-	import '../components/loaders/loading.js';
-	import '../components/loaders/saving.js';
-	import '../components/loaders/updating.js';
-	// Subbars
-	import '../components/subbars/subbarAccounts.html';
-	import '../components/subbars/subbarReporting.js';
-	import '../components/subbars/subbarResources.js';
-	import '../components/subbars/subbarSubjects.js';
-	import '../components/subbars/subbarTracking.js';
-	import '../components/subbars/subbarTrackingStudent.js';
-	// Toolbars
-	import '../components/toolbars/toolbar.js';
-	import '../components/toolbars/toolbarSmall.js';
-	import '../components/toolbars/toolbarLarge.js';
-	import '../components/toolbars/toolbarLogo.html';
-	import '../components/toolbars/toolbarPrint.js';
-	import '../components/toolbars/toolbarResources.js';
-	import '../components/toolbars/toolbarUsersView.js';
-	import '../components/toolbars/toolbarView.js';
-
-
-// Accounts
-import '../pages/accounts/createAccount.js';
-import '../pages/accounts/verify/verifySent.js';
-import '../pages/accounts/verify/verifySuccess.js';
-import '../pages/accounts/signIn.js';
-import '../pages/accounts/reset/reset.js';
-import '../pages/accounts/reset/resetSent.js';
-import '../pages/accounts/reset/resetPassword.js';
-import '../pages/accounts/reset/resetSuccess.js';
-
-
-// Planning
-import '../pages/planning/planningList.js';
-	//School Years
-	import '../pages/planning/schoolYears/schoolYearsNew.js';
-	import '../pages/planning/schoolYears/schoolYearsList.js';
-	import '../pages/planning/schoolYears/schoolYearsView.js';
-	import '../pages/planning/schoolYears/schoolYearsEdit.js';
-	// Resources
-	import '../pages/planning/resources/resourcesEditForms/resourcesEditApp.js';
-	import '../pages/planning/resources/resourcesEditForms/resourcesEditAudio.js';
-	import '../pages/planning/resources/resourcesEditForms/resourcesEditBook.js';
-	import '../pages/planning/resources/resourcesEditForms/resourcesEditLink.js';
-	import '../pages/planning/resources/resourcesEditForms/resourcesEditVideo.js';
-	import '../pages/planning/resources/resourcesNewForms/resourcesNewApp.js';
-	import '../pages/planning/resources/resourcesNewForms/resourcesNewAudio.js';
-	import '../pages/planning/resources/resourcesNewForms/resourcesNewBook.js';
-	import '../pages/planning/resources/resourcesNewForms/resourcesNewLink.js';
-	import '../pages/planning/resources/resourcesNewForms/resourcesNewVideo.js';
-	import '../pages/planning/resources/resourcesList.js';
-	import '../pages/planning/resources/resourcesView.js';
-	// Subjects
-	import '../pages/planning/subjects/subjectsNew.js';
-	import '../pages/planning/subjects/subjectsList.js';
-	import '../pages/planning/subjects/subjectsView.js';
-	import '../pages/planning/subjects/subjectsEdit.js';
-	// Students
-	import '../pages/planning/students/studentsNew.js';
-	import '../pages/planning/students/studentsList.js';
-	import '../pages/planning/students/studentsView.js';
-	import '../pages/planning/students/studentsEdit.js';
-
-
-// Tracking
-import '../pages/tracking/trackingList.js';
-import '../pages/tracking/trackingView.js';
-
-
-// Reporting
-import '../pages/reporting/reportingList.js';
-import '../pages/reporting/reportingSettingsEdit.js';
-import '../pages/reporting/reports/reportingSchoolYears.js';
-import '../pages/reporting/reports/reportingTerms.js';
-import '../pages/reporting/reports/reportingSubjects.js';
-import '../pages/reporting/reports/reportingResources.js';
-import '../pages/reporting/reports/reportingLessons.js';
-
-
-// Settings
-import '../pages/settings/settingsList.js';
-	// Users
-	import '../pages/settings/users/usersList.js';
-	import '../pages/settings/users/usersNew.js';
-	import '../pages/settings/users/usersView.js';
-	import '../pages/settings/users/usersEdit.js';
-	import '../pages/settings/users/usersVerifySent.js';
-	import '../pages/settings/users/usersRestricted.js';
-	// Support
-	import '../pages/settings/support/supportList.js';
-	// Billing
-	import '../pages/settings/billing/billingError.js';
-	import '../pages/settings/billing/billingList.js';
-	import '../pages/settings/billing/billingInvoices.js';
-	import '../pages/settings/billing/billingEdit.js';
-
 import {Template} from 'meteor/templating';
 import { Groups } from '../../api/groups/groups.js';
 import { SchoolYears } from '../../api/schoolYears/schoolYears.js';
 import { Students } from '../../api/students/students.js';
 import { Terms } from '../../api/terms/terms.js';
 import { Weeks } from '../../api/weeks/weeks.js';
+import './app.html';
 import moment from 'moment';
+import _ from 'lodash'
 
 Alerts = new Mongo.Collection(null);
+
+// Template.app.onRendered( function() {
+// 	Alerts.insert({
+// 		colorClass: 'bg-info',
+// 		iconClass: 'fss-info',
+// 		message: 'Alert test.',
+// 	});
+// });
 
 Template.app.helpers({
 	alerts: function() {
@@ -120,6 +25,14 @@ Template.app.helpers({
 });
 
 Template.app.events({
+	// Universal Click Event
+	'click'(event) {
+		if (!$(event.currentTarget).hasClass('js-dropdown') && !$(event.target).hasClass('js-click-exempt')) {
+			$('.dropdown-menu, .list-item-dropdown-menu').fadeOut(100);
+		}
+	},
+
+
 	// Select Input
 	'focus .fss-select select'(event) {
 		$(event.target).parent().addClass('focus');
@@ -147,14 +60,6 @@ Template.app.events({
 	},
 
 
-	// Universal Click Event
-	'click'(event) {
-		if (!$(event.currentTarget).hasClass('js-dropdown')) {
-			$('.dropdown-menu, .list-item-dropdown-menu').fadeOut(100);
-		}
-	},
-
-
 	// FSS Alerts
 	'click .js-alert-close'(event) {
 		event.preventDefault();
@@ -168,13 +73,13 @@ Template.app.events({
 
 
 	// Frame Positon
-	'click .frame-one a'(event) {
+	'click .frame-one a.list-item-link'(event) {
 		$('.frame-contaner-inner').removeClass('frame-position-three');
 		$('.frame-contaner-inner').addClass('frame-position-two');
 		Session.set('selectedFramePosition', 2);
 	},
 
-	'click .frame-two a'(event) {
+	'click .frame-two a.list-item-link'(event) {
 		$('.frame-contaner-inner').removeClass('frame-position-two');
 		$('.frame-contaner-inner').addClass('frame-position-three');
 		Session.set('selectedFramePosition', 3);
@@ -196,13 +101,109 @@ Template.app.events({
 
 
 	// List Selections
+	'click .js-user'(event) {
+		Session.set('selectedUserId', $(event.currentTarget).attr('id'));
+	},
+
 	'click .js-student'(event) {
-		Session.set('selectedStudentId', $(event.currentTarget).attr('id'));
+		Session.set({
+			selectedStudentId: $(event.currentTarget).attr('id'),
+			editUrl: '/planning/students/edit/' + $(event.currentTarget).attr('id'),
+		});
+
+		let sessionSubjectIdName = 'selectedSubject' + $(event.currentTarget).attr('id') + Session.get('selectedSchoolYearId') + 'Id';
+		Session.set('selectedSubjectId', Session.get(sessionSubjectIdName));
+	},
+
+	'click .js-planning-student'(event) {
+		Session.set({
+			selectedStudentId: $(event.currentTarget).attr('id'),
+			editUrl: '/planning/students/edit/' + $(event.currentTarget).attr('id'),
+		});
+
+		let termId = InitialIds.find().fetch()[0]['term' + $(event.currentTarget).attr('id') + Session.get('selectedSchoolYearId')];
+		let weekId = InitialIds.find().fetch()[0]['week' + $(event.currentTarget).attr('id') + Session.get('selectedSchoolYearId') + termId];
+		Session.set('selectedTermId', termId);
+		Session.set('selectedWeekId', weekId);
 	},
 
 	'click .js-school-year'(event) {
-		Session.set('selectedSchoolYearId', $(event.currentTarget).attr('id'));
+		Session.set({
+			selectedSchoolYearId: $(event.currentTarget).attr('id'),
+			editUrl: '/planning/schoolyears/edit/' + $(event.currentTarget).attr('id'),
+		});
+
+		let sessionSubjectIdName = 'selectedSubject' + Session.get('selectedStudentId') + $(event.currentTarget).attr('id') + 'Id';
+		Session.set('selectedSubjectId', Session.get(sessionSubjectIdName));
 	},
+
+	'click .js-planning-school-year'(event) {
+		Session.set({
+			selectedSchoolYearId: $(event.currentTarget).attr('id'),
+			editUrl: '/planning/schoolyears/edit/' + $(event.currentTarget).attr('id'),
+		});
+
+		let termId = InitialIds.find().fetch()[0]['term' + Session.get('selectedStudentId') + $(event.currentTarget).attr('id')];
+		let weekId = InitialIds.find().fetch()[0]['week' + Session.get('selectedStudentId') + $(event.currentTarget).attr('id') + termId];
+		Session.set('selectedTermId', termId);
+		Session.set('selectedWeekId', weekId);
+	},
+
+	'click .js-term'(event) {
+		Session.set('selectedTermId', $(event.currentTarget).attr('id'));
+	},
+
+	'click .js-week'(event) {
+		Session.set('selectedWeekId', $(event.currentTarget).attr('id'));
+	},
+
+	'click .js-resource'(event) {
+		Session.set({
+			selectedResourceId: $(event.currentTarget).attr('id'),
+			selectedResourceCurrentTypeId: $(event.currentTarget).attr('data-resource-type'),
+			editUrl: '/planning/resources/edit/' + Session.get('selectedResourceType') +'/'+ Session.get('selectedResourceAvailability') +'/'+ $(event.currentTarget).attr('id') +'/'+ $(event.currentTarget).attr('data-resource-type'),
+		});
+	},
+
+	'click .js-type'(event) {
+		Session.set({
+			selectedResourceType: $(event.currentTarget).attr('data-resource-type'),
+			selectedResourceId: $(event.currentTarget).attr('id'),
+			selectedResourceCurrentTypeId: $(event.currentTarget).attr('data-resource-type'),
+			editUrl: '/planning/resources/edit/' + $(event.currentTarget).attr('data-resource-type') +'/'+ Session.get('selectedResourceAvailability') +'/'+ $(event.currentTarget).attr('id') +'/'+ $(event.currentTarget).attr('data-resource-type'),
+		});
+	},
+
+	'click .js-availability'(event) {
+		Session.set({
+			selectedResourceAvailability: $(event.currentTarget).attr('data-resource-availability'),
+			selectedResourceId: $(event.currentTarget).attr('id'),
+			selectedResourceCurrentTypeId: $(event.currentTarget).attr('data-resource-type'),
+			editUrl: '/planning/resources/edit/' + $(event.currentTarget).attr('data-resource-type') +'/'+ $(event.currentTarget).attr('data-resource-availability') +'/'+ $(event.currentTarget).attr('id') +'/'+ $(event.currentTarget).attr('data-resource-type'),
+		});
+	},
+
+	'click .js-new-resource'(event) {
+		Session.set({
+			selectedResourceType: 'all',
+			selectedResourceAvailability: 'all',
+			selectedResourceId: InitialIds.findOne().resourceAllAll,
+			selectedResourceCurrentType: InitialIds.findOne().resourceCurrentType,
+		});
+	},
+
+	'click .js-subject'(event) {
+		Session.set({
+			selectedStudentId: $(event.currentTarget).attr('data-subject-student'),
+			selectedSchoolYearId: $(event.currentTarget).attr('data-subject-school-Year'),
+			selectedSubjectId: $(event.currentTarget).attr('id'),
+			editUrl: '/planning/subjects/edit/' + $(event.currentTarget).attr('data-subject-student') +'/'+ $(event.currentTarget).attr('data-subject-school-Year') +'/'+ $(event.currentTarget).attr('id'),
+		});
+	},
+
+	'click .js-report'(event) {
+		Session.set('selectedReportId', $(event.currentTarget).attr('id'));
+	}
 });
 
 

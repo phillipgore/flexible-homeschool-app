@@ -36,7 +36,7 @@ Template.schoolYearsEdit.onRendered( function() {
 
 Template.schoolYearsEdit.helpers({
 	schoolYear: function() {
-		return SchoolYears.findOne();
+		return SchoolYears.findOne({_id: FlowRouter.getParam('selectedSchoolYearId')});
 	},
 
 	terms: function() {

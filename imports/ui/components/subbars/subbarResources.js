@@ -32,6 +32,10 @@ Template.subbarResources.helpers({
 		return Session.get('selectedResourceAvailability');
 	},
 
+	selectedResourceCurrentTypeId: function() {
+		return Session.get('selectedResourceCurrentTypeId');
+	},
+
 	typeLabel: function(type) {
 		if (type === 'all') { return 'All Types' };
 		if (type === 'book') { return 'Book' };
@@ -39,6 +43,10 @@ Template.subbarResources.helpers({
 		if (type === 'video') { return 'Video' };
 		if (type === 'audio') { return 'Audio' };
 		if (type === 'app') { return 'App' };
+	},
+
+	typeAvailabilityResourceId: function(type, availability) {
+		return Session.get('selectedResource' + _.capitalize(type) + _.capitalize(availability) + 'Id');
 	},
 
 	typeAvailability: function(type, availability) {
@@ -71,19 +79,19 @@ Template.subbarResources.helpers({
 		return 'txt-gray-darker'
 	},
 
+	typeIsAll: function(type) {
+		if (type === 'all') {
+			return true;
+		}
+		return false;
+	},
+
 	activeListItem: function(currentItem, item) {
 		if (currentItem === item) {
 			return true;
 		}
 		return false;
 	},
-
-	isLink: function(type) {
-		if (type === 'link') {
-			return true;
-		}
-		return false;
-	}
 });
 
 

@@ -7,14 +7,22 @@ import { Weeks } from '../../../api/weeks/weeks.js';
 import { Lessons } from '../../../api/lessons/lessons.js';
 import './trackingList.html';
 
+StudentStats = new Mongo.Collection('studentStats');
+
 Template.trackingList.onCreated( function() {
 	// Subscriptions
-	this.subscribe('allSchoolYearsPath', FlowRouter.getParam('selectedStudentId'));
-	this.subscribe('allStudentStats', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'));
-	this.subscribe('allTermsPath', FlowRouter.getParam('selectedSchoolYearId'))
+	Tracker.autorun(() => {
+		this.subjectData = Meteor.subscribe('allStudents');
+		Meteor.subscribe('allSchoolYearsPath', FlowRouter.getParam('selectedStudentId'));
+		Meteor.subscribe('studentTermsPath', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
+		Meteor.subscribe('studentStats', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'), FlowRouter.getParam('selectedWeekId'));
+	});
 
-	Session.set('selectedSchoolYearId', FlowRouter.getParam('selectedSchoolYearId'));
-	Session.set('selectedTermId', FlowRouter.getParam('selectedTermId'));
+	Session.set({
+		selectedStudentId: FlowRouter.getParam('selectedStudentId'),
+		toolbarType: 'tracking',
+		editUrl: '',
+	});
 });
 
 Template.trackingList.onRendered( function() {
@@ -30,6 +38,10 @@ Template.trackingList.onRendered( function() {
 });
 
 Template.trackingList.helpers({
+	subscriptionReady: function() {
+		return Template.instance().subjectData.ready();
+	},
+
 	students: function() {
 		return Students.find({}, {sort: {birthday: 1, lastName: 1, firstName: 1}});
 	},
@@ -50,18 +62,60 @@ Template.trackingList.helpers({
 		return FlowRouter.getParam('selectedTermId');
 	},
 
-	yearsProgressStatus: function(yearProgress) {
+	selectedWeekId: function() {
+		return FlowRouter.getParam('selectedWeekId');
+	},
+
+	yearsProgress: function(studentId) {
+		return StudentStats.findOne({studentId: studentId}) && StudentStats.findOne({studentId: studentId}).yearProgress;
+	},
+
+	yearsProgressStatus: function(studentId) {
+		let yearProgress = StudentStats.findOne({studentId: studentId}) && StudentStats.findOne({studentId: studentId}).yearProgress;
 		if (yearProgress === 100) {
 			return 'meter-progress-primary';
 		}
 		return false;
 	},
 
-	termsProgressStatus: function(termProgress) {
+	termsProgress: function(studentId) {
+		return StudentStats.findOne({studentId: studentId}) && StudentStats.findOne({studentId: studentId}).termProgress;
+	},
+
+	termsProgressStatus: function(studentId) {
+		let termProgress = StudentStats.findOne({studentId: studentId}) && StudentStats.findOne({studentId: studentId}).termProgress;
 		if (termProgress === 100) {
 			return 'meter-progress-primary';
 		}
 		return false;
 	},
 
+	weeksProgress: function(studentId) {
+		return StudentStats.findOne({studentId: studentId}) && StudentStats.findOne({studentId: studentId}).weekProgress;
+	},
+
+	weeksProgressStatus: function(studentId) {
+		let weekProgress = StudentStats.findOne({studentId: studentId}) && StudentStats.findOne({studentId: studentId}).weekProgress;
+		if (weekProgress === 100) {
+			return 'meter-progress-primary';
+		}
+		return false;
+	},
+
+	active: function(id) {
+		if (FlowRouter.getParam('selectedStudentId') === id) {
+			return true;
+		}
+		return false;
+	}
+
 });
+
+
+
+
+
+
+
+
+

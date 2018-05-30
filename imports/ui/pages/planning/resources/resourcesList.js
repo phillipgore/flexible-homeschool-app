@@ -5,16 +5,12 @@ import './resourcesList.html';
 import _ from 'lodash'
 
 Template.resourcesList.onCreated( function() {
-	// Subscriptions\
-	if (FlowRouter.getParam('selectedResourceType') === 'link') {
-		this.subscribe('scopedResources', FlowRouter.getParam('selectedResourceType'), 'all');
-		Session.set('selectedResourceAvailability', 'all');
-	} else {
-		this.subscribe('scopedResources', FlowRouter.getParam('selectedResourceType'), FlowRouter.getParam('selectedResourceAvailability'));
-		Session.set('selectedResourceAvailability', FlowRouter.getParam('selectedResourceAvailability'));
-	}
-	this.subscribe('resourceStats');
+	Tracker.autorun(() => {
+		this.resourceData = Meteor.subscribe('scopedResources', FlowRouter.getParam('selectedResourceType'), FlowRouter.getParam('selectedResourceAvailability'));
+		Meteor.subscribe('resourceStats');
+	});
 
+	Session.set('selectedResourceAvailability', FlowRouter.getParam('selectedResourceAvailability'));
 	Session.set('selectedResourceType', FlowRouter.getParam('selectedResourceType'));
 });
 
@@ -29,6 +25,10 @@ Template.resourcesList.onRendered( function() {
 });
 
 Template.resourcesList.helpers({
+	subscriptionReady: function() {
+		return Template.instance().resourceData.ready();
+	},
+
 	resources: function() {
 		return Resources.find({}, {sort: {title: 1}});
 	},
@@ -38,7 +38,15 @@ Template.resourcesList.helpers({
 	},
 
 	selectedResourceAvailability: function() {
-		return Session.get('selectedResourceAvailability');
+		return FlowRouter.getParam('selectedResourceAvailability');
+	},
+
+	selectedResourceCurrentTypeId: function() {
+		return FlowRouter.getParam('selectedResourceCurrentTypeId');
+	},
+
+	selectedResourceNewType: function() {
+		return Session.get('selectedResourceNewType');
 	},
 
 	resourceCount: function(type, availability) {
@@ -63,6 +71,20 @@ Template.resourcesList.helpers({
 			return 'txt-warning'
 		}
 	},
+
+	activeRoute: function(currentRoute, route) {
+		if (currentRoute === route) {
+			return true;
+		}
+		return false;
+	},
+
+	active: function(id) {
+		if (FlowRouter.getParam('selectedResourceId') === id) {
+			return true;
+		}
+		return false;
+	},
 });
 
 Template.resourcesList.events({
@@ -72,12 +94,31 @@ Template.resourcesList.events({
 		let resourceId = $(event.currentTarget).attr('data-resource-id');
 		let selectedAvailability = $(event.currentTarget).attr('id');
 
-		$('#' + resourceId).find('.list-item-dropdown').hide();
-		$('#' + resourceId).find('.list-item-dropdown-loader').show();
+		$('#resource' + resourceId).find('.list-item-dropdown').hide();
+		$('#resource' + resourceId).find('.list-item-dropdown-loader').show();
 
 		const resourceProperties = {
 			availability: selectedAvailability,
 		};
+
+		function newResourceId(currentResourceId) {
+			let sessionResourceIdName = 'selectedResource' + _.capitalize(FlowRouter.getParam('selectedResourceType')) + _.capitalize(FlowRouter.getParam('selectedResourceAvailability')) + 'Id';
+			let resourceIds = Resources.find({}, {sort: {title: 1}}).map(resource => (resource._id));
+			let currentResourcePosition = resourceIds.indexOf(currentResourceId);
+
+			if (currentResourceId != Session.get(sessionResourceIdName)) {
+				return Session.get(sessionResourceIdName);
+			}
+			if (currentResourcePosition === 0 && currentResourcePosition + 1 === resourceIds.length) {
+				return 'empty';
+			}
+			if (currentResourcePosition === 0) {
+				return resourceIds[currentResourcePosition + 1]
+			}
+			return resourceIds[currentResourcePosition - 1]
+		}
+
+		let newResource = Resources.findOne({_id: newResourceId(resourceId)});
 
 		Meteor.call('updateResource', resourceId, resourceProperties, function(error) {
 			if (error) {
@@ -87,11 +128,14 @@ Template.resourcesList.events({
 					message: error.reason,
 				});
 				
-				$('#' + resourceId).find('.list-item-dropdown-loader').hide();
-				$('#' + resourceId).find('.list-item-dropdown').show();
+				$('#resource' + resourceId).find('.list-item-dropdown-loader').hide();
+				$('#resource' + resourceId).find('.list-item-dropdown').show();
 			} else {
-				$('#' + resourceId).find('.list-item-dropdown-loader').hide();
-				$('#' + resourceId).find('.list-item-dropdown').show();
+				$('#dropdown' + resourceId).fadeOut(100).removeAttr('style');
+				$('#resource' + resourceId).find('.list-item-dropdown-loader').hide();
+				$('#resource' + resourceId).find('.list-item-dropdown').show();
+
+				FlowRouter.go('/planning/resources/view/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/'+ newResource._id +'/'+ newResource.type );
 			}
 		});
 

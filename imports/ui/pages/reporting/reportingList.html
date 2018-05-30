@@ -1,23 +1,43 @@
 <template name="reportingList">
-	{{> toolbarPrint}}
+	{{> toolbar}}
 	<main class="app-content app-content-preceeds-toolbar">
-		{{#if reportsAvailable}}
-			<div class="p-tn-trl-9">
-				{{> reportingSchoolYears}}
-				{{> reportingTerms}}
-				{{> reportingSubjects}}
-				{{> reportingLessons}}
-				{{> reportingResources}}
-			</div>
+		{{#if activeRoute currentRouteName 'reportingNew'}}
+			<ul class="list">
+				<li class="list-item">
+					<span class="list-item-inner p-tn-rl-9 active">
+						<div class="list-item-icon"><i class="txt-primary fss-report-new"></i></div> 
+						<div class="list-item-label font-style-italic font-weight-normal"> New Report
+						</div>
+					</span>
+				</li>
+				{{#each report in reports}}
+					<li class="list-item">
+						<a id="{{report._id}}" href="/reporting/view/{{selectedStudentId}}/{{selectedSchoolYearId}}/{{report._id}}" class="js-report list-item-link p-tn-rl-9 {{#if active report._id}}active{{/if}}">
+							<div class="list-item-icon"><i class="txt-primary fss-reporting"></i></div> 
+							<div class="list-item-label">{{report.name}}</div>
+						</a>
+					</li>
+				{{/each}}
+			</ul>
 		{{else}}
-			<div class="txt-tn-center m-tn-t-72">
-				<i class="fss-reporting font-size-64 txt-gray"></i>
-				<h1 class="m-tn-t-36">Add Data</h1>
-				<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36">Go to <a href="{{pathFor 'planningList'}}">"Planning"</a> to add data so a report can be generated.</p>
-			</div>
+			{{#if reports.count}}
+				<ul class="list">
+					{{#each report in reports}}
+						<li class="list-item">
+							<a id="{{report._id}}" href="/reporting/view/{{selectedStudentId}}/{{selectedSchoolYearId}}/{{report._id}}" class="js-report list-item-link p-tn-rl-9 {{#if active report._id}}active{{/if}}">
+								<div class="list-item-icon"><i class="txt-primary fss-reporting"></i></div> 
+								<div class="list-item-label">{{report.name}}</div>
+							</a>
+						</li>
+					{{/each}}
+				</ul>
+			{{else}}
+				<div class="txt-tn-center m-tn-t-72">
+					<i class="fss-reporting font-size-64 txt-gray"></i>
+					<h1 class="m-tn-t-36">Add Your First Report</h1>
+					<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36">Click the plus icon above to add your first Report.</p>
+				</div>
+			{{/if}}
 		{{/if}}
 	</main>
-	{{#unless Template.subscriptionsReady}}
-		{{> loading subbar=true}}
-	{{/unless}}
 </template>

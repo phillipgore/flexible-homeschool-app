@@ -28,8 +28,15 @@ Template.schoolYearsList.helpers({
 		return FlowRouter.getParam('selectedSchoolYearId');
 	},
 
+	activeRoute: function(currentRoute, route) {
+		if (currentRoute === route) {
+			return true;
+		}
+		return false;
+	},
+
 	active: function(id) {
-		if (Session.get('selectedSchoolYearId') === id) {
+		if (FlowRouter.getParam('selectedSchoolYearId') === id) {
 			return true;
 		}
 		return false;

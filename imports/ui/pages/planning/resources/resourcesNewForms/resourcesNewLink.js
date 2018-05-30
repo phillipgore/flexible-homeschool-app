@@ -3,7 +3,17 @@ import {Template} from 'meteor/templating';
 import autosize from 'autosize';
 import './resourcesNewLink.html';
 
+Template.resourcesNewLink.onCreated( function() {
+	Session.set('selectedResourceNewType', FlowRouter.getParam('selectedResourceNewType'));
+	Session.set('selectedResourceType', 'all');
+	Session.set('selectedResourceAvailability', 'all');
+	Session.set('selectedResourceId', InitialIds.findOne().resourceAllAll);
+	Session.set('selectedResourceCurrentType', InitialIds.findOne().resourceCurrentType);
+});
+
 Template.resourcesNewLink.onRendered( function() {
+	Session.set('selectedResourceNewType', FlowRouter.getParam('selectedResourceNewType'));
+	
 	// Toolbar Settings
 	Session.set({
 		label: 'New Link Resource',
@@ -38,6 +48,7 @@ Template.resourcesNewLink.onRendered( function() {
 				title: event.target.title.value.trim(),
 				link: event.target.link.value.trim(),
 				description: event.target.description.value.trim(),
+				availability: 'own',
 			};
 
 			Meteor.call('insertResource', resourceProperties, function(error, resourceId) {
@@ -51,7 +62,8 @@ Template.resourcesNewLink.onRendered( function() {
 					$('.js-loading').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
-					FlowRouter.go('/planning/resources/view/' + resourceId);
+					Session.set('selectedResourceId', resourceId);
+					FlowRouter.go('/planning/resources/view/all/all/' + resourceId +'/link');
 				}
 			});
 
@@ -61,12 +73,8 @@ Template.resourcesNewLink.onRendered( function() {
 });
 
 Template.resourcesNewLink.helpers({
-	selectedResourceType: function() {
-		return Session.get('selectedResourceType');
-	},
-
-	selectedResourceAvailability: function() {
-		return Session.get('selectedResourceAvailability');
+	cancelPath: function() {
+		return '/planning/resources/view/' + Session.get('selectedResourceType') +'/'+ Session.get('selectedResourceAvailability') +'/'+ Session.get('selectedResourceId') +'/'+ Session.get('selectedResourceCurrentTypeId');
 	},
 });
 

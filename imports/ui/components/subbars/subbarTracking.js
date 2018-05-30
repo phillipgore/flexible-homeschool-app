@@ -7,7 +7,32 @@ import {Lessons} from '../../../api/lessons/lessons.js';
 import moment from 'moment';
 import './subbarTracking.html';
 
+Template.subbarTracking.onCreated( function() {
+	Tracker.autorun(() => {
+		// Subbar Subscriptions
+		this.schoolYearData = Meteor.subscribe('studentSchoolYearsPath', FlowRouter.getParam('selectedStudentId'));
+		this.termData = Meteor.subscribe('studentTermsPath', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
+		this.weekData = Meteor.subscribe('weeksPath', FlowRouter.getParam('selectedTermId'), FlowRouter.getParam('selectedStudentId'));
+	});
+});
+
 Template.subbarTracking.helpers({
+	schoolYearSubReady: function() {
+		return Template.instance().schoolYearData.ready();
+	},
+
+	termSubReady: function() {
+		return Template.instance().termData.ready();
+	},
+
+	weekSubReady: function() {
+		return Template.instance().weekData.ready();
+	},
+
+	selectedStudentId: function() {
+		return FlowRouter.getParam('selectedStudentId');
+	},
+
 	schoolYears: function() {
 		return SchoolYears.find({}, {sort: {startYear: 1}});
 	},
@@ -56,6 +81,30 @@ Template.subbarTracking.helpers({
 		}
 	},
 
+	weeks: function() {
+		return Weeks.find({}, {sort: {order: 1}});
+	},
+
+	selectedWeekId: function() {
+		return FlowRouter.getParam('selectedWeekId');
+	},
+
+	selectedWeek: function() {
+		return Weeks.findOne({_id: FlowRouter.getParam('selectedWeekId')});
+	},
+
+	weekStatus: function(weekStatus) {
+		if (weekStatus === 'pending') {
+			return 'txt-gray-darker';
+		}
+		if (weekStatus === 'partial') {
+			return 'txt-secondary';
+		}
+		if (weekStatus === 'completed') {
+			return 'txt-primary';
+		}
+	},
+
 	activeListItem: function(currentItem, item) {
 		if (currentItem === item) {
 			return true;
@@ -63,12 +112,4 @@ Template.subbarTracking.helpers({
 		return false;
 	},
 });
-
-
-
-
-
-
-
-
 

@@ -16,28 +16,35 @@ ul.dropdown-menu {
 
 		li.dropdown-item {
 
-			a.dropdown-item-link {
+			a.dropdown-item-link, .dropdown-item-inner  {
 				border-bottom: 1px solid lighten($color-primary, 15%);
 				color: $color-white;
-			}
-		}
-	}
+				font-weight: normal;
 
-	&.dropdown-tool {
-		top: 59px;
-		background-color: $color-primary;
-
-		li.dropdown-item {
-
-			a.dropdown-item-link {
-				border-bottom: 1px solid lighten($color-primary, 15%);
-				color: $color-white;
+				&.border-none {
+					border: none;
+				}
 
 				&:hover {
 					color: $color-white;
 				}
+
+				&.disabled, &.disabled:hover {
+					color: $color-primary-lighter;
+				}
 			}
 		}
+
+		li.dropdown-divider {
+			margin-bottom: 3px;
+			padding-top: 3px;
+			border-bottom: 1px solid lighten($color-primary, 15%);
+		}
+	}
+
+
+	&.border-none li.dropdown-item a.dropdown-item-link, &.border-none li.dropdown-item .dropdown-item-inner{
+		border: none;
 	}
 
 	&.dropdown-sub {
@@ -47,19 +54,35 @@ ul.dropdown-menu {
 
 		li.dropdown-item {
 
-			a.dropdown-item-link {
+			a.dropdown-item-link, .dropdown-item-inner  {
 				border-bottom: 1px solid $color-gray-dark;
 				color: $color-black;
+				font-weight: normal;
+
+				&.border-none {
+					border: none;
+				}
 			}
 		}
 	}
 
 	li.dropdown-item {
 
-		a.dropdown-item-link {
+		.dropdown-item-header {
+			display: block;
+			padding: 5px 9px;
+			background-color: $color-primary-lighter;
+			color: $color-primary;
+			font-weight: 500;
+			font-size: 12px;
+			margin-top: -1px;
+		}
+
+		a.dropdown-item-link, .dropdown-item-inner {
 			display: block;
 			height: 50px;
 			padding: 16px 9px;
+			font-weight: normal;
 
 			.dropdown-item-icon {
 				display: inline-block;
@@ -92,8 +115,49 @@ ul.dropdown-menu {
 		}
 
 		&:last-child {
-			a.dropdown-item-link {
+			a.dropdown-item-link, .dropdown-item-inner  {
 				border: none;
+			}
+		}
+	}
+}
+
+@media only screen and (min-width: 640px) {
+	.btn-sub-dropdown {
+		position: relative;
+
+		ul.dropdown-menu {
+			position: absolute;
+			left: -70px;
+			right: -70px;
+			overflow: visible;
+
+			&.dropdown-sub {
+				top: 39px;
+			}
+
+			.dropdown-arrow {
+				position: absolute;
+				height: 9px;
+				top: -9px;
+				left: 0px;
+				right: 0px;
+				z-index: 15;
+
+				&:after {
+					position: absolute;
+					top: 0px;
+					left: 0px;
+					content: '';
+					width: 0; 
+					height: 0; 
+					border-left: 9px solid transparent;
+					border-right: 9px solid transparent;
+					border-bottom: 9px solid $color-gray;
+					left: 50%;
+					transform: translate(-50%);
+					z-index: 15;
+				}
 			}
 		}
 	}

@@ -1,60 +1,63 @@
 <template name="resourcesView">
 	{{> dialog}}
 	{{> toolbarView dynamicToolbarEditUrl=dynamicToolbarEditUrl}}	
-	<main class="app-content app-content-preceeds-toolbar">
-		<div class="view-heading m-tn-h-9 m-tn-v-21">
-			<div class="view-icon">
-				<i class="{{resourceIcon resource.type}}"></i>
+	<main class="app-content app-content-preceeds-toolbar app-content-data">
+		{{#if resource}}
+			<div class="view-heading m-tn-b-21">
+				<div class="view-icon">
+					<i class="{{resourceIcon resource.type}}"></i>
+				</div>
+				<div class="view-title">
+					<h1 class="m-tn-b-3 txt-ellipsis">{{resource.title}}</h1>
+					{{#if resource.availability}}
+						<h3 class="p-sm txt-gray-darkest">
+							{{availabilityStatment resource.availability}}
+						</h3>
+					{{/if}}
+				</div>
 			</div>
-			<div class="view-title">
-				<h1 class="m-tn-b-3 txt-ellipsis">{{resource.title}}</h1>
-				{{#if resource.availability}}
-					<h3 class="p-sm txt-gray-darkest">
-						{{availabilityStatment resource.availability}}
-					</h3>
+			<div class="view-info p-tn-18">
+				{{#if resourceOrigin resource.authorFirstName resource.authorLastName}}
+					<label>Author</label>
+					<p>{{resource.authorFirstName}} {{resource.authorLastName}}</p>
+				{{/if}}
+
+				{{#if resourceOrigin resource.directorFirstName resource.directorLastName}}
+					<label>Director</label>
+					<p>{{resource.directorFirstName}} {{resource.directorLastName}}</p>
+				{{/if}}
+
+				{{#if resourceOrigin resource.artistFirstName resource.artistLastName}}
+					<label>Artist</label>
+					<p>{{resource.artistFirstName}} {{resource.artistLastName}}</p>
+				{{/if}}
+
+				{{#if resource.publisher}}
+					<label>Publisher</label>
+					<p>{{resource.publisher}}</p>
+				{{/if}}
+
+				{{#if resource.publicationDate}}
+					<label>Publication Date</label>
+					<p>{{dateFormat resource.publicationDate}}</p>
+				{{/if}}
+
+				{{#if resource.link}}
+					<label>Link</label>
+					<a href="{{resource.link}}" target="_blank" class="icn-inline txt-ellipsis">
+						<i class="fss-link"></i> {{resource.link}}
+					</a>
+				{{/if}}
+				
+				{{#if resource.description}}
+					<label>Description</label>
+					<p>{{resource.description}}</p>
 				{{/if}}
 			</div>
-		</div>
-		<div class="view-info m-tn-rl-9 m-tn-b-36 p-tn-18">
-			{{#if resourceOrigin resource.authorFirstName resource.authorLastName}}
-				<label>Author</label>
-				<p>{{resource.authorFirstName}} {{resource.authorLastName}}</p>
-			{{/if}}
-
-			{{#if resourceOrigin resource.directorFirstName resource.directorLastName}}
-				<label>Director</label>
-				<p>{{resource.directorFirstName}} {{resource.directorLastName}}</p>
-			{{/if}}
-
-			{{#if resourceOrigin resource.artistFirstName resource.artistLastName}}
-				<label>Artist</label>
-				<p>{{resource.artistFirstName}} {{resource.artistLastName}}</p>
-			{{/if}}
-
-			{{#if resource.publisher}}
-				<label>Publisher</label>
-				<p>{{resource.publisher}}</p>
-			{{/if}}
-
-			{{#if resource.publicationDate}}
-				<label>Publication Date</label>
-				<p>{{dateFormat resource.publicationDate}}</p>
-			{{/if}}
-
-			{{#if resource.link}}
-				<label>Link</label>
-				<a href="{{resource.link}}" target="_blank" class="icn-inline txt-ellipsis">
-					<i class="fss-link"></i> {{resource.link}}
-				</a>
-			{{/if}}
-			
-			{{#if resource.description}}
-				<label>Description</label>
-				<p>{{resource.description}}</p>
-			{{/if}}
-		</div>
+		{{/if}}
 	</main>
-	{{#unless Template.subscriptionsReady}}
+	{{> deleting}}
+	{{#unless subscriptionReady}}
 		{{> loading}}
 	{{/unless}}
 </template>

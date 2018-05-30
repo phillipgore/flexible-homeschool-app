@@ -30,7 +30,7 @@ Template.usersNew.onRendered( function() {
 			retypePassword: { required: "Required.", equalTo: "Passwords do not match." },
 		},
 		submitHandler() {
-			$('.js-loading').show();
+			$('.loading-saving').show();
 			$('.js-submit').prop('disabled', true);
 	
 			const userProperties = {
@@ -46,42 +46,13 @@ Template.usersNew.onRendered( function() {
 				status: {
 					active: true,
 					updatedOn: new Date(),
-				},
-				reportSettings: {
-					schoolYearReportVisible: true,
-					schoolYearStatsVisible: true,
-					schoolYearProgressVisible: true,
-					schoolYearTimesVisible: true,
-
-					termsReportVisible: false,
-					termsStatsVisible: true,
-					termsProgressVisible: true,
-					termsTimesVisible: true,
-					
-					subjectsReportVisible: true,
-					subjectsStatsVisible: true,
-					subjectsProgressVisible: true,
-					subjectsTimesVisible: true,
-					subjectsResourcesVisible: true,
-
-					resourcesReportVisible: false,
-					resourcesOriginatorVisible: true,
-					resourcesPublicationVisible: true,
-					resourcesSubjectsVisible: true,
-					resourcesLinkVisible: true,
-					resourcesDescriptionVisible: true,
-					
-					lessonsReportVisible: false,
-					lessonsDateVisible: true,
-					lessonsTimeVisible: true,
-					lessonsDescriptionVisible: false,
 				}
 			}
 
-			Accounts.createUser(userProperties, function(error) {
+			Meteor.call('insertUser', userProperties, function(error, userId) {
 				if (error) {
 					if (error.reason === 'unverified') {
-						FlowRouter.go('/settings/users/verify/sent');
+						FlowRouter.go('/settings/users/verify/sent/' + userId);
 					} else {
 						Alerts.insert({
 							colorClass: 'bg-danger',
@@ -93,7 +64,12 @@ Template.usersNew.onRendered( function() {
 						$('.js-submit').prop('disabled', false);
 					}
 				} else {
-					FlowRouter.go('/settings/users/verify/sent');
+					Alerts.insert({
+						colorClass: 'bg-info',
+						iconClass: 'fss-email',
+						message: 'We sent your new user an email with a verification link.',
+					});
+					FlowRouter.go('/settings/users/view/' + userId);
 				}
 			});
 
@@ -118,7 +94,11 @@ Template.usersNew.helpers({
 
 	groupId: function() {
 		return Meteor.users.findOne().info.groupId;
-	}
+	},
+
+	selectedUserId: function() {
+		return Session.get('selectedUserId');
+	},
 });
 
 Template.usersNew.events({

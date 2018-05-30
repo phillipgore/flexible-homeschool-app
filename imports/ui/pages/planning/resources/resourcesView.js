@@ -3,23 +3,24 @@ import { Resources } from '../../../../api/resources/resources.js';
 import './resourcesView.html';
 
 Template.resourcesView.onCreated( function() {
-	// Subscriptions
-	this.subscribe('resource', FlowRouter.getParam('selectedResourceId'));
+	Tracker.autorun(() => {
+		this.resourceData = Meteor.subscribe('resource', FlowRouter.getParam('selectedResourceId'));
+	});
 });
 
 Template.resourcesView.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
-		label: 'Resource',
-		editUrl: '',
-		deleteClass: 'js-delete-resource',
+		toolbarType: 'resource',
+		editUrl: '/planning/resources/edit/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/'+ FlowRouter.getParam('selectedResourceId') +'/'+ FlowRouter.getParam('selectedResourceCurrentTypeId'),
 	});
-
-	// Navbar Settings
-	Session.set('activeNav', 'planningList');
 });
 
 Template.resourcesView.helpers({
+	subscriptionReady: function() {
+		return Template.instance().resourceData.ready();
+	},
+	
 	resource: function() {
 		return Resources.findOne({_id: FlowRouter.getParam('selectedResourceId')});
 	},
@@ -66,19 +67,27 @@ Template.resourcesView.helpers({
 });
 
 Template.resourcesView.events({
-	'click .js-delete-resource'(event) {
-		event.preventDefault();
-
-		Dialogs.insert({
-			heading: 'Confirmation',
-			message: 'Are you sure you want to delete this Resource?',
-			confirmClass: 'js-delete-resource-confirmed',
-		});
-	},
-
 	'click .js-delete-resource-confirmed'(event) {
 		event.preventDefault();
+		$('.loading-deleting').show();
+
+		function nextResourceId(selectedResourceId) {
+			let resourceIds = Resources.find({}, {sort: {title: 1}}).map(resource => (resource._id));
+
+			if (resourceIds.length > 1) {
+				let selectedIndex = resourceIds.indexOf(selectedResourceId);
+				if (selectedIndex) {
+					return Resources.findOne({_id: resourceIds[selectedIndex - 1]});
+				}
+				return Resources.findOne({_id: resourceIds[selectedIndex + 1]});
+			}
+			return {_id: 'empty', type: 'empty'}
+		};
+
+		let newResource = nextResourceId(FlowRouter.getParam('selectedResourceId'))
 		const dialogId = Dialogs.findOne()._id;
+
+		Dialogs.remove({_id: dialogId});
 		Meteor.call('deleteResource', FlowRouter.getParam('selectedResourceId'), function(error) {
 			if (error) {
 				Alerts.insert({
@@ -87,8 +96,9 @@ Template.resourcesView.events({
 					message: error.reason,
 				});
 			} else {
-				Dialogs.remove({_id: dialogId});
-				FlowRouter.go('/planning/resources/list');
+				Session.set('selectedResourceId', newResource._id)
+				FlowRouter.go('/planning/resources/view/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/'+ newResource._id +'/'+ newResource.type);
+				$('.loading-deleting').hide();
 			}
 		});
 	}

@@ -1,29 +1,29 @@
 <template name="schoolYearsView">
 	{{> dialog}}
 	{{> toolbarView}}
-	<main class="app-content app-content-preceeds-toolbar">
-		<div class="view-heading m-tn-h-9 m-tn-v-21">
-			<div class="view-icon">
-				<i class="fss-school-years"></i>
+	<main class="app-content app-content-preceeds-toolbar app-content-data">
+		{{#if schoolYear}}
+			<div class="view-heading m-tn-b-21">
+				<div class="view-icon">
+					<i class="fss-school-years"></i>
+				</div>
+				<div class="view-title">
+					<h1 class="m-tn-b-3">{{schoolYear.startYear}} - {{schoolYear.endYear}}</h1>
+					<h3 class="p-sm txt-gray-darkest">
+						{{schoolYear.termStats.length}} Term{{sPlural schoolYear.termStats.length}}
+					</h3>
+				</div>
 			</div>
-			<div class="view-title">
-				<h1 class="m-tn-b-3">{{schoolYear.startYear}} - {{schoolYear.endYear}}</h1>
-				<h3 class="p-sm txt-gray-darkest">
-					{{terms.count}} Term{{sPlural terms.count}}
-				</h3>
+			
+			<div class="view-info p-tn-18">
+				{{#each term in schoolYear.termStats}}
+					<label>Term {{term.termOrder}}</label>
+					<p>{{term.weekCount}} Week{{sPlural term.weekCountl}}</p>
+				{{/each}}
 			</div>
-		</div>
-		
-		<div class="view-info m-tn-rl-9 m-tn-b-36 p-tn-18">
-			{{#each term in terms}}
-				<label>Term {{term.order}}</label>
-				<p>{{termWeeks term._id}}</p>
-			{{/each}}
-		</div>
-	{{#unless Template.subscriptionsReady}}
-		<div class="orange">Wow!</div>
-	{{/unless}}
+		{{/if}}
 	</main>
+	{{> deleting}}
 	{{#unless subscriptionReady}}
 		{{> loading}}
 	{{/unless}}

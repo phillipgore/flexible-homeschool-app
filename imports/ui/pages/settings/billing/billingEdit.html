@@ -1,7 +1,7 @@
 <template name="billingEdit">	
 	{{> toolbar}}
-	<main class="app-content app-content-preceeds-toolbar">
-		<div class="p-tn-18">
+	<main class="app-content app-content-preceeds-toolbar app-content-form">
+		<form>
 			{{#if group.stripePaymentAttempt}}
 				<p class="txt-tn-center txt-danger font-weight-400 m-tn-b-36 m-tn-h-9">{{attemptMessage group.stripePaymentAttempt}}</p>
 			{{/if}}
@@ -15,19 +15,19 @@
 			</div>
 
 			<h2 class="m-tn-t-36 m-tn-b-9">Update Card:</h2>
-			<form class="js-form-update-credit-card row">
-				<div class="well bg-gray-lighter m-tn-b-72">
-					{{> creditCard}}
-				</div>
+		</form>
+		<form class="js-form-update-credit-card row">
+			<div class="well bg-gray-lighter m-tn-b-18">
+				{{> creditCard}}
+			</div>
 
-				<input type="hidden" name="groupId" id="groupId" value="{{group._id}}">
+			<input type="hidden" name="groupId" id="groupId" value="{{group._id}}">
 
-				<footer class="toolbar toolbar-bottom toolbar-gray">
-					<a href="/settings/billing/list" class="btn btn-gray-darker fl-tn-left">Cancel</a>
-					<button type="submit" class="js-submit fl-tn-right">Update</button>
-				</footer>
-			</form>
-		</div>
+			<footer class="toolbar toolbar-bottom toolbar-gray">
+				<!-- <a href="/settings/billing/list" class="btn btn-gray-darker fl-tn-left">Cancel</a> -->
+				<button type="submit" class="js-submit fl-tn-right">Update</button>
+			</footer>
+		</form>
 	</main>
 	{{#unless dataReady}}
 		{{> loading}}

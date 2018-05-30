@@ -3,7 +3,17 @@ import {Template} from 'meteor/templating';
 import autosize from 'autosize';
 import './resourcesNewVideo.html';
 
+Template.resourcesNewVideo.onCreated( function() {
+	Session.set('selectedResourceNewType', FlowRouter.getParam('selectedResourceNewType'));
+	Session.set('selectedResourceType', 'all');
+	Session.set('selectedResourceAvailability', 'all');
+	Session.set('selectedResourceId', InitialIds.findOne().resourceAllAll);
+	Session.set('selectedResourceCurrentType', InitialIds.findOne().resourceCurrentType);
+});
+
 Template.resourcesNewVideo.onRendered( function() {
+	Session.set('selectedResourceNewType', FlowRouter.getParam('selectedResourceNewType'));
+	
 	// Toolbar Settings
 	Session.set({
 		label: 'New Video Resource',
@@ -54,7 +64,8 @@ Template.resourcesNewVideo.onRendered( function() {
 					$('.js-loading').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
-					FlowRouter.go('/planning/resources/view/' + resourceId);
+					Session.set('selectedResourceId', resourceId);
+					FlowRouter.go('/planning/resources/view/all/all/' + resourceId +'/video');
 				}
 			});
 
@@ -64,12 +75,8 @@ Template.resourcesNewVideo.onRendered( function() {
 });
 
 Template.resourcesNewVideo.helpers({
-	selectedResourceType: function() {
-		return Session.get('selectedResourceType');
-	},
-
-	selectedResourceAvailability: function() {
-		return Session.get('selectedResourceAvailability');
+	cancelPath: function() {
+		return '/planning/resources/view/' + Session.get('selectedResourceType') +'/'+ Session.get('selectedResourceAvailability') +'/'+ Session.get('selectedResourceId') +'/'+ Session.get('selectedResourceCurrentTypeId');
 	},
 });
 

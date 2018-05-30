@@ -28,8 +28,15 @@ Template.studentsList.helpers({
 		return FlowRouter.getParam('selectedStudentId');
 	},
 
+	activeRoute: function(currentRoute, route) {
+		if (currentRoute === route) {
+			return true;
+		}
+		return false;
+	},
+
 	active: function(id) {
-		if (Session.get('selectedStudentId') === id) {
+		if (FlowRouter.getParam('selectedStudentId') === id) {
 			return true;
 		}
 		return false;

@@ -7,16 +7,15 @@ import './schoolYearsView.html';
 Template.schoolYearsView.onCreated( function() {
 	// Subscriptions
 	Tracker.autorun(() => {
-		this.schoolYearData = Meteor.subscribe('schoolYearComplete', FlowRouter.getParam('selectedSchoolYearId'));
+		this.schoolYearData = Meteor.subscribe('schoolYearView', FlowRouter.getParam('selectedSchoolYearId'));
 	});
 });
 
 Template.schoolYearsView.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
-		label: 'School Year',
+		toolbarType: 'school-year',
 		editUrl: '/planning/schoolyears/edit/' + FlowRouter.getParam('selectedSchoolYearId'),
-		deleteClass: 'js-delete-school-year',
 	});
 
 	// Navbar Settings
@@ -33,7 +32,7 @@ Template.schoolYearsView.helpers({
 	},
 
 	terms: function() {
-		return Terms.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId')});
+		return Terms.find({schoolYearId: Session.get('selectedSchoolYearId')});
 	},
 
 	termWeeks: function(termId) {
@@ -46,19 +45,23 @@ Template.schoolYearsView.helpers({
 });
 
 Template.schoolYearsView.events({
-	'click .js-delete-school-year'(event) {
-		event.preventDefault();
-
-		Dialogs.insert({
-			heading: 'Confirmation',
-			message: 'Are you sure you want to delete this School Year?',
-			confirmClass: 'js-delete-school-year-confirmed',
-		});
-	},
-
 	'click .js-delete-school-year-confirmed'(event) {
 		event.preventDefault();
-		const dialogId = Dialogs.findOne()._id;
+		$('.loading-deleting').show();
+
+		function nextSchoolYearId(selectedSchoolYearId) {
+			let schoolYearIds = SchoolYears.find({}, {sort: {startYear: 1}}).map(schoolYear => (schoolYear._id));
+			let selectedIndex = schoolYearIds.indexOf(selectedSchoolYearId);
+
+			if (selectedIndex) {
+				return schoolYearIds[selectedIndex - 1]
+			}
+			return schoolYearIds[selectedIndex + 1]
+		};
+
+		let newSchoolYearId = nextSchoolYearId(FlowRouter.getParam('selectedSchoolYearId'))
+		let dialogId = Dialogs.findOne()._id;
+
 		Dialogs.remove({_id: dialogId});
 		Meteor.call('deleteSchoolYear', FlowRouter.getParam('selectedSchoolYearId'), function(error) {
 			if (error) {
@@ -69,7 +72,9 @@ Template.schoolYearsView.events({
 				});
 			} else {
 				Dialogs.remove({_id: dialogId});
-				FlowRouter.go('/planning/schoolyears/list');
+				Session.set('selectedSchoolYearId', newSchoolYearId)
+				FlowRouter.go('/planning/schoolyears/view/' + newSchoolYearId);
+				$('.loading-deleting').hide();
 			}
 		});
 	}

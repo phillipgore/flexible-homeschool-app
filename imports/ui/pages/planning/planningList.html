@@ -3,38 +3,59 @@
 	<main class="app-content app-content-preceeds-toolbar">
 		<ul class="list">
 			<li class="list-item">
-				<a href="/planning/students/view/{{selectedStudentId}}" class="js-planning list-item-link p-tn-rl-9 {{#if active currentRouteName 'studentsView'}}active{{/if}}">
+				<a id="students" href="/planning/students/view/{{selectedStudentId}}" class="js-planning list-item-link p-tn-rl-9 
+				{{#if active currentRouteName 'studentsNew'}}active{{/if}}
+				{{#if active currentRouteName 'studentsView'}}active{{/if}}
+				{{#if active currentRouteName 'studentsEdit'}}active{{/if}}">
 					<div class="list-item-icon"><i class="txt-primary fss-students"></i></div> 
 					<div class="list-item-label">Students</div>
 				</a>
 			</li>
 			<li class="list-item">
-				<a href="/planning/schoolyears/view/{{selectedSchoolYearId}}" class="js-planning list-item-link p-tn-rl-9 {{#if active currentRouteName 'schoolYearsView'}}active{{/if}}">
+				<a id="schoolYears" href="/planning/schoolyears/view/{{selectedSchoolYearId}}" class="js-planning list-item-link p-tn-rl-9 
+				{{#if active currentRouteName 'schoolYearsNew'}}active{{/if}}
+				{{#if active currentRouteName 'schoolYearsView'}}active{{/if}}
+				{{#if active currentRouteName 'schoolYearsEdit'}}active{{/if}}">
 					<div class="list-item-icon"><i class="txt-primary fss-school-years"></i></div> 
 					<div class="list-item-label">School Years</div>
 				</a>
 			</li>
 			<li class="list-item">
-				<a href="/planning/resources/view/{{selectedResourceType}}/{{selectedResourceAvailability}}/{{selectedResourceId}}" class="js-planning list-item-link p-tn-rl-9 {{#if active currentRouteName 'resourcesView'}}active{{/if}}">
+				<a id="resources" href="/planning/resources/view/{{selectedResourceType}}/{{selectedResourceAvailability}}/{{selectedResourceId}}/{{#if typeIsAll selectedResourceType}}{{selectedResourceCurrentTypeId}}{{else}}{{selectedResourceType}}{{/if}}" class="js-planning list-item-link p-tn-rl-9 
+				{{#if active currentRouteName 'resourcesNew'}}active{{/if}}
+				{{#if active currentRouteName 'resourcesView'}}active{{/if}}
+				{{#if active currentRouteName 'resourcesEdit'}}active{{/if}}">
 					<div class="list-item-icon"><i class="txt-primary fss-resources"></i></div> 
 					<div class="list-item-label">Resources</div>
 				</a>
 			</li>
-			{{#if subjectAvailable}}
+			<li class="list-item">
+				<a id="subjects" href="/planning/subjects/view/{{selectedStudentId}}/{{selectedSchoolYearId}}/{{selectedSubjectId}}" class="js-planning list-item-link p-tn-rl-9 
+				{{#if active currentRouteName 'subjectsNew'}}active{{/if}}
+				{{#if active currentRouteName 'subjectsView'}}active{{/if}}
+				{{#if active currentRouteName 'subjectsEdit'}}active{{/if}}">
+					<div class="list-item-icon"><i class="txt-primary fss-subjects"></i></div> 
+					<div class="list-item-label">Subjects</div>
+				</a>
+			</li>
+			<!-- {{#if subjectAvailable}}
 				<li class="list-item">
-					<a href="{{pathFor 'subjectsList' selectedSchoolYearId=selectedSchoolYearId selectedStudentId=selectedStudentId}}" class="list-item-link p-tn-rl-9">
+					<a id="subjects" href="/planning/subjects/view/{{selectedStudentId}}/{{selectedSchoolYearId}}/{{selectedSubjectId}}" class="js-planning list-item-link p-tn-rl-9 
+					{{#if active currentRouteName 'subjectsNew'}}active{{/if}}
+					{{#if active currentRouteName 'subjectsView'}}active{{/if}}
+					{{#if active currentRouteName 'subjectsEdit'}}active{{/if}}">
 						<div class="list-item-icon"><i class="txt-primary fss-subjects"></i></div> 
 						<div class="list-item-label">Subjects</div>
 					</a>
 				</li>
 			{{else}}
 				<li class="list-item">
-					<a href="{{pathFor 'subjectsList' selectedSchoolYearId=selectedSchoolYearId selectedStudentId=selectedStudentId}}" class="js-planning list-item-link p-tn-rl-9 {{#if active currentRouteName 'subjectsView'}}active{{/if}}">
+					<a href="#" class="list-item-link p-tn-rl-9">
 						<div class="list-item-icon"><i class="txt-gray-dark fss-subjects"></i></div> 
 						<div class="list-item-label txt-gray-darker">Subjects</div>
 					</a>
 				</li>
-			{{/if}}
+			{{/if}} -->
 		</ul>
 		{{test.selectedFramePosition}}
 	</main>

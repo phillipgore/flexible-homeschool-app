@@ -1,34 +1,59 @@
 <template name="subjectsList">
 	{{> toolbar}}
 	<main class="app-content app-content-preceeds-toolbar">
-		{{#if subjectsCount}}
-			{{#if subjects.count}}
-				<ul class="list">
-					{{#each subject in subjects}}
-						<li class="list-item">
-							<a href="/planning/subjects/view/{{subject._id}}" class="list-item-link p-tn-rl-9">
-								<div class="list-item-icon"><i class="txt-primary fss-subjects"></i></div> 
-								<div class="list-item-label">{{subject.name}}</div>
-							</a>
-						</li>
-					{{/each}}
-				</ul>
-			{{else}}
-				<div class="txt-tn-center m-tn-t-72">
-					<i class="fss-subjects font-size-64 txt-gray"></i>
-					<h1 class="m-tn-t-36">Sorry</h1>
-					<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36">No subjects fit the selected criteria.</p>
-				</div>
-			{{/if}}
-		{{else}}
+		{{#unless studentCount}}
 			<div class="txt-tn-center m-tn-t-72">
-				<i class="fss-subjects font-size-64 txt-gray"></i>
-				<h1 class="m-tn-t-36">Add Your First Subject</h1>
-				<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36">Click the plus icon above to add your first Subject.</p>
+				<i class="fss-subjects font-size-64 txt-gray m-tn-r-9"></i>
+				<h1 class="m-tn-t-36">Requires Students</h1>
+				<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36">Click the plus icon above to add your first Student.</p>
 			</div>
-		{{/if}}
+		{{else}}
+			{{#unless schoolYearCount}}
+				<div class="txt-tn-center m-tn-t-72">
+					<i class="fss-subjects font-size-64 txt-gray m-tn-l-9"></i>
+					<h1 class="m-tn-t-36">Requires School Years</h1>
+					<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36">Click the plus icon above to add your first School Year.</p>
+				</div>
+			{{else}}
+				{{#if subjectsCount}}
+					{{#if subjects.count}}
+						<ul class="list">
+							{{#if activeRoute currentRouteName 'subjectsNew'}}
+								<li class="list-item">
+									<span class="list-item-inner p-tn-rl-9 active">
+										<div class="list-item-icon"><i class="txt-primary fss-subjects-new"></i></div> 
+										<div class="list-item-label font-style-italic font-weight-normal"> New Subject
+										</div>
+									</span>
+								</li>
+							{{/if}}
+							{{#each subject in subjects}}
+								<li class="list-item">
+									<a id="{{subject._id}}" data-subject-student="{{selectedStudentId}}" data-subject-school-year="{{selectedSchoolYearId}}" href="/planning/subjects/view/{{selectedStudentId}}/{{selectedSchoolYearId}}/{{subject._id}}" class="js-subject list-item-link p-tn-rl-9 {{#if active subject._id}}active{{/if}}">
+										<div class="list-item-icon"><i class="txt-primary fss-subjects"></i></div> 
+										<div class="list-item-label">{{subject.name}}</div>
+									</a>
+								</li>
+							{{/each}}
+						</ul>
+					{{else}}
+						<div class="txt-tn-center m-tn-t-72">
+							<i class="fss-subjects font-size-64 txt-gray"></i>
+							<h1 class="m-tn-t-36">Sorry</h1>
+							<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36">No subjects fit the selected criteria.</p>
+						</div>
+					{{/if}}
+				{{else}}
+					<div class="txt-tn-center m-tn-t-72">
+						<i class="fss-subjects font-size-64 txt-gray"></i>
+						<h1 class="m-tn-t-36">Add Your First Subject</h1>
+						<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36">Click the plus icon above to add your first Subject.</p>
+					</div>
+				{{/if}}
+			{{/unless}}
+		{{/unless}}
 	</main>
-	{{#unless Template.subscriptionsReady}}
-		{{> loading subbar=true}}
+	{{#unless subscriptionReady}}
+		{{> loading}}
 	{{/unless}}
 </template>

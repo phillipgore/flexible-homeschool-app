@@ -110,4 +110,39 @@
 		left: 0px;
 		z-index: 10;
 	}
+
+	@media only screen and (min-width: 640px) {
+		&.active {
+			position: relative;
+			top: auto;
+			right: auto;
+			bottom: auto;
+			left: auto;
+			z-index: auto;
+		}
+
+		.track-input {
+			.track-form {
+				position: absolute;
+				top: 9px;
+				right: 9px;
+				left: 9px;
+				bottom: auto;
+				border-radius: 3px;
+				border: 1px solid $color-gray-dark;
+				background-color: $color-gray-lightest;
+				z-index: 10;
+				padding: 9px;
+				min-height: 413px;
+
+				.toolbar-bottom {
+					height: auto;
+				}
+
+				textarea {
+					height: 159px;
+				}
+			}
+		}
+	}
 }

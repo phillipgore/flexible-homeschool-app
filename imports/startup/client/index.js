@@ -7,6 +7,17 @@ import './settingsRoutes.js';
 
 import moment from 'moment';
 
+FlowRouter.route('/initializing', {
+	name: 'initializing',
+	action() {
+		BlazeLayout.render('initializing');
+	},
+});
+
+Accounts.onLogout(() => {
+	Session.clear();
+});
+
 Template.registerHelper('dateFormat', (date) => {
   return moment.utc(date).format('MMMM D, YYYY');
 });

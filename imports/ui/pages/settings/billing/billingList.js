@@ -7,7 +7,7 @@ Template.billingList.onCreated( function() {
 	// Subscriptions
 	this.subscribe('group');
 
-	Meteor.call('getCard', function(error, result) {
+	Meteor.call('getCardBrand', function(error, result) {
 		if (error) {
 			Alerts.insert({
 				colorClass: 'bg-danger',
@@ -15,14 +15,16 @@ Template.billingList.onCreated( function() {
 				message: error.reason,
 			});
 		} else {
-			Session.set('card', result);
+			Session.set('cardBrand', result);
 		}
-	})
+	});
 });
 
 Template.billingList.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
+		toolbarType: 'billing',
+		editUrl: '',
 		label: 'Billing',
 		rightUrl: '',
 		rightIcon: '',
@@ -34,7 +36,7 @@ Template.billingList.onRendered( function() {
 
 Template.billingList.helpers({
 	dataReady: function() {
-		if (Session.get('card')) {
+		if (Session.get('cardBrand')) {
 			return true;
 		}
 		return false;
@@ -49,10 +51,10 @@ Template.billingList.helpers({
 	},
 
 	cardClass: function() {
-		if (!Session.get('card')) {
+		if (!Session.get('cardBrand')) {
 			return 'fss-billing';
 		}
-		let brand = Session.get('card').brand;		
+		let brand = Session.get('cardBrand');		
 		if (brand === 'Visa') {
 			return 'fss-cc-visa';
 		}
@@ -92,6 +94,13 @@ Template.billingList.helpers({
 
 	accountPaused: function (subscriptionStatus) {
 		if (subscriptionStatus === 'paused') {
+			return true;
+		}
+		return false;
+	},
+
+	active: function(currentRoute, route) {
+		if (currentRoute === route) {
 			return true;
 		}
 		return false;

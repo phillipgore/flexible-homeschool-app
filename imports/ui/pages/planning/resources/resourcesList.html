@@ -4,11 +4,24 @@
 		{{#if resourceCount 'all' 'all'}}
 			{{#if resourceCount selectedResourceType selectedResourceAvailability}}
 				<ul class="list">
+					{{#if activeRoute currentRouteName 'resourcesNew'}}
+						<li class="list-item">
+							<span class="list-item-inner p-tn-rl-9 active">
+								<div class="list-item-icon"><i class="txt-primary fss-{{selectedResourceNewType}}-new"></i></div> 
+								<div class="list-item-label font-style-italic font-weight-normal"> New <span class="txt-capitalize">{{selectedResourceNewType}}</span>
+								</div>
+							</span>
+						</li>
+					{{/if}}
 					{{#each resource in resources}}
-						<li id="{{resource._id}}" class="list-item">
-							<a href="/planning/resources/view/{{resource._id}}" class="list-item-link p-tn-rl-9">
-								<div class="list-item-icon"><i class="txt-primary fss-{{resource.type}} fss-fw-16"></i></div> 
-								<div class="list-item-label">{{resource.title}}</div>
+						<li id="resource{{resource._id}}" class="list-item">
+							<a id="{{resource._id}}"
+								data-resource-type="{{resource.type}}" 
+								data-resource-availability="{{selectedResourceAvailability}}" 
+								href="/planning/resources/view/{{selectedResourceType}}/{{selectedResourceAvailability}}/{{resource._id}}/{{resource.type}}" class="js-resource list-item-link p-tn-rl-9 {{#if active resource._id}}active{{/if}}"
+							>
+							<div class="list-item-icon"><i class="txt-primary fss-{{resource.type}} fss-fw-16"></i></div> 
+							<div class="list-item-label">{{resource.title}}</div>
 							</a>
 							{{#unless isLink resource.type}}
 								<div class="list-item-dropdown-loader hide"><i class="fss-searching fss-spin txt-gray-darkest"></i></div>
@@ -39,7 +52,7 @@
 			</div>
 		{{/if}}
 	</main>
-	{{#unless Template.subscriptionsReady}}
-		{{> loading subbar=true}}
+	{{#unless subscriptionReady}}
+		{{> loading}}
 	{{/unless}}
 </template>

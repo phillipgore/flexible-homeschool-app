@@ -2,25 +2,34 @@
 	{{> toolbar}}
 	<main class="app-content app-content-preceeds-toolbar">
 		<ul class="list">
-			{{#if users.count}}
-				<li class="list-item-label p-tn-rl-9">Active</li>
-				{{#each user in users}}
-					<li class="list-item">
-						<a href="/settings/users/view/{{user._id}}" class="list-item-link p-tn-rl-9">
-							<div class="list-item-icon"><i class="txt-primary fss-users"></i></div> 
-							<div class="list-item-label">{{user.info.firstName}} {{user.info.lastName}} 
-								<span class="list-item-sublabel">({{user.info.relationshipToStudents}})</span>
-							</div>
-						</a>
-					</li>
-				{{/each}}
+			{{#if nonActive usersPending.count usersPaused.count}}
+				<li class="list-item-label p-tn-rl-9">Active Users</li>
 			{{/if}}
+			{{#if activeRoute currentRouteName 'usersNew'}}
+				<li class="list-item">
+					<span class="list-item-inner p-tn-rl-9 active">
+						<div class="list-item-icon"><i class="txt-primary fss-users-new"></i></div> 
+						<div class="list-item-label font-style-italic font-weight-normal"> New User
+						</div>
+					</span>
+				</li>
+			{{/if}}
+			{{#each user in users}}
+				<li class="list-item">
+					<a id="{{user._id}}" data-verified="{{user.emails.[0].verified}}" data-active="{{user.status.active}}" href="/settings/users/view/{{user._id}}" class="js-user list-item-link p-tn-rl-9 {{#if active user._id}}active{{/if}}">
+						<div class="list-item-icon"><i class="txt-primary fss-users"></i></div> 
+						<div class="list-item-label">{{user.info.firstName}} {{user.info.lastName}} 
+							<span class="list-item-sublabel">({{user.info.relationshipToStudents}})</span>
+						</div>
+					</a>
+				</li>
+			{{/each}}
 			{{#if usersPending.count}}
-				<li class="list-item-label p-tn-rl-9">Pending Verification</li>
+				<li class="list-item-label p-tn-rl-9">Users Pending Verification</li>
 				{{#each user in usersPending}}
 					<li class="list-item">
-						<a href="/settings/users/view/{{user._id}}" class="list-item-link p-tn-rl-9">
-							<div class="list-item-icon"><i class="txt-primary fss-users"></i></div> 
+						<a id="{{user._id}}" data-verified="{{user.emails.[0].verified}}" data-active="{{user.status.active}}" href="/settings/users/view/{{user._id}}" class="js-user list-item-link p-tn-rl-9 {{#if active user._id}}active{{/if}}">
+							<div class="list-item-icon"><i class="txt-danger fss-users"></i></div> 
 							<div class="list-item-label">{{user.info.firstName}} {{user.info.lastName}} 
 								<span class="list-item-sublabel">({{user.info.relationshipToStudents}})</span>
 							</div>
@@ -29,11 +38,11 @@
 				{{/each}}
 			{{/if}}
 			{{#if usersPaused.count}}
-				<li class="list-item-label p-tn-rl-9">Paused</li>
+				<li class="list-item-label p-tn-rl-9">Paused Users</li>
 				{{#each user in usersPaused}}
 					<li class="list-item">
-						<a href="/settings/users/view/{{user._id}}" class="list-item-link p-tn-rl-9">
-							<div class="list-item-icon"><i class="txt-primary fss-users"></i></div> 
+						<a id="{{user._id}}" data-verified="{{user.emails.[0].verified}}" data-active="{{user.status.active}}" href="/settings/users/view/{{user._id}}" class="js-user list-item-link p-tn-rl-9 {{#if active user._id}}active{{/if}}">
+							<div class="list-item-icon"><i class="txt-warning fss-users"></i></div> 
 							<div class="list-item-label">{{user.info.firstName}} {{user.info.lastName}} 
 								<span class="list-item-sublabel">({{user.info.relationshipToStudents}})</span>
 							</div>

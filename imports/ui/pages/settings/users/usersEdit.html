@@ -1,7 +1,7 @@
 <template name="usersEdit">
 	{{> toolbar}}
-	<main class="app-content app-content-preceeds-toolbar">
-		<form class="js-form-edit-user row m-tn-h-18 | m-xs-h-72">
+	<main class="app-content app-content-preceeds-toolbar app-content-form">
+		<form class="js-form-edit-user row row">
 
 			<div class="m-tn-b-30">
 				<div class="row">
@@ -31,7 +31,7 @@
 			</div>
 
 			<label>Role</label>
-			<div class="radio-collection m-tn-b-30">
+			<div class="radio-collection m-tn-b-18">
 				<label class="radio">
 					<input class="js-radio-administrator" type="radio" name="role" value="Administrator" checked="{{role user.info.role 'Administrator'}}">
 					<div class="radio-icon"></div> 

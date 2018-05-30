@@ -5,7 +5,6 @@ import autosize from 'autosize';
 import './resourcesEditLink.html';
 
 Template.resourcesEditLink.onCreated( function() {
-	// Subscriptions
 	this.subscribe('resource', FlowRouter.getParam('selectedResourceId'));
 });
 
@@ -44,6 +43,7 @@ Template.resourcesEditLink.onRendered( function() {
 				title: event.target.title.value.trim(),
 				link: event.target.link.value.trim(),
 				description: event.target.description.value.trim(),
+				availability: 'own',
 			};
 
 			Meteor.call('updateResource', FlowRouter.getParam('selectedResourceId'), resourceProperties, function(error) {
@@ -57,7 +57,7 @@ Template.resourcesEditLink.onRendered( function() {
 					$('.js-loading').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
-					FlowRouter.go('/planning/resources/view/' + FlowRouter.getParam('selectedResourceId'));
+					FlowRouter.go('/planning/resources/view/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/'+ FlowRouter.getParam('selectedResourceId') +'/'+ FlowRouter.getParam('selectedResourceCurrentTypeId'));
 				}
 			});
 
@@ -68,7 +68,11 @@ Template.resourcesEditLink.onRendered( function() {
 
 Template.resourcesEditLink.helpers({
 	resource: function() {
-		return Resources.findOne();
+		return Resources.findOne({_id: FlowRouter.getParam('selectedResourceId')});
+	},
+
+	cancelPath: function() {
+		return '/planning/resources/view/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/'+ FlowRouter.getParam('selectedResourceId') +'/'+ FlowRouter.getParam('selectedResourceCurrentTypeId');
 	},
 });
 

@@ -9,7 +9,12 @@ Meteor.methods({
 	},
 
 	deleteWeek: function(weekId) {
+		let lessonIds = Lessons.find({weekId: weekId}).map(lesson => (lesson._id));
+
 		Weeks.update(termId, {$set: {deletedOn: new Date()}});
+		lessonIds.forEach(function(lessonId) {
+			Lessons.update(lessonId, {$set: {deletedOn: new Date()}});
+		});
 	},
 
 	batchInsertWeeks(weekProperties) {

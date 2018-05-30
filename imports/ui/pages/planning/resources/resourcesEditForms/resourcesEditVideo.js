@@ -5,8 +5,9 @@ import autosize from 'autosize';
 import './resourcesEditVideo.html';
 
 Template.resourcesEditVideo.onCreated( function() {
-	// Subscriptions
-	this.subscribe('resource', FlowRouter.getParam('selectedResourceId'));
+	Tracker.autorun(() => {
+		this.subscribe('resource', FlowRouter.getParam('selectedResourceId'));
+	});
 });
 
 Template.resourcesEditVideo.onRendered( function() {
@@ -60,7 +61,7 @@ Template.resourcesEditVideo.onRendered( function() {
 					$('.js-loading').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
-					FlowRouter.go('/planning/resources/view/' + FlowRouter.getParam('selectedResourceId'));
+					FlowRouter.go('/planning/resources/view/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/'+ FlowRouter.getParam('selectedResourceId') +'/'+ FlowRouter.getParam('selectedResourceCurrentTypeId'));
 				}
 			});
 
@@ -79,6 +80,10 @@ Template.resourcesEditVideo.helpers({
 			return true;
 		}
 		return false;
+	},
+
+	cancelPath: function() {
+		return '/planning/resources/view/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/'+ FlowRouter.getParam('selectedResourceId') +'/'+ FlowRouter.getParam('selectedResourceCurrentTypeId');
 	},
 });
 

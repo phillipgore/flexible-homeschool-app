@@ -3,6 +3,17 @@ import '../../api/groups/methods.js';
 
 process.env.MAIL_URL = Meteor.settings.private.mailUrl;
 
+Meteor.methods({
+	insertUser: function(userProperties) {
+		let userId = Accounts.createUser(userProperties);
+		return userId
+	},
+
+	resendVerificationEmail: function(userId, email) {
+		Accounts.sendVerificationEmail(userId, email);
+	},
+});
+
 Accounts.config({
   sendVerificationEmail: true,
 });

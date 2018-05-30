@@ -14,7 +14,16 @@ Meteor.methods({
 	},
 
 	deleteTerm: function(termId) {
+		let weekIds = Weeks.find({termId: termId}).map(week => (week._id));
+		let lessonIds = Lessons.find({weekId: {$in: weekIds}}).map(lesson => (lesson._id));
+
 		Terms.update(termId, {$set: {deletedOn: new Date()}});
+		weekIds.forEach(function(weekId) {
+			Weeks.update(weekId, {$set: {deletedOn: new Date()}});
+		});
+		lessonIds.forEach(function(lessonId) {
+			Lessons.update(lessonId, {$set: {deletedOn: new Date()}});
+		});
 	},
 
 	batchUpdateTerms: function(termProperties) {

@@ -23,6 +23,30 @@ i {
     -moz-osx-font-smoothing: grayscale;
 }
 
+.fss-report-resource:before {
+  content: "\e943";
+}
+.fss-report-new:before {
+  content: "\e942";
+}
+.fss-app-new:before {
+  content: "\e93d";
+}
+.fss-audio-new:before {
+  content: "\e93e";
+}
+.fss-book-new:before {
+  content: "\e93f";
+}
+.fss-link-new:before {
+  content: "\e940";
+}
+.fss-video-new:before {
+  content: "\e941";
+}
+.fss-caret-circle:before {
+  content: "\e93c";
+}
 .fss-back-circle:before {
   content: "\e93b";
 }

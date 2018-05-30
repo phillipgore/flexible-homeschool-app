@@ -34,20 +34,28 @@ hr {
 	position: relative;
 }
 
-.app-content {
-	padding-top: 80px;
-	min-height: 100%;
-
-	&.app-content-preceeds-toolbar {
-		padding-bottom: 50px;
-	}
-}
-
 .no-subbar {
-	padding-top: 50px;
+	margin-top: 50px;
 }
 
 @media only screen and (min-width: 0px) {
+	.app-content {
+		padding-top: 80px;
+		min-height: 100%;
+		
+		&.app-content-data {
+			padding: 89px 9px 9px;
+		}
+		
+		&.app-content-form {
+			padding: 89px 9px 9px;
+		}
+
+		&.app-content-preceeds-toolbar {
+			padding-bottom: 59px;
+		}
+	}
+
 	.frame-container-outer {
 		overflow-x: hidden;
 		min-height: 100vh;
@@ -84,25 +92,79 @@ hr {
 	.frame-position-three {
 		margin-left: -200%;
 	}
+
+	.frame-cover {
+		position: absolute;
+		background-color: $color-gray-lightest;
+		top: 0px;
+		right: 0px;
+		bottom: 0px;
+		width: 320px;
+		z-index: 2000000;
+		display: none;
+	}
+}
+
+@media only screen and (min-width: 480px) {
+	.app-content {
+		&.app-content-data {
+			padding: 95px 15px 15px;
+		}
+		
+		&.app-content-form {
+			padding: 95px 15px 15px;
+		}
+
+		&.app-content-preceeds-toolbar {
+			padding-bottom: 65px;
+		}
+	}
 }
 
 @media only screen and (min-width: 640px) {
+	html, body {
+		overflow: hidden;
+	}
+
+	.app-content {	
+		&.app-content-data {
+			padding: 89px 9px 9px;
+		}
+		
+		&.app-content-form {
+			padding: 89px 9px 9px;
+
+			form {
+				margin: 0px auto;
+				max-width: 302px;
+			}
+		}
+
+		&.app-content-preceeds-toolbar {
+			padding-bottom: 59px;
+		}
+	}
+
 	.frame-contaner-inner {
 		width: 150%;
+		height: 100vh;
 	}
 
 	.frame-one {
-		overflow-y: hidden;
+		height: 100vh;
+		overflow-y: auto;
 	}
 
 	.frame-two {
 		border-left: 1px solid $color-gray;
-		overflow-y: hidden;
+		height: 100vh;
+		overflow-y: auto;
 	}
 
 	.frame-three {
 		border-left: 1px solid $color-gray;
-		overflow-y: hidden;
+		height: 100vh;
+		overflow-y: auto;
 	}
 
 	.frame-position-two {
@@ -112,9 +174,68 @@ hr {
 	.frame-position-three {
 		margin-left: -50%;
 	}
+
+	.createAccount,
+	.verifySent,
+	.verifySuccess,
+	.signIn,
+	.reset,
+	.resetSent,
+	.resetPassword,
+	.resetSuccess,
+	.billingError {
+		.frame-one {
+			width: 302px;
+			margin-left: calc(50vw - 150px);
+			float: none;
+			overflow-y: visible;
+		}
+
+		.frame-two, .frame-three {
+			display: none;
+		}
+	}
+}
+
+@media only screen and (min-width: 768px) {
+	.app-content.app-content-data {
+		padding: 21px;
+	}
+
+	.app-content.app-content-form {
+		padding: 21px;
+	}
+
+	.app-content {	
+		&.app-content-data {
+			padding: 101px 21px 21px;
+		}
+		
+		&.app-content-form {
+			padding: 101px 21px 21px;
+		}
+
+		&.app-content-preceeds-toolbar {
+			padding-bottom: 71px;
+		}
+	}
 }
 
 @media only screen and (min-width: 896px) {
+	.app-content {	
+		&.app-content-data {
+			padding: 107px 27px 27px;
+		}
+		
+		&.app-content-form {
+			padding: 107px 27px 27px;
+		}
+
+		&.app-content-preceeds-toolbar {
+			padding-bottom: 77px;
+		}
+	}
+
 	.frame-contaner-inner {
 		width: 100%;
 	}
@@ -129,6 +250,7 @@ hr {
 
 	.frame-three {
 		width: calc(100% - 576px);
+		max-width: 828px;
 	}
 
 	.frame-position-two {
@@ -137,5 +259,63 @@ hr {
 
 	.frame-position-three {
 		margin-left: 0px;
+	}
+
+	.trackingView, 
+	.reportingNew,
+	.reportingView,
+	.reportingEdit,
+	.supportView {
+		.frame-two {
+			width: calc(100% - 288px);
+			max-width: 828px;
+		}
+
+		.frame-three {
+			display: none;
+		}
+
+	}
+
+	.frame-cover {
+		display: block;
+		width: calc(100% - 1440px);
+	}
+}
+
+@media only screen and (min-width: 1200px) {
+	.app-content {	
+		&.app-content-data {
+			padding: 116px 36px 36px;
+		}
+		
+		&.app-content-form {
+			padding: 116px 36px 36px;
+		}
+
+		&.app-content-preceeds-toolbar {
+			padding-bottom: 86px;
+		}
+	}
+}
+
+@media only screen and (min-width: 1248px) {
+	.frame-three {
+		border-right: 1px solid $color-gray;
+	}
+
+	.trackingView, 
+	.reportingNew,
+	.reportingView,
+	.reportingEdit,
+	.supportView {
+		.frame-two {
+			border-right: 1px solid $color-gray;
+		}
+
+		.frame-three {
+			display: none;
+		}
+
 	}
 }

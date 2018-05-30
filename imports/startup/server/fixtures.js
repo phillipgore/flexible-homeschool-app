@@ -8,7 +8,7 @@ import {Subjects} from '../../api/subjects/subjects.js';
 import {Lessons} from '../../api/lessons/lessons.js';
 
 
-const studentProperties = [
+let studentProperties = [
 	{
 		firstName: 'Lanaya',
 		middleName: 'Elizabeth',
@@ -55,7 +55,7 @@ const studentProperties = [
 	},
 ];
 
-const schoolYearProperties = [
+let schoolYearProperties = [
 	{
 		startYear: '2016',
 		endYear: '2017',
@@ -96,7 +96,7 @@ const schoolYearProperties = [
 	},
 ];
 
-const resources = [
+let resources = [
 	{
 		type: 'book',
 		searchIndex: ['Books', 'KindleStore'],
@@ -155,6 +155,7 @@ const resources = [
 		searchIndex: [],
 		title: 'Daily Grammar Geek',
 		link: 'http://www.dailygrammargeek.com/',
+		availability: 'own',
 	},
 	{
 		type: 'book',
@@ -196,7 +197,7 @@ const resources = [
 	}
 ];
 
-const subjects = [
+let subjects = [
 	[
 		{
 			order: 1,

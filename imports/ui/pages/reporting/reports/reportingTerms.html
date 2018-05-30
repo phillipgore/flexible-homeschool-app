@@ -1,50 +1,55 @@
 <template name="reportingTerms">
-	{{#if user.reportSettings.termsReportVisible}}
-		<div class="report p-tn-trl-18 m-tn-b-9">
-			{{#each term in terms}}
-				<div class="report-section">
-					<div class="clearfix m-tn-b-12">
-						<h2><i class="fss-terms txt-primary"></i> Term {{term.order}}</h2>
+	{{#if report.termsReportVisible}}
+		<h1 class="m-tn-b-9"><i class="fss-terms txt-primary"></i> Terms</h1>
+		<div class="report p-tn-trl-18 m-tn-b-18 m-sm-b-27">
+			{{#if terms.count}}
+				{{#each term in terms}}
+					<div class="report-section">
+						<div class="clearfix m-tn-b-12">
+							<h2>Term {{term.order}}</h2>
+						</div>
+						{{#if report.termsStatsVisible}}
+							<div class="row font-weight-normal txt-tn-center m-tn-b-18">
+								<div class="col-tn-1of3 right-border">
+									<div class="font-size-24 m-tn-b-3">{{term.subjectCount}}</div>
+									<div class="txt-gray-darker">Subjects</div>
+								</div>
+								<div class="col-tn-1of3 right-border">
+									<div class="font-size-24 m-tn-b-3">{{term.weekCount}}</div>
+									<div class="txt-gray-darker">Weeks</div>
+								</div>
+								<div class="col-tn-1of3">
+									<div class="font-size-24 m-tn-b-3">{{term.lessonCount}}</div>
+									<div class="txt-gray-darker">Lessons</div>
+								</div>
+							</div>
+						{{/if}}
+						{{#if report.termsProgressVisible}}
+							<div class="meter meter-large m-tn-b-18">
+								<div class="meter-progress {{#if term.progressStatus}}meter-progress-primary{{/if}}" style="width: {{term.progress}}%;">
+									<div class="meter-label">Term's Progress: {{term.progress}}%</div>
+								</div>
+								<div class="meter-label">Term's Progress: {{term.progress}}%</div>
+							</div>
+						{{/if}}
+						{{#if report.termsTimesVisible}}
+							<div class="row font-weight-normal txt-tn-center m-tn-b-18">
+								<p class="m-tn-b-6">
+									<span class="txt-gray-darker">Total Time:</span> {{term.totalTime}}
+								</p>
+								<p class="m-tn-b-6">
+									<span class="txt-gray-darker">Average Time Per Week:</span> {{term.averageWeeks}}
+								</p>
+								<p class="m-tn-b-6">
+									<span class="txt-gray-darker">Average Time Per Lesson:</span> {{term.averageLessons}}
+								</p>
+							</div>
+						{{/if}}
 					</div>
-					{{#if user.reportSettings.termsStatsVisible}}
-						<div class="row font-weight-normal txt-tn-center m-tn-b-18">
-							<div class="col-tn-1of3 right-border">
-								<div class="font-size-24 m-tn-b-3">{{subjectsCountTerm term._id}}</div>
-								<div class="txt-gray-darker">Subjects</div>
-							</div>
-							<div class="col-tn-1of3 right-border">
-								<div class="font-size-24 m-tn-b-3">{{weeksCountTerm term._id}}</div>
-								<div class="txt-gray-darker">Weeks</div>
-							</div>
-							<div class="col-tn-1of3">
-								<div class="font-size-24 m-tn-b-3">{{lessonsCountTerm term._id}}</div>
-								<div class="txt-gray-darker">Lessons</div>
-							</div>
-						</div>
-					{{/if}}
-					{{#if user.reportSettings.termsProgressVisible}}
-						<div class="meter meter-large m-tn-b-18">
-							<div class="meter-progress {{termsProgressStatus term._id}}" style="width: {{termsProgress term._id}}%;">
-								<div class="meter-label">Term's Progress: {{termsProgress term._id}}%</div>
-							</div>
-							<div class="meter-label">Term's Progress: {{termsProgress term._id}}%</div>
-						</div>
-					{{/if}}
-					{{#if user.reportSettings.termsTimesVisible}}
-						<div class="row font-weight-normal txt-tn-center m-tn-b-18">
-							<p class="m-tn-b-6">
-								<span class="txt-gray-darker">Total Time:</span> {{termsTotalTime term._id}}
-							</p>
-							<p class="m-tn-b-6">
-								<span class="txt-gray-darker">Average Time Per Lesson:</span> {{termsAverageLessons term._id}}
-							</p>
-							<p class="m-tn-b-6">
-								<span class="txt-gray-darker">Average Time Per Week:</span> {{termsAverageWeeks term._id}}
-							</p>
-						</div>
-					{{/if}}
-				</div>
-			{{/each}}
+				{{/each}}
+			{{else}}
+				<h2 class="m-tn-b-12"><i class="fss-terms txt-primary"></i> No Terms</h2>
+			{{/if}}
 		</div>
 	{{/if}}
 </template>

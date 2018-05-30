@@ -33,7 +33,7 @@ Template.signIn.onRendered( function() {
 						$('.js-submit').prop('disabled', false);
 					}
 				} else {
-					FlowRouter.go('/planning/list');
+					FlowRouter.go('/');
 				}
 			});
 

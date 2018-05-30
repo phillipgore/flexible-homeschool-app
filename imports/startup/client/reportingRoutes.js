@@ -1,22 +1,34 @@
 import _ from 'lodash'
 
-FlowRouter.route('/reporting/list/:selectedSchoolYearId/:selectedStudentId', {
-	name: 'reportingList',
+FlowRouter.route('/reporting/new/:selectedStudentId/:selectedSchoolYearId', {
+	name: 'reportingNew',
 	action() {
-		BlazeLayout.reset();
 		BlazeLayout.render('app', {
-			subbar: 'subbarReporting',
+			subbar: '',
 			frameOne: 'reportingList',
+			frameTwo: 'reportingNew',
 		});
 	},
 });
 
-FlowRouter.route('/reporting/settings/edit', {
-	name: 'reportingSettingsEdit',
+FlowRouter.route('/reporting/view/:selectedStudentId/:selectedSchoolYearId/:selectedReportId', {
+	name: 'reportingView',
+	action() {
+		BlazeLayout.render('app', {
+			subbar: 'subbarReporting',
+			frameOne: 'reportingList',
+			frameTwo: 'reportingView',
+		});
+	},
+});
+
+FlowRouter.route('/reporting/edit/:selectedStudentId/:selectedSchoolYearId/:selectedReportId', {
+	name: 'reportingEdit',
 	action() {
 		BlazeLayout.render('app', {
 			subbar: '',
-			frameOne: 'reportingSettingsEdit',
+			frameOne: 'reportingList',
+			frameTwo: 'reportingEdit',
 		});
 	},
 });

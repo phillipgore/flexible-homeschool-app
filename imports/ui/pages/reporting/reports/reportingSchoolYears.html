@@ -1,50 +1,51 @@
 <template name="reportingSchoolYears">
-	{{#if user.reportSettings.schoolYearReportVisible}}
-		<div class="report p-tn-trl-18 m-tn-b-9">
+	{{#if report.schoolYearReportVisible}}
+		<h1 class="m-tn-b-9"><i class="fss-school-years txt-primary"></i> School Year</h1>
+		<div class="report p-tn-trl-18 m-tn-b-18 m-sm-b-27">
 			<div class="clearfix m-tn-b-12">
-				<h2><i class="fss-school-years txt-primary"></i> {{selectedSchoolYear.startYear}}-{{selectedSchoolYear.endYear}}</h2>
+				<h2>{{schoolYear.startYear}}-{{schoolYear.endYear}}</h2>
 			</div>
-			{{#if user.reportSettings.schoolYearStatsVisible}}
+			{{#if report.schoolYearStatsVisible}}
 				<div class="row font-weight-normal txt-tn-center m-tn-b-18 m-tn-l-neg-21 m-tn-r-neg-12">
 					<div class="col-tn-1of4 right-border">
-						<div class="font-size-24 m-tn-b-3">{{termsCount}}</div>
+						<div class="font-size-24 m-tn-b-3">{{schoolYear.termCount}}</div>
 						<div class="txt-gray-darker">Terms</div>
 					</div>
 					<div class="col-tn-1of4 right-border">
-						<div class="font-size-24 m-tn-b-3">{{subjectsCount}}</div>
+						<div class="font-size-24 m-tn-b-3">{{schoolYear.subjectCount}}</div>
 						<div class="txt-gray-darker">Subjects</div>
 					</div>
 					<div class="col-tn-1of4 right-border">
-						<div class="font-size-24 m-tn-b-3">{{weeksCount}}</div>
+						<div class="font-size-24 m-tn-b-3">{{schoolYear.weekCount}}</div>
 						<div class="txt-gray-darker">Weeks</div>
 					</div>
 					<div class="col-tn-1of4">
-						<div class="font-size-24 m-tn-b-3">{{lessonsCount}}</div>
+						<div class="font-size-24 m-tn-b-3">{{schoolYear.lessonCount}}</div>
 						<div class="txt-gray-darker">Lessons</div>
 					</div>
 				</div>
 			{{/if}}
-			{{#if user.reportSettings.schoolYearProgressVisible}}
+			{{#if report.schoolYearProgressVisible}}
 				<div class="meter meter-large m-tn-b-18">
-					<div class="meter-progress {{yearsProgressStatus}}" style="width: {{yearsProgress}}%;">
-						<div class="meter-label">Year's Progress: {{yearsProgress}}%</div>
+					<div class="meter-progress {{#if schoolYear.progressComplete}}meter-progress-primary{{/if}}" style="width: {{schoolYear.progress}}%;">
+						<div class="meter-label">Year's Progress: {{schoolYear.progress}}%</div>
 					</div>
-					<div class="meter-label">Year's Progress: {{yearsProgress}}%</div>
+					<div class="meter-label">Year's Progress: {{schoolYear.progress}}%</div>
 				</div>
 			{{/if}}
-			{{#if user.reportSettings.schoolYearTimesVisible}}
+			{{#if report.schoolYearTimesVisible}}
 				<div class="row font-weight-normal txt-tn-center m-tn-b-18">
 					<p class="m-tn-b-6">
-						<span class="txt-gray-darker">Total Time:</span> {{yearsTotalTime selectedStudent._id selectedSchoolYear._id}}
+						<span class="txt-gray-darker">Total Time:</span> {{schoolYear.totalTime}}
 					</p>
 					<p class="m-tn-b-6">
-						<span class="txt-gray-darker">Average Time Per Lesson:</span> {{yearsAverageLessons selectedStudent._id selectedSchoolYear._id}}
+						<span class="txt-gray-darker">Average Time Per Term:</span> {{schoolYear.averageTerms}}
 					</p>
 					<p class="m-tn-b-6">
-						<span class="txt-gray-darker">Average Time Per Week:</span> {{yearsAverageWeeks selectedStudent._id selectedSchoolYear._id}}
+						<span class="txt-gray-darker">Average Time Per Week:</span> {{schoolYear.averageWeeks}}
 					</p>
 					<p>
-						<span class="txt-gray-darker">Average Time Per Term:</span> {{yearsAverageTerms selectedStudent._id selectedSchoolYear._id}}
+						<span class="txt-gray-darker">Average Time Per Lesson:</span> {{schoolYear.averageLessons}}
 					</p>
 				</div>
 			{{/if}}

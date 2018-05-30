@@ -73,7 +73,6 @@ const ResourcesSchema = new SimpleSchema({
         type: String,
         label: "Availability",
         allowedValues: ['own', 'borrowed', 'need'],
-        optional: true
     },
     publisher: {
         type: String,

@@ -129,6 +129,22 @@ Meteor.methods({
 		return result;
 	},
 
+	getCardBrand: async function() {
+		let groupId = Meteor.user().info.groupId;
+		let customerId = Groups.findOne({_id: groupId}).stripeCustomerId;
+		let cardId = Groups.findOne({_id: groupId}).stripeCardId;
+
+		let result = await stripe.customers.retrieveCard(
+			customerId, cardId
+		).then((card) => {
+			return card;
+		}).catch((error) => {
+			throw new Meteor.Error(500, error.message);
+		});
+
+		return result.brand;
+	},
+
 	getInvoices: async function() {
 		let groupId = Meteor.user().info.groupId;
 		let customerId = Groups.findOne({_id: groupId}).stripeCustomerId;

@@ -1,4 +1,4 @@
-<template name="app">
+<template name="app">	
 	<div class="alert-container">
 		{{#each alert in alerts}}
 		<div class="alert {{alert.colorClass}}">
@@ -7,13 +7,14 @@
 			<a id="{{alert._id}}" href="#" class="js-alert-close alert-close-icon fl-tn-right"><i class="fss-close"></i></a>
 		</div>
 		{{/each}}
-	</div> 
+	</div>
 
-	<!-- {{> toolbarSmall}} -->
 	{{> toolbarLarge}}
+	<asside class="subbar">
+		{{> Template.dynamic template=subbar}}
+	</asside>
 
-	<asside class="subbar">{{> Template.dynamic template=subbar}}</asside>
-	<div class="frame-container-outer">
+	<div class="frame-container-outer {{currentRouteName}}">
 		<div class="frame-contaner-inner">
 			<div class="frame-one"> 
 				{{> Template.dynamic template=frameOne}}

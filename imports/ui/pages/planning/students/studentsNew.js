@@ -59,6 +59,7 @@ Template.studentsNew.onRendered( function() {
 					$('.js-loading').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
+					Session.set('selectedStudentId', studentId);
 					FlowRouter.go('/planning/students/view/' + studentId);
 				}
 			});
@@ -69,7 +70,9 @@ Template.studentsNew.onRendered( function() {
 });
 
 Template.studentsNew.helpers({
-	
+	selectedStudentId: function() {
+		return Session.get('selectedStudentId');
+	},
 });
 
 Template.studentsNew.events({

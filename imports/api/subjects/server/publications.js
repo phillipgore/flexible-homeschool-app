@@ -6,26 +6,6 @@ import {Terms} from '../../terms/terms.js';
 import {Weeks} from '../../weeks/weeks.js';
 import {Lessons} from '../../lessons/lessons.js';
 
-// Meteor.publish('allSubjects', function() {
-// 	if (!this.userId) {
-// 		return this.ready();
-// 	}
-
-// 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-
-// 	return Subjects.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {order: 1}});
-// });
-
-// Meteor.publish('allSubjectsProgress', function() {
-// 	if (!this.userId) {
-// 		return this.ready();
-// 	}
-
-// 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-
-// 	return Subjects.find({groupId: groupId, deletedOn: { $exists: false }}, {fields: {studentId: 1, schoolYearId: 1}});
-// });
-
 Meteor.publish('schooYearStudentSubjects', function(schoolYearId, studentId) {
 	if (!this.userId) {
 		return this.ready();
@@ -42,7 +22,7 @@ Meteor.publish('studentWeekSubjects', function(studentId, weekId) {
 	}
 
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;	
-	let subjectIds = Lessons.find({weekId: weekId}).map(lesson => (lesson.subjectId))
+	let subjectIds = Lessons.find({weekId: weekId, deletedOn: { $exists: false }}).map(lesson => (lesson.subjectId))
 	return Subjects.find({_id: {$in: subjectIds}, groupId: groupId, studentId: studentId, deletedOn: { $exists: false }});
 });
 
@@ -55,25 +35,44 @@ Meteor.publish('subject', function(subjectId) {
 	return Subjects.find({groupId: groupId, deletedOn: { $exists: false }, _id: subjectId});
 });
 
-Meteor.publish('subjectComplete', function(subjectId) {
-	if (!this.userId) {
-		return this.ready();
-	}
+Meteor.publish('subjectView', function(subjectId) {
+	this.autorun(function (computation) {
+		if (!this.userId) {
+			return this.ready();
+		}
 
-	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;	
-	let subject = Subjects.findOne({groupId: groupId, deletedOn: { $exists: false }, _id: subjectId});
-	let termIds = Terms.find({groupId: groupId, deletedOn: { $exists: false }, schoolYearId: subject.schoolYearId}).map(term => term._id);
-	return [
-		Subjects.find({groupId: groupId, deletedOn: { $exists: false }, _id: subjectId}),
-		Resources.find({groupId: groupId, deletedOn: { $exists: false }, _id: {$in: subject.resources}}),
-		
-		Students.find({groupId: groupId, deletedOn: { $exists: false }, _id: subject.studentId}),
-		SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }, _id: subject.schoolYearId}),
+		let self = this;
 
-		Terms.find({groupId: groupId, deletedOn: { $exists: false }, schoolYearId: subject.schoolYearId}, {sort: {order: 1}}),
-		Weeks.find({groupId: groupId, deletedOn: { $exists: false }, termId: {$in: termIds}}, {sort: {order: 1}}),
-		Lessons.find({groupId: groupId, deletedOn: { $exists: false }, subjectId: subject._id}, {sort: {order: 1}}),
-	];
+		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
+		let subject = Subjects.findOne({groupId: groupId, deletedOn: { $exists: false }, _id: subjectId});
+
+		if (subject) {
+			let student = Students.findOne({groupId: groupId, deletedOn: { $exists: false }, _id: subject.studentId});
+			let schoolYear = SchoolYears.findOne({groupId: groupId, deletedOn: { $exists: false }, _id: subject.schoolYearId});
+			let terms = Terms.find({groupId: groupId, deletedOn: { $exists: false }, schoolYearId: subject.schoolYearId});
+			let resources = Resources.find({groupId: groupId, deletedOn: { $exists: false }, _id: {$in: subject.resources}});
+
+			termStats = []
+			terms.forEach((term) => {
+				let weekIds = Weeks.find({groupId: groupId, deletedOn: { $exists: false }, termId: term._id}).map((week) => (week._id));
+				let lessonCount = Lessons.find({subjectId: subjectId, weekId: {$in: weekIds}}).count();
+				termStats.push({termOrder: term.order, lessonCount: lessonCount});
+			})
+
+			subject.preferredFirstName = student.preferredFirstName.name;
+			subject.lastName = student.lastName;
+			subject.startYear = schoolYear.startYear;
+			subject.endYear = schoolYear.endYear;
+			subject.termStats = termStats;
+
+			self.added('subjects', subject._id, subject);
+			resources.map((resource) => {;
+				self.added('resources', resource._id, resource);
+			});
+		}
+
+		self.ready();
+	});
 });
 
 Meteor.publish('subjectResources', function(subjectId) {	

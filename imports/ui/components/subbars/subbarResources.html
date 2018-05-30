@@ -1,54 +1,63 @@
 <template name="subbarResources">
 	{{#if resourceCount 'all' 'all'}}
-		<div class="row">
-			<div class="col-tn-1of2">
-				<a id="{{selectedResourceType}}" href="#" data-menu="#types" class="js-dropdown btn-sub">
-					{{typeLabel selectedResourceType}} <i class="fss-caret-down"></i>
-				</a>
-			</div>
-			<div class="col-tn-1of2">
-				{{#unless isLink selectedResourceType}}
-					<a id="{{selectedResourceAvailability}}" href="#" data-menu="#availabilities" class="js-dropdown btn-sub last">
-						{{availabilityLabel selectedResourceAvailability}} <i class="fss-caret-down"></i>
-					</a>
-				{{else}}
-					<span class="js-dropdown btn-sub last txt-gray-darkest">
-						{{availabilityLabel selectedResourceAvailability}} <i class="fss-caret-down"></i>
-					</span>
-				{{/unless}}
+		<div class="subbar-two-btn">
+			<div class="row">
+				<div class="col-tn-1of2">
+					<div class="btn-sub-dropdown">
+						<a id="{{selectedResourceType}}" href="#" data-menu="#types" class="js-dropdown btn-sub">
+							{{typeLabel selectedResourceType}} <i class="fss-caret-down"></i>
+						</a>
+						<ul id="types" class="dropdown-menu dropdown-sub m-tn-rl-9 hide">
+							<div class="dropdown-arrow"></div>
+							{{#each type in types}}
+								<li class="dropdown-item">
+									<a id="{{typeAvailabilityResourceId type._id selectedResourceAvailability}}"
+										data-resource-type="{{type._id}}"  
+										data-resource-availability="{{selectedResourceAvailability}}" 
+										class="js-resource js-type dropdown-item-link" 
+										href="/planning/resources/view/{{type._id}}/{{selectedResourceAvailability}}/{{typeAvailabilityResourceId type._id selectedResourceAvailability}}/{{#if typeIsAll type._id}}{{selectedResourceCurrentTypeId}}{{else}}{{type._id}}{{/if}}"
+									>
+									<div class="dropdown-item-icon"><i class="fss-circle {{typeAvailability type._id}}"></i></div>
+									<div class="dropdown-item-label">{{type.label}}</div>
+									{{#if activeListItem selectedResourceType type._id}}
+										<div class="dropdown-item-icon-right">
+											<i class="fss-planning txt-gray-darker"></i>
+										</div>
+									{{/if}}
+									</a>
+								</li>
+							{{/each}}
+						</ul>
+					</div>
+				</div>
+				<div class="col-tn-1of2">
+					<div class="btn-sub-dropdown">
+						<a id="{{selectedResourceAvailability}}" href="#" data-menu="#availabilities" class="js-dropdown btn-sub last">
+							{{availabilityLabel selectedResourceAvailability}} <i class="fss-caret-down"></i>
+						</a>
+						<ul id="availabilities" class="dropdown-menu dropdown-sub m-tn-rl-9 hide">
+							<div class="dropdown-arrow"></div>
+							{{#each availability in availabilities}}
+								<li class="dropdown-item">
+									<a id="{{typeAvailabilityResourceId selectedResourceType availability._id}}" 
+									data-resource-type="{{selectedResourceType}}" 
+									data-resource-availability="{{availability._id}}" 
+									class="js-resource js-availability dropdown-item-link" 
+									href="/planning/resources/view/{{selectedResourceType}}/{{availability._id}}/{{typeAvailabilityResourceId selectedResourceType availability._id}}/{{#if typeIsAll type._id}}{{selectedResourceCurrentTypeId}}{{else}}{{selectedResourceType}}{{/if}}">
+										<div class="dropdown-item-icon"><i class="fss-circle {{availabilityStatus selectedResourceType availability._id}}"></i></div>
+										<div class="dropdown-item-label">{{availability.label}}</div>
+										{{#if activeListItem selectedResourceAvailability availability._id}}
+											<div class="dropdown-item-icon-right">
+												<i class="fss-planning txt-gray-darker"></i>
+											</div>
+										{{/if}}
+									</a>
+								</li>
+							{{/each}}
+						</ul>
+					</div>
+				</div>
 			</div>
 		</div>
 	{{/if}}
-
-	<ul id="types" class="dropdown-menu dropdown-sub m-tn-rl-9 hide">
-		{{#each type in types}}
-			<li class="dropdown-item">
-				<a id="{{type._id}}" class="js-types dropdown-item-link" href="/planning/resources/list/{{type._id}}/{{selectedResourceAvailability}}">
-					<div class="dropdown-item-icon"><i class="fss-circle {{typeAvailability type._id}}"></i></div>
-					<div class="dropdown-item-label">{{type.label}}</div>
-					{{#if activeListItem selectedResourceType type._id}}
-						<div class="dropdown-item-icon-right">
-							<i class="fss-planning txt-gray-darker"></i>
-						</div>
-					{{/if}}
-				</a>
-			</li>
-		{{/each}}
-	</ul>
-
-	<ul id="availabilities" class="dropdown-menu dropdown-sub m-tn-rl-9 hide">
-		{{#each availability in availabilities}}
-			<li class="dropdown-item">
-				<a id="{{availability._id}}" class="js-availabilities dropdown-item-link" href="/planning/resources/list/{{selectedResourceType}}/{{availability._id}}">
-					<div class="dropdown-item-icon"><i class="fss-circle {{availabilityStatus selectedResourceType availability._id}}"></i></div>
-					<div class="dropdown-item-label">{{availability.label}}</div>
-					{{#if activeListItem selectedResourceAvailability availability._id}}
-						<div class="dropdown-item-icon-right">
-							<i class="fss-planning txt-gray-darker"></i>
-						</div>
-					{{/if}}
-				</a>
-			</li>
-		{{/each}}
-	</ul>
 </template>

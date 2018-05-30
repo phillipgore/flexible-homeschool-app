@@ -3,9 +3,18 @@
 	<main class="app-content app-content-preceeds-toolbar">
 		{{#if schoolYears.count}}
 			<ul class="list">
+				{{#if activeRoute currentRouteName 'schoolYearsNew'}}
+					<li class="list-item">
+						<span class="list-item-inner p-tn-rl-9 active">
+							<div class="list-item-icon"><i class="txt-primary fss-school-years-new"></i></div> 
+							<div class="list-item-label font-style-italic font-weight-normal"> New School Year
+							</div>
+						</span>
+					</li>
+				{{/if}}
 				{{#each schoolYear in schoolYears}}
 					<li class="list-item">
-						<a id="{{schoolYear._id}}" href="/planning/schoolyears/view/{{schoolYear._id}}" class="js-school-year list-item-link p-tn-rl-9 {{#if active schoolYear._id}}active{{/if}}">
+						<a id="{{schoolYear._id}}" href="/planning/schoolyears/view/{{schoolYear._id}}" class="js-school-year js-planning-school-year list-item-link p-tn-rl-9 {{#if active schoolYear._id}}active{{/if}}">
 							<div class="list-item-icon"><i class="txt-primary fss-school-years"></i></div> 
 							<div class="list-item-label">{{schoolYear.startYear}}-{{schoolYear.endYear}}</div>
 						</a>

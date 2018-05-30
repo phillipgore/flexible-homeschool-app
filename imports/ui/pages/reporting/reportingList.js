@@ -1,35 +1,15 @@
 import { Template } from 'meteor/templating';
-import { SchoolYears } from '../../../api/schoolYears/schoolYears.js';
-import { Students } from '../../../api/students/students.js';
-import { Resources } from '../../../api/resources/resources.js';
-import { Subjects } from '../../../api/subjects/subjects.js';
-import { Terms } from '../../../api/terms/terms.js';
-import { Weeks } from '../../../api/weeks/weeks.js';
-import { Lessons } from '../../../api/lessons/lessons.js';
-
-import {minutesConvert} from '../../../modules/functions';
-import _ from 'lodash'
+import { Reports } from '../../../api/reports/reports.js';
 import './reportingList.html';
 
 Template.reportingList.onCreated( function() {
-	// Subscriptions
-	this.subscribe('userReportSettings');
-	this.subscribe('schoolYearReport', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
-	
-	// Subbar Subscriptions
-	this.subscribe('allStudents');
-	this.subscribe('studentSchoolYearsPath', FlowRouter.getParam('selectedStudentId'));
-	
-	Session.set('selectedSchoolYearId', FlowRouter.getParam('selectedSchoolYearId'));
-	Session.set('selectedStudentId', FlowRouter.getParam('selectedStudentId'));
+	this.subscribe('allReports');
 });
 
 Template.reportingList.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
-		label: 'Reporting',
-		rightUrl: '',
-		rightIcon: '',
+		label: 'Reports',
 	});
 
 	// Navbar Settings
@@ -37,24 +17,33 @@ Template.reportingList.onRendered( function() {
 });
 
 Template.reportingList.helpers({
-	user: function() {
-		return Meteor.users.findOne();
+	reports: function() {
+		return Reports.find({}, {sort: {name: 1}});
 	},
-	
-	reportsAvailable: function() {
-		if (Session.get('selectedSchoolYearId') === 'empty' || Session.get('selectedStudentId') === 'empty') {
-			return false;
+
+	selectedStudentId: function() {
+		return FlowRouter.getParam('selectedStudentId');
+	},
+
+	selectedSchoolYearId: function() {
+		return FlowRouter.getParam('selectedSchoolYearId');
+	},
+
+	selectedReportId: function() {
+		return FlowRouter.getParam('selectedReportId');
+	},
+
+	activeRoute: function(currentRoute, route) {
+		if (currentRoute === route) {
+			return true;
 		}
-		return true;
+		return false;
 	},
+
+	active: function(id) {
+		if (FlowRouter.getParam('selectedReportId') === id) {
+			return true;
+		}
+		return false;
+	}
 });
-
-
-
-
-
-
-
-
-
-

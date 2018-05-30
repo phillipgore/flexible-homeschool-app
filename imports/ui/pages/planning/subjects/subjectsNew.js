@@ -50,12 +50,10 @@ Template.subjectsNew.onRendered( function() {
 	$('.js-form-subjects-new').validate({
 		rules: {
 			name: { required: true },
-			schoolYearId: { required: true },
 			timesPerWeek: { number: true },
 		},
 		messages: {
 			name: { required: "Required." },
-			schoolYearId: { required: "Required." },
 			timesPerWeek: { number: "" },
 		},
 		errorPlacement: function(error, element) {
@@ -82,8 +80,8 @@ Template.subjectsNew.onRendered( function() {
 				name: event.target.name.value.trim(),
 				description: event.target.description.value.trim(),
 				resources: resourceIds,
-				studentId: event.target.studentId.value.trim(),
-				schoolYearId: event.target.schoolYearId.value.trim(),
+				studentId: FlowRouter.getParam('selectedStudentId'),
+				schoolYearId: FlowRouter.getParam('selectedSchoolYearId'),
 			}
 
 			let lessonProperties = []
@@ -120,7 +118,8 @@ Template.subjectsNew.onRendered( function() {
 							$('.js-loading').hide();
 							$('.js-submit').prop('disabled', false);
 						} else {
-							FlowRouter.go('/planning/subjects/view/' + subjectId);
+							Session.set('selectedSubjectId', subjectId);
+							FlowRouter.go('/planning/subjects/view/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ subjectId);
 						}
 					});
 					
@@ -133,16 +132,8 @@ Template.subjectsNew.onRendered( function() {
 })
 
 Template.subjectsNew.helpers({
-	students: function() {
-		return Students.find({}, {sort: {birthday: 1, lastName: 1, firstName: 1}});
-	},
-
-	schoolYears: function() {
-		return SchoolYears.find({}, {sort: {startYear: 1}});
-	},
-
 	terms: function() {
-		return Terms.find({schoolYearId: Session.get('schoolYearId')}, {sort: {order: 1}});
+		return Terms.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}, {sort: {order: 1}});
 	},
 
 	weeks: function(termId) {
@@ -174,6 +165,10 @@ Template.subjectsNew.helpers({
 
 	selectedStudentId: function() {
 		return Session.get('selectedStudentId');
+	},
+
+	cancelPath: function() {
+		return '/planning/subjects/view/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ Session.get('selectedSubjectId');
 	},
 });
 

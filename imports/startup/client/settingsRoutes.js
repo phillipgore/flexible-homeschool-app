@@ -1,23 +1,12 @@
-FlowRouter.route('/settings/list', {
-	name: 'settingsList',
+// Users
+FlowRouter.route('/settings/users/view/:selectedUserId', {
+	name: 'usersView',
 	action() {
 		BlazeLayout.render('app', {
 			subbar: '',
 			frameOne: 'settingsList',
-		});
-	},
-});
-
-
-
-
-// Users
-FlowRouter.route('/settings/users/list', {
-	name: 'usersList',
-	action() {
-		BlazeLayout.render('app', {
-			subbar: '',
-			frameOne: 'usersList',
+			frameTwo: 'usersList',
+			frameThree: 'usersView',
 		});
 	},
 });
@@ -27,27 +16,21 @@ FlowRouter.route('/settings/users/new', {
 	action() {
 		BlazeLayout.render('app', {
 			subbar: '',
-			frameOne: 'usersNew',
+			frameOne: 'settingsList',
+			frameTwo: 'usersList',
+			frameThree: 'usersNew',
 		});
 	},
 });
 
-FlowRouter.route('/settings/users/verify/sent', {
-	name: 'usersVerifySent',
+FlowRouter.route('/settings/users/verify/resent/:selectedUserId', {
+	name: 'usersVerifyResent',
 	action() {
 		BlazeLayout.render('app', {
 			subbar: '',
-			frameOne: 'usersVerifySent',
-		});
-	},
-});
-
-FlowRouter.route('/settings/users/view/:selectedUserId', {
-	name: 'usersView',
-	action() {
-		BlazeLayout.render('app', {
-			subbar: '',
-			frameOne: 'usersView',
+			frameOne: 'settingsList',
+			frameTwo: 'usersList',
+			frameThree: 'usersVerifyResent',
 		});
 	},
 });
@@ -57,7 +40,9 @@ FlowRouter.route('/settings/users/edit/:selectedUserId', {
 	action() {
 		BlazeLayout.render('app', {
 			subbar: '',
-			frameOne: 'usersEdit',
+			frameOne: 'settingsList',
+			frameTwo: 'usersList',
+			frameThree: 'usersEdit',
 		});
 	},
 });
@@ -67,7 +52,8 @@ FlowRouter.route('/settings/users/restricted', {
 	action() {
 		BlazeLayout.render('app', {
 			subbar: '',
-			frameOne: 'usersRestricted',
+			frameOne: 'settingsList',
+			frameTwo: 'usersRestricted',
 		});
 	},
 });
@@ -76,16 +62,6 @@ FlowRouter.route('/settings/users/restricted', {
 
 
 // Billing
-FlowRouter.route('/settings/billing/list', {
-	name: 'billingList',
-	action() {
-		BlazeLayout.render('app', {
-			subbar: '',
-			frameOne: 'billingList',
-		});
-	},
-});
-
 FlowRouter.route('/settings/billing/error', {
 	name: 'billingError',
 	action() {
@@ -101,7 +77,9 @@ FlowRouter.route('/settings/billing/invoices', {
 	action() {
 		BlazeLayout.render('app', {
 			subbar: '',
-			frameOne: 'billingInvoices',
+			frameOne: 'settingsList',
+			frameTwo: 'billingList',
+			frameThree: 'billingInvoices',
 		});
 	},
 });
@@ -111,7 +89,9 @@ FlowRouter.route('/settings/billing/edit', {
 	action() {
 		BlazeLayout.render('app', {
 			subbar: '',
-			frameOne: 'billingEdit',
+			frameOne: 'settingsList',
+			frameTwo: 'billingList',
+			frameThree: 'billingEdit',
 		});
 	},
 });
@@ -119,13 +99,14 @@ FlowRouter.route('/settings/billing/edit', {
 
 
 
-// Billing
-FlowRouter.route('/settings/support/list', {
-	name: 'supportList',
+// Support
+FlowRouter.route('/settings/support/view', {
+	name: 'supportView',
 	action() {
 		BlazeLayout.render('app', {
 			subbar: '',
-			frameOne: 'supportList',
+			frameOne: 'settingsList',
+			frameTwo: 'supportList',
 		});
 	},
 });

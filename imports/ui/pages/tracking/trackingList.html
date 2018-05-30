@@ -1,58 +1,57 @@
 <template name="trackingList">
 	{{> toolbar}}
 	<main class="app-content app-content-preceeds-toolbar">
-		{{#if schoolYears.count}}
-			{{#if terms.count}}
-				{{#if students.count}}
-					<ul class="data-list">
-						{{#each student in students}}
-						<li class="list-item">
-							<a href="/tracking/students/view/{{student._id}}/{{selectedSchoolYearId}}/{{selectedTermId}}/{{student.firstWeekId}}" class="list-item-link p-tn-rl-9">
-								<div class="clearfix">
-									<div class="list-item-icon"><i class="txt-primary fss-students"></i></div> 
-									<div class="list-item-label">
-										{{student.preferredFirstName.name}} {{student.lastName}} <i class="fss-caret-right"></i>
-									</div>
+		{{#if students.count}}
+			{{#if schoolYears.count}}
+				<ul class="data-list">
+					{{#each student in students}}
+					<li class="list-item">
+						<a id="{{student._id}}" href="/tracking/students/view/{{student._id}}/{{selectedSchoolYearId}}/{{selectedTermId}}/{{selectedWeekId}}" class="js-student list-item-link p-tn-rl-9 {{#if active student._id}}active{{/if}}">
+							<div class="clearfix">
+								<div class="list-item-icon"><i class="txt-primary fss-students"></i></div> 
+								<div class="list-item-label">
+									{{student.preferredFirstName.name}} {{student.lastName}} <i class="fss-caret-right"></i>
 								</div>
-								<div class="meter">
-									<div class="meter-progress {{yearsProgressStatus student.yearProgress}}" style="width: {{student.yearProgress}}%;">
-										<div class="meter-label">Year's Progress: {{student.yearProgress}}%</div>
-									</div>
-									<div class="meter-label">Year's Progress: {{student.yearProgress}}%</div>
+							</div>
+
+							<div class="meter m-tn-r-18">
+								<div class="meter-progress {{yearsProgressStatus student._id}}" style="width: {{yearsProgress student._id}}%;">
+									<div class="meter-label">Year: {{yearsProgress student._id}}%</div>
 								</div>
-								<div class="meter">
-									<div class="meter-progress {{termsProgressStatus student.termProgress}}" style="width: {{student.termProgress}}%;">
-										<div class="meter-label">Term's Progress: {{student.termProgress}}%</div>
-									</div>
-									<div class="meter-label">Term's Progress: {{student.termProgress}}%</div>
+								<div class="meter-label">Year: {{yearsProgress student._id}}%</div>
+							</div>
+							<div class="meter m-tn-rl-9">
+								<div class="meter-progress {{termsProgressStatus student._id}}" style="width: {{termsProgress student._id}}%;">
+									<div class="meter-label">Term: {{termsProgress student._id}}%</div>
 								</div>
-							</a>
-						</li>
-						{{/each}}
-					</ul>
-				{{else}}
-					<div class="txt-tn-center m-tn-t-72">
-						<i class="fss-students font-size-64 txt-gray"></i>
-						<h1 class="m-tn-t-36">Add Your First Student</h1>
-						<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36">Go to <a href="{{pathFor 'studentsNew'}}">"New Student"</a> to add your first Student.</p>
-					</div>
-				{{/if}}
+								<div class="meter-label">Term: {{termsProgress student._id}}%</div>
+							</div>
+							<div class="meter m-tn-l-18">
+								<div class="meter-progress {{weeksProgressStatus student._id}}" style="width: {{weeksProgress student._id}}%;">
+									<div class="meter-label">Week: {{weeksProgress student._id}}%</div>
+								</div>
+								<div class="meter-label">Week: {{weeksProgress student._id}}%</div>
+							</div>
+						</a>
+					</li>
+					{{/each}}
+				</ul>
 			{{else}}
 				<div class="txt-tn-center m-tn-t-72">
-					<i class="fss-school-years font-size-64 txt-gray"></i>
-					<h1 class="m-tn-t-36">Add Terms and Weeks</h1>
-					<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36">Go to <a href="{{pathFor 'schoolYearsEdit' selectedSchoolYearId=selectedSchoolYearId}}">"Edit School Year"</a> to add Terms and Weeks.</p>
+					<i class="fss-tracking font-size-64 txt-gray m-tn-r-9"></i>
+					<h1 class="m-tn-t-36">Requires School Years</h1>
+					<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36">Click the plus icon above to add your first School Year.</p>
 				</div>
 			{{/if}}
 		{{else}}
 			<div class="txt-tn-center m-tn-t-72">
-				<i class="fss-school-years font-size-64 txt-gray"></i>
-				<h1 class="m-tn-t-36">Add School Years</h1>
-				<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36">Go to <a href="{{pathFor 'schoolYearsNew'}}">"New School Year"</a> to add School Year.</p>
+				<i class="fss-tracking font-size-64 txt-gray m-tn-r-9"></i>
+				<h1 class="m-tn-t-36">Requires Students</h1>
+				<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36">Click the plus icon above to add your first Student.</p>
 			</div>
 		{{/if}}
 	</main>
-	{{#unless Template.subscriptionsReady}}
-		{{> loading subbar=true}}
+	{{#unless subscriptionReady}}
+		{{> loading}}
 	{{/unless}}
 </template>

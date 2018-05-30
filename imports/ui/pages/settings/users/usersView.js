@@ -1,52 +1,17 @@
 import {Template} from 'meteor/templating';
 import './usersView.html';
 
-Template.usersView.onCreated( function() {
-	// Subscriptions
-	this.subscribe('allUsers');
-});
-
 Template.usersView.onRendered( function() {
 	// ToolbarView Settings
 	Session.set({
-		label: 'User',
+		toolbarType: 'user',
 		editUrl: '/settings/users/edit/' + FlowRouter.getParam('selectedUserId'),
 	});
-
-	if ( !Meteor.users.findOne({_id: FlowRouter.getParam('selectedUserId')}).status.active ) {
-		Session.set({
-			deleteClass: '',
-			pauseClass: '',
-			unpauseClass: 'js-unpause-user',
-		});
-	} else if ( Meteor.users.findOne( {_id: FlowRouter.getParam('selectedUserId')} ).emails[0].verified ) {
-		Session.set({
-			deleteClass: '',
-			pauseClass: 'js-pause-user',
-			unpauseClass: '',
-		});
-	} else {
-		Session.set({
-			deleteClass: 'js-delete-user',
-			pauseClass: '',
-			unpauseClass: '',
-		});
-	}
-
-	// Navbar Settings
-	Session.set('activeNav', 'settingsList');
 });
 
 Template.usersView.helpers({
 	user: function() {
 		return Meteor.users.findOne({_id: FlowRouter.getParam('selectedUserId')});
-	},
-
-	verified: function(verified) {
-		if (verified) {
-			return 'Yes';
-		}
-		return 'No';
 	},
 });
 
@@ -80,7 +45,11 @@ Template.usersView.events({
 					message: error.reason,
 				});
 			} else {
-				FlowRouter.go('/settings/users/list');
+				Alerts.insert({
+					colorClass: 'bg-info',
+					iconClass: 'fss-info',
+					message: 'This User has been paused. They will no longer have access to the app. You may upause them at any time.',
+				});
 			}
 		});
 	},
@@ -96,24 +65,22 @@ Template.usersView.events({
 					message: error.reason,
 				});
 			} else {
-				FlowRouter.go('/settings/users/list');
+				Alerts.insert({
+					colorClass: 'bg-info',
+					iconClass: 'fss-info',
+					message: 'This User has been unpaused. They now have access to the app. You may pause them again at any time.',
+				});
 			}
-		});
-	},
-
-	'click .js-delete-user'(event) {
-		event.preventDefault();
-		
-		Dialogs.insert({
-			heading: 'Confirmation',
-			message: 'Are you sure you want to delete this User?',
-			confirmClass: 'js-delete-user-confirmed',
 		});
 	},
 
 	'click .js-delete-user-confirmed'(event) {
 		event.preventDefault();
-		const dialogId = Dialogs.findOne()._id;
+		$('.loading-deleting').show();
+
+		let dialogId = Dialogs.findOne()._id;
+		let nextUserId = Meteor.users.findOne({'emails.0.verified': true, 'status.active': true})._id
+
 		Dialogs.remove({_id: dialogId});
 		Meteor.call('removeUser', FlowRouter.getParam('selectedUserId'), function(error) {
 			if (error) {
@@ -124,10 +91,37 @@ Template.usersView.events({
 				});
 			} else {
 				Dialogs.remove({_id: dialogId});
-				FlowRouter.go('/settings/users/list');
+				Session.set('selectedUserId', nextUserId);
+				FlowRouter.go('/settings/users/view/' + nextUserId);
+				$('.loading-deleting').hide();
 			}
 		});
-	}
+	},
+
+	'click .js-resend-verificatin-email'(event) {
+		event.preventDefault();
+		$('.loading-sending').show();
+
+		let userId = $(event.currentTarget).attr('id');
+		let emailAddress = $(event.currentTarget).attr('data-user-email');
+
+		Meteor.call('resendVerificationEmail', userId, emailAddress, function(error, result) {
+			if (error) {
+				Alerts.insert({
+					colorClass: 'bg-danger',
+					iconClass: 'fss-danger',
+					message: error.reason,
+				});
+			} else {
+				Alerts.insert({
+					colorClass: 'bg-info',
+					iconClass: 'fss-email',
+					message: 'We resent this user an email with a verification link.',
+				});
+				$('.loading-sending').hide();
+			}
+		});
+	},
 });
 
 

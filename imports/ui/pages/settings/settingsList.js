@@ -1,5 +1,6 @@
 import {Template} from 'meteor/templating';
 import {Groups} from '../../../api/groups/groups.js';
+import _ from 'lodash'
 import './settingsList.html';
 
 Template.settingsList.onCreated( function() {
@@ -41,6 +42,21 @@ Template.settingsList.helpers({
 	group: function() {
 		return Groups.findOne({});
 	},
+
+	selectedUserId: function() {
+		return Session.get('selectedUserId');
+	},
+
+	billingPath: function() {
+		return Session.get('billingPath');
+	},
+
+	active: function(currentRoute, route) {
+		if (currentRoute === route) {
+			return true;
+		}
+		return false;
+	},
 });
 
 Template.settingsList.events({
@@ -49,9 +65,9 @@ Template.settingsList.events({
 		let section = $(event.currentTarget).attr('data-section');
 		function message(role) {
 			if (role ==='Application Administrator' || role === 'Developer') {
-				return 'The role of "' + role + '" does not currently have this functionality.'
+				return 'Your role of "' + role + '" does not currently have this functionality.'
 			}
-			return 'The role of "' + role + '" is not allowed to access the ' + section + ' section.'
+			return 'Your role of "' + role + '" does not allow access to the ' + _.capitalize(section) + ' section.'
 		}
 		Alerts.insert({
 			colorClass: 'bg-info',
@@ -108,6 +124,7 @@ Template.settingsList.events({
 
 	'click .js-sign-out'(event) {
 		event.preventDefault();
+		$('.loading-signing-out').show();
 		Accounts.logout(function(error) {
 			if (error) {
 				Alerts.insert({

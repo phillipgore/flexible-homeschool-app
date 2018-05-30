@@ -61,12 +61,10 @@ Template.subjectsEdit.onRendered( function() {
 	$('.js-form-subjects-update').validate({
 		rules: {
 			name: { required: true },
-			schoolYearId: { required: true },
 			timesPerWeek: { number: true },
 		},
 		messages: {
 			name: { required: "Required." },
-			schoolYearId: { required: "Required." },
 			timesPerWeek: { number: "" },
 		},
 		errorPlacement: function(error, element) {
@@ -92,8 +90,8 @@ Template.subjectsEdit.onRendered( function() {
 				name: event.target.name.value.trim(),
 				description: event.target.description.value.trim(),
 				resources: resourceIds,
-				studentId: event.target.studentId.value.trim(),
-				schoolYearId: event.target.schoolYearId.value.trim(),
+				studentId: FlowRouter.getParam('selectedStudentId'),
+				schoolYearId: FlowRouter.getParam('selectedSchoolYearId'),
 			}
 
 			let newLessonProperties = []
@@ -219,7 +217,7 @@ Template.subjectsEdit.onRendered( function() {
 							$('.js-loading').hide();
 							$('.js-submit').prop('disabled', false);
 						} else {
-							FlowRouter.go('/planning/subjects/view/' + subjectId);
+							FlowRouter.go('/planning/subjects/view/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ subjectId);
 						}
 					});
 				}
@@ -232,7 +230,7 @@ Template.subjectsEdit.onRendered( function() {
 
 Template.subjectsEdit.helpers({
 	subject: function() {
-		return Subjects.findOne();
+		return Subjects.findOne({_id: FlowRouter.getParam('selectedSubjectId')});
 	},
 
 	students: function() {
@@ -289,7 +287,7 @@ Template.subjectsEdit.helpers({
 	},
 
 	cancelPath: function() {
-		return '/planning/subjects/view/' + FlowRouter.getParam('selectedSubjectId');
+		return '/planning/subjects/view/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedSubjectId');
 	},
 });
 

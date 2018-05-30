@@ -10,27 +10,20 @@ import autosize from 'autosize';
 import './trackingView.html';
 
 Template.trackingView.onCreated( function() {
-	// Subscriptions
-	this.subscribe('student', FlowRouter.getParam('selectedStudentId'));
-	this.subscribe('studentWeekSubjects', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedWeekId'));
-	this.subscribe('studentWeekLessons', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedWeekId'));
+	Tracker.autorun(() => {
+		// Subscriptions
+		this.studentData = Meteor.subscribe('student', FlowRouter.getParam('selectedStudentId'));
+		this.subjectData = Meteor.subscribe('studentWeekSubjects', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedWeekId'));
+		this.lessonData = Meteor.subscribe('studentWeekLessons', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedWeekId'));
+	});
 
-	// Subbar Subscriptions
-	this.subscribe('studentSchoolYearsPath', FlowRouter.getParam('selectedStudentId'));
-	this.subscribe('studentTermsPath', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
-	this.subscribe('weeksPath', FlowRouter.getParam('selectedTermId'), FlowRouter.getParam('selectedStudentId'));
-
-	Session.set('selectedSchoolYearId', FlowRouter.getParam('selectedSchoolYearId'));
-	Session.set('selectedTermId', FlowRouter.getParam('selectedTermId'));
-	Session.set('selectedWeekId', FlowRouter.getParam('selectedWeekId'));
-
-	Tracker.autorun(function() {
-		Session.get('selectedSchoolYear');
-		Session.get('selectedTerm');
-		Session.get('selectedWeek');
-
-		$('.js-subject').removeClass('active');
-		$('.js-lesson-input').removeAttr('style');
+	Session.set({
+		selectedStudentId: FlowRouter.getParam('selectedStudentId'),
+		selectedSchoolYearId: FlowRouter.getParam('selectedSchoolYearId'),
+		selectedTermId: FlowRouter.getParam('selectedTermId'),
+		selectedWeekId: FlowRouter.getParam('selectedWeekId'),
+		toolbarType: 'tracking',
+		editUrl: '',
 	});
 });
 
@@ -45,6 +38,13 @@ Template.trackingView.onRendered( function() {
 });
 
 Template.trackingView.helpers({
+	subscriptionReady: function() {
+		if (Template.instance().studentData.ready() && Template.instance().subjectData.ready() && Template.instance().lessonData.ready()) {
+			return true;
+		}
+		return false;
+	},
+
 	student: function() {
 		return Students.findOne({_id: FlowRouter.getParam('selectedStudentId')});
 	},
@@ -90,7 +90,7 @@ Template.trackingView.helpers({
 		if (lessonCompleted) {
 			return 'btn-secondary';
 		}
-		return false;
+		return 'txt-gray-darkest';
 	},
 });
 
@@ -130,18 +130,20 @@ Template.trackingView.events({
 	'submit .js-form-lessons-update'(event) {
 		event.preventDefault();
 
-		$('.js-loading').show();
-		$('.js-submit').prop('disabled', true);
-
 		let lessonId = $(event.currentTarget).parent().attr('id');
+		$('[data-lesson-id="' + lessonId + '"]').find('.js-lesson-updating').show();
+		$('.js-subject').removeClass('active');
+		$('.js-lesson-input').removeAttr('style');
+
 		let lessonPoperties = {
+			_id: $(event.currentTarget).parent().attr('id'),
 			completed: event.currentTarget.completed.value.trim() === 'true',
 			completedOn: event.currentTarget.completedOn.value.trim(),
 			completionTime: event.currentTarget.completionTime.value.trim(),
 			description: event.currentTarget.description.value.trim(),
 		}
 
-		Meteor.call('updateLesson', lessonId, lessonPoperties, function(error) {
+		Meteor.call('updateLesson', lessonPoperties._id, lessonPoperties, function(error, result) {
 			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',
@@ -149,13 +151,9 @@ Template.trackingView.events({
 					message: error.reason,
 				});
 				
-				$('.js-loading').hide();
-				$('.js-submit').prop('disabled', false);
+				$('.js-lesson-updating').hide();
 			} else {
-				$('.js-subject').removeClass('active');
-				$('.js-lesson-input').removeAttr('style');
-				$('.js-loading').hide();
-				$('.js-submit').prop('disabled', false);
+				$('.js-lesson-updating').hide();
 			}
 		});
 

@@ -1,22 +1,10 @@
 <template name="subjectsEdit">
 	{{> dialog}}
 	{{> toolbar}}
-	<main class="app-content app-content-preceeds-toolbar">
-		<form class="js-form-subjects-update row m-tn-b-36 m-tn-t-18 m-tn-h-18 | m-xs-h-72">
+	<main class="app-content app-content-preceeds-toolbar app-content-form">
+		<form class="js-form-subjects-update row">
 
 			<h2 class="m-tn-b-9">Step 1: Information</h2>
-			<label>Student</label>
-			<div class="fss-select">
-				<select name="studentId" id="student-id">
-					<!-- <option disabled selected value>Select A Student</option> -->
-					{{#each student in students}}
-					<option value="{{student._id}}" selected="{{studentSelected student._id subject.studentId}}">
-						{{student.preferredFirstName.name}} {{student.lastName}}
-					</option>
-					{{/each}}
-				</select>
-			</div>
-
 			<div class="well bg-gray-lighter m-tn-b-18">
 				<label>Subject Name</label>
 				<input type="text" name="name" id="name" placeholder="Math" autocomplete="off" value="{{subject.name}}">
@@ -93,18 +81,6 @@
 			</div>
 
 			<h2 class="m-tn-t-36 m-tn-b-9">Step 3: Schedule</h2>
-			<label>School Year</label>
-			<div class="fss-select">
-				<select class="js-school-year-id" name="schoolYearId" id="school-year-id" data-error="#schoolYearIdError">
-					<option disabled selected value>Select A School Year</option>
-					{{#each schoolYear in schoolYears}}
-					<option value="{{schoolYear._id}}" selected="{{studentSelected subject.schoolYearId schoolYear._id}}">{{schoolYear.startYear}}-{{schoolYear.endYear}}</option>
-					{{/each}}
-				</select>
-			</div>
-			<div id="schoolYearIdError"></div>
-
-
 			{{#each term in terms}}
 			<div id="{{term._id}}" class="well bg-gray-lighter m-tn-b-9">
 				<h3 class="m-tn-b-9">Term {{term.order}}: Times Per Week</h3>
@@ -133,7 +109,7 @@
 			</div>
 			{{/each}}
 
-			<footer class="toolbar toolbar-bottom toolbar-gray">
+			<footer class="toolbar toolbar-bottom toolbar-gray m-tn-t-27">
 				<a href="{{cancelPath}}" class="btn btn-gray-darker fl-tn-left">Cancel</a>
 				<button type="submit" class="js-submit fl-tn-right">Update</button>
 			</footer>

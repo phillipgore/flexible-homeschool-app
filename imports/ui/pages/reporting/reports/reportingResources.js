@@ -1,4 +1,5 @@
 import { Template } from 'meteor/templating';
+import { Reports } from '../../../../api/reports/reports.js';
 import { Subjects } from '../../../../api/subjects/subjects.js';
 import { Terms } from '../../../../api/terms/terms.js';
 import { Weeks } from '../../../../api/weeks/weeks.js';
@@ -12,6 +13,10 @@ import './reportingResources.html';
 Template.reportingResources.helpers({
 	user: function() {
 		return Meteor.users.findOne();
+	},
+
+	report: function() {
+		return Reports.findOne({_id: FlowRouter.getParam('selectedReportId')})
 	},
 
 

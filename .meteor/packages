@@ -33,3 +33,7 @@ neoromantic:pickadate
 check
 random
 peerlibrary:reactive-publish@=0.3.0
+u2622:persistent-session
+
+#meteortoys:allthings
+

@@ -5,7 +5,6 @@ import autosize from 'autosize';
 import './resourcesEditApp.html';
 
 Template.resourcesEditApp.onCreated( function() {
-	// Subscriptions
 	this.subscribe('resource', FlowRouter.getParam('selectedResourceId'));
 });
 
@@ -58,7 +57,7 @@ Template.resourcesEditApp.onRendered( function() {
 					$('.js-loading').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
-					FlowRouter.go('/planning/resources/view/' + FlowRouter.getParam('selectedResourceId'));
+					FlowRouter.go('/planning/resources/view/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/'+ FlowRouter.getParam('selectedResourceId') +'/'+ FlowRouter.getParam('selectedResourceCurrentTypeId'));
 				}
 			});
 
@@ -69,7 +68,7 @@ Template.resourcesEditApp.onRendered( function() {
 
 Template.resourcesEditApp.helpers({
 	resource: function() {
-		return Resources.findOne();
+		return Resources.findOne({_id: FlowRouter.getParam('selectedResourceId')});
 	},
 
 	availability: function(currentAvailability, availability) {
@@ -77,6 +76,10 @@ Template.resourcesEditApp.helpers({
 			return true;
 		}
 		return false;
+	},
+
+	cancelPath: function() {
+		return '/planning/resources/view/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/'+ FlowRouter.getParam('selectedResourceId') +'/'+ FlowRouter.getParam('selectedResourceCurrentTypeId');
 	},
 });
 

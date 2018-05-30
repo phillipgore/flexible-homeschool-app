@@ -17,6 +17,7 @@
 @import 'meters';
 @import 'picker-base';
 @import 'picker-date';
+@import 'reports';
 @import 'toolbars';
 @import 'track';
 @import 'typography';
@@ -58,21 +59,8 @@
 	border-bottom: 1px solid $color-gray-lighter;
 }
 
-.report {
-	border-radius: 3px;
-	background: $color-white;
-	border: 1px solid $color-gray-dark;
-}
-
-.report-section {
-	border-bottom: 1px solid $color-gray-dark;
-	margin-bottom: 18px;
-
-	&:last-of-type,
-	&:only-of-type {
-		border: none;
-		margin: 0px;
-	}
+.border-none {
+	border: none;
 }
 
 

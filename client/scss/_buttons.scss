@@ -116,7 +116,7 @@ button, .btn {
     	text-decoration: none;
 	}
 
-	@media only screen and (min-width: 768px) {
+	@media only screen and (min-width: 640px) {
 		width: 57px;
 		height: 32px;
 		padding: 8px 0px;
@@ -141,7 +141,7 @@ button, .btn {
 	}
 }
 
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 640px) {
 	.btn-tool-dropdown {
 		width: 57px;
 		margin-left: 9px;
@@ -273,6 +273,15 @@ button, .btn {
 			.btn-nav-icon {
 				color: $color-primary;
 			}
+		}	
+
+		&.disabled {
+			color: $color-primary-lighter;
+
+			.btn-nav-icon {
+				color: $color-primary-lighter;
+			}
+
 		}
 	}
 }

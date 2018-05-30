@@ -1,0 +1,20 @@
+.report {
+	border-radius: 3px;
+	background: $color-white;
+	border: 1px solid $color-gray-dark;
+}
+
+.report-section {
+	border-bottom: 1px solid $color-gray-dark;
+	margin-bottom: 18px;
+
+	&:last-of-type,
+	&:only-of-type {
+		border: none;
+		margin: 0px;
+	}
+}
+
+.report-form {
+	max-width: 640px;
+}

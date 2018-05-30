@@ -1,63 +1,70 @@
 <template name="reportingSubjects">
-	{{#if user.reportSettings.subjectsReportVisible}}
-		<div class="report p-tn-trl-18 m-tn-b-9">
-			{{#each subject in subjects}}
-				<div class="report-section">
-					<div class="clearfix m-tn-b-12">
-							<h2><i class="fss-subjects txt-primary"></i> {{subject.name}}</h2>
-					</div>
-					{{#if user.reportSettings.subjectsStatsVisible}}
-						<div class="row font-weight-normal txt-tn-center m-tn-b-12">
-							<div class="col-tn-1of3 right-border">
-								<div class="font-size-24 m-tn-b-3">{{termsCountSubject subject._id}}</div>
-								<div class="txt-gray-darker">Terms</div>
-							</div>
-							<div class="col-tn-1of3 right-border">
-								<div class="font-size-24 m-tn-b-3">{{weeksCountSubject subject._id}}</div>
-								<div class="txt-gray-darker">Weeks</div>
-							</div>
-							<div class="col-tn-1of3">
-								<div class="font-size-24 m-tn-b-3">{{lessonsCountSubject subject._id}}</div>
-								<div class="txt-gray-darker">Lessons</div>
-							</div>
+	{{#if report.subjectsReportVisible}}
+		<h1 class="m-tn-b-9"><i class="fss-subjects txt-primary"></i> Subjects</h1>
+		<div class="report p-tn-trl-18 m-tn-b-18 m-sm-b-27">
+			{{#if subjects.count}}
+				{{#each subject in subjects}}
+					<div class="report-section">
+						<div class="clearfix m-tn-b-12">
+							<h2>{{subject.name}}</h2>
 						</div>
-					{{/if}}
-					{{#if user.reportSettings.subjectsProgressVisible}}
-						<div class="meter meter-large m-tn-b-9">
-							<div class="meter-progress {{subjectsProgressStatus subject._id}}" style="width: {{subjectsProgress subject._id}}%;">
-								<div class="meter-label">Term's Progress: {{subjectsProgress subject._id}}%</div>
+						{{#if report.subjectsStatsVisible}}
+							<div class="row font-weight-normal txt-tn-center m-tn-b-12">
+								<div class="col-tn-1of3 right-border">
+									<div class="font-size-24 m-tn-b-3">{{subject.termCount}}</div>
+									<div class="txt-gray-darker">Terms</div>
+								</div>
+								<div class="col-tn-1of3 right-border">
+									<div class="font-size-24 m-tn-b-3">{{subject.weekCount}}</div>
+									<div class="txt-gray-darker">Weeks</div>
+								</div>
+								<div class="col-tn-1of3">
+									<div class="font-size-24 m-tn-b-3">{{subject.lessonCount}}</div>
+									<div class="txt-gray-darker">Lessons</div>
+								</div>
 							</div>
-							<div class="meter-label">Term's Progress: {{subjectsProgress subject._id}}%</div>
-						</div>
-					{{/if}}
-					{{#if user.reportSettings.subjectsTimesVisible}}
-						<div class="row font-weight-normal txt-tn-center m-tn-b-18">
-							<p class="m-tn-b-6">
-								<span class="txt-gray-darker">Total Time:</span> {{subjectsTotalTime subject._id}}
-							</p>
-							<p class="m-tn-b-6">
-								<span class="txt-gray-darker">Average Time Per Lesson:</span> {{subjectsAverageLessons subject._id}}
-							</p>
-							<p class="m-tn-b-6">
-								<span class="txt-gray-darker">Average Time Per Week:</span> {{subjectsAverageWeeks subject._id}}
-							</p>
-							<p>
-								<span class="txt-gray-darker">Average Time Per Term:</span> {{subjectsAverageTerms subject._id}}
-							</p>
-						</div>
-					{{/if}}
-					{{#if user.reportSettings.subjectsResourcesVisible}}
-						<div class="view-info no-border p-tn-12 m-tn-b-18">
-							{{#each resource in resources subject.resources}}
-								<p class="font-weight-normal">
-									<i class="txt-primary {{resourceIcon resource.type}}"></i>
-									{{resource.title}}
+						{{/if}}
+						{{#if report.subjectsProgressVisible}}
+							<div class="meter meter-large m-tn-b-9">
+								<div class="meter-progress {{#if term.progressStatus}}meter-progress-primary{{/if}}" style="width: {{subject.progress}}%;">
+									<div class="meter-label">Term's Progress: {{subject.progress}}%</div>
+								</div>
+								<div class="meter-label">Term's Progress: {{subject.progress}}%</div>
+							</div>
+						{{/if}}
+						{{#if report.subjectsTimesVisible}}
+							<div class="row font-weight-normal txt-tn-center m-tn-b-18">
+								<p class="m-tn-b-6">
+									<span class="txt-gray-darker">Total Time:</span> {{subject.totalTime}}
 								</p>
-							{{/each}}
-						</div>
-					{{/if}}
-				</div>
-			{{/each}}
+								<p class="m-tn-b-6">
+									<span class="txt-gray-darker">Average Time Per Term:</span> {{subject.averageTerms}}
+								</p>
+								<p class="m-tn-b-6">
+									<span class="txt-gray-darker">Average Time Per Week:</span> {{subject.averageWeeks}}
+								</p>
+								<p>
+									<span class="txt-gray-darker">Average Time Per Lesson:</span> {{subject.averageLessons}}
+								</p>
+							</div>
+						{{/if}}
+						{{#if report.subjectsResourcesVisible}}
+							{{#if subject.subjectResources.length}}
+								<div class="view-info no-border p-tn-12 m-tn-b-18">
+									{{#each resource in resources subject.subjectResources}}
+										<p class="font-weight-normal">
+											<i class="txt-primary {{resourceIcon resource.type}}"></i>
+											{{resource.title}}
+										</p>
+									{{/each}}
+								</div>
+							{{/if}}
+						{{/if}}
+					</div>
+				{{/each}}
+			{{else}}
+				<h2 class="m-tn-b-12"><i class="fss-subjects txt-primary"></i> No Subjects</h2>
+			{{/if}}
 		</div>
 	{{/if}}
 </template>

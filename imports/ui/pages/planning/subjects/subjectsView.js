@@ -9,67 +9,54 @@ import { Lessons } from '../../../../api/lessons/lessons.js';
 import './subjectsView.html';
 
 Template.subjectsView.onCreated( function() {
-	// Subscriptions
-	this.subscribe('subjectComplete', FlowRouter.getParam('selectedSubjectId'));
+	Tracker.autorun(() => {
+		let routeName = FlowRouter.current().route.name;
+		if (routeName === 'subjectsNew' || routeName === 'subjectsView' || routeName === 'subjectsEdit') {
+			this.subjectData = Meteor.subscribe('subjectView', FlowRouter.getParam('selectedSubjectId'));
+		}
+	});
 });
 
 Template.subjectsView.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
-		label: 'Subject',
-		editUrl: '/planning/subjects/edit/' + FlowRouter.getParam('selectedSubjectId'),
-		deleteClass: 'js-delete-subject',
+		toolbarType: 'subject',
+		editUrl: '/planning/subjects/edit/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedSubjectId'),
 	});
-
-	// Navbar Settings
-	Session.set('activeNav', 'planningList');
 });
 
 Template.subjectsView.helpers({
+	subscriptionReady: function() {
+		return Template.instance().subjectData.ready();
+	},
+
 	subject: function() {
 		return Subjects.findOne({_id: FlowRouter.getParam('selectedSubjectId')});
 	},
 
-	student: function() {
-		return Students.findOne({userId: { $exists: true }});
-	},
-
-	resources: function() {
-		return Resources.find();
-	},
-
-	schoolYear: function() {
-		return SchoolYears.findOne({userId: { $exists: true }});
-	},
-
-	terms: function() {
-		return Terms.find();
-	},
-
-	termLessons: function(termId) {
-		let weekIds = Weeks.find({termId: termId}).map(week => week._id);
-		let lessonCount = Lessons.find({weekId: {$in: weekIds}}).fetch().length;
-		if (lessonCount === 1) {
-			return lessonCount + ' Lesson';
-		}
-		return lessonCount + ' Lessons';
+	resources: function(resourceIds) {
+		return Resources.find({_id: {$in: resourceIds}});
 	},
 });
 
 Template.subjectsView.events({
-	'click .js-delete-subject'(event) {
-		event.preventDefault();
-
-		Dialogs.insert({
-			heading: 'Confirmation',
-			message: 'Are you sure you want to delete this Subject?',
-			confirmClass: 'js-delete-subject-confirmed',
-		});
-	},
-
 	'click .js-delete-subject-confirmed'(event) {
 		event.preventDefault();
-		const dialogId = Dialogs.findOne()._id;
+		$('.loading-deleting').show();
+
+		function nextSubjectId(selectedSubjectId) {
+			let subjectIds = Subjects.find({}, {sort: {order: 1}}).map(subject => (subject._id));
+			let selectedIndex = subjectIds.indexOf(selectedSubjectId);
+
+			if (selectedIndex) {
+				return subjectIds[selectedIndex - 1]
+			}
+			return subjectIds[selectedIndex + 1]
+		};
+
+		let newSubjectId = nextSubjectId(FlowRouter.getParam('selectedSubjectId'));
+		let dialogId = Dialogs.findOne()._id;
+
 		Dialogs.remove({_id: dialogId});
 		Meteor.call('deleteSubject', FlowRouter.getParam('selectedSubjectId'), function(error) {
 			if (error) {
@@ -79,8 +66,9 @@ Template.subjectsView.events({
 					message: error.reason,
 				});
 			} else {
-				Dialogs.remove({_id: dialogId});
-				FlowRouter.go('/planning/subjects/list');
+				Session.set('selectedSubjectId', newSubjectId);
+				FlowRouter.go('/planning/subjects/view/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ newSubjectId);
+				$('.loading-deleting').hide();
 			}
 		});
 	}

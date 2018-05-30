@@ -11,7 +11,7 @@ Meteor.publish('allStudents', function() {
 	return Students.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}, fields: {birthday: 1, lastName: 1, 'preferredFirstName.type': 1, 'preferredFirstName.name': 1}});
 });
 
-Meteor.publish('allStudentStats', function(schoolYearId, termId) {
+Meteor.publish('studentStats', function(schoolYearId, termId, weekId) {
 	this.autorun(function (computation) {
 		if (!this.userId) {
 			return this.ready();
@@ -22,11 +22,12 @@ Meteor.publish('allStudentStats', function(schoolYearId, termId) {
 		let self = this;
 
 		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-		let students = Students.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}, fields: {birthday: 1, lastName: 1, 'preferredFirstName.type': 1, 'preferredFirstName.name': 1}});
+		let students = Students.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}, fields: {id: 1}});
 
 		students.map((student) => {
-			term = studentStatusAndPaths(student, student._id, schoolYearId, termId);
-			self.added('students', student._id, student);
+			student.studentId = student._id;
+			term = studentStatusAndPaths(student, student._id, schoolYearId, termId, weekId);
+			self.added('studentStats', Random.id(), student);
 		});
 
 		self.ready();

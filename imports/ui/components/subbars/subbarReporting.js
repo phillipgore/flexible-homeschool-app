@@ -40,6 +40,10 @@ Template.subbarReporting.helpers({
 	selectedStudent: function() {
 		return Students.findOne({_id: FlowRouter.getParam('selectedStudentId')});
 	},
+
+	selectedReportId: function() {
+		return FlowRouter.getParam('selectedReportId');
+	},
 	
 	activeListItem: function(currentItem, item) {
 		if (currentItem === item) {

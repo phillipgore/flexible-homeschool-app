@@ -42,3 +42,7 @@ import '../../api/subjects/server/publications.js';
 import '../../api/lessons/lessons.js';
 import '../../api/lessons/methods.js';
 import '../../api/lessons/server/publications.js';
+
+import '../../api/reports/reports.js';
+import '../../api/reports/methods.js';
+import '../../api/reports/server/publications.js';

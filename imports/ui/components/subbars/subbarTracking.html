@@ -1,54 +1,105 @@
 <template name="subbarTracking">
-	{{#if schoolYears.count}}			
+	<div class="subbar-three-btn">
 		<div class="row">
-			<div class="col-tn-1of2">
-				<a id="{{selectedSchoolYearId}}" href="#" data-menu="#years" class="js-dropdown btn-sub">
-					{{selectedSchoolYear.startYear}}-{{selectedSchoolYear.endYear}} <i class="fss-caret-down"></i>
-				</a>
-			</div>
-			<div class="col-tn-1of2">
-				{{#if terms.count}}
-					<a id="{{selectedTermId}}" href="#" data-menu="#terms" class="js-dropdown btn-sub last">
-						Term {{selectedTerm.order}} <i class="fss-caret-down"></i>
-					</a>
+			<div class="col-tn-1of3">
+				{{#if schoolYears.count}}
+					<div class="btn-sub-dropdown">
+						<a id="{{selectedSchoolYearId}}" href="#" data-menu="#years" class="js-dropdown btn-sub">
+							{{selectedSchoolYear.startYear}}-{{selectedSchoolYear.endYear}} <i class="fss-caret-down"></i>
+						</a>
+						<ul id="years" class="dropdown-menu dropdown-sub m-tn-rl-9 hide">
+							<div class="dropdown-arrow"></div>
+							{{#unless schoolYearSubReady}}
+								{{> loadingDropdown}}
+							{{else}}
+								{{#each schoolYear in schoolYears}}
+									<li class="dropdown-item">
+										<a id="{{schoolYear._id}}" class="js-school-year dropdown-item-link" href="/tracking/students/view/{{selectedStudentId}}/{{schoolYear._id}}/{{schoolYear.firstTermId}}/{{schoolYear.firstWeekId}}">
+											<div class="dropdown-item-icon"><i class="fss-circle {{yearStatus schoolYear.status}}"></i></div>
+											<div class="dropdown-item-label">{{schoolYear.startYear}}-{{schoolYear.endYear}}</div>
+											{{#if activeListItem selectedSchoolYearId schoolYear._id}}
+												<div class="dropdown-item-icon-right">
+													<i class="fss-planning txt-gray-darker"></i>
+												</div>
+											{{/if}}
+										</a>
+									</li>
+								{{/each}}
+							{{/unless}}
+						</ul>
+					</div>
 				{{else}}
-					<span class="js-dropdown btn-sub txt-gray-darkest last">
+					<span class="js-dropdown btn-sub txt-gray-darkest">
+						No School Years
+					</span>
+				{{/if}}
+			</div>
+			<div class="col-tn-1of3">
+				{{#if terms.count}}
+					<div class="btn-sub-dropdown">
+						<a id="{{selectedTermId}}" href="#" data-menu="#terms" class="js-dropdown btn-sub">
+							Term {{selectedTerm.order}} <i class="fss-caret-down"></i>
+						</a>
+						<ul id="terms" class="dropdown-menu dropdown-sub m-tn-rl-9 hide">
+							<div class="dropdown-arrow"></div>
+							{{#unless termSubReady}}
+								{{> loadingDropdown}}
+							{{else}}
+								{{#each term in terms}}
+									<li class="dropdown-item">
+										<a id="{{term._id}}" class="js-term dropdown-item-link" href="/tracking/students/view/{{selectedStudentId}}/{{selectedSchoolYearId}}/{{term._id}}/{{term.firstWeekId}}">
+											<div class="dropdown-item-icon"><i class="fss-circle {{termStatus term.status}}"></i></div>
+											<div class="dropdown-item-label">Term {{term.order}}</div>
+											{{#if activeListItem selectedTermId term._id}}
+												<div class="dropdown-item-icon-right">
+													<i class="fss-planning txt-gray-darker"></i>
+												</div>
+											{{/if}}
+										</a>
+									</li>
+								{{/each}}
+							{{/unless}}
+						</ul>
+					</div>
+				{{else}}
+					<span class="js-dropdown btn-sub txt-gray-darkest">
 						No Terms
 					</span>
 				{{/if}}
 			</div>
+			<div class="col-tn-1of3">
+				{{#if weeks.count}}
+					<div class="btn-sub-dropdown">
+						<a id="{{selectedWeekId}}" href="#" data-menu="#weeks" class="js-dropdown btn-sub last">
+							Week {{selectedWeek.order}} <i class="fss-caret-down"></i>
+						</a>
+						<ul id="weeks" class="dropdown-menu dropdown-sub m-tn-rl-9 hide">
+							<div class="dropdown-arrow"></div>
+							{{#unless weekSubReady}}
+								{{> loadingDropdown}}
+							{{else}}
+								{{#each week in weeks}}
+									<li class="dropdown-item">
+										<a id="{{week._id}}" class="js-week dropdown-item-link" href="/tracking/students/view/{{selectedStudentId}}/{{selectedSchoolYearId}}/{{selectedTermId}}/{{week._id}}">
+											<div class="dropdown-item-icon"><i class="fss-circle {{weekStatus week.status}}"></i></div>
+											<div class="dropdown-item-label">Week {{week.order}}</div>
+											{{#if activeListItem selectedWeekId week._id}}
+												<div class="dropdown-item-icon-right">
+													<i class="fss-planning txt-gray-darker"></i>
+												</div>
+											{{/if}}
+										</a>
+									</li>
+								{{/each}}
+							{{/unless}}
+						</ul>
+					</div>
+				{{else}}
+					<span class="btn-sub last txt-gray-darkest">
+						No Weeks
+					</span>
+				{{/if}}
+			</div>
 		</div>
-	{{/if}}
-
-	<ul id="years" class="dropdown-menu dropdown-sub m-tn-rl-9 hide">
-		{{#each schoolYear in schoolYears}}
-			<li class="dropdown-item">
-				<a id="{{schoolYear._id}}" class="js-school-years dropdown-item-link" href="/tracking/list/{{schoolYear._id}}/{{schoolYear.firstTermId}}">
-					<div class="dropdown-item-icon"><i class="fss-circle {{yearStatus schoolYear.status}}"></i></div>
-					<div class="dropdown-item-label">{{schoolYear.startYear}}-{{schoolYear.endYear}}</div>
-					{{#if activeListItem selectedSchoolYearId schoolYear._id}}
-						<div class="dropdown-item-icon-right">
-							<i class="fss-planning txt-gray-darker"></i>
-						</div>
-					{{/if}}
-				</a>
-			</li>
-		{{/each}}
-	</ul>
-
-	<ul id="terms" class="dropdown-menu dropdown-sub m-tn-rl-9 hide">
-		{{#each term in terms}}
-			<li class="dropdown-item">
-				<a id="{{term._id}}" class="js-terms dropdown-item-link" href="{{pathFor 'trackingList' selectedSchoolYearId=selectedSchoolYearId selectedTermId=term._id}}">
-					<div class="dropdown-item-icon"><i class="fss-circle {{termStatus term.status}}"></i></div>
-					<div class="dropdown-item-label">Term {{term.order}}</div>
-					{{#if activeListItem selectedTermId term._id}}
-						<div class="dropdown-item-icon-right">
-							<i class="fss-planning txt-gray-darker"></i>
-						</div>
-					{{/if}}
-				</a>
-			</li>
-		{{/each}}
-	</ul>
+	</div>
 </template>

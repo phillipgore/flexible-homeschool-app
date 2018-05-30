@@ -4,7 +4,7 @@
 	top: 0px;
 	right: 0px;
 	left: 0px;
-	z-index: 100;
+	z-index: 5000;
 	text-align: center;
 	color: $color-white;
 
@@ -33,22 +33,61 @@
 		display: none;
 	}
 
-	@media only screen and (min-width: 768px) {
+	@media only screen and (min-width: 640px) {
 		display: none;
 
 		&.toolbar-large {
 			display: block;
 
-			.toolbar-large-left {
-				width: 288px;
+			.toolbar-medium-left, .toolbar-large-left {
+				width: 150px;
 				float: left;
 				display: inline-block;
+			}
+
+			.toolbar-large-left {
+				display: none;
 			}
 
 			.toolbar-large-right {
 				float: right;
 				display: inline-block;
 				padding-right: 18px;
+			}
+		}
+
+		&.toolbar-bottom {
+			display: block;
+			position: absolute;
+			background-color: transparent;
+			z-index: 0;
+		}
+
+		&.toolbar-bottom {
+			display: block;
+			position: static;
+			background-color: transparent;
+			z-index: 0;
+			padding: 0px;
+		}
+	}
+
+	@media only screen and (min-width: 768px) {
+		&.toolbar-large {
+			.toolbar-medium-left, .toolbar-large-left {
+				width: 288px;
+			}
+		}
+	}
+
+	@media only screen and (min-width: 896px) {
+		&.toolbar-large {
+			.toolbar-medium-left {
+				display: none;
+			}
+
+			.toolbar-large-left {
+				display: inline-block;
 			}
 		}
 	}
@@ -60,8 +99,24 @@
 	top: 50px;
 	right: 0px;
 	left: 0px;
-	z-index: 50;
+	z-index: 4500;
 	background-color: $color-gray;
+
+	@media only screen and (min-width: 640px) {
+		.subbar-two-btn {
+			width: 360px;
+			margin: 0px auto;
+			border-right: 1px solid $color-white;
+			border-left: 1px solid $color-white;
+		}
+
+		.subbar-three-btn {
+			width: 540px;
+			margin: 0px auto;
+			border-right: 1px solid $color-white;
+			border-left: 1px solid $color-white;
+		}
+	}
 }
 
 .navbar {

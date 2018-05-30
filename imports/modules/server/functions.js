@@ -46,7 +46,7 @@ function getFirstLesson (lessons) {
 	return Lessons.findOne({_id: {$in: lessonIds}, completed: true}, {sort: {order: -1}});
 };
 
-export function studentStatusAndPaths(student, studentId, schoolYearId, termId) {
+export function studentStatusAndPaths(student, studentId, schoolYearId, termId, weekId) {
 	let subjectIds = Subjects.find({studentId: studentId, schoolYearId: schoolYearId}).map(subject => (subject._id));
 
 	// Year Status
@@ -103,6 +103,25 @@ export function studentStatusAndPaths(student, studentId, schoolYearId, termId) 
 	} else {
 		student.termProgress =  0;
 		student.firstWeekId = 'empty';
+	}
+
+	// Week Status
+	if (weekId) {
+		let weekLessonsTotal = Lessons.find({subjectId: {$in: subjectIds}, weekId: weekId}).count();
+		let weekLessonsCompletedTotal = Lessons.find({subjectId: {$in: subjectIds}, weekId: weekId, completed: true}).count();
+		let weekPercentComplete = weekLessonsCompletedTotal / weekLessonsTotal * 100;
+
+		if (weekPercentComplete > 0 && weekPercentComplete < 1) {
+			student.weekProgress = 1;
+		} else {
+			if (_.isNaN(Math.floor(weekPercentComplete))) {
+				student.weekProgress =  0;
+			} else {
+				student.weekProgress =  Math.floor(weekPercentComplete);
+			}
+		}
+	} else {
+		student.weekProgress =  0;
 	}
 
 	return student;
@@ -262,3 +281,31 @@ export function weekStatus(week, weekId, studentId) {
 	}
 	return week;
 };
+
+export function minutesConvert(minutes) {
+	if (isNaN(minutes)) {
+		return "0h 0m";
+	}
+	if (minutes === 60) {
+		return "1h 0m";
+	}
+	if (minutes > 60) {
+		let hours = Math.floor(minutes / 60);
+		let minutesLeft = minutes - (hours * 60);
+		return hours +"h "+ Math.round(minutesLeft) +"m";
+	}
+	if (minutes < 60) {
+		let seconds = 60 * (minutes - Math.floor(minutes));
+		return Math.floor(minutes) + "m "+ Math.round(seconds) +"s";
+	}
+};
+
+
+
+
+
+
+
+
+
+

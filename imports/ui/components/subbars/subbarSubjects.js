@@ -45,6 +45,10 @@ Template.subbarSubjects.helpers({
 	selectedStudent: function() {
 		return Students.findOne({_id: FlowRouter.getParam('selectedStudentId')});
 	},
+
+	studentSchoolYearSubjectId: function(studentId, schoolYearId) {
+		return Session.get('selectedSubject' + studentId + schoolYearId + 'Id');
+	},
 	
 	activeListItem: function(currentItem, item) {
 		if (currentItem === item) {

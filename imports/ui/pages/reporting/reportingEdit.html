@@ -1,0 +1,212 @@
+<template name="reportingEdit">
+	{{> toolbar}}
+	<main class="app-content app-content-preceeds-toolbar">
+		<form class="js-form-report-update report-form m-tn-18">
+			<input type="hidden" name="_id" value={{report._id}}>
+			
+			<div class="row p-tn-b-18">
+				<div class="col-sm-1of2 p-sm-rl-9">
+					<label>Report Name</label>
+					<input type="text" name="name" id="name" placeholder="Year End Report" autocomplete="off" value="{{report.name}}">
+				</div>
+			</div>
+
+			<label class="m-tn-rbl-9">Report Data</label>
+			<div class="row">
+				<!-- School Year -->
+				<div class="col-sm-1of2">
+					<div class="p-tn-b-18">
+						<div class="p-tn-rl-9">
+							<label class="checkbox">
+								<input class="js-checkbox" type="checkbox" name="schoolYearReportVisible" value="{{report.schoolYearReportVisible}}" checked="{{report.schoolYearReportVisible}}">
+								<div class="checkbox-icon"></div> 
+								<div class="checkbox-label bold">School Year</div>
+							</label>
+						</div>
+					
+						<div class="p-tn-r-9 p-tn-l-36">
+							<label class="checkbox">
+								<input class="js-checkbox" type="checkbox" name="schoolYearStatsVisible" value="{{report.schoolYearStatsVisible}}" checked="{{report.schoolYearStatsVisible}}">
+								<div class="checkbox-icon"></div> 
+								<div class="checkbox-label">Schedule</div>
+							</label>
+						</div>
+					
+						<div class="p-tn-r-9 p-tn-l-36">
+							<label class="checkbox">
+								<input class="js-checkbox" type="checkbox" name="schoolYearProgressVisible" value="{{report.schoolYearProgressVisible}}" checked="{{report.schoolYearProgressVisible}}">
+								<div class="checkbox-icon"></div> 
+								<div class="checkbox-label">Progress Bar</div>
+							</label>
+						</div>
+					
+						<div class="p-tn-r-9 p-tn-l-36">
+							<label class="checkbox">
+								<input class="js-checkbox" type="checkbox" name="schoolYearTimesVisible" value="{{report.schoolYearTimesVisible}}" checked="{{report.schoolYearTimesVisible}}">
+								<div class="checkbox-icon"></div> 
+								<div class="checkbox-label">Statistics</div>
+							</label>
+						</div>
+					</div>
+				</div>
+
+
+
+				<!-- Terms -->
+				<div class="col-sm-1of2">
+					<div class="p-tn-b-18">
+						<div class="p-tn-rl-9">
+							<label class="checkbox">
+								<input class="js-checkbox" type="checkbox" name="termsReportVisible" value="{{report.termsReportVisible}}" checked="{{report.termsReportVisible}}">
+								<div class="checkbox-icon"></div> 
+								<div class="checkbox-label bold">Terms</div>
+							</label>
+						</div>
+					
+						<div class="p-tn-r-9 p-tn-l-36">
+							<label class="checkbox">
+								<input class="js-checkbox" type="checkbox" name="termsStatsVisible" value="{{report.termsStatsVisible}}" checked="{{report.termsStatsVisible}}">
+								<div class="checkbox-icon"></div> 
+								<div class="checkbox-label">Schedule</div>
+							</label>
+						</div>
+					
+						<div class="p-tn-r-9 p-tn-l-36">
+							<label class="checkbox">
+								<input class="js-checkbox" type="checkbox" name="termsProgressVisible" value="{{report.termsProgressVisible}}" checked="{{report.termsProgressVisible}}">
+								<div class="checkbox-icon"></div> 
+								<div class="checkbox-label">Progress Bar</div>
+							</label>
+						</div>
+					
+						<div class="p-tn-r-9 p-tn-l-36">
+							<label class="checkbox">
+								<input class="js-checkbox" type="checkbox" name="termsTimesVisible" value="{{report.termsTimesVisible}}" checked="{{report.termsTimesVisible}}">
+								<div class="checkbox-icon"></div> 
+								<div class="checkbox-label">Statistics</div>
+							</label>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+			<div class="row">
+				<!-- Subjects -->
+				<div class="col-sm-1of2">
+					<div class="p-tn-b-18">
+						<div class="p-tn-rl-9">
+							<label class="checkbox">
+								<input class="js-checkbox" type="checkbox" name="subjectsReportVisible" value="{{report.subjectsReportVisible}}" checked="{{report.subjectsReportVisible}}">
+								<div class="checkbox-icon"></div> 
+								<div class="checkbox-label bold">Subjects</div>
+							</label>
+						</div>
+					
+						<div class="p-tn-r-9 p-tn-l-36">
+							<label class="checkbox">
+								<input class="js-checkbox" type="checkbox" name="subjectsStatsVisible" value="{{report.subjectsStatsVisible}}" checked="{{report.subjectsStatsVisible}}">
+								<div class="checkbox-icon"></div> 
+								<div class="checkbox-label">Schedule</div>
+							</label>
+						</div>
+					
+						<div class="p-tn-r-9 p-tn-l-36">
+							<label class="checkbox">
+								<input class="js-checkbox" type="checkbox" name="subjectsProgressVisible" value="{{report.subjectsProgressVisible}}" checked="{{report.subjectsProgressVisible}}">
+								<div class="checkbox-icon"></div> 
+								<div class="checkbox-label">Progress Bar</div>
+							</label>
+						</div>
+					
+						<div class="p-tn-r-9 p-tn-l-36">
+							<label class="checkbox">
+								<input class="js-checkbox" type="checkbox" name="subjectsTimesVisible" value="{{report.subjectsTimesVisible}}" checked="{{report.subjectsTimesVisible}}">
+								<div class="checkbox-icon"></div> 
+								<div class="checkbox-label">Statistics</div>
+							</label>
+						</div>
+
+						<div class="p-tn-r-9 p-tn-l-36">
+							<label class="checkbox">
+								<input class="js-checkbox" type="checkbox" name="subjectsResourcesVisible" value="{{report.subjectsResourcesVisible}}" checked="{{report.subjectsResourcesVisible}}">
+								<div class="checkbox-icon"></div> 
+								<div class="checkbox-label">Resource Titles</div>
+							</label>
+						</div>
+					</div>
+				</div>
+
+
+
+
+				<!-- Resources -->
+				<div class="col-sm-1of2">
+					<div class="p-tn-rl-9">
+						<label class="checkbox">
+							<input class="js-checkbox" type="checkbox" name="resourcesReportVisible" value="{{report.resourcesReportVisible}}" checked="{{report.resourcesReportVisible}}">
+							<div class="checkbox-icon"></div> 
+							<div class="checkbox-label bold">Resources</div>
+						</label>
+					</div>
+				
+					
+					<div class="p-tn-b-18">
+						<div class="p-tn-rl-9 p-tn-l-36">
+							<label class="checkbox">
+								<input class="js-checkbox" type="checkbox" name="resourcesOriginatorVisible" value="{{report.resourcesOriginatorVisible}}" checked="{{report.resourcesOriginatorVisible}}">
+								<div class="checkbox-icon"></div> 
+								<div class="checkbox-label">Author, Director or Artist</div>
+							</label>
+						</div>
+					
+						<div class="p-tn-rl-9 p-tn-l-36">
+							<label class="checkbox">
+								<input class="js-checkbox" type="checkbox" name="resourcesPublicationVisible" value="{{report.resourcesPublicationVisible}}" checked="{{report.resourcesPublicationVisible}}">
+								<div class="checkbox-icon"></div> 
+								<div class="checkbox-label">Publication Information</div>
+							</label>
+						</div>
+					
+						<div class="p-tn-rl-9 p-tn-l-36">
+							<label class="checkbox">
+								<input class="js-checkbox" type="checkbox" name="resourcesSubjectsVisible" value="{{report.resourcesSubjectsVisible}}" checked="{{report.resourcesSubjectsVisible}}">
+								<div class="checkbox-icon"></div> 
+								<div class="checkbox-label">Subjects</div>
+							</label>
+						</div>
+					
+						<div class="p-tn-rl-9 p-tn-l-36">
+							<label class="checkbox">
+								<input class="js-checkbox" type="checkbox" name="resourcesLinkVisible" value="{{report.resourcesLinkVisible}}" checked="{{report.resourcesLinkVisible}}">
+								<div class="checkbox-icon"></div> 
+								<div class="checkbox-label">Link</div>
+							</label>
+						</div>
+					
+						<div class="p-tn-rl-9 p-tn-l-36">
+							<label class="checkbox">
+								<input class="js-checkbox" type="checkbox" name="resourcesDescriptionVisible" value="{{report.resourcesDescriptionVisible}}" checked="{{report.resourcesDescriptionVisible}}">
+								<div class="checkbox-icon"></div> 
+								<div class="checkbox-label">Description</div>
+							</label>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+
+			<footer class="toolbar toolbar-bottom">
+				<a href="{{cancelPath}}" class="btn btn-gray-darker fl-tn-left">Cancel</a>
+				<button type="submit" class="js-submit fl-tn-right">Update</button>
+			</footer>
+		</form>
+	</main>
+	{{#unless Template.subscriptionsReady}}
+		{{> loading}}
+	{{/unless}}
+	{{> updating}}
+</template>

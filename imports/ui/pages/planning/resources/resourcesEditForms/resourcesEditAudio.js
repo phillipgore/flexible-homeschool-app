@@ -5,7 +5,6 @@ import autosize from 'autosize';
 import './resourcesEditAudio.html';
 
 Template.resourcesEditAudio.onCreated( function() {
-	// Subscriptions
 	this.subscribe('resource', FlowRouter.getParam('selectedResourceId'));
 });
 
@@ -62,7 +61,7 @@ Template.resourcesEditAudio.onRendered( function() {
 					$('.js-loading').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
-					FlowRouter.go('/planning/resources/view/' + FlowRouter.getParam('selectedResourceId'));
+					FlowRouter.go('/planning/resources/view/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/'+ FlowRouter.getParam('selectedResourceId') +'/'+ FlowRouter.getParam('selectedResourceCurrentTypeId'));
 				}
 			});
 
@@ -73,7 +72,7 @@ Template.resourcesEditAudio.onRendered( function() {
 
 Template.resourcesEditAudio.helpers({
 	resource: function() {
-		return Resources.findOne();
+		return Resources.findOne({_id: FlowRouter.getParam('selectedResourceId')});
 	},
 
 	availability: function(currentAvailability, availability) {
@@ -81,6 +80,10 @@ Template.resourcesEditAudio.helpers({
 			return true;
 		}
 		return false;
+	},
+
+	cancelPath: function() {
+		return '/planning/resources/view/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/'+ FlowRouter.getParam('selectedResourceId') +'/'+ FlowRouter.getParam('selectedResourceCurrentTypeId');
 	},
 });
 

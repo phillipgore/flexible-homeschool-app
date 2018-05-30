@@ -7,6 +7,7 @@ InitialIds = new Mongo.Collection('initialIds');
 InitialPaths = new Mongo.Collection('initialPaths');
 
 import moment from 'moment';
+import _ from 'lodash'
 
 let year = moment().year();
 let month = moment().month();
@@ -20,30 +21,21 @@ function startYearFunction(year) {
 
 let userData = Meteor.subscribe('userData');
 let groupStatus = Meteor.subscribe('groupStatus');
-let initialIds = Meteor.subscribe('initialIds');
+let initialIds = Meteor.subscribe('initialIds', startYearFunction(year));
 let initialStats = Meteor.subscribe('initialStats');
 let initialPaths = Meteor.subscribe('initialPaths');
-let startYear = startYearFunction(year);
 
 FlowRouter.wait();
 
 Tracker.autorun(() => {
-	if (userData.ready() && groupStatus.ready() && initialStats.ready() && initialPaths.ready() && initialIds.ready() && !FlowRouter._initialized) {
+	if (userData.ready() && groupStatus.ready() && initialIds.ready() && initialStats.ready() && initialPaths.ready() && !FlowRouter._initialized) {
 		FlowRouter.initialize()
 	}
 });
 
-function schoolYearId(year) {
-	if (InitialPaths.findOne({startYear: {$gte: startYear}}, {sort: {starYear: 1}})) {
-		return InitialPaths.findOne({startYear: {$gte: startYear}}, {sort: {starYear: 1}}).schoolYearId;
-	}
-	return InitialPaths.findOne({startYear: {$lte: startYear}}, {sort: {starYear: 1}}).schoolYearId;
-};
-
-
 function checkSignIn(context, redirect) {
 	if (Meteor.userId()) {
-		redirect('/planning/students/view/' + Session.get('selectedStudentId'));
+		redirect('/initializing');
 	}
 };
 
@@ -53,11 +45,14 @@ function checkSignOut(context, redirect) {
 	}
 };
 
-function navbarData(context) {
+function initialData(context) {
+	// Initial Frame
 	if (!Session.get('selectedFramePosition')) {
 		Session.set('selectedFramePosition', 1);
 	}
-	
+
+
+	// Initial Resources
 	if (!Session.get('selectedResourceType')) {
 		Session.set('selectedResourceType', 'all');
 	}
@@ -66,57 +61,77 @@ function navbarData(context) {
 		Session.set('selectedResourceAvailability', 'all');
 	}
 
-	if (InitialIds.find().count()) {
-		if (!Session.get('selectedStudentId')) {
-			Session.set('selectedStudentId', InitialIds.findOne().studentId);
+
+	// Initial Ids
+	let initialIds = InitialIds.findOne()
+	Object.keys(initialIds).forEach(function(key) {
+		if (key != '_id' && !Session.get('selected' + _.upperFirst(key) + 'Id')) {
+			// console.log('selected' + _.upperFirst(key) + 'Id: ' + initialIds[key])
+			Session.set('selected' + _.upperFirst(key) + 'Id', initialIds[key]);
 		}
+	});
+	
 
-		if (!Session.get('selectedResourceId')) {
-			Session.set('selectedResourceId', InitialIds.findOne().resourceId);
-	    }
-	} else {
-			Session.set('selectedStudentId', 'empty');
-			Session.set('selectedResourceId', 'empty');
-	}
-
-	if (InitialPaths.find().count()) {
-		if (!Session.get('selectedSchoolYearId')) {
-			Session.set('selectedSchoolYearId', schoolYearId(startYear));
+	// Nav Ids
+	if (!Session.get('selectedTermId')) {
+		let termId = InitialIds.find().fetch()[0]['term' + Session.get('selectedStudentId') + Session.get('selectedSchoolYearId')];
+		if (termId) { 
+			Session.set('selectedTermId', termId);
+		} else {
+			Session.set('selectedTermId', 'empty');
 		}
-
-		if (!Session.get('selectedTermId') && Session.get('selectedSchoolYearId')) {
-	    	Session.set('selectedTermId', InitialPaths.findOne({schoolYearId: Session.get('selectedSchoolYearId')}).firstTermId);
-	    }
-
-	    if (!Session.get('selectedWeekId') && Session.get('selectedTermId')) {
-	    	Session.set('selectedWeekId', InitialPaths.findOne({schoolYearId: Session.get('selectedSchoolYearId')}).firstWeekId);
-	    }
-	} else {
-			Session.set('selectedSchoolYearId', 'empty');
-	    	Session.set('selectedTermId', 'empty');
-	    	Session.set('selectedWeekId', 'empty');
 	}
 
-	if (!Session.get('currentPlanningPath')) {
-		Session.set('currentPlanningPath', '/planning/students/view/' + Session.get('selectedStudentId'))
+	if (!Session.get('selectedWeekId')) {
+		let weekId = InitialIds.find().fetch()[0]['week' + Session.get('selectedStudentId') + Session.get('selectedSchoolYearId') + Session.get('selectedTermId')];
+		if (weekId) {
+			Session.set('selectedWeekId', weekId);
+		} else {
+			Session.set('selectedWeekId', 'empty');
+		}
 	}
+
+	if (!Session.get('selectedResourceId')) {
+		Session.set('selectedResourceId', InitialIds.findOne().resourceAllAll)	
+	}
+
+	if (!Session.get('selectedSubjectId')) {
+		console.log('subject' + Session.get('selectedStudentId') + Session.get('selectedSchoolYearId'))
+		Session.set('selectedSubjectId', InitialIds.find().fetch()[0]['subject' + Session.get('selectedStudentId') + Session.get('selectedSchoolYearId')]);
+		console.log(Session.get('selectedSubjectId'))
+	}
+
+	// Initial Paths
+	if (!Session.get('planningPathName')) {
+		Session.set('planningPathName', 'students');
+	}
+
+	if (Session.get('selectedStudentId') && Session.get('selectedSchoolYearId') && Session.get('selectedTermId') && Session.get('selectedWeekId')) {
+		Session.set('initialized', true);
+	}	
 };
 
 function checkRoleUser(context, redirect) {
 	if (Meteor.user().info.role === 'User') {
-		redirect('/settings/users/restricted');
+		if (_.startsWith(context.route.name, 'users') || _.startsWith(context.route.name, 'billing')) {
+			redirect('/settings/support/view');
+		}
 	}
 };
 
 function checkRoleObserver(context, redirect) {
 	if (Meteor.user().info.role === 'Observer') {
-		redirect('/settings/users/restricted');
+		if (_.startsWith(context.route.name, 'users') || _.startsWith(context.route.name, 'billing')) {
+			redirect('/settings/support/view');
+		} else {
+			redirect('/settings/users/restricted');
+		}
 	}
 };
 
 function checkRoleApplication (context, redirect) {
 	if (Meteor.user().info.role === 'Application Administrator' || Meteor.user().info.role === 'Developer') {
-		redirect('/settings/list');
+		redirect('/settings/support/view');
 	} 
 };
 
@@ -171,9 +186,9 @@ function checkSubjectsAvailable(context) {
 };
 
 FlowRouter.triggers.enter([checkSignIn], {only: ['createAccount', 'verifySent', 'signIn', 'reset', 'resetSent', 'resetPassword']});
-FlowRouter.triggers.enter([navbarData, checkSignOut, checkPaymentError], {except: ['createAccount', 'verifySent', 'signIn', 'reset', 'resetSent', 'resetPassword']});
-FlowRouter.triggers.enter([checkSubjectsAvailable], {only: ['subjectsList', 'subjectsNew', 'subjectsView', 'subjectsEdit']});
-FlowRouter.triggers.enter([creditCardData], {except: []});
+FlowRouter.triggers.enter([initialData, checkSignOut, checkPaymentError], {except: ['createAccount', 'verifySent', 'signIn', 'reset', 'resetSent', 'resetPassword']});
+// FlowRouter.triggers.enter([checkSubjectsAvailable], {only: ['subjectsList', 'subjectsNew', 'subjectsView', 'subjectsEdit']});
+FlowRouter.triggers.enter([creditCardData]);
 
 FlowRouter.triggers.enter([checkSubscriptionPaused], {except: [
 	'createAccount', 

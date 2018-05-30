@@ -1,7 +1,7 @@
 <template name="resourcesEditBook">
 	{{> toolbar}}
-	<main class="app-content app-content-preceeds-toolbar">
-		<form class="js-form-resources-book-edit row m-tn-t-18 m-tn-h-18 | m-xs-h-72">
+	<main class="app-content app-content-preceeds-toolbar app-content-form">
+		<form class="js-form-resources-book-edit row">
 			<label>Title</label>
 			<input type="text" name="title" id="title" placeholder="The Outsiders" autocomplete="off" value="{{resource.title}}">
 
@@ -50,10 +50,10 @@
 			</div>
 
 			<label>Descripton</label>
-			<textarea class="m-tn-b-36" name="description" id="description" placeholder="Ponyboy Curtis is leaving..." rows="4" value="{{resource.description}}"></textarea>
+			<textarea class="m-tn-b-18" name="description" id="description" placeholder="Ponyboy Curtis is leaving..." rows="4" value="{{resource.description}}"></textarea>
 
 			<footer class="toolbar toolbar-bottom toolbar-gray">
-				<a href="{{pathFor 'resourcesView' id=resource._id}}" class="btn btn-gray-darker fl-tn-left">Cancel</a>
+				<a href="{{cancelPath}}" class="btn btn-gray-darker fl-tn-left">Cancel</a>
 				<button type="submit" class="js-submit fl-tn-right">Save</button>
 			</footer>
 		</form>

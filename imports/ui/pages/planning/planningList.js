@@ -3,6 +3,7 @@ import { Counts } from 'meteor/tmeasday:publish-counts';
 import { Students } from '../../../api/students/students.js';
 import { SchoolYears } from '../../../api/schoolYears/schoolYears.js';
 import './planningList.html';
+import _ from 'lodash'
 
 Template.planningList.onRendered( function() {
 	// Toolbar Settings
@@ -18,26 +19,25 @@ Template.planningList.onRendered( function() {
 
 Template.planningList.helpers({
 	items: [
-		// {divider: false, classes: '', icon: 'fss-notes', label: 'All Notes', url: '/planning/notes'},
-		{divider: false, classes: '', icon: 'fss-students', label: 'Students', url: '/planning/students/list'},
-		{divider: false, classes: '', icon: 'fss-school-years', label: 'School Years', url: '/planning/schoolyears/list'},
-		{divider: false, classes: '', icon: 'fss-resources', label: 'Resources', url: '/planning/resources/list'},
-		{divider: false, classes: '', icon: 'fss-subjects', label: 'Subjects', url: '/planning/subjects/list'},
+		{divider: false, classes: '', icon: 'fss-students', label: 'Students'},
+		{divider: false, classes: '', icon: 'fss-school-years', label: 'School Years'},
+		{divider: false, classes: '', icon: 'fss-resources', label: 'Resources'},
+		{divider: false, classes: '', icon: 'fss-subjects', label: 'Subjects'},
 	],
 
-	subjectAvailable: function() {
-		if (Counts.get('schoolYearCount') && Counts.get('studentCount')) {
-			return true;
-		}
-		return false;
+	selectedStudentId: function() {
+		return Session.get('selectedStudentId');
 	},
 
 	selectedSchoolYearId: function() {
 		return Session.get('selectedSchoolYearId');
 	},
 
-	selectedStudentId: function() {
-		return Session.get('selectedStudentId');
+	subjectAvailable: function() {
+		if (Counts.get('schoolYearCount') && Counts.get('studentCount')) {
+			return true;
+		}
+		return false;
 	},
 
 	selectedResourceType: function() {
@@ -49,7 +49,22 @@ Template.planningList.helpers({
 	},
 
 	selectedResourceId: function() {
-		return Session.get('selectedResourceId')
+		return Session.get('selectedResourceId');
+	},
+
+	selectedResourceCurrentTypeId: function() {
+		return Session.get('selectedResourceCurrentTypeId');
+	},
+
+	typeIsAll: function(type) {
+		if (type === 'all') {
+			return true;
+		}
+		return false;
+	},
+
+	selectedSubjectId: function() {
+		return Session.get('selectedSubjectId');
 	},
 
 	active: function(currentRoute, route) {
@@ -62,6 +77,6 @@ Template.planningList.helpers({
 
 Template.planningList.events({
 	'click .js-planning'(event) {
-		Session.set('currentPlanningPath', $(event.currentTarget).attr('href'))
+		Session.set('planningPathName', $(event.currentTarget).attr('id'))
 	},
 });
