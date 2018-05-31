@@ -70,7 +70,10 @@ Template.toolbarLarge.helpers({
 		return 'js-delete-' + Session.get('toolbarType');
 	},
 
-	printable: function() {
+	prinatable: function() {
+		if (Session.get('toolbarType') === 'report' || Session.get('toolbarType') === 'resource') {
+			return true;
+		}
 		return false;
 	}
 });

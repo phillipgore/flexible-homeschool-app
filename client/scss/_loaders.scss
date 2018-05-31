@@ -43,7 +43,7 @@
 	&.loading-updating, 
 	&.loading-deleting, 
 	&.loading-signing-out {
-		// display: none;
+		display: none;
 	}
 
 	.loader {		

@@ -14,6 +14,16 @@ FlowRouter.route('/initializing', {
 	},
 });
 
+FlowRouter.route('/test', {
+	name: 'test',
+	action() {
+		BlazeLayout.render('test');
+	},
+});
+
+
+
+
 Accounts.onLogout(() => {
 	Session.clear();
 });
