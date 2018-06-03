@@ -79,6 +79,10 @@ Template.toolbarLarge.helpers({
 });
 
 Template.toolbarLarge.events({
+	'click .js-print'(event) {
+		window.print();
+	},
+
 	'click .js-new-subject'(event) {
 		event.preventDefault();
 

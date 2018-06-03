@@ -33,3 +33,14 @@ FlowRouter.route('/reporting/edit/:selectedStudentId/:selectedSchoolYearId/:sele
 	},
 });
 
+FlowRouter.route('/reporting/print/:selectedStudentId/:selectedSchoolYearId/:selectedReportId', {
+	name: 'reportingPrint',
+	action() {
+		BlazeLayout.render('print', {
+			hiddenOne: '',
+			hiddenTwo: 'reportingList',
+			page: 'reportingView',
+		});
+	},
+});
+

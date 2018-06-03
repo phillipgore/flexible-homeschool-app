@@ -1,0 +1,70 @@
+.print-only-inline,
+.print-only-block,
+.print-only-inline-block, {
+	display: none;
+}
+
+@media print {
+	.print-only-inline {
+		display: inline;
+	}
+
+	.print-only-block {
+		display: block;
+	}
+
+	.print-only-inline-block {
+		display: inline-block;
+	}
+
+	.print-hide {
+		display: none;
+	}
+
+	.toolbar,
+	.subbar,
+	.navbar {
+		display: none;
+	}
+
+	.resourcesView, 
+	.reportingView {
+		.frame-one, 
+		.frame-three {
+			display: none;
+		}
+	}
+
+	@page {  margin: 0.75in 0.5in 0.5in; }
+
+	h1 + h2 {
+		line-height: 0.25;
+	}
+	.report {
+		padding: 18px;
+	}
+
+	.report + h1 {
+		page-break-before: always;
+	}
+
+	h2, .report-section {
+		page-break-inside: avoid;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

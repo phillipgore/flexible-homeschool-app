@@ -3,6 +3,7 @@ import '/imports/startup/client';
 // Layouts
 import '/imports/ui/layouts/initializing.js';
 import '/imports/ui/layouts/app.js';
+import '/imports/ui/layouts/print.js';
 
 // Components
 import '/imports/ui/components/creditCard.js';

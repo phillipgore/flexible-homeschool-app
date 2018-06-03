@@ -15,7 +15,7 @@ import './reportingView.html';
 Template.reportingView.onCreated( function() {
 	Tracker.autorun(() => {
 		let routeName = FlowRouter.current().route.name;
-		if (routeName === 'reportingNew' || routeName === 'reportingView' || routeName === 'reportingEdit') {
+		if (routeName === 'reportingNew' || routeName === 'reportingView' || routeName === 'reportingEdit' || routeName === 'reportingPrint') {
 			this.reportSchoolYearData = Meteor.subscribe('reportSchoolYears', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
 			this.reportTermData = Meteor.subscribe('reportTerms', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
 			this.reportSubjectData = Meteor.subscribe('reportSubjects', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
@@ -33,6 +33,7 @@ Template.reportingView.onRendered( function() {
 		selectedStudentId: FlowRouter.getParam('selectedStudentId'),
 		toolbarType: 'report',
 		editUrl: '/reporting/edit/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedReportId'),
+		printUrl: '/reporting/print/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedReportId'),
 	});
 });
 
@@ -101,7 +102,7 @@ Template.reportingView.events({
 				$('.loading-deleting').hide();
 			}
 		});
-	}
+	},
 });
 
 

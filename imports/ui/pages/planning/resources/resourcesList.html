@@ -1,6 +1,8 @@
 <template name="resourcesList">
 	{{> toolbarResources}}
 	<main class="app-content app-content-preceeds-toolbar">
+		<h1 class="txt-tn-center print-only-block">Resource List</h1>
+		<h2 class="txt-tn-center txt-gray-darkest txt-capitalize print-only-block m-tn-b-18">Type: {{selectedResourceType}} - Availability: {{selectedResourceAvailability}}</h2>
 		{{#if resourceCount 'all' 'all'}}
 			{{#if resourceCount selectedResourceType selectedResourceAvailability}}
 				<ul class="list">
@@ -21,12 +23,15 @@
 								href="/planning/resources/view/{{selectedResourceType}}/{{selectedResourceAvailability}}/{{resource._id}}/{{resource.type}}" class="js-resource list-item-link p-tn-rl-9 {{#if active resource._id}}active{{/if}}"
 							>
 							<div class="list-item-icon"><i class="txt-primary fss-{{resource.type}} fss-fw-16"></i></div> 
-							<div class="list-item-label">{{resource.title}}</div>
+							<div class="list-item-label">
+								{{resource.title}} 
+								<span class="print-only-inline {{availability resource.availability}}">{{availabilityText resource.availability}}</span>
+							</div>
 							</a>
 							{{#unless isLink resource.type}}
 								<div class="list-item-dropdown-loader hide"><i class="fss-searching fss-spin txt-gray-darkest"></i></div>
-								<a href="#" data-menu="#dropdown{{resource._id}}" class="js-dropdown list-item-dropdown {{availability resource.availability}}"></a>
-								<div id="dropdown{{resource._id}}" class="list-item-dropdown-menu hide">
+								<a href="#" data-menu="#dropdown{{resource._id}}" class="js-dropdown print-hide list-item-dropdown {{availability resource.availability}}"></a>
+								<div id="dropdown{{resource._id}}" class="list-item-dropdown-menu print-hide hide">
 									<div class="list-item-dropdown-options clearfix">
 										<a id="own" data-resource-id="{{resource._id}}" href="#" class="js-resouce-availability-btn fl-tn-left"><i class="fss-circle txt-royal"></i> Own</a>
 										<a id="borrowed" data-resource-id="{{resource._id}}" href="#" class="js-resouce-availability-btn fl-tn-left"><i class="fss-circle txt-info"></i> Borrowed</a>

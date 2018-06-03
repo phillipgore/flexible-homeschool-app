@@ -1,0 +1,16 @@
+<template name="print">
+	<div class="print-toolbar">
+		<button class="js-print btn">Print Document</button>
+	</div>
+	<div class="print-container">
+		<div class="hidden-one">
+			{{> Template.dynamic template=hiddenOne}}
+		</div>
+		<div class="hidden-two">
+			{{> Template.dynamic template=hiddenTwo}}
+		</div>
+		<div class="page">
+			{{> Template.dynamic template=page}}
+		</div>
+	</div>
+</template>

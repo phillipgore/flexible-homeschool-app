@@ -72,6 +72,18 @@ Template.resourcesList.helpers({
 		}
 	},
 
+	availabilityText: function(availability) {
+		if (availability === 'own') {
+			return '(Own It)'
+		}
+		if (availability === 'borrowed') {
+			return '(Borrowed It)'
+		}
+		if (availability === 'need') {
+			return '(Need It)'
+		}
+	},
+
 	activeRoute: function(currentRoute, route) {
 		if (currentRoute === route) {
 			return true;
