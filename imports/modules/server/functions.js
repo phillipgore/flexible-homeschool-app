@@ -36,22 +36,22 @@ function getFirstLesson (lessons) {
 
 	let lessonIds = lessons.map(lesson => (lesson._id));
 	if (partialWeeks.length) {
-		return Lessons.findOne({weekId: partialWeeks[0]});
+		return Lessons.findOne({weekId: partialWeeks[0], deletedOn: { $exists: false }});
 	}
 
-	if (Lessons.find({_id: {$in: lessonIds}, completed: false}, {sort: {order: 1}}).count()) {
-		return Lessons.findOne({_id: {$in: lessonIds}, completed: false}, {sort: {order: 1}});
+	if (Lessons.find({_id: {$in: lessonIds}, completed: false, deletedOn: { $exists: false }}, {sort: {order: 1}}).count()) {
+		return Lessons.findOne({_id: {$in: lessonIds}, completed: false, deletedOn: { $exists: false }}, {sort: {order: 1}});
 	}
 
-	return Lessons.findOne({_id: {$in: lessonIds}, completed: true}, {sort: {order: -1}});
+	return Lessons.findOne({_id: {$in: lessonIds}, completed: true, deletedOn: { $exists: false }}, {sort: {order: -1}});
 };
 
 export function studentStatusAndPaths(student, studentId, schoolYearId, termId, weekId) {
-	let subjectIds = Subjects.find({studentId: studentId, schoolYearId: schoolYearId}).map(subject => (subject._id));
+	let subjectIds = Subjects.find({studentId: studentId, schoolYearId: schoolYearId, deletedOn: { $exists: false }}).map(subject => (subject._id));
 
 	// Year Status
-	let yearLessonsTotal = Lessons.find({subjectId: {$in: subjectIds}}).count();
-	let yearLessonsCompletedTotal = Lessons.find({subjectId: {$in: subjectIds}, completed: true}).count();
+	let yearLessonsTotal = Lessons.find({subjectId: {$in: subjectIds}, deletedOn: { $exists: false }}).count();
+	let yearLessonsCompletedTotal = Lessons.find({subjectId: {$in: subjectIds}, completed: true, deletedOn: { $exists: false }}).count();
 	let yearPercentComplete = yearLessonsCompletedTotal / yearLessonsTotal * 100;
 
 	if (yearPercentComplete > 0 && yearPercentComplete < 1) {
@@ -66,10 +66,10 @@ export function studentStatusAndPaths(student, studentId, schoolYearId, termId, 
 
 	// Term Status
 	if (termId) {
-		let termWeeksIds = Weeks.find({termId: termId}).map(week => (week._id));
+		let termWeeksIds = Weeks.find({termId: termId, deletedOn: { $exists: false }}).map(week => (week._id));
 
-		let termLessonsTotal = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: termWeeksIds}}).count();
-		let termLessonsCompletedTotal = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: termWeeksIds}, completed: true}).count();
+		let termLessonsTotal = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: termWeeksIds}, deletedOn: { $exists: false }}).count();
+		let termLessonsCompletedTotal = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: termWeeksIds}, completed: true, deletedOn: { $exists: false }}).count();
 		let termPercentComplete = termLessonsCompletedTotal / termLessonsTotal * 100;
 
 		if (termPercentComplete > 0 && termPercentComplete < 1) {
@@ -83,16 +83,16 @@ export function studentStatusAndPaths(student, studentId, schoolYearId, termId, 
 		}
 
 		// First Week URL ID
-		let weekIds = Weeks.find({termId: termId}).map(week => (week._id));
-		let lessons = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: weekIds}});
+		let weekIds = Weeks.find({termId: termId, deletedOn: { $exists: false }}).map(week => (week._id));
+		let lessons = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: weekIds}, deletedOn: { $exists: false }});
 
 		if (lessons.count()) {
 			let firstLesson = getFirstLesson(lessons);
-			let firstWeek = Weeks.findOne({_id: firstLesson.weekId});
+			let firstWeek = Weeks.findOne({_id: firstLesson.weekId, deletedOn: { $exists: false }});
 
 			student.firstWeekId = firstWeek._id;
 		} else {
-			let firstWeek = Weeks.findOne({termId: termId}, {sort: {order: 1}})
+			let firstWeek = Weeks.findOne({termId: termId, deletedOn: { $exists: false }}, {sort: {order: 1}})
 
 			if (firstWeek) {
 				student.firstWeekId = firstWeek._id;
@@ -107,8 +107,8 @@ export function studentStatusAndPaths(student, studentId, schoolYearId, termId, 
 
 	// Week Status
 	if (weekId) {
-		let weekLessonsTotal = Lessons.find({subjectId: {$in: subjectIds}, weekId: weekId}).count();
-		let weekLessonsCompletedTotal = Lessons.find({subjectId: {$in: subjectIds}, weekId: weekId, completed: true}).count();
+		let weekLessonsTotal = Lessons.find({subjectId: {$in: subjectIds}, weekId: weekId, deletedOn: { $exists: false }}).count();
+		let weekLessonsCompletedTotal = Lessons.find({subjectId: {$in: subjectIds}, weekId: weekId, completed: true, deletedOn: { $exists: false }}).count();
 		let weekPercentComplete = weekLessonsCompletedTotal / weekLessonsTotal * 100;
 
 		if (weekPercentComplete > 0 && weekPercentComplete < 1) {
@@ -129,22 +129,22 @@ export function studentStatusAndPaths(student, studentId, schoolYearId, termId, 
 
 export function allSchoolYearsStatusAndPaths(schoolYear, schoolYearId) {
 	if (schoolYearId) {
-		let subjectIds = Subjects.find({schoolYearId: schoolYearId}).map(subject => (subject._id));
+		let subjectIds = Subjects.find({schoolYearId: schoolYearId, deletedOn: { $exists: false }}).map(subject => (subject._id));
 
-		let lessons = Lessons.find({subjectId: {$in: subjectIds}});
-		let lessonsCompleted = Lessons.find({subjectId: {$in: subjectIds}, completed: true});
+		let lessons = Lessons.find({subjectId: {$in: subjectIds}, deletedOn: { $exists: false }});
+		let lessonsCompleted = Lessons.find({subjectId: {$in: subjectIds}, completed: true, deletedOn: { $exists: false }});
 		schoolYear.status = status(lessons.count(), lessonsCompleted.count());
 
-		if (Terms.find({schoolYearId: schoolYearId}).count()) {
+		if (Terms.find({schoolYearId: schoolYearId, deletedOn: { $exists: false }}).count()) {
 			if (lessons.count()) {
 				let firstLesson = getFirstLesson(lessons);
-				let firstWeek = Weeks.findOne({_id: firstLesson.weekId});
+				let firstWeek = Weeks.findOne({_id: firstLesson.weekId, deletedOn: { $exists: false }});
 
 				schoolYear.firstTermId = firstWeek.termId;
 				schoolYear.firstWeekId = firstLesson.weekId;
 			} else {
-				let firstTerm = Terms.findOne({schoolYearId: schoolYearId}, {sort: {order: 1}})
-				let firstWeek = Weeks.findOne({termId: firstTerm._id}, {sort: {order: 1}})
+				let firstTerm = Terms.findOne({schoolYearId: schoolYearId, deletedOn: { $exists: false }}, {sort: {order: 1}})
+				let firstWeek = Weeks.findOne({termId: firstTerm._id, deletedOn: { $exists: false }}, {sort: {order: 1}})
 
 				schoolYear.firstTermId = firstTerm._id;
 
@@ -165,22 +165,22 @@ export function allSchoolYearsStatusAndPaths(schoolYear, schoolYearId) {
 
 export function studentSchoolYearsStatusAndPaths(schoolYear, schoolYearId, studentId) {
 	if (schoolYearId) {
-		let subjectIds = Subjects.find({studentId: studentId, schoolYearId: schoolYearId}).map(subject => (subject._id));
+		let subjectIds = Subjects.find({studentId: studentId, schoolYearId: schoolYearId, deletedOn: { $exists: false }}).map(subject => (subject._id));
 
-		let lessons = Lessons.find({subjectId: {$in: subjectIds}});
-		let lessonsCompleted = Lessons.find({subjectId: {$in: subjectIds}, completed: true});
+		let lessons = Lessons.find({subjectId: {$in: subjectIds}, deletedOn: { $exists: false }});
+		let lessonsCompleted = Lessons.find({subjectId: {$in: subjectIds}, completed: true, deletedOn: { $exists: false }});
 		schoolYear.status = status(lessons.count(), lessonsCompleted.count());
 
-		if (Terms.find({schoolYearId: schoolYearId}).count()) {
+		if (Terms.find({schoolYearId: schoolYearId, deletedOn: { $exists: false }}).count()) {
 			if (lessons.count()) {
 				let firstLesson = getFirstLesson(lessons);
-				let firstWeek = Weeks.findOne({_id: firstLesson.weekId});
+				let firstWeek = Weeks.findOne({_id: firstLesson.weekId, deletedOn: { $exists: false }});
 
 				schoolYear.firstTermId = firstWeek.termId;
 				schoolYear.firstWeekId = firstLesson.weekId;
 			} else {
-				let firstTerm = Terms.findOne({schoolYearId: schoolYearId}, {sort: {order: 1}})
-				let firstWeek = Weeks.findOne({termId: firstTerm._id}, {sort: {order: 1}})
+				let firstTerm = Terms.findOne({schoolYearId: schoolYearId, deletedOn: { $exists: false }}, {sort: {order: 1}})
+				let firstWeek = Weeks.findOne({termId: firstTerm._id, deletedOn: { $exists: false }}, {sort: {order: 1}})
 
 				schoolYear.firstTermId = firstTerm._id;
 
@@ -201,21 +201,21 @@ export function studentSchoolYearsStatusAndPaths(schoolYear, schoolYearId, stude
 
 export function allTermStatusAndPaths(term, termId, schoolYearId) {
 	if (termId) {
-		let subjectIds = Subjects.find({schoolYearId: schoolYearId}).map(subject => (subject._id));
-		let weekIds = Weeks.find({termId: termId}).map(week => (week._id));
+		let subjectIds = Subjects.find({schoolYearId: schoolYearId, deletedOn: { $exists: false }}).map(subject => (subject._id));
+		let weekIds = Weeks.find({termId: termId, deletedOn: { $exists: false }}).map(week => (week._id));
 
-		let lessons = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: weekIds}});
-		let lessonsCompleted = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: weekIds}, completed: true});
+		let lessons = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: weekIds}, deletedOn: { $exists: false }});
+		let lessonsCompleted = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: weekIds}, completed: true, deletedOn: { $exists: false }});
 		term.status = status(lessons.count(), lessonsCompleted.count());
 
 		if (termId) {
 			if (lessons.count()) {
 				let firstLesson = getFirstLesson(lessons);
-				let firstWeek = Weeks.findOne({_id: firstLesson.weekId});
+				let firstWeek = Weeks.findOne({_id: firstLesson.weekId, deletedOn: { $exists: false }});
 
 				term.firstWeekId = firstWeek._id;
 			} else {
-				let firstWeek = Weeks.findOne({termId: termId}, {sort: {order: 1}})
+				let firstWeek = Weeks.findOne({termId: termId, deletedOn: { $exists: false }}, {sort: {order: 1}})
 
 				if (firstWeek) {
 					term.firstWeekId = firstWeek._id;
@@ -232,21 +232,21 @@ export function allTermStatusAndPaths(term, termId, schoolYearId) {
 
 export function studentTermStatusAndPaths(term, termId, schoolYearId, studentId) {
 	if (termId) {
-		let subjectIds = Subjects.find({studentId: studentId, schoolYearId: schoolYearId}).map(subject => (subject._id));
-		let weekIds = Weeks.find({termId: termId}).map(week => (week._id));
+		let subjectIds = Subjects.find({studentId: studentId, schoolYearId: schoolYearId, deletedOn: { $exists: false }}).map(subject => (subject._id));
+		let weekIds = Weeks.find({termId: termId, deletedOn: { $exists: false }}).map(week => (week._id));
 
-		let lessons = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: weekIds}});
-		let lessonsCompleted = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: weekIds}, completed: true});
+		let lessons = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: weekIds}, deletedOn: { $exists: false }});
+		let lessonsCompleted = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: weekIds}, completed: true, deletedOn: { $exists: false }});
 		term.status = status(lessons.count(), lessonsCompleted.count());
 
 		if (termId) {
 			if (lessons.count()) {
 				let firstLesson = getFirstLesson(lessons);
-				let firstWeek = Weeks.findOne({_id: firstLesson.weekId});
+				let firstWeek = Weeks.findOne({_id: firstLesson.weekId, deletedOn: { $exists: false }});
 			
 				term.firstWeekId = firstWeek._id;
 			} else {
-				let firstWeek = Weeks.findOne({termId: termId}, {sort: {order: 1}})
+				let firstWeek = Weeks.findOne({termId: termId, deletedOn: { $exists: false }}, {sort: {order: 1}})
 
 				if (firstWeek) {
 					term.firstWeekId = firstWeek._id;
@@ -265,18 +265,18 @@ export function weekStatus(week, weekId, studentId) {
 	if (weekId) {
 		function getSubjectIds(schoolYear, studentId) {
 			if (_.isNil(studentId)) {
-			    return Subjects.find({schoolYearId: schoolYearId}).map(subject => (subject._id));
+			    return Subjects.find({schoolYearId: schoolYearId, deletedOn: { $exists: false }}).map(subject => (subject._id));
 			} else {
-				return Subjects.find({studentId: studentId, schoolYearId: schoolYearId}).map(subject => (subject._id));
+				return Subjects.find({studentId: studentId, schoolYearId: schoolYearId, deletedOn: { $exists: false }}).map(subject => (subject._id));
 			}
 		}
 
-		let termId = Weeks.findOne({_id: weekId}).termId;
-		let schoolYearId = Terms.findOne({_id: termId}, {sort: {order: 1}}).schoolYearId;
+		let termId = Weeks.findOne({_id: weekId, deletedOn: { $exists: false }}).termId;
+		let schoolYearId = Terms.findOne({_id: termId, deletedOn: { $exists: false }}, {sort: {order: 1}}).schoolYearId;
 		let subjectIds = getSubjectIds(schoolYearId, studentId);
 
-		let lessonsTotal = Lessons.find({subjectId: {$in: subjectIds}, weekId: weekId}).count();
-		let lessonsCompletedTotal = Lessons.find({subjectId: {$in: subjectIds}, weekId: weekId, completed: true}).count();
+		let lessonsTotal = Lessons.find({subjectId: {$in: subjectIds}, weekId: weekId, deletedOn: { $exists: false }}).count();
+		let lessonsCompletedTotal = Lessons.find({subjectId: {$in: subjectIds}, weekId: weekId, completed: true, deletedOn: { $exists: false }}).count();
 		week.status = status(lessonsTotal, lessonsCompletedTotal);
 	}
 	return week;
