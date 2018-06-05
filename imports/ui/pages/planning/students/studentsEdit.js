@@ -8,15 +8,13 @@ Template.studentsEdit.onCreated( function() {
 });
 
 Template.studentsEdit.onRendered( function() {
-	// Toolbar Settings
 	Session.set({
-		label: 'Edit Student',
-		rightUrl: '',
-		rightIcon: '',
+		toolbarType: 'edit',
+		labelThree: 'Edit Student',
+		selectedFramePosition: 3,
+		selectedFrameClass: 'frame-position-three',
+		activeNav: 'planningList',
 	});
-
-	// Navbar Settings
-	Session.set('activeNav', 'planningList');
 
 	// Form Validation and Submission
 	$('.js-form-students-update').validate({

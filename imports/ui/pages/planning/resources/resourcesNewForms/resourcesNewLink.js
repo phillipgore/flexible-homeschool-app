@@ -14,15 +14,13 @@ Template.resourcesNewLink.onCreated( function() {
 Template.resourcesNewLink.onRendered( function() {
 	Session.set('selectedResourceNewType', FlowRouter.getParam('selectedResourceNewType'));
 	
-	// Toolbar Settings
 	Session.set({
-		label: 'New Link Resource',
-		rightUrl: '',
-		rightIcon: '',
+		toolbarType: 'new',
+		labelThree: 'New Link Resource',
+		selectedFramePosition: 3,
+		selectedFrameClass: 'frame-position-three',
+		activeNav: 'planningList',
 	});
-
-	// Navbar Settings
-	Session.set('activeNav', 'planningList');
 
 	// Textarea Autoresize
 	autosize($('#description'));
@@ -73,13 +71,19 @@ Template.resourcesNewLink.onRendered( function() {
 });
 
 Template.resourcesNewLink.helpers({
-	cancelPath: function() {
-		return '/planning/resources/view/' + Session.get('selectedResourceType') +'/'+ Session.get('selectedResourceAvailability') +'/'+ Session.get('selectedResourceId') +'/'+ Session.get('selectedResourceCurrentTypeId');
-	},
+	
 });
 
 Template.resourcesNewLink.events({
 	'submit .js-form-resources-link-new'(event) {
 		event.preventDefault();
+	},
+
+	'click .js-cancel'(event) {
+		event.preventDefault();
+		
+		Session.setPersistent('selectedFramePosition', 2);
+		Session.setPersistent('selectedFrameClass', 'frame-position-two');
+		FlowRouter.go('/planning/resources/view/' + Session.get('selectedResourceType') +'/'+ Session.get('selectedResourceAvailability') +'/'+ Session.get('selectedResourceId') +'/'+ Session.get('selectedResourceCurrentTypeId'));
 	},
 });

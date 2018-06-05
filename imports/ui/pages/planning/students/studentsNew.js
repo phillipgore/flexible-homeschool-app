@@ -2,15 +2,13 @@ import {Template} from 'meteor/templating';
 import './studentsNew.html';
 
 Template.studentsNew.onRendered( function() {
-	// Toolbar Settings
 	Session.set({
-		label: 'New Student',
-		rightUrl: '',
-		rightIcon: '',
+		toolbarType: 'new',
+		labelThree: 'New Student',
+		selectedFramePosition: 3,
+		selectedFrameClass: 'frame-position-three',
+		activeNav: 'planningList',
 	});
-
-	// Navbar Settings
-	Session.set('activeNav', 'planningList');
 
 	// Form Validation and Submission
 	$('.js-form-students-new').validate({
@@ -102,5 +100,13 @@ Template.studentsNew.events({
 
 	'submit .js-form-students-new'(event) {
 		event.preventDefault();
+	},
+
+	'click .js-cancel'(event) {
+		event.preventDefault();
+		
+		Session.setPersistent('selectedFramePosition', 2);
+		Session.setPersistent('selectedFrameClass', 'frame-position-two');
+		FlowRouter.go('/planning/students/view/' + Session.get('selectedStudentId'));
 	},
 });

@@ -103,17 +103,22 @@ button, .btn {
 	text-decoration: none;
 	background-color: transparent;
 	border: none;
-	// width: 42px;
+	width: 36px;
 	height: 50px;
 	border-radius: 0px;
-	display: block;
-	// padding-top: 15px;
-	padding: 15px 12px 0px;
+	font-size: 20px;
+	display: inline-block;
+	float: left;
+	padding: 15px 0px;
 
 	&:hover, &:focus, &:active {
     	outline: none;
     	border: 0;
     	text-decoration: none;
+	}
+
+	&.disabled {
+		color: $color-primary-lighter;
 	}
 
 	@media only screen and (min-width: 640px) {
@@ -122,10 +127,7 @@ button, .btn {
 		padding: 8px 0px;
 		margin: 9px 0px 0px 9px;
 		border-radius: 3px;
-		display: inline-block;
-		float: left;
 		font-size: 16px;
-		color: $color-white;
 		background-color: $color-primary-light;
 
 		&.btn-tool-icn-lg {
@@ -135,10 +137,17 @@ button, .btn {
 			}
 		}
 
-		&.disabled {
-			color: $color-primary-lighter;
-		}
 	}
+}
+
+.btn-tool-spacer {
+	width: 19px;
+	margin-right: 9px;
+	height: 32px;
+	margin-top: 9px;
+	border-right: 1px solid $color-primary-lighter;
+	float: left;
+	display: none;
 }
 
 @media only screen and (min-width: 640px) {
@@ -152,16 +161,10 @@ button, .btn {
 			margin-left: 0px;
 		}
 	}
-}
 
-.btn-tool-spacer {
-	width: 19px;
-	margin-right: 9px;
-	height: 32px;
-	margin-top: 9px;
-	border-right: 1px solid $color-primary-lighter;
-	display: inline-block;
-	float: left;
+	.btn-tool-spacer {
+		display: inline-block;
+	}
 }
 
 .btn-sub {

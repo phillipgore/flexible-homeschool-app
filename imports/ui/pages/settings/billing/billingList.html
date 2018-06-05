@@ -1,5 +1,5 @@
 <template name="billingList">
-	{{> toolbar}}
+	
 	<main class="app-content app-content-preceeds-toolbar">
 		<ul class="list">
 			<li class="list-item">
@@ -11,7 +11,7 @@
 			<li class="list-item">
 				<a href="/settings/billing/edit" class="js-billing list-item-link bg-white p-tn-rl-9 {{#if active currentRouteName 'billingEdit'}}active{{/if}}">
 					<div class="list-item-icon"><i class="txt-primary {{cardClass}}"></i></div> 
-					<div class="list-item-label">Update Payment</div>
+					<div class="list-item-label">Payment</div>
 					{{#if group.stripePaymentAttempt}}<div class="list-item-badge"></div>{{/if}}
 				</a>
 			</li>

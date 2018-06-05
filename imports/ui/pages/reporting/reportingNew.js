@@ -7,6 +7,14 @@ Template.reportingNew.onCreated( function() {
 });
 
 Template.reportingNew.onRendered( function() {
+	Session.set({
+		toolbarType: 'new',
+		labelTwo: 'New Report',
+		selectedFramePosition: 2,
+		selectedFrameClass: 'frame-position-two',
+		activeNav: 'reportingList',
+	});
+
 	Session.set('activeNav', 'reportingView');
 
 	// Form Validation and Submission
@@ -70,9 +78,7 @@ Template.reportingNew.onRendered( function() {
 });
 
 Template.reportingNew.helpers({
-	cancelPath: function() {
-		return '/reporting/view/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ Session.get('selectedReportId');
-	},
+	
 });
 
 Template.reportingNew.events({
@@ -86,5 +92,13 @@ Template.reportingNew.events({
 
 	'submit .js-form-reports-new'(event) {
 		event.preventDefault();
+	},
+
+	'click .js-cancel'(event) {
+		event.preventDefault();
+		
+		Session.setPersistent('selectedFramePosition', 1);
+		Session.setPersistent('selectedFrameClass', 'frame-position-one');
+		FlowRouter.go('/reporting/view/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedReportId'))
 	},
 });

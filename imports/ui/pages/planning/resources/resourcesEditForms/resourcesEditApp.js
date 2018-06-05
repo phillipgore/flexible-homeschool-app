@@ -11,13 +11,12 @@ Template.resourcesEditApp.onCreated( function() {
 Template.resourcesEditApp.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
-		label: 'Edit App Resource',
-		rightUrl: '',
-		rightIcon: '',
+		toolbarType: 'edit',
+		labelThree: 'Edit App Resource',
+		selectedFramePosition: 3,
+		selectedFrameClass: 'frame-position-three',
+		activeNav: 'planningList',
 	});
-
-	// Navbar Settings
-	Session.set('activeNav', 'planningList');
 
 	// Textarea Autoresize
 	autosize($('#description'));

@@ -9,13 +9,13 @@
 		{{/each}}
 	</div>
 
-	{{> toolbarLarge}}
+	{{> toolbar}}
 	<asside class="subbar">
-		{{> Template.dynamic template=subbar}}
+		<span class="{{#unless showSubbar}}hide{{/unless}}">{{> Template.dynamic template=subbar}}</span>
 	</asside>
 
 	<div class="frame-container-outer {{currentRouteName}}">
-		<div class="frame-contaner-inner">
+		<div class="frame-contaner-inner {{selectedFrameClass}}">
 			<div class="frame-one"> 
 				{{> Template.dynamic template=frameOne}}
 			</div>

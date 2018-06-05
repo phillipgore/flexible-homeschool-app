@@ -36,15 +36,13 @@ Template.subjectsNew.onRendered( function() {
 	// School Year Id Settings
 	Session.set({schoolYearId: ''})
 
-	// Toolbar Settings
 	Session.set({
-		label: 'New Subject',
-		rightUrl: '',
-		rightIcon: '',
+		toolbarType: 'new',
+		labelThree: 'New Subject',
+		selectedFramePosition: 3,
+		selectedFrameClass: 'frame-position-three',
+		activeNav: 'planningList',
 	});
-
-	// Navbar Settings
-	Session.set('activeNav', 'planningList');
 
 	// Form Validation and Submission
 	$('.js-form-subjects-new').validate({
@@ -166,10 +164,6 @@ Template.subjectsNew.helpers({
 	selectedStudentId: function() {
 		return Session.get('selectedStudentId');
 	},
-
-	cancelPath: function() {
-		return '/planning/subjects/view/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ Session.get('selectedSubjectId');
-	},
 });
 
 Template.subjectsNew.events({
@@ -239,6 +233,14 @@ Template.subjectsNew.events({
 
 	'submit .js-form-subjects-new'(event) {
 		event.preventDefault();
+	},
+
+	'click .js-cancel'(event) {
+		event.preventDefault();
+		
+		Session.setPersistent('selectedFramePosition', 2);
+		Session.setPersistent('selectedFrameClass', 'frame-position-two');
+		FlowRouter.go('/planning/subjects/view/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ Session.get('selectedSubjectId'));
 	},
 });
 

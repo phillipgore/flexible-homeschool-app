@@ -7,13 +7,11 @@ Template.reportingList.onCreated( function() {
 });
 
 Template.reportingList.onRendered( function() {
-	// Toolbar Settings
 	Session.set({
-		label: 'Reports',
+		labelOne: 'Reports',
+		newUrl: '/reporting/new/',
+		activeNav: 'reportingList',
 	});
-
-	// Navbar Settings
-	Session.set('activeNav', 'reportingList');
 });
 
 Template.reportingList.helpers({

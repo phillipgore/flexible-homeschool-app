@@ -15,13 +15,10 @@ Template.resourcesList.onCreated( function() {
 });
 
 Template.resourcesList.onRendered( function() {
-	// Toolbar Settings
 	Session.set({
-		label: 'Resources',
+		labelTwo: 'Resources',
+		activeNav: 'planningList',
 	});
-
-	// Navbar Settings
-	Session.set('activeNav', 'planningList');
 });
 
 Template.resourcesList.helpers({

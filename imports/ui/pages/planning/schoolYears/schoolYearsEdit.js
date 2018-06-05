@@ -28,9 +28,11 @@ Template.schoolYearsEdit.onCreated( function() {
 Template.schoolYearsEdit.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
-		label: 'Edit School Year',
-		rightUrl: '',
-		rightIcon: '',
+		toolbarType: 'edit',
+		labelThree: 'Edit School Year',
+		selectedFramePosition: 3,
+		selectedFrameClass: 'frame-position-three',
+		activeNav: 'planningList',
 	});
 })
 

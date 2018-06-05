@@ -21,17 +21,11 @@ Template.billingList.onCreated( function() {
 });
 
 Template.billingList.onRendered( function() {
-	// Toolbar Settings
 	Session.set({
 		toolbarType: 'billing',
-		editUrl: '',
-		label: 'Billing',
-		rightUrl: '',
-		rightIcon: '',
+		labelTwo: 'Billing',
+		activeNav: 'settingsList',
 	});
-
-	// Navbar Settings
-	Session.set('activeNav', 'settingsList');
 });
 
 Template.billingList.helpers({

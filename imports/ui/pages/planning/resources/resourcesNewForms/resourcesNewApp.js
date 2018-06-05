@@ -12,15 +12,13 @@ Template.resourcesNewApp.onCreated( function() {
 });
 
 Template.resourcesNewApp.onRendered( function() {
-	// Toolbar Settings
 	Session.set({
-		label: 'New App Resource',
-		rightUrl: '',
-		rightIcon: '',
+		toolbarType: 'new',
+		labelThree: 'New App Resource',
+		selectedFramePosition: 3,
+		selectedFrameClass: 'frame-position-three',
+		activeNav: 'planningList',
 	});
-
-	// Navbar Settings
-	Session.set('activeNav', 'planningList');
 
 	// Textarea Autoresize
 	autosize($('#description'));
@@ -71,13 +69,19 @@ Template.resourcesNewApp.onRendered( function() {
 });
 
 Template.resourcesNewApp.helpers({
-	cancelPath: function() {
-		return '/planning/resources/view/' + Session.get('selectedResourceType') +'/'+ Session.get('selectedResourceAvailability') +'/'+ Session.get('selectedResourceId') +'/'+ Session.get('selectedResourceCurrentTypeId');
-	},
+	
 });
 
 Template.resourcesNewApp.events({
 	'submit .js-form-resources-app-new'(event) {
 		event.preventDefault();
+	},
+
+	'click .js-cancel'(event) {
+		event.preventDefault();
+		
+		Session.setPersistent('selectedFramePosition', 2);
+		Session.setPersistent('selectedFrameClass', 'frame-position-two');
+		FlowRouter.go('/planning/resources/view/' + Session.get('selectedResourceType') +'/'+ Session.get('selectedResourceAvailability') +'/'+ Session.get('selectedResourceId') +'/'+ Session.get('selectedResourceCurrentTypeId'));
 	},
 });

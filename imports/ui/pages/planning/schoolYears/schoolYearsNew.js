@@ -4,19 +4,19 @@ import './schoolYearsNew.html';
 LocalTerms = new Mongo.Collection(null);
 
 Template.schoolYearsNew.onRendered( function() {
+	Session.set({
+		toolbarType: 'new',
+		labelThree: 'New School Year',
+		selectedFramePosition: 3,
+		selectedFrameClass: 'frame-position-three',
+		activeNav: 'planningList',
+	});
 	// Term Input Settings
 	LocalTerms.remove({});
 	LocalTerms.insert({term: true});
 
 	// Total Weeks
 	$('.js-total').html('0');
-
-	// Toolbar Settings
-	Session.set({
-		label: 'New School Year',
-		rightUrl: '',
-		rightIcon: '',
-	});
 
 	// Form Validation and Submission
 	$('.js-form-school-year-new').validate({
@@ -181,5 +181,13 @@ Template.schoolYearsNew.events({
 
 	'submit .js-form-school-year-new'(event) {
 		event.preventDefault();
+	},
+
+	'click .js-cancel'(event) {
+		event.preventDefault();
+		
+		Session.setPersistent('selectedFramePosition', 2);
+		Session.setPersistent('selectedFrameClass', 'frame-position-two');
+		FlowRouter.go('/planning/schoolyears/view/' + Session.get('selectedSchoolYearId'));
 	},
 });

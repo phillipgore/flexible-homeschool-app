@@ -1,11 +1,11 @@
 <template name="reportingEdit">
-	{{> toolbar}}
+	
 	<main class="app-content app-content-preceeds-toolbar">
 		<form class="js-form-report-update report-form m-tn-18">
 			<input type="hidden" name="_id" value={{report._id}}>
 			
 			<div class="row p-tn-b-18">
-				<div class="col-sm-1of2 p-sm-rl-9">
+				<div class="col-lg-1of2 p-lg-rl-9">
 					<label>Report Name</label>
 					<input type="text" name="name" id="name" placeholder="Year End Report" autocomplete="off" value="{{report.name}}">
 				</div>
@@ -14,7 +14,7 @@
 			<label class="m-tn-rbl-9">Report Data</label>
 			<div class="row">
 				<!-- School Year -->
-				<div class="col-sm-1of2">
+				<div class="col-lg-1of2">
 					<div class="p-tn-b-18">
 						<div class="p-tn-rl-9">
 							<label class="checkbox">
@@ -53,7 +53,7 @@
 
 
 				<!-- Terms -->
-				<div class="col-sm-1of2">
+				<div class="col-lg-1of2">
 					<div class="p-tn-b-18">
 						<div class="p-tn-rl-9">
 							<label class="checkbox">
@@ -94,7 +94,7 @@
 
 			<div class="row">
 				<!-- Subjects -->
-				<div class="col-sm-1of2">
+				<div class="col-lg-1of2">
 					<div class="p-tn-b-18">
 						<div class="p-tn-rl-9">
 							<label class="checkbox">
@@ -142,7 +142,7 @@
 
 
 				<!-- Resources -->
-				<div class="col-sm-1of2">
+				<div class="col-lg-1of2">
 					<div class="p-tn-rl-9">
 						<label class="checkbox">
 							<input class="js-checkbox" type="checkbox" name="resourcesReportVisible" value="{{report.resourcesReportVisible}}" checked="{{report.resourcesReportVisible}}">

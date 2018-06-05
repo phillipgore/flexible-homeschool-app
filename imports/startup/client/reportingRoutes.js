@@ -1,6 +1,6 @@
 import _ from 'lodash'
 
-FlowRouter.route('/reporting/new/:selectedStudentId/:selectedSchoolYearId', {
+FlowRouter.route('/reporting/new/', {
 	name: 'reportingNew',
 	action() {
 		BlazeLayout.render('app', {

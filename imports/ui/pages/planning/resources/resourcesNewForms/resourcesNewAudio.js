@@ -14,15 +14,13 @@ Template.resourcesNewAudio.onCreated( function() {
 Template.resourcesNewAudio.onRendered( function() {
 	Session.set('selectedResourceNewType', FlowRouter.getParam('selectedResourceNewType'));
 	
-	// Toolbar Settings
 	Session.set({
-		label: 'New Audio Resource',
-		rightUrl: '',
-		rightIcon: '',
+		toolbarType: 'new',
+		labelThree: 'New Audio Resource',
+		selectedFramePosition: 3,
+		selectedFrameClass: 'frame-position-three',
+		activeNav: 'planningList',
 	});
-
-	// Navbar Settings
-	Session.set('activeNav', 'planningList');
 
 	// Textarea Autoresize
 	autosize($('#description'));
@@ -77,13 +75,19 @@ Template.resourcesNewAudio.onRendered( function() {
 });
 
 Template.resourcesNewAudio.helpers({
-	cancelPath: function() {
-		return '/planning/resources/view/' + Session.get('selectedResourceType') +'/'+ Session.get('selectedResourceAvailability') +'/'+ Session.get('selectedResourceId') +'/'+ Session.get('selectedResourceCurrentTypeId');
-	},
+	
 });
 
 Template.resourcesNewAudio.events({
 	'submit .js-form-resources-audio-new'(event) {
 		event.preventDefault();
+	},
+
+	'click .js-cancel'(event) {
+		event.preventDefault();
+		
+		Session.setPersistent('selectedFramePosition', 2);
+		Session.setPersistent('selectedFrameClass', 'frame-position-two');
+		FlowRouter.go('/planning/resources/view/' + Session.get('selectedResourceType') +'/'+ Session.get('selectedResourceAvailability') +'/'+ Session.get('selectedResourceId') +'/'+ Session.get('selectedResourceCurrentTypeId'));
 	},
 });

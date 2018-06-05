@@ -13,6 +13,8 @@ Template.resourcesView.onRendered( function() {
 	Session.set({
 		toolbarType: 'resource',
 		editUrl: '/planning/resources/edit/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/'+ FlowRouter.getParam('selectedResourceId') +'/'+ FlowRouter.getParam('selectedResourceCurrentTypeId'),
+		labelThree: 'Resource',
+		activeNav: 'planningList',
 	});
 });
 

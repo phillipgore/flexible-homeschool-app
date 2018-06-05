@@ -18,10 +18,11 @@ Template.subjectsView.onCreated( function() {
 });
 
 Template.subjectsView.onRendered( function() {
-	// Toolbar Settings
 	Session.set({
 		toolbarType: 'subject',
 		editUrl: '/planning/subjects/edit/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedSubjectId'),
+		labelThree: 'Subject',
+		activeNav: 'planningList',
 	});
 });
 

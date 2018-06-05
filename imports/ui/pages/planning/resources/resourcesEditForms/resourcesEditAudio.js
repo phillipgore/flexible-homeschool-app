@@ -11,13 +11,12 @@ Template.resourcesEditAudio.onCreated( function() {
 Template.resourcesEditAudio.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
-		label: 'Edit Audio Resource',
-		rightUrl: '',
-		rightIcon: '',
+		toolbarType: 'edit',
+		labelThree: 'Edit Audio Resource',
+		selectedFramePosition: 3,
+		selectedFrameClass: 'frame-position-three',
+		activeNav: 'planningList',
 	});
-
-	// Navbar Settings
-	Session.set('activeNav', 'planningList');
 
 	// Textarea Autoresize
 	autosize($('#description'));

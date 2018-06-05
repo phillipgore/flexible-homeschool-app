@@ -6,6 +6,7 @@ import '/imports/ui/layouts/app.js';
 import '/imports/ui/layouts/print.js';
 
 // Components
+import '/imports/ui/components/toolbar.js';
 import '/imports/ui/components/creditCard.js';
 import '/imports/ui/components/dialog.js';
 import '/imports/ui/components/navbar.js';
@@ -23,15 +24,7 @@ import '/imports/ui/components/navbar.js';
 	import '/imports/ui/components/subbars/subbarReporting.js';
 	import '/imports/ui/components/subbars/subbarResources.js';
 	import '/imports/ui/components/subbars/subbarSubjects.js';
-	import '/imports/ui/components/subbars/subbarTracking.js';
-	// Toolbars
-	import '/imports/ui/components/toolbars/toolbar.js';
-	import '/imports/ui/components/toolbars/toolbarLarge.js';
-	import '/imports/ui/components/toolbars/toolbarLogo.html';
-	import '/imports/ui/components/toolbars/toolbarPrint.js';
-	import '/imports/ui/components/toolbars/toolbarResources.js';
-	import '/imports/ui/components/toolbars/toolbarUsersView.js';
-	import '/imports/ui/components/toolbars/toolbarView.js';
+	import '/imports/ui/components/subbars/subbarTracking.js';	
 
 
 // Accounts

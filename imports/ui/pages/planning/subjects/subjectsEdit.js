@@ -47,15 +47,11 @@ Template.subjectsEdit.onCreated( function() {
 });
 
 Template.subjectsEdit.onRendered( function() {
-	// Toolbar Settings
 	Session.set({
-		label: 'Edit Subject',
-		rightUrl: '',
-		rightIcon: '',
+		toolbarType: 'edit',
+		labelThree: 'Edit Subject',
+		activeNav: 'planningList',
 	});
-
-	// Navbar Settings
-	Session.set('activeNav', 'planningList');
 
 	// Form Validation and Submission
 	$('.js-form-subjects-update').validate({

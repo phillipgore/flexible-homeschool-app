@@ -1,9 +1,9 @@
 <template name="reportingNew">
-	{{> toolbar}}
+	
 	<main class="app-content app-content-preceeds-toolbar">
 		<form class="js-form-reports-new report-form m-tn-18">
 			<div class="row p-tn-b-18">
-				<div class="col-sm-1of2 p-sm-rl-9">
+				<div class="col-lg-1of2 p-lg-rl-9">
 					<label>Report Name</label>
 					<input type="text" name="name" id="name" placeholder="Year End Report" autocomplete="off">
 				</div>
@@ -12,7 +12,7 @@
 			<label class="m-tn-rbl-9">Report Data</label>
 			<div class="row">
 				<!-- School Year -->
-				<div class="col-sm-1of2">
+				<div class="col-lg-1of2">
 					<div class="p-tn-b-18">
 						<div class="p-tn-rl-9">
 							<label class="checkbox">
@@ -51,7 +51,7 @@
 
 
 				<!-- Terms -->
-				<div class="col-sm-1of2">
+				<div class="col-lg-1of2">
 					<div class="p-tn-b-18">
 						<div class="p-tn-rl-9">
 							<label class="checkbox">
@@ -91,7 +91,7 @@
 
 			<div class="row">
 				<!-- Subjects -->
-				<div class="col-sm-1of2">
+				<div class="col-lg-1of2">
 					<div class="p-tn-b-18">
 						<div class="p-tn-rl-9">
 							<label class="checkbox">
@@ -136,7 +136,7 @@
 				</div>
 
 				<!-- Resources -->
-				<div class="col-sm-1of2">
+				<div class="col-lg-1of2">
 					<div class="p-tn-rl-9">
 						<label class="checkbox">
 							<input class="js-checkbox" type="checkbox" name="resourcesReportVisible" value="false">
@@ -189,7 +189,7 @@
 			</div>
 
 			<footer class="toolbar toolbar-bottom m-tn-t-15">
-				<a href="{{cancelPath}}" class="btn btn-gray-darker fl-tn-left">Cancel</a>
+				<a href="#" class="js-cancel btn btn-gray-darker fl-tn-left">Cancel</a>
 				<button type="submit" class="js-submit fl-tn-right">Save</button>
 			</footer>
 		</form>

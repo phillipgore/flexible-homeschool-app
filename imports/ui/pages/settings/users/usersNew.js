@@ -7,11 +7,12 @@ Template.usersNew.onCreated( function() {
 });
 
 Template.usersNew.onRendered( function() {
-	// Toolbar Settings
 	Session.set({
-		label: 'New User',
-		rightUrl: '',
-		rightIcon: '',
+		toolbarType: 'new',
+		labelThree: 'New User',
+		selectedFramePosition: 3,
+		selectedFrameClass: 'frame-position-three',
+		activeNav: 'settingsList',
 	});
 
 	$('.js-form-new-user').validate({
@@ -104,5 +105,13 @@ Template.usersNew.helpers({
 Template.usersNew.events({
 	'submit .js-form-new-user'(event) {
 		event.preventDefault();
+	},
+
+	'click .js-cancel'(event) {
+		event.preventDefault();
+		
+		Session.setPersistent('selectedFramePosition', 2);
+		Session.setPersistent('selectedFrameClass', 'frame-position-two');
+		FlowRouter.go('/settings/users/view/' + Session.get('selectedUserId'));
 	},
 });

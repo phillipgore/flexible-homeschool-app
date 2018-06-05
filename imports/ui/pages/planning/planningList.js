@@ -6,15 +6,10 @@ import './planningList.html';
 import _ from 'lodash'
 
 Template.planningList.onRendered( function() {
-	// Toolbar Settings
 	Session.set({
-		label: 'Planning',
-		rightUrl: '',
-		rightIcon: '',
+		labelOne: 'Planning',
+		activeNav: 'planningList',
 	});
-
-	// Navbar Settings
-	Session.set('activeNav', 'planningList');
 });
 
 Template.planningList.helpers({

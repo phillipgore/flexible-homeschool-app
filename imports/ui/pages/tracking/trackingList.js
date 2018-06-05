@@ -22,19 +22,15 @@ Template.trackingList.onCreated( function() {
 		selectedStudentId: FlowRouter.getParam('selectedStudentId'),
 		toolbarType: 'tracking',
 		editUrl: '',
+		newUrl: '',
 	});
 });
 
 Template.trackingList.onRendered( function() {
-	// Toolbar Settings
 	Session.set({
-		label: 'Tracking',
-		rightUrl: '',
-		rightIcon: '',
+		labelOne: 'Tracking',
+		activeNav: 'trackingList',
 	});
-
-	// Navbar Settings
-	Session.set('activeNav', 'trackingList');
 });
 
 Template.trackingList.helpers({

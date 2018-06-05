@@ -19,8 +19,27 @@ Alerts = new Mongo.Collection(null);
 // });
 
 Template.app.helpers({
+	windowHeight: function() {
+		return Session.get('windowHeight');
+	},
+
+	windowWidth: function() {
+		return Session.get('windowWidth');
+	},
+
 	alerts: function() {
 		return Alerts.find();
+	},
+
+	selectedFrameClass: function() {
+		return Session.get('selectedFrameClass')
+	},
+
+	showSubbar: function() {
+		if (Session.get('windowHeight') >= 640 || FlowRouter.current().route.name === 'trackingView' || Session.get('selectedFramePosition') === 2) {
+			return true;
+		}
+		return false;
 	},
 });
 
@@ -54,7 +73,7 @@ Template.app.events({
 			$(menuId).fadeOut(100);
 			$(menuId).removeAttr('style');
 		} else {
-			let maxMenuHeight = $('#__blaze-root').height() - 59;
+			let maxMenuHeight = $('#__blaze-root').height() - 118;
 			$(menuId).css({maxHeight: maxMenuHeight}).fadeIn(200);
 		}
 	},
@@ -74,28 +93,24 @@ Template.app.events({
 
 	// Frame Positon
 	'click .frame-one a.list-item-link'(event) {
-		$('.frame-contaner-inner').removeClass('frame-position-three');
-		$('.frame-contaner-inner').addClass('frame-position-two');
-		Session.set('selectedFramePosition', 2);
+		Session.setPersistent('selectedFramePosition', 2);
+		Session.setPersistent('selectedFrameClass', 'frame-position-two');
 	},
 
 	'click .frame-two a.list-item-link'(event) {
-		$('.frame-contaner-inner').removeClass('frame-position-two');
-		$('.frame-contaner-inner').addClass('frame-position-three');
-		Session.set('selectedFramePosition', 3);
+		Session.setPersistent('selectedFramePosition', 3);
+		Session.setPersistent('selectedFrameClass', 'frame-position-three');
 	},
 
 	'click .js-btn-back'(event) {
 		let newFramePosition = Session.get('selectedFramePosition') - 1;
 
 		if (newFramePosition === 2) {
-			$('.frame-contaner-inner').removeClass('frame-position-three');
-			$('.frame-contaner-inner').addClass('frame-position-two');
-			Session.set('selectedFramePosition', 2);
+			Session.setPersistent('selectedFramePosition', 2);
+			Session.setPersistent('selectedFrameClass', 'frame-position-two');
 		} else {
-			$('.frame-contaner-inner').removeClass('frame-position-two');
-			$('.frame-contaner-inner').removeClass('frame-position-three');
-			Session.set('selectedFramePosition', 1);
+			Session.setPersistent('selectedFramePosition', 1);
+			Session.setPersistent('selectedFrameClass', 'frame-position-one');
 		}
 	},
 

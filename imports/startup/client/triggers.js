@@ -48,7 +48,8 @@ function checkSignOut(context, redirect) {
 function initialData(context) {
 	// Initial Frame
 	if (!Session.get('selectedFramePosition')) {
-		Session.set('selectedFramePosition', 1);
+		Session.setPersistent('selectedFramePosition', 1);
+		Session.setPersistent('selectedFrameClass', 'frame-position-one');
 	}
 
 
@@ -96,9 +97,7 @@ function initialData(context) {
 	}
 
 	if (!Session.get('selectedSubjectId')) {
-		console.log('subject' + Session.get('selectedStudentId') + Session.get('selectedSchoolYearId'))
 		Session.set('selectedSubjectId', InitialIds.find().fetch()[0]['subject' + Session.get('selectedStudentId') + Session.get('selectedSchoolYearId')]);
-		console.log(Session.get('selectedSubjectId'))
 	}
 
 	// Initial Paths
@@ -147,7 +146,7 @@ function checkSubscriptionPaused(context, redirect) {
 	}
 };
 
-function creditCardData(context) {
+function resetSessions(context) {
 	Session.set({
 		card: '',
 		hideCoupon: false,
@@ -188,7 +187,7 @@ function checkSubjectsAvailable(context) {
 FlowRouter.triggers.enter([checkSignIn], {only: ['createAccount', 'verifySent', 'signIn', 'reset', 'resetSent', 'resetPassword']});
 FlowRouter.triggers.enter([initialData, checkSignOut, checkPaymentError], {except: ['createAccount', 'verifySent', 'signIn', 'reset', 'resetSent', 'resetPassword']});
 // FlowRouter.triggers.enter([checkSubjectsAvailable], {only: ['subjectsList', 'subjectsNew', 'subjectsView', 'subjectsEdit']});
-FlowRouter.triggers.enter([creditCardData]);
+FlowRouter.triggers.enter([resetSessions]);
 
 FlowRouter.triggers.enter([checkSubscriptionPaused], {except: [
 	'createAccount', 

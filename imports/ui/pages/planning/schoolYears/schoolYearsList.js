@@ -8,15 +8,11 @@ Template.schoolYearsList.onCreated( function() {
 });
 
 Template.schoolYearsList.onRendered( function() {
-	// Toolbar Settings
 	Session.set({
-		label: 'School Years',
-		rightUrl: '/planning/schoolyears/new',
-		rightIcon: 'fss-new',
+		labelTwo: 'School Years',
+		newUrl: '/planning/schoolyears/new/',
+		activeNav: 'planningList',
 	});
-
-	// Navbar Settings
-	Session.set('activeNav', 'planningList');
 });
 
 Template.schoolYearsList.helpers({

@@ -14,15 +14,13 @@ Template.resourcesNewBook.onCreated( function() {
 Template.resourcesNewBook.onRendered( function() {
 	Session.set('selectedResourceNewType', FlowRouter.getParam('selectedResourceNewType'));
 	
-	// Toolbar Settings
 	Session.set({
-		label: 'New Book Resource',
-		rightUrl: '',
-		rightIcon: '',
+		toolbarType: 'new',
+		labelThree: 'New Book Resource',
+		selectedFramePosition: 3,
+		selectedFrameClass: 'frame-position-three',
+		activeNav: 'planningList',
 	});
-
-	// Navbar Settings
-	Session.set('activeNav', 'planningList');
 
 	// Textarea Autoresize
 	autosize($('#description'));
@@ -79,13 +77,19 @@ Template.resourcesNewBook.onRendered( function() {
 });
 
 Template.resourcesNewBook.helpers({
-	cancelPath: function() {
-		return '/planning/resources/view/' + Session.get('selectedResourceType') +'/'+ Session.get('selectedResourceAvailability') +'/'+ Session.get('selectedResourceId') +'/'+ Session.get('selectedResourceCurrentTypeId');
-	},
+	
 });
 
 Template.resourcesNewBook.events({
 	'submit .js-form-resources-book-new'(event) {
 		event.preventDefault();
+	},
+
+	'click .js-cancel'(event) {
+		event.preventDefault();
+		
+		Session.setPersistent('selectedFramePosition', 2);
+		Session.setPersistent('selectedFrameClass', 'frame-position-two');
+		FlowRouter.go('/planning/resources/view/' + Session.get('selectedResourceType') +'/'+ Session.get('selectedResourceAvailability') +'/'+ Session.get('selectedResourceId') +'/'+ Session.get('selectedResourceCurrentTypeId'));
 	},
 });

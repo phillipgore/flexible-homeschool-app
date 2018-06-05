@@ -93,8 +93,7 @@ Template.navbar.events({
 	},
 
 	'click .js-btn-nav'(event) {
-		$('.frame-contaner-inner').removeClass('frame-position-two');
-		$('.frame-contaner-inner').removeClass('frame-position-three');
 		Session.set('selectedFramePosition', 1);
+		Session.setPersistent('selectedFrameClass', 'frame-position-one');
 	},
 });

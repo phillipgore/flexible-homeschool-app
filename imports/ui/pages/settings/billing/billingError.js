@@ -12,9 +12,10 @@ Template.billingError.onCreated( function() {
 Template.billingError.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
-		label: 'Billing Issues',
-		rightUrl: '',
-		rightIcon: '',
+		labelOne: 'Billing Issues',
+		labelTwo: 'Billing Issues',
+		labelThree: 'Billing Issues',
+		activeNav: 'settingsList',
 	});
 });
 

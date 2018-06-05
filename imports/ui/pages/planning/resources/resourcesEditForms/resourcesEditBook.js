@@ -11,13 +11,12 @@ Template.resourcesEditBook.onCreated( function() {
 Template.resourcesEditBook.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
-		label: 'Edit Book Resource',
-		rightUrl: '',
-		rightIcon: '',
+		toolbarType: 'edit',
+		labelThree: 'Edit Book Resource',
+		selectedFramePosition: 3,
+		selectedFrameClass: 'frame-position-three',
+		activeNav: 'planningList',
 	});
-
-	// Navbar Settings
-	Session.set('activeNav', 'planningList');
 
 	// Textarea Autoresize
 	autosize($('#description'));

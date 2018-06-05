@@ -13,6 +13,8 @@ Template.studentsView.onRendered( function() {
 	Session.set({
 		toolbarType: 'student',
 		editUrl: '/planning/students/edit/' + FlowRouter.getParam('selectedStudentId'),
+		labelThree: 'Student',
+		activeNav: 'planningList',
 	});
 });
 

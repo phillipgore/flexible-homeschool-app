@@ -42,15 +42,10 @@ Template.billingInvoices.onCreated( function() {
 
 
 Template.billingInvoices.onRendered( function() {
-	// Toolbar Settings
 	Session.set({
-		label: 'Invoices',
-		rightUrl: '',
-		rightIcon: '',
+		labelThree: 'Invoices',
+		activeNav: 'settingsList',
 	});
-
-	// Navbar Settings
-	Session.set('activeNav', 'settingsList');
 });
 
 Template.billingInvoices.helpers({

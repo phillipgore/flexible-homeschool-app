@@ -18,15 +18,11 @@ Template.subjectsList.onCreated( function() {
 });
 
 Template.subjectsList.onRendered( function() {
-	// Toolbar Settings
 	Session.set({
-		label: 'Subjects',
-		rightUrl: '/planning/subjects/new',
-		rightIcon: 'fss-new',
+		labelTwo: 'Subjects',
+		newUrl: '/planning/subjects/new/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId'),
+		activeNav: 'planningList',
 	});
-
-	// Navbar Settings
-	Session.set('activeNav', 'planningList');
 });
 
 Template.subjectsList.helpers({

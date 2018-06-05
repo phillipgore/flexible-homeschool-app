@@ -1,6 +1,9 @@
 <template name="trackingView">
-	{{> toolbar dynamicFirstName=student.preferredFirstName.name dynamicLastName=student.lastName}}
 	<main class="app-content app-content-preceeds-toolbar row">
+		<h1 class="txt-tn-center print-only-block">{{student.preferredFirstName.name}} {{student.lastName}}</h1>
+		<h2 class="txt-tn-center txt-gray-darkest txt-capitalize print-only-block m-tn-b-18">{{selectedSchoolYear.startYear}}-{{selectedSchoolYear.endYear}}, Term {{selectedTerm.order}}, Week {{selectedWeek.order}}</h2>
+
+		{{studentName student.preferredFirstName.name student.lastName}}
 		{{#each subject in subjects}}
 			<div class="track p-tn-t-18 col-lg-1of2">
 				<div class="clearfix m-tn-h-9">

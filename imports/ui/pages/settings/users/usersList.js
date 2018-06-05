@@ -8,16 +8,12 @@ Template.usersList.onCreated( function() {
 });
 
 Template.usersList.onRendered( function() {
-	// Toolbar Settings
 	Session.set({
 		toolbarType: 'user',
-		label: 'Users',
-		rightUrl: '/settings/users/new',
-		rightIcon: 'fss-new',
+		labelTwo: 'Users',
+		newUrl: '/settings/users/new/',
+		activeNav: 'settingsList',
 	});
-
-	// Navbar Settings
-	Session.set('activeNav', 'settingsList');
 });
 
 Template.usersList.helpers({

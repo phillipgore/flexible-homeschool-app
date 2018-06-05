@@ -22,11 +22,10 @@ Template.billingEdit.onCreated( function() {
 });
 
 Template.billingEdit.onRendered( function() {
-	// Toolbar Settings
 	Session.set({
-		label: 'Edit Payment',
-		rightUrl: '',
-		rightIcon: '',
+		toolbarType: 'edit',
+		labelThree: 'Payment',
+		activeNav: 'settingsList',
 	});
 
 	Session.set('hideCoupon', true)

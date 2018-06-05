@@ -27,11 +27,22 @@
 		display: none;
 	}
 
-	.resourcesView, 
-	.reportingView {
+	.frame-one, 
+	.frame-two {
+		display: none;
+	}
+
+	.resourcesView,
+	.trackingView,
+	.reportingView, 
+	.supportView {
 		.frame-one, 
 		.frame-three {
 			display: none;
+		}
+
+		.frame-two {
+			display: block;
 		}
 	}
 
@@ -51,6 +62,11 @@
 	h2, .report-section {
 		page-break-inside: avoid;
 	}
+
+	button {
+		margin: -1px;
+	}
+	
 }
 
 

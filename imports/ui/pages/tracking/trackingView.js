@@ -1,5 +1,6 @@
 import {Template} from 'meteor/templating';
 import { Students } from '../../../api/students/students.js';
+import { SchoolYears } from '../../../api/schoolYears/schoolYears.js';
 import { Subjects } from '../../../api/subjects/subjects.js';
 import { Terms } from '../../../api/terms/terms.js';
 import { Weeks } from '../../../api/weeks/weeks.js';
@@ -24,17 +25,15 @@ Template.trackingView.onCreated( function() {
 		selectedWeekId: FlowRouter.getParam('selectedWeekId'),
 		toolbarType: 'tracking',
 		editUrl: '',
+		newUrl: '',
 	});
 });
 
 Template.trackingView.onRendered( function() {
-	// ToolbarView Settings
 	Session.set({
-		label: '',
+		labelTwo: '',
+		activeNav: 'trackingList',
 	});
-
-	// Navbar Settings
-	Session.set('activeNav', 'trackingList');
 });
 
 Template.trackingView.helpers({
@@ -53,6 +52,10 @@ Template.trackingView.helpers({
 		return FlowRouter.getParam('selectedSchoolYearId');
 	},
 
+	selectedSchoolYear: function() {
+		return SchoolYears.findOne({_id: FlowRouter.getParam('selectedSchoolYearId')});
+	},
+
 	subjects: function() {
 		return Subjects.find();
 	},
@@ -61,8 +64,16 @@ Template.trackingView.helpers({
 		return Terms.find({}, {sort: {order: 1}});
 	},
 
+	selectedTerm: function() {
+		return Terms.findOne({_id: FlowRouter.getParam('selectedTermId')});
+	},
+
 	weeks: function() {
 		return Weeks.find({}, {sort: {order: 1}});
+	},
+
+	selectedWeek: function() {
+		return Weeks.findOne({_id: FlowRouter.getParam('selectedWeekId')});
 	},
 
 	lessons: function(subjectId) {
@@ -91,6 +102,11 @@ Template.trackingView.helpers({
 			return 'btn-secondary';
 		}
 		return 'txt-gray-darkest';
+	},
+
+	studentName(first, last) {
+		Session.set({labelTwo: first + ' ' + last});
+		return false;
 	},
 });
 

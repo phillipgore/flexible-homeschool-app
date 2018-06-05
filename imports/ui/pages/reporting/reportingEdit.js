@@ -8,15 +8,13 @@ Template.reportingEdit.onCreated( function() {
 });
 
 Template.reportingEdit.onRendered( function() {
-	// Toolbar Settings
 	Session.set({
-		label: 'Report Settings',
-		rightUrl: '',
-		rightIcon: '',
+		toolbarType: 'edit',
+		labelTwo: 'Edit Report',
+		selectedFramePosition: 2,
+		selectedFrameClass: 'frame-position-two',
+		activeNav: 'reportingList',
 	});
-
-	// Navbar Settings
-	Session.set('activeNav', 'reportingView');
 
 	// Form Validation and Submission
 	$('.js-form-report-update').validate({

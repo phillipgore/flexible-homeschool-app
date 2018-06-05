@@ -12,14 +12,12 @@ Template.schoolYearsView.onCreated( function() {
 });
 
 Template.schoolYearsView.onRendered( function() {
-	// Toolbar Settings
 	Session.set({
-		toolbarType: 'school-year',
+		toolbarType: 'schoolYear',
 		editUrl: '/planning/schoolyears/edit/' + FlowRouter.getParam('selectedSchoolYearId'),
+		labelThree: 'School Year',
+		activeNav: 'planningList',
 	});
-
-	// Navbar Settings
-	Session.set('activeNav', 'planningList');
 });
 
 Template.schoolYearsView.helpers({

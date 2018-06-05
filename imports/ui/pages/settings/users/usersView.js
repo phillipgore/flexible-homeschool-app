@@ -6,6 +6,8 @@ Template.usersView.onRendered( function() {
 	Session.set({
 		toolbarType: 'user',
 		editUrl: '/settings/users/edit/' + FlowRouter.getParam('selectedUserId'),
+		labelThree: 'User',
+		activeNav: 'settingsList',
 	});
 });
 

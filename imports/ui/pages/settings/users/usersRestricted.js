@@ -4,13 +4,11 @@ import './usersRestricted.html';
 Template.usersRestricted.onRendered( function() {
 	// ToolbarView Settings
 	Session.set({
-		label: '',
-		rightUrl: '',
-		rightIcon: '',
+		labelOne: '',
+		labelTwo: '',
+		labelThree: '',
+		activeNav: '',
 	});
-
-	// Navbar Settings
-	Session.set('activeNav', '');
 });
 
 Template.usersRestricted.helpers({

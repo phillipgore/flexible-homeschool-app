@@ -28,6 +28,20 @@ Accounts.onLogout(() => {
 	Session.clear();
 });
 
+$(window).on('load', function (event) {
+	Session.set({
+		windowHeight: $(window).height(),
+		windowWidth: $(window).width(),
+	});
+});
+
+$(window).resize(function(event) {
+	Session.set({
+		windowHeight: $(window).height(),
+		windowWidth: $(window).width(),
+	});
+});
+
 Template.registerHelper('dateFormat', (date) => {
   return moment.utc(date).format('MMMM D, YYYY');
 });

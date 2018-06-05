@@ -9,15 +9,10 @@ Template.settingsList.onCreated( function() {
 });
 
 Template.settingsList.onRendered( function() {
-	// Toolbar Settings
 	Session.set({
-		label: 'Settings',
-		rightUrl: '',
-		rightIcon: '',
+		labelOne: 'Settings',
+		activeNav: 'settingsList',
 	});
-
-	// Navbar Settings
-	Session.set('activeNav', 'settingsList');
 });
 
 Template.settingsList.helpers({

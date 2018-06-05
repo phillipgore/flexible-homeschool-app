@@ -11,15 +11,13 @@ Template.resourcesEditVideo.onCreated( function() {
 });
 
 Template.resourcesEditVideo.onRendered( function() {
-	// Toolbar Settings
 	Session.set({
-		label: 'Edit Video Resource',
-		rightUrl: '',
-		rightIcon: '',
+		toolbarType: 'edit',
+		labelThree: 'Edit Video Resource',
+		selectedFramePosition: 3,
+		selectedFrameClass: 'frame-position-three',
+		activeNav: 'planningList',
 	});
-
-	// Navbar Settings
-	Session.set('activeNav', 'planningList');
 
 	// Textarea Autoresize
 	autosize($('#description'));

@@ -9,9 +9,11 @@ Template.usersEdit.onCreated( function() {
 Template.usersEdit.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
-		label: 'Edit User',
-		rightUrl: '',
-		rightIcon: '',
+		toolbarType: 'edit',
+		labelThree: 'Edit User',
+		selectedFramePosition: 3,
+		selectedFrameClass: 'frame-position-three',
+		activeNav: 'settingsList',
 	});
 
 	$('.js-form-edit-user').validate({

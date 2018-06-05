@@ -27,13 +27,14 @@ Template.reportingView.onCreated( function() {
 });
 
 Template.reportingView.onRendered( function() {
-	// Toolbar Settings
 	Session.set({
+		labelTwo: '',
 		selectedSchoolYearId: FlowRouter.getParam('selectedSchoolYearId'),
 		selectedStudentId: FlowRouter.getParam('selectedStudentId'),
 		toolbarType: 'report',
 		editUrl: '/reporting/edit/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedReportId'),
 		printUrl: '/reporting/print/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedReportId'),
+		activeNav: 'reportingList',
 	});
 });
 
@@ -67,6 +68,15 @@ Template.reportingView.helpers({
 
 	reports: function() {
 		return Reports.find({}, {sort: {name: 1}});
+	},
+
+	selectedReport: function() {
+		return Reports.findOne({_id: FlowRouter.getParam('selectedReportId')})
+	},
+
+	reportName: function(name) {
+		Session.set({labelTwo: name});
+		return false;
 	},
 });
 

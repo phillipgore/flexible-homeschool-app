@@ -10,13 +10,10 @@ Template.studentsList.onCreated( function() {
 Template.studentsList.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
-		label: 'Students',
-		rightUrl: '/planning/students/new',
-		rightIcon: 'fss-new',
+		labelTwo: 'Students',
+		newUrl: '/planning/students/new/',
+		activeNav: 'planningList',
 	});
-
-	// Navbar Settings
-	Session.set('activeNav', 'planningList');
 });
 
 Template.studentsList.helpers({

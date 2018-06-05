@@ -1,7 +1,14 @@
 import {Template} from 'meteor/templating';
-import './toolbarLarge.html';
+import { Students } from '../../api/students/students.js';
+import './toolbar.html';
 
-Template.toolbarLarge.helpers({
+import _ from 'lodash'
+
+Template.toolbar.helpers({
+	selectedFramePosition: function() {
+		return Session.get('selectedFramePosition');
+	},
+	
 	logo: function() {
 		if(Meteor.userId()) {
 			return false;
@@ -10,10 +17,73 @@ Template.toolbarLarge.helpers({
 	},
 
 	backButton: function() {
-		if (Session.get('selectedFramePosition') === 1 || Session.get('selectedFramePosition') === 2) {
+		let windowWidth = Session.get('windowWidth');
+		let type = Session.get('toolbarType');
+		if (type === 'new' || type === 'edit') {
 			return false;
 		}
-		return true;
+		if (windowWidth <= 768 && Session.get('selectedFramePosition') === 3) {
+			return true;
+		}
+		if (windowWidth <= 480 && Session.get('selectedFramePosition') === 2) {
+			return true;
+		}
+		return false;
+	},
+
+	labelOne() {
+		return Session.get('labelOne');
+	},
+
+	labelTwo() {
+		return Session.get('labelTwo');
+	},
+
+	labelThree() {
+		return Session.get('labelThree');
+	},
+
+	newUrl: function() {
+		return Session.get('newUrl');
+	},
+
+	newable: function() {
+		let type = Session.get('toolbarType');
+		if (type === 'tracking' || type === 'billing' || type === 'support' || type === 'new' || type === 'edit') {
+			return false;
+		}
+		if (Session.get('selectedFramePosition') === 1 && type === 'report') {
+			return true;
+		}
+		if (Session.get('selectedFramePosition') === 2 && type != 'report' && type != 'resource') {
+			return true;
+		}
+		return false;
+	},
+
+	resourceNewable: function() {
+		let type = Session.get('toolbarType');
+		if (type === 'new' || type === 'edit') {
+			return false;
+		}
+		if (Session.get('selectedFramePosition') === 2 && Session.get('toolbarType') === 'resource') {
+			return true;
+		}
+		return false;
+	},
+
+	actionable() {
+		let type = Session.get('toolbarType');
+		if (type === 'new' || type === 'edit') {
+			return false;
+		}
+		if (Session.get('selectedFramePosition') === 2 && Session.get('toolbarType') === 'report') {
+			return true;
+		}
+		if (Session.get('selectedFramePosition') === 3 && Session.get('toolbarType') != 'tracking') {
+			return true;
+		}
+		return false;
 	},
 
 	subjectDisabled: function() {
@@ -51,7 +121,8 @@ Template.toolbarLarge.helpers({
 	},
 
 	deletable: function() {
-		if (Session.get('toolbarType') === 'user') {
+		let type = Session.get('toolbarType');
+		if (type === 'user') {
 			let verified = $('.js-user .active').attr('data-verified');
 			let active = $('.js-user .active').attr('data-active');
 
@@ -60,7 +131,7 @@ Template.toolbarLarge.helpers({
 			}
 			return false;
 		}
-		if (Session.get('toolbarType') === 'tracking' || Session.get('toolbarType') === 'billing' || Session.get('toolbarType') === 'support') {
+		if (type === 'tracking' || type === 'billing' || type === 'support' || type === 'new' || type === 'edit') {
 			return false;
 		}
 		return true;
@@ -70,15 +141,15 @@ Template.toolbarLarge.helpers({
 		return 'js-delete-' + Session.get('toolbarType');
 	},
 
-	prinatable: function() {
-		if (Session.get('toolbarType') === 'report' || Session.get('toolbarType') === 'resource') {
+	equal: function(itemOne, itemTwo) {
+		if (itemOne === itemTwo) {
 			return true;
 		}
 		return false;
-	}
+	},
 });
 
-Template.toolbarLarge.events({
+Template.toolbar.events({
 	'click .js-print'(event) {
 		window.print();
 	},
@@ -101,7 +172,7 @@ Template.toolbarLarge.events({
 		});
 	},
 
-	'click .js-delete-school-year'(event) {
+	'click .js-delete-schoolYear'(event) {
 		event.preventDefault();
 
 		Dialogs.insert({

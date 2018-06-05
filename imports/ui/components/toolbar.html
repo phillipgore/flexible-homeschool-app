@@ -1,0 +1,221 @@
+<template name="toolbar">
+	<header class="js-toolbar toolbar toolbar toolbar-primary">
+		<div class="toolbar-inner">
+			{{#if logo}} 
+				<div class="fss-logo"></div>
+			{{else}}
+				<div class="row">
+					<!-- Toolbar Left -->
+					<div class="toolbar-left">
+						<!-- Back Button -->
+						{{#if backButton}}
+							<a class="js-btn-back btn-tool btn-tool-icn-lg dis-sm-none" href="#">
+								<i class="fss-back btn-tool-icon"></i>
+							</a>
+						{{/if}}
+
+						<a class="js-btn-back btn-tool btn-tool-icn-lg dis-tn-none dis-sm-inline-block dis-lg-none {{#unless backButton}}disabled{{/unless}}" href="#">
+							<i class="fss-back btn-tool-icon"></i>
+						</a>
+
+
+						<!-- Toolbar -->
+						{{> navbar}}
+					</div>
+
+					<!-- Toolbar Center -->
+					<div class="toolbar-center dis-sm-none">
+						<h1 class="txt-tn-center txt-ellipsis">
+							{{#if equal selectedFramePosition 1}}
+								{{#if labelOne}}
+									{{labelOne}}
+								{{/if}}
+							{{/if}}
+							{{#if equal selectedFramePosition 2}}
+								{{#if labelTwo}}
+									{{labelTwo}}
+								{{/if}}
+							{{/if}}
+							{{#if equal selectedFramePosition 3}}
+								{{#if labelThree}}
+									{{labelThree}}
+								{{/if}}
+							{{/if}}
+						</h1>
+					</div>
+
+					<!-- Toolbar Right -->
+					<div class="toolbar-right">
+
+						{{#if newable}}
+							<!-- New Button -->
+							<a class="btn-tool dis-sm-none" href="{{newUrl}}" title="New Student, School Year, Subject or User">
+								<i class="fss-new btn-tool-icon"></i>
+							</a>
+						{{/if}}
+
+						{{#if resourceNewable}}
+							<!-- New Dropdown Button -->
+							<div class="btn-tool-dropdown dis-sm-none">
+								<a class="js-dropdown btn-tool" href="#" data-menu="#newResource" title="New Student, School Year, Subject or User">
+									<i class="fss-new btn-tool-icon dis-sm-none"></i>
+									<i class="fss-new btn-tool-icon dis-tn-none dis-sm-inline-block"></i>
+								</a>
+								<ul id="newResource" class="dropdown-menu dropdown-tool border-none txt-tn-left m-tn-rl-9 hide">
+									<li class="dropdown-item">
+										<a class="js-new-resource dropdown-item-link" href="/planning/resources/new/all/all/book">
+											<i class="fss-book fss-fw-16 m-tn-r-4"></i> New Book
+										</a>
+									</li>
+									<li class="dropdown-divider"></li>
+									<li class="dropdown-item">
+										<a class="js-new-resource dropdown-item-link" href="/planning/resources/new/all/all/link">
+											<i class="fss-link fss-fw-16 m-tn-r-4"></i> New Link
+										</a>
+									</li>
+									<li class="dropdown-divider"></li>
+									<li class="dropdown-item">
+										<a class="js-new-resource dropdown-item-link" href="/planning/resources/new/all/all/video">
+											<i class="fss-video fss-fw-16 m-tn-r-4"></i> New Video
+										</a>
+									</li>
+									<li class="dropdown-divider"></li>
+									<li class="dropdown-item">
+										<a class="js-new-resource dropdown-item-link" href="/planning/resources/new/all/all/audio">
+											<i class="fss-audio fss-fw-16 m-tn-r-4"></i> New Audio
+										</a>
+									</li>
+									<li class="dropdown-divider"></li>
+									<li class="dropdown-item">
+										<a class="js-new-resource dropdown-item-link" href="/planning/resources/new/all/all/app">
+											<i class="fss-app fss-fw-16 m-tn-r-4"></i> New App
+										</a>
+									</li>
+
+								</ul>
+							</div>
+						{{/if}}
+
+						{{#if actionable}}
+							<!-- Action Dropdown Button -->
+							<div class="btn-tool-dropdown dis-sm-none">
+								<a class="js-dropdown btn-tool" data-menu="#action" href="#" title="action">
+									<i class="fss-actions btn-tool-icon" titel="Edit, Delete or Print"></i>
+								</a>
+								<ul id="action" class="dropdown-menu dropdown-tool border-none txt-tn-left m-tn-rl-9 hide">
+									<div class="dropdown-arrow"></div>
+									<li class="dropdown-item">
+										<a class="dropdown-item-link {{#unless editableDeletable}}disabled{{/unless}} {{#unless editUrl.length}}disabled{{/unless}}" href="{{editUrl}}">
+											<i class="fss-edit fss-fw-16 m-tn-r-4"></i> Edit
+										</a>
+									</li>
+									<li class="dropdown-divider"></li>
+									<li class="dropdown-item">
+										<a class="{{deleteClass}} dropdown-item-link {{#unless editableDeletable}}disabled{{/unless}} {{#unless deletable}}disabled{{/unless}}" href="#">
+											<i class="fss-delete fss-fw-16 m-tn-r-4"></i> Delete
+										</a>
+									</li>
+									<li class="dropdown-divider"></li>
+									<li class="dropdown-item">
+										<a class="dropdown-item-link" href="#">
+											<i class="fss-print fss-fw-16 m-tn-r-4"></i> Print
+										</a>
+									</li>
+								</ul>
+							</div>
+						{{/if}}
+
+						<!-- New Dropdown Button -->
+						<div class="btn-tool-dropdown dis-tn-none dis-sm-inline-block">
+							<a class="js-dropdown btn-tool" href="#" data-menu="#newPlanning" title="New Student, School Year, Subject or User">
+								<i class="fss-new btn-tool-icon dis-sm-none"></i>
+								<i class="fss-new-circle btn-tool-icon dis-tn-none dis-sm-inline-block"></i>
+							</a>
+							<ul id="newPlanning" class="dropdown-menu dropdown-tool border-none txt-tn-left m-tn-rl-9 hide">
+								<div class="dropdown-arrow"></div>
+								<li class="dropdown-item">
+									<a class="dropdown-item-link" href="{{pathFor 'studentsNew'}}">
+										<i class="fss-students fss-fw-16 m-tn-r-4"></i> New Student
+									</a>
+								</li>
+								<li class="dropdown-item">
+									<a class="dropdown-item-link" href="{{pathFor 'schoolYearsNew'}}">
+										<i class="fss-school-years fss-fw-16 m-tn-r-4"></i> New School Year
+									</a>
+								</li>
+								<li class="dropdown-item">
+									<a class="js-new-subject dropdown-item-link {{#if subjectDisabled}}disabled{{/if}}" 
+										href="/planning/subjects/new/{{selectedStudentId}}/{{selectedSchoolYearId}}"
+										title="{{#if subjectDisabled}}Subjects require Students and School Years.{{/if}}"
+									>
+										<i class="fss-subjects fss-fw-16 m-tn-r-4"></i> New Subject
+									</a>
+								</li>
+
+								<li class="dropdown-divider"></li>	
+
+								<li class="dropdown-item">
+									<a class="js-new-resource dropdown-item-link" href="/planning/resources/new/all/all/book">
+										<i class="fss-book fss-fw-16 m-tn-r-4"></i> New Book
+									</a>
+								</li>
+								<li class="dropdown-item">
+									<a class="js-new-resource dropdown-item-link" href="/planning/resources/new/all/all/link">
+										<i class="fss-link fss-fw-16 m-tn-r-4"></i> New Link
+									</a>
+								</li>
+								<li class="dropdown-item">
+									<a class="js-new-resource dropdown-item-link" href="/planning/resources/new/all/all/video">
+										<i class="fss-video fss-fw-16 m-tn-r-4"></i> New Video
+									</a>
+								</li>
+								<li class="dropdown-item">
+									<a class="js-new-resource dropdown-item-link" href="/planning/resources/new/all/all/audio">
+										<i class="fss-audio fss-fw-16 m-tn-r-4"></i> New Audio
+									</a>
+								</li>
+								<li class="dropdown-item">
+									<a class="js-new-resource dropdown-item-link" href="/planning/resources/new/all/all/app">
+										<i class="fss-app fss-fw-16 m-tn-r-4"></i> New App
+									</a>
+								</li>
+
+								<li class="dropdown-divider"></li>	
+
+								<li class="dropdown-item">
+									<a class="dropdown-item-link" href="/reporting/new/">
+										<i class="fss-reporting fss-fw-16 m-tn-r-4"></i> New Report
+									</a>
+								</li>
+								<li class="dropdown-item">
+									<a class="dropdown-item-link" href="{{pathFor 'usersNew'}}">
+										<i class="fss-users fss-fw-16 m-tn-r-4"></i> New User
+									</a>
+								</li>
+							</ul>
+						</div>
+
+						<div class="btn-tool-spacer"></div>
+
+						<!-- Edit Button -->
+						<a class="btn-tool dis-tn-none dis-sm-inline-block {{#unless editableDeletable}}disabled{{/unless}} {{#unless editUrl.length}}disabled{{/unless}}" href="{{editUrl}}" title="Edit Selection">
+							<i class="fss-edit btn-tool-icon"></i>{{editable}}
+						</a>
+
+						<!-- Delete Button -->
+						<a class="{{deleteClass}} btn-tool dis-tn-none dis-sm-inline-block {{#unless editableDeletable}}disabled{{/unless}} {{#unless deletable}}disabled{{/unless}}" href="#" title="{{#if deletable}}Delete Selection{{else}}Disabled{{/if}}">
+							<i class="fss-delete btn-tool-icon"></i>
+						</a>
+
+						<div class="btn-tool-spacer"></div>
+
+						<!-- Print Button -->
+						<a class="js-print btn-tool dis-tn-none dis-sm-inline-block" href="#" title="Print">
+							<i class="fss-print btn-tool-icon"></i>
+						</a>
+					</div>
+				</div>
+			{{/if}}
+		</div>
+	</header>
+</template>
