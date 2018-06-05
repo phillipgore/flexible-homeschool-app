@@ -2,7 +2,7 @@ ul.dropdown-menu {
 	position: fixed;
 	right: 9px;
 	left: 9px;
-	z-index: 5000;
+	z-index: 800;
 	border-radius: 3px;
 	list-style: none;
 	padding: 0px;
@@ -142,7 +142,7 @@ ul.dropdown-menu {
 				top: -9px;
 				left: 0px;
 				right: 0px;
-				z-index: 15;
+				z-index: 400;
 
 				&:after {
 					position: absolute;
@@ -156,7 +156,7 @@ ul.dropdown-menu {
 					border-bottom: 9px solid $color-gray;
 					left: 50%;
 					transform: translate(-50%);
-					z-index: 15;
+					z-index: 400;
 				}
 			}
 		}
@@ -180,7 +180,7 @@ ul.dropdown-menu {
 				top: -9px;
 				left: 0px;
 				right: 0px;
-				z-index: 15;
+				z-index: 400;
 
 				&:after {
 					position: absolute;
@@ -194,7 +194,7 @@ ul.dropdown-menu {
 					border-bottom: 9px solid $color-primary;
 					left: 50%;
 					transform: translate(-50%);
-					z-index: 15;
+					z-index: 400;
 				}
 			}
 		}

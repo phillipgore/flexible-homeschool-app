@@ -85,12 +85,47 @@ hr {
 		float: left;
 	}
 
+	.frame-position-one {
+		.frame-one {
+			height: auto;
+			overflow: visible;
+		}
+
+		.frame-two, 
+		.frame-three {
+			height: 0px;
+			overflow: hidden;
+		}
+	}
+
 	.frame-position-two {
 		margin-left: -100%;
+
+		.frame-two {
+			height: auto;
+			overflow: visible;
+		}
+
+		.frame-one, 
+		.frame-three {
+			height: 0px;
+			overflow: hidden;
+		}
 	}
 
 	.frame-position-three {
 		margin-left: -200%;
+		
+		.frame-three {
+			height: auto;
+			overflow: visible;
+		}
+
+		.frame-one, 
+		.frame-two {
+			height: 0px;
+			overflow: hidden;
+		}
 	}
 
 	.frame-cover {
@@ -100,7 +135,7 @@ hr {
 		right: 0px;
 		bottom: 0px;
 		width: 320px;
-		z-index: 2000000;
+		z-index: 1100;
 		display: none;
 	}
 }
@@ -150,21 +185,32 @@ hr {
 		height: 100vh;
 	}
 
-	.frame-one {
-		height: 100vh;
-		overflow-y: auto;
-	}
+	.frame-position-one,
+	.frame-position-two,
+	.frame-position-three {
+		.frame-one,
+		.frame-two,
+		.frame-three {
+			height: auto;
+			overflow: visible;
+		}
 
-	.frame-two {
-		border-left: 1px solid $color-gray;
-		height: 100vh;
-		overflow-y: auto;
-	}
+		.frame-one {
+			height: 100vh;
+			overflow-y: auto;
+		}
 
-	.frame-three {
-		border-left: 1px solid $color-gray;
-		height: 100vh;
-		overflow-y: auto;
+		.frame-two {
+			border-left: 1px solid $color-gray;
+			height: 100vh;
+			overflow-y: auto;
+		}
+
+		.frame-three {
+			border-left: 1px solid $color-gray;
+			height: 100vh;
+			overflow-y: auto;
+		}
 	}
 
 	.frame-position-two {

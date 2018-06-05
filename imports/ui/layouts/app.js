@@ -36,7 +36,8 @@ Template.app.helpers({
 	},
 
 	showSubbar: function() {
-		if (Session.get('windowHeight') >= 640 || FlowRouter.current().route.name === 'trackingView' || Session.get('selectedFramePosition') === 2) {
+		let routeName = FlowRouter.current().route.name
+		if (Session.get('windowHeight') >= 640 || Session.get('selectedFramePosition') === 2 || routeName === 'trackingView' || routeName === 'createAccount' || routeName === 'verifySent' || routeName === 'verifySuccess' || routeName === 'signIn' || routeName === 'reset' || routeName === 'resetSent' || routeName === 'resetPassword' || routeName === 'resetSuccess') {
 			return true;
 		}
 		return false;

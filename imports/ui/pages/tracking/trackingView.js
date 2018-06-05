@@ -119,7 +119,7 @@ Template.trackingView.events({
 		autosize($('#description-' + lessonId));
 		autosize.update($('#description-' + lessonId));
 		$('.js-lesson-input').removeAttr('style');
-		$(event.currentTarget).parentsUntil('.js-subject').parent().addClass('active');
+		$(event.currentTarget).parentsUntil('.js-subject-track').parent().addClass('active');
 		$('#' + lessonId).show();
 		$('#completed-on-' + lessonId).pickadate({
 			format: 'mmmm d, yyyy',
@@ -131,7 +131,7 @@ Template.trackingView.events({
 
 	'click .js-close'(event) {
 		event.preventDefault();
-		$('.js-subject').removeClass('active');
+		$('.js-subject-track').removeClass('active');
 		$('.js-lesson-input').removeAttr('style');
 	},
 
@@ -148,7 +148,7 @@ Template.trackingView.events({
 
 		let lessonId = $(event.currentTarget).parent().attr('id');
 		$('[data-lesson-id="' + lessonId + '"]').find('.js-lesson-updating').show();
-		$('.js-subject').removeClass('active');
+		$('.js-subject-track').removeClass('active');
 		$('.js-lesson-input').removeAttr('style');
 
 		let lessonPoperties = {

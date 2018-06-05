@@ -3,7 +3,6 @@ import '/imports/startup/client';
 // Layouts
 import '/imports/ui/layouts/initializing.js';
 import '/imports/ui/layouts/app.js';
-import '/imports/ui/layouts/print.js';
 
 // Components
 import '/imports/ui/components/toolbar.js';
@@ -101,7 +100,6 @@ import '/imports/ui/pages/settings/settingsList.js';
 	import '/imports/ui/pages/settings/billing/billingList.js';
 	import '/imports/ui/pages/settings/billing/billingInvoices.js';
 	import '/imports/ui/pages/settings/billing/billingEdit.js';
-
 
 
 

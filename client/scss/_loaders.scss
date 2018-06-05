@@ -4,7 +4,7 @@
 	right: 0px;
 	bottom: 0px;
 	left: 0px;
-	z-index: 100000;
+	z-index: 1000;
 	background-color: $color-primary;
 	color: $color-white;
 	text-align: center;
@@ -35,7 +35,7 @@
 	right: 0px;
 	left: 0px;
 	bottom: 51px;
-	z-index: 4000;
+	z-index: 600;
 	background-color: $color-white;
 
 	&.loading-saving, 
@@ -60,7 +60,29 @@
 			border: 1px solid $color-gray-darker;
 			color: $color-gray-darkest;
 			font-size: 23px;
-			padding-top: 9px;
+
+			&:before {
+				content: "";
+				width: 24px;
+				height: 24px;
+				border-radius: 13px;
+				border: 3px solid $color-gray-darker;
+				position: absolute;
+				top: 9px;
+				left: 9px;
+			}
+
+			&:after {
+				content: "";
+				width: 28px;
+				height: 4px;
+				background-image: linear-gradient(to right, transparent 70%, $color-gray-lightest 30%);
+				position: absolute;
+				top: 19px;
+				left: 6px;
+				z-index: 100;
+				animation: rotation 1.0s infinite linear;
+			}
 		}
 
 		.loader-message {
@@ -75,7 +97,7 @@
 
 .frame-one{
 	.loading-container {
-		z-index: 5000;
+		z-index: 800;
 	}
 }
 
