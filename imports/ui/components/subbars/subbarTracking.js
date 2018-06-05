@@ -111,5 +111,12 @@ Template.subbarTracking.helpers({
 		}
 		return false;
 	},
+
+	selectedFramePositionOne: function() {
+		if (Session.get('selectedFramePosition') === 1 && Session.get('windowWidth') < 640) {
+			return true;
+		}
+		return false;
+	},	
 });
 
