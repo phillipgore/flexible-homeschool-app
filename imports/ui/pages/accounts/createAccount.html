@@ -1,42 +1,46 @@
 <template name="createAccount">
 	
 	<main class="app-content app-content-preceeds-toolbar app-content-form">
-		<h1 class="txt-tn-center m-tn-b-12">Account Details</h1>
-		<form class="js-form-create-account row" novalidate>
-
-			<div class="m-tn-b-30">
-				<div class="col-tn-1of2 p-tn-r-3">
-					<input type="text" name="firstName" id="first-name" placeholder="First Name" autocomplete="off">
-					<label class="error first-name-errors"></label>
+		<form class="js-form-create-account form-double p-sm-t-36" novalidate>
+			<div class="row">
+				<div class="col-sm-1of2 p-sm-r-18">
+					<h1 class="txt-tn-center m-tn-b-12">Account Details</h1>
+					<div class="m-tn-b-30">
+						<div class="col-tn-1of2 p-tn-r-3">
+							<input type="text" name="firstName" id="first-name" placeholder="First Name" autocomplete="off">
+							<label class="error first-name-errors"></label>
+						</div>
+						<div class="col-tn-1of2 p-tn-l-3">
+							<input type="text" name="lastName" id="last-name" placeholder="Last Name" autocomplete="off">
+							<label class="error last-name-errors"></label>
+						</div>
+						<div class="fss-select">
+							<select name="relationshipToStudents" id="relationship-to-students">
+								{{#each relationship in relationships}}
+									<option value="{{relationship.value}}">{{relationship.label}}</option>
+								{{/each}}
+							</select>
+						</div>
+					</div>
+					
+					
+					<div class="m-tn-b-24">
+						<input type="email" name="email" id="email" placeholder="Email" autocomplete="off">
+						<label class="error email-errors"></label>
+						<input type="password" name="password" id="password" placeholder="Password" autocomplete="off">
+						<label class="error password-errors"></label>
+						<input type="password" name="retypePassword" id="retype-password" placeholder="Retype Password" autocomplete="off">
+						<label class="error retype-password-errors"></label>
+					</div>
 				</div>
-				<div class="col-tn-1of2 p-tn-l-3">
-					<input type="text" name="lastName" id="last-name" placeholder="Last Name" autocomplete="off">
-					<label class="error last-name-errors"></label>
+				
+				<div class="col-sm-1of2 p-sm-l-18">
+					<h1 class="txt-tn-center m-tn-b-12">Payment Info</h1>
+					<div class="well bg-gray-lighter m-tn-b-18">
+						{{> creditCard}}
+					</div>
+					<p class="txt-tn-center txt-gray-darkest font-weight-400">Only $10.00 per month</p>
 				</div>
-				<div class="fss-select">
-					<select name="relationshipToStudents" id="relationship-to-students">
-						{{#each relationship in relationships}}
-							<option value="{{relationship.value}}">{{relationship.label}}</option>
-						{{/each}}
-					</select>
-				</div>
-			</div>
-			
-			
-			<div class="m-tn-b-24">
-				<input type="email" name="email" id="email" placeholder="Email" autocomplete="off">
-				<label class="error email-errors"></label>
-				<input type="password" name="password" id="password" placeholder="Password" autocomplete="off">
-				<label class="error password-errors"></label>
-				<input type="password" name="retypePassword" id="retype-password" placeholder="Retype Password" autocomplete="off">
-				<label class="error retype-password-errors"></label>
-			</div>
-			
-			<h1 class="txt-tn-center">Payment Info</h1>
-			<p class="txt-tn-center txt-gray-darkest font-weight-400 m-tn-b-12">One Simple Price: $10.00 per month</p>
-
-			<div class="well bg-gray-lighter m-tn-b-18">
-				{{> creditCard}}
 			</div>
 
 			<footer class="toolbar toolbar-bottom toolbar-gray">

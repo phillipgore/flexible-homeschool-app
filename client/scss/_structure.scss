@@ -172,6 +172,11 @@ hr {
 			form {
 				margin: 0px auto;
 				max-width: 284px;
+
+				&.form-double {
+					margin: 0px auto;
+					max-width: 604px;
+				}
 			}
 		}
 
@@ -231,8 +236,7 @@ hr {
 	.resetSuccess,
 	.billingError {
 		.frame-one {
-			width: 302px;
-			margin-left: calc(50vw - 150px);
+			width: 66.66666%;
 			float: none;
 			overflow-y: visible;
 		}
@@ -305,6 +309,20 @@ hr {
 
 	.frame-position-three {
 		margin-left: 0px;
+	}
+
+	.createAccount,
+	.verifySent,
+	.verifySuccess,
+	.signIn,
+	.reset,
+	.resetSent,
+	.resetPassword,
+	.resetSuccess,
+	.billingError {
+		.frame-one {
+			width: 100%;
+		}
 	}
 
 	.trackingView, 

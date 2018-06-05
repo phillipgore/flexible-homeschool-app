@@ -184,18 +184,42 @@ function checkSubjectsAvailable(context) {
 	}
 };
 
-FlowRouter.triggers.enter([checkSignIn], {only: ['createAccount', 'verifySent', 'signIn', 'reset', 'resetSent', 'resetPassword']});
-FlowRouter.triggers.enter([initialData, checkSignOut, checkPaymentError], {except: ['createAccount', 'verifySent', 'signIn', 'reset', 'resetSent', 'resetPassword']});
-// FlowRouter.triggers.enter([checkSubjectsAvailable], {only: ['subjectsList', 'subjectsNew', 'subjectsView', 'subjectsEdit']});
+FlowRouter.triggers.enter([checkSignIn], {only: [
+	'createAccount',
+	'verifySent',
+	'verifySent',
+	'verifySuccess',
+	'signIn',
+	'reset',
+	'resetSent',
+	'resetPassword',
+	'resetSuccess'
+]});
+
+FlowRouter.triggers.enter([initialData, checkSignOut, checkPaymentError], {except: [
+	'createAccount',
+	'verifySent',
+	'verifySent',
+	'verifySuccess',
+	'signIn',
+	'reset',
+	'resetSent',
+	'resetPassword',
+	'resetSuccess'
+]});
+
 FlowRouter.triggers.enter([resetSessions]);
 
 FlowRouter.triggers.enter([checkSubscriptionPaused], {except: [
-	'createAccount', 
-	'verifySent', 
-	'signIn', 
-	'reset', 
-	'resetSent', 
-	'resetPassword', 
+	'createAccount',
+	'verifySent',
+	'verifySent',
+	'verifySuccess',
+	'signIn',
+	'reset',
+	'resetSent',
+	'resetPassword',
+	'resetSuccess',
 	'billingList', 
 	'billingInvoices', 
 	'billingEdit', 
