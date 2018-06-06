@@ -193,7 +193,8 @@ FlowRouter.triggers.enter([checkSignIn], {only: [
 	'reset',
 	'resetSent',
 	'resetPassword',
-	'resetSuccess'
+	'resetSuccess',
+	'billingError'
 ]});
 
 FlowRouter.triggers.enter([initialData, checkSignOut, checkPaymentError], {except: [
@@ -205,7 +206,8 @@ FlowRouter.triggers.enter([initialData, checkSignOut, checkPaymentError], {excep
 	'reset',
 	'resetSent',
 	'resetPassword',
-	'resetSuccess'
+	'resetSuccess',
+	'billingError'
 ]});
 
 FlowRouter.triggers.enter([resetSessions]);
@@ -220,6 +222,7 @@ FlowRouter.triggers.enter([checkSubscriptionPaused], {except: [
 	'resetSent',
 	'resetPassword',
 	'resetSuccess',
+	'billingError',
 	'billingList', 
 	'billingInvoices', 
 	'billingEdit', 
