@@ -236,7 +236,6 @@ FlowRouter.triggers.enter([checkRoleUser], {only: [
 	'usersView',
 	'usersEdit',
 	'billingList',
-	'billingError',
 	'billingInvoices',
 	'billingEdit',
 ]});
@@ -248,7 +247,6 @@ FlowRouter.triggers.enter([checkRoleObserver], {only: [
 	'usersView',
 	'usersEdit',
 	'billingList',
-	'billingError',
 	'billingInvoices',
 	'billingEdit',
 	'planningList',
@@ -276,8 +274,7 @@ FlowRouter.triggers.enter([checkRoleApplication], {only: [
 	'usersVerifySent',
 	'usersView',
 	'usersEdit',
-	'billingList', 
-	'billingError', 
+	'billingList',  
 	'billingInvoices', 
 	'billingEdit'
 ]});
