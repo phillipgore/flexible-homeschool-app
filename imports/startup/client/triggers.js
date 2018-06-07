@@ -157,33 +157,6 @@ function resetSessions(context) {
 	});
 };
 
-function checkSubjectsAvailable(context) {
-	let studentsCount = Counts.get('studentCount');
-	let schoolYearsCount = Counts.get('schoolYearCount');
-
-	if (!studentsCount || !schoolYearsCount) {
-		FlowRouter.redirect('/planning/list');
-		function count(count) {
-			if (count === 0) {
-				return 'no';
-			}
-			return count;
-		}
-		function label(count, label) {
-			if (count === 1) {
-				return label;
-			}
-			return label + 's';
-		}
-		Alerts.insert({
-			colorClass: 'bg-info',
-			iconClass: 'fss-info',
-			message: 'You currently have ' + count(studentsCount) +' '+ label(studentsCount, 'Student') + ' and ' + count(schoolYearsCount) +' '+ label(schoolYearsCount, 'School Year') + '. You must have at least one of each to work with Subjects.',
-		});
-
-	}
-};
-
 FlowRouter.triggers.enter([checkSignIn], {only: [
 	'createAccount',
 	'verifySent',

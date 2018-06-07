@@ -85,7 +85,7 @@ Template.billingError.events({
 							$('.js-loading').hide();
 							$('.js-submit').prop('disabled', false);
 						} else {
-							FlowRouter.go('/planning/list');
+							FlowRouter.go('/initializing');
 						}
 					});
 				}
