@@ -30,7 +30,7 @@ Template.schoolYearsView.helpers({
 	},
 
 	terms: function() {
-		return Terms.find({schoolYearId: Session.get('selectedSchoolYearId')});
+		return Terms.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId')});
 	},
 
 	termWeeks: function(termId) {

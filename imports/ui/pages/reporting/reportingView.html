@@ -18,7 +18,7 @@
 					</div>
 				{{else}}
 					{{#if reports.count}}
-						<h1 class="txt-tn-center">{{student.preferredFirstName.name}} {{student.lastName}}</h1>
+						<h1 class="txt-tn-center">{{student.firstName}} {{student.middleName}} {{student.lastName}}</h1>
 						<h2 class="txt-tn-center txt-gray-darkest m-tn-b-18">{{schoolYear.startYear}}-{{schoolYear.endYear}}</h2>
 						{{> reportingSchoolYears}}
 						{{> reportingTerms}}

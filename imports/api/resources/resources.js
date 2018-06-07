@@ -54,7 +54,7 @@ const ResourcesSchema = new SimpleSchema({
         label: "Director First Name",
         optional: true
     },
-    directorFirstName: {
+    directorLastName: {
         type: String,
         label: "Director Last Name",
         optional: true
@@ -64,7 +64,7 @@ const ResourcesSchema = new SimpleSchema({
         label: "Artist First Name",
         optional: true
     },
-    artistFirstName: {
+    artistLastName: {
         type: String,
         label: "Artist Last Name",
         optional: true

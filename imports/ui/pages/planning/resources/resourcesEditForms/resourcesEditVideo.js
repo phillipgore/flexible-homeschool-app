@@ -70,7 +70,7 @@ Template.resourcesEditVideo.onRendered( function() {
 
 Template.resourcesEditVideo.helpers({
 	resource: function() {
-		return Resources.findOne();
+		return Resources.findOne({_id: FlowRouter.getParam('selectedResourceId')});
 	},
 
 	availability: function(currentAvailability, availability) {
