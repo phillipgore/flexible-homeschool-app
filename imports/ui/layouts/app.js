@@ -23,7 +23,7 @@ Template.app.helpers({
 		console.log(Meteor.status())
 		return Meteor.status();
 	},
-
+	
 	windowHeight: function() {
 		return Session.get('windowHeight');
 	},
