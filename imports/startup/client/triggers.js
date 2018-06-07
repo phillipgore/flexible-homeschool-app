@@ -193,8 +193,7 @@ FlowRouter.triggers.enter([checkSignIn], {only: [
 	'reset',
 	'resetSent',
 	'resetPassword',
-	'resetSuccess',
-	'billingError'
+	'resetSuccess'
 ]});
 
 FlowRouter.triggers.enter([initialData, checkSignOut, checkPaymentError], {except: [
@@ -274,7 +273,7 @@ FlowRouter.triggers.enter([checkRoleApplication], {only: [
 	'usersVerifySent',
 	'usersView',
 	'usersEdit',
-	'billingList',  
+	'billingList',
 	'billingInvoices', 
 	'billingEdit'
 ]});
