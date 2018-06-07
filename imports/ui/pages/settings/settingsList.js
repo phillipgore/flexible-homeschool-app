@@ -119,7 +119,7 @@ Template.settingsList.events({
 
 	'click .js-sign-out'(event) {
 		event.preventDefault();
-		$('.loading-signing-out').show();
+		$('.js-loading-signing-out').show();
 		Accounts.logout(function(error) {
 			if (error) {
 				Alerts.insert({
