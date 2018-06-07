@@ -187,7 +187,6 @@ function checkSubjectsAvailable(context) {
 FlowRouter.triggers.enter([checkSignIn], {only: [
 	'createAccount',
 	'verifySent',
-	'verifySent',
 	'verifySuccess',
 	'signIn',
 	'reset',
@@ -198,7 +197,6 @@ FlowRouter.triggers.enter([checkSignIn], {only: [
 
 FlowRouter.triggers.enter([initialData, checkSignOut, checkPaymentError], {except: [
 	'createAccount',
-	'verifySent',
 	'verifySent',
 	'verifySuccess',
 	'signIn',
@@ -213,7 +211,6 @@ FlowRouter.triggers.enter([resetSessions]);
 
 FlowRouter.triggers.enter([checkSubscriptionPaused], {except: [
 	'createAccount',
-	'verifySent',
 	'verifySent',
 	'verifySuccess',
 	'signIn',

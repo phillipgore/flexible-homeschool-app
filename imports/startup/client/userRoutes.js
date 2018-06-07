@@ -23,8 +23,7 @@ FlowRouter.route('/verify/email/:token', {
 	action: function(params, queryParams) {
         Accounts.verifyEmail(params.token, function(error) {
 			if (error) {
-				console.log(error.reason)
-				FlowRouter.redirect('/verify/sent');
+				FlowRouter.redirect('/sign-in');
 			} else {
 				FlowRouter.redirect('/verify/success');
 			}
