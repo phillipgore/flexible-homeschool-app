@@ -127,11 +127,11 @@ Template.billingEdit.events({
 								iconClass: 'fss-danger',
 								message: error.reason,
 							});
+						} else {
+							FlowRouter.go('/settings/billing/list');
 					
 							$('.js-loading').hide();
 							$('.js-submit').prop('disabled', false);
-						} else {
-							FlowRouter.go('/settings/billing/list');
 							Alerts.insert({
 								colorClass: 'bg-info',
 								iconClass: 'fss-info',

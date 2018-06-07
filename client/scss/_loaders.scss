@@ -132,7 +132,8 @@
 	.resetSent,
 	.resetPassword,
 	.resetSuccess,
-	.billingError {
+	.billingError,
+	.loading-signing-out {
 		.frame-one {
 			.loading-container {
 				width: auto;
