@@ -19,10 +19,10 @@ Alerts = new Mongo.Collection(null);
 // });
 
 Template.app.helpers({
-	connectionStatus: function() {
-		console.log(Meteor.status())
-		return Meteor.status();
-	},
+	// connectionStatus: function() {
+	// 	console.log(Meteor.status())
+	// 	return Meteor.status();
+	// },
 	
 	windowHeight: function() {
 		return Session.get('windowHeight');
