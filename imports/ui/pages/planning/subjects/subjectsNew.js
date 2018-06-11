@@ -10,10 +10,10 @@ LocalResources = new Mongo.Collection(null);
 
 Template.subjectsNew.onCreated( function() {
 	// Subscriptions
-	this.subscribe('allStudents');
-	this.subscribe('allSchoolYears');
-	this.subscribe('allTerms');
-	this.subscribe('allWeeks');
+	this.studentData = this.subscribe('allStudents');
+	this.schoolYearData = this.subscribe('allSchoolYears');
+	this.termData = this.subscribe('allTerms');
+	this.weekData = this.subscribe('allWeeks');
 
 	let template = Template.instance();
 
@@ -130,6 +130,12 @@ Template.subjectsNew.onRendered( function() {
 })
 
 Template.subjectsNew.helpers({
+	subscriptionReady: function() {
+		if (Template.instance().studentData.ready() && Template.instance().schoolYearData.ready() && Template.instance().termData.ready() && Template.instance().weekData.ready()) {
+			return true;
+		}
+	},
+	
 	terms: function() {
 		return Terms.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}, {sort: {order: 1}});
 	},

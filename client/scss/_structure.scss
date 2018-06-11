@@ -203,18 +203,21 @@ hr {
 		.frame-one {
 			height: 100vh;
 			overflow-y: auto;
+			-webkit-overflow-scrolling: touch;
 		}
 
 		.frame-two {
 			border-left: 1px solid $color-gray;
 			height: 100vh;
 			overflow-y: auto;
+			-webkit-overflow-scrolling: touch;
 		}
 
 		.frame-three {
 			border-left: 1px solid $color-gray;
 			height: 100vh;
 			overflow-y: auto;
+			-webkit-overflow-scrolling: touch;
 		}
 	}
 

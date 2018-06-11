@@ -12,14 +12,14 @@ LocalResources = new Mongo.Collection(null);
 
 Template.subjectsEdit.onCreated( function() {
 	// Subscriptions
-	this.subscribe('subject', FlowRouter.getParam('selectedSubjectId'), function() {
+	this.subjectData = this.subscribe('subject', FlowRouter.getParam('selectedSubjectId'), function() {
 		Session.set('schoolYearId', Subjects.findOne().schoolYearId)
 	});
-	this.subscribe('allStudents');
-	this.subscribe('allSchoolYears');
-	this.subscribe('allTerms');
-	this.subscribe('allWeeks');
-	this.subscribe('subjectLessons', FlowRouter.getParam('selectedSubjectId'));
+	this.studentData = this.subscribe('allStudents');
+	this.schoolYearData = this.subscribe('allSchoolYears');
+	this.termData = this.subscribe('allTerms');
+	this.weekData = this.subscribe('allWeeks');
+	this.lessonData = this.subscribe('subjectLessons', FlowRouter.getParam('selectedSubjectId'));
 
 	let template = Template.instance();
 
@@ -225,6 +225,12 @@ Template.subjectsEdit.onRendered( function() {
 })
 
 Template.subjectsEdit.helpers({
+	subscriptionReady: function() {
+		if (Template.instance().subjectData.ready() && Template.instance().studentData.ready() && Template.instance().schoolYearData.ready() && Template.instance().termData.ready() && Template.instance().weekData.ready() && Template.instance().lessonData.ready()) {
+			return true;
+		}
+	},
+	
 	subject: function() {
 		return Subjects.findOne({_id: FlowRouter.getParam('selectedSubjectId')});
 	},
