@@ -10,20 +10,13 @@ import _ from 'lodash'
 
 Alerts = new Mongo.Collection(null);
 
-// Template.app.onRendered( function() {
-// 	Alerts.insert({
-// 		colorClass: 'bg-info',
-// 		iconClass: 'fss-info',
-// 		message: 'Alert test.',
-// 	});
-// });
+Template.app.onRendered( function() {
+	$('.loading-initializing').fadeOut('fast', function() {
+		$(this).remove();
+	});
+});
 
 Template.app.helpers({
-	// connectionStatus: function() {
-	// 	console.log(Meteor.status())
-	// 	return Meteor.status();
-	// },
-	
 	windowHeight: function() {
 		return Session.get('windowHeight');
 	},

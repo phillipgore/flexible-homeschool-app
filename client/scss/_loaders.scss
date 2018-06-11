@@ -5,7 +5,7 @@
 	bottom: 0px;
 	left: 0px;
 	z-index: 1000;
-	background-color: $color-primary;
+	background-color: $color-gray-dark;
 	color: $color-white;
 	text-align: center;
 
@@ -16,10 +16,38 @@
 		left: 0px;
 		transform: translateY(-80%);
 
-		&:before {
-			font-family: 'Flexible-School-Schedule' !important;	
-			content: "\e91a";
-			font-size: 70px;
+		.loader-icon {
+			position: relative;
+			margin: 0px auto;
+			width: 44px;
+			height: 44px;
+			border-radius: 3px;
+			background-color: $color-gray-dark;
+			color: $color-gray-dark;
+			font-size: 23px;
+
+			&:before {
+				content: "";
+				width: 44px;
+				height: 44px;
+				border-radius: 22px;
+				border: 5px solid $color-white;
+				position: absolute;
+				top: 0px;
+				left: 0px;
+			}
+
+			&:after {
+				content: "";
+				width: 48px;
+				height: 8px;
+				background-image: linear-gradient(to right, transparent 70%, $color-gray-dark 30%);
+				position: absolute;
+				top: 19px;
+				left: -2px;
+				z-index: 100;
+				animation: rotation 1.0s infinite linear;
+			}
 		}
 
 		p {
