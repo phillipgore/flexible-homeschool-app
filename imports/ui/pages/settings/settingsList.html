@@ -19,6 +19,12 @@
 				{{/if}}
 			</li>
 			<li class="list-item">
+				<a href="#" class="js-reset-password list-item-link bg-white p-tn-rl-9">
+					<div class="list-item-icon"><i class="fss-password"></i></div> 
+					<div class="list-item-label">Reset Password</div>
+				</a>
+			</li>
+			<li class="list-item">
 				{{#if userRestricted user.info.role}}
 					<span data-section="billing" data-role="{{user.info.role}}" class="js-restricted list-item-inner disabled bg-white p-tn-rl-9">
 						<div class="list-item-icon"><i class="fss-billing"></i></div> 

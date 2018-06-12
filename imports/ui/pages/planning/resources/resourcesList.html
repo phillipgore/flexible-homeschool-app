@@ -21,11 +21,14 @@
 								data-resource-availability="{{selectedResourceAvailability}}" 
 								href="/planning/resources/view/{{selectedResourceType}}/{{selectedResourceAvailability}}/{{resource._id}}/{{resource.type}}" class="js-resource list-item-link p-tn-rl-9 {{#if active resource._id}}active{{/if}}"
 							>
-							<div class="list-item-icon"><i class="txt-primary fss-{{resource.type}} fss-fw-16"></i></div> 
-							<div class="list-item-label">
-								{{resource.title}} 
-								<span class="print-only-inline {{availability resource.availability}}">{{availabilityText resource.availability}}</span>
-							</div>
+								<div class="list-item-icon"><i class="txt-primary fss-{{resource.type}} fss-fw-16"></i></div> 
+								<div class="list-item-label">
+									{{resource.title}} 
+									<span class="print-only-inline {{availability resource.availability}}">{{availabilityText resource.availability}}</span>
+								</div>
+								{{#if isLink resource.type}}
+									<i class="fss-circle txt-primary font-size-21 print-hide fl-tn-right txt-tn-right"></i>
+								{{/if}}
 							</a>
 							{{#unless isLink resource.type}}
 								<div class="list-item-dropdown-loader hide"><i class="fss-searching fss-spin txt-gray-darkest"></i></div>

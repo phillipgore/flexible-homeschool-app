@@ -128,14 +128,25 @@ Template.billingEdit.events({
 								message: error.reason,
 							});
 						} else {
-							FlowRouter.go('/settings/billing/list');
-					
-							$('.js-loading').hide();
-							$('.js-submit').prop('disabled', false);
-							Alerts.insert({
-								colorClass: 'bg-info',
-								iconClass: 'fss-info',
-								message: 'Your card has been updated.',
+							Meteor.call('getCard', function(error, result) {
+								if (error) {
+									Alerts.insert({
+										colorClass: 'bg-danger',
+										iconClass: 'fss-danger',
+										message: error.reason,
+									});
+								} else {
+									Session.set('card', result);
+									FlowRouter.go('/settings/billing/edit');
+
+									$('.js-loading').hide();
+									$('.js-submit').prop('disabled', false);
+									Alerts.insert({
+										colorClass: 'bg-info',
+										iconClass: 'fss-info',
+										message: 'Your card has been updated.',
+									});
+								}
 							});
 						}
 					});

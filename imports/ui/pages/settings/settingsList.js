@@ -71,6 +71,23 @@ Template.settingsList.events({
 		});
 	},
 
+	'click .js-reset-password '(event) {
+		event.preventDefault();
+		$('.js-loading-signing-out').show();
+
+		Accounts.logout(function(error) {
+			if (error) {
+				Alerts.insert({
+					colorClass: 'bg-danger',
+					iconClass: 'fss-danger',
+					message: error.reason,
+				});
+			} else {
+				FlowRouter.go("/reset");
+			}
+		});
+	},
+
 	'click .js-add-test-data'(event) {
 		event.preventDefault();
 		$('.list-item-loading').show();

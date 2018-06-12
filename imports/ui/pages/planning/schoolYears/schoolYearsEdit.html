@@ -5,12 +5,12 @@
 			<div class="row m-tn-b-6">
 				<div class="col-tn-1of2 p-tn-r-3">
 					<label>Start Year</label>
-					<input class="js-start-year" type="number" name="startYear" id="start-year" placeholder="2020" autocomplete="off" maxlength="4" value="{{schoolYear.startYear}}">
+					<input class="js-start-year" type="text" name="startYear" id="start-year" placeholder="2020" autocomplete="off" maxlength="4" value="{{schoolYear.startYear}}">
 					<label class="error js-start-year-errors"></label>
 				</div>
 				<div class="col-tn-1of2 p-tn-l-3">
 					<label>End Year</label>
-					<input class="js-end-year" type="number" name="endYear" id="end-year" placeholder="2021" autocomplete="off" maxlength="4" value="{{schoolYear.endYear}}">
+					<input class="js-end-year" type="text" name="endYear" id="end-year" placeholder="2021" autocomplete="off" maxlength="4" value="{{schoolYear.endYear}}">
 					<label class="error js-end-year-errors"></label>
 				</div>
 			</div>
@@ -28,7 +28,7 @@
 							</div>
 							<div class="col-tn-8of11 pos-relative p-tn-r-36">
 								<input class="js-term-order" type="hidden" name="order" id="js-term-order" value="{{indexIncrement @index}}">
-								<input class="js-weeks-per-term" type="number" name="weeksPerTerm{{indexIncrement @index}}" id="weeks-per-term" placeholder="12" autocomplete="off" maxlength="2" min="1" value="{{termWeekCount localTerm.id}}">
+								<input class="js-weeks-per-term" type="text" name="weeksPerTerm{{indexIncrement @index}}" id="weeks-per-term" placeholder="12" autocomplete="off" maxlength="2" min="1" value="{{termWeekCount localTerm.id}}">
 								<label class="error js-weeks-per-term-errors"></label>
 								<span class="pos-absolute pos-top-right p-tn-t-3">
 									{{#if termDeletable localTerm.id}}
