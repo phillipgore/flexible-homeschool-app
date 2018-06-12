@@ -12,6 +12,7 @@ Template.signIn.onRendered( function() {
 			password: { required: "Required." },
 		},
 		submitHandler() {
+			$('input').blur();
 			$('.js-loading').show();
 			$('.js-submit').prop('disabled', true);
 
