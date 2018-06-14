@@ -39,5 +39,8 @@
 				</div>
 			{{/if}}
 		{{/if}}
+		{{#unless Template.subscriptionsReady}}
+			{{> loading}}
+		{{/unless}}
 	</main>
 </template>
