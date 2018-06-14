@@ -57,11 +57,11 @@ Template.trackingView.helpers({
 	},
 
 	subjects: function() {
-		return Subjects.find();
+		return Subjects.find({studentId: FlowRouter.getParam('selectedStudentId'), schoolYearId: FlowRouter.getParam('selectedSchoolYearId')});
 	},
 
 	terms: function() {
-		return Terms.find({}, {sort: {order: 1}});
+		return Terms.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}, {sort: {order: 1}});
 	},
 
 	selectedTerm: function() {
@@ -69,7 +69,7 @@ Template.trackingView.helpers({
 	},
 
 	weeks: function() {
-		return Weeks.find({}, {sort: {order: 1}});
+		return Weeks.find({termId: FlowRouter.getParam('selectedTermId')}, {sort: {order: 1}});
 	},
 
 	selectedWeek: function() {
