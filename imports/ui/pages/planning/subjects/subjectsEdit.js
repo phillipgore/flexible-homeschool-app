@@ -213,6 +213,8 @@ Template.subjectsEdit.onRendered( function() {
 							$('.js-loading').hide();
 							$('.js-submit').prop('disabled', false);
 						} else {
+							$('.js-loading').hide();
+							$('.js-submit').prop('disabled', false);
 							FlowRouter.go('/planning/subjects/view/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ subjectId);
 						}
 					});
