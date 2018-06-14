@@ -12,7 +12,7 @@
 				</div>
 				<div class="row track-btn-container m-tn-h-9">
 					{{#each lesson in lessons subject._id}}
-						<button data-lesson-id="{{lesson._id}}" class="js-lesson-btn col-tn-1of{{lessonCount subject._id}} {{lessonStatus lesson.completed subject._id}}">
+						<button data-lesson-id="{{lesson._id}}" class="js-lesson-btn col-tn-1of{{lessonCount subject._id}} {{lessonStatus lesson.completed subject._id}}">{{lesson.order}}
 							<div class="js-lesson-updating hide"><i class="fss-searching fss-spin"></i></div>
 						</button>
 					{{/each}}
