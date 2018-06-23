@@ -13,7 +13,7 @@ LocalResources = new Mongo.Collection(null);
 Template.subjectsEdit.onCreated( function() {
 	// Subscriptions
 	this.subjectData = this.subscribe('subject', FlowRouter.getParam('selectedSubjectId'), function() {
-		Session.set('schoolYearId', Subjects.findOne().schoolYearId)
+		Session.set('schoolYearId', Subjects.findOne({_id: FlowRouter.getParam('selectedSubjectId')}).schoolYearId)
 	});
 	this.studentData = this.subscribe('allStudents');
 	this.schoolYearData = this.subscribe('allSchoolYears');
@@ -64,7 +64,7 @@ Template.subjectsEdit.onRendered( function() {
 			timesPerWeek: { number: "" },
 		},
 		errorPlacement: function(error, element) {
-			var placement = $(element).data('error');
+			let placement = $(element).data('error');
 			if (placement) {
 				$(element).parent().addClass('error');
 				$(placement).append(error)
@@ -97,8 +97,10 @@ Template.subjectsEdit.onRendered( function() {
 				}
 			});
 
-			let lessons = Lessons.find();
+			let lessons = Lessons.find({subjectId: FlowRouter.getParam('selectedSubjectId')}, {sort: {completed: 1, order: 1}});
+
 			if (lessons.count() > newLessonProperties.length) {
+				// Find Removeable Lessons
 				let dif = lessons.count() - newLessonProperties.length;
 				let removeLessons = Lessons.find({
 					$and: [{
@@ -110,6 +112,7 @@ Template.subjectsEdit.onRendered( function() {
 
 				var removeLessonIds = removeLessons.map(lesson => (lesson._id));
 
+				// Determine If Lessons Can Be Removed
 				if (dif > removeLessonIds.length) {
 					let overLessons = removeLessonIds.length - dif;
 					Alerts.insert({
@@ -120,21 +123,26 @@ Template.subjectsEdit.onRendered( function() {
 					return false;
 				}
 
-				let currentLessonProperties = Lessons.find({_id: {$nin: removeLessonIds}})
-				var updateLessonProperties = []
+				// Reorder Remaining Lessons And Assign to Weeks
+				let currentLessonProperties = Lessons.find({_id: {$nin: removeLessonIds}, subjectId: FlowRouter.getParam('selectedSubjectId')}, {sort: {completed: 1, order: 1}})
+				var updateLessonProperties = [];
+				var insertLessonProperties = [];
 				currentLessonProperties.forEach(function(property, index) {
 					property.order = newLessonProperties[index].order;
 					property.weekId = newLessonProperties[index].weekId;
 					updateLessonProperties.push(property)
 				});
+
 			} else if (lessons.count() < newLessonProperties.length) {
+				// Create needed Number of New Lessons Needed
 				let dif = newLessonProperties.length - lessons.count();
 
-				let currentLessonProperties = Lessons.find().fetch();
+				let currentLessonProperties = Lessons.find({subjectId: FlowRouter.getParam('selectedSubjectId')}, {sort: {completed: 1, order: 1}}).fetch();
 				for (i = 0; i < dif; i++) { 
 				    currentLessonProperties.push({order: parseFloat((i + lessons.count()) + '.' + (i + 1)), weekId: null});
 				}
 
+				// Reorder Remaining Lessons And Assign to Weeks
 				let subjectId = FlowRouter.getParam('selectedSubjectId');
 				let allLessonProperties = []
 				currentLessonProperties.forEach(function(property, index) {
@@ -144,6 +152,7 @@ Template.subjectsEdit.onRendered( function() {
 					allLessonProperties.push(property);
 				});
 
+				// Seperate Update Lessons from Insert Lessons
 				let startSlice = lessons.count();
 				let endSlice = 0 - dif;
 
@@ -151,7 +160,7 @@ Template.subjectsEdit.onRendered( function() {
 				var insertLessonProperties = allLessonProperties.slice(endSlice);
 
 			} else {
-				let currentLessonProperties = Lessons.find()
+				let currentLessonProperties = Lessons.find({subjectId: FlowRouter.getParam('selectedSubjectId')}, {sort: {completed: 1, order: 1}})
 				var updateLessonProperties = []
 				currentLessonProperties.forEach(function(property, index) {
 					property.order = newLessonProperties[index].order;
@@ -172,7 +181,7 @@ Template.subjectsEdit.onRendered( function() {
 					$('.js-loading').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
-					if (insertLessonProperties) {
+					if (insertLessonProperties.length) {
 						Meteor.call('batchInsertLessons', insertLessonProperties, function(error) {
 							if (error) {
 								Alerts.insert({
@@ -187,7 +196,7 @@ Template.subjectsEdit.onRendered( function() {
 						});
 					}
 
-					if (removeLessonIds) {
+					if (removeLessonIds.length) {
 						Meteor.call('batchRemoveLessons', removeLessonIds, function(error) {
 							if (error) {
 								Alerts.insert({
