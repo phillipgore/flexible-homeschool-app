@@ -101,7 +101,7 @@ Template.trackingView.helpers({
 		if (lessonCompleted) {
 			return 'btn-secondary';
 		}
-		return 'txt-gray-darkest';
+		return '';
 	},
 
 	studentName(first, last) {

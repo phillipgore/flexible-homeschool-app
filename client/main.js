@@ -10,7 +10,6 @@ import '/imports/ui/components/creditCard.js';
 import '/imports/ui/components/dialog.js';
 import '/imports/ui/components/navbar.js';
 	// Loaders
-	import '/imports/ui/components/loaders/initialLoading.html';
 	import '/imports/ui/components/loaders/deleting.html';
 	import '/imports/ui/components/loaders/loading.html';
 	import '/imports/ui/components/loaders/loadingDropdown.html';

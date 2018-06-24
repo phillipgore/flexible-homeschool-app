@@ -84,6 +84,25 @@ ul.dropdown-menu {
 			padding: 16px 9px;
 			font-weight: normal;
 
+			.dropdown-item-loading-icon {
+				display: inline-block;
+				float: left;
+				width: 18px;
+				margin-right: 9px;
+
+				.loader-icon {
+					background-color: $color-gray-darker;
+
+					&:before {
+						background-color: $color-gray;
+					}
+
+					&:after {
+						background-color: $color-gray;
+					}
+				}		
+			}
+
 			.dropdown-item-icon {
 				display: inline-block;
 				float: left;

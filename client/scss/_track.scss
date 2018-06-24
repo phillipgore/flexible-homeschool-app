@@ -25,12 +25,48 @@
 			border-right: 1px solid $color-white;
 			background-color: $color-gray-lighter;
 
+			.loader-icon {
+				background-color: $color-gray-darker;
+
+				&:before {
+					background-color: $color-gray-lighter;
+				}
+
+				&:after {
+					background-color: $color-gray-lighter;
+				}
+			}
+
 			&.btn-primary {
 				background-color: $color-primary;
+
+				.loader-icon {
+					background-color: $color-white;
+
+					&:before {
+						background-color: $color-primary;
+					}
+
+					&:after {
+						background-color: $color-primary;
+					}
+				}
 			}
 
 			&.btn-secondary {
 				background-color: $color-danger;
+
+				.loader-icon {
+					background-color: $color-white;
+
+					&:before {
+						background-color: $color-danger;
+					}
+
+					&:after {
+						background-color: $color-danger;
+					}
+				}
 			}
 
 			&:first-of-type {

@@ -1,12 +1,12 @@
 <template name="saving">
 	<div class="js-loading loading-container loading-saving">
 		<div class="loader">
-			<div class="loader-icon"></div>
-			{{#if message}}
-				<p class="loader-message">{{message}}</p>
-			{{else}}
-				<p class="loader-message">Loading Data</p>
-			{{/if}}
+			<div class="loader-icon loader-icon-sm"></div>
 		</div>
+		{{#if message}}
+			<p class="loader-message">{{message}}</p>
+		{{else}}
+			<p class="loader-message">Loading Data</p>
+		{{/if}}
 	</div>
 </template>
