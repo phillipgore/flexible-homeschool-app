@@ -97,7 +97,7 @@ Template.subjectsEdit.onRendered( function() {
 				}
 			});
 
-			let lessons = Lessons.find({subjectId: FlowRouter.getParam('selectedSubjectId')}, {sort: {completed: 1, order: 1}});
+			let lessons = Lessons.find({subjectId: FlowRouter.getParam('selectedSubjectId')}, {sort: {completed: -1, order: 1}});
 
 			if (lessons.count() > newLessonProperties.length) {
 				// Find Removeable Lessons
@@ -124,7 +124,7 @@ Template.subjectsEdit.onRendered( function() {
 				}
 
 				// Reorder Remaining Lessons And Assign to Weeks
-				let currentLessonProperties = Lessons.find({_id: {$nin: removeLessonIds}, subjectId: FlowRouter.getParam('selectedSubjectId')}, {sort: {completed: 1, order: 1}})
+				let currentLessonProperties = Lessons.find({_id: {$nin: removeLessonIds}, subjectId: FlowRouter.getParam('selectedSubjectId')}, {sort: {completed: -1, order: 1}})
 				var updateLessonProperties = [];
 				var insertLessonProperties = [];
 				currentLessonProperties.forEach(function(property, index) {
@@ -137,7 +137,7 @@ Template.subjectsEdit.onRendered( function() {
 				// Create needed Number of New Lessons Needed
 				let dif = newLessonProperties.length - lessons.count();
 
-				let currentLessonProperties = Lessons.find({subjectId: FlowRouter.getParam('selectedSubjectId')}, {sort: {completed: 1, order: 1}}).fetch();
+				let currentLessonProperties = Lessons.find({subjectId: FlowRouter.getParam('selectedSubjectId')}, {sort: {completed: -1, order: 1}}).fetch();
 				for (i = 0; i < dif; i++) { 
 				    currentLessonProperties.push({order: parseFloat((i + lessons.count()) + '.' + (i + 1)), weekId: null});
 				}
@@ -158,10 +158,13 @@ Template.subjectsEdit.onRendered( function() {
 
 				var updateLessonProperties = allLessonProperties.slice(0, startSlice);
 				var insertLessonProperties = allLessonProperties.slice(endSlice);
+				var removeLessonIds = [];
 
 			} else {
-				let currentLessonProperties = Lessons.find({subjectId: FlowRouter.getParam('selectedSubjectId')}, {sort: {completed: 1, order: 1}})
-				var updateLessonProperties = []
+				let currentLessonProperties = Lessons.find({subjectId: FlowRouter.getParam('selectedSubjectId')}, {sort: {completed: -1, order: 1}})
+				var updateLessonProperties = [];
+				var insertLessonProperties = [];
+				var removeLessonIds = [];
 				currentLessonProperties.forEach(function(property, index) {
 					property.order = newLessonProperties[index].order;
 					property.weekId = newLessonProperties[index].weekId;
