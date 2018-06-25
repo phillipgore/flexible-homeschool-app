@@ -11,7 +11,12 @@
 							<div class="dropdown-arrow"></div>
 							{{#each student in students}}
 								<li class="dropdown-item">
-									<a id="{{studentSchoolYearSubjectId student._id selectedSchoolYearId}}" data-subject-student="{{student._id}}" data-subject-school-year="{{selectedSchoolYearId}}" class="js-subject dropdown-item-link" href="/planning/subjects/view/{{student._id}}/{{selectedSchoolYearId}}/{{studentSchoolYearSubjectId student._id selectedSchoolYearId}}">
+									<a id="{{studentSchoolYearSubjectId student._id selectedSchoolYearId}}" 
+										data-subject-student="{{student._id}}" 
+										data-subject-school-year="{{selectedSchoolYearId}}" 
+										class="js-subject dropdown-item-link" 
+										href="/planning/subjects/view/{{student._id}}/{{selectedSchoolYearId}}/{{studentSchoolYearSubjectId student._id selectedSchoolYearId}}"
+									>
 										<div class="dropdown-item-label">{{student.preferredFirstName.name}} {{student.lastName}}</div>
 										{{#if activeListItem selectedStudent._id student._id}}
 											<div class="dropdown-item-icon-right">

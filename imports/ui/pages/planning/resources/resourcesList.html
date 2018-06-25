@@ -27,11 +27,15 @@
 									<span class="print-only-inline {{availability resource.availability}}">{{availabilityText resource.availability}}</span>
 								</div>
 								{{#if isLink resource.type}}
-									<i class="fss-circle txt-primary font-size-21 print-hide fl-tn-right txt-tn-right"></i>
+									<div class="list-item-dropdown-loader">
+										<i class="fss-circle txt-primary font-size-21 print-hide fl-tn-right txt-tn-right m-tn-r-9 m-tn-t-neg-2" title="Links are always available."></i>
+									</div>
 								{{/if}}
 							</a>
 							{{#unless isLink resource.type}}
-								<div class="list-item-dropdown-loader hide"><i class="fss-searching fss-spin txt-gray-darkest"></i></div>
+								<div class="list-item-dropdown-loader hide">
+									<div class="loader-icon loader-icon-xs fl-tn-right m-tn-r-9"></div>
+								</div>
 								<a href="#" data-menu="#dropdown{{resource._id}}" class="js-dropdown print-hide list-item-dropdown {{availability resource.availability}}"></a>
 								<div id="dropdown{{resource._id}}" class="list-item-dropdown-menu print-hide hide">
 									<div class="list-item-dropdown-options clearfix">

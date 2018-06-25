@@ -30,21 +30,6 @@
 	height: 44px;
 	width: 44px;
 
-	&.loader-icon-sm {
-		height: 26px;
-		width: 26px;
-	}
-
-	&.loader-icon-xs {
-		height: 18px;
-		width: 18px;
-	}
-
-	&.loader-icon-tn {
-		height: 16px;
-		width: 16px;
-	}
-
 	&.loader-icon-center {
 		margin: 0px auto;
 	}
@@ -58,22 +43,69 @@
 		z-index: 10;
 		background-color: $color-gray-dark;
 		border-radius: 50%;
-		width: 80%;
-		height: 80%;
+		width: 34px;
+		height: 34px;
 	}
 
 	&:after {
 		content: "";
-		width: 50%;
-		height: 18%;
+		width: 22px;
+		height: 8px;
 		background-color: $color-gray-dark;
 		position: absolute;
-		top: 50%;
-		left: 0%;
-		transform: translateY(-50%);
+		top: 18px;
+		left: 0;
 		z-index: 20;
 		animation: rotation 1.0s infinite linear;
-		transform-origin: right top;
+		transform-origin: right center;
+	}
+
+	&.loader-icon-sm {
+		height: 26px;
+		width: 26px;
+
+		&:before {
+			width: 20px;
+			height: 20px;
+		}
+
+		&:after {
+			top: 11px;
+			width: 13px;
+			height: 4px;
+		}
+	}
+
+	&.loader-icon-xs {
+		height: 18px;
+		width: 18px;
+
+		&:before {
+			width: 14px;
+			height: 14px;
+		}
+
+		&:after {
+			top: 7px;
+			width: 9px;
+			height: 4px;
+		}
+	}
+
+	&.loader-icon-tn {
+		height: 16px;
+		width: 16px;
+
+		&:before {
+			width: 12px;
+			height: 12px;
+		}
+
+		&:after {
+			top: 6px;
+			width: 8px;
+			height: 4px;
+		}
 	}
 }
 

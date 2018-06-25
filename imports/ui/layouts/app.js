@@ -215,8 +215,22 @@ Template.app.events({
 	},
 
 	'click .js-report'(event) {
-		Session.set('selectedReportId', $(event.currentTarget).attr('id'));
-	}
+		Session.set({
+			selectedReportId: $(event.currentTarget).attr('id')
+		});
+	},
+
+	'click .js-report-student'(event) {
+		Session.set({
+			selectedStudentId: $(event.currentTarget).attr('id')
+		});
+	},
+
+	'click .js-report-school-year'(event) {
+		Session.set({
+			selectedStudentId: $(event.currentTarget).attr('id')
+		});
+	},
 });
 
 

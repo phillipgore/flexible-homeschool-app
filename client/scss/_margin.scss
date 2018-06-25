@@ -647,6 +647,33 @@
 
 
 
+  /* --------------- Margin -2px --------------- */
+
+  /* Margin: One Side -2px */
+  .m-tn-t-neg-2 { margin-top: -2px; }
+  .m-tn-r-neg-2 { margin-right: -2px; }
+  .m-tn-b-neg-2 { margin-bottom: -2px; }
+  .m-tn-l-neg-2 { margin-left: -2px; }
+
+  /* Margin: Two Sides -2px */
+  .m-tn-tr-neg-2 { margin-top: -2px; margin-right: -2px; }
+  .m-tn-tb-neg-2, .m-tn-v-neg-2 { margin-top: -2px; margin-bottom: -2px; }
+  .m-tn-tl-neg-2 { margin-top: -2px; margin-left: -2px; }
+  .m-tn-rb-neg-2 { margin-right: -2px; margin-bottom: -2px; }
+  .m-tn-rl-neg-2, .m-tn-h-neg-2 { margin-right: -2px; margin-left: -2px; }
+  .m-tn-bl-neg-2 { margin-bottom: -2px; margin-left: -2px; }
+
+  /* Margin: Three Sides -2px */
+  .m-tn-trb-neg-2 { margin-top: -2px; margin-right: -2px; margin-bottom: -2px; }
+  .m-tn-trl-neg-2 { margin-top: -2px; margin-right: -2px; margin-left: -2px; }
+  .m-tn-tbl-neg-2 { margin-top: -2px; margin-bottom: -2px; margin-left: -2px; }
+  .m-tn-rbl-neg-2 { margin-right: -2px; margin-bottom: -2px; margin-left: -2px; }
+
+  /* Margin: Four Sides -2px */
+  .m-tn-neg-2, .m-tn-trbl-neg-2 { margin: -2px; }
+
+
+
   /* --------------- Margin -3px --------------- */
 
   /* Margin: One Side -3px */

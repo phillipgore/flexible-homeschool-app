@@ -19,81 +19,9 @@ Template.reportingSubjects.helpers({
 		return Reports.findOne({_id: FlowRouter.getParam('selectedReportId')})
 	},
 
-	// subjects: function() {
-	// 	return Subjects.find()
-	// },
-
 	subjects: function() {
 		return Subjects.find({studentId: FlowRouter.getParam('selectedStudentId'), schoolYearId: FlowRouter.getParam('selectedSchoolYearId')});
 	},
-
-
-
-
-	// // School Year Totals
-	// termsCountSubject: function(subjectId) {
-	// 	let weekIds = Lessons.find({subjectId: subjectId}).map(lesson => (lesson.weekId));
-	// 	return _.uniq( Weeks.find({_id: {$in: weekIds}}).map(week => (week.termId)) ).length;
-	// },
-
-	// subjectsAverageLessons: function(subjectId) {
-	// 	let lessonCompletionTimes = Lessons.find({subjectId: subjectId, completed: true}).map(lesson => (lesson.completionTime)).filter(time => (time != undefined));
-	// 	let minutes = _.sum(lessonCompletionTimes) / lessonCompletionTimes.length;
-	// 	return minutesConvert(minutes);
-	// },
-
-	// weeksCountSubject: function(subjectId) {
-	// 	return _.uniq( Lessons.find({subjectId: subjectId}).map(lesson => (lesson.weekId)) ).length;
-	// },
-
-	// lessonsCountSubject: function(subjectId) {
-	// 	return Lessons.find({subjectId: subjectId}).count();
-	// },
-
-
-
-
-	// // Subjects Progress and Percentages
-	// subjectsProgress: function(subjectId) {
-	// 	let lessonsTotal = Lessons.find({subjectId: subjectId}).count();
-	// 	let lessonsCompletedTotal = Lessons.find({subjectId: subjectId, completed: true}).count();
-	// 	let percentComplete = lessonsCompletedTotal / lessonsTotal * 100;
-
-	// 	if (percentComplete > 0 && percentComplete < 1) {
-	// 		return 1;
-	// 	}
-	// 	return Math.floor(percentComplete);
-	// },
-
-	// subjectsProgressStatus: function(subjectId) {
-	// 	let lessonsIncompleteTotal = Lessons.find({subjectId: subjectId, completed: false}).count();
-
-	// 	if (!lessonsIncompleteTotal) {
-	// 		return 'meter-progress-primary';
-	// 	}
-	// 	return false;
-	// },
-
-	// subjectsTotalTime: function(subjectId) {
-	// 	let lessonCompletionTimes = Lessons.find({subjectId: subjectId, completed: true}).map(lesson => (lesson.completionTime)).filter(time => (time != undefined));
-	// 	let minutes = _.sum(lessonCompletionTimes);
-	// 	return minutesConvert(minutes);
-	// },
-
-	// subjectsAverageWeeks: function(subjectId) {
-	// 	let weeksTotal = _.uniq( Lessons.find({subjectId: subjectId, completed: true}).map(lesson => (lesson.weekId)) ).length;
-	// 	let lessonCompletionTimes = Lessons.find({subjectId: subjectId, completed: true}).map(lesson => (lesson.completionTime)).filter(time => (time != undefined));
-	// 	let minutes = _.sum(lessonCompletionTimes) / weeksTotal;
-	// 	return minutesConvert(minutes); 
-	// },
-
-	// subjectsAverageTerms: function(subjectId) {
-	// 	let weekIds = _.uniq( Lessons.find({subjectId: subjectId, completed: true}).map(lesson => (lesson.weekId)) );
-	// 	let termsTotal = _.uniq( Weeks.find({_id: {$in: weekIds}}).map(week => (week.termId)) ).length;
-	// 	let lessonCompletionTimes = Lessons.find({subjectId: subjectId, completed: true}).map(lesson => (lesson.completionTime)).filter(time => (time != undefined));
-	// 	let minutes = _.sum(lessonCompletionTimes) / termsTotal;
-	// 	return minutesConvert(minutes); 
-	// },
 
 	lastSubject: function(index, subjectCount) {
 		if (index + 1 === subjectCount) {
@@ -101,8 +29,6 @@ Template.reportingSubjects.helpers({
 		}
 		return false;
 	},
-
-
 
 	// Subject Resources
 	resources: function(resourceIds) {

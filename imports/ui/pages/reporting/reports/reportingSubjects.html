@@ -49,16 +49,21 @@
 							</div>
 						{{/if}}
 						{{#if report.subjectsResourcesVisible}}
-							{{#if subject.subjectResources.length}}
-								<div class="view-info no-border p-tn-12 m-tn-b-18">
-									{{#each resource in resources subject.subjectResources}}
+							<div class="view-info no-border p-tn-12 m-tn-b-18">
+								{{#if subject.resources.length}}
+									{{#each resource in resources subject.resources}}
 										<p class="font-weight-normal">
 											<i class="txt-primary {{resourceIcon resource.type}}"></i>
 											{{resource.title}}
 										</p>
 									{{/each}}
-								</div>
-							{{/if}}
+								{{else}}
+									<p class="font-weight-normal">
+										<i class="txt-primary fss-resources"></i>
+										No Resources
+									</p>
+								{{/if}}
+							</div>
 						{{/if}}
 					</div>
 				{{/each}}
