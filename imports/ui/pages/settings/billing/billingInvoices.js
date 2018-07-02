@@ -5,11 +5,7 @@ Template.billingInvoices.onCreated( function() {
 	// Subscriptions
 	Meteor.call('getUpcomingInvoices', function(error, result) {
 		if (error) {
-			Alerts.insert({
-				colorClass: 'bg-danger',
-				iconClass: 'fss-danger',
-				message: error.reason,
-			});
+			Session.set('upcomingInvoices', false);
 		} else {
 			Session.set('upcomingInvoices', result);
 		}
@@ -51,6 +47,9 @@ Template.billingInvoices.onRendered( function() {
 Template.billingInvoices.helpers({
 	dataReady: function() {
 		if (Session.get('upcomingInvoices') && Session.get('invoices') && Session.get('card')) {
+			return true;
+		}
+		if (!Session.get('upcomingInvoices') && Session.get('invoices') && Session.get('card')) {
 			return true;
 		}
 		return false;

@@ -42,6 +42,8 @@ function checkSignIn(context, redirect) {
 function checkSignOut(context, redirect) {
 	if (!Meteor.userId()) {
 		redirect('/sign-in');
+	} else if (!Meteor.user().status.active) {
+		redirect('/paused/user');
 	}
 };
 
@@ -183,7 +185,8 @@ FlowRouter.triggers.enter([initialData, checkSignOut, checkPaymentError], {excep
 	'resetSent',
 	'resetPassword',
 	'resetSuccess',
-	'billingError'
+	'billingError',
+	'pausedUser'
 ]});
 
 FlowRouter.triggers.enter([resetSessions]);
@@ -201,7 +204,8 @@ FlowRouter.triggers.enter([checkSubscriptionPaused], {except: [
 	'billingList', 
 	'billingInvoices', 
 	'billingEdit', 
-	'supportList'
+	'supportList',
+	'pausedUser'
 ]});
 
 FlowRouter.triggers.enter([checkRoleUser], {only: [

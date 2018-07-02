@@ -237,7 +237,8 @@ hr {
 	.resetSent,
 	.resetPassword,
 	.resetSuccess,
-	.billingError {
+	.billingError,
+	.pausedUser {
 		.frame-one {
 			width: 66.66666%;
 			float: none;
@@ -322,7 +323,8 @@ hr {
 	.resetSent,
 	.resetPassword,
 	.resetSuccess,
-	.billingError {
+	.billingError,
+	.pausedUser {
 		.frame-one {
 			width: 100%;
 		}

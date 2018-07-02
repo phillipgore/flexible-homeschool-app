@@ -10,7 +10,7 @@ Template.toolbar.helpers({
 	},
 	
 	logo: function() {
-		if(Meteor.userId()) {
+		if(Meteor.userId() && Meteor.user().status.active) {
 			return false;
 		}
 		return true;

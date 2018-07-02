@@ -15,31 +15,7 @@
 					{{#if group.stripePaymentAttempt}}<div class="list-item-badge"></div>{{/if}}
 				</a>
 			</li>
-			<li class="list-spacer"></li>
-			{{#if accountPausedOrPending group.subscriptionStatus}}
-				<li class="list-item">
-					<a href="#" id="{{group._id}}" class="js-unpause-account list-item-link bg-white p-tn-rl-9">
-						<div class="list-item-icon"><i class="txt-primary fss-play-circle"></i></div> 
-						<div class="list-item-label">Unpause Account</div>
-						<div class="list-item-loading"></div> 
-					</a>
-				</li>
-			{{else}}
-				<li class="list-item">
-					<a href="#" id="{{group._id}}" class="js-pause-account list-item-link bg-white p-tn-rl-9">
-						<div class="list-item-icon"><i class="txt-primary fss-pause-circle"></i></div> 
-						<div class="list-item-label">Pause Account</div>
-						<div class="list-item-loading"></div>
-					</a>
-				</li>
-			{{/if}}
 		</ul>
-		{{#if accountPausePending group.subscriptionStatus}}
-			<p class="m-tn-18 txt-gray-darkest">Your account is set to pause on {{dateFormat group.subscriptionPausedOn}}. At that time you will not be able to access your data. You may unpause your account at any time before or after the pause date.</p>
-		{{/if}}
-		{{#if accountPaused group.subscriptionStatus}}
-			<p class="m-tn-18 txt-gray-darkest">Your account is paused. You are not being billed nor do you have acces to your data. You may unpause your account at any time.</p>
-		{{/if}}
 	</main>
 	{{#unless dataReady}}
 		{{> loading}}

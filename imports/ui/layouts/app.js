@@ -17,6 +17,10 @@ Template.app.onRendered( function() {
 });
 
 Template.app.helpers({
+	userId: function() {
+		return Meteor.userId();
+	},
+
 	windowHeight: function() {
 		return Session.get('windowHeight');
 	},

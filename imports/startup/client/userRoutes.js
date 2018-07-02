@@ -4,6 +4,8 @@ FlowRouter.route('/', {
 		BlazeLayout.render('app', {
 			subbar: 'subbarAccounts',
 			frameOne: 'createAccount',
+			frameTwo: '',
+			frameThree: '',
 		});
 	},
 });
@@ -14,6 +16,8 @@ FlowRouter.route('/verify/sent', {
 		BlazeLayout.render('app', {
 			subbar: 'subbarAccounts',
 			frameOne: 'verifySent',
+			frameTwo: '',
+			frameThree: '',
 		});
 	},
 });
@@ -37,6 +41,8 @@ FlowRouter.route('/verify/success', {
 		BlazeLayout.render('app', {
 			subbar: 'subbarAccounts',
 			frameOne: 'verifySuccess',
+			frameTwo: '',
+			frameThree: '',
 		});
 	},
 });
@@ -47,6 +53,8 @@ FlowRouter.route('/sign-in', {
 		BlazeLayout.render('app', {
 			subbar: 'subbarAccounts',
 			frameOne: 'signIn',
+			frameTwo: '',
+			frameThree: '',
 		});
 	},
 });
@@ -57,6 +65,8 @@ FlowRouter.route('/reset', {
 		BlazeLayout.render('app', {
 			subbar: 'subbarAccounts',
 			frameOne: 'reset',
+			frameTwo: '',
+			frameThree: '',
 		});
 	},
 });
@@ -67,6 +77,8 @@ FlowRouter.route('/reset/sent', {
 		BlazeLayout.render('app', {
 			subbar: 'subbarAccounts',
 			frameOne: 'resetSent',
+			frameTwo: '',
+			frameThree: '',
 		});
 	},
 });
@@ -77,6 +89,8 @@ FlowRouter.route('/reset/password/:token', {
         BlazeLayout.render('app', {
 			subbar: 'subbarAccounts',
 			frameOne: 'resetPassword',
+			frameTwo: '',
+			frameThree: '',
 		});
     },
 });
@@ -87,6 +101,20 @@ FlowRouter.route('/reset/success', {
 		BlazeLayout.render('app', {
 			subbar: 'subbarAccounts',
 			frameOne: 'resetSuccess',
+			frameTwo: '',
+			frameThree: '',
+		});
+	},
+});
+
+FlowRouter.route('/paused/user', {
+	name: 'pausedUser',
+	action() {
+		BlazeLayout.render('app', {
+			subbar: '',
+			frameOne: 'pausedUser',
+			frameTwo: '',
+			frameThree: '',
 		});
 	},
 });
