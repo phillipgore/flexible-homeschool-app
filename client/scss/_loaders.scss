@@ -4,7 +4,7 @@
 	right: 0px;
 	bottom: 0px;
 	left: 0px;
-	z-index: 1000;
+	z-index: 800;
 	background-color: $color-gray-dark;
 	color: $color-white;
 	text-align: center;
@@ -56,7 +56,7 @@
 		top: 18px;
 		left: 0;
 		z-index: 20;
-		animation: rotation 1.0s infinite linear;
+		animation: rotation 0.75s infinite linear;
 		transform-origin: right center;
 	}
 

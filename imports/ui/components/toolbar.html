@@ -100,7 +100,7 @@
 							<!-- Action Dropdown Button -->
 							<div class="btn-tool-dropdown dis-sm-none">
 								<a class="js-dropdown btn-tool" data-menu="#action" href="#" title="action">
-									<i class="fss-actions btn-tool-icon" titel="Edit, Delete or Print"></i>
+									<i class="fss-actions btn-tool-icon" title="Edit or Delete"></i>
 								</a>
 								<ul id="action" class="dropdown-menu dropdown-tool border-none txt-tn-left m-tn-rl-9 hide">
 									<div class="dropdown-arrow"></div>
@@ -113,12 +113,6 @@
 									<li class="dropdown-item">
 										<a class="{{deleteClass}} dropdown-item-link {{#unless editableDeletable}}disabled{{/unless}} {{#unless deletable}}disabled{{/unless}}" href="#">
 											<i class="fss-delete fss-fw-16 m-tn-r-4"></i> Delete
-										</a>
-									</li>
-									<li class="dropdown-divider"></li>
-									<li class="dropdown-item">
-										<a class="dropdown-item-link" href="#">
-											<i class="fss-print fss-fw-16 m-tn-r-4"></i> Print
 										</a>
 									</li>
 								</ul>
@@ -205,13 +199,6 @@
 						<!-- Delete Button -->
 						<a class="{{deleteClass}} btn-tool dis-tn-none dis-sm-inline-block {{#unless editableDeletable}}disabled{{/unless}} {{#unless deletable}}disabled{{/unless}}" href="#" title="{{#if deletable}}Delete Selection{{else}}Disabled{{/if}}">
 							<i class="fss-delete btn-tool-icon"></i>
-						</a>
-
-						<div class="btn-tool-spacer"></div>
-
-						<!-- Print Button -->
-						<a class="js-print btn-tool dis-tn-none dis-sm-inline-block" href="#" title="Print">
-							<i class="fss-print btn-tool-icon"></i>
 						</a>
 					</div>
 				</div>

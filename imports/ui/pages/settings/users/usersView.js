@@ -106,8 +106,9 @@ Template.usersView.events({
 
 		let userId = $(event.currentTarget).attr('id');
 		let emailAddress = $(event.currentTarget).attr('data-user-email');
+		let userName = $(event.currentTarget).attr('data-user-name');
 
-		Meteor.call('resendVerificationEmail', userId, emailAddress, function(error, result) {
+		Meteor.call('sendVerificationEmail', userId, emailAddress, function(error, result) {
 			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',
@@ -118,7 +119,7 @@ Template.usersView.events({
 				Alerts.insert({
 					colorClass: 'bg-info',
 					iconClass: 'fss-email',
-					message: 'We resent this user an email with a verification link.',
+					message: 'We resent ' + userName + ' an email with a verification link. It may take a few minutes for the email to arrive.',
 				});
 				$('.loading-sending').hide();
 			}

@@ -100,6 +100,14 @@ Template.billingEdit.helpers({
 });
 
 Template.billingEdit.events({
+	'click .js-cancel'(event) {
+		event.preventDefault();
+
+		Session.setPersistent('selectedFramePosition', 2);
+		Session.setPersistent('selectedFrameClass', 'frame-position-two');
+		FlowRouter.go('/settings/billing/invoices')
+	},
+
 	'submit .js-form-update-credit-card'(event) {
 		event.preventDefault();
 		$('.js-loading').show();

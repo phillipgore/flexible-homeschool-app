@@ -24,13 +24,14 @@ Meteor.publish('allSchoolYearsPath', function() {
 			return this.ready();
 		}
 
-		Terms.find();
-		Weeks.find();
-		Lessons.find();
-
 		let self = this;
 
 		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
+
+		// Terms.find({groupId: groupId});
+		// Weeks.find({groupId: groupId});
+		// Lessons.find({groupId: groupId});
+
 		let schoolYears = SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}, fields: {startYear: 1, endYear: 1}});
 
 		schoolYears.map((schoolYear) => {
@@ -48,13 +49,14 @@ Meteor.publish('studentSchoolYearsPath', function(studentId) {
 			return this.ready();
 		}
 
-		Terms.find();
-		Weeks.find();
-		Lessons.find();
-
 		let self = this;
 
 		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
+
+		// Terms.find({groupId: groupId});
+		// Weeks.find({groupId: groupId});
+		// Lessons.find({groupId: groupId});
+
 		let schoolYears = SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}, fields: {startYear: 1, endYear: 1}});
 
 		schoolYears.map((schoolYear) => {
@@ -75,19 +77,22 @@ Meteor.publish('schoolYearView', function(schoolYearId) {
 		let self = this;
 
 		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-		let schoolYears = SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }, _id: schoolYearId});
+		let schoolYear = SchoolYears.findOne({groupId: groupId, deletedOn: { $exists: false }, _id: schoolYearId});
 		let terms = Terms.find({groupId: groupId, deletedOn: { $exists: false }, schoolYearId: schoolYearId});
 
 		termStats = []
+
 		terms.forEach((term) => {
-			let weekCount = Weeks.find({groupId: groupId, deletedOn: { $exists: false }, termId: term._id}).count()
-			termStats.push({termOrder: term.order, weekCount: weekCount})
+			let weekCount = Weeks.find({groupId: groupId, deletedOn: { $exists: false }, termId: term._id}).count();
+			if (!_.find(termStats, { 'termOrder': term.order, 'weekCount': weekCount })) {
+				termStats.push({termOrder: term.order, weekCount: weekCount})
+			}	
 		})
 
-		schoolYears.map((schoolYear) => {
-			schoolYear.termStats = termStats;
+		if (schoolYear) {
+			schoolYear.termStats = _.uniq(termStats);
 			self.added('schoolYears', schoolYear._id, schoolYear);
-		});
+		}
 
 		self.ready();
 	});

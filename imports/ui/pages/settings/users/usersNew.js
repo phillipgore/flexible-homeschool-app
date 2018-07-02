@@ -52,9 +52,7 @@ Template.usersNew.onRendered( function() {
 
 			Meteor.call('insertUser', userProperties, function(error, userId) {
 				if (error) {
-					if (error.reason === 'unverified') {
-						FlowRouter.go('/settings/users/verify/sent/' + userId);
-					} else {
+					if (error.reason != 'unverified') {
 						Alerts.insert({
 							colorClass: 'bg-danger',
 							iconClass: 'fss-danger',
@@ -65,12 +63,22 @@ Template.usersNew.onRendered( function() {
 						$('.js-submit').prop('disabled', false);
 					}
 				} else {
-					Alerts.insert({
-						colorClass: 'bg-info',
-						iconClass: 'fss-email',
-						message: 'We sent your new user an email with a verification link.',
+					Meteor.call('sendVerificationEmail', userId, userProperties.email, function(error, result) {
+						if (error) {
+							Alerts.insert({
+								colorClass: 'bg-danger',
+								iconClass: 'fss-danger',
+								message: error.reason,
+							});
+						} else {
+							FlowRouter.go('/settings/users/view/' + userId);
+							Alerts.insert({
+								colorClass: 'bg-info',
+								iconClass: 'fss-email',
+								message: 'We sent ' + userProperties.info.firstName +' '+ userProperties.info.lastName + ' an email with a verification link. It may take a few minutes for the email to arrive.',
+							});
+						}
 					});
-					FlowRouter.go('/settings/users/view/' + userId);
 				}
 			});
 

@@ -98,7 +98,9 @@ Template.resourcesView.events({
 					message: error.reason,
 				});
 			} else {
-				Session.set('selectedResourceId', newResource._id)
+				Session.set('selectedResourceId', newResource._id);
+				Session.setPersistent('selectedFramePosition', 2);
+				Session.setPersistent('selectedFrameClass', 'frame-position-two');
 				FlowRouter.go('/planning/resources/view/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/'+ newResource._id +'/'+ newResource.type);
 				$('.loading-deleting').hide();
 			}

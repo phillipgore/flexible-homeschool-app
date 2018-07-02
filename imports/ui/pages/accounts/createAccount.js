@@ -29,10 +29,7 @@ Template.createAccount.helpers({
 Template.createAccount.events({
 	'submit .js-form-create-account'(event) {
 		event.preventDefault();
-		$('.js-loading').show();
-		$('.js-submit').prop('disabled', true);
-
-
+		
 		// let groupProperties = {
 		// 	subscriptionStatus: 'pending',
 		// }
@@ -142,6 +139,8 @@ Template.createAccount.events({
 
 		
 		if (cardValidation() && accountForm.indexOf(false) === -1) {
+			$('.js-loading').show();
+			$('.js-submit').prop('disabled', true);
 			Meteor.call('insertGroup', function(error, groupId) {
 				if (error) {
 					Alerts.insert({

@@ -150,10 +150,6 @@ Template.toolbar.helpers({
 });
 
 Template.toolbar.events({
-	'click .js-print'(event) {
-		window.print();
-	},
-
 	'click .js-new-subject'(event) {
 		event.preventDefault();
 

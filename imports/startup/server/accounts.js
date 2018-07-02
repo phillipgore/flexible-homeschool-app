@@ -9,8 +9,9 @@ Meteor.methods({
 		return userId
 	},
 
-	resendVerificationEmail: function(userId, email) {
+	sendVerificationEmail: function(userId, email) {
 		Accounts.sendVerificationEmail(userId, email);
+		return userId
 	},
 });
 

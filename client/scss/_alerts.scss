@@ -3,7 +3,7 @@
 	top: 59px;
 	right: 0px;
 	left: 0px;
-	z-index: 800;
+	z-index: 900;
 
 	.alert {
 		position: relative;
@@ -28,7 +28,8 @@
 		}
 
 		.alert-message {
-			margin: 0px 30px;
+			margin: -3px 30px 0px;
+			line-height: 1.5;
 		}
 
 		.alert-close-icon {

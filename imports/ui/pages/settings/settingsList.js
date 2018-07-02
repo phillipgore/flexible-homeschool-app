@@ -71,8 +71,19 @@ Template.settingsList.events({
 		});
 	},
 
-	'click .js-reset-password '(event) {
+	'click .js-reset-password'(event) {
 		event.preventDefault();
+
+		Dialogs.insert({
+			heading: 'Confirmation',
+			message: 'You will be logged out and taken to the reset Password form.',
+			confirmClass: 'js-reset-password-confirmed',
+		});
+	},
+
+	'click .js-reset-password-confirmed'(event) {
+		event.preventDefault();
+		console.log('clicked')
 		$('.js-loading-signing-out').show();
 
 		Accounts.logout(function(error) {

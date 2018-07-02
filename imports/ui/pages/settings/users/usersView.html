@@ -22,7 +22,7 @@
 		</div>
 		{{#unless user.emails.[0].verified}}
 			<div class="row txt-tn-center m-tn-t-30">
-				<a id="{{user._id}}" data-user-email="{{user.emails.[0].address}}" href="#" class="js-resend-verificatin-email btn dis-tn-inline-block fl-tn-right">
+				<a id="{{user._id}}" data-user-email="{{user.emails.[0].address}}" data-user-name="{{user.info.firstName}} {{user.info.lastName}}" href="#" class="js-resend-verificatin-email btn dis-tn-inline-block fl-tn-right">
 					<i class="fss-email fss-fw-16 m-tn-r-4"></i> Resend Verification
 				</a>
 			</div>

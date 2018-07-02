@@ -216,19 +216,22 @@ Template.app.events({
 
 	'click .js-report'(event) {
 		Session.set({
-			selectedReportId: $(event.currentTarget).attr('id')
+			selectedReportId: $(event.currentTarget).attr('id'),
+			editUrl: '/reporting/edit/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ $(event.currentTarget).attr('id'),
 		});
 	},
 
 	'click .js-report-student'(event) {
 		Session.set({
-			selectedStudentId: $(event.currentTarget).attr('id')
+			selectedStudentId: $(event.currentTarget).attr('id'),
+			editUrl: '/reporting/edit/' + $(event.currentTarget).attr('id') +'/'+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedReportId'),
 		});
 	},
 
 	'click .js-report-school-year'(event) {
 		Session.set({
-			selectedStudentId: $(event.currentTarget).attr('id')
+			selectedSchoolYearId: $(event.currentTarget).attr('id'),
+			editUrl: '/reporting/edit/' + Session.get('selectedStudentId') +'/'+ $(event.currentTarget).attr('id') +'/'+ Session.get('selectedReportId'),
 		});
 	},
 });

@@ -142,7 +142,7 @@ function checkPaymentError(context, redirect) {
 
 function checkSubscriptionPaused(context, redirect) {
 	if (Groups.findOne().subscriptionStatus === 'paused') {
-		redirect('/settings/billing/list');
+		redirect('/settings/billing/invoices');
 	}
 };
 
@@ -156,6 +156,12 @@ function resetSessions(context) {
 		postalCode: 'none',
 	});
 };
+
+function clearAlerts(context) {
+	Alerts.remove({});
+};
+
+FlowRouter.triggers.enter(clearAlerts);
 
 FlowRouter.triggers.enter([checkSignIn], {only: [
 	'createAccount',
