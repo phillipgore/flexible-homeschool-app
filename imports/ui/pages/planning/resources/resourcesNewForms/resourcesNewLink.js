@@ -71,19 +71,25 @@ Template.resourcesNewLink.onRendered( function() {
 });
 
 Template.resourcesNewLink.helpers({
-	
+	selectedResourceType: function() {
+		return Session.get('selectedResourceType');
+	},
+
+	selectedResourceAvailability: function() {
+		return Session.get('selectedResourceAvailability');
+	},
+
+	selectedResourceId: function() {
+		return Session.get('selectedResourceId');
+	},
+
+	selectedResourceCurrentTypeId: function() {
+		return Session.get('selectedResourceCurrentTypeId');
+	},
 });
 
 Template.resourcesNewLink.events({
 	'submit .js-form-resources-link-new'(event) {
 		event.preventDefault();
-	},
-
-	'click .js-cancel'(event) {
-		event.preventDefault();
-		
-		Session.setPersistent('selectedFramePosition', 2);
-		Session.setPersistent('selectedFrameClass', 'frame-position-two');
-		FlowRouter.go('/planning/resources/view/' + Session.get('selectedResourceType') +'/'+ Session.get('selectedResourceAvailability') +'/'+ Session.get('selectedResourceId') +'/'+ Session.get('selectedResourceCurrentTypeId'));
 	},
 });

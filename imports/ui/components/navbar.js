@@ -93,7 +93,7 @@ Template.navbar.events({
 	},
 
 	'click .js-btn-nav'(event) {
-		Session.set('selectedFramePosition', 1);
+		Session.setPersistent('selectedFramePosition', 1);
 		Session.setPersistent('selectedFrameClass', 'frame-position-one');
 	},
 });

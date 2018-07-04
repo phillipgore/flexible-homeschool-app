@@ -77,8 +77,20 @@ Template.reportingNew.onRendered( function() {
 	});
 });
 
+
+
 Template.reportingNew.helpers({
-	
+	selectedStudentId: function() {
+		return Session.get('selectedStudentId');
+	},
+
+	selectedSchoolYearId: function() {
+		return Session.get('selectedSchoolYearId');
+	},
+
+	selectedReportId: function() {
+		return Session.get('selectedReportId');
+	},
 });
 
 Template.reportingNew.events({
@@ -92,13 +104,5 @@ Template.reportingNew.events({
 
 	'submit .js-form-reports-new'(event) {
 		event.preventDefault();
-	},
-
-	'click .js-cancel'(event) {
-		event.preventDefault();
-		
-		Session.setPersistent('selectedFramePosition', 1);
-		Session.setPersistent('selectedFrameClass', 'frame-position-one');
-		FlowRouter.go('/reporting/view/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedReportId'))
 	},
 });

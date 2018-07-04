@@ -164,7 +164,7 @@ Template.toolbar.events({
 		Dialogs.insert({
 			heading: 'Confirmation',
 			message: 'Are you sure you want to delete this Student?',
-			confirmClass: 'js-delete-student-confirmed',
+			confirmClass: 'js-delete js-delete-student-confirmed',
 		});
 	},
 
@@ -174,7 +174,7 @@ Template.toolbar.events({
 		Dialogs.insert({
 			heading: 'Confirmation',
 			message: 'Are you sure you want to delete this School Year?',
-			confirmClass: 'js-delete-school-year-confirmed',
+			confirmClass: 'js-delete js-delete-school-year-confirmed',
 		});
 	},
 	
@@ -184,7 +184,7 @@ Template.toolbar.events({
 		Dialogs.insert({
 			heading: 'Confirmation',
 			message: 'Are you sure you want to delete this Resource?',
-			confirmClass: 'js-delete-resource-confirmed',
+			confirmClass: 'js-delete js-delete-resource-confirmed',
 		});
 	},
 
@@ -194,7 +194,7 @@ Template.toolbar.events({
 		Dialogs.insert({
 			heading: 'Confirmation',
 			message: 'Are you sure you want to delete this Subject?',
-			confirmClass: 'js-delete-subject-confirmed',
+			confirmClass: 'js-delete js-delete-subject-confirmed',
 		});
 	},
 
@@ -204,7 +204,7 @@ Template.toolbar.events({
 		Dialogs.insert({
 			heading: 'Confirmation',
 			message: 'Are you sure you want to delete this Report?',
-			confirmClass: 'js-delete-report-confirmed',
+			confirmClass: 'js-delete js-delete-report-confirmed',
 		});
 	},
 
@@ -213,7 +213,7 @@ Template.toolbar.events({
 			Dialogs.insert({
 				heading: 'Confirmation',
 				message: 'Are you sure you want to delete this User?',
-				confirmClass: 'js-delete-user-confirmed',
+				confirmClass: 'js-delete js-delete-user-confirmed',
 			});
 		}
 	},

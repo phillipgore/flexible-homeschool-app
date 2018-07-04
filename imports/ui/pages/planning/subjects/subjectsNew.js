@@ -127,7 +127,7 @@ Template.subjectsNew.onRendered( function() {
 			return false;
 		}
 	});
-})
+});
 
 Template.subjectsNew.helpers({
 	subscriptionReady: function() {
@@ -169,6 +169,10 @@ Template.subjectsNew.helpers({
 
 	selectedStudentId: function() {
 		return Session.get('selectedStudentId');
+	},
+
+	selectedSubjectId: function() {
+		return Session.get('selectedSubjectId');
 	},
 });
 
@@ -239,14 +243,6 @@ Template.subjectsNew.events({
 
 	'submit .js-form-subjects-new'(event) {
 		event.preventDefault();
-	},
-
-	'click .js-cancel'(event) {
-		event.preventDefault();
-		
-		Session.setPersistent('selectedFramePosition', 2);
-		Session.setPersistent('selectedFrameClass', 'frame-position-two');
-		FlowRouter.go('/planning/subjects/view/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ Session.get('selectedSubjectId'));
 	},
 });
 

@@ -104,7 +104,7 @@ Template.app.events({
 		Session.setPersistent('selectedFrameClass', 'frame-position-three');
 	},
 
-	'click .js-btn-back'(event) {
+	'click .js-btn-back, click .js-cancel, click .js-delete'(event) {
 		let newFramePosition = Session.get('selectedFramePosition') - 1;
 
 		if (newFramePosition === 2) {

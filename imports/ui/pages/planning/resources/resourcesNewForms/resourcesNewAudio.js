@@ -75,19 +75,25 @@ Template.resourcesNewAudio.onRendered( function() {
 });
 
 Template.resourcesNewAudio.helpers({
-	
+	selectedResourceType: function() {
+		return Session.get('selectedResourceType');
+	},
+
+	selectedResourceAvailability: function() {
+		return Session.get('selectedResourceAvailability');
+	},
+
+	selectedResourceId: function() {
+		return Session.get('selectedResourceId');
+	},
+
+	selectedResourceCurrentTypeId: function() {
+		return Session.get('selectedResourceCurrentTypeId');
+	},
 });
 
 Template.resourcesNewAudio.events({
 	'submit .js-form-resources-audio-new'(event) {
 		event.preventDefault();
-	},
-
-	'click .js-cancel'(event) {
-		event.preventDefault();
-		
-		Session.setPersistent('selectedFramePosition', 2);
-		Session.setPersistent('selectedFrameClass', 'frame-position-two');
-		FlowRouter.go('/planning/resources/view/' + Session.get('selectedResourceType') +'/'+ Session.get('selectedResourceAvailability') +'/'+ Session.get('selectedResourceId') +'/'+ Session.get('selectedResourceCurrentTypeId'));
 	},
 });

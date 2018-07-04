@@ -101,12 +101,4 @@ Template.studentsNew.events({
 	'submit .js-form-students-new'(event) {
 		event.preventDefault();
 	},
-
-	'click .js-cancel'(event) {
-		event.preventDefault();
-		
-		Session.setPersistent('selectedFramePosition', 2);
-		Session.setPersistent('selectedFrameClass', 'frame-position-two');
-		FlowRouter.go('/planning/students/view/' + Session.get('selectedStudentId'));
-	},
 });

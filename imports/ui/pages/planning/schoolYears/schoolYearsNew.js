@@ -182,12 +182,4 @@ Template.schoolYearsNew.events({
 	'submit .js-form-school-year-new'(event) {
 		event.preventDefault();
 	},
-
-	'click .js-cancel'(event) {
-		event.preventDefault();
-		
-		Session.setPersistent('selectedFramePosition', 2);
-		Session.setPersistent('selectedFrameClass', 'frame-position-two');
-		FlowRouter.go('/planning/schoolyears/view/' + Session.get('selectedSchoolYearId'));
-	},
 });
