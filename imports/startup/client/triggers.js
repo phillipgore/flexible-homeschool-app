@@ -54,7 +54,6 @@ function initialData(context) {
 		Session.setPersistent('selectedFrameClass', 'frame-position-one');
 	}
 
-
 	// Initial Resources
 	if (!Session.get('selectedResourceType')) {
 		Session.set('selectedResourceType', 'all');

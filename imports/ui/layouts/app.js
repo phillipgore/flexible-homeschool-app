@@ -11,6 +11,15 @@ import _ from 'lodash'
 Alerts = new Mongo.Collection(null);
 
 Template.app.onRendered( function() {
+	$(window).on('popstate', function (event) {
+		history.go(1);
+		Alerts.insert({
+			colorClass: 'bg-info',
+			iconClass: 'fss-info',
+			message: "Sorry. Your browser's back button cannot handle the complications of modern single page web apps. We are investigating a solution.",
+		});
+	});
+
 	$('.loading-initializing').fadeOut('fast', function() {
 		$(this).remove();
 	});
@@ -105,6 +114,10 @@ Template.app.events({
 	},
 
 	'click .js-btn-back, click .js-cancel, click .js-delete'(event) {
+		if ($(event.currentTarget).hasClass('js-btn-back')) {
+			event.preventDefault();
+		}
+
 		let newFramePosition = Session.get('selectedFramePosition') - 1;
 
 		if (newFramePosition === 2) {

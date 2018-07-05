@@ -16,7 +16,6 @@ FlowRouter.route('/initializing', {
 
 
 
-
 Accounts.onLogout(() => {
 	Session.clear();
 });
