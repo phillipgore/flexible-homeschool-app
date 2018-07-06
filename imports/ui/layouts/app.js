@@ -12,6 +12,7 @@ Alerts = new Mongo.Collection(null);
 
 Template.app.onRendered( function() {
 	$(window).on('popstate', function (event) {
+		event.preventDefault();
 		history.go(1);
 		Alerts.insert({
 			colorClass: 'bg-info',
