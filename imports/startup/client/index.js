@@ -27,6 +27,10 @@ $(window).on('load', function (event) {
 	});
 });
 
+$(window).on('popstate', function (event) {
+	history.go(1);
+});
+
 $(window).resize(function(event) {
 	Session.set({
 		windowHeight: $(window).height(),

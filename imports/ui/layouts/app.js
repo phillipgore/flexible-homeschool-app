@@ -11,16 +11,6 @@ import _ from 'lodash'
 Alerts = new Mongo.Collection(null);
 
 Template.app.onRendered( function() {
-	$(window).on('popstate', function (event) {
-		event.preventDefault();
-		history.go(1);
-		Alerts.insert({
-			colorClass: 'bg-info',
-			iconClass: 'fss-info',
-			message: "Sorry. Your browser's back button cannot handle the complications of modern single page web apps. We are investigating a solution.",
-		});
-	});
-
 	$('.loading-initializing').fadeOut('fast', function() {
 		$(this).remove();
 	});
