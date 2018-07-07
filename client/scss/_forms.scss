@@ -11,7 +11,7 @@ form {
 		padding: 0px;
 		color: $color-primary;
 
-		&.error, &.cc-error {
+		&.error, &.cc-error, &.student-error  {
 			color: $color-danger;
 			font-weight: 300;
 			margin-top: -8px;
@@ -21,6 +21,11 @@ form {
 		&.cc-error {
 			margin-top: 4px;
 			margin-bottom: 0px
+		}
+
+		&.student-error {
+			margin-top: -6px;
+			margin-bottom: 12px
 		}
 	}
 

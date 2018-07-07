@@ -2,13 +2,23 @@
 	
 	<main class="app-content app-content-preceeds-toolbar app-content-form">
 		<form class="js-form-subjects-new row">
-
 			<h2 class="m-tn-b-9">Step 1: Information</h2>
+			<label class="m-tn-b-6">Students</label>
+			{{#each student in students}}
+				<div>
+					<label class="checkbox">
+						<input class="js-checkbox js-student-id" type="checkbox" name="studentId" id="{{student._id}}" value="{{isChecked student._id}}" checked="{{isChecked student._id}}">
+						<div class="checkbox-icon"></div> 
+						<div class="checkbox-label">{{student.preferredFirstName.name}} {{student.lastName}}</div>
+					</label>
+				</div>
+			{{/each}}
+			<label id="studentId-error" class="student-error hide" for="studentId">At least one student must be checked.</label>
 			<div class="well bg-gray-lighter m-tn-b-18">
 				<label>Subject Name</label>
 				<input type="text" name="name" id="name" placeholder="Math" autocomplete="off">
 				<label>Descripton</label>
-				<textarea class="m-tn-b-neg-3" name="description" id="description" placeholder="Learn basic mathematics..." rows="4"></textarea>
+				<textarea name="description" id="description" placeholder="Learn basic mathematics..." rows="4"></textarea>
 			</div>
 
 			<h2 class="m-tn-t-36 m-tn-b-9">Step 2: Resources</h2>
@@ -80,9 +90,17 @@
 			</div>
 
 			<h2 class="m-tn-t-36 m-tn-b-9">Step 3: Schedule</h2>
+			<label class="m-tn-b-3">School Year</label>
+			<div class="fss-select">
+				<select class="js-school-year-select" name="schoolYearId">
+					{{#each schoolYear in schoolYears}}
+						<option value="{{schoolYear._id}}" {{isSelected schoolYear._id}}>{{schoolYear.startYear}}-{{schoolYear.endYear}}</option>
+					{{/each}}
+				</select>
+			</div>
 			{{#each term in terms}}
 			<div id="{{term._id}}" class="well bg-gray-lighter m-tn-b-9">
-				<h3 class="m-tn-b-9">Term {{term.order}}: Times Per Week</h3>
+				<h3 class="m-tn-b-9">{{selectedSchoolYear.startYear}}-{{selectedSchoolYear.endYear}}: Term {{term.order}}: Times Per Week</h3>
 				<label>Preset All Weeks To</label>
 				<div class="fss-select">
 					<select data-term-id="{{term._id}}" class="js-times-per-week-preset" name="timesPerWeekPreset" id="times-per-week-preset">
@@ -97,7 +115,7 @@
 						<option value="7">7 Times Per Week</option>
 					</select>
 				</div>
-				<div class="row m-tn-rl-neg-3 m-tn-b-neg-12">
+				<div class="row m-tn-rl-neg-3 m-tn-b-neg-6">
 					{{#each week in weeks term._id}}
 					<div class="col-tn-1of5 p-tn-rl-3">
 						<label>Wk {{week.order}}</label>

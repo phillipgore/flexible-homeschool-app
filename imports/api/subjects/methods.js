@@ -22,5 +22,21 @@ Meteor.methods({
 		lessonIds.forEach(function(lessonId) {
 			Lessons.update(lessonId, {$set: {deletedOn: new Date()}});
 		});
-	}
+	},
+
+	batchInsertSubject(studentIds, subjectProperties, lessonProperties) {
+		newSubjects = []
+		studentIds.forEach(function(studentId) { 
+			subjectProperties.studentId = studentId;
+			const subjectId = Subjects.insert(subjectProperties);
+			newSubjects.push({studentId: studentId, subjectId: subjectId});
+
+			lessonProperties.forEach(function(lesson) {
+				lesson.subjectId = subjectId;
+				Lessons.insert(lesson);
+			});
+		});
+
+		return newSubjects;
+	},
 })

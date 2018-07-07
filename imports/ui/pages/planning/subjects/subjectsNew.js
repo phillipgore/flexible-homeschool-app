@@ -68,8 +68,14 @@ Template.subjectsNew.onRendered( function() {
 			$('.js-loading').show();
 			$('.js-submit').prop('disabled', true);
 
-			let resourceIds = []
+			let studentIds = []
+			event.target.studentId.forEach(function(student) {
+				if (student.value.trim() === 'true') {
+					studentIds.push(student.id)
+				}
+			});
 
+			let resourceIds = [];
 			LocalResources.find().forEach(function(resource) {
 				resourceIds.push(resource.id);
 			});
@@ -78,19 +84,17 @@ Template.subjectsNew.onRendered( function() {
 				name: event.target.name.value.trim(),
 				description: event.target.description.value.trim(),
 				resources: resourceIds,
-				studentId: FlowRouter.getParam('selectedStudentId'),
-				schoolYearId: FlowRouter.getParam('selectedSchoolYearId'),
-			}
+				schoolYearId: event.target.schoolYearId.value.trim(),
+			};
 
 			let lessonProperties = []
-
 			event.target.timesPerWeek.forEach(function(times, index) {
 				for (i = 0; i < parseInt(times.value); i++) { 
 				    lessonProperties.push({order: parseFloat((index + 1) + '.' + (i + 1)), weekId: times.dataset.weekId});
 				}
 			});
 
-			Meteor.call('insertSubject', subjectProperties, function(error, subjectId) {
+			Meteor.call('batchInsertSubject', studentIds, subjectProperties, lessonProperties, function(error, newSubjects) {
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',
@@ -101,26 +105,24 @@ Template.subjectsNew.onRendered( function() {
 					$('.js-loading').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
-					lessonProperties.forEach(function(lesson) {
-						lesson.subjectId = subjectId;
-					});
-
-					Meteor.call('batchInsertLessons', lessonProperties, function(error) {
-						if (error) {
-							Alerts.insert({
-								colorClass: 'bg-danger',
-								iconClass: 'fss-danger',
-								message: error.reason,
-							});
-					
-							$('.js-loading').hide();
-							$('.js-submit').prop('disabled', false);
-						} else {
-							Session.set('selectedSubjectId', subjectId);
-							FlowRouter.go('/planning/subjects/view/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ subjectId);
+					Session.set('selectedStudentId', newSubjects[0].studentId);
+					Session.set('selectedSubjectId', newSubjects[0].subjectId);
+					let additionalStudentsCount = newSubjects.length - 1
+					function pluralize(count) {
+						if (count > 1) {
+							return 'students';
 						}
-					});
-					
+						return 'student';
+					}
+
+					FlowRouter.go('/planning/subjects/view/' + newSubjects[0].studentId +'/'+ Session.get('selectedSchoolYearId') +'/'+ newSubjects[0].subjectId);					
+					if (additionalStudentsCount >= 1 ) {
+						Alerts.insert({
+							colorClass: 'bg-info',
+							iconClass: 'fss-info',
+							message: 'This subject has been added '+ additionalStudentsCount +' to aditional '+ pluralize(additionalStudentsCount) +'.',
+						});
+					}
 				}
 			});
 
@@ -135,13 +137,39 @@ Template.subjectsNew.helpers({
 			return true;
 		}
 	},
+
+	students: function() {
+		return Students.find({}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}});
+	},
+
+	schoolYears: function() {
+		return SchoolYears.find({}, {sort: {startYear: 1}});
+	},
+
+	selectedSchoolYear: function() {
+		return SchoolYears.findOne({_id: Session.get('selectedSchoolYearId')});
+	},
 	
 	terms: function() {
-		return Terms.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}, {sort: {order: 1}});
+		return Terms.find({schoolYearId: Session.get('selectedSchoolYearId')}, {sort: {order: 1}});
 	},
 
 	weeks: function(termId) {
         return Weeks.find({termId: termId});
+	},
+
+	isChecked: function(studentId) {
+		if (studentId === Session.get('selectedStudentId')) {
+			return true;
+		}
+		return false;
+	},
+
+	isSelected: function(schoolYearId) {
+		if (schoolYearId === Session.get('selectedSchoolYearId')) {
+			return 'selected';
+		}
+		return '';
 	},
 
 	searching() {
@@ -177,8 +205,31 @@ Template.subjectsNew.helpers({
 });
 
 Template.subjectsNew.events({
-	'change .js-school-year-id'(event) {
-		Session.set({schoolYearId: event.currentTarget.value})
+	'change .js-student-id'(event) {
+    	let checkedCount = $('.js-student-id:checked').length;
+
+    	if (checkedCount === 0 && $(event.currentTarget).val() === 'true') {
+    		$(event.currentTarget).prop('checked', true)
+    		$('.student-error').show().css({display: 'block'});
+    		setTimeout(function(){ $('.student-error').slideUp('fast'); }, 2000);
+    	} else {
+    		$('.student-error').slideUp('fast');
+		    if ($(event.currentTarget).val() === 'true') {
+		    	$(event.currentTarget).val('false');
+		    } else {
+		    	$(event.currentTarget).val('true');
+		    }
+		}
+	},
+
+	'change .js-school-year-select'(event) {
+		Session.set({
+			selectedSchoolYearId: event.target.value.trim(),
+			editUrl: '/planning/schoolyears/edit/' + event.target.value.trim(),
+		});
+
+		let sessionSubjectIdName = 'selectedSubject' + Session.get('selectedStudentId') + event.target.value.trim() + 'Id';
+		Session.set('selectedSubjectId', Session.get(sessionSubjectIdName));
 	},
 
 	'change .js-times-per-week-preset'(event) {

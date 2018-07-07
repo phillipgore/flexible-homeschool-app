@@ -59,6 +59,7 @@ import '/imports/ui/pages/planning/planningList.js';
 	import '/imports/ui/pages/planning/resources/resourcesView.js';
 	// Subjects
 	import '/imports/ui/pages/planning/subjects/subjectsNew.js';
+	import '/imports/ui/pages/planning/subjects/subjectsNewList.js';
 	import '/imports/ui/pages/planning/subjects/subjectsList.js';
 	import '/imports/ui/pages/planning/subjects/subjectsView.js';
 	import '/imports/ui/pages/planning/subjects/subjectsEdit.js';

@@ -4,6 +4,8 @@ import { Students } from '../../../../api/students/students.js';
 import './subjectsList.html';
 
 Template.subjectsList.onCreated( function() {
+	var template = this;
+	
 	Tracker.autorun(() => {
 		let routeName = FlowRouter.current().route.name;
 		if (routeName === 'subjectsNew' || routeName === 'subjectsView' || routeName === 'subjectsEdit') {

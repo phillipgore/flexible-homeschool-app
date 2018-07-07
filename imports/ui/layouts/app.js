@@ -149,6 +149,7 @@ Template.app.events({
 	},
 
 	'click .js-school-year'(event) {
+		console.log(event.target.value)
 		Session.set({
 			selectedSchoolYearId: $(event.currentTarget).attr('id'),
 			editUrl: '/planning/schoolyears/edit/' + $(event.currentTarget).attr('id'),

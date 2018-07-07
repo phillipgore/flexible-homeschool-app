@@ -127,9 +127,9 @@ FlowRouter.route('/planning/subjects/new/:selectedStudentId/:selectedSchoolYearI
 	name: 'subjectsNew',
 	action() {
 		BlazeLayout.render('app', {
-			subbar: 'subbarSubjects',
+			subbar: '',
 			frameOne: 'planningList',
-			frameTwo: 'subjectsList',
+			frameTwo: 'subjectsNewList',
 			frameThree: 'subjectsNew',
 		});
 	},

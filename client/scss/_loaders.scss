@@ -1,4 +1,4 @@
-.loading-initializing {
+.loading-initializing, .screen-overlay {
 	position: absolute;
 	top: 0px;
 	right: 0px;
@@ -8,6 +8,12 @@
 	background-color: $color-gray-dark;
 	color: $color-white;
 	text-align: center;
+}
+
+.screen-overlay {
+	display: none;
+	z-index: 850;
+	background-color: transparent;
 }
 
 .loader-icon-middle {
