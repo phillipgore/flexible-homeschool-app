@@ -35,7 +35,7 @@ Template.resourcesEditBook.onRendered( function() {
 		},		
 
 		submitHandler() {
-			$('.js-loading').show();
+			$('.js-updating').show();
 			$('.js-submit').prop('disabled', true);
 
 			const resourceProperties = {
@@ -59,7 +59,7 @@ Template.resourcesEditBook.onRendered( function() {
 						message: error.reason,
 					});
 					
-					$('.js-loading').hide();
+					$('.js-updating').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
 					FlowRouter.go('/planning/resources/view/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/'+ FlowRouter.getParam('selectedResourceId') +'/'+ FlowRouter.getParam('selectedResourceCurrentTypeId'));

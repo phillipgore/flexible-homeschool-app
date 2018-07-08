@@ -251,7 +251,7 @@ Template.schoolYearsEdit.events({
 		}
 
 		if (yearValidation(event.target.startYear.value.trim()) || lessonDist > newWeekCount) {
-			$('.js-loading').show();
+			$('.js-updating').show();
 			$('.js-submit').prop('disabled', true);
 
 			let schoolYearProperties = {
@@ -328,7 +328,7 @@ Template.schoolYearsEdit.events({
 						message: error.reason,
 					});
 					
-					$('.js-loading').hide();
+					$('.js-updating').hide();
 					$('.js-submit').prop('disabled', false);
 					return false;
 				}
@@ -343,7 +343,7 @@ Template.schoolYearsEdit.events({
 							message: error.reason,
 						});
 						
-						$('.js-loading').hide();
+						$('.js-updating').hide();
 						$('.js-submit').prop('disabled', false);
 						return false;
 					}
@@ -359,7 +359,7 @@ Template.schoolYearsEdit.events({
 							message: error.reason,
 						});
 						
-						$('.js-loading').hide();
+						$('.js-updating').hide();
 						$('.js-submit').prop('disabled', false);
 						return false;
 					}
@@ -375,7 +375,7 @@ Template.schoolYearsEdit.events({
 							message: error.reason,
 						});
 						
-						$('.js-loading').hide();
+						$('.js-updating').hide();
 						$('.js-submit').prop('disabled', false);
 						return false;
 					}
@@ -391,7 +391,7 @@ Template.schoolYearsEdit.events({
 							message: error.reason,
 						});
 						
-						$('.js-loading').hide();
+						$('.js-updating').hide();
 						$('.js-submit').prop('disabled', false);
 						return false;
 					}
@@ -407,7 +407,7 @@ Template.schoolYearsEdit.events({
 							message: error.reason,
 						});
 						
-						$('.js-loading').hide();
+						$('.js-updating').hide();
 						$('.js-submit').prop('disabled', false);
 						return false;
 					}
@@ -423,7 +423,7 @@ Template.schoolYearsEdit.events({
 							message: error.reason,
 						});
 
-						$('.js-loading').hide();
+						$('.js-updating').hide();
 						$('.js-submit').prop('disabled', false);
 						return false;
 					}
@@ -444,7 +444,7 @@ Template.schoolYearsEdit.events({
 								message: error.reason,
 							});
 				
-							$('.js-loading').hide();
+							$('.js-updating').hide();
 							$('.js-submit').prop('disabled', false);
 							return false;
 						} else {
@@ -461,7 +461,7 @@ Template.schoolYearsEdit.events({
 										message: error.reason,
 									});
 				
-									$('.js-loading').hide();
+									$('.js-updating').hide();
 									$('.js-submit').prop('disabled', false);
 									return false;
 								}
@@ -471,7 +471,7 @@ Template.schoolYearsEdit.events({
 				});
 			}
 
-			$('.js-loading').hide();
+			$('.js-updating').hide();
 			$('.js-submit').prop('disabled', false);
 			FlowRouter.go('/planning/schoolyears/view/' + FlowRouter.getParam('selectedSchoolYearId'));
 		}

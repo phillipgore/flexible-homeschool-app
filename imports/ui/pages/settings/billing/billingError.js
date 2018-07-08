@@ -48,7 +48,7 @@ Template.billingError.events({
 
 	'submit .js-form-update-credit-card'(event) {
 		event.preventDefault();
-		$('.js-loading').show();
+		$('.js-updating').show();
 		$('.js-submit').prop('disabled', true);
 
 		let subscriptionProperties = {
@@ -82,7 +82,7 @@ Template.billingError.events({
 								message: error.reason,
 							});
 					
-							$('.js-loading').hide();
+							$('.js-updating').hide();
 							$('.js-submit').prop('disabled', false);
 						} else {
 							FlowRouter.go('/initializing');

@@ -42,7 +42,7 @@ Template.subjectsView.helpers({
 Template.subjectsView.events({
 	'click .js-delete-subject-confirmed'(event) {
 		event.preventDefault();
-		$('.loading-deleting').show();
+		$('.js-deleting').show();
 
 		function nextSubjectId(selectedSubjectId) {
 			let subjectIds = Subjects.find({}, {sort: {order: 1}}).map(subject => (subject._id));
@@ -68,7 +68,7 @@ Template.subjectsView.events({
 			} else {
 				Session.set('selectedSubjectId', newSubjectId);
 				FlowRouter.go('/planning/subjects/view/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ newSubjectId);
-				$('.loading-deleting').hide();
+				$('.js-deleting').hide();
 			}
 		});
 	}

@@ -105,7 +105,7 @@ Template.settingsList.events({
 	'click .js-reset-password-confirmed'(event) {
 		event.preventDefault();
 		console.log('clicked')
-		$('.js-loading-signing-out').show();
+		$('.js-signing-out').show();
 
 		Accounts.logout(function(error) {
 			if (error) {
@@ -168,7 +168,7 @@ Template.settingsList.events({
 
 	'click .js-sign-out'(event) {
 		event.preventDefault();
-		$('.js-loading-signing-out').show();
+		$('.js-signing-out').show();
 		Accounts.logout(function(error) {
 			if (error) {
 				Alerts.insert({

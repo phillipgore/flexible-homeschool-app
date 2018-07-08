@@ -44,7 +44,7 @@ Template.schoolYearsNew.onRendered( function() {
 		},		
 
 		submitHandler() {
-			$('.js-loading').show();
+			$('.js-saving').show();
 			$('.js-submit').prop('disabled', true);
 
 			const schoolYearProperties = {
@@ -67,7 +67,7 @@ Template.schoolYearsNew.onRendered( function() {
 						message: error.reason,
 					});
 					
-					$('.js-loading').hide();
+					$('.js-saving').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
 					termProperties.forEach(function(term) {
@@ -83,7 +83,7 @@ Template.schoolYearsNew.onRendered( function() {
 									message: error.reason,
 								});
 					
-								$('.js-loading').hide();
+								$('.js-saving').hide();
 								$('.js-submit').prop('disabled', false);
 							} else {
 								let weekProperties = []
@@ -100,7 +100,7 @@ Template.schoolYearsNew.onRendered( function() {
 											message: error.reason,
 										});
 					
-										$('.js-loading').hide();
+										$('.js-saving').hide();
 										$('.js-submit').prop('disabled', false);
 									} else {
 										Session.set('selectedSchoolYearId', schoolYearId)

@@ -26,7 +26,7 @@ Template.reportingEdit.onRendered( function() {
 		},		
 
 		submitHandler() {
-			$('.js-loading').show();
+			$('.js-updating').show();
 			$('.js-submit').prop('disabled', true);
 
 			let reportProperties = {
@@ -65,7 +65,7 @@ Template.reportingEdit.onRendered( function() {
 						message: error.reason,
 					});
 					
-					$('.js-loading').hide();
+					$('.js-updating').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
 					FlowRouter.go('/reporting/view/' + Session.get('selectedStudentId') +"/"+ Session.get('selectedSchoolYearId') +"/"+ Session.get('selectedReportId'));

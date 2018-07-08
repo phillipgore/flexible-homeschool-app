@@ -82,7 +82,7 @@ Template.reportingView.helpers({
 Template.reportingView.events({
 	'click .js-delete-report-confirmed'(event) {
 		event.preventDefault();
-		$('.loading-deleting').show();
+		$('.js-deleting').show();
 
 		function nextReportId(selectedReportId) {
 			let reportIds = Reports.find({}, {sort: {name: 1}}).map(report => (report._id));
@@ -108,7 +108,7 @@ Template.reportingView.events({
 			} else {
 				Session.set('selectedReportId', newReportId);
 				FlowRouter.go('/reporting/view/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ newReportId);
-				$('.loading-deleting').hide();
+				$('.js-deleting').hide();
 			}
 		});
 	},

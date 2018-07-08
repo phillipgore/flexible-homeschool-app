@@ -38,7 +38,7 @@ Template.studentsView.helpers({
 Template.studentsView.events({
 	'click .js-delete-student-confirmed'(event) {
 		event.preventDefault();
-		$('.loading-deleting').show();
+		$('.js-deleting').show();
 
 		function nextStudentId(selectedStudentId) {
 			let studentIds = Students.find({}, {sort: {birthday: 1, lastName: 1, firstName: 1}}).map(student => (student._id));
@@ -65,7 +65,7 @@ Template.studentsView.events({
 				Dialogs.remove({_id: dialogId});
 				Session.set('selectedStudentId', newStudentId)
 				FlowRouter.go('/planning/students/view/' + newStudentId);
-				$('.loading-deleting').hide();
+				$('.js-deleting').hide();
 			}
 		});
 	}

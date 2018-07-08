@@ -65,7 +65,7 @@ Template.subjectsNew.onRendered( function() {
 		},
 
 		submitHandler() {
-			$('.js-loading').show();
+			$('.js-saving').show();
 			$('.js-submit').prop('disabled', true);
 
 			let studentIds = []
@@ -102,7 +102,7 @@ Template.subjectsNew.onRendered( function() {
 						message: error.reason,
 					});
 					
-					$('.js-loading').hide();
+					$('.js-saving').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
 					Session.set('selectedStudentId', newSubjects[0].studentId);

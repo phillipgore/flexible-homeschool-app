@@ -35,7 +35,7 @@ Template.resourcesNewApp.onRendered( function() {
 		},		
 
 		submitHandler() {
-			$('.js-loading').show();
+			$('.js-saving').show();
 			$('.js-submit').prop('disabled', true);
 
 			const resourceProperties = {
@@ -55,7 +55,7 @@ Template.resourcesNewApp.onRendered( function() {
 						message: error.reason,
 					});
 					
-					$('.js-loading').hide();
+					$('.js-saving').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
 					Session.set('selectedResourceId', resourceId);

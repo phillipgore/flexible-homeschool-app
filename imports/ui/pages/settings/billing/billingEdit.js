@@ -108,7 +108,7 @@ Template.billingEdit.events({
 
 	'submit .js-form-update-credit-card'(event) {
 		event.preventDefault();
-		$('.js-loading').show();
+		$('.js-updating').show();
 		$('.js-submit').prop('disabled', true);
 
 		let groupId = event.target.groupId.value.trim();
@@ -122,7 +122,7 @@ Template.billingEdit.events({
 						message: result.error,
 					});
 					
-					$('.js-loading').hide();
+					$('.js-updating').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
 					let cardId = result.token.card.id;
@@ -145,7 +145,7 @@ Template.billingEdit.events({
 									Session.set('card', result);
 									FlowRouter.go('/settings/billing/edit');
 
-									$('.js-loading').hide();
+									$('.js-updating').hide();
 									$('.js-submit').prop('disabled', false);
 									Alerts.insert({
 										colorClass: 'bg-info',

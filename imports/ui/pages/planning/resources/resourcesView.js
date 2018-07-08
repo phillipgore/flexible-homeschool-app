@@ -71,7 +71,7 @@ Template.resourcesView.helpers({
 Template.resourcesView.events({
 	'click .js-delete-resource-confirmed'(event) {
 		event.preventDefault();
-		$('.loading-deleting').show();
+		$('.js-deleting').show();
 
 		function nextResourceId(selectedResourceId) {
 			let resourceIds = Resources.find({}, {sort: {title: 1}}).map(resource => (resource._id));
@@ -100,7 +100,7 @@ Template.resourcesView.events({
 			} else {
 				Session.set('selectedResourceId', newResource._id);
 				FlowRouter.go('/planning/resources/view/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/'+ newResource._id +'/'+ newResource.type);
-				$('.loading-deleting').hide();
+				$('.js-deleting').hide();
 			}
 		});
 	}

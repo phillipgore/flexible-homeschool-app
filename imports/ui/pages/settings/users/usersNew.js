@@ -31,7 +31,7 @@ Template.usersNew.onRendered( function() {
 			retypePassword: { required: "Required.", equalTo: "Passwords do not match." },
 		},
 		submitHandler() {
-			$('.loading-saving').show();
+			$('.js-saving').show();
 			$('.js-submit').prop('disabled', true);
 	
 			const userProperties = {
@@ -59,7 +59,7 @@ Template.usersNew.onRendered( function() {
 							message: error.reason,
 						});
 					
-						$('.js-loading').hide();
+						$('.js-saving').hide();
 						$('.js-submit').prop('disabled', false);
 					}
 				} else {

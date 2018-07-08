@@ -32,7 +32,7 @@ Template.studentsEdit.onRendered( function() {
 		},		
 
 		submitHandler() {
-			$('.js-loading').show();
+			$('.js-updating').show();
 			$('.js-submit').prop('disabled', true);
 
 			const studentProperties = {
@@ -60,7 +60,7 @@ Template.studentsEdit.onRendered( function() {
 						message: error.reason,
 					});
 					
-					$('.js-loading').hide();
+					$('.js-updating').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
 					FlowRouter.go('/planning/students/view/' + FlowRouter.getParam('selectedStudentId'));

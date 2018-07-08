@@ -26,7 +26,7 @@ Template.studentsNew.onRendered( function() {
 		},		
 
 		submitHandler() {
-			$('.js-loading').show();
+			$('.js-saving').show();
 			$('.js-submit').prop('disabled', true);
 
 			const studentProperties = {
@@ -54,7 +54,7 @@ Template.studentsNew.onRendered( function() {
 						message: error.reason,
 					});
 					
-					$('.js-loading').hide();
+					$('.js-saving').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
 					Session.set('selectedStudentId', studentId);

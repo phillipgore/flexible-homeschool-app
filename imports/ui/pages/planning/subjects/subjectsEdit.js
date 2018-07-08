@@ -74,7 +74,7 @@ Template.subjectsEdit.onRendered( function() {
 		},
 
 		submitHandler() {
-			$('.js-loading').show();
+			$('.js-updating').show();
 			$('.js-submit').prop('disabled', true);
 
 			let resourceIds = []
@@ -181,7 +181,7 @@ Template.subjectsEdit.onRendered( function() {
 						message: error.reason,
 					});
 					
-					$('.js-loading').hide();
+					$('.js-updating').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
 					if (insertLessonProperties.length) {
@@ -193,7 +193,7 @@ Template.subjectsEdit.onRendered( function() {
 									message: error.reason,
 								});
 					
-								$('.js-loading').hide();
+								$('.js-updating').hide();
 								$('.js-submit').prop('disabled', false);
 							}
 						});
@@ -208,7 +208,7 @@ Template.subjectsEdit.onRendered( function() {
 									message: error.reason,
 								}); 
 					
-								$('.js-loading').hide();
+								$('.js-updating').hide();
 								$('.js-submit').prop('disabled', false);
 							}
 						});
@@ -222,10 +222,10 @@ Template.subjectsEdit.onRendered( function() {
 								message: error.reason,
 							});
 					
-							$('.js-loading').hide();
+							$('.js-updating').hide();
 							$('.js-submit').prop('disabled', false);
 						} else {
-							$('.js-loading').hide();
+							$('.js-updating').hide();
 							$('.js-submit').prop('disabled', false);
 							FlowRouter.go('/planning/subjects/view/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ subjectId);
 						}

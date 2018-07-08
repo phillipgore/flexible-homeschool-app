@@ -78,7 +78,7 @@ Template.usersView.events({
 
 	'click .js-delete-user-confirmed'(event) {
 		event.preventDefault();
-		$('.loading-deleting').show();
+		$('.js-deleting').show();
 
 		let dialogId = Dialogs.findOne()._id;
 		let nextUserId = Meteor.users.findOne({'emails.0.verified': true, 'status.active': true})._id
@@ -95,14 +95,14 @@ Template.usersView.events({
 				Dialogs.remove({_id: dialogId});
 				Session.set('selectedUserId', nextUserId);
 				FlowRouter.go('/settings/users/view/' + nextUserId);
-				$('.loading-deleting').hide();
+				$('.js-deleting').hide();
 			}
 		});
 	},
 
 	'click .js-resend-verificatin-email'(event) {
 		event.preventDefault();
-		$('.loading-sending').show();
+		$('.js-sending').show();
 
 		let userId = $(event.currentTarget).attr('id');
 		let emailAddress = $(event.currentTarget).attr('data-user-email');
@@ -121,7 +121,7 @@ Template.usersView.events({
 					iconClass: 'fss-email',
 					message: 'We resent ' + userName + ' an email with a verification link. It may take a few minutes for the email to arrive.',
 				});
-				$('.loading-sending').hide();
+				$('.js-sending').hide();
 			}
 		});
 	},

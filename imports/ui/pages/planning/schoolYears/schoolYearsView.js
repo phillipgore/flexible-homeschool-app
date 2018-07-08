@@ -45,7 +45,7 @@ Template.schoolYearsView.helpers({
 Template.schoolYearsView.events({
 	'click .js-delete-school-year-confirmed'(event) {
 		event.preventDefault();
-		$('.loading-deleting').show();
+		$('.js-deleting').show();
 
 		function nextSchoolYearId(selectedSchoolYearId) {
 			let schoolYearIds = SchoolYears.find({}, {sort: {startYear: 1}}).map(schoolYear => (schoolYear._id));
@@ -72,7 +72,7 @@ Template.schoolYearsView.events({
 				Dialogs.remove({_id: dialogId});
 				Session.set('selectedSchoolYearId', newSchoolYearId)
 				FlowRouter.go('/planning/schoolyears/view/' + newSchoolYearId);
-				$('.loading-deleting').hide();
+				$('.js-deleting').hide();
 			}
 		});
 	}

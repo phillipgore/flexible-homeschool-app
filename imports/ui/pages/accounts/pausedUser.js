@@ -5,7 +5,7 @@ import './pausedUser.html';
 Template.pausedUser.events({
 	'click .js-sign-out'(event) {
 		event.preventDefault();
-		$('.js-loading-signing-out').show();
+		$('.js-signing-out').show();
 		Accounts.logout(function(error) {
 			if (error) {
 				Alerts.insert({
@@ -14,6 +14,7 @@ Template.pausedUser.events({
 					message: error.reason,
 				});
 			} else {
+				$('.js-signing-out').hide();
 				FlowRouter.go("/sign-in");
 			}
 		});

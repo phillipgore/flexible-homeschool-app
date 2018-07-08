@@ -139,7 +139,7 @@ Template.createAccount.events({
 
 		
 		if (cardValidation() && accountForm.indexOf(false) === -1) {
-			$('.js-loading').show();
+			$('.js-saving').show();
 			$('.js-submit').prop('disabled', true);
 			Meteor.call('insertGroup', function(error, groupId) {
 				if (error) {
@@ -149,7 +149,7 @@ Template.createAccount.events({
 						message: error.reason,
 					});
 					
-					$('.js-loading').hide();
+					$('.js-saving').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
 					user.info.groupId = groupId;
@@ -163,7 +163,7 @@ Template.createAccount.events({
 								message: error.reason,
 							});
 					
-							$('.js-loading').hide();
+							$('.js-saving').hide();
 							$('.js-submit').prop('disabled', false);
 						} else { 
 							stripe.createToken(Session.get('cardNumber')).then((result) => {
@@ -179,7 +179,7 @@ Template.createAccount.events({
 												message: error.reason,
 											});
 					
-											$('.js-loading').hide();
+											$('.js-saving').hide();
 											$('.js-submit').prop('disabled', false);
 										} else {
 											FlowRouter.go('/verify/sent');

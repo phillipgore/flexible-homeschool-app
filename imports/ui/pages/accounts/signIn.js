@@ -13,7 +13,7 @@ Template.signIn.onRendered( function() {
 		},
 		submitHandler() {
 			$('input').blur();
-			$('.js-loading').show();
+			$('.js-saving').show();
 			$('.js-submit').prop('disabled', true);
 
 			const email = event.target.email.value.trim();
@@ -30,7 +30,7 @@ Template.signIn.onRendered( function() {
 							message: error.reason + '.',
 						});
 					
-						$('.js-loading').hide();
+						$('.js-saving').hide();
 						$('.js-submit').prop('disabled', false);
 					}
 				} else {

@@ -28,7 +28,7 @@ Template.usersEdit.onRendered( function() {
 			email: { required: "Required.", email: "Please enter a valid email address." },
 		},
 		submitHandler() {
-			$('.js-loading').show();
+			$('.js-updating').show();
 			$('.js-submit').prop('disabled', true);
 	
 			const userProperties = {
@@ -50,7 +50,7 @@ Template.usersEdit.onRendered( function() {
 						message: error.reason,
 					});
 					
-					$('.js-loading').hide();
+					$('.js-updating').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
 					FlowRouter.go('/settings/users/view/' + FlowRouter.getParam('selectedUserId'));
