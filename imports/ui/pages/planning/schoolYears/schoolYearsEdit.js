@@ -471,6 +471,8 @@ Template.schoolYearsEdit.events({
 				});
 			}
 
+			$('.js-loading').hide();
+			$('.js-submit').prop('disabled', false);
 			FlowRouter.go('/planning/schoolyears/view/' + FlowRouter.getParam('selectedSchoolYearId'));
 		}
 
