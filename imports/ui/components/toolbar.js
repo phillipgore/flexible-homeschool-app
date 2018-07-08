@@ -109,6 +109,10 @@ Template.toolbar.helpers({
 		return Session.get('selectedSchoolYearId');
 	},
 
+	selectedReportId: function() {
+		return Session.get('selectedReportId');
+	},
+
 	editUrl: function() {
 		return Session.get('editUrl');
 	},

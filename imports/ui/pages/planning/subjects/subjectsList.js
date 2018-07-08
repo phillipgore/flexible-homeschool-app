@@ -4,15 +4,12 @@ import { Students } from '../../../../api/students/students.js';
 import './subjectsList.html';
 
 Template.subjectsList.onCreated( function() {
-	var template = this;
+	let template = Template.instance();
 	
-	Tracker.autorun(() => {
-		let routeName = FlowRouter.current().route.name;
-		if (routeName === 'subjectsNew' || routeName === 'subjectsView' || routeName === 'subjectsEdit') {
-			this.subscribe('studentSchoolYearsPath', FlowRouter.getParam('selectedStudentId'));
-			this.subscribe('allStudents');
-			this.subjectData = this.subscribe('schooYearStudentSubjects', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
-		}
+	template.autorun(() => {
+		this.subscribe('studentSchoolYearsPath', FlowRouter.getParam('selectedStudentId'));
+		this.subscribe('allStudents');
+		this.subjectData = this.subscribe('schooYearStudentSubjects', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
 	});
 	
 	Session.set('selectedSchoolYearId', FlowRouter.getParam('selectedSchoolYearId'));

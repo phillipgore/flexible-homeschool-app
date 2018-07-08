@@ -9,11 +9,10 @@ import { Lessons } from '../../../../api/lessons/lessons.js';
 import './subjectsView.html';
 
 Template.subjectsView.onCreated( function() {
-	Tracker.autorun(() => {
-		let routeName = FlowRouter.current().route.name;
-		if (routeName === 'subjectsNew' || routeName === 'subjectsView' || routeName === 'subjectsEdit') {
-			this.subjectData = Meteor.subscribe('subjectView', FlowRouter.getParam('selectedSubjectId'));
-		}
+	let template = Template.instance();
+	
+	template.autorun(() => {
+		this.subjectData = Meteor.subscribe('subjectView', FlowRouter.getParam('selectedSubjectId'));
 	});
 });
 

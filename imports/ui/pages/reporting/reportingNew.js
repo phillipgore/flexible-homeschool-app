@@ -15,8 +15,6 @@ Template.reportingNew.onRendered( function() {
 		activeNav: 'reportingList',
 	});
 
-	Session.set('activeNav', 'reportingView');
-
 	// Form Validation and Submission
 	$('.js-form-reports-new').validate({
 		rules: {
