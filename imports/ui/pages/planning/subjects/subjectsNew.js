@@ -93,7 +93,7 @@ Template.subjectsNew.onRendered( function() {
 				    lessonProperties.push({order: parseFloat((index + 1) + '.' + (i + 1)), weekId: times.dataset.weekId});
 				}
 			});
-
+			
 			Meteor.call('batchInsertSubject', studentIds, subjectProperties, lessonProperties, function(error, newSubjects) {
 				if (error) {
 					Alerts.insert({
@@ -156,6 +156,10 @@ Template.subjectsNew.helpers({
 
 	weeks: function(termId) {
         return Weeks.find({termId: termId});
+	},
+
+	weekCount: function(termId) {
+        return Weeks.find({termId: termId}).count();
 	},
 
 	isChecked: function(studentId) {
@@ -239,6 +243,13 @@ Template.subjectsNew.events({
 	'change .js-times-per-week'(event) {
 		$('#' + event.currentTarget.dataset.termId + ' .js-times-per-week-preset option').removeProp('selected');
 		$('#' + event.currentTarget.dataset.termId + ' .js-times-per-week-preset option:disabled').prop('selected', true);
+	},
+
+	'click .js-show-individual-weeks'(event) {
+		event.preventDefault();
+		let termOrder = $(event.currentTarget).attr('id');
+		$('.js-label-' + termOrder).toggle();
+		$('.js-' + termOrder).slideToggle('fast');
 	},
 
 	'keyup #search-resources'(event, template) {

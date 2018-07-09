@@ -5,12 +5,16 @@ import {Weeks} from '../../api/weeks/weeks.js';
 import {Lessons} from '../../api/lessons/lessons.js';
 import _ from 'lodash'
 
-function status (lessonsTotal, lessonsCompletedTotal) {
-	if (!lessonsCompletedTotal) {
+function status (lessonsTotal, lessonsCompletedTotal, lessonsAssignedTotal) {
+	if (!lessonsCompletedTotal && !lessonsAssignedTotal) {
 		return 'pending'
-	} else if (lessonsTotal === lessonsCompletedTotal) {
+	} 
+	if (lessonsTotal === lessonsCompletedTotal) {
 		return 'completed'
 	}
+	if (lessonsAssignedTotal) {
+		return 'assigned'
+	} 
 	return 'partial'
 };
 
@@ -133,7 +137,8 @@ export function allSchoolYearsStatusAndPaths(schoolYear, schoolYearId) {
 
 		let lessons = Lessons.find({subjectId: {$in: subjectIds}, deletedOn: { $exists: false }});
 		let lessonsCompleted = Lessons.find({subjectId: {$in: subjectIds}, completed: true, deletedOn: { $exists: false }});
-		schoolYear.status = status(lessons.count(), lessonsCompleted.count());
+		let lessonsAssigned = Lessons.find({subjectId: {$in: subjectIds}, completed: false, assigned: true, deletedOn: { $exists: false }});
+		schoolYear.status = status(lessons.count(), lessonsCompleted.count(), lessonsAssigned.count());
 
 		if (Terms.find({schoolYearId: schoolYearId, deletedOn: { $exists: false }}).count()) {
 			if (lessons.count()) {
@@ -169,7 +174,8 @@ export function studentSchoolYearsStatusAndPaths(schoolYear, schoolYearId, stude
 
 		let lessons = Lessons.find({subjectId: {$in: subjectIds}, deletedOn: { $exists: false }});
 		let lessonsCompleted = Lessons.find({subjectId: {$in: subjectIds}, completed: true, deletedOn: { $exists: false }});
-		schoolYear.status = status(lessons.count(), lessonsCompleted.count());
+		let lessonsAssigned = Lessons.find({subjectId: {$in: subjectIds}, completed: false, assigned: true, deletedOn: { $exists: false }});
+		schoolYear.status = status(lessons.count(), lessonsCompleted.count(), lessonsAssigned.count());
 
 		if (Terms.find({schoolYearId: schoolYearId, deletedOn: { $exists: false }}).count()) {
 			if (lessons.count()) {
@@ -206,7 +212,8 @@ export function allTermStatusAndPaths(term, termId, schoolYearId) {
 
 		let lessons = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: weekIds}, deletedOn: { $exists: false }});
 		let lessonsCompleted = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: weekIds}, completed: true, deletedOn: { $exists: false }});
-		term.status = status(lessons.count(), lessonsCompleted.count());
+		let lessonsAssigned = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: weekIds}, completed: false, assigned: true, deletedOn: { $exists: false }});
+		term.status = status(lessons.count(), lessonsCompleted.count(), lessonsAssigned.count());
 
 		if (termId) {
 			if (lessons.count()) {
@@ -237,7 +244,8 @@ export function studentTermStatusAndPaths(term, termId, schoolYearId, studentId)
 
 		let lessons = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: weekIds}, deletedOn: { $exists: false }});
 		let lessonsCompleted = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: weekIds}, completed: true, deletedOn: { $exists: false }});
-		term.status = status(lessons.count(), lessonsCompleted.count());
+		let lessonsAssigned = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: weekIds}, completed: false, assigned: true, deletedOn: { $exists: false }});
+		term.status = status(lessons.count(), lessonsCompleted.count(), lessonsAssigned.count());
 
 		if (termId) {
 			if (lessons.count()) {
@@ -277,7 +285,8 @@ export function weekStatus(week, weekId, studentId) {
 
 		let lessonsTotal = Lessons.find({subjectId: {$in: subjectIds}, weekId: weekId, deletedOn: { $exists: false }}).count();
 		let lessonsCompletedTotal = Lessons.find({subjectId: {$in: subjectIds}, weekId: weekId, completed: true, deletedOn: { $exists: false }}).count();
-		week.status = status(lessonsTotal, lessonsCompletedTotal);
+		let lessonsAssignedTotal = Lessons.find({subjectId: {$in: subjectIds}, weekId: weekId, completed: false, assigned: true, deletedOn: { $exists: false }}).count();
+		week.status = status(lessonsTotal, lessonsCompletedTotal, lessonsAssignedTotal);
 	}
 	return week;
 };

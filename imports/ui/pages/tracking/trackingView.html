@@ -12,7 +12,7 @@
 				</div>
 				<div class="row track-btn-container m-tn-h-9">
 					{{#each lesson in lessons subject._id}}
-						<button data-lesson-id="{{lesson._id}}" class="js-lesson-btn col-tn-1of{{lessonCount subject._id}} {{lessonStatus lesson.completed subject._id}}">
+						<button data-lesson-id="{{lesson._id}}" class="js-lesson-btn col-tn-1of{{lessonCount subject._id}} {{lessonStatus lesson.assigned lesson.completed subject._id}}">
 							<div class="js-lesson-updating hide">
 								<div class="loader-icon loader-icon-tn loader-icon-center"></div>
 							</div>
@@ -27,12 +27,21 @@
 						</div>
 						
 						<form id="js-form-{{lesson._id}}" class="js-form-lessons-update track-form">
-							<div class="checkbox-collection p-tn-t-6">
-								<label class="checkbox">
-									<input class="js-completed-checkbox" type="checkbox" name="completed" value="{{lesson.completed}}" checked="{{lesson.completed}}">
-									<div class="checkbox-icon"></div> 
-									<div class="checkbox-label">Mark Complete</div>
-								</label>
+							<div class="row checkbox-collection p-tn-t-6">
+								<div class="col-tn-1of2">
+									<label class="checkbox">
+										<input class="js-assigned-checkbox" type="checkbox" name="assigned" value="{{lesson.assigned}}" checked="{{lesson.assigned}}">
+										<div class="checkbox-icon"></div> 
+										<div class="checkbox-label">Assigned</div>
+									</label>
+								</div>
+								<div class="col-tn-1of2">
+									<label class="checkbox fl-tn-right">
+										<input class="js-completed-checkbox" type="checkbox" name="completed" value="{{lesson.completed}}" checked="{{lesson.completed}}">
+										<div class="checkbox-icon"></div> 
+										<div class="checkbox-label">Complete</div>
+									</label>
+								</div>
 							</div>
 
 							<label>Completion Date</label>

@@ -87,22 +87,23 @@
 			<h3 class="m-tn-b-9">{{selectedSchoolYear.startYear}}-{{selectedSchoolYear.endYear}}</h3>
 			{{#each term in terms}}
 			<div id="{{term._id}}" class="well bg-gray-lighter m-tn-b-9">
-				<h3 class="m-tn-b-9">{{selectedSchoolYear.startYear}}-{{selectedSchoolYear.endYear}}: Term {{term.order}}: Times Per Week</h3>
-				<label>Preset All Weeks To</label>
+				<h3 class="m-tn-b-9">Term {{term.order}}</h3>
+				<label>{{weekCount term._id}} Weeks</label>
 				<div class="fss-select">
 					<select data-term-id="{{term._id}}" class="js-times-per-week-preset" name="timesPerWeekPreset" id="times-per-week-preset">
-						<option disabled selected value>Preset Options</option>
-						<option value="">0 Times Per Week</option>
-						<option value="1">1 Time Per Week</option>
-						<option value="2">2 Times Per Week</option>
-						<option value="3">3 Times Per Week</option>
-						<option value="4">4 Times Per Week</option>
-						<option value="5">5 Times Per Week</option>
-						<option value="6">6 Times Per Week</option>
-						<option value="7">7 Times Per Week</option>
+						<option {{isSelected term._id 'random'}} disabled value>Random Times Per Week</option>
+						<option {{isSelected term._id 0}} value="">0 Times Per Week</option>
+						<option {{isSelected term._id 1}} value="1">1 Time Per Week</option>
+						<option {{isSelected term._id 2}} value="2">2 Times Per Week</option>
+						<option {{isSelected term._id 3}} value="3">3 Times Per Week</option>
+						<option {{isSelected term._id 4}} value="4">4 Times Per Week</option>
+						<option {{isSelected term._id 5}} value="5">5 Times Per Week</option>
+						<option {{isSelected term._id 6}} value="6">6 Times Per Week</option>
+						<option {{isSelected term._id 7}} value="7">7 Times Per Week</option>
 					</select>
 				</div>
-				<div class="row m-tn-rl-neg-3 m-tn-b-neg-6">
+				<button id="{{term.order}}" class="js-show-individual-weeks btn-gray-dark btn-block extra-small"><span class="js-label-{{term.order}}">Show</span><span class="js-label-{{term.order}} hide">Hide</span> Individual Weeks</button>
+				<div class="js-{{term.order}} row m-tn-rl-neg-3 m-tn-b-neg-6 m-tn-t-9 hide">
 					{{#each week in weeks term._id}}
 					<div class="col-tn-1of5 p-tn-rl-3">
 						<label>Wk {{week.order}}</label>

@@ -23,17 +23,17 @@
 		button {
 			border-radius: 0px;
 			border-right: 1px solid $color-white;
-			background-color: $color-gray-lighter;
+			background-color: $color-gray-light;
 
 			.loader-icon {
 				background-color: $color-gray-darker;
 
 				&:before {
-					background-color: $color-gray-lighter;
+					background-color: $color-gray-light;
 				}
 
 				&:after {
-					background-color: $color-gray-lighter;
+					background-color: $color-gray-light;
 				}
 			}
 
@@ -65,6 +65,22 @@
 
 					&:after {
 						background-color: $color-danger;
+					}
+				}
+			}
+
+			&.btn-warning {
+				background-color: $color-warning;
+
+				.loader-icon {
+					background-color: $color-white;
+
+					&:before {
+						background-color: $color-warning;
+					}
+
+					&:after {
+						background-color: $color-warning;
 					}
 				}
 			}

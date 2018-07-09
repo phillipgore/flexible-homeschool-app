@@ -265,8 +265,29 @@ Template.subjectsEdit.helpers({
         return Weeks.find({termId: termId});
 	},
 
+	weekCount: function(termId) {
+        return Weeks.find({termId: termId}).count();
+	},
+
+	isSelected: function(termId, value) {
+		let weekIds = Weeks.find({termId: termId}).map(week => (week._id));
+		let lessonCounts = [];
+		weekIds.forEach(function(weekId) {
+			lessonCounts.push(Lessons.find({weekId: weekId, subjectId: FlowRouter.getParam('selectedSubjectId')}).count());
+		})
+
+		if (_.uniq(lessonCounts).length === 1) {
+			if (value === lessonCounts[0]) {
+				return 'selected';
+			};
+		}
+		if (value === 'random') {
+			return 'selected';
+		}
+	},
+
 	lessonCount: function(weekId) {
-        return Lessons.find({weekId: weekId}).count();
+        return Lessons.find({weekId: weekId, subjectId: FlowRouter.getParam('selectedSubjectId')}).count();
 	},
 
 	searching() {
@@ -305,6 +326,13 @@ Template.subjectsEdit.events({
 	'change .js-times-per-week'(event) {
 		$('#' + event.currentTarget.dataset.termId + ' .js-times-per-week-preset option').removeProp('selected');
 		$('#' + event.currentTarget.dataset.termId + ' .js-times-per-week-preset option:disabled').prop('selected', true);
+	},
+
+	'click .js-show-individual-weeks'(event) {
+		event.preventDefault();
+		let termOrder = $(event.currentTarget).attr('id');
+		$('.js-label-' + termOrder).toggle();
+		$('.js-' + termOrder).slideToggle('fast');
 	},
 
 	'keyup #search-resources'(event, template) {

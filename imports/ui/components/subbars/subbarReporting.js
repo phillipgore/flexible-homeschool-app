@@ -24,6 +24,9 @@ Template.subbarReporting.helpers({
 		if (schoolYearStatus === 'partial') {
 			return 'txt-secondary';
 		}
+		if (schoolYearStatus === 'assigned') {
+			return 'txt-warning';
+		}
 		if (schoolYearStatus === 'completed') {
 			return 'txt-primary';
 		}

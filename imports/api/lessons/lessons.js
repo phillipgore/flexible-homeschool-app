@@ -21,6 +21,11 @@ const LessonsSchema = new SimpleSchema({
         label: "Order",
     	optional: true
     },
+    assigned: {
+    	type: Boolean,
+		label: "Assigned",
+		defaultValue: false,
+    },
 	completed: {
 		type: Boolean,
 		label: "Completed",

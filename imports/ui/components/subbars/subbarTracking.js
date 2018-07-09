@@ -46,11 +46,15 @@ Template.subbarTracking.helpers({
 	},
 
 	yearStatus: function(schoolYearStatus) {
+		console.log(schoolYearStatus)
 		if (schoolYearStatus === 'pending') {
 			return 'txt-gray-darker';
 		}
 		if (schoolYearStatus === 'partial') {
 			return 'txt-secondary';
+		}
+		if (schoolYearStatus === 'assigned') {
+			return 'txt-warning';
 		}
 		if (schoolYearStatus === 'completed') {
 			return 'txt-primary';
@@ -76,6 +80,9 @@ Template.subbarTracking.helpers({
 		if (termStatus === 'partial') {
 			return 'txt-secondary';
 		}
+		if (termStatus === 'assigned') {
+			return 'txt-warning';
+		}
 		if (termStatus === 'completed') {
 			return 'txt-primary';
 		}
@@ -99,6 +106,9 @@ Template.subbarTracking.helpers({
 		}
 		if (weekStatus === 'partial') {
 			return 'txt-secondary';
+		}
+		if (weekStatus === 'assigned') {
+			return 'txt-warning';
 		}
 		if (weekStatus === 'completed') {
 			return 'txt-primary';

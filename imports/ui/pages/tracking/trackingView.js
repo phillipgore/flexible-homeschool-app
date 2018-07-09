@@ -93,13 +93,16 @@ Template.trackingView.helpers({
 		return moment();
 	},
 
-	lessonStatus: function(lessonCompleted, subjectId) {
+	lessonStatus: function(lessonAssigned, lessonCompleted, subjectId) {
 		let lessonsIncompleteCount = Lessons.find({weekId: FlowRouter.getParam('selectedWeekId'), subjectId: subjectId, completed: false}, {sort: {order: 1}}).count()
-		if (!lessonsIncompleteCount) {
+		if (!lessonsIncompleteCount && lessonCompleted) {
 			return 'btn-primary';
 		}
 		if (lessonCompleted) {
 			return 'btn-secondary';
+		}
+		if (lessonAssigned) {
+			return 'btn-warning';
 		}
 		return '';
 	},
@@ -135,7 +138,7 @@ Template.trackingView.events({
 		$('.js-lesson-input').removeAttr('style');
 	},
 
-	'change .js-completed-checkbox'(event) {
+	'change .js-completed-checkbox, change .js-assigned-checkbox'(event) {
 	    if ($(event.currentTarget).val() === 'true') {
 	    	$(event.currentTarget).val('false');
 	    } else {
@@ -153,6 +156,7 @@ Template.trackingView.events({
 
 		let lessonPoperties = {
 			_id: $(event.currentTarget).parent().attr('id'),
+			assigned: event.currentTarget.assigned.value.trim() === 'true',
 			completed: event.currentTarget.completed.value.trim() === 'true',
 			completedOn: event.currentTarget.completedOn.value.trim(),
 			completionTime: event.currentTarget.completionTime.value.trim(),
