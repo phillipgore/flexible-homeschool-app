@@ -5,11 +5,13 @@
 		<form class="js-form-subjects-update row">
 
 			<h2 class="m-tn-b-9">Step 1: Information</h2>
+			<label class="m-tn-b-3">Student</label>
+			<h3 class="m-tn-b-9">{{selectedStudent.preferredFirstName.name}} {{selectedStudent.lastName}}</h3>
 			<div class="well bg-gray-lighter m-tn-b-18">
 				<label>Subject Name</label>
-				<input type="text" name="name" id="name" placeholder="Math" autocomplete="off" value="{{subject.name}}">
+				<input type="text" name="name" id="name" placeholder="Math" autocomplete="off" value="{{selectedSubject.name}}">
 				<label>Descripton</label>
-				<textarea class="m-tn-b-neg-3" name="description" id="description" placeholder="Learn basic mathematics..." rows="4" value="{{subject.description}}"></textarea>
+				<textarea class="m-tn-b-neg-3" name="description" id="description" placeholder="Learn basic mathematics..." rows="4" value="{{selectedSubject.description}}"></textarea>
 			</div>
 
 			<h2 class="m-tn-t-36 m-tn-b-9">Step 2: Resources</h2>
@@ -81,9 +83,11 @@
 			</div>
 
 			<h2 class="m-tn-t-36 m-tn-b-9">Step 3: Schedule</h2>
+			<label class="m-tn-b-3">School Year</label>
+			<h3 class="m-tn-b-9">{{selectedSchoolYear.startYear}}-{{selectedSchoolYear.endYear}}</h3>
 			{{#each term in terms}}
 			<div id="{{term._id}}" class="well bg-gray-lighter m-tn-b-9">
-				<h3 class="m-tn-b-9">Term {{term.order}}: Times Per Week</h3>
+				<h3 class="m-tn-b-9">{{selectedSchoolYear.startYear}}-{{selectedSchoolYear.endYear}}: Term {{term.order}}: Times Per Week</h3>
 				<label>Preset All Weeks To</label>
 				<div class="fss-select">
 					<select data-term-id="{{term._id}}" class="js-times-per-week-preset" name="timesPerWeekPreset" id="times-per-week-preset">

@@ -245,30 +245,16 @@ Template.subjectsEdit.helpers({
 		}
 	},
 	
-	subject: function() {
+	selectedSubject: function() {
 		return Subjects.findOne({_id: FlowRouter.getParam('selectedSubjectId')});
 	},
 
-	students: function() {
-		return Students.find({}, {sort: {birthday: 1, lastName: 1, firstName: 1}});
+	selectedStudent: function() {
+		return Students.findOne({_id: FlowRouter.getParam('selectedStudentId')});
 	},
 
-	studentSelected: function(currentStudent, student) {
-		if (currentStudent == student) {
-			return true;
-		}
-		return false;
-	},
-
-	schoolYears: function() {
-		return SchoolYears.find({}, {sort: {startYear: 1}});
-	},
-
-	schoolYearSelected: function(currentSchoolYear, schoolYear) {
-		if (currentSchoolYear == schoolYear) {
-			return true;
-		}
-		return false;
+	selectedSchoolYear: function() {
+		return SchoolYears.findOne({_id: FlowRouter.getParam('selectedSchoolYearId')});
 	},
 
 	terms: function() {

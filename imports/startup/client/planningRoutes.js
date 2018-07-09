@@ -151,7 +151,7 @@ FlowRouter.route('/planning/subjects/edit/:selectedStudentId/:selectedSchoolYear
 	name: 'subjectsEdit',
 	action() {
 		BlazeLayout.render('app', {
-			subbar: 'subbarSubjects',
+			subbar: '',
 			frameOne: 'planningList',
 			frameTwo: 'subjectsList',
 			frameThree: 'subjectsEdit',
