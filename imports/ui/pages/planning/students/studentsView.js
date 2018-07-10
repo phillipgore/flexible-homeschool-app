@@ -12,7 +12,7 @@ Template.studentsView.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
 		toolbarType: 'student',
-		editUrl: '/planning/students/edit/' + FlowRouter.getParam('selectedStudentId'),
+		editUrl: '/planning/students/edit/3/' + FlowRouter.getParam('selectedStudentId'),
 		labelThree: 'Student',
 		activeNav: 'planningList',
 	});
@@ -64,7 +64,7 @@ Template.studentsView.events({
 			} else {
 				Dialogs.remove({_id: dialogId});
 				Session.set('selectedStudentId', newStudentId)
-				FlowRouter.go('/planning/students/view/' + newStudentId);
+				FlowRouter.go('/planning/students/view/3/' + newStudentId);
 				$('.js-deleting').hide();
 			}
 		});

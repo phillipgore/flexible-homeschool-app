@@ -11,7 +11,7 @@ Template.usersList.onRendered( function() {
 	Session.set({
 		toolbarType: 'user',
 		labelTwo: 'Users',
-		newUrl: '/settings/users/new/',
+		newUrl: '/settings/users/new/3',
 		activeNav: 'settingsList',
 	});
 });

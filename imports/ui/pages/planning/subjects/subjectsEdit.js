@@ -227,7 +227,7 @@ Template.subjectsEdit.onRendered( function() {
 						} else {
 							$('.js-updating').hide();
 							$('.js-submit').prop('disabled', false);
-							FlowRouter.go('/planning/subjects/view/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ subjectId);
+							FlowRouter.go('/planning/subjects/view/3/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ subjectId);
 						}
 					});
 				}
@@ -310,7 +310,7 @@ Template.subjectsEdit.helpers({
 	},
 
 	cancelPath: function() {
-		return '/planning/subjects/view/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedSubjectId');
+		return '/planning/subjects/view/3/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedSubjectId');
 	},
 });
 

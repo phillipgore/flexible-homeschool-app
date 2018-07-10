@@ -5,8 +5,8 @@ Template.studentsNew.onRendered( function() {
 	Session.set({
 		toolbarType: 'new',
 		labelThree: 'New Student',
-		selectedFramePosition: 3,
-		selectedFrameClass: 'frame-position-three',
+		
+		
 		activeNav: 'planningList',
 	});
 
@@ -58,7 +58,7 @@ Template.studentsNew.onRendered( function() {
 					$('.js-submit').prop('disabled', false);
 				} else {
 					Session.set('selectedStudentId', studentId);
-					FlowRouter.go('/planning/students/view/' + studentId);
+					FlowRouter.go('/planning/students/view/3/' + studentId);
 				}
 			});
 

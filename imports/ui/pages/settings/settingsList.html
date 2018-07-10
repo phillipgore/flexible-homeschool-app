@@ -9,7 +9,7 @@
 						<div class="list-item-label">Users</div>
 					</span>
 				{{else}}
-					<a href="{{pathFor 'usersView' selectedUserId=selectedUserId}}" class="list-item-link bg-white p-tn-rl-9 
+					<a href="/settings/users/view/2/{{selectedUserId}}" class="list-item-link bg-white p-tn-rl-9 
 					{{#if active currentRouteName 'usersView'}}active{{/if}} 
 					{{#if active currentRouteName 'usersNew'}}active{{/if}} 
 					{{#if active currentRouteName 'usersVerifySent'}}active{{/if}}">
@@ -39,7 +39,7 @@
 						{{#if group.stripePaymentAttempt}}<div class="list-item-badge"></div>{{/if}}
 					</span>
 				{{else}}
-					<a href="{{pathFor 'billingInvoices'}}" class="list-item-link bg-white p-tn-rl-9 {{#if active currentRouteName 'billingInvoices'}}active{{/if}} {{#if active currentRouteName 'billingEdit'}}active{{/if}}">
+					<a href="/settings/billing/invoices/2" class="list-item-link bg-white p-tn-rl-9 {{#if active currentRouteName 'billingInvoices'}}active{{/if}} {{#if active currentRouteName 'billingEdit'}}active{{/if}}">
 						<div class="list-item-icon"><i class="fss-billing"></i></div> 
 						<div class="list-item-label">Billing</div>
 						{{#if group.stripePaymentAttempt}}<div class="list-item-badge"></div>{{/if}}
@@ -66,7 +66,7 @@
 				{{/if}}
 			{{/if}}
 			<li class="list-item">
-				<a href="/settings/support/view" class="list-item-link bg-white p-tn-rl-9 {{#if active currentRouteName 'supportView'}}active{{/if}}">
+				<a href="/settings/support/view/2" class="list-item-link bg-white p-tn-rl-9 {{#if active currentRouteName 'supportView'}}active{{/if}}">
 					<div class="list-item-icon"><i class="fss-support"></i></div> 
 					<div class="list-item-label">Support</div>
 				</a>

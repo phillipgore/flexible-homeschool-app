@@ -1,9 +1,9 @@
 import _ from 'lodash'
 
 // Students
-FlowRouter.route('/planning/students/new', {
+FlowRouter.route('/planning/students/new/:selectedFramePosition', {
 	name: 'studentsNew',
-	action() {
+	action(params) {
 		BlazeLayout.render('app', {
 			subbar: '',
 			frameOne: 'planningList',
@@ -13,9 +13,9 @@ FlowRouter.route('/planning/students/new', {
 	},
 });
 
-FlowRouter.route('/planning/students/view/:selectedStudentId', {
+FlowRouter.route('/planning/students/view/:selectedFramePosition/:selectedStudentId', {
 	name: 'studentsView',
-	action() {
+	action(params) {
 		BlazeLayout.render('app', {
 			subbar: '',
 			frameOne: 'planningList',
@@ -25,9 +25,9 @@ FlowRouter.route('/planning/students/view/:selectedStudentId', {
 	},
 });
 
-FlowRouter.route('/planning/students/edit/:selectedStudentId', {
+FlowRouter.route('/planning/students/edit/:selectedFramePosition/:selectedStudentId', {
 	name: 'studentsEdit',
-	action() {
+	action(params) {
 		BlazeLayout.render('app', {
 			subbar: '',
 			frameOne: 'planningList',
@@ -41,9 +41,9 @@ FlowRouter.route('/planning/students/edit/:selectedStudentId', {
 
 
 // School Years
-FlowRouter.route('/planning/schoolyears/new', {
+FlowRouter.route('/planning/schoolyears/new/:selectedFramePosition', {
 	name: 'schoolYearsNew',
-	action() {
+	action(params) {
 		LocalTerms.remove();
 		BlazeLayout.render('app', {
 			subbar: '',
@@ -54,9 +54,9 @@ FlowRouter.route('/planning/schoolyears/new', {
 	},
 });
 
-FlowRouter.route('/planning/schoolyears/view/:selectedSchoolYearId', {
+FlowRouter.route('/planning/schoolyears/view/:selectedFramePosition/:selectedSchoolYearId', {
 	name: 'schoolYearsView',
-	action() {
+	action(params) {
 		BlazeLayout.render('app', {
 			subbar: '',
 			frameOne: 'planningList',
@@ -66,9 +66,9 @@ FlowRouter.route('/planning/schoolyears/view/:selectedSchoolYearId', {
 	},
 });
 
-FlowRouter.route('/planning/schoolyears/edit/:selectedSchoolYearId', {
+FlowRouter.route('/planning/schoolyears/edit/:selectedFramePosition/:selectedSchoolYearId', {
 	name: 'schoolYearsEdit',
-	action() {
+	action(params) {
 		BlazeLayout.render('app', {
 			subbar: '',
 			frameOne: 'planningList',
@@ -82,7 +82,7 @@ FlowRouter.route('/planning/schoolyears/edit/:selectedSchoolYearId', {
 
 
 // Resources
-FlowRouter.route('/planning/resources/new/:selectedResourceType/:selectedResourceAvailability/:selectedResourceNewType', {
+FlowRouter.route('/planning/resources/new/:selectedFramePosition/:selectedResourceType/:selectedResourceAvailability/:selectedResourceNewType', {
 	name: 'resourcesNew',
 	action: function(params) {
 		BlazeLayout.render('app', {
@@ -95,9 +95,9 @@ FlowRouter.route('/planning/resources/new/:selectedResourceType/:selectedResourc
 });
 
 
-FlowRouter.route('/planning/resources/view/:selectedResourceType/:selectedResourceAvailability/:selectedResourceId/:selectedResourceCurrentTypeId', {
+FlowRouter.route('/planning/resources/view/:selectedFramePosition/:selectedResourceType/:selectedResourceAvailability/:selectedResourceId/:selectedResourceCurrentTypeId', {
 	name: 'resourcesView',
-	action() {
+	action(params) {
 		BlazeLayout.render('app', {
 			subbar: 'subbarResources',
 			frameOne: 'planningList',
@@ -107,7 +107,7 @@ FlowRouter.route('/planning/resources/view/:selectedResourceType/:selectedResour
 	},
 });
 
-FlowRouter.route('/planning/resources/edit/:selectedResourceType/:selectedResourceAvailability/:selectedResourceId/:selectedResourceCurrentTypeId', {
+FlowRouter.route('/planning/resources/edit/:selectedFramePosition/:selectedResourceType/:selectedResourceAvailability/:selectedResourceId/:selectedResourceCurrentTypeId', {
 	name: 'resourcesEdit',
 	action: function(params, queryParams) {
 		BlazeLayout.render('app', {
@@ -123,9 +123,9 @@ FlowRouter.route('/planning/resources/edit/:selectedResourceType/:selectedResour
 
 
 // Subjects
-FlowRouter.route('/planning/subjects/new/:selectedStudentId/:selectedSchoolYearId', {
+FlowRouter.route('/planning/subjects/new/:selectedFramePosition/:selectedStudentId/:selectedSchoolYearId', {
 	name: 'subjectsNew',
-	action() {
+	action(params) {
 		BlazeLayout.render('app', {
 			subbar: '',
 			frameOne: 'planningList',
@@ -135,9 +135,9 @@ FlowRouter.route('/planning/subjects/new/:selectedStudentId/:selectedSchoolYearI
 	},
 });
 
-FlowRouter.route('/planning/subjects/view/:selectedStudentId/:selectedSchoolYearId/:selectedSubjectId', {
+FlowRouter.route('/planning/subjects/view/:selectedFramePosition/:selectedStudentId/:selectedSchoolYearId/:selectedSubjectId', {
 	name: 'subjectsView',
-	action() {
+	action(params) {
 		BlazeLayout.render('app', {
 			subbar: 'subbarSubjects',
 			frameOne: 'planningList',
@@ -147,9 +147,9 @@ FlowRouter.route('/planning/subjects/view/:selectedStudentId/:selectedSchoolYear
 	},
 });
 
-FlowRouter.route('/planning/subjects/edit/:selectedStudentId/:selectedSchoolYearId/:selectedSubjectId', {
+FlowRouter.route('/planning/subjects/edit/:selectedFramePosition/:selectedStudentId/:selectedSchoolYearId/:selectedSubjectId', {
 	name: 'subjectsEdit',
-	action() {
+	action(params) {
 		BlazeLayout.render('app', {
 			subbar: '',
 			frameOne: 'planningList',

@@ -114,7 +114,7 @@ function initialData(context) {
 function checkRoleUser(context, redirect) {
 	if (Meteor.user().info.role === 'User') {
 		if (_.startsWith(context.route.name, 'users') || _.startsWith(context.route.name, 'billing')) {
-			redirect('/settings/support/view');
+			redirect('/settings/support/view/1');
 		}
 	}
 };
@@ -122,28 +122,28 @@ function checkRoleUser(context, redirect) {
 function checkRoleObserver(context, redirect) {
 	if (Meteor.user().info.role === 'Observer') {
 		if (_.startsWith(context.route.name, 'users') || _.startsWith(context.route.name, 'billing')) {
-			redirect('/settings/support/view');
+			redirect('/settings/support/view/1');
 		} else {
-			redirect('/settings/users/restricted');
+			redirect('/settings/users/restricted/2');
 		}
 	}
 };
 
 function checkRoleApplication (context, redirect) {
 	if (Meteor.user().info.role === 'Application Administrator' || Meteor.user().info.role === 'Developer') {
-		redirect('/settings/support/view');
+		redirect('/settings/support/view/1');
 	} 
 };
 
 function checkPaymentError(context, redirect) {
 	if (Groups.findOne().subscriptionStatus === 'error') {
-		redirect('/settings/billing/error');
+		redirect('/settings/billing/error/1');
 	}
 };
 
 function checkSubscriptionPaused(context, redirect) {
 	if (Groups.findOne().subscriptionStatus === 'paused') {
-		redirect('/settings/billing/invoices');
+		redirect('/settings/billing/invoices/2');
 	}
 };
 
@@ -158,11 +158,26 @@ function resetSessions(context) {
 	});
 };
 
+function setFramePosition(context) {
+	let currentPostion = context.params.selectedFramePosition;
+
+	if (!currentPostion || currentPostion === '1') {
+		Session.setPersistent('selectedFramePosition', 1);
+		Session.setPersistent('selectedFrameClass', 'frame-position-one');		
+	} else if (currentPostion === '2') {
+		Session.setPersistent('selectedFramePosition', 2);
+		Session.setPersistent('selectedFrameClass', 'frame-position-two');		
+	} else if (currentPostion === '3') {
+		Session.setPersistent('selectedFramePosition', 3);
+		Session.setPersistent('selectedFrameClass', 'frame-position-three');		
+	} 
+};
+
 function clearAlerts(context) {
 	Alerts.remove({});
 };
 
-FlowRouter.triggers.enter(clearAlerts);
+FlowRouter.triggers.enter([setFramePosition, clearAlerts]);
 
 FlowRouter.triggers.enter([checkSignIn], {only: [
 	'createAccount',

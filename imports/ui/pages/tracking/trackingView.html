@@ -4,67 +4,75 @@
 		<h2 class="txt-tn-center txt-gray-darkest txt-capitalize print-only-block m-tn-b-18">{{selectedSchoolYear.startYear}}-{{selectedSchoolYear.endYear}}, Term {{selectedTerm.order}}, Week {{selectedWeek.order}}</h2>
 
 		{{studentName student.preferredFirstName.name student.lastName}}
-		{{#each subject in subjects}}
-			<div class="js-subject-track track p-tn-t-18 col-lg-1of2">
-				<div class="clearfix m-tn-h-9">
-					<div class="track-icon"><i class="txt-primary fss-subjects"></i></div>
-					<div class="track-label">{{subject.name}}</div>
-				</div>
-				<div class="row track-btn-container m-tn-h-9">
+		{{#if subjects.count}}
+			{{#each subject in subjects}}
+				<div class="js-subject-track track p-tn-t-18 col-lg-1of2">
+					<div class="clearfix m-tn-h-9">
+						<div class="track-icon"><i class="txt-primary fss-subjects"></i></div>
+						<div class="track-label">{{subject.name}}</div>
+					</div>
+					<div class="row track-btn-container m-tn-h-9">
+						{{#each lesson in lessons subject._id}}
+							<button data-lesson-id="{{lesson._id}}" class="js-lesson-btn col-tn-1of{{lessonCount subject._id}} {{lessonStatus lesson.assigned lesson.completed subject._id}}">
+								<div class="js-lesson-updating hide">
+									<div class="loader-icon loader-icon-tn loader-icon-center"></div>
+								</div>
+							</button>
+						{{/each}}
+					</div>
 					{{#each lesson in lessons subject._id}}
-						<button data-lesson-id="{{lesson._id}}" class="js-lesson-btn col-tn-1of{{lessonCount subject._id}} {{lessonStatus lesson.assigned lesson.completed subject._id}}">
-							<div class="js-lesson-updating hide">
-								<div class="loader-icon loader-icon-tn loader-icon-center"></div>
+						<div id="{{lesson._id}}" class="js-lesson-input track-input">
+							<div class="row m-tn-h-9">
+								<div class="track-arrow offset-tn-{{lessonPosition subject._id lesson._id}}of{{lessonCount subject._id}} col-tn-1of{{lessonCount subject._id}}">
+								</div>
 							</div>
-						</button>
+							
+							<form id="js-form-{{lesson._id}}" class="js-form-lessons-update track-form">
+								<div class="row checkbox-collection p-tn-t-6">
+									<div class="col-tn-1of2">
+										<label class="checkbox">
+											<input class="js-assigned-checkbox" type="checkbox" name="assigned" value="{{lesson.assigned}}" checked="{{lesson.assigned}}">
+											<div class="checkbox-icon"></div> 
+											<div class="checkbox-label">Assigned</div>
+										</label>
+									</div>
+									<div class="col-tn-1of2">
+										<label class="checkbox fl-tn-right">
+											<input class="js-completed-checkbox" type="checkbox" name="completed" value="{{lesson.completed}}" checked="{{lesson.completed}}">
+											<div class="checkbox-icon"></div> 
+											<div class="checkbox-label">Complete</div>
+										</label>
+									</div>
+								</div>
+
+								<label>Completion Date</label>
+								<input type="text" id="completed-on-{{lesson._id}}" name="completedOn" class="js-completed-on" placeholder="{{dateFormat todaysDate}}" value="{{dateFormat todaysDate}}">
+								<label>Completion Time</label>
+								<div class="row">
+									<div class="col-tn-1of5">
+										<input type="text" name="completionTime" id="completion-time" placeholder="30" autocomplete="off" value="{{lesson.completionTime}}">
+									</div>
+									<div class="col-tn-4of5 font-weight-normal p-tn-l-6 p-tn-t-9">Minutes</div>
+								</div>
+								<label>Descripton</label>
+								<textarea class="m-tn-b-18" name="description" id="description-{{lesson._id}}" rows="4" placeholder="In this session we..." value="{{lesson.description}}"></textarea>
+								
+								<footer class="toolbar toolbar-bottom toolbar-gray">
+									<button data-close-id="{{lesson._id}}" class="js-close btn btn-gray-darker fl-tn-left">Cancel</button>
+									<button type="submit" class="js-submit fl-tn-right">Update</button>
+								</footer>
+							</form>
+						</div>
 					{{/each}}
 				</div>
-				{{#each lesson in lessons subject._id}}
-					<div id="{{lesson._id}}" class="js-lesson-input track-input">
-						<div class="row m-tn-h-9">
-							<div class="track-arrow offset-tn-{{lessonPosition subject._id lesson._id}}of{{lessonCount subject._id}} col-tn-1of{{lessonCount subject._id}}">
-							</div>
-						</div>
-						
-						<form id="js-form-{{lesson._id}}" class="js-form-lessons-update track-form">
-							<div class="row checkbox-collection p-tn-t-6">
-								<div class="col-tn-1of2">
-									<label class="checkbox">
-										<input class="js-assigned-checkbox" type="checkbox" name="assigned" value="{{lesson.assigned}}" checked="{{lesson.assigned}}">
-										<div class="checkbox-icon"></div> 
-										<div class="checkbox-label">Assigned</div>
-									</label>
-								</div>
-								<div class="col-tn-1of2">
-									<label class="checkbox fl-tn-right">
-										<input class="js-completed-checkbox" type="checkbox" name="completed" value="{{lesson.completed}}" checked="{{lesson.completed}}">
-										<div class="checkbox-icon"></div> 
-										<div class="checkbox-label">Complete</div>
-									</label>
-								</div>
-							</div>
-
-							<label>Completion Date</label>
-							<input type="text" id="completed-on-{{lesson._id}}" name="completedOn" class="js-completed-on" placeholder="{{dateFormat todaysDate}}" value="{{dateFormat todaysDate}}">
-							<label>Completion Time</label>
-							<div class="row">
-								<div class="col-tn-1of5">
-									<input type="text" name="completionTime" id="completion-time" placeholder="30" autocomplete="off" value="{{lesson.completionTime}}">
-								</div>
-								<div class="col-tn-4of5 font-weight-normal p-tn-l-6 p-tn-t-9">Minutes</div>
-							</div>
-							<label>Descripton</label>
-							<textarea class="m-tn-b-18" name="description" id="description-{{lesson._id}}" rows="4" placeholder="In this session we..." value="{{lesson.description}}"></textarea>
-							
-							<footer class="toolbar toolbar-bottom toolbar-gray">
-								<button data-close-id="{{lesson._id}}" class="js-close btn btn-gray-darker fl-tn-left">Cancel</button>
-								<button type="submit" class="js-submit fl-tn-right">Update</button>
-							</footer>
-						</form>
-					</div>
-				{{/each}}
+			{{/each}}
+		{{else}}
+			<div class="txt-tn-center m-tn-t-72">
+				<i class="fss-subjects font-size-64 txt-gray m-tn-r-9"></i>
+				<h1 class="m-tn-t-36">Requires Subjects</h1>
+				<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36">Go to "Planning" to add subjects.</p>
 			</div>
-		{{/each}}
+		{{/if}}
 	</main>
 	{{#unless subscriptionReady}}
 		{{> loading}}

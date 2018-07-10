@@ -13,8 +13,8 @@ Template.resourcesEditBook.onRendered( function() {
 	Session.set({
 		toolbarType: 'edit',
 		labelThree: 'Edit Book Resource',
-		selectedFramePosition: 3,
-		selectedFrameClass: 'frame-position-three',
+		
+		
 		activeNav: 'planningList',
 	});
 
@@ -62,7 +62,7 @@ Template.resourcesEditBook.onRendered( function() {
 					$('.js-updating').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
-					FlowRouter.go('/planning/resources/view/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/'+ FlowRouter.getParam('selectedResourceId') +'/'+ FlowRouter.getParam('selectedResourceCurrentTypeId'));
+					FlowRouter.go('/planning/resources/view/3/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/'+ FlowRouter.getParam('selectedResourceId') +'/'+ FlowRouter.getParam('selectedResourceCurrentTypeId'));
 				}
 			});
 
@@ -84,7 +84,7 @@ Template.resourcesEditBook.helpers({
 	},
 
 	cancelPath: function() {
-		return '/planning/resources/view/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/'+ FlowRouter.getParam('selectedResourceId') +'/'+ FlowRouter.getParam('selectedResourceCurrentTypeId');
+		return '/planning/resources/view/3/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/'+ FlowRouter.getParam('selectedResourceId') +'/'+ FlowRouter.getParam('selectedResourceCurrentTypeId');
 	},
 });
 

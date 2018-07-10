@@ -17,8 +17,8 @@ Template.resourcesNewVideo.onRendered( function() {
 	Session.set({
 		toolbarType: 'new',
 		labelThree: 'New Video Resource',
-		selectedFramePosition: 3,
-		selectedFrameClass: 'frame-position-three',
+		
+		
 		activeNav: 'planningList',
 	});
 
@@ -63,7 +63,7 @@ Template.resourcesNewVideo.onRendered( function() {
 					$('.js-submit').prop('disabled', false);
 				} else {
 					Session.set('selectedResourceId', resourceId);
-					FlowRouter.go('/planning/resources/view/all/all/' + resourceId +'/video');
+					FlowRouter.go('/planning/resources/view/3/all/all/' + resourceId +'/video');
 				}
 			});
 

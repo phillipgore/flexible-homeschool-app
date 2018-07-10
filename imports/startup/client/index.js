@@ -1,5 +1,5 @@
 import './triggers.js';
-import './userRoutes.js';
+import './accountRoutes.js';
 import './planningRoutes.js';
 import './trackingRoutes.js';
 import './reportingRoutes.js';
@@ -27,15 +27,15 @@ $(window).on('load', function (event) {
 	});
 });
 
-$(window).on('popstate', function (event) {
-	history.go(1);
-});
-
 $(window).resize(function(event) {
 	Session.set({
 		windowHeight: $(window).height(),
 		windowWidth: $(window).width(),
 	});
+});
+
+Template.registerHelper('selectedFramePosition', () => {
+  return Session.get('selectedFramePosition')
 });
 
 Template.registerHelper('dateFormat', (date) => {

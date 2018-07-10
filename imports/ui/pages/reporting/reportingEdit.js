@@ -11,8 +11,6 @@ Template.reportingEdit.onRendered( function() {
 	Session.set({
 		toolbarType: 'edit',
 		labelTwo: 'Edit Report',
-		selectedFramePosition: 2,
-		selectedFrameClass: 'frame-position-two',
 		activeNav: 'reportingList',
 	});
 
@@ -68,7 +66,7 @@ Template.reportingEdit.onRendered( function() {
 					$('.js-updating').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
-					FlowRouter.go('/reporting/view/' + Session.get('selectedStudentId') +"/"+ Session.get('selectedSchoolYearId') +"/"+ Session.get('selectedReportId'));
+					FlowRouter.go('/reporting/view/1/' + Session.get('selectedStudentId') +"/"+ Session.get('selectedSchoolYearId') +"/"+ Session.get('selectedReportId'));
 				}
 			});
 
@@ -95,7 +93,7 @@ Template.reportingEdit.helpers({
 	},
 	
 	cancelPath: function() {
-		return '/reporting/view/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedReportId');
+		return '/reporting/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedReportId');
 	},
 });
 

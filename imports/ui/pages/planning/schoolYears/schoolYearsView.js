@@ -14,7 +14,7 @@ Template.schoolYearsView.onCreated( function() {
 Template.schoolYearsView.onRendered( function() {
 	Session.set({
 		toolbarType: 'schoolYear',
-		editUrl: '/planning/schoolyears/edit/' + FlowRouter.getParam('selectedSchoolYearId'),
+		editUrl: '/planning/schoolyears/edit/3/' + FlowRouter.getParam('selectedSchoolYearId'),
 		labelThree: 'School Year',
 		activeNav: 'planningList',
 	});
@@ -71,7 +71,7 @@ Template.schoolYearsView.events({
 			} else {
 				Dialogs.remove({_id: dialogId});
 				Session.set('selectedSchoolYearId', newSchoolYearId)
-				FlowRouter.go('/planning/schoolyears/view/' + newSchoolYearId);
+				FlowRouter.go('/planning/schoolyears/view/2/' + newSchoolYearId);
 				$('.js-deleting').hide();
 			}
 		});

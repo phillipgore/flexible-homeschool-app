@@ -7,8 +7,8 @@ Template.schoolYearsNew.onRendered( function() {
 	Session.set({
 		toolbarType: 'new',
 		labelThree: 'New School Year',
-		selectedFramePosition: 3,
-		selectedFrameClass: 'frame-position-three',
+		
+		
 		activeNav: 'planningList',
 	});
 	// Term Input Settings
@@ -104,7 +104,7 @@ Template.schoolYearsNew.onRendered( function() {
 										$('.js-submit').prop('disabled', false);
 									} else {
 										Session.set('selectedSchoolYearId', schoolYearId)
-										FlowRouter.go('/planning/schoolyears/view/' + schoolYearId);
+										FlowRouter.go('/planning/schoolyears/view/3/' + schoolYearId);
 									}
 								});
 							}

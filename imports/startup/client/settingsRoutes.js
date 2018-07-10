@@ -1,7 +1,7 @@
 // Users
-FlowRouter.route('/settings/users/view/:selectedUserId', {
+FlowRouter.route('/settings/users/view/:selectedFramePosition/:selectedUserId', {
 	name: 'usersView',
-	action() {
+	action(params) {
 		BlazeLayout.render('app', {
 			subbar: '',
 			frameOne: 'settingsList',
@@ -11,9 +11,9 @@ FlowRouter.route('/settings/users/view/:selectedUserId', {
 	},
 });
 
-FlowRouter.route('/settings/users/new', {
+FlowRouter.route('/settings/users/new/:selectedFramePosition', {
 	name: 'usersNew',
-	action() {
+	action(params) {
 		BlazeLayout.render('app', {
 			subbar: '',
 			frameOne: 'settingsList',
@@ -23,9 +23,9 @@ FlowRouter.route('/settings/users/new', {
 	},
 });
 
-FlowRouter.route('/settings/users/verify/resent/:selectedUserId', {
+FlowRouter.route('/settings/users/verify/resent/:selectedFramePosition/:selectedUserId', {
 	name: 'usersVerifyResent',
-	action() {
+	action(params) {
 		BlazeLayout.render('app', {
 			subbar: '',
 			frameOne: 'settingsList',
@@ -35,9 +35,9 @@ FlowRouter.route('/settings/users/verify/resent/:selectedUserId', {
 	},
 });
 
-FlowRouter.route('/settings/users/edit/:selectedUserId', {
+FlowRouter.route('/settings/users/edit/:selectedFramePosition/:selectedUserId', {
 	name: 'usersEdit',
-	action() {
+	action(params) {
 		BlazeLayout.render('app', {
 			subbar: '',
 			frameOne: 'settingsList',
@@ -47,9 +47,9 @@ FlowRouter.route('/settings/users/edit/:selectedUserId', {
 	},
 });
 
-FlowRouter.route('/settings/users/restricted', {
+FlowRouter.route('/settings/users/restricted/:selectedFramePosition', {
 	name: 'usersRestricted',
-	action() {
+	action(params) {
 		BlazeLayout.render('app', {
 			subbar: '',
 			frameOne: 'settingsList',
@@ -62,9 +62,9 @@ FlowRouter.route('/settings/users/restricted', {
 
 
 // Billing
-FlowRouter.route('/settings/billing/error', {
+FlowRouter.route('/settings/billing/error/:selectedFramePosition', {
 	name: 'billingError',
-	action() {
+	action(params) {
 		BlazeLayout.render('app', {
 			subbar: '',
 			frameOne: 'billingError',
@@ -72,9 +72,9 @@ FlowRouter.route('/settings/billing/error', {
 	},
 });
 
-FlowRouter.route('/settings/billing/invoices', {
+FlowRouter.route('/settings/billing/invoices/:selectedFramePosition', {
 	name: 'billingInvoices',
-	action() {
+	action(params) {
 		BlazeLayout.render('app', {
 			subbar: '',
 			frameOne: 'settingsList',
@@ -84,9 +84,9 @@ FlowRouter.route('/settings/billing/invoices', {
 	},
 });
 
-FlowRouter.route('/settings/billing/edit', {
+FlowRouter.route('/settings/billing/edit/:selectedFramePosition', {
 	name: 'billingEdit',
-	action() {
+	action(params) {
 		BlazeLayout.render('app', {
 			subbar: '',
 			frameOne: 'settingsList',
@@ -100,9 +100,9 @@ FlowRouter.route('/settings/billing/edit', {
 
 
 // Support
-FlowRouter.route('/settings/support/view', {
+FlowRouter.route('/settings/support/view/:selectedFramePosition', {
 	name: 'supportView',
-	action() {
+	action(params) {
 		BlazeLayout.render('app', {
 			subbar: '',
 			frameOne: 'settingsList',

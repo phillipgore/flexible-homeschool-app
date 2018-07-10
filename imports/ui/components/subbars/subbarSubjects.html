@@ -15,7 +15,7 @@
 										data-subject-student="{{student._id}}" 
 										data-subject-school-year="{{selectedSchoolYearId}}" 
 										class="js-subject dropdown-item-link" 
-										href="/planning/subjects/view/{{student._id}}/{{selectedSchoolYearId}}/{{studentSchoolYearSubjectId student._id selectedSchoolYearId}}"
+										href="/planning/subjects/view/{{selectedFramePosition}}/{{student._id}}/{{selectedSchoolYearId}}/{{studentSchoolYearSubjectId student._id selectedSchoolYearId}}"
 									>
 										<div class="dropdown-item-label">{{student.preferredFirstName.name}} {{student.lastName}}</div>
 										{{#if activeListItem selectedStudent._id student._id}}
@@ -44,7 +44,7 @@
 							<div class="dropdown-arrow"></div>
 							{{#each schoolYear in schoolYears}}
 								<li class="dropdown-item">
-									<a id="{{studentSchoolYearSubjectId selectedStudentId schoolYear._id}}" data-subject-student="{{selectedStudentId}}" data-subject-school-year="{{schoolYear._id}}" class="js-subject dropdown-item-link" href="/planning/subjects/view/{{selectedStudentId}}/{{schoolYear._id}}/{{studentSchoolYearSubjectId selectedStudentId schoolYear._id}}">
+									<a id="{{studentSchoolYearSubjectId selectedStudentId schoolYear._id}}" data-subject-student="{{selectedStudentId}}" data-subject-school-year="{{schoolYear._id}}" class="js-subject dropdown-item-link" href="/planning/subjects/view/{{selectedFramePosition}}/{{selectedStudentId}}/{{schoolYear._id}}/{{studentSchoolYearSubjectId selectedStudentId schoolYear._id}}">
 										<div class="dropdown-item-label">{{schoolYear.startYear}}-{{schoolYear.endYear}}</div>
 										{{#if activeListItem selectedSchoolYearId schoolYear._id}}
 											<div class="dropdown-item-icon-right">

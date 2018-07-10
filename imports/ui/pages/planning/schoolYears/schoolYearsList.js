@@ -10,7 +10,7 @@ Template.schoolYearsList.onCreated( function() {
 Template.schoolYearsList.onRendered( function() {
 	Session.set({
 		labelTwo: 'School Years',
-		newUrl: '/planning/schoolyears/new/',
+		newUrl: '/planning/schoolyears/new/3/',
 		activeNav: 'planningList',
 	});
 });

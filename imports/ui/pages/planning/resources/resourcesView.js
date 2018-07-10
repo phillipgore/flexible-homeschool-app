@@ -12,7 +12,7 @@ Template.resourcesView.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
 		toolbarType: 'resource',
-		editUrl: '/planning/resources/edit/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/'+ FlowRouter.getParam('selectedResourceId') +'/'+ FlowRouter.getParam('selectedResourceCurrentTypeId'),
+		editUrl: '/planning/resources/edit/3/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/'+ FlowRouter.getParam('selectedResourceId') +'/'+ FlowRouter.getParam('selectedResourceCurrentTypeId'),
 		labelThree: 'Resource',
 		activeNav: 'planningList',
 	});
@@ -54,7 +54,7 @@ Template.resourcesView.helpers({
 
 	dynamicToolbarEditUrl: function() {
 		let resouce = Resources.findOne({_id: FlowRouter.getParam('selectedResourceId')});
-		return resouce && '/planning/resources/edit/' + FlowRouter.getParam('selectedResourceId') + '/' + resouce.type;
+		return resouce && '/planning/resources/edit/3/' + FlowRouter.getParam('selectedResourceId') + '/' + resouce.type;
 	},
 
 	availabilityStatment: function(availability) {
@@ -99,7 +99,7 @@ Template.resourcesView.events({
 				});
 			} else {
 				Session.set('selectedResourceId', newResource._id);
-				FlowRouter.go('/planning/resources/view/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/'+ newResource._id +'/'+ newResource.type);
+				FlowRouter.go('/planning/resources/view/2/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/'+ newResource._id +'/'+ newResource.type);
 				$('.js-deleting').hide();
 			}
 		});

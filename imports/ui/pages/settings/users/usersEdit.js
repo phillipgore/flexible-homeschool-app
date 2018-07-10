@@ -11,8 +11,8 @@ Template.usersEdit.onRendered( function() {
 	Session.set({
 		toolbarType: 'edit',
 		labelThree: 'Edit User',
-		selectedFramePosition: 3,
-		selectedFrameClass: 'frame-position-three',
+		
+		
 		activeNav: 'settingsList',
 	});
 
@@ -53,7 +53,7 @@ Template.usersEdit.onRendered( function() {
 					$('.js-updating').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
-					FlowRouter.go('/settings/users/view/' + FlowRouter.getParam('selectedUserId'));
+					FlowRouter.go('/settings/users/view/3/' + FlowRouter.getParam('selectedUserId'));
 				}
 			});
 
@@ -102,7 +102,7 @@ Template.usersEdit.helpers({
 	},
 
 	cancelPath: function() {
-		return '/settings/users/view/' + FlowRouter.getParam('selectedUserId');
+		return '/settings/users/view/3/' + FlowRouter.getParam('selectedUserId');
 	},
 });
 

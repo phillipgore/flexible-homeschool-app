@@ -28,7 +28,7 @@
 			</div>
 			<div class="col-tn-1of4">
 				{{#if group.stripePaymentAttempt}}<div class="navbar-badge"></div>{{/if}}
-				<a class="js-btn-nav js-btn-nav-settings-list btn-nav last {{active 'settingsList'}}" href="{{pathFor 'usersView' selectedUserId=selectedUserId}}" title="Settings">
+				<a class="js-btn-nav js-btn-nav-settings-list btn-nav last {{active 'settingsList'}}" href="/settings/users/view/{{selectedFramePosition}}/{{selectedUserId}}" title="Settings">
 					<i class="fss-settings btn-nav-icon"></i>
 					<div class="btn-nav-label">Settings</div>
 				</a>

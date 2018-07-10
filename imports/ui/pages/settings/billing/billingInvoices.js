@@ -22,7 +22,7 @@ Template.billingInvoices.onCreated( function() {
 			Session.set('invoices', result);
 		}
 	});
-
+	
 	Meteor.call('getCard', function(error, result) {
 		if (error) {
 			Alerts.insert({
@@ -46,13 +46,11 @@ Template.billingInvoices.onRendered( function() {
 
 Template.billingInvoices.helpers({
 	dataReady: function() {
-		if (Session.get('upcomingInvoices') && Session.get('invoices') && Session.get('card')) {
+		console.log(Session.get('invoices'))
+		console.log(Session.get('card'))
+		if (Session.get('invoices') || Session.get('card')) {
 			return true;
 		}
-		if (!Session.get('upcomingInvoices') && Session.get('invoices') && Session.get('card')) {
-			return true;
-		}
-		return false;
 	},
 
 	invoices: function() {

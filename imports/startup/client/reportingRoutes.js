@@ -1,8 +1,8 @@
 import _ from 'lodash'
 
-FlowRouter.route('/reporting/new/', {
+FlowRouter.route('/reporting/new/:selectedFramePosition', {
 	name: 'reportingNew',
-	action() {
+	action(params) {
 		BlazeLayout.render('app', {
 			subbar: '',
 			frameOne: 'reportingList',
@@ -11,9 +11,9 @@ FlowRouter.route('/reporting/new/', {
 	},
 });
 
-FlowRouter.route('/reporting/view/:selectedStudentId/:selectedSchoolYearId/:selectedReportId', {
+FlowRouter.route('/reporting/view/:selectedFramePosition/:selectedStudentId/:selectedSchoolYearId/:selectedReportId', {
 	name: 'reportingView',
-	action() {
+	action(params) {
 		BlazeLayout.render('app', {
 			subbar: 'subbarReporting',
 			frameOne: 'reportingList',
@@ -22,9 +22,9 @@ FlowRouter.route('/reporting/view/:selectedStudentId/:selectedSchoolYearId/:sele
 	},
 });
 
-FlowRouter.route('/reporting/edit/:selectedStudentId/:selectedSchoolYearId/:selectedReportId', {
+FlowRouter.route('/reporting/edit/:selectedFramePosition/:selectedStudentId/:selectedSchoolYearId/:selectedReportId', {
 	name: 'reportingEdit',
-	action() {
+	action(params) {
 		BlazeLayout.render('app', {
 			subbar: '',
 			frameOne: 'reportingList',
@@ -33,9 +33,9 @@ FlowRouter.route('/reporting/edit/:selectedStudentId/:selectedSchoolYearId/:sele
 	},
 });
 
-FlowRouter.route('/reporting/print/:selectedStudentId/:selectedSchoolYearId/:selectedReportId', {
+FlowRouter.route('/reporting/print/:selectedFramePosition/:selectedStudentId/:selectedSchoolYearId/:selectedReportId', {
 	name: 'reportingPrint',
-	action() {
+	action(params) {
 		BlazeLayout.render('print', {
 			hiddenOne: '',
 			hiddenTwo: 'reportingList',

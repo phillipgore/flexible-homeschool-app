@@ -9,7 +9,7 @@ Template.reportingList.onCreated( function() {
 Template.reportingList.onRendered( function() {
 	Session.set({
 		labelOne: 'Reports',
-		newUrl: '/reporting/new/',
+		newUrl: '/reporting/new/2',
 		activeNav: 'reportingList',
 	});
 });

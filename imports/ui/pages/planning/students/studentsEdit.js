@@ -11,8 +11,8 @@ Template.studentsEdit.onRendered( function() {
 	Session.set({
 		toolbarType: 'edit',
 		labelThree: 'Edit Student',
-		selectedFramePosition: 3,
-		selectedFrameClass: 'frame-position-three',
+		
+		
 		activeNav: 'planningList',
 	});
 
@@ -63,7 +63,7 @@ Template.studentsEdit.onRendered( function() {
 					$('.js-updating').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
-					FlowRouter.go('/planning/students/view/' + FlowRouter.getParam('selectedStudentId'));
+					FlowRouter.go('/planning/students/view/3/' + FlowRouter.getParam('selectedStudentId'));
 				}
 			});
 
@@ -92,7 +92,7 @@ Template.studentsEdit.helpers({
 	},
 
 	cancelPath: function() {
-		return '/planning/students/view/' + FlowRouter.getParam('selectedStudentId');
+		return '/planning/students/view/3/' + FlowRouter.getParam('selectedStudentId');
 	},
 });
 

@@ -39,8 +39,8 @@ Template.subjectsNew.onRendered( function() {
 	Session.set({
 		toolbarType: 'new',
 		labelThree: 'New Subject',
-		selectedFramePosition: 3,
-		selectedFrameClass: 'frame-position-three',
+		
+		
 		activeNav: 'planningList',
 	});
 
@@ -115,7 +115,7 @@ Template.subjectsNew.onRendered( function() {
 						return 'student';
 					}
 
-					FlowRouter.go('/planning/subjects/view/' + newSubjects[0].studentId +'/'+ Session.get('selectedSchoolYearId') +'/'+ newSubjects[0].subjectId);					
+					FlowRouter.go('/planning/subjects/view/3/' + newSubjects[0].studentId +'/'+ Session.get('selectedSchoolYearId') +'/'+ newSubjects[0].subjectId);					
 					if (additionalStudentsCount >= 1 ) {
 						Alerts.insert({
 							colorClass: 'bg-info',

@@ -23,6 +23,9 @@ i {
     -moz-osx-font-smoothing: grayscale;
 }
 
+.fss-open-circle:before {
+  content: "\e946";
+}
 .fss-password:before {
   content: "\e945";
 }

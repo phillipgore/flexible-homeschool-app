@@ -10,8 +10,6 @@ Template.reportingNew.onRendered( function() {
 	Session.set({
 		toolbarType: 'new',
 		labelTwo: 'New Report',
-		selectedFramePosition: 2,
-		selectedFrameClass: 'frame-position-two',
 		activeNav: 'reportingList',
 	});
 
@@ -66,7 +64,7 @@ Template.reportingNew.onRendered( function() {
 					$('.js-saving').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
-					FlowRouter.go('/reporting/view/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ reportId);
+					FlowRouter.go('/reporting/view/2/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ reportId);
 				}
 			});
 

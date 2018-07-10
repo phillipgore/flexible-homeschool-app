@@ -19,7 +19,7 @@ Template.subjectsView.onCreated( function() {
 Template.subjectsView.onRendered( function() {
 	Session.set({
 		toolbarType: 'subject',
-		editUrl: '/planning/subjects/edit/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedSubjectId'),
+		editUrl: '/planning/subjects/edit/3/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedSubjectId'),
 		labelThree: 'Subject',
 		activeNav: 'planningList',
 	});
@@ -67,7 +67,7 @@ Template.subjectsView.events({
 				});
 			} else {
 				Session.set('selectedSubjectId', newSubjectId);
-				FlowRouter.go('/planning/subjects/view/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ newSubjectId);
+				FlowRouter.go('/planning/subjects/view/3/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ newSubjectId);
 				$('.js-deleting').hide();
 			}
 		});

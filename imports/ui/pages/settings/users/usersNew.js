@@ -10,8 +10,8 @@ Template.usersNew.onRendered( function() {
 	Session.set({
 		toolbarType: 'new',
 		labelThree: 'New User',
-		selectedFramePosition: 3,
-		selectedFrameClass: 'frame-position-three',
+		
+		
 		activeNav: 'settingsList',
 	});
 
@@ -71,7 +71,7 @@ Template.usersNew.onRendered( function() {
 								message: error.reason,
 							});
 						} else {
-							FlowRouter.go('/settings/users/view/' + userId);
+							FlowRouter.go('/settings/users/view/3/' + userId);
 							Alerts.insert({
 								colorClass: 'bg-info',
 								iconClass: 'fss-email',
@@ -118,6 +118,6 @@ Template.usersNew.events({
 	'click .js-cancel'(event) {
 		event.preventDefault();
 		
-		FlowRouter.go('/settings/users/view/' + Session.get('selectedUserId'));
+		FlowRouter.go('/settings/users/view/2/' + Session.get('selectedUserId'));
 	},
 });

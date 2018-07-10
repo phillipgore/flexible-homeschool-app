@@ -20,25 +20,25 @@ Template.navbar.helpers({
 
 	planningPath: function() {
 		if (Session.get('planningPathName') === 'students') {
-			return '/planning/students/view/' + Session.get('selectedStudentId');
+			return '/planning/students/view/1/' + Session.get('selectedStudentId');
 		}
 		if (Session.get('planningPathName') === 'schoolYears') {
-			return '/planning/schoolyears/view/' + Session.get('selectedSchoolYearId');
+			return '/planning/schoolyears/view/1/' + Session.get('selectedSchoolYearId');
 		}
 		if (Session.get('planningPathName') === 'resources') {
-			return '/planning/resources/view/' + Session.get('selectedResourceType') +'/'+ Session.get('selectedResourceAvailability') +'/'+ Session.get('selectedResourceId') +'/'+ Session.get('selectedResourceCurrentTypeId');
+			return '/planning/resources/view/1/' + Session.get('selectedResourceType') +'/'+ Session.get('selectedResourceAvailability') +'/'+ Session.get('selectedResourceId') +'/'+ Session.get('selectedResourceCurrentTypeId');
 		}
 		if (Session.get('planningPathName') === 'subjects') {
-			return '/planning/subjects/view/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedSubjectId');
+			return '/planning/subjects/view/1/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedSubjectId');
 		}
 	},
 
 	trackingPath: function() {
-		return '/tracking/students/view/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedTermId') +'/'+ Session.get('selectedWeekId');
+		return '/tracking/students/view/1/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedTermId') +'/'+ Session.get('selectedWeekId');
 	},
 
 	reportingPath: function() {
-		return '/reporting/view/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedReportId');
+		return '/reporting/view/1/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedReportId');
 	},
 
 	active(nav) {

@@ -12,7 +12,7 @@
 				</li>
 				{{#each report in reports}}
 					<li class="list-item">
-						<a id="{{report._id}}" href="/reporting/view/{{selectedStudentId}}/{{selectedSchoolYearId}}/{{report._id}}" class="js-report list-item-link p-tn-rl-9 {{#if active report._id}}active{{/if}}">
+						<a id="{{report._id}}" href="/reporting/view/2/{{selectedStudentId}}/{{selectedSchoolYearId}}/{{report._id}}" class="js-report list-item-link p-tn-rl-9 {{#if active report._id}}active{{/if}}">
 							<div class="list-item-icon"><i class="txt-primary fss-reporting"></i></div> 
 							<div class="list-item-label">{{report.name}}</div>
 						</a>
@@ -24,7 +24,7 @@
 				<ul class="list">
 					{{#each report in reports}}
 						<li class="list-item">
-							<a id="{{report._id}}" href="/reporting/view/{{selectedStudentId}}/{{selectedSchoolYearId}}/{{report._id}}" class="js-report list-item-link p-tn-rl-9 {{#if active report._id}}active{{/if}}">
+							<a id="{{report._id}}" href="/reporting/view/2/{{selectedStudentId}}/{{selectedSchoolYearId}}/{{report._id}}" class="js-report list-item-link p-tn-rl-9 {{#if active report._id}}active{{/if}}">
 								<div class="list-item-icon"><i class="txt-primary fss-reporting"></i></div> 
 								<div class="list-item-label">{{report.name}}</div>
 							</a>

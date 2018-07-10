@@ -10,8 +10,9 @@ import './trackingList.html';
 StudentStats = new Mongo.Collection('studentStats');
 
 Template.trackingList.onCreated( function() {
-	// Subscriptions
-	Tracker.autorun(() => {
+	let template = Template.instance();
+	
+	template.autorun(() => {
 		this.subjectData = Meteor.subscribe('allStudents');
 		Meteor.subscribe('allSchoolYearsPath', FlowRouter.getParam('selectedStudentId'));
 		Meteor.subscribe('studentTermsPath', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));

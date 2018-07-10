@@ -6,7 +6,7 @@
 				<ul class="data-list">
 					{{#each student in students}}
 					<li class="list-item">
-						<a id="{{student._id}}" href="/tracking/students/view/{{student._id}}/{{selectedSchoolYearId}}/{{selectedTermId}}/{{selectedWeekId}}" class="js-student list-item-link p-tn-rl-9 {{#if active student._id}}active{{/if}}">
+						<a id="{{student._id}}" href="/tracking/students/view/2/{{student._id}}/{{selectedSchoolYearId}}/{{selectedTermId}}/{{selectedWeekId}}" class="js-student list-item-link p-tn-rl-9 {{#if active student._id}}active{{/if}}">
 							<div class="clearfix">
 								<div class="list-item-icon"><i class="txt-primary fss-students"></i></div> 
 								<div class="list-item-label">
@@ -40,14 +40,14 @@
 				<div class="txt-tn-center m-tn-t-72">
 					<i class="fss-tracking font-size-64 txt-gray m-tn-r-9"></i>
 					<h1 class="m-tn-t-36">Requires School Years</h1>
-					<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36">Click the plus icon above to add your first School Year.</p>
+					<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36">Go to "Planning" to add your first School Year.</p>
 				</div>
 			{{/if}}
 		{{else}}
 			<div class="txt-tn-center m-tn-t-72">
 				<i class="fss-tracking font-size-64 txt-gray m-tn-r-9"></i>
 				<h1 class="m-tn-t-36">Requires Students</h1>
-				<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36">Click the plus icon above to add your first Student.</p>
+				<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36">Go to "Planning" to add your first Student.</p>
 			</div>
 		{{/if}}
 	</main>

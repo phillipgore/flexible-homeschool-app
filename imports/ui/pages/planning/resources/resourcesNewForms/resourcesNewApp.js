@@ -15,8 +15,8 @@ Template.resourcesNewApp.onRendered( function() {
 	Session.set({
 		toolbarType: 'new',
 		labelThree: 'New App Resource',
-		selectedFramePosition: 3,
-		selectedFrameClass: 'frame-position-three',
+		
+		
 		activeNav: 'planningList',
 	});
 
@@ -59,7 +59,7 @@ Template.resourcesNewApp.onRendered( function() {
 					$('.js-submit').prop('disabled', false);
 				} else {
 					Session.set('selectedResourceId', resourceId);
-					FlowRouter.go('/planning/resources/view/all/all/' + resourceId +'/app');
+					FlowRouter.go('/planning/resources/view/3/all/all/' + resourceId +'/app');
 				}
 			});
 

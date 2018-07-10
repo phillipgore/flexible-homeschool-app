@@ -14,7 +14,7 @@
 							{{else}}
 								{{#each schoolYear in schoolYears}}
 									<li class="dropdown-item">
-										<a id="{{schoolYear._id}}" class="js-school-year dropdown-item-link" href="/tracking/students/view/{{selectedStudentId}}/{{schoolYear._id}}/{{schoolYear.firstTermId}}/{{schoolYear.firstWeekId}}">
+										<a id="{{schoolYear._id}}" class="js-school-year dropdown-item-link" href="/tracking/students/view/{{selectedFramePosition}}/{{selectedStudentId}}/{{schoolYear._id}}/{{schoolYear.firstTermId}}/{{schoolYear.firstWeekId}}">
 											{{#unless selectedFramePositionOne}}
 												<div class="dropdown-item-icon"><i class="fss-circle {{yearStatus schoolYear.status}}"></i></div>
 											{{/unless}}
@@ -49,7 +49,7 @@
 							{{else}}
 								{{#each term in terms}}
 									<li class="dropdown-item">
-										<a id="{{term._id}}" class="js-term dropdown-item-link" href="/tracking/students/view/{{selectedStudentId}}/{{selectedSchoolYearId}}/{{term._id}}/{{term.firstWeekId}}">
+										<a id="{{term._id}}" class="js-term dropdown-item-link" href="/tracking/students/view/{{selectedFramePosition}}/{{selectedStudentId}}/{{selectedSchoolYearId}}/{{term._id}}/{{term.firstWeekId}}">
 											{{#unless selectedFramePositionOne}}
 												<div class="dropdown-item-icon"><i class="fss-circle {{termStatus term.status}}"></i></div>
 											{{/unless}}
@@ -84,7 +84,7 @@
 							{{else}}
 								{{#each week in weeks}}
 									<li class="dropdown-item">
-										<a id="{{week._id}}" class="js-week dropdown-item-link" href="/tracking/students/view/{{selectedStudentId}}/{{selectedSchoolYearId}}/{{selectedTermId}}/{{week._id}}">
+										<a id="{{week._id}}" class="js-week dropdown-item-link" href="/tracking/students/view/{{selectedFramePosition}}/{{selectedStudentId}}/{{selectedSchoolYearId}}/{{selectedTermId}}/{{week._id}}">
 											{{#unless selectedFramePositionOne}}
 												<div class="dropdown-item-icon"><i class="fss-circle {{weekStatus week.status}}"></i></div>
 											{{/unless}}

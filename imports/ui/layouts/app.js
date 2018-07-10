@@ -94,31 +94,31 @@ Template.app.events({
 
 
 	// Frame Positon
-	'click .frame-one a.list-item-link'(event) {
-		Session.setPersistent('selectedFramePosition', 2);
-		Session.setPersistent('selectedFrameClass', 'frame-position-two');
-	},
+	// 'click .frame-one a.list-item-link'(event) {
+	// 	Session.setPersistent('selectedFramePosition', 2);
+	// 	Session.setPersistent('selectedFrameClass', 'frame-position-two');
+	// },
 
-	'click .frame-two a.list-item-link'(event) {
-		Session.setPersistent('selectedFramePosition', 3);
-		Session.setPersistent('selectedFrameClass', 'frame-position-three');
-	},
+	// 'click .frame-two a.list-item-link'(event) {
+	// 	Session.setPersistent('selectedFramePosition', 3);
+	// 	Session.setPersistent('selectedFrameClass', 'frame-position-three');
+	// },
 
-	'click .js-btn-back, click .js-cancel, click .js-delete'(event) {
-		if ($(event.currentTarget).hasClass('js-btn-back')) {
-			event.preventDefault();
-		}
+	// 'click .js-btn-back, click .js-cancel, click .js-delete'(event) {
+	// 	if ($(event.currentTarget).hasClass('js-btn-back')) {
+	// 		event.preventDefault();
+	// 	}
 
-		let newFramePosition = Session.get('selectedFramePosition') - 1;
+	// 	let newFramePosition = Session.get('selectedFramePosition') - 1;
 
-		if (newFramePosition === 2) {
-			Session.setPersistent('selectedFramePosition', 2);
-			Session.setPersistent('selectedFrameClass', 'frame-position-two');
-		} else {
-			Session.setPersistent('selectedFramePosition', 1);
-			Session.setPersistent('selectedFrameClass', 'frame-position-one');
-		}
-	},
+	// 	if (newFramePosition === 2) {
+	// 		Session.setPersistent('selectedFramePosition', 2);
+	// 		Session.setPersistent('selectedFrameClass', 'frame-position-two');
+	// 	} else {
+	// 		Session.setPersistent('selectedFramePosition', 1);
+	// 		Session.setPersistent('selectedFrameClass', 'frame-position-one');
+	// 	}
+	// },
 
 
 	// List Selections
@@ -129,7 +129,7 @@ Template.app.events({
 	'click .js-student'(event) {
 		Session.set({
 			selectedStudentId: $(event.currentTarget).attr('id'),
-			editUrl: '/planning/students/edit/' + $(event.currentTarget).attr('id'),
+			editUrl: '/planning/students/edit/3/' + $(event.currentTarget).attr('id'),
 		});
 
 		let sessionSubjectIdName = 'selectedSubject' + $(event.currentTarget).attr('id') + Session.get('selectedSchoolYearId') + 'Id';
@@ -139,7 +139,7 @@ Template.app.events({
 	'click .js-planning-student'(event) {
 		Session.set({
 			selectedStudentId: $(event.currentTarget).attr('id'),
-			editUrl: '/planning/students/edit/' + $(event.currentTarget).attr('id'),
+			editUrl: '/planning/students/edit/3/' + $(event.currentTarget).attr('id'),
 		});
 
 		let termId = InitialIds.find().fetch()[0]['term' + $(event.currentTarget).attr('id') + Session.get('selectedSchoolYearId')];
@@ -149,10 +149,9 @@ Template.app.events({
 	},
 
 	'click .js-school-year'(event) {
-		console.log(event.target.value)
 		Session.set({
 			selectedSchoolYearId: $(event.currentTarget).attr('id'),
-			editUrl: '/planning/schoolyears/edit/' + $(event.currentTarget).attr('id'),
+			editUrl: '/planning/schoolyears/edit/3/' + $(event.currentTarget).attr('id'),
 		});
 
 		let sessionSubjectIdName = 'selectedSubject' + Session.get('selectedStudentId') + $(event.currentTarget).attr('id') + 'Id';
@@ -162,7 +161,7 @@ Template.app.events({
 	'click .js-planning-school-year'(event) {
 		Session.set({
 			selectedSchoolYearId: $(event.currentTarget).attr('id'),
-			editUrl: '/planning/schoolyears/edit/' + $(event.currentTarget).attr('id'),
+			editUrl: '/planning/schoolyears/edit/3/' + $(event.currentTarget).attr('id'),
 		});
 
 		let termId = InitialIds.find().fetch()[0]['term' + Session.get('selectedStudentId') + $(event.currentTarget).attr('id')];
@@ -183,7 +182,7 @@ Template.app.events({
 		Session.set({
 			selectedResourceId: $(event.currentTarget).attr('id'),
 			selectedResourceCurrentTypeId: $(event.currentTarget).attr('data-resource-type'),
-			editUrl: '/planning/resources/edit/' + Session.get('selectedResourceType') +'/'+ Session.get('selectedResourceAvailability') +'/'+ $(event.currentTarget).attr('id') +'/'+ $(event.currentTarget).attr('data-resource-type'),
+			editUrl: '/planning/resources/edit/3/' + Session.get('selectedResourceType') +'/'+ Session.get('selectedResourceAvailability') +'/'+ $(event.currentTarget).attr('id') +'/'+ $(event.currentTarget).attr('data-resource-type'),
 		});
 	},
 
@@ -192,7 +191,7 @@ Template.app.events({
 			selectedResourceType: $(event.currentTarget).attr('data-resource-type'),
 			selectedResourceId: $(event.currentTarget).attr('id'),
 			selectedResourceCurrentTypeId: $(event.currentTarget).attr('data-resource-type'),
-			editUrl: '/planning/resources/edit/' + $(event.currentTarget).attr('data-resource-type') +'/'+ Session.get('selectedResourceAvailability') +'/'+ $(event.currentTarget).attr('id') +'/'+ $(event.currentTarget).attr('data-resource-type'),
+			editUrl: '/planning/resources/edit/3/' + $(event.currentTarget).attr('data-resource-type') +'/'+ Session.get('selectedResourceAvailability') +'/'+ $(event.currentTarget).attr('id') +'/'+ $(event.currentTarget).attr('data-resource-type'),
 		});
 	},
 
@@ -201,7 +200,7 @@ Template.app.events({
 			selectedResourceAvailability: $(event.currentTarget).attr('data-resource-availability'),
 			selectedResourceId: $(event.currentTarget).attr('id'),
 			selectedResourceCurrentTypeId: $(event.currentTarget).attr('data-resource-type'),
-			editUrl: '/planning/resources/edit/' + $(event.currentTarget).attr('data-resource-type') +'/'+ $(event.currentTarget).attr('data-resource-availability') +'/'+ $(event.currentTarget).attr('id') +'/'+ $(event.currentTarget).attr('data-resource-type'),
+			editUrl: '/planning/resources/edit/3/' + $(event.currentTarget).attr('data-resource-type') +'/'+ $(event.currentTarget).attr('data-resource-availability') +'/'+ $(event.currentTarget).attr('id') +'/'+ $(event.currentTarget).attr('data-resource-type'),
 		});
 	},
 
@@ -219,28 +218,28 @@ Template.app.events({
 			selectedStudentId: $(event.currentTarget).attr('data-subject-student'),
 			selectedSchoolYearId: $(event.currentTarget).attr('data-subject-school-Year'),
 			selectedSubjectId: $(event.currentTarget).attr('id'),
-			editUrl: '/planning/subjects/edit/' + $(event.currentTarget).attr('data-subject-student') +'/'+ $(event.currentTarget).attr('data-subject-school-Year') +'/'+ $(event.currentTarget).attr('id'),
+			editUrl: '/planning/subjects/edit/3/' + $(event.currentTarget).attr('data-subject-student') +'/'+ $(event.currentTarget).attr('data-subject-school-Year') +'/'+ $(event.currentTarget).attr('id'),
 		});
 	},
 
 	'click .js-report'(event) {
 		Session.set({
 			selectedReportId: $(event.currentTarget).attr('id'),
-			editUrl: '/reporting/edit/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ $(event.currentTarget).attr('id'),
+			editUrl: '/reporting/edit/3/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ $(event.currentTarget).attr('id'),
 		});
 	},
 
 	'click .js-report-student'(event) {
 		Session.set({
 			selectedStudentId: $(event.currentTarget).attr('id'),
-			editUrl: '/reporting/edit/' + $(event.currentTarget).attr('id') +'/'+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedReportId'),
+			editUrl: '/reporting/edit/3/' + $(event.currentTarget).attr('id') +'/'+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedReportId'),
 		});
 	},
 
 	'click .js-report-school-year'(event) {
 		Session.set({
 			selectedSchoolYearId: $(event.currentTarget).attr('id'),
-			editUrl: '/reporting/edit/' + Session.get('selectedStudentId') +'/'+ $(event.currentTarget).attr('id') +'/'+ Session.get('selectedReportId'),
+			editUrl: '/reporting/edit/3/' + Session.get('selectedStudentId') +'/'+ $(event.currentTarget).attr('id') +'/'+ Session.get('selectedReportId'),
 		});
 	},
 });

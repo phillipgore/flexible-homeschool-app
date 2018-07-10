@@ -102,24 +102,6 @@ Template.settingsList.events({
 		});
 	},
 
-	'click .js-reset-password-confirmed'(event) {
-		event.preventDefault();
-		console.log('clicked')
-		$('.js-signing-out').show();
-
-		Accounts.logout(function(error) {
-			if (error) {
-				Alerts.insert({
-					colorClass: 'bg-danger',
-					iconClass: 'fss-danger',
-					message: error.reason,
-				});
-			} else {
-				FlowRouter.go("/reset");
-			}
-		});
-	},
-
 	'click .js-add-test-data'(event) {
 		event.preventDefault();
 		$('.list-item-loading').show();

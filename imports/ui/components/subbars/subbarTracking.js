@@ -8,7 +8,9 @@ import moment from 'moment';
 import './subbarTracking.html';
 
 Template.subbarTracking.onCreated( function() {
-	Tracker.autorun(() => {
+	let template = Template.instance();
+	
+	template.autorun(() => {
 		// Subbar Subscriptions
 		this.schoolYearData = Meteor.subscribe('studentSchoolYearsPath', FlowRouter.getParam('selectedStudentId'));
 		this.termData = Meteor.subscribe('studentTermsPath', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
@@ -46,7 +48,6 @@ Template.subbarTracking.helpers({
 	},
 
 	yearStatus: function(schoolYearStatus) {
-		console.log(schoolYearStatus)
 		if (schoolYearStatus === 'pending') {
 			return 'txt-gray-darker';
 		}

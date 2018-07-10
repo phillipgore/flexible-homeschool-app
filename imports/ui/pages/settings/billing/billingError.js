@@ -71,7 +71,7 @@ Template.billingError.events({
 		if (cardValidation()) {
 			stripe.createToken(Session.get('cardNumber')).then((result) => {
 				if (result.error) {
-					FlowRouter.go('/settings/billing/error');
+					FlowRouter.go('/settings/billing/error/1');
 				} else {
 					subscriptionProperties.customer.source = result.token.id;
 					Meteor.call('createSubscription', subscriptionProperties.customer.metadata.groupId, result.token.card.id, subscriptionProperties, function(error, updatedGroupProperties) {

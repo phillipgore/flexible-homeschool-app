@@ -154,6 +154,19 @@ Template.toolbar.helpers({
 });
 
 Template.toolbar.events({
+	'click .js-btn-back'(event) {
+		event.preventDefault();
+
+		let framePositionIndex = FlowRouter.current().route.path.split( '/' ).indexOf(':selectedFramePosition');
+		let framePosition = parseInt(FlowRouter.getParam('selectedFramePosition')) - 1;
+		let pathArray = window.location.pathname.split( '/' )
+
+		pathArray[framePositionIndex] = framePosition;
+		let newPath = pathArray.join("/");
+
+		FlowRouter.go(newPath)
+	},
+
 	'click .js-new-subject'(event) {
 		event.preventDefault();
 

@@ -30,8 +30,8 @@ Template.schoolYearsEdit.onRendered( function() {
 	Session.set({
 		toolbarType: 'edit',
 		labelThree: 'Edit School Year',
-		selectedFramePosition: 3,
-		selectedFrameClass: 'frame-position-three',
+		
+		
 		activeNav: 'planningList',
 	});
 })
@@ -104,7 +104,7 @@ Template.schoolYearsEdit.helpers({
 	},
 
 	cancelPath: function() {
-		return '/planning/schoolyears/view/' + FlowRouter.getParam('selectedSchoolYearId');
+		return '/planning/schoolyears/view/3/' + FlowRouter.getParam('selectedSchoolYearId');
 	},
 });
 
@@ -473,7 +473,7 @@ Template.schoolYearsEdit.events({
 
 			$('.js-updating').hide();
 			$('.js-submit').prop('disabled', false);
-			FlowRouter.go('/planning/schoolyears/view/' + FlowRouter.getParam('selectedSchoolYearId'));
+			FlowRouter.go('/planning/schoolyears/view/3/' + FlowRouter.getParam('selectedSchoolYearId'));
 		}
 
 		return false;

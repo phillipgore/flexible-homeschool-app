@@ -103,7 +103,7 @@ Template.billingEdit.events({
 	'click .js-cancel'(event) {
 		event.preventDefault();
 
-		FlowRouter.go('/settings/billing/invoices')
+		FlowRouter.go('/settings/billing/invoices/2')
 	},
 
 	'submit .js-form-update-credit-card'(event) {
@@ -143,7 +143,7 @@ Template.billingEdit.events({
 									});
 								} else {
 									Session.set('card', result);
-									FlowRouter.go('/settings/billing/edit');
+									FlowRouter.go('/settings/billing/edit/3');
 
 									$('.js-updating').hide();
 									$('.js-submit').prop('disabled', false);

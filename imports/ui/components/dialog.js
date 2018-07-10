@@ -15,4 +15,23 @@ Template.dialog.events({
 		const dialogId = Dialogs.findOne()._id;
 		Dialogs.remove({_id: dialogId});
 	},
+
+	'click .js-reset-password-confirmed'(event) {
+		event.preventDefault();
+		
+		$('.js-signing-out').show();
+		Dialogs.remove({});
+
+		Accounts.logout(function(error) {
+			if (error) {
+				Alerts.insert({
+					colorClass: 'bg-danger',
+					iconClass: 'fss-danger',
+					message: error.reason,
+				});
+			} else {
+				FlowRouter.go("/reset");
+			}
+		});
+	},
 });

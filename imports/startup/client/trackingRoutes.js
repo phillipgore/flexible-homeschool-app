@@ -1,6 +1,6 @@
-FlowRouter.route('/tracking/students/view/:selectedStudentId/:selectedSchoolYearId/:selectedTermId/:selectedWeekId', {
+FlowRouter.route('/tracking/students/view/:selectedFramePosition/:selectedStudentId/:selectedSchoolYearId/:selectedTermId/:selectedWeekId', {
 	name: 'trackingView',
-	action() {
+	action(params) {
 		BlazeLayout.render('app', {
 			subbar: 'subbarTracking',
 			frameOne: 'trackingList',

@@ -5,7 +5,7 @@ Template.usersView.onRendered( function() {
 	// ToolbarView Settings
 	Session.set({
 		toolbarType: 'user',
-		editUrl: '/settings/users/edit/' + FlowRouter.getParam('selectedUserId'),
+		editUrl: '/settings/users/edit/3/' + FlowRouter.getParam('selectedUserId'),
 		labelThree: 'User',
 		activeNav: 'settingsList',
 	});
@@ -94,7 +94,7 @@ Template.usersView.events({
 			} else {
 				Dialogs.remove({_id: dialogId});
 				Session.set('selectedUserId', nextUserId);
-				FlowRouter.go('/settings/users/view/' + nextUserId);
+				FlowRouter.go('/settings/users/view/2/' + nextUserId);
 				$('.js-deleting').hide();
 			}
 		});

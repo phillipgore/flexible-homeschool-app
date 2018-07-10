@@ -19,7 +19,7 @@ Template.subjectsList.onCreated( function() {
 Template.subjectsList.onRendered( function() {
 	Session.set({
 		labelTwo: 'Subjects',
-		newUrl: '/planning/subjects/new/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId'),
+		newUrl: '/planning/subjects/new/3/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId'),
 		activeNav: 'planningList',
 	});
 });

@@ -31,8 +31,7 @@ Template.reportingView.onRendered( function() {
 		selectedSchoolYearId: FlowRouter.getParam('selectedSchoolYearId'),
 		selectedStudentId: FlowRouter.getParam('selectedStudentId'),
 		toolbarType: 'report',
-		editUrl: '/reporting/edit/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedReportId'),
-		printUrl: '/reporting/print/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedReportId'),
+		editUrl: '/reporting/edit/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedReportId'),
 		activeNav: 'reportingList',
 	});
 });
@@ -49,7 +48,7 @@ Template.reportingView.helpers({
 		return Meteor.users.findOne();
 	},
 
-	student: function() {
+	selectedStudent: function() {
 		return Students.findOne({_id: FlowRouter.getParam('selectedStudentId')});
 	},
 
@@ -107,7 +106,7 @@ Template.reportingView.events({
 				});
 			} else {
 				Session.set('selectedReportId', newReportId);
-				FlowRouter.go('/reporting/view/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ newReportId);
+				FlowRouter.go('/reporting/view/1/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ newReportId);
 				$('.js-deleting').hide();
 			}
 		});

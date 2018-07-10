@@ -14,7 +14,7 @@
 				{{/if}}
 				{{#each schoolYear in schoolYears}}
 					<li class="list-item">
-						<a id="{{schoolYear._id}}" href="/planning/schoolyears/view/{{schoolYear._id}}" class="js-school-year js-planning-school-year list-item-link p-tn-rl-9 {{#if active schoolYear._id}}active{{/if}}">
+						<a id="{{schoolYear._id}}" href="/planning/schoolyears/view/3/{{schoolYear._id}}" class="js-school-year js-planning-school-year list-item-link p-tn-rl-9 {{#if active schoolYear._id}}active{{/if}}">
 							<div class="list-item-icon"><i class="txt-primary fss-school-years"></i></div> 
 							<div class="list-item-label">{{schoolYear.startYear}}-{{schoolYear.endYear}}</div>
 						</a>

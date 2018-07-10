@@ -11,7 +11,7 @@ Template.studentsList.onRendered( function() {
 	// Toolbar Settings
 	Session.set({
 		labelTwo: 'Students',
-		newUrl: '/planning/students/new/',
+		newUrl: '/planning/students/new/3',
 		activeNav: 'planningList',
 	});
 });
