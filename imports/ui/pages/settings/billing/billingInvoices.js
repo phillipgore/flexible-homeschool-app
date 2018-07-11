@@ -41,6 +41,7 @@ Template.billingInvoices.onRendered( function() {
 	Session.set({
 		labelThree: 'Invoices',
 		activeNav: 'settingsList',
+		toolbarType: 'billing',
 	});
 });
 

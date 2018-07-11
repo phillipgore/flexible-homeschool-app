@@ -177,7 +177,12 @@ function clearAlerts(context) {
 	Alerts.remove({});
 };
 
-FlowRouter.triggers.enter([setFramePosition, clearAlerts]);
+function scrollReset(context) {
+	$(window).scrollTop(0);
+	// $('.frame-one, .frame-two, .frame-three').scrollTop(0);
+};
+
+FlowRouter.triggers.enter([setFramePosition, clearAlerts, scrollReset]);
 
 FlowRouter.triggers.enter([checkSignIn], {only: [
 	'createAccount',

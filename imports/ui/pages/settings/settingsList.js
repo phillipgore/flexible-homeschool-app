@@ -52,27 +52,6 @@ Template.settingsList.helpers({
 		}
 		return false;
 	},
-
-	accountPausedOrPending: function (subscriptionStatus) {
-		if (subscriptionStatus === 'pausePending' || subscriptionStatus === 'paused') {
-			return true;
-		}
-		return false;
-	},
-
-	accountPausePending: function (subscriptionStatus) {
-		if (subscriptionStatus === 'pausePending') {
-			return true;
-		}
-		return false;
-	},
-
-	accountPaused: function (subscriptionStatus) {
-		if (subscriptionStatus === 'paused') {
-			return true;
-		}
-		return false;
-	},
 });
 
 Template.settingsList.events({
@@ -162,55 +141,5 @@ Template.settingsList.events({
 				FlowRouter.go("/sign-in");
 			}
 		});
-	},
-	
-	'click .js-pause-account'(event) {
-		event.preventDefault();
-		$('.list-item-loading').show();
-
-		let groupId = $('.js-pause-account').attr('id');
-
-		Meteor.call('pauseSubscription', function(error, result) {
-			if (error) {
-				Alerts.insert({
-					colorClass: 'bg-danger',
-					iconClass: 'fss-danger',
-					message: error.reason,
-				});
-				$('.list-item-loading').hide();
-			} else {
-				$('.list-item-loading').hide();
-				Alerts.insert({
-					colorClass: 'bg-info',
-					iconClass: 'fss-info',
-					message: 'Your account has been paused. You may unpause it at anytime.',
-				});
-			}
-		})
-	},
-
-	'click .js-unpause-account'(event) {
-		event.preventDefault();
-		$('.list-item-loading').show();
-
-		let groupId = $('.js-unpause-account').attr('id');
-
-		Meteor.call('unpauseSubscription', function(error, result) {
-			if (error) {
-				Alerts.insert({
-					colorClass: 'bg-danger',
-					iconClass: 'fss-danger',
-					message: error.reason,
-				});
-				$('.list-item-loading').hide();
-			} else {
-				$('.list-item-loading').hide();
-				Alerts.insert({
-					colorClass: 'bg-info',
-					iconClass: 'fss-info',
-					message: 'Your account has been unpaused. Welcome back.',
-				});
-			}
-		})
 	},
 });
