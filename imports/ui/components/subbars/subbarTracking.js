@@ -48,17 +48,20 @@ Template.subbarTracking.helpers({
 	},
 
 	yearStatus: function(schoolYearStatus) {
+		if (schoolYearStatus === 'empty') {
+			return 'fss-open-circle txt-gray-darker';
+		}
 		if (schoolYearStatus === 'pending') {
-			return 'txt-gray-darker';
+			return 'fss-circle txt-gray-darker';
 		}
 		if (schoolYearStatus === 'partial') {
-			return 'txt-secondary';
+			return 'fss-circle txt-secondary';
 		}
 		if (schoolYearStatus === 'assigned') {
-			return 'txt-warning';
+			return 'fss-circle txt-warning';
 		}
 		if (schoolYearStatus === 'completed') {
-			return 'txt-primary';
+			return 'fss-circle txt-primary';
 		}
 	},
 
@@ -75,17 +78,20 @@ Template.subbarTracking.helpers({
 	},
 
 	termStatus: function(termStatus) {
+		if (termStatus === 'empty') {
+			return 'fss-open-circle txt-gray-darker';
+		}
 		if (termStatus === 'pending') {
-			return 'txt-gray-darker';
+			return 'fss-circle txt-gray-darker';
 		}
 		if (termStatus === 'partial') {
-			return 'txt-secondary';
+			return 'fss-circle txt-secondary';
 		}
 		if (termStatus === 'assigned') {
-			return 'txt-warning';
+			return 'fss-circle txt-warning';
 		}
 		if (termStatus === 'completed') {
-			return 'txt-primary';
+			return 'fss-circle txt-primary';
 		}
 	},
 
@@ -102,17 +108,20 @@ Template.subbarTracking.helpers({
 	},
 
 	weekStatus: function(weekStatus) {
+		if (weekStatus === 'empty') {
+			return 'fss-open-circle txt-gray-darker';
+		}
 		if (weekStatus === 'pending') {
-			return 'txt-gray-darker';
+			return 'fss-circle txt-gray-darker';
 		}
 		if (weekStatus === 'partial') {
-			return 'txt-secondary';
+			return 'fss-circle txt-secondary';
 		}
 		if (weekStatus === 'assigned') {
-			return 'txt-warning';
+			return 'fss-circle txt-warning';
 		}
 		if (weekStatus === 'completed') {
-			return 'txt-primary';
+			return 'fss-circle txt-primary';
 		}
 	},
 

@@ -18,17 +18,20 @@ Template.subbarReporting.helpers({
 	},
 
 	yearStatus: function(schoolYearStatus) {
+		if (schoolYearStatus === 'empty') {
+			return 'fss-open-circle txt-gray-darker';
+		}
 		if (schoolYearStatus === 'pending') {
-			return 'txt-gray-darker';
+			return 'fss-circle txt-gray-darker';
 		}
 		if (schoolYearStatus === 'partial') {
-			return 'txt-secondary';
+			return 'fss-circle txt-secondary';
 		}
 		if (schoolYearStatus === 'assigned') {
-			return 'txt-warning';
+			return 'fss-circle txt-warning';
 		}
 		if (schoolYearStatus === 'completed') {
-			return 'txt-primary';
+			return 'fss-circle txt-primary';
 		}
 	},
 

@@ -16,7 +16,7 @@
 									<li class="dropdown-item">
 										<a id="{{schoolYear._id}}" class="js-school-year dropdown-item-link" href="/tracking/students/view/{{selectedFramePosition}}/{{selectedStudentId}}/{{schoolYear._id}}/{{schoolYear.firstTermId}}/{{schoolYear.firstWeekId}}">
 											{{#unless selectedFramePositionOne}}
-												<div class="dropdown-item-icon"><i class="fss-circle {{yearStatus schoolYear.status}}"></i></div>
+												<div class="dropdown-item-icon"><i class="{{yearStatus schoolYear.status}}"></i></div>
 											{{/unless}}
 											<div class="dropdown-item-label">{{schoolYear.startYear}}-{{schoolYear.endYear}}</div>
 											{{#if activeListItem selectedSchoolYearId schoolYear._id}}
@@ -51,7 +51,7 @@
 									<li class="dropdown-item">
 										<a id="{{term._id}}" class="js-term dropdown-item-link" href="/tracking/students/view/{{selectedFramePosition}}/{{selectedStudentId}}/{{selectedSchoolYearId}}/{{term._id}}/{{term.firstWeekId}}">
 											{{#unless selectedFramePositionOne}}
-												<div class="dropdown-item-icon"><i class="fss-circle {{termStatus term.status}}"></i></div>
+												<div class="dropdown-item-icon"><i class="{{termStatus term.status}}"></i></div>
 											{{/unless}}
 											<div class="dropdown-item-label">Term {{term.order}}</div>
 											{{#if activeListItem selectedTermId term._id}}
@@ -86,7 +86,7 @@
 									<li class="dropdown-item">
 										<a id="{{week._id}}" class="js-week dropdown-item-link" href="/tracking/students/view/{{selectedFramePosition}}/{{selectedStudentId}}/{{selectedSchoolYearId}}/{{selectedTermId}}/{{week._id}}">
 											{{#unless selectedFramePositionOne}}
-												<div class="dropdown-item-icon"><i class="fss-circle {{weekStatus week.status}}"></i></div>
+												<div class="dropdown-item-icon"><i class="{{weekStatus week.status}}"></i></div>
 											{{/unless}}
 											<div class="dropdown-item-label">Week {{week.order}}</div>
 											{{#if activeListItem selectedWeekId week._id}}

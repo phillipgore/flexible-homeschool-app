@@ -6,6 +6,9 @@ import {Lessons} from '../../api/lessons/lessons.js';
 import _ from 'lodash'
 
 function status (lessonsTotal, lessonsCompletedTotal, lessonsAssignedTotal) {
+	if (!lessonsTotal) {
+		return 'empty'
+	}
 	if (!lessonsCompletedTotal && !lessonsAssignedTotal) {
 		return 'pending'
 	} 
