@@ -5,7 +5,9 @@ import autosize from 'autosize';
 import './resourcesEditVideo.html';
 
 Template.resourcesEditVideo.onCreated( function() {
-	Tracker.autorun(() => {
+	let template = Template.instance();
+	
+	template.autorun(() => {
 		this.subscribe('resource', FlowRouter.getParam('selectedResourceId'));
 	});
 });

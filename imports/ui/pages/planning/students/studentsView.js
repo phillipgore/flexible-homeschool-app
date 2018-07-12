@@ -3,7 +3,9 @@ import { Students } from '../../../../api/students/students.js';
 import './studentsView.html';
 
 Template.studentsView.onCreated( function() {
-	Tracker.autorun(() => {
+	let template = Template.instance();
+	
+	template.autorun(() => {
 		this.studentData = Meteor.subscribe('student', FlowRouter.getParam('selectedStudentId'));
 	});
 });

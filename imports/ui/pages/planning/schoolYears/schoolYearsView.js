@@ -6,7 +6,9 @@ import './schoolYearsView.html';
 
 Template.schoolYearsView.onCreated( function() {
 	// Subscriptions
-	Tracker.autorun(() => {
+	let template = Template.instance();
+	
+	template.autorun(() => {
 		this.schoolYearData = Meteor.subscribe('schoolYearView', FlowRouter.getParam('selectedSchoolYearId'));
 	});
 });

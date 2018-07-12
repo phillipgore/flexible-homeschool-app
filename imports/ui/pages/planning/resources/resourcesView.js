@@ -3,7 +3,9 @@ import { Resources } from '../../../../api/resources/resources.js';
 import './resourcesView.html';
 
 Template.resourcesView.onCreated( function() {
-	Tracker.autorun(() => {
+	let template = Template.instance();
+	
+	template.autorun(() => {
 		this.resourceData = Meteor.subscribe('resource', FlowRouter.getParam('selectedResourceId'));
 	});
 });

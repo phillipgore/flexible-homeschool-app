@@ -5,7 +5,9 @@ import './resourcesList.html';
 import _ from 'lodash'
 
 Template.resourcesList.onCreated( function() {
-	Tracker.autorun(() => {
+	let template = Template.instance();
+	
+	template.autorun(() => {
 		this.resourceData = Meteor.subscribe('scopedResources', FlowRouter.getParam('selectedResourceType'), FlowRouter.getParam('selectedResourceAvailability'));
 		Meteor.subscribe('resourceStats');
 	});
