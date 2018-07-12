@@ -5,18 +5,18 @@
     "start": "meteor run"
   },
   "dependencies": {
-    "@babel/runtime": "^7.0.0-beta.44",
-    "autosize": "^4.0.1",
+    "@babel/runtime": "^7.0.0-beta.53",
+    "autosize": "^4.0.2",
     "babel-runtime": "^6.20.0",
     "bcrypt": "^1.0.3",
-    "body-parser": "^1.18.2",
-    "core-js": "^2.5.3",
+    "body-parser": "^1.18.3",
+    "core-js": "^2.5.7",
     "i": "^0.3.6",
-    "lodash": "^4.17.10",
+    "lodash": "^4.17.5",
     "meteor-node-stubs": "~0.2.4",
-    "moment": "^2.19.3",
-    "npm": "^5.6.0",
-    "simpl-schema": "^1.1.0",
-    "stripe": "^5.4.0"
+    "moment": "^2.22.2",
+    "npm": "^6.1.0",
+    "simpl-schema": "^1.5.0",
+    "stripe": "^5.10.0"
   }
 }
