@@ -107,20 +107,14 @@ Template.subjectsNew.onRendered( function() {
 				} else {
 					Session.set('selectedStudentId', newSubjects[0].studentId);
 					Session.set('selectedSubjectId', newSubjects[0].subjectId);
-					let additionalStudentsCount = newSubjects.length - 1
-					function pluralize(count) {
-						if (count > 1) {
-							return 'students';
-						}
-						return 'student';
-					}
+					let studentsCount = newSubjects.length
 
 					FlowRouter.go('/planning/subjects/view/3/' + newSubjects[0].studentId +'/'+ Session.get('selectedSchoolYearId') +'/'+ newSubjects[0].subjectId);					
-					if (additionalStudentsCount >= 1 ) {
+					if (studentsCount > 1 ) {
 						Alerts.insert({
 							colorClass: 'bg-info',
 							iconClass: 'fss-info',
-							message: 'This subject has been added '+ additionalStudentsCount +' to aditional '+ pluralize(additionalStudentsCount) +'.',
+							message: 'This subject has been added to '+ studentsCount +' total students.',
 						});
 					}
 				}
