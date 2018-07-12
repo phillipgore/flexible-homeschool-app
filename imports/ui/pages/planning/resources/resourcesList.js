@@ -146,7 +146,7 @@ Template.resourcesList.events({
 				$('#resource' + resourceId).find('.list-item-dropdown-loader').hide();
 				$('#resource' + resourceId).find('.list-item-dropdown').show();
 
-				FlowRouter.go('/planning/resources/view/3/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/'+ newResource._id +'/'+ newResource.type );
+				FlowRouter.go('/planning/resources/view/2/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/'+ newResource._id +'/'+ newResource.type );
 			}
 		});
 
