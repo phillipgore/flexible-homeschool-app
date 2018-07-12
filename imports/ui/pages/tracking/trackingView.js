@@ -39,10 +39,7 @@ Template.trackingView.onRendered( function() {
 
 Template.trackingView.helpers({
 	subscriptionReady: function() {
-		if (Template.instance().studentData.ready() && Template.instance().subjectData.ready() && Template.instance().lessonData.ready()) {
-			return true;
-		}
-		return false;
+		return Template.instance().studentData.ready();
 	},
 
 	student: function() {

@@ -5,19 +5,25 @@ import './billingList.html';
 
 Template.billingList.onCreated( function() {
 	// Subscriptions
-	this.subscribe('group');
-
-	Meteor.call('getCardBrand', function(error, result) {
-		if (error) {
-			Alerts.insert({
-				colorClass: 'bg-danger',
-				iconClass: 'fss-danger',
-				message: error.reason,
-			});
-		} else {
-			Session.set('cardBrand', result);
-		}
+	let template = Template.instance();
+	
+	template.autorun(() => {
+		this.groupData = Meteor.subscribe('group');
 	});
+
+	if (!Session.get('card')) {
+		Meteor.call('getCard', function(error, result) {
+			if (error) {
+				Alerts.insert({
+					colorClass: 'bg-danger',
+					iconClass: 'fss-danger',
+					message: error.reason,
+				});
+			} else {
+				Session.set('card', result);
+			}
+		});
+	}
 });
 
 Template.billingList.onRendered( function() {
@@ -29,11 +35,10 @@ Template.billingList.onRendered( function() {
 });
 
 Template.billingList.helpers({
-	dataReady: function() {
-		if (Session.get('cardBrand')) {
+	subscriptionReady: function() {
+		if (Session.get('card') && Template.instance().groupData.ready()) {
 			return true;
 		}
-		return false;
 	},
 
 	user: function() {
@@ -44,11 +49,27 @@ Template.billingList.helpers({
 		return Groups.findOne({});
 	},
 
+	attemptMessage: function(attempts) {
+		if (attempts === 1) {
+			return 'We have made a failed attempt to charge your card. You may need to update your payment information.'
+		}
+		if (attempts === 2) {
+			return 'We have made two failed attempts to charge your card. Please update your payment information.'
+		}
+		if (attempts === 3) {
+			return 'We have made three failed attempts to charge your card. Please update your payment information.'
+		}
+	},
+
+	card: function() {
+		return Session.get('card');
+	},
+
 	cardClass: function() {
-		if (!Session.get('cardBrand')) {
+		if (!Session.get('card')) {
 			return 'fss-billing';
 		}
-		let brand = Session.get('cardBrand');		
+		let brand = Session.get('card').brand;		
 		if (brand === 'Visa') {
 			return 'fss-cc-visa';
 		}
@@ -98,6 +119,13 @@ Template.billingList.helpers({
 			return true;
 		}
 		return false;
+	},
+
+	monthFormat: function(month) {
+		if (!month.length) {
+			return '0' + month;
+		}
+		return month;
 	},
 });
 

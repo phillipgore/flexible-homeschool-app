@@ -1,7 +1,20 @@
 <template name="billingList">
 	
 	<main class="app-content app-content-preceeds-toolbar">
+		<div class="p-tn-t-27 p-tn-rl-54">
+			{{#if group.stripePaymentAttempt}}
+				<p class="txt-tn-center txt-danger font-weight-400 m-tn-b-36 m-tn-h-9">{{attemptMessage group.stripePaymentAttempt}}</p>
+			{{/if}}
+			<div class="clearfix">
+				<div class="dis-tn-inline-block fl-tn-left m-tn-r-12">
+					<i class="txt-primary font-size-60 {{cardClass}}"></i>
+				</div>
+				<p class="font-weight-400 p-tn-t-15">...{{card.last4}}</p>
+				<p class="p-sm font-weight-400 txt-gray-darkest">Expires: {{monthFormat card.exp_month}}/{{card.exp_year}}</p>
+			</div>
+		</div>
 		<ul class="list">
+			<li class="list-spacer"></li>
 			<li class="list-item">
 				<a href="/settings/billing/invoices/3" class="js-billing list-item-link bg-white p-tn-rl-9 {{#if active currentRouteName 'billingInvoices'}}active{{/if}}">
 					<div class="list-item-icon"><i class="txt-primary fss-invoices"></i></div> 
@@ -11,7 +24,7 @@
 			<li class="list-item">
 				<a href="/settings/billing/edit/3" class="js-billing list-item-link bg-white p-tn-rl-9 {{#if active currentRouteName 'billingEdit'}}active{{/if}}">
 					<div class="list-item-icon"><i class="txt-primary {{cardClass}}"></i></div> 
-					<div class="list-item-label">Payment</div>
+					<div class="list-item-label">Edit Payment</div>
 					{{#if group.stripePaymentAttempt}}<div class="list-item-badge"></div>{{/if}}
 				</a>
 			</li>
@@ -43,7 +56,7 @@
 			<p class="m-tn-18 txt-gray-darkest">Your account is paused. You are not being billed nor do you have acces to your data. You may unpause your account at any time.</p>
 		{{/if}}
 	</main>
-	{{#unless dataReady}}
+	{{#unless subscriptionReady}}
 		{{> loading}}
 	{{/unless}}
 </template>

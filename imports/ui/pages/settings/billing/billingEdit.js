@@ -6,25 +6,17 @@ import './billingEdit.html';
 
 Template.billingEdit.onCreated( function() {
 	// Subscriptions
-	this.subscribe('group');
-
-	Meteor.call('getCard', function(error, result) {
-		if (error) {
-			Alerts.insert({
-				colorClass: 'bg-danger',
-				iconClass: 'fss-danger',
-				message: error.reason,
-			});
-		} else {
-			Session.set('card', result);
-		}
-	})
+	let template = Template.instance();
+	
+	template.autorun(() => {
+		this.groupData = Meteor.subscribe('group');
+	});
 });
 
 Template.billingEdit.onRendered( function() {
 	Session.set({
 		toolbarType: 'edit',
-		labelThree: 'Payment',
+		labelThree: 'Edit Payment',
 		activeNav: 'settingsList',
 	});
 
@@ -32,11 +24,8 @@ Template.billingEdit.onRendered( function() {
 });
 
 Template.billingEdit.helpers({
-	dataReady: function() {
-		if (Session.get('card') && Groups.findOne({})) {
-			return true;
-		}
-		return false;
+	subscriptionReady: function() {
+		return Template.instance().groupData.ready();
 	},
 
 	user: function() {
@@ -46,64 +35,13 @@ Template.billingEdit.helpers({
 	group: function() {
 		return Groups.findOne({});
 	},
-
-	attemptMessage: function(attempts) {
-		if (attempts === 1) {
-			return 'We have made a failed attempt to charge your card. You may need to update your payment information.'
-		}
-		if (attempts === 2) {
-			return 'We have made two failed attempts to charge your card. Please update your payment information.'
-		}
-		if (attempts === 3) {
-			return 'We have made three failed attempts to charge your card. Please update your payment information.'
-		}
-	},
-
-	card: function() {
-		return Session.get('card');
-	},
-
-	cardClass: function() {
-		if (!Session.get('card')) {
-			return 'fss-billing';
-		}
-		let brand = Session.get('card').brand;		
-		if (brand === 'Visa') {
-			return 'fss-cc-visa';
-		}
-		if (brand === 'American Express') {
-			return 'fss-cc-amex';
-		}
-		if (brand === 'MasterCard') {
-			return 'fss-cc-master-card';
-		}
-		if (brand === 'Discover') {
-			return 'fss-cc-discover';
-		}
-		if (brand === 'JCB') {
-			return 'fss-cc-jcb';
-		}
-		if (brand === 'Diners Club') {
-			return 'fss-cc-diners';
-		}
-		if (brand === 'Unknown') {
-			return 'fss-billing';
-		}
-	},
-
-	monthFormat: function(month) {
-		if (!month.length) {
-			return '0' + month;
-		}
-		return month;
-	},
 });
 
 Template.billingEdit.events({
 	'click .js-cancel'(event) {
 		event.preventDefault();
 
-		FlowRouter.go('/settings/billing/invoices/2')
+		FlowRouter.go('/settings/billing/invoices/2');
 	},
 
 	'submit .js-form-update-credit-card'(event) {
@@ -143,7 +81,7 @@ Template.billingEdit.events({
 									});
 								} else {
 									Session.set('card', result);
-									FlowRouter.go('/settings/billing/edit/3');
+									FlowRouter.go('/settings/billing/invoices/2');
 
 									$('.js-updating').hide();
 									$('.js-submit').prop('disabled', false);

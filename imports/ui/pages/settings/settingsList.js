@@ -5,7 +5,11 @@ import './settingsList.html';
 
 Template.settingsList.onCreated( function() {
 	// Subscriptions
-	this.subscribe('group');
+	let template = Template.instance();
+	
+	template.autorun(() => {
+		this.groupData = Meteor.subscribe('group');
+	});
 });
 
 Template.settingsList.onRendered( function() {
@@ -16,6 +20,13 @@ Template.settingsList.onRendered( function() {
 });
 
 Template.settingsList.helpers({
+	subscriptionReady: function() {
+		if (Template.instance().groupData.ready()) {
+			return true;
+		}
+		return false;
+	},
+
 	user: function() {
 		return Meteor.users.findOne();
 	},

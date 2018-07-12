@@ -208,7 +208,18 @@ FlowRouter.triggers.enter([initialData, checkSignOut, checkPaymentError], {excep
 	'pausedUser'
 ]});
 
-FlowRouter.triggers.enter([resetSessions]);
+FlowRouter.triggers.enter([resetSessions], {except: [
+	'usersView',
+	'usersNew',
+	'usersVerifyResent',
+	'usersEdit',
+	'usersRestricted',
+	'billingError',
+	'billingInvoices',
+	'billingEdit',
+	'supportView',
+	'usersView',
+]});
 
 FlowRouter.triggers.enter([checkSubscriptionPaused], {except: [
 	'createAccount',

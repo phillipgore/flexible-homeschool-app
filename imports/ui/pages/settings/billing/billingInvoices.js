@@ -47,8 +47,6 @@ Template.billingInvoices.onRendered( function() {
 
 Template.billingInvoices.helpers({
 	dataReady: function() {
-		console.log(Session.get('invoices'))
-		console.log(Session.get('card'))
 		if (Session.get('invoices') || Session.get('card')) {
 			return true;
 		}
