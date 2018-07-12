@@ -4,9 +4,8 @@ import SimpleSchema from 'simpl-schema';
 import {Lessons} from './lessons.js';
 
 Meteor.methods({
-	updateLesson: function(lessonId, lessonProperties) {
-		let lesson = Lessons.update(lessonId, {$set: lessonProperties});
-		return lesson;
+	updateLesson: function(lessonProperties) {
+		Lessons.update(lessonProperties._id, {$set: lessonProperties});
 	},
 
 	batchInsertLessons(lessonProperties) {

@@ -166,7 +166,7 @@ Template.trackingView.events({
 			description: event.currentTarget.description.value.trim(),
 		}
 
-		Meteor.call('updateLesson', lessonPoperties._id, lessonPoperties, function(error, result) {
+		Meteor.call('updateLesson', lessonPoperties, function(error, result) {
 			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',
