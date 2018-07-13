@@ -11,8 +11,6 @@ Template.studentsEdit.onRendered( function() {
 	Session.set({
 		toolbarType: 'edit',
 		labelThree: 'Edit Student',
-		
-		
 		activeNav: 'planningList',
 	});
 
