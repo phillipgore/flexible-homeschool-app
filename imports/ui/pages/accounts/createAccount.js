@@ -34,6 +34,21 @@ Template.createAccount.helpers({
 });
 
 Template.createAccount.events({
+	'click .js-billing-info'(event) {
+		event.preventDefault();
+
+		if (Alerts.findOne({_id: 'cc-info'})) {
+			Alerts.remove({_id: 'cc-info'})
+		} else {
+			Alerts.insert({
+				_id: 'cc-info',
+				colorClass: 'bg-info',
+				iconClass: 'fss-info',
+				message: '<div class="p-tn-tb-6"><p class="line-height-1-75 m-tn-b-15">We ask for your credit card to allow your membership to continue after your free trial, should you choose not to pause your account.</p> <p class="line-height-1-75 m-tn-b-15">This also allows us to reduce fraud and prevent multiple free trials for one person which helps us deliver quality service for honest customers.</p> <p class="line-height-1-75">Your credit card will not be charged at any point of your free trial. You can cancel anytime. We’ll even send you an email three days before your trial is over to remind you it’s about to expire.</p></div>',
+			});
+		}
+	},
+
 	'submit .js-form-create-account'(event) {
 		event.preventDefault();
 		
