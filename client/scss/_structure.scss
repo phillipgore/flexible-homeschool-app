@@ -42,6 +42,11 @@ hr {
 	.app-content {
 		padding-top: 80px;
 		min-height: 100%;
+
+		&.app-conent-center {
+			max-width: 640px;
+			margin: 0px auto;
+		}
 		
 		&.app-content-data {
 			padding: 89px 9px 9px;
@@ -173,9 +178,9 @@ hr {
 				margin: 0px auto;
 				max-width: 284px;
 
-				&.form-double {
+				&.form-width-full {
 					margin: 0px auto;
-					max-width: 604px;
+					max-width: none;
 				}
 			}
 		}

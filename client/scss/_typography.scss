@@ -52,7 +52,14 @@ p {
 	&.p-sm {
 		font-size: 12px;
 	}
+
+	&.p-md {
+		font-size: 14px;
+	}
 }
+
+.line-height-1-5 { line-height: 1.5 }
+.line-height-1-75 { line-height: 1.75 }
 
 .txt-primary, .txt-success { color: $color-primary; }
 .txt-secondary, .txt-danger { color: $color-danger; }

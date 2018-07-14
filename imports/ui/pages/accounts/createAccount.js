@@ -3,6 +3,8 @@ import Stripe from '../../../modules/stripe';
 import {cardValidation, emailValidation, passwordValidation, requiredValidation} from '../../../modules/functions';
 import './createAccount.html';
 
+import moment from 'moment';
+
 Template.createAccount.onCreated( function() {
 	
 });
@@ -24,6 +26,11 @@ Template.createAccount.helpers({
 		{label: 'I Am Aunt', value: 'Aunt'},
 		{label: 'I Am Uncle', value: 'Uncle'},
 	],
+
+	firstBillingDate: function() {
+		return moment().add(30, 'days');;
+	},
+
 });
 
 Template.createAccount.events({

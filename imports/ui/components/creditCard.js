@@ -127,8 +127,5 @@ Template.creditCard.helpers({
 });
 
 Template.creditCard.events({
-	'click .js-show-coupon'(event) {
-		$('.js-show-coupon').addClass('hide');
-		$('.js-coupon').removeClass('hide').focus();
-	},
+	
 });
