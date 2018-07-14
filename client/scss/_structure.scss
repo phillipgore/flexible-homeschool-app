@@ -42,11 +42,6 @@ hr {
 	.app-content {
 		padding-top: 80px;
 		min-height: 100%;
-
-		&.app-conent-center {
-			max-width: 640px;
-			margin: 0px auto;
-		}
 		
 		&.app-content-data {
 			padding: 89px 9px 9px;
@@ -167,6 +162,11 @@ hr {
 	}
 
 	.app-content {	
+		&.app-conent-center {
+			max-width: 640px;
+			margin: 0px auto;
+		}
+
 		&.app-content-data {
 			padding: 89px 9px 9px;
 		}
