@@ -8,8 +8,11 @@
 						<a href="#" class="list-item-link dark-border p-tn-rl-9">
 							<div class="list-item-icon"><i class="txt-warning fss-circle"></i></div> 
 							<div class="list-item-label">
-								{{centsToDollars upcomingInvoices.lines.data.[0].amount}}
+								{{centsToDollars upcomingInvoices.amount_due}}
 								<p class="p-sm font-weight-400 txt-gray-darkest dis-tn-inline-block">
+									{{#if upcomingInvoices.discount}}
+										(${{upcomingInvoices.discount.coupon.amount_off}} off) 
+									{{/if}}
 									(Due: {{stripeDateFormat upcomingInvoices.date}})
 								</p>
 							</div>
@@ -22,10 +25,13 @@
 						<a href="#" class="list-item-link dark-border p-tn-rl-9">
 							<div class="list-item-icon"><i class="{{invoiceStatus invoice.attempted invoice.paid}} fss-circle"></i></div> 
 							<div class="list-item-label">
-								{{centsToDollars invoice.lines.data.[0].amount}}
+								{{centsToDollars invoice.amount_paid}}
 								<p class="p-sm font-weight-400 txt-gray-darkest dis-tn-inline-block">
-									({{stripeDateFormat invoice.lines.data.[0].period.start}} -
-									{{stripeDateFormat invoice.lines.data.[0].period.end}})
+									{{#if invoice.discount}}
+										(${{invoice.discount.coupon.amount_off}} off) 
+									{{/if}}
+									({{stripeDateFormat invoice.period_start}} -
+									{{stripeDateFormat invoice.period_end}})
 								</p>
 							</div>
 						</a>

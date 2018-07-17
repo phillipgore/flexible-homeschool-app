@@ -57,6 +57,7 @@ Template.billingInvoices.helpers({
 	},
 
 	upcomingInvoices: function() {
+		console.log(Session.get('upcomingInvoices'))
 		return Session.get('upcomingInvoices');
 	},
 
