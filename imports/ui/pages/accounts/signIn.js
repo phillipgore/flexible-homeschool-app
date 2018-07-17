@@ -2,6 +2,8 @@ import {Template} from 'meteor/templating';
 import './signIn.html';
 
 Template.signIn.onRendered( function() {
+	let template = Template.instance()
+
 	$('.js-form-sign-in').validate({
 		rules: {
 			email: { required: true, email: true },
@@ -16,8 +18,8 @@ Template.signIn.onRendered( function() {
 			$('.js-saving').show();
 			$('.js-submit').prop('disabled', true);
 
-			const email = event.target.email.value.trim();
-			const password = event.target.password.value.trim();
+			const email = template.find("[name='email']").value.trim();
+			const password = template.find("[name='password']").value.trim();
 
 			Meteor.loginWithPassword (email, password, function(error) {
 				if (error) {
