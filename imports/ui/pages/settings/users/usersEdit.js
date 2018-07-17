@@ -7,6 +7,8 @@ Template.usersEdit.onCreated( function() {
 });
 
 Template.usersEdit.onRendered( function() {
+	let template = Template.instance();
+
 	// Toolbar Settings
 	Session.set({
 		toolbarType: 'edit',
@@ -32,13 +34,13 @@ Template.usersEdit.onRendered( function() {
 			$('.js-submit').prop('disabled', true);
 	
 			const userProperties = {
-				"emails.0.address": event.target.email.value.trim(),
+				"emails.0.address": template.find("[name='email']").value.trim(),
 				info: {
-					firstName: event.target.firstName.value.trim(),
-					lastName: event.target.lastName.value.trim(),
-					relationshipToStudents: event.target.relationshipToStudents.value.trim(),
-					role: event.target.role.value.trim(),
-					groupId: event.target.groupId.value.trim(),
+					firstName: template.find("[name='firstName']").value.trim(),
+					lastName: template.find("[name='lastName']").value.trim(),
+					relationshipToStudents: template.find("[name='relationshipToStudents']").value.trim(),
+					role: template.find("[name='role']:checked").value.trim(),
+					groupId: template.find("[name='groupId']").value.trim(),
 				},
 			}
 

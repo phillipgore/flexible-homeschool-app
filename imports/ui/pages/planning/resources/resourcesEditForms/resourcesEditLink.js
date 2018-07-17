@@ -9,6 +9,8 @@ Template.resourcesEditLink.onCreated( function() {
 });
 
 Template.resourcesEditLink.onRendered( function() {
+	let template = Template.instance();
+	
 	// Toolbar Settings
 	Session.set({
 		toolbarType: 'edit',
@@ -39,9 +41,9 @@ Template.resourcesEditLink.onRendered( function() {
 			const resourceProperties = {
 				type: 'link',
 				searchIndex: [],
-				title: event.target.title.value.trim(),
-				link: event.target.link.value.trim(),
-				description: event.target.description.value.trim(),
+				title: template.find("[name='title']").value.trim(),
+				link: template.find("[name='link']").value.trim(),
+				description: template.find("[name='description']").value.trim(),
 				availability: 'own',
 			};
 

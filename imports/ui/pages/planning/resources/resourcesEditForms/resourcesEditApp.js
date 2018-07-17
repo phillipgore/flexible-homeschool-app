@@ -9,6 +9,8 @@ Template.resourcesEditApp.onCreated( function() {
 });
 
 Template.resourcesEditApp.onRendered( function() {
+	let template = Template.instance();
+	
 	// Toolbar Settings
 	Session.set({
 		toolbarType: 'edit',
@@ -39,10 +41,10 @@ Template.resourcesEditApp.onRendered( function() {
 			const resourceProperties = {
 				type: 'app',
 				searchIndex: ['Software', 'MobileApps'],
-				title: event.target.title.value.trim(),
-				availability: event.target.availability.value.trim(),
-				link: event.target.link.value.trim(),
-				description: event.target.description.value.trim(),
+				title: template.find("[name='title']").value.trim(),
+				availability: template.find("[name='availability']:checked").value.trim(),
+				link: template.find("[name='link']").value.trim(),
+				description: template.find("[name='description']").value.trim(),
 			};
 
 			Meteor.call('updateResource', FlowRouter.getParam('selectedResourceId'), resourceProperties, function(error) {

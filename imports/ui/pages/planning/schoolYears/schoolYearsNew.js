@@ -4,6 +4,8 @@ import './schoolYearsNew.html';
 LocalTerms = new Mongo.Collection(null);
 
 Template.schoolYearsNew.onRendered( function() {
+	let template = Template.instance();
+
 	Session.set({
 		toolbarType: 'new',
 		labelThree: 'New School Year',
@@ -48,12 +50,12 @@ Template.schoolYearsNew.onRendered( function() {
 			$('.js-submit').prop('disabled', true);
 
 			const schoolYearProperties = {
-				startYear: event.target.startYear.value.trim(),
-				endYear: event.target.endYear.value.trim(),
+				startYear: template.find("[name='startYear']").value.trim(),
+				endYear: template.find("[name='endYear']").value.trim(),
 			}
 
 			let termProperties = []
-			$(event.target).find('.js-weeks-per-term').each(function(index, weeks) {
+			$('.js-form-school-year-new').find('.js-weeks-per-term').each(function(index, weeks) {
 				if (weeks.value) {
 					termProperties.push({order: parseInt(index + 1), weeksPerTerm: parseInt(weeks.value)})
 				}

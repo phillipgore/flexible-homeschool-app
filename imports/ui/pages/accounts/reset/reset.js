@@ -2,6 +2,8 @@ import {Template} from 'meteor/templating';
 import './reset.html';
 
 Template.reset.onRendered( function() {
+	let template = Template.instance();
+	
 	$('.form-reset').validate({
 		rules: {
 			email: { required: true, email: true },
@@ -10,10 +12,10 @@ Template.reset.onRendered( function() {
 			email: { required: "Required.", email: "Please enter a valid email address." },
 		},
 		submitHandler() {
-			$('.js-loading').show();
+			$('.js-sending').show();
 			$('.js-submit').prop('disabled', true);
 
-			const email = event.target.email.value.trim();
+			const email = template.find("[name='email']").value.trim();
 			
 			Accounts.forgotPassword({email: email}, function(error) {
 				if (error) {
@@ -23,7 +25,7 @@ Template.reset.onRendered( function() {
 						message: error.reason,
 					});
 					
-					$('.js-loading').hide();
+					$('.js-sending').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
 					FlowRouter.go('/reset/sent');

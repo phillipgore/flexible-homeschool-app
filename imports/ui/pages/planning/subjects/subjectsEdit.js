@@ -47,6 +47,8 @@ Template.subjectsEdit.onCreated( function() {
 });
 
 Template.subjectsEdit.onRendered( function() {
+	let template = Template.instance();
+
 	Session.set({
 		toolbarType: 'edit',
 		labelThree: 'Edit Subject',
@@ -77,25 +79,25 @@ Template.subjectsEdit.onRendered( function() {
 			$('.js-updating').show();
 			$('.js-submit').prop('disabled', true);
 
-			let resourceIds = []
+			let resourceIds = [];
 			LocalResources.find().forEach(function(resource) {
 				resourceIds.push(resource.id);
 			});
 
 			const subjectProperties = {
-				name: event.target.name.value.trim(),
-				description: event.target.description.value.trim(),
+				name: template.find("[name='name']").value.trim(),
+				description: template.find("[name='description']").value.trim(),
 				resources: resourceIds,
 				studentId: FlowRouter.getParam('selectedStudentId'),
 				schoolYearId: FlowRouter.getParam('selectedSchoolYearId'),
 			}
 
-			let newLessonProperties = []
-			event.target.timesPerWeek.forEach(function(times, index) {
-				for (i = 0; i < parseInt(times.value); i++) { 
-				    newLessonProperties.push({order: parseFloat((index + 1) + '.' + (i + 1)), weekId: times.dataset.weekId});
+			let newLessonProperties = [];
+			$("[name='timesPerWeek']").each(function(index) {
+				for (i = 0; i < parseInt(this.value); i++) { 
+				    newLessonProperties.push({order: parseFloat((index + 1) + '.' + (i + 1)), weekId: this.dataset.weekId});
 				}
-			});
+			})
 
 			let lessons = Lessons.find({subjectId: FlowRouter.getParam('selectedSubjectId')}, {sort: {completed: -1, order: 1}});
 
@@ -284,6 +286,19 @@ Template.subjectsEdit.helpers({
 		if (value === 'random') {
 			return 'selected';
 		}
+	},
+
+	isRandom: function(termId) {
+		let weekIds = Weeks.find({termId: termId}).map(week => (week._id));
+		let lessonCounts = [];
+		weekIds.forEach(function(weekId) {
+			lessonCounts.push(Lessons.find({weekId: weekId, subjectId: FlowRouter.getParam('selectedSubjectId')}).count());
+		})
+
+		if (_.uniq(lessonCounts).length === 1) {
+			return false;
+		}
+		return true;
 	},
 
 	lessonCount: function(weekId) {

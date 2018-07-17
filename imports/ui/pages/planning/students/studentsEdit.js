@@ -8,6 +8,8 @@ Template.studentsEdit.onCreated( function() {
 });
 
 Template.studentsEdit.onRendered( function() {
+	let template = Template.instance();
+
 	Session.set({
 		toolbarType: 'edit',
 		labelThree: 'Edit Student',
@@ -34,12 +36,12 @@ Template.studentsEdit.onRendered( function() {
 			$('.js-submit').prop('disabled', true);
 
 			const studentProperties = {
-				firstName: event.target.firstName.value.trim(),
-				middleName: event.target.middleName.value.trim(),
-				lastName: event.target.lastName.value.trim(),
-				nickname: event.target.nickname.value.trim(),
-				preferredFirstName: event.target.preferredFirstName.value.trim(),
-				birthday: event.target.birthday.value.trim(),
+				firstName: template.find("[name='firstName']").value.trim(),
+				middleName: template.find("[name='middleName']").value.trim(),
+				lastName: template.find("[name='lastName']").value.trim(),
+				nickname: template.find("[name='nickname']").value.trim(),
+				preferredFirstName: template.find("[name='preferredFirstName']:checked").value.trim(),
+				birthday: template.find("[name='birthday']").value.trim(),
 			}
 
 			if (studentProperties.preferredFirstName === 'firstName') {

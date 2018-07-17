@@ -102,8 +102,11 @@
 						<option {{isSelected term._id 7}} value="7">7 Times Per Week</option>
 					</select>
 				</div>
-				<button id="{{term.order}}" class="js-show-individual-weeks btn-gray-dark btn-block extra-small"><span class="js-label-{{term.order}}">Show</span><span class="js-label-{{term.order}} hide">Hide</span> Individual Weeks</button>
-				<div class="js-{{term.order}} row m-tn-rl-neg-3 m-tn-b-neg-6 m-tn-t-9 hide">
+				<button id="{{term.order}}" class="js-show-individual-weeks btn-gray-dark btn-block extra-small">
+					<span class="js-label-{{term.order}} {{#if isRandom term._id}}hide{{/if}}">Show</span>
+					<span class="js-label-{{term.order}} {{#unless isRandom term._id}}hide{{/unless}}">Hide</span> Individual Weeks
+				</button>
+				<div class="js-{{term.order}} row m-tn-rl-neg-3 m-tn-b-neg-6 m-tn-t-9 {{#unless isRandom term._id}}hide{{/unless}}">
 					{{#each week in weeks term._id}}
 					<div class="col-tn-1of5 p-tn-rl-3">
 						<label>Wk {{week.order}}</label>

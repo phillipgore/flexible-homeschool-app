@@ -6,7 +6,9 @@ Template.usersNew.onCreated( function() {
 	this.subscribe('allUsers');
 });
 
-Template.usersNew.onRendered( function() {
+Template.usersNew.onRendered( function() {	
+	let template = Template.instance();
+
 	Session.set({
 		toolbarType: 'new',
 		labelThree: 'New User',
@@ -35,14 +37,14 @@ Template.usersNew.onRendered( function() {
 			$('.js-submit').prop('disabled', true);
 	
 			const userProperties = {
-				email: event.target.email.value.trim(),
-				password: event.target.password.value.trim(),
+				email: template.find("[name='email']").value.trim(),
+				password: template.find("[name='password']").value.trim(),
 				info: {
-					firstName: event.target.firstName.value.trim(),
-					lastName: event.target.lastName.value.trim(),
-					relationshipToStudents: event.target.relationshipToStudents.value.trim(),
-					role: event.target.role.value.trim(),
-					groupId: event.target.groupId.value.trim(),
+					firstName: template.find("[name='firstName']").value.trim(),
+					lastName: template.find("[name='lastName']").value.trim(),
+					relationshipToStudents: template.find("[name='relationshipToStudents']").value.trim(),
+					role: template.find("[name='role']:checked").value.trim(),
+					groupId: template.find("[name='groupId']").value.trim(),
 				},
 				status: {
 					active: true,

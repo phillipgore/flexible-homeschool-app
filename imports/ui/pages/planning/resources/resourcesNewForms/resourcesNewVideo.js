@@ -12,6 +12,8 @@ Template.resourcesNewVideo.onCreated( function() {
 });
 
 Template.resourcesNewVideo.onRendered( function() {
+	let template = Template.instance();
+
 	Session.set('selectedResourceNewType', FlowRouter.getParam('selectedResourceNewType'));
 	
 	Session.set({
@@ -43,12 +45,12 @@ Template.resourcesNewVideo.onRendered( function() {
 			const resourceProperties = {
 				type: 'video',
 				searchIndex: ['Movies', 'UnboxVideo'],
-				title: event.target.title.value.trim(),
-				directorFirstName: event.target.directorFirstName.value.trim(),
-				directorLastName: event.target.directorLastName.value.trim(),
-				availability: event.target.availability.value.trim(),
-				link: event.target.link.value.trim(),
-				description: event.target.description.value.trim(),
+				title: template.find("[name='title']").value.trim(),
+				directorFirstName: template.find("[name='directorFirstName']").value.trim(),
+				directorLastName: template.find("[name='directorLastName']").value.trim(),
+				availability: template.find("[name='availability']:checked").value.trim(),
+				link: template.find("[name='link']").value.trim(),
+				description: template.find("[name='description']").value.trim(),
 			};
 
 			Meteor.call('insertResource', resourceProperties, function(error, resourceId) {

@@ -30,6 +30,8 @@ Template.subjectsNew.onCreated( function() {
 });
 
 Template.subjectsNew.onRendered( function() {
+	let template = Template.instance();
+
 	// Resources Input Settings
 	LocalResources.remove({});
 
@@ -69,11 +71,9 @@ Template.subjectsNew.onRendered( function() {
 			$('.js-submit').prop('disabled', true);
 
 			let studentIds = []
-			event.target.studentId.forEach(function(student) {
-				if (student.value.trim() === 'true') {
-					studentIds.push(student.id)
-				}
-			});
+			$("[name='studentId']:checked").each(function() {
+				studentIds.push(this.id)
+			})
 
 			let resourceIds = [];
 			LocalResources.find().forEach(function(resource) {
@@ -81,18 +81,18 @@ Template.subjectsNew.onRendered( function() {
 			});
 
 			const subjectProperties = {
-				name: event.target.name.value.trim(),
-				description: event.target.description.value.trim(),
+				name: template.find("[name='name']").value.trim(),
+				description: template.find("[name='description']").value.trim(),
 				resources: resourceIds,
-				schoolYearId: event.target.schoolYearId.value.trim(),
+				schoolYearId: template.find("[name='schoolYearId']").value.trim(),
 			};
 
 			let lessonProperties = []
-			event.target.timesPerWeek.forEach(function(times, index) {
-				for (i = 0; i < parseInt(times.value); i++) { 
-				    lessonProperties.push({order: parseFloat((index + 1) + '.' + (i + 1)), weekId: times.dataset.weekId});
+			$("[name='timesPerWeek']").each(function(index) {
+				for (i = 0; i < parseInt(this.value); i++) { 
+				    lessonProperties.push({order: parseFloat((index + 1) + '.' + (i + 1)), weekId: this.dataset.weekId});
 				}
-			});
+			})
 			
 			Meteor.call('batchInsertSubject', studentIds, subjectProperties, lessonProperties, function(error, newSubjects) {
 				if (error) {

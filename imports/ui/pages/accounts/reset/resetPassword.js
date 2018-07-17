@@ -2,6 +2,8 @@ import {Template} from 'meteor/templating';
 import './resetPassword.html';
 
 Template.resetPassword.onRendered( function() {
+	let template = Template.instance();
+	
 	$('.js-form-reset-password').validate({
 		rules: {
 			password: { required: true },
@@ -12,10 +14,10 @@ Template.resetPassword.onRendered( function() {
 			retypePassword: { required: "Required.", equalTo: "Passwords do not match." },
 		},
 		submitHandler() {
-			$('.js-loading').show();
+			$('.js-updating').show();
 			$('.js-submit').prop('disabled', true);
 	
-			const password = event.target.password.value.trim();
+			const password = template.find("[name='password']").value.trim();
 
 			Accounts.resetPassword(FlowRouter.getParam('token'), password, function(error) {
 				if (error) {
@@ -25,7 +27,7 @@ Template.resetPassword.onRendered( function() {
 						message: error.reason,
 					});
 					
-					$('.js-loading').hide();
+					$('.js-updating').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
 					FlowRouter.go('/reset/success');

@@ -61,7 +61,7 @@ Template.resourcesView.helpers({
 
 	availabilityStatment: function(availability) {
 		if (availability === 'own') {
-			return 'I have it.'
+			return 'I own it.'
 		}
 		if (availability === 'borrowed') {
 			return 'I borrowed it.'

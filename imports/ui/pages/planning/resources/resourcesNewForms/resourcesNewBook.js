@@ -12,6 +12,8 @@ Template.resourcesNewBook.onCreated( function() {
 });
 
 Template.resourcesNewBook.onRendered( function() {
+	let template = Template.instance();
+	
 	Session.set('selectedResourceNewType', FlowRouter.getParam('selectedResourceNewType'));
 	
 	Session.set({
@@ -45,14 +47,14 @@ Template.resourcesNewBook.onRendered( function() {
 			const resourceProperties = {
 				type: 'book',
 				searchIndex: ['Books', 'KindleStore'],
-				title: event.target.title.value.trim(),
-				authorFirstName: event.target.authorFirstName.value.trim(),
-				authorLastName: event.target.authorLastName.value.trim(),
-				availability: event.target.availability.value.trim(),
-				link: event.target.link.value.trim(),
-				publisher: event.target.publisher.value.trim(),
-				publicationDate: event.target.publicationDate.value.trim(),
-				description: event.target.description.value.trim(),
+				title: template.find("[name='title']").value.trim(),
+				authorFirstName: template.find("[name='authorFirstName']").value.trim(),
+				authorLastName: template.find("[name='authorLastName']").value.trim(),
+				availability: template.find("[name='availability']:checked").value.trim(),
+				link: template.find("[name='link']").value.trim(),
+				publisher: template.find("[name='publisher']").value.trim(),
+				publicationDate: template.find("[name='publicationDate']").value.trim(),
+				description: template.find("[name='description']").value.trim(),
 			};
 
 			Meteor.call('insertResource', resourceProperties, function(error, resourceId) {

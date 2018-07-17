@@ -12,6 +12,8 @@ Template.resourcesNewApp.onCreated( function() {
 });
 
 Template.resourcesNewApp.onRendered( function() {
+	let template = Template.instance();
+	
 	Session.set({
 		toolbarType: 'new',
 		labelThree: 'New App Resource',
@@ -41,10 +43,10 @@ Template.resourcesNewApp.onRendered( function() {
 			const resourceProperties = {
 				type: 'app',
 				searchIndex: ['Software', 'MobileApps'],
-				title: event.target.title.value.trim(),
-				availability: event.target.availability.value.trim(),
-				link: event.target.link.value.trim(),
-				description: event.target.description.value.trim(),
+				title: template.find("[name='title']").value.trim(),
+				availability: template.find("[name='availability']:checked").value.trim(),
+				link: template.find("[name='link']").value.trim(),
+				description: template.find("[name='description']").value.trim(),
 			};
 
 			Meteor.call('insertResource', resourceProperties, function(error, resourceId) {

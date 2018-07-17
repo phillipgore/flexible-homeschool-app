@@ -7,6 +7,8 @@ Template.reportingNew.onCreated( function() {
 });
 
 Template.reportingNew.onRendered( function() {
+	let template = Template.instance();
+
 	Session.set({
 		toolbarType: 'new',
 		labelTwo: 'New Report',
@@ -27,30 +29,30 @@ Template.reportingNew.onRendered( function() {
 			$('.js-submit').prop('disabled', true);
 
 			let reportPoperties = {
-				name: event.currentTarget.name.value.trim(),
+				name: template.find("[name='name']").value.trim(),
 				
-				schoolYearReportVisible: event.currentTarget.schoolYearReportVisible.value.trim() === 'true',
-				schoolYearStatsVisible: event.currentTarget.schoolYearStatsVisible.value.trim() === 'true',
-				schoolYearProgressVisible: event.currentTarget.schoolYearProgressVisible.value.trim() === 'true',
-				schoolYearTimesVisible: event.currentTarget.schoolYearTimesVisible.value.trim() === 'true',
+				schoolYearReportVisible: template.find("[name='schoolYearReportVisible']").value.trim() === 'true',
+				schoolYearStatsVisible: template.find("[name='schoolYearStatsVisible']").value.trim() === 'true',
+				schoolYearProgressVisible: template.find("[name='schoolYearProgressVisible']").value.trim() === 'true',
+				schoolYearTimesVisible: template.find("[name='schoolYearTimesVisible']").value.trim() === 'true',
 				
-				termsReportVisible: event.currentTarget.termsReportVisible.value.trim() === 'true',
-				termsStatsVisible: event.currentTarget.termsStatsVisible.value.trim() === 'true',
-				termsProgressVisible: event.currentTarget.termsProgressVisible.value.trim() === 'true',
-				termsTimesVisible: event.currentTarget.termsTimesVisible.value.trim() === 'true',
+				termsReportVisible: template.find("[name='termsReportVisible']").value.trim() === 'true',
+				termsStatsVisible: template.find("[name='termsStatsVisible']").value.trim() === 'true',
+				termsProgressVisible: template.find("[name='termsProgressVisible']").value.trim() === 'true',
+				termsTimesVisible: template.find("[name='termsTimesVisible']").value.trim() === 'true',
 				
-				subjectsReportVisible: event.currentTarget.subjectsReportVisible.value.trim() === 'true',
-				subjectsStatsVisible: event.currentTarget.subjectsStatsVisible.value.trim() === 'true',
-				subjectsProgressVisible: event.currentTarget.subjectsProgressVisible.value.trim() === 'true',
-				subjectsTimesVisible: event.currentTarget.subjectsTimesVisible.value.trim() === 'true',
-				subjectsResourcesVisible: event.currentTarget.subjectsResourcesVisible.value.trim() === 'true',
+				subjectsReportVisible: template.find("[name='subjectsReportVisible']").value.trim() === 'true',
+				subjectsStatsVisible: template.find("[name='subjectsStatsVisible']").value.trim() === 'true',
+				subjectsProgressVisible: template.find("[name='subjectsProgressVisible']").value.trim() === 'true',
+				subjectsTimesVisible: template.find("[name='subjectsTimesVisible']").value.trim() === 'true',
+				subjectsResourcesVisible: template.find("[name='subjectsResourcesVisible']").value.trim() === 'true',
 
-				resourcesReportVisible: event.currentTarget.resourcesReportVisible.value.trim() === 'true',
-				resourcesOriginatorVisible: event.currentTarget.resourcesOriginatorVisible.value.trim() === 'true',
-				resourcesPublicationVisible: event.currentTarget.resourcesPublicationVisible.value.trim() === 'true',
-				resourcesSubjectsVisible: event.currentTarget.resourcesSubjectsVisible.value.trim() === 'true',
-				resourcesLinkVisible: event.currentTarget.resourcesLinkVisible.value.trim() === 'true',
-				resourcesDescriptionVisible: event.currentTarget.resourcesDescriptionVisible.value.trim() === 'true',
+				resourcesReportVisible: template.find("[name='resourcesReportVisible']").value.trim() === 'true',
+				resourcesOriginatorVisible: template.find("[name='resourcesOriginatorVisible']").value.trim() === 'true',
+				resourcesPublicationVisible: template.find("[name='resourcesPublicationVisible']").value.trim() === 'true',
+				resourcesSubjectsVisible: template.find("[name='resourcesSubjectsVisible']").value.trim() === 'true',
+				resourcesLinkVisible: template.find("[name='resourcesLinkVisible']").value.trim() === 'true',
+				resourcesDescriptionVisible: template.find("[name='resourcesDescriptionVisible']").value.trim() === 'true',
 			}
 			
 			Meteor.call('insertReport', reportPoperties, function(error, reportId) {
