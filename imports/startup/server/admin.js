@@ -17,23 +17,31 @@ if (!Groups.find({appAdmin: true}).count()) {
 				active: true,
 				updatedOn: new Date(),
 			}
-		},
-		{
-			email: Meteor.settings.private.dev.email,
-			password: Meteor.settings.private.dev.password,
-			info: {
-				firstName: 'Test',
-				lastName: 'Account',
-				relationshipToStudents: 'Dad',
-				role: 'Developer',
-				groupId: null,
-			},
-			status: {
-				active: true,
-				updatedOn: new Date(),
-			}
 		}
+
 	]
+		
+	if (Meteor.settings.private.dev) {
+		users.push(
+			{
+				email: Meteor.settings.private.dev.email,
+				password: Meteor.settings.private.dev.password,
+				info: {
+					firstName: 'Test',
+					lastName: 'Account',
+					relationshipToStudents: 'Dad',
+					role: 'Developer',
+					groupId: null,
+				},
+				status: {
+					active: true,
+					updatedOn: new Date(),
+				}
+			}
+		)
+	}
+
+	console.log(users)
 
 	Groups.insert({subscriptionStatus: 'active', appAdmin: true}, function(error, result) {
 		if (error) {

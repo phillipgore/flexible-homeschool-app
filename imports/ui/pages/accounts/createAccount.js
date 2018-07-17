@@ -81,7 +81,7 @@ Template.createAccount.events({
 			},
 			subscription: {
 				customer: null,
-				items: [{plan: 'standard'}],
+				items: [{plan: Meteor.settings.public.stripePlanId}],
 			},
 		}
 

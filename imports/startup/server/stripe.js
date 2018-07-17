@@ -79,7 +79,7 @@ Meteor.methods({
 			if (subscription.status === 'canceled') {
 				let result = stripe.subscriptions.create({
 					customer: customerId,
-					items: [{plan: 'standard'}]
+					items: [{plan: Meteor.settings.public.stripePlanId}]
 				}).then((subscription) => {
 					groupProperties.stripeSubscriptionId = result.id;
 				}).catch((error) => {
@@ -90,7 +90,7 @@ Meteor.methods({
 				let result = stripe.subscriptions.update(subscription.id, {
 					items: [{
 						id: subscription.items.data[0].id,
-						plan: 'standard',
+						plan: Meteor.settings.public.stripePlanId,
 					}]
 				}).then((subscription) => {
 					groupProperties.stripeSubscriptionId = result.id
