@@ -66,6 +66,10 @@ Template.billingEdit.events({
 					let cardId = result.token.card.id;
 					Meteor.call('updateCard', result.token.id, function(error, result) {
 						if (error) {
+							FlowRouter.go('/settings/billing/edit/3');
+							
+							$('.js-updating').hide();
+							$('.js-submit').prop('disabled', false);
 							Alerts.insert({
 								colorClass: 'bg-danger',
 								iconClass: 'fss-danger',
