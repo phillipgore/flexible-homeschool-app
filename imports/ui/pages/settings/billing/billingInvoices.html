@@ -11,10 +11,10 @@
 								{{centsToDollars upcomingInvoices.amount_due}}
 								<p class="p-sm font-weight-400 txt-gray-darkest dis-tn-inline-block p-tn-t-4">
 									{{#if upcomingInvoices.discount}}
-										${{centsToDollars upcomingInvoices.discount.coupon.amount_off}} off 
+										A {{centsToDollars upcomingInvoices.discount.coupon.amount_off}} Discount 
 									{{/if}}
 								</p>
-								<p class="p-sm font-weight-400 txt-gray-darkest dis-tn-inline-block txt-tn-right fl-tn-right p-tn-t-4">
+								<p class="p-sm font-weight-400 txt-gray-darkest dis-tn-inline-block txt-tn-right fl-tn-right p-tn-t-4 m-tn-r-neg-21">
 									Due: {{stripeDateFormat upcomingInvoices.date}}
 								</p>
 							</div>
@@ -30,10 +30,10 @@
 								{{centsToDollars invoice.amount_paid}}
 								<p class="p-sm font-weight-400 txt-gray-darkest dis-tn-inline-block p-tn-t-4">
 									{{#if invoice.discount}}
-										${{centsToDollars invoice.discount.coupon.amount_off}} off 
+										A {{centsToDollars invoice.discount.coupon.amount_off}} Discount 
 									{{/if}}
 								</p>
-								<p class="p-sm font-weight-400 txt-gray-darkest dis-tn-inline-block txt-tn-right fl-tn-right p-tn-t-4">
+								<p class="p-sm font-weight-400 txt-gray-darkest dis-tn-inline-block txt-tn-right fl-tn-right p-tn-t-4 m-tn-r-neg-21">
 									{{stripeDateFormat invoice.period_start}} -
 									{{stripeDateFormat invoice.period_end}}
 								</p>
