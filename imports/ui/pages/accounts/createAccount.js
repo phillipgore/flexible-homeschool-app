@@ -186,7 +186,23 @@ Template.createAccount.events({
 						} else { 
 							stripe.createToken(Session.get('cardNumber')).then((result) => {
 								if (result.error) {
-									FlowRouter.go('/verify/sent');
+									let groupProperties = {
+										_id: groupId,
+										subscriptionStatus: 'error',
+										subscriptionErrorMessage: result.error.message,
+									};
+									Meteor.call('updateGroup', groupProperties, function(error) {
+										if (error) {
+											FlowRouter.go('/verify/sent');
+											Alerts.insert({
+												colorClass: 'bg-danger',
+												iconClass: 'fss-danger',
+												message: error,
+											});
+										} else {
+											FlowRouter.go('/verify/sent');
+										}
+									});
 								} else {
 									subscriptionProperties.customer.source = result.token.id;
 									Meteor.call('createSubscription', groupId, result.token.card.id, subscriptionProperties, function(error, updatedGroupProperties) {
