@@ -29,7 +29,7 @@ Meteor.methods({
 			updatedGroupProperties.subscriptionStatus = 'error';
 			updatedGroupProperties.subscriptionErrorMessage = error.raw.message;
 		});
-		
+
 		Groups.update(groupId, {$set: updatedGroupProperties}, function(error, result) {
 			if (error) {
 				throw new Meteor.Error(500, error);

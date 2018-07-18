@@ -41,8 +41,6 @@ if (!Groups.find({appAdmin: true}).count()) {
 		)
 	}
 
-	console.log(users)
-
 	Groups.insert({subscriptionStatus: 'active', appAdmin: true}, function(error, result) {
 		if (error) {
 			console.log(error.reason);

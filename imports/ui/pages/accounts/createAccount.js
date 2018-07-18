@@ -52,10 +52,6 @@ Template.createAccount.events({
 	'submit .js-form-create-account'(event) {
 		event.preventDefault();
 		
-		// let groupProperties = {
-		// 	subscriptionStatus: 'pending',
-		// }
-
 		let user = {
 			email: event.target.email.value.trim(),
 			password: event.target.password.value.trim(),
