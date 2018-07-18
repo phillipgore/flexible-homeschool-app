@@ -39,6 +39,19 @@ Meteor.methods({
 		});
 	},
 
+	updateSubscription: async function(stripeSubscriptionId, subscriptionProperties) {
+		
+		let result = await stripe.subscriptions.update(
+			stripeSubscriptionId, 
+			subscriptionProperties
+		).catch((error) => {
+			throw new Meteor.Error(500, error.message);
+		});
+
+		return result;
+
+	},
+
 	pauseSubscription: async function() {
 		let groupId = Meteor.user().info.groupId;
 		let subscriptionId = Groups.findOne({_id: groupId}).stripeSubscriptionId;

@@ -217,6 +217,7 @@ FlowRouter.triggers.enter([resetSessions], {except: [
 	'billingError',
 	'billingInvoices',
 	'billingEdit',
+	'billingCoupons',
 	'supportView',
 	'usersView',
 ]});
@@ -233,7 +234,8 @@ FlowRouter.triggers.enter([checkSubscriptionPaused], {except: [
 	'billingError',
 	'billingList', 
 	'billingInvoices', 
-	'billingEdit', 
+	'billingEdit',
+	'billingCoupons', 
 	'supportList',
 	'pausedUser'
 ]});
@@ -247,6 +249,7 @@ FlowRouter.triggers.enter([checkRoleUser], {only: [
 	'billingList',
 	'billingInvoices',
 	'billingEdit',
+	'billingCoupons',
 ]});
 
 FlowRouter.triggers.enter([checkRoleObserver], {only: [
@@ -258,6 +261,7 @@ FlowRouter.triggers.enter([checkRoleObserver], {only: [
 	'billingList',
 	'billingInvoices',
 	'billingEdit',
+	'billingCoupons',
 	'planningList',
 	'studentsList',
 	'studentsNew',
@@ -285,6 +289,7 @@ FlowRouter.triggers.enter([checkRoleApplication], {only: [
 	'usersEdit',
 	'billingList',
 	'billingInvoices', 
-	'billingEdit'
+	'billingEdit',
+	'billingCoupons',
 ]});
 

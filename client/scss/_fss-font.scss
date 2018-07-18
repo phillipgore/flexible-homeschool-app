@@ -23,6 +23,9 @@ i {
     -moz-osx-font-smoothing: grayscale;
 }
 
+.fss-tag:before {
+  content: "\e947";
+}
 .fss-open-circle:before {
   content: "\e946";
 }

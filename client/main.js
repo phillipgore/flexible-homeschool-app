@@ -101,7 +101,7 @@ import '/imports/ui/pages/settings/settingsList.js';
 	import '/imports/ui/pages/settings/billing/billingList.js';
 	import '/imports/ui/pages/settings/billing/billingInvoices.js';
 	import '/imports/ui/pages/settings/billing/billingEdit.js';
-
+	import '/imports/ui/pages/settings/billing/billingCoupons.js'
 
 
 

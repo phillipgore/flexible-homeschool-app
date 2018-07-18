@@ -96,6 +96,18 @@ FlowRouter.route('/settings/billing/edit/:selectedFramePosition', {
 	},
 });
 
+FlowRouter.route('/settings/billing/coupons/:selectedFramePosition', {
+	name: 'billingCoupons',
+	action(params) {
+		BlazeLayout.render('app', {
+			subbar: '',
+			frameOne: 'settingsList',
+			frameTwo: 'billingList',
+			frameThree: 'billingCoupons',
+		});
+	},
+});
+
 
 
 
