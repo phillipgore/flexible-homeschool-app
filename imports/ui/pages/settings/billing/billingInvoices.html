@@ -11,10 +11,10 @@
 								{{centsToDollars upcomingInvoices.amount_due}}
 								<p class="p-sm font-weight-400 txt-gray-darkest dis-tn-inline-block p-tn-t-4">
 									{{#if upcomingInvoices.discount}}
-										{{#if upcomingInvoices.discount.amount_off}}
+										{{#if upcomingInvoices.discount.coupon.amount_off}}
 											A {{centsToDollars upcomingInvoices.discount.coupon.amount_off}} Discount 
 										{{/if}}
-										{{#if upcomingInvoices.discount.percent_off}}
+										{{#if upcomingInvoices.discount.coupon.percent_off}}
 											A {{upcomingInvoices.discount.coupon.percent_off}}% Discount 
 										{{/if}}
 									{{/if}}
@@ -35,10 +35,10 @@
 								{{centsToDollars invoice.amount_paid}}
 								<p class="p-sm font-weight-400 txt-gray-darkest dis-tn-inline-block p-tn-t-4">
 									{{#if invoice.discount}}
-										{{#if invoice.discount.amount_off}}
+										{{#if invoice.discount.coupon.amount_off}}
 											A {{centsToDollars invoice.discount.coupon.amount_off}} Discount 
 										{{/if}}
-										{{#if invoice.discount.percent_off}}
+										{{#if invoice.discount.coupon.percent_off}}
 											A {{invoice.discount.coupon.percent_off}}% Discount 
 										{{/if}} 
 									{{/if}}
