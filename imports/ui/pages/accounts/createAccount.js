@@ -191,6 +191,7 @@ Template.createAccount.events({
 										subscriptionStatus: 'error',
 										subscriptionErrorMessage: result.error.message,
 									};
+									
 									Meteor.call('updateGroup', groupProperties, function(error) {
 										if (error) {
 											FlowRouter.go('/verify/sent');
