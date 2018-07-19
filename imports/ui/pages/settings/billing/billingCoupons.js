@@ -50,7 +50,7 @@ Template.billingCoupons.onRendered( function() {
 			$('.js-submit').prop('disabled', true);
 
 			let stripeSubscriptionId = template.find("[name='stripeSubscriptionId']").value.trim();
-			let stripeCouponCode = template.find("[name='coupon']").value.trim();
+			let stripeCouponCode = template.find("[name='coupon']").value.trim().toLowerCase();
 
 			Meteor.call('applyCoupon', stripeSubscriptionId, stripeCouponCode, function(error, result) {
 				console.log(result);
@@ -94,7 +94,7 @@ Template.billingCoupons.helpers({
 	},
 
 	couponNotice: function(couponId, createdOn, durationInMonths) {
-		if (Groups.find({stripeCouponCodes: [couponId]}).count()) {
+		if (Groups.find({stripeCouponCodes: [couponId]})) {
 			return false;
 		}
 		if (moment(createdOn).add(durationInMonths, 'M') > moment()) {

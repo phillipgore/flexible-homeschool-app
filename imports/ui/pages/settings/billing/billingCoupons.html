@@ -1,18 +1,22 @@
 <template name="billingCoupons">
 	<main class="app-content app-content-preceeds-toolbar app-content-form">
+		<div class="row">
+			<div class="col-xs-2of3 offset-xs-1of6 col-sm-1of1 offset-sm-0 col-xl-2of5 offset-xl-3of10 ">
+				{{#if couponNotice coupon.id group.createdOn coupon.duration_in_months}}
+					{{#if coupon.percent_off}}
+						<div class="well bg-info txt-white txt-tn-center m-tn-b-18">
+							<p>Enter coupon code, "{{coupon.id}}" and recieve {{coupon.percent_off}}% off for the next {{coupon.duration_in_months}} months.</p>
+						</div>
+					{{/if}}
+					{{#if coupon.amount_off}}
+						<div class="well bg-info txt-white txt-tn-center m-tn-b-18">
+							<p>Enter coupon code, "{{coupon.id}}" and recieve a {{centsToDollars coupon.amount_off}} discount for the next {{coupon.duration_in_months}} months.</p>
+						</div>
+					{{/if}}
+				{{/if}}
+			</div>
+		</div>
 		<form class="js-form-apply-coupon-code row">
-			{{#if couponNotice coupon.id group.createdOn coupon.duration_in_months}}
-				{{#if coupon.percent_off}}
-					<div class="well bg-info txt-white txt-tn-center">
-						<p>Enter coupon code, "{{coupon.id}}" and recieve {{coupon.percent_off}}% off for the next {{coupon.duration_in_months}} months.</p>
-					</div>
-				{{/if}}
-				{{#if coupon.amount_off}}
-					<div class="well bg-info txt-white txt-tn-center">
-						<p>Enter coupon code, "{{coupon.id}}" and recieve a {{centsToDollars coupon.amount_off}} discount for the next {{coupon.duration_in_months}} months.</p>
-					</div>
-				{{/if}}
-			{{/if}}
 			<h2 class="m-tn-t-36 m-tn-b-18">Coupon Code:</h2>
 
 			<div class="m-tn-b-15">
