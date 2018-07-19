@@ -182,7 +182,6 @@ Meteor.methods({
 	},
 
 	getCoupon: async function(couponId) {
-
 		let result = await stripe.coupons.retrieve(
 			couponId
 		).then((coupon) => {

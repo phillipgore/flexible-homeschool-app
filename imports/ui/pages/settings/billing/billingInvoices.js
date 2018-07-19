@@ -103,8 +103,8 @@ Template.billingInvoices.helpers({
 		return Session.get('coupon');
 	},
 
-	couponNotice: function(stripeCouponCodes, couponId, createdOn, durationInMonths) {
-		if (stripeCouponCodes.indexOf(couponId) >= 0) {
+	couponNotice: function(couponId, createdOn, durationInMonths) {
+		if (Groups.find({stripeCouponCodes: [couponId]}).count()) {
 			return false;
 		}
 		if (moment(createdOn).add(durationInMonths, 'M') > moment()) {
