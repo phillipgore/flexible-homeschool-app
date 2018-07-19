@@ -10,7 +10,7 @@ Template.createAccount.onCreated( function() {
 });
 
 Template.createAccount.onRendered( function() {	
-	
+	Session.set('hideCoupon', true);
 });
 
 Template.createAccount.helpers({
@@ -78,12 +78,13 @@ Template.createAccount.events({
 			subscription: {
 				customer: null,
 				items: [{plan: Meteor.settings.public.stripePlanId}],
+				coupon: Meteor.settings.public.stripeSignUpDiscount,
 			},
 		}
 
-		if (event.target.coupon.value.trim() != '') {
-			subscriptionProperties.subscription.coupon = event.target.coupon.value.trim()
-		}
+		// if (event.target.coupon.value.trim() != '') {
+		// 	subscriptionProperties.subscription.coupon = event.target.coupon.value.trim()
+		// }
 
 		let accountForm = [];
 		let passwordsPresent = [];

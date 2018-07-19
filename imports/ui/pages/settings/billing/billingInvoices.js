@@ -1,11 +1,24 @@
 import {Template} from 'meteor/templating';
+import {Groups} from '../../../../api/groups/groups.js';
 import './billingInvoices.html';
+
+import moment from 'moment';
 
 Template.billingInvoices.onCreated( function() {
 	// Subscriptions
+	let template = Template.instance();
+	
+	template.autorun(() => {
+		this.groupData = Meteor.subscribe('group');
+	});
+
 	Meteor.call('getUpcomingInvoices', function(error, result) {
 		if (error) {
-			Session.set('upcomingInvoices', false);
+			Alerts.insert({
+				colorClass: 'bg-danger',
+				iconClass: 'fss-danger',
+				message: error.reason,
+			});
 		} else {
 			Session.set('upcomingInvoices', result);
 		}
@@ -34,6 +47,18 @@ Template.billingInvoices.onCreated( function() {
 			Session.set('card', result);
 		}
 	});
+
+	Meteor.call('getCoupon', Meteor.settings.public.stripeKeepGoingDiscount, function(error, result) {
+		if (error) {
+			Alerts.insert({
+				colorClass: 'bg-danger',
+				iconClass: 'fss-danger',
+				message: error.reason,
+			});
+		} else {
+			Session.set('coupon', result);
+		}
+	});
 });
 
 
@@ -47,7 +72,7 @@ Template.billingInvoices.onRendered( function() {
 
 Template.billingInvoices.helpers({
 	dataReady: function() {
-		if (Session.get('invoices') || Session.get('card')) {
+		if (Template.instance().groupData.ready() && Session.get('upcomingInvoices') && Session.get('invoices') && Session.get('card') && Session.get('coupon')) {
 			return true;
 		}
 	},
@@ -68,6 +93,24 @@ Template.billingInvoices.helpers({
 			return 'txt-success';
 		}
 		return 'txt-danger';
+	},
+
+	group: function() {
+		return Groups.findOne({});
+	},
+
+	coupon: function() {
+		return Session.get('coupon');
+	},
+
+	couponNotice: function(stripeCouponCodes, couponId, createdOn, durationInMonths) {
+		if (stripeCouponCodes.indexOf(couponId) >= 0) {
+			return false;
+		}
+		if (moment(createdOn).add(durationInMonths, 'M') > moment()) {
+			return true;
+		}
+		return false;
 	}
 });
 

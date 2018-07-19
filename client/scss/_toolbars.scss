@@ -155,4 +155,13 @@
 		font-family: 'Flexible-School-Schedule' !important;	
 		content: "\e931";
 	}
+
+	@media only screen and (min-width: 640px) {
+		right: 36px;
+	}
+
+	@media only screen and (min-width: 896px) {
+		top: -6px;
+		right: -9px;
+	}
 }

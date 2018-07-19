@@ -10,6 +10,7 @@ Meteor.methods({
 		let updatedGroupProperties = {
 			subscriptionStatus: 'pending',
 			stripeCardId: cardId,
+			stripeCouponCodes: subscriptionProperties.subscription.coupon
 		};
 
 		let result = await stripe.customers.create(
@@ -39,16 +40,23 @@ Meteor.methods({
 		});
 	},
 
-	updateSubscription: async function(stripeSubscriptionId, subscriptionProperties) {
+	applyCoupon: async function(stripeSubscriptionId, stripeCouponCode) {
+		let groupId = Meteor.user().info.groupId;
 		
 		let result = await stripe.subscriptions.update(
 			stripeSubscriptionId, 
-			subscriptionProperties
+			{coupon: stripeCouponCode}
 		).catch((error) => {
 			throw new Meteor.Error(500, error.message);
 		});
 
-		return result;
+		Groups.update(groupId, {$push: {stripeCouponCodes: stripeCouponCode}}, function(error, result) {
+			if (error) {
+				throw new Meteor.Error(500, error);
+			} else {
+				return result;
+			}
+		});
 
 	},
 
@@ -126,6 +134,21 @@ Meteor.methods({
 
 	},
 
+	getSubscriptionDiscount: async function() {
+		let groupId = Meteor.user().info.groupId;
+		let subscriptionId = Groups.findOne({_id: groupId}).stripeSubscriptionId;
+
+		let result = await stripe.subscriptions.retrieve(
+			subscriptionId
+		).then((subscription) => {
+			return subscription.discount;
+		}).catch((error) => {
+			throw new Meteor.Error(500, error.message);
+		});
+
+		return result;
+	},
+
 	getCard: async function() {
 		let groupId = Meteor.user().info.groupId;
 		let customerId = Groups.findOne({_id: groupId}).stripeCustomerId;
@@ -156,6 +179,19 @@ Meteor.methods({
 		});
 
 		return result.brand;
+	},
+
+	getCoupon: async function(couponId) {
+
+		let result = await stripe.coupons.retrieve(
+			couponId
+		).then((coupon) => {
+			return coupon;
+		}).catch((error) => {
+			throw new Meteor.Error(500, error.message);
+		});
+
+		return result;
 	},
 
 	getInvoices: async function() {

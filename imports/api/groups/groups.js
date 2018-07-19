@@ -36,6 +36,15 @@ const GroupsSchema = new SimpleSchema({
         label: "Stripe Payment Attempt",
         optional: true
     },
+    stripeCouponCodes: {
+        type: Array,
+        label: "Stripe Coupon Codes",
+        optional: true
+    },
+    'stripeCouponCodes.$': {
+        type: String,
+        label: "Stripe Coupon Code",
+    },
 	subscriptionStatus: {
 		type: String,
 		label: "Account Status",

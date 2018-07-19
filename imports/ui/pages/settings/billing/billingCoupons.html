@@ -1,6 +1,18 @@
 <template name="billingCoupons">
 	<main class="app-content app-content-preceeds-toolbar app-content-form">
 		<form class="js-form-apply-coupon-code row">
+			{{#if couponNotice group.stripeCouponCodes coupon.id group.createdOn coupon.duration_in_months}}
+				{{#if coupon.percent_off}}
+					<div class="well bg-info txt-white txt-tn-center">
+						<p>Enter coupon code, "{{coupon.id}}" and recieve {{coupon.percent_off}}% off for the next {{coupon.duration_in_months}} months.</p>
+					</div>
+				{{/if}}
+				{{#if coupon.amount_off}}
+					<div class="well bg-info txt-white txt-tn-center">
+						<p>Enter coupon code, "{{coupon.id}}" and recieve a {{centsToDollars coupon.amount_off}} discount for the next {{coupon.duration_in_months}} months.</p>
+					</div>
+				{{/if}}
+			{{/if}}
 			<h2 class="m-tn-t-36 m-tn-b-18">Coupon Code:</h2>
 
 			<div class="m-tn-b-15">
@@ -9,12 +21,12 @@
 			</div>
 
 			<footer class="toolbar toolbar-bottom toolbar-gray">
-				<a href="#" class="js-cancel btn btn-gray-darker fl-tn-left dis-sm-none">Cancel</a>
+				<a href="/settings/billing/coupons/2" class="js-cancel btn btn-gray-darker fl-tn-left dis-sm-none">Cancel</a>
 				<button type="submit" class="js-submit fl-tn-right">Apply</button>
 			</footer>
 		</form>
 	</main>
-	{{#unless subscriptionReady}}
+	{{#unless dataReady}}
 		{{> loading}}
 	{{/unless}}
 	{{> updating}}

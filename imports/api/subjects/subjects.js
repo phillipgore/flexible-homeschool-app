@@ -37,7 +37,7 @@ const SubjectsSchema = new SimpleSchema({
     },
 	'resources.$': {
 		type: String,
-        label: "Attached Resources",
+        label: "Attached Resource",
 	},
     studentId: {
         type: String,

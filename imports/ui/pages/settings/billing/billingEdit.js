@@ -18,9 +18,8 @@ Template.billingEdit.onRendered( function() {
 		toolbarType: 'edit',
 		labelThree: 'Edit Payment',
 		activeNav: 'settingsList',
+		hideCoupon: true,
 	});
-
-	Session.set('hideCoupon', true)
 });
 
 Template.billingEdit.helpers({

@@ -122,7 +122,7 @@ Template.billingList.helpers({
 	},
 
 	monthFormat: function(month) {
-		if (!month.length) {
+		if (!month) {
 			return '0' + month;
 		}
 		return month;

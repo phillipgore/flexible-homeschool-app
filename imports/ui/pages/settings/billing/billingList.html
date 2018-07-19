@@ -1,18 +1,17 @@
 <template name="billingList">
 	
 	<main class="app-content app-content-preceeds-toolbar">
-		<div class="p-tn-t-27 p-tn-rl-54">
-			{{#if group.stripePaymentAttempt}}
-				<p class="txt-tn-center txt-danger font-weight-400 m-tn-b-36 m-tn-h-9">{{attemptMessage group.stripePaymentAttempt}}</p>
-			{{/if}}
-			<div class="clearfix">
-				<div class="dis-tn-inline-block fl-tn-left m-tn-r-12">
-					<i class="txt-primary font-size-60 {{cardClass}}"></i>
-				</div>
-				<p class="font-weight-400 p-tn-t-15">...{{card.last4}}</p>
-				<p class="p-sm font-weight-400 txt-gray-darkest">Expires: {{monthFormat card.exp_month}}/{{card.exp_year}}</p>
+		<div class="clearfix p-tn-t-27 p-tn-rl-54">
+			<div class="dis-tn-inline-block fl-tn-left m-tn-r-12">
+				<i class="txt-primary font-size-60 {{cardClass}}"></i>
 			</div>
+			<p class="font-weight-400 p-tn-t-15">...{{card.last4}}</p>
+			<p class="p-sm font-weight-400 txt-gray-darkest">Expires: {{monthFormat card.exp_month}}/{{card.exp_year}}</p>
 		</div>
+		{{#if group.stripePaymentAttempt}}
+			<p class="txt-tn-center txt-danger font-weight-400 m-tn-b-36 m-tn-h-9 p-tn-t-9">{{attemptMessage group.stripePaymentAttempt}}</p>
+		{{/if}}
+
 		<ul class="list">
 			<li class="list-spacer"></li>
 			<li class="list-item">

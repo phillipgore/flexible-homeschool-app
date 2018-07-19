@@ -155,6 +155,7 @@ function resetSessions(context) {
 		cardCvc: 'none',
 		cardExpiry: 'none',
 		postalCode: 'none',
+		coupon: ''
 	});
 };
 

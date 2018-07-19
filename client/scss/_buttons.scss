@@ -67,6 +67,11 @@ button, .btn {
 		background-color: $color-gray-dark;
 	}
 
+	&.btn-white-info {
+		background-color: lighten($color-info, 28%);
+		color: $color-info;
+	}
+
 
 	&.btn-circle {
 		height: 30px;
