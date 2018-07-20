@@ -104,7 +104,7 @@ Template.billingInvoices.helpers({
 	},
 
 	couponNotice: function(couponId, createdOn, durationInMonths) {
-		if (Groups.find({stripeCouponCodes: [couponId]}).count()) {
+		if (Groups.find() && Groups.find({stripeCouponCodes: [couponId]})) {
 			return false;
 		}
 		if (moment(createdOn).add(durationInMonths, 'M') > moment()) {
