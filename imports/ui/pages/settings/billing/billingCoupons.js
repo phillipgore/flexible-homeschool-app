@@ -94,7 +94,7 @@ Template.billingCoupons.helpers({
 	},
 
 	couponNotice: function(couponId, createdOn, durationInMonths) {
-		if (Groups.find({stripeCouponCodes: [couponId]})) {
+		if (Groups.find({stripeCouponCodes: [couponId]}).count()) {
 			return false;
 		}
 		if (moment(createdOn).add(durationInMonths, 'M') > moment()) {
