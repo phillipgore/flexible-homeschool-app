@@ -59,6 +59,15 @@ Accounts.onCreateUser((options, user) => {
 	if (options.reportSettings) {
 		user.reportSettings = options.reportSettings;
 	}
+
+	let subscriptionProperties = {
+		email: options.email,
+		firstName: options.info.firstName,
+		lastName: options.info.lastName
+	};
+
+	Meteor.call('mailChimpSubscriptions', subscriptionProperties);
+
 	return user;
 });
 

@@ -50,7 +50,13 @@ Template.usersNew.onRendered( function() {
 					active: true,
 					updatedOn: new Date(),
 				}
-			}
+			};
+
+			let subscriptionProperties = {
+				email: userProperties.email,
+				firstName: userProperties.info.firstName,
+				lastName: userProperties.info.lastName
+			};
 
 			Meteor.call('insertUser', userProperties, function(error, userId) {
 				if (error) {
@@ -73,11 +79,13 @@ Template.usersNew.onRendered( function() {
 								message: error.reason,
 							});
 						} else {
-							FlowRouter.go('/settings/users/view/3/' + userId);
-							Alerts.insert({
-								colorClass: 'bg-info',
-								iconClass: 'fss-email',
-								message: 'We sent ' + userProperties.info.firstName +' '+ userProperties.info.lastName + ' an email with a verification link. It may take a few minutes for the email to arrive.',
+							Meteor.call('subscriptions', subscriptionProperties, function(error, result) {
+						    	FlowRouter.go('/settings/users/view/3/' + userId);
+								Alerts.insert({
+									colorClass: 'bg-info',
+									iconClass: 'fss-email',
+									message: 'We sent ' + userProperties.info.firstName +' '+ userProperties.info.lastName + ' an email with a verification link. It may take a few minutes for the email to arrive.',
+								});
 							});
 						}
 					});

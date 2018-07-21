@@ -33,7 +33,7 @@ Template.usersEdit.onRendered( function() {
 			$('.js-updating').show();
 			$('.js-submit').prop('disabled', true);
 	
-			const userProperties = {
+			let userProperties = {
 				"emails.0.address": template.find("[name='email']").value.trim(),
 				info: {
 					firstName: template.find("[name='firstName']").value.trim(),
@@ -42,7 +42,13 @@ Template.usersEdit.onRendered( function() {
 					role: template.find("[name='role']:checked").value.trim(),
 					groupId: template.find("[name='groupId']").value.trim(),
 				},
-			}
+			};
+
+			let subscriptionProperties = {
+				email: userProperties.email,
+				firstName: userProperties.info.firstName,
+				lastName: userProperties.info.lastName
+			};
 
 			Meteor.call('updateUser', FlowRouter.getParam('selectedUserId'), userProperties, function(error) {
 				if (error) {
@@ -55,7 +61,9 @@ Template.usersEdit.onRendered( function() {
 					$('.js-updating').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
-					FlowRouter.go('/settings/users/view/3/' + FlowRouter.getParam('selectedUserId'));
+					Meteor.call('subscriptions', subscriptionProperties, function(error, result) {
+				    	FlowRouter.go('/settings/users/view/3/' + FlowRouter.getParam('selectedUserId'));
+				    });
 				}
 			});
 
