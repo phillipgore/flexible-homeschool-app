@@ -4,6 +4,7 @@ const mailchimp = new Mailchimp(Meteor.settings.private.mailchimp);
 
 Meteor.methods({
 	mailChimpSubscriptions: function(subscriptionProperties) {
+		console.log(subscriptionProperties);
 		mailchimp.post('/lists/' + Meteor.settings.private.mailchimpListId + '/members', {
 			"email_address": subscriptionProperties.email,
 			"status": "subscribed",

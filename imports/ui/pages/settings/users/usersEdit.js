@@ -45,9 +45,9 @@ Template.usersEdit.onRendered( function() {
 			};
 
 			let subscriptionProperties = {
-				email: userProperties.email,
-				firstName: userProperties.info.firstName,
-				lastName: userProperties.info.lastName
+				email: template.find("[name='email']").value.trim(),
+				firstName: template.find("[name='firstName']").value.trim(),
+				lastName: template.find("[name='lastName']").value.trim()
 			};
 
 			Meteor.call('updateUser', FlowRouter.getParam('selectedUserId'), userProperties, function(error) {
@@ -61,7 +61,7 @@ Template.usersEdit.onRendered( function() {
 					$('.js-updating').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
-					Meteor.call('subscriptions', subscriptionProperties, function(error, result) {
+					Meteor.call('mailChimpSubscriptions', subscriptionProperties, function(error, result) {
 				    	FlowRouter.go('/settings/users/view/3/' + FlowRouter.getParam('selectedUserId'));
 				    });
 				}

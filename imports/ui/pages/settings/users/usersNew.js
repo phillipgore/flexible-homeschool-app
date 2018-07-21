@@ -53,9 +53,9 @@ Template.usersNew.onRendered( function() {
 			};
 
 			let subscriptionProperties = {
-				email: userProperties.email,
-				firstName: userProperties.info.firstName,
-				lastName: userProperties.info.lastName
+				email: template.find("[name='email']").value.trim(),
+				firstName: template.find("[name='firstName']").value.trim(),
+				lastName: template.find("[name='lastName']").value.trim()
 			};
 
 			Meteor.call('insertUser', userProperties, function(error, userId) {
@@ -79,7 +79,7 @@ Template.usersNew.onRendered( function() {
 								message: error.reason,
 							});
 						} else {
-							Meteor.call('subscriptions', subscriptionProperties, function(error, result) {
+							Meteor.call('mailChimpSubscriptions', subscriptionProperties, function(error, result) {
 						    	FlowRouter.go('/settings/users/view/3/' + userId);
 								Alerts.insert({
 									colorClass: 'bg-info',
