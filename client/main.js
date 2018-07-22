@@ -7,7 +7,6 @@ import '/imports/ui/layouts/app.js';
 // Components
 import '/imports/ui/components/toolbar.js';
 import '/imports/ui/components/creditCard.js';
-import '/imports/ui/components/dialog.js';
 import '/imports/ui/components/navbar.js';
 	// Loaders
 	import '/imports/ui/components/loaders/deleting.html';

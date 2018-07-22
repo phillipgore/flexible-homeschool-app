@@ -3,15 +3,16 @@ import { Groups } from '../../api/groups/groups.js';
 import { SchoolYears } from '../../api/schoolYears/schoolYears.js';
 import { Students } from '../../api/students/students.js';
 import { Resources } from '../../api/resources/resources.js';
+import { Subjects } from '../../api/subjects/subjects.js';
 import { Reports } from '../../api/reports/reports.js';
 import { Terms } from '../../api/terms/terms.js';
 import { Weeks } from '../../api/weeks/weeks.js';
-import { Users } from '../../api/users/users.js';
 import './app.html';
 import moment from 'moment';
 import _ from 'lodash'
 
 Alerts = new Mongo.Collection(null);
+Dialogs = new Mongo.Collection(null);
 
 Template.app.onRendered( function() {
 	$('.loading-initializing').fadeOut('fast', function() {
@@ -34,6 +35,10 @@ Template.app.helpers({
 
 	alerts: function() {
 		return Alerts.find();
+	},
+
+	dialog: function() {
+		return Dialogs.findOne();
 	},
 
 	selectedFrameClass: function() {
@@ -84,7 +89,7 @@ Template.app.events({
 	},
 
 
-	// FSS Alerts
+	// Alerts
 	'click .js-alert-close'(event) {
 		event.preventDefault();
 		const alertId = event.currentTarget.id
@@ -93,6 +98,226 @@ Template.app.events({
 		setTimeout(function(){
 			Alerts.remove({_id: alertId});
 		}, 350);
+	},
+
+
+	// Dialog Confirmations
+	'click .js-dialog-cancel'(event) {
+		event.preventDefault();
+		const dialogId = Dialogs.findOne()._id;
+		Dialogs.remove({_id: dialogId});
+	},
+
+	'click .js-delete-student-confirmed'(event) {
+		event.preventDefault();
+		$('.js-deleting').show();
+
+		function nextStudentId(selectedStudentId) {
+			let studentIds = Students.find({}, {sort: {birthday: 1, lastName: 1, firstName: 1}}).map(student => (student._id));
+			let selectedIndex = studentIds.indexOf(selectedStudentId);
+
+			if (selectedIndex) {
+				return studentIds[selectedIndex - 1]
+			}
+			return studentIds[selectedIndex + 1]
+		};
+
+		let newStudentId = nextStudentId(FlowRouter.getParam('selectedStudentId'));
+		let dialogId = Dialogs.findOne()._id;
+
+		Dialogs.remove({_id: dialogId});
+		Meteor.call('deleteStudent', FlowRouter.getParam('selectedStudentId'), function(error) {
+			if (error) {
+				Alerts.insert({
+					colorClass: 'bg-danger',
+					iconClass: 'fss-danger',
+					message: error.reason,
+				});
+			} else {
+				Dialogs.remove({_id: dialogId});
+				Session.set('selectedStudentId', newStudentId)
+				FlowRouter.go('/planning/students/view/3/' + newStudentId);
+				$('.js-deleting').hide();
+			}
+		});
+	},
+	'click .js-delete-school-year-confirmed'(event) {
+		event.preventDefault();
+		$('.js-deleting').show();
+
+		function nextSchoolYearId(selectedSchoolYearId) {
+			let schoolYearIds = SchoolYears.find({}, {sort: {startYear: 1}}).map(schoolYear => (schoolYear._id));
+			let selectedIndex = schoolYearIds.indexOf(selectedSchoolYearId);
+
+			if (selectedIndex) {
+				return schoolYearIds[selectedIndex - 1]
+			}
+			return schoolYearIds[selectedIndex + 1]
+		};
+
+		let newSchoolYearId = nextSchoolYearId(FlowRouter.getParam('selectedSchoolYearId'))
+		let dialogId = Dialogs.findOne()._id;
+
+		Dialogs.remove({_id: dialogId});
+		Meteor.call('deleteSchoolYear', FlowRouter.getParam('selectedSchoolYearId'), function(error) {
+			if (error) {
+				Alerts.insert({
+					colorClass: 'bg-danger',
+					iconClass: 'fss-danger',
+					message: error.reason,
+				});
+			} else {
+				Dialogs.remove({_id: dialogId});
+				Session.set('selectedSchoolYearId', newSchoolYearId)
+				FlowRouter.go('/planning/schoolyears/view/2/' + newSchoolYearId);
+				$('.js-deleting').hide();
+			}
+		});
+	},
+
+	'click .js-delete-resource-confirmed'(event) {
+		event.preventDefault();
+		$('.js-deleting').show();
+
+		function nextResourceId(selectedResourceId) {
+			let resourceIds = Resources.find({}, {sort: {title: 1}}).map(resource => (resource._id));
+
+			if (resourceIds.length > 1) {
+				let selectedIndex = resourceIds.indexOf(selectedResourceId);
+				if (selectedIndex) {
+					return Resources.findOne({_id: resourceIds[selectedIndex - 1]});
+				}
+				return Resources.findOne({_id: resourceIds[selectedIndex + 1]});
+			}
+			return {_id: 'empty', type: 'empty'}
+		};
+
+		let newResource = nextResourceId(FlowRouter.getParam('selectedResourceId'))
+		const dialogId = Dialogs.findOne()._id;
+
+		Dialogs.remove({_id: dialogId});
+		Meteor.call('deleteResource', FlowRouter.getParam('selectedResourceId'), function(error) {
+			if (error) {
+				Alerts.insert({
+					colorClass: 'bg-danger',
+					iconClass: 'fss-danger',
+					message: error.reason,
+				});
+			} else {
+				Session.set('selectedResourceId', newResource._id);
+				FlowRouter.go('/planning/resources/view/2/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/'+ newResource._id +'/'+ newResource.type);
+				$('.js-deleting').hide();
+			}
+		});
+	},
+	
+	'click .js-delete-subject-confirmed'(event) {
+		event.preventDefault();
+		$('.js-deleting').show();
+
+		function nextSubjectId(selectedSubjectId) {
+			let subjectIds = Subjects.find({}, {sort: {order: 1}}).map(subject => (subject._id));
+			let selectedIndex = subjectIds.indexOf(selectedSubjectId);
+
+			if (selectedIndex) {
+				return subjectIds[selectedIndex - 1]
+			}
+			return subjectIds[selectedIndex + 1]
+		};
+
+		let newSubjectId = nextSubjectId(FlowRouter.getParam('selectedSubjectId'));
+		let dialogId = Dialogs.findOne()._id;
+
+		Dialogs.remove({_id: dialogId});
+		Meteor.call('deleteSubject', FlowRouter.getParam('selectedSubjectId'), function(error) {
+			if (error) {
+				Alerts.insert({
+					colorClass: 'bg-danger',
+					iconClass: 'fss-danger',
+					message: error.reason,
+				});
+			} else {
+				Session.set('selectedSubjectId', newSubjectId);
+				FlowRouter.go('/planning/subjects/view/3/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ newSubjectId);
+				$('.js-deleting').hide();
+			}
+		});
+	},
+
+	'click .js-delete-report-confirmed'(event) {
+		event.preventDefault();
+		$('.js-deleting').show();
+
+		function nextReportId(selectedReportId) {
+			let reportIds = Reports.find({}, {sort: {name: 1}}).map(report => (report._id));
+			let selectedIndex = reportIds.indexOf(selectedReportId);
+
+			if (selectedIndex) {
+				return reportIds[selectedIndex - 1]
+			}
+			return reportIds[selectedIndex + 1]
+		};
+
+		let newReportId = nextReportId(FlowRouter.getParam('selectedReportId'));
+		let dialogId = Dialogs.findOne()._id;
+
+		Dialogs.remove({_id: dialogId});
+		Meteor.call('deleteReport', FlowRouter.getParam('selectedReportId'), function(error) {
+			if (error) {
+				Alerts.insert({
+					colorClass: 'bg-danger',
+					iconClass: 'fss-danger',
+					message: error.reason,
+				});
+			} else {
+				Session.set('selectedReportId', newReportId);
+				FlowRouter.go('/reporting/view/1/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ newReportId);
+				$('.js-deleting').hide();
+			}
+		});
+	},
+
+	'click .js-delete-user-confirmed'(event) {
+		event.preventDefault();
+		$('.js-deleting').show();
+
+		let dialogId = Dialogs.findOne()._id;
+		let nextUserId = Meteor.users.findOne({'emails.0.verified': true, 'status.active': true})._id
+
+		Dialogs.remove({_id: dialogId});
+		Meteor.call('removeUser', FlowRouter.getParam('selectedUserId'), function(error) {
+			if (error) {
+				Alerts.insert({
+					colorClass: 'bg-danger',
+					iconClass: 'fss-danger',
+					message: error.reason,
+				});
+			} else {
+				Dialogs.remove({_id: dialogId});
+				Session.set('selectedUserId', nextUserId);
+				FlowRouter.go('/settings/users/view/2/' + nextUserId);
+				$('.js-deleting').hide();
+			}
+		});
+	},
+
+	'click .js-reset-password-confirmed'(event) {
+		event.preventDefault();
+		
+		$('.js-signing-out').show();
+		Dialogs.remove({});
+
+		Accounts.logout(function(error) {
+			if (error) {
+				Alerts.insert({
+					colorClass: 'bg-danger',
+					iconClass: 'fss-danger',
+					message: error.reason,
+				});
+			} else {
+				FlowRouter.go("/reset");
+			}
+		});
 	},
 
 

@@ -71,41 +71,7 @@ Template.resourcesView.helpers({
 });
 
 Template.resourcesView.events({
-	'click .js-delete-resource-confirmed'(event) {
-		event.preventDefault();
-		$('.js-deleting').show();
-
-		function nextResourceId(selectedResourceId) {
-			let resourceIds = Resources.find({}, {sort: {title: 1}}).map(resource => (resource._id));
-
-			if (resourceIds.length > 1) {
-				let selectedIndex = resourceIds.indexOf(selectedResourceId);
-				if (selectedIndex) {
-					return Resources.findOne({_id: resourceIds[selectedIndex - 1]});
-				}
-				return Resources.findOne({_id: resourceIds[selectedIndex + 1]});
-			}
-			return {_id: 'empty', type: 'empty'}
-		};
-
-		let newResource = nextResourceId(FlowRouter.getParam('selectedResourceId'))
-		const dialogId = Dialogs.findOne()._id;
-
-		Dialogs.remove({_id: dialogId});
-		Meteor.call('deleteResource', FlowRouter.getParam('selectedResourceId'), function(error) {
-			if (error) {
-				Alerts.insert({
-					colorClass: 'bg-danger',
-					iconClass: 'fss-danger',
-					message: error.reason,
-				});
-			} else {
-				Session.set('selectedResourceId', newResource._id);
-				FlowRouter.go('/planning/resources/view/2/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/'+ newResource._id +'/'+ newResource.type);
-				$('.js-deleting').hide();
-			}
-		});
-	}
+	
 });
 
 

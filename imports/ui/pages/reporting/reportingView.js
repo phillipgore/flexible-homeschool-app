@@ -79,38 +79,7 @@ Template.reportingView.helpers({
 });
 
 Template.reportingView.events({
-	'click .js-delete-report-confirmed'(event) {
-		event.preventDefault();
-		$('.js-deleting').show();
-
-		function nextReportId(selectedReportId) {
-			let reportIds = Reports.find({}, {sort: {name: 1}}).map(report => (report._id));
-			let selectedIndex = reportIds.indexOf(selectedReportId);
-
-			if (selectedIndex) {
-				return reportIds[selectedIndex - 1]
-			}
-			return reportIds[selectedIndex + 1]
-		};
-
-		let newReportId = nextReportId(FlowRouter.getParam('selectedReportId'));
-		let dialogId = Dialogs.findOne()._id;
-
-		Dialogs.remove({_id: dialogId});
-		Meteor.call('deleteReport', FlowRouter.getParam('selectedReportId'), function(error) {
-			if (error) {
-				Alerts.insert({
-					colorClass: 'bg-danger',
-					iconClass: 'fss-danger',
-					message: error.reason,
-				});
-			} else {
-				Session.set('selectedReportId', newReportId);
-				FlowRouter.go('/reporting/view/1/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ newReportId);
-				$('.js-deleting').hide();
-			}
-		});
-	},
+	
 });
 
 

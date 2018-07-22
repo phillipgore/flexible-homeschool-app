@@ -76,30 +76,6 @@ Template.usersView.events({
 		});
 	},
 
-	'click .js-delete-user-confirmed'(event) {
-		event.preventDefault();
-		$('.js-deleting').show();
-
-		let dialogId = Dialogs.findOne()._id;
-		let nextUserId = Meteor.users.findOne({'emails.0.verified': true, 'status.active': true})._id
-
-		Dialogs.remove({_id: dialogId});
-		Meteor.call('removeUser', FlowRouter.getParam('selectedUserId'), function(error) {
-			if (error) {
-				Alerts.insert({
-					colorClass: 'bg-danger',
-					iconClass: 'fss-danger',
-					message: error.reason,
-				});
-			} else {
-				Dialogs.remove({_id: dialogId});
-				Session.set('selectedUserId', nextUserId);
-				FlowRouter.go('/settings/users/view/2/' + nextUserId);
-				$('.js-deleting').hide();
-			}
-		});
-	},
-
 	'click .js-resend-verificatin-email'(event) {
 		event.preventDefault();
 		$('.js-sending').show();

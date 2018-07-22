@@ -40,38 +40,7 @@ Template.subjectsView.helpers({
 });
 
 Template.subjectsView.events({
-	'click .js-delete-subject-confirmed'(event) {
-		event.preventDefault();
-		$('.js-deleting').show();
-
-		function nextSubjectId(selectedSubjectId) {
-			let subjectIds = Subjects.find({}, {sort: {order: 1}}).map(subject => (subject._id));
-			let selectedIndex = subjectIds.indexOf(selectedSubjectId);
-
-			if (selectedIndex) {
-				return subjectIds[selectedIndex - 1]
-			}
-			return subjectIds[selectedIndex + 1]
-		};
-
-		let newSubjectId = nextSubjectId(FlowRouter.getParam('selectedSubjectId'));
-		let dialogId = Dialogs.findOne()._id;
-
-		Dialogs.remove({_id: dialogId});
-		Meteor.call('deleteSubject', FlowRouter.getParam('selectedSubjectId'), function(error) {
-			if (error) {
-				Alerts.insert({
-					colorClass: 'bg-danger',
-					iconClass: 'fss-danger',
-					message: error.reason,
-				});
-			} else {
-				Session.set('selectedSubjectId', newSubjectId);
-				FlowRouter.go('/planning/subjects/view/3/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ newSubjectId);
-				$('.js-deleting').hide();
-			}
-		});
-	}
+	
 });
 
 

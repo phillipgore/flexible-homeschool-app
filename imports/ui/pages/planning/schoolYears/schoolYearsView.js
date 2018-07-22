@@ -45,39 +45,7 @@ Template.schoolYearsView.helpers({
 });
 
 Template.schoolYearsView.events({
-	'click .js-delete-school-year-confirmed'(event) {
-		event.preventDefault();
-		$('.js-deleting').show();
-
-		function nextSchoolYearId(selectedSchoolYearId) {
-			let schoolYearIds = SchoolYears.find({}, {sort: {startYear: 1}}).map(schoolYear => (schoolYear._id));
-			let selectedIndex = schoolYearIds.indexOf(selectedSchoolYearId);
-
-			if (selectedIndex) {
-				return schoolYearIds[selectedIndex - 1]
-			}
-			return schoolYearIds[selectedIndex + 1]
-		};
-
-		let newSchoolYearId = nextSchoolYearId(FlowRouter.getParam('selectedSchoolYearId'))
-		let dialogId = Dialogs.findOne()._id;
-
-		Dialogs.remove({_id: dialogId});
-		Meteor.call('deleteSchoolYear', FlowRouter.getParam('selectedSchoolYearId'), function(error) {
-			if (error) {
-				Alerts.insert({
-					colorClass: 'bg-danger',
-					iconClass: 'fss-danger',
-					message: error.reason,
-				});
-			} else {
-				Dialogs.remove({_id: dialogId});
-				Session.set('selectedSchoolYearId', newSchoolYearId)
-				FlowRouter.go('/planning/schoolyears/view/2/' + newSchoolYearId);
-				$('.js-deleting').hide();
-			}
-		});
-	}
+	
 });
 
 
