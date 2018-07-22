@@ -2,8 +2,11 @@ import {Template} from 'meteor/templating';
 import { Groups } from '../../api/groups/groups.js';
 import { SchoolYears } from '../../api/schoolYears/schoolYears.js';
 import { Students } from '../../api/students/students.js';
+import { Resources } from '../../api/resources/resources.js';
+import { Reports } from '../../api/reports/reports.js';
 import { Terms } from '../../api/terms/terms.js';
 import { Weeks } from '../../api/weeks/weeks.js';
+import { Users } from '../../api/users/users.js';
 import './app.html';
 import moment from 'moment';
 import _ from 'lodash'
@@ -91,34 +94,6 @@ Template.app.events({
 			Alerts.remove({_id: alertId});
 		}, 350);
 	},
-
-
-	// Frame Positon
-	// 'click .frame-one a.list-item-link'(event) {
-	// 	Session.setPersistent('selectedFramePosition', 2);
-	// 	Session.setPersistent('selectedFrameClass', 'frame-position-two');
-	// },
-
-	// 'click .frame-two a.list-item-link'(event) {
-	// 	Session.setPersistent('selectedFramePosition', 3);
-	// 	Session.setPersistent('selectedFrameClass', 'frame-position-three');
-	// },
-
-	// 'click .js-btn-back, click .js-cancel, click .js-delete'(event) {
-	// 	if ($(event.currentTarget).hasClass('js-btn-back')) {
-	// 		event.preventDefault();
-	// 	}
-
-	// 	let newFramePosition = Session.get('selectedFramePosition') - 1;
-
-	// 	if (newFramePosition === 2) {
-	// 		Session.setPersistent('selectedFramePosition', 2);
-	// 		Session.setPersistent('selectedFrameClass', 'frame-position-two');
-	// 	} else {
-	// 		Session.setPersistent('selectedFramePosition', 1);
-	// 		Session.setPersistent('selectedFrameClass', 'frame-position-one');
-	// 	}
-	// },
 
 
 	// List Selections
