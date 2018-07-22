@@ -1,6 +1,8 @@
 import {Template} from 'meteor/templating';
 import './usersEdit.html';
 
+import md5 from 'md5';
+
 Template.usersEdit.onCreated( function() {
 	// Subscriptions
 	this.subscribe('allUsers');
@@ -44,8 +46,9 @@ Template.usersEdit.onRendered( function() {
 				},
 			};
 
-			let subscriptionProperties = {
+			let mcSubscriptionProperties = {
 				email: template.find("[name='email']").value.trim(),
+				emailHash: md5(template.find("[name='emailHash']").value.trim()),
 				firstName: template.find("[name='firstName']").value.trim(),
 				lastName: template.find("[name='lastName']").value.trim()
 			};
@@ -61,7 +64,7 @@ Template.usersEdit.onRendered( function() {
 					$('.js-updating').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
-					Meteor.call('mailChimpSubscriptions', subscriptionProperties, function(error, result) {
+					Meteor.call('mcUpdate', mcSubscriptionProperties, function(error, result) {
 				    	FlowRouter.go('/settings/users/view/3/' + FlowRouter.getParam('selectedUserId'));
 				    });
 				}

@@ -52,7 +52,7 @@ Template.usersNew.onRendered( function() {
 				}
 			};
 
-			let subscriptionProperties = {
+			let mcSubscriptionProperties = {
 				email: template.find("[name='email']").value.trim(),
 				firstName: template.find("[name='firstName']").value.trim(),
 				lastName: template.find("[name='lastName']").value.trim()
@@ -79,7 +79,7 @@ Template.usersNew.onRendered( function() {
 								message: error.reason,
 							});
 						} else {
-							Meteor.call('mailChimpSubscriptions', subscriptionProperties, function(error, result) {
+							Meteor.call('mcSubscription', mcSubscriptionProperties, function(error, result) {
 						    	FlowRouter.go('/settings/users/view/3/' + userId);
 								Alerts.insert({
 									colorClass: 'bg-info',
