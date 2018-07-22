@@ -12,7 +12,7 @@ Meteor.publish('schooYearStudentSubjects', function(schoolYearId, studentId) {
 	}
 
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;	
-	return Subjects.find({groupId: groupId, schoolYearId: schoolYearId, studentId: studentId, deletedOn: { $exists: false }}, {sort: {order: 1}, fields: {groupId: 0, userId: 0, createdOn: 0, updatedOn: 0}});
+	return Subjects.find({groupId: groupId, schoolYearId: schoolYearId, studentId: studentId, deletedOn: { $exists: false }}, {sort: {name: 1}, fields: {groupId: 0, userId: 0, createdOn: 0, updatedOn: 0}});
 });
 
 
@@ -23,7 +23,7 @@ Meteor.publish('studentWeekSubjects', function(studentId, weekId) {
 
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;	
 	let subjectIds = Lessons.find({weekId: weekId, deletedOn: { $exists: false }}).map(lesson => (lesson.subjectId))
-	return Subjects.find({_id: {$in: subjectIds}, groupId: groupId, studentId: studentId, deletedOn: { $exists: false }}, {sort: {order: 1}, fields: {groupId: 0, userId: 0, createdOn: 0, updatedOn: 0}});
+	return Subjects.find({_id: {$in: subjectIds}, groupId: groupId, studentId: studentId, deletedOn: { $exists: false }}, {sort: {name: 1}, fields: {groupId: 0, userId: 0, createdOn: 0, updatedOn: 0}});
 });
 
 Meteor.publish('subject', function(subjectId) {
@@ -32,7 +32,7 @@ Meteor.publish('subject', function(subjectId) {
 	}
 
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-	return Subjects.find({groupId: groupId, deletedOn: { $exists: false }, _id: subjectId}, {sort: {order: 1}, fields: {groupId: 0, userId: 0, createdOn: 0, updatedOn: 0}});
+	return Subjects.find({groupId: groupId, deletedOn: { $exists: false }, _id: subjectId}, {sort: {name: 1}, fields: {groupId: 0, userId: 0, createdOn: 0, updatedOn: 0}});
 });
 
 Meteor.publish('subjectView', function(subjectId) {
@@ -44,7 +44,7 @@ Meteor.publish('subjectView', function(subjectId) {
 		let self = this;
 
 		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-		let subject = Subjects.findOne({groupId: groupId, deletedOn: { $exists: false }, _id: subjectId}, {sort: {order: 1}, fields: {groupId: 0, userId: 0, createdOn: 0, updatedOn: 0}});
+		let subject = Subjects.findOne({groupId: groupId, deletedOn: { $exists: false }, _id: subjectId}, {sort: {name: 1}, fields: {groupId: 0, userId: 0, createdOn: 0, updatedOn: 0}});
 
 		if (subject) {
 			let student = Students.findOne({groupId: groupId, deletedOn: { $exists: false }, _id: subject.studentId});

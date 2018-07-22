@@ -34,7 +34,7 @@ Template.subjectsList.helpers({
 	},
 
 	subjects: function() {
-		return Subjects.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId'), studentId: FlowRouter.getParam('selectedStudentId')}, {sort: {order: 1}});
+		return Subjects.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId'), studentId: FlowRouter.getParam('selectedStudentId')}, {sort: {name: 1}});
 	},
 
 	selectedStudentId: function() {

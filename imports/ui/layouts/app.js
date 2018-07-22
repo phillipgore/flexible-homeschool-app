@@ -216,7 +216,7 @@ Template.app.events({
 		$('.js-deleting').show();
 
 		function nextSubjectId(selectedSubjectId) {
-			let subjectIds = Subjects.find({}, {sort: {order: 1}}).map(subject => (subject._id));
+			let subjectIds = Subjects.find({}, {sort: {name: 1}}).map(subject => (subject._id));
 			let selectedIndex = subjectIds.indexOf(selectedSubjectId);
 
 			if (selectedIndex) {

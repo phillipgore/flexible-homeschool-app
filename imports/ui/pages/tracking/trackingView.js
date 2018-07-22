@@ -55,7 +55,7 @@ Template.trackingView.helpers({
 	},
 
 	subjects: function() {
-		return Subjects.find({studentId: FlowRouter.getParam('selectedStudentId'), schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}, {sort: {order: 1}});
+		return Subjects.find({studentId: FlowRouter.getParam('selectedStudentId'), schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}, {sort: {name: 1}});
 	},
 
 	terms: function() {

@@ -122,7 +122,7 @@ Meteor.publish('initialIds', function(currentYear) {
 			studentIds.forEach((studentId) => {
 				schoolYearIds.forEach((schoolYearId) => {
 					let keyName = 'subject' + studentId + schoolYearId;
-					let valueSubject = Subjects.findOne({groupId: groupId, schoolYearId: schoolYearId, studentId: studentId, deletedOn: { $exists: false }}, {sort: {order: 1}});
+					let valueSubject = Subjects.findOne({groupId: groupId, schoolYearId: schoolYearId, studentId: studentId, deletedOn: { $exists: false }}, {sort: {name: 1}});
 
 					if (valueSubject) {ids[keyName] = valueSubject._id} else {ids[keyName] = 'empty'};
 				});

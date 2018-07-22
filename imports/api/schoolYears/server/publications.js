@@ -112,7 +112,7 @@ Meteor.publish('schoolYearComplete', function(schoolYearId) {
 		Terms.find({groupId: groupId, deletedOn: { $exists: false }, schoolYearId: schoolYearId}, {sort: {order: 1}}),
 		Subjects.find(
 			{groupId: groupId, deletedOn: { $exists: false }, schoolYearId: schoolYearId}, 
-			{sort: {order: 1}, fields: {schoolYearId: 1, name: 1}}
+			{sort: {name: 1}, fields: {schoolYearId: 1, name: 1}}
 		),
 		Weeks.find({groupId: groupId, deletedOn: { $exists: false }, termId: {$in: termIds}}, {sort: {order: 1}}),
 		Lessons.find({groupId: groupId, deletedOn: { $exists: false }, weekId: {$in: weekIds}}, {sort: {order: 1}}),
