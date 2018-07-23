@@ -137,7 +137,7 @@ Template.trackingView.events({
 
 		let subjectId = $(event.currentTarget).attr('id');
 		$('.js-label-' + subjectId).toggle();
-		$('.js-' + subjectId).slideToggle('fast');
+		$('.js-' + subjectId).toggle();
 	},
 
 	'click .js-lesson-btn'(event) {

@@ -39,6 +39,14 @@
 	border: 1px solid $color-gray-dark;
 	font-weight: 300;
 
+	&.tracking-view {
+		position: absolute;
+		top: 38px;
+		right: 0px;
+		left: 0px;
+		z-index: 400;
+	}
+
 	&.no-border {
 		border: none;
 	}
