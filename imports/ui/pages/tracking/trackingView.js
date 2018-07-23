@@ -121,17 +121,22 @@ Template.trackingView.helpers({
 Template.trackingView.events({
 	'click .js-show-subject-info'(event) {
 		event.preventDefault();
-		let subjectId = $(event.currentTarget).attr('id');
 
+		$('.js-subject-track').removeClass('active');
+		$('.js-lesson-input').removeAttr('style');
+		
+		let subjectId = $(event.currentTarget).attr('id');
 		$('.js-label-' + subjectId).toggle();
 		$('.js-' + subjectId).slideToggle('fast');
 	},
 
 	'click .js-lesson-btn'(event) {
 		event.preventDefault();
+		
+		$('.js-hide, .js-info').hide();
+		$('.js-show').show();
 
 		let lessonId = $(event.currentTarget).attr('data-lesson-id');
-
 		autosize($('#description-' + lessonId));
 		autosize.update($('#description-' + lessonId));
 		$('.js-lesson-input').removeAttr('style');
