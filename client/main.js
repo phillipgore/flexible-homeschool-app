@@ -71,6 +71,7 @@ import '/imports/ui/pages/planning/planningList.js';
 
 // Tracking
 import '/imports/ui/pages/tracking/trackingList.js';
+import '/imports/ui/pages/tracking/trackingSubject.js';
 import '/imports/ui/pages/tracking/trackingView.js';
 
 
