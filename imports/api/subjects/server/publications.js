@@ -6,6 +6,8 @@ import {Terms} from '../../terms/terms.js';
 import {Weeks} from '../../weeks/weeks.js';
 import {Lessons} from '../../lessons/lessons.js';
 
+import _ from 'lodash'
+
 Meteor.publish('schooYearStudentSubjects', function(schoolYearId, studentId) {
 	if (!this.userId) {
 		return this.ready();
@@ -23,7 +25,12 @@ Meteor.publish('studentWeekSubjects', function(studentId, weekId) {
 
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;	
 	let subjectIds = Lessons.find({weekId: weekId, deletedOn: { $exists: false }}).map(lesson => (lesson.subjectId))
-	return Subjects.find({_id: {$in: subjectIds}, groupId: groupId, studentId: studentId, deletedOn: { $exists: false }}, {sort: {name: 1}, fields: {groupId: 0, userId: 0, createdOn: 0, updatedOn: 0}});
+	let resourceIds = _.flattenDeep(Subjects.find({_id: {$in: subjectIds}, groupId: groupId, studentId: studentId, deletedOn: { $exists: false }}).map(subject => subject.resources));
+
+	return [
+		Subjects.find({_id: {$in: subjectIds}, groupId: groupId, studentId: studentId, deletedOn: { $exists: false }}, {sort: {name: 1}, fields: {groupId: 0, userId: 0, createdOn: 0, updatedOn: 0}}),
+		Resources.find({groupId: groupId, deletedOn: { $exists: false }, _id: {$in: resourceIds}}, {sort: {title: 1}, fields: {title: 1, type: 1}}),
+	]
 });
 
 Meteor.publish('subject', function(subjectId) {

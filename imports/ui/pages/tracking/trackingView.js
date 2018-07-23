@@ -1,6 +1,7 @@
 import {Template} from 'meteor/templating';
 import { Students } from '../../../api/students/students.js';
 import { SchoolYears } from '../../../api/schoolYears/schoolYears.js';
+import { Resources } from '../../../api/resources/resources.js';
 import { Subjects } from '../../../api/subjects/subjects.js';
 import { Terms } from '../../../api/terms/terms.js';
 import { Weeks } from '../../../api/weeks/weeks.js';
@@ -56,6 +57,10 @@ Template.trackingView.helpers({
 
 	subjects: function() {
 		return Subjects.find({studentId: FlowRouter.getParam('selectedStudentId'), schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}, {sort: {name: 1}});
+	},
+
+	resources: function(resourceIds) {
+		return Resources.find({_id: {$in: resourceIds}});
 	},
 
 	terms: function() {
@@ -114,6 +119,14 @@ Template.trackingView.helpers({
 });
 
 Template.trackingView.events({
+	'click .js-show-subject-info'(event) {
+		event.preventDefault();
+		let subjectId = $(event.currentTarget).attr('id');
+
+		$('.js-label-' + subjectId).toggle();
+		$('.js-' + subjectId).slideToggle('fast');
+	},
+
 	'click .js-lesson-btn'(event) {
 		event.preventDefault();
 
