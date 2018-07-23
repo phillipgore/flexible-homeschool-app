@@ -59,6 +59,16 @@ Template.trackingView.helpers({
 		return Subjects.find({studentId: FlowRouter.getParam('selectedStudentId'), schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}, {sort: {name: 1}});
 	},
 
+	subjectsOne: function(subjectsCount) {
+		let subjectsLimit = subjectsCount / 2;
+		return Subjects.find({studentId: FlowRouter.getParam('selectedStudentId'), schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}, {sort: {name: 1}, limit: subjectsLimit});
+	},
+
+	subjectsTwo: function(subjectsCount) {
+		let subjectsSkip = subjectsCount / 2;
+		return Subjects.find({studentId: FlowRouter.getParam('selectedStudentId'), schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}, {sort: {name: 1}, skip: subjectsSkip});
+	},
+
 	resources: function(resourceIds) {
 		return Resources.find({_id: {$in: resourceIds}});
 	},
@@ -124,7 +134,7 @@ Template.trackingView.events({
 
 		$('.js-subject-track').removeClass('active');
 		$('.js-lesson-input').removeAttr('style');
-		
+
 		let subjectId = $(event.currentTarget).attr('id');
 		$('.js-label-' + subjectId).toggle();
 		$('.js-' + subjectId).slideToggle('fast');
@@ -132,7 +142,7 @@ Template.trackingView.events({
 
 	'click .js-lesson-btn'(event) {
 		event.preventDefault();
-		
+
 		$('.js-hide, .js-info').hide();
 		$('.js-show').show();
 
