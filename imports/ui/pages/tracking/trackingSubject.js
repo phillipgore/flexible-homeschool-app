@@ -99,6 +99,7 @@ Template.trackingSubject.events({
 
 	'click .js-close'(event) {
 		event.preventDefault();
+
 		$('.js-subject-track').removeClass('active');
 		$('.js-lesson-input').removeAttr('style');
 	},
@@ -116,6 +117,7 @@ Template.trackingSubject.events({
 
 		let lessonId = $(event.currentTarget).parent().attr('id');
 		$('[data-lesson-id="' + lessonId + '"]').find('.js-lesson-updating').show();
+
 		$('.js-subject-track').removeClass('active');
 		$('.js-lesson-input').removeAttr('style');
 
