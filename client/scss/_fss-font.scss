@@ -23,6 +23,24 @@ i {
     -moz-osx-font-smoothing: grayscale;
 }
 
+.fss-list-ol:before {
+  content: "\e94c";
+}
+.fss-list-ul:before {
+  content: "\e94d";
+}
+.fss-bold:before {
+  content: "\e949";
+}
+.fss-italic:before {
+  content: "\e94a";
+}
+.fss-underline:before {
+  content: "\e94b";
+}
+.fss-work:before {
+  content: "\e948";
+}
 .fss-tag:before {
   content: "\e947";
 }
