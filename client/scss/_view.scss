@@ -30,6 +30,7 @@
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
+		padding-top: 15px;
 	}
 }
 
@@ -69,6 +70,10 @@
 
 		&.sub-section {
 			margin: 0px 0px 12px 0px;
+
+			&:last-child {
+				margin-bottom: 0px
+			}
 		}
 	}
 }

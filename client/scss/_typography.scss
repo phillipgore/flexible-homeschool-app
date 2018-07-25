@@ -8,9 +8,10 @@ h1 {
 	i {
 		display: inline-block;
 		float: left;
-		font-size: 22px;
-		margin-right: 6px;
+		font-size: 26px;
+		margin-right: 12px;
 		text-align: center;
+		width: 26px;
 	}
 
 	&.h1-lg {
@@ -52,16 +53,17 @@ h3 {
 }
 
 p { 
-	margin: 0px 0px 9px 0px;
-	padding: 0px;
+	padding: 0px 0px 9px 0px;
+	margin: 0px;
 	line-height: 1.25; 
 
 	i {
 		display: inline-block;
 		float: left;
 		font-size: 20px;
-		margin-right: 3px;
+		margin-right: 9px;
 		text-align: center;
+		width: 18px;
 	}
 
 	&.p-sm {
@@ -98,6 +100,41 @@ ul, ol {
 				width: 18px;
 			}
 		}
+	}
+
+	&:last-child, &:last-of-type {
+		margin-bottom: 0px;
+	}
+}
+
+a {
+	color: $color-primary;
+	text-decoration: none;
+	margin: 0px 0px 9px 0px;
+	padding: 0px;
+	line-height: 1.25; 
+
+	&.inline-icon i {
+		display: inline-block;
+		float: left;
+		font-size: 20px;
+		margin-right: 9px;
+		text-align: center;
+		width: 18px;
+	}
+
+	&:hover {
+		text-decoration: underline;
+	}
+
+	&:focus {
+    	outline: none;
+    	border: 0;
+	}
+
+	&:-moz-focusring {
+	    color: transparent;
+	    text-shadow: 0 0 0 #000;
 	}
 }
 

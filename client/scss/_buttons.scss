@@ -1,32 +1,3 @@
-a {
-	color: $color-primary;
-	text-decoration: none;
-
-	&:hover {
-		text-decoration: underline;
-	}
-
-	&:focus {
-    	outline: none;
-    	border: 0;
-	}
-
-	&:-moz-focusring {
-	    color: transparent;
-	    text-shadow: 0 0 0 #000;
-	}
-
-	&.icn-inline {
-		i {
-			display: inline-block;
-			float: left;
-			font-size: 18px;
-			margin-right: 3px;
-			text-align: center;
-		}
-	}
-}
-
 button, .btn {
 	display: inline-block;
 	font-family: $font-family-default;
@@ -223,7 +194,7 @@ button, .btn {
 	}
 }
 
-.btn-nav {
+a.btn-nav {
 	font-family: $font-family-default;
 	font-size: 10px;
 	color: $color-gray-darkest;
@@ -235,7 +206,8 @@ button, .btn {
 	height: 50px;
 	border-radius: 0px;
 	display: block;
-	padding-top: 8px;
+	margin: 0px;
+	padding: 8px 0px 0px 0px;
 
 	.btn-nav-icon {
 		color: $color-gray-darker;

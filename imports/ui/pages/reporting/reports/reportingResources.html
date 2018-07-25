@@ -11,42 +11,42 @@
 							</div>
 							{{#if report.resourcesOriginatorVisible}}
 								{{#if resourceOrigin resource.authorFirstName resource.authorLastName}}
-									<p class="m-tn-b-9"><span class="txt-gray-darker">Author:</span> {{resource.authorFirstName}} {{resource.authorLastName}}</p>
+									<p><span class="txt-gray-darker">Author:</span> {{resource.authorFirstName}} {{resource.authorLastName}}</p>
 								{{/if}}
 
 								{{#if resourceOrigin resource.directorFirstName resource.directorLastName}}
-									<p class="m-tn-b-9"><span class="txt-gray-darker">Director:</span> {{resource.directorFirstName}} {{resource.directorLastName}}</p>
+									<p><span class="txt-gray-darker">Director:</span> {{resource.directorFirstName}} {{resource.directorLastName}}</p>
 								{{/if}}
 
 								{{#if resourceOrigin resource.artistFirstName resource.artistLastName}}
-									<p class="m-tn-b-9"><span class="txt-gray-darker">Artist:</span> {{resource.artistFirstName}} {{resource.artistLastName}}</p>
+									<p><span class="txt-gray-darker">Artist:</span> {{resource.artistFirstName}} {{resource.artistLastName}}</p>
 								{{/if}}
 							{{/if}}
 							{{#if report.resourcesPublicationVisible}}
 								{{#if resource.publisher}}
-									<p class="m-tn-b-9"><span class="txt-gray-darker">Publisher:</span> {{resource.publisher}}</p>
+									<p><span class="txt-gray-darker">Publisher:</span> {{resource.publisher}}</p>
 								{{/if}}
 
 								{{#if resource.publicationDate}}
-									<p class="m-tn-b-9"><span class="txt-gray-darker">Publication Date:</span> {{dateFormat resource.publicationDate}}</p>
+									<p><span class="txt-gray-darker">Publication Date:</span> {{dateFormat resource.publicationDate}}</p>
 								{{/if}}
 							{{/if}}
 							{{#if report.resourcesSubjectsVisible}}
-								<p class="m-tn-b-9">
+								<p>
 									<span class="txt-gray-darker">Subjects:</span> 
 									{{resourceSubjects resource._id}}
 								</p>
 							{{/if}}
 							{{#if report.resourcesLinkVisible}}
 								{{#if resource.link}}
-									<a href="{{resource.link}}" target="_blank" class="dis-tn-block icn-inline txt-ellipsis m-tn-b-9">
+									<a href="{{resource.link}}" target="_blank" class="inline-icon dis-tn-block txt-ellipsis">
 										<i class="fss-link"></i> {{resource.link}}
 									</a>
 								{{/if}}
 							{{/if}}
 							{{#if report.resourcesDescriptionVisible}}
 								{{#if resource.description}}
-									<p class="m-tn-b-9"><span class="txt-gray-darker">Description:</span> {{resource.description}}</p>
+									<p><span class="txt-gray-darker">Description:</span> {{resource.description}}</p>
 								{{/if}}
 							{{/if}}
 						</div>
