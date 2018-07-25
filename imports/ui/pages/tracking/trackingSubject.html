@@ -14,17 +14,21 @@
 			</div>
 			<div class="js-{{subject._id}} js-info view-info tracking-view p-tn-18 m-tn-h-9 m-tn-t-6 m-tn-b-18 hide">
 				{{#if subject.description.length}}
-					<label>Description</label>
-					{{{subject.description}}}
+					<section>
+						<label>Description</label>
+						{{{subject.description}}}
+					</section>
 				{{/if}}
 
 				{{#if subject.resources.length}}
-					<label class="p-tn-b-12">Resources</label>
-					<ul class="info-list">
-						{{#each resource in resources subject.resources}}
-							<li class="list-item txt-ellipsis p-tn-b-3"><i class="fss-{{resource.type}} txt-primary"></i> {{resource.title}}</li>
-						{{/each}}
-					</ul>
+					<section>
+						<label class="p-tn-b-12">Resources</label>
+						<ul class="info-list">
+							{{#each resource in resources subject.resources}}
+								<li class="txt-ellipsis p-tn-b-3"><i class="fss-{{resource.type}} txt-primary"></i> {{resource.title}}</li>
+							{{/each}}
+						</ul>
+					</section>
 				{{/if}}
 			</div>
 			<div class="row track-btn-container m-tn-h-9">

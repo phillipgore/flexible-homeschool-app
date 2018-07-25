@@ -7,16 +7,20 @@
 				</div>
 				<div class="view-title">
 					<h1 class="m-tn-b-3">{{student.preferredFirstName.name}} {{student.lastName}}</h1>
-					<h3 class="txt-gray-darkest">
+					<p class="txt-gray-darkest">
 						{{age student.birthday}}
-					</h3>
+					</p>
 				</div>
 			</div>
 			<div class="view-info p-tn-18">
-				<label>Full Name</label>
-				<p>{{student.firstName}} {{#if student.nickname}}({{student.nickname}}){{/if}} {{student.middleName}} {{student.lastName}}</p>
-				<label>Birthday</label>
-				<p class="m-tn-b-6">{{dateFormat student.birthday}}</p>
+				<section>
+					<label>Full Name</label>
+					<p>{{student.firstName}} {{#if student.nickname}}({{student.nickname}}){{/if}} {{student.middleName}} {{student.lastName}}</p>
+				</section>
+				<section>
+					<label>Birthday</label>
+					<p class="m-tn-b-6">{{dateFormat student.birthday}}</p>
+				</section>
 			</div>
 		{{/if}}
 	</main>

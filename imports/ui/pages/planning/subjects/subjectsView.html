@@ -8,34 +8,41 @@
 				</div>
 				<div class="view-title">
 					<h1 class="txt-ellipsis m-tn-b-3">{{subject.name}}</h1>
-					<h3 class="txt-gray-darkest">
+					<p class="txt-gray-darkest">
 						{{subject.preferredFirstName}} {{subject.lastName}}
-					</h3>
+					</p>
 				</div>
 			</div>
 			
 			<div class="view-info p-tn-18">
 				{{#if subject.description.length}}
-					<label>Description</label>
-					{{{subject.description}}}
+					<section>
+						<label>Description</label>
+						{{{subject.description}}}
+					</section>
 				{{/if}}
 
 				{{#if subject.resources.length}}
-					<label class="p-tn-b-12">Resources</label>
-					<ul class="info-list">
-						{{#each resource in resources subject.resources}}
-							<li class="list-item txt-ellipsis p-tn-b-3"><i class="fss-{{resource.type}} txt-primary"></i> {{resource.title}}</li>
-						{{/each}}
-					</ul>
-					<div class="p-tn-b-18"></div>
+					<section>
+						<label class="p-tn-b-12">Resources</label>
+						<ul class="info-list">
+							{{#each resource in resources subject.resources}}
+								<li class="txt-ellipsis p-tn-b-3"><i class="fss-{{resource.type}} txt-primary"></i> {{resource.title}}</li>
+							{{/each}}
+						</ul>
+					</section>
 				{{/if}}
 
-				<label>School Year</label>
-				<p>{{subject.startYear}} - {{subject.endYear}}</p>
+				<section>
+					<label>School Year</label>
+					<p>{{subject.startYear}} - {{subject.endYear}}</p>
+				</section>
 				
 				{{#each term in subject.termStats}}
-					<label>Term {{term.termOrder}}</label>
-					<p>{{term.lessonCount}} Lesson{{sPlural term.lessonCount}}</p>
+					<section class="sub-section">
+						<label>Term {{term.termOrder}}</label>
+						<p>{{term.lessonCount}} Lesson{{sPlural term.lessonCount}}</p>
+					</section>
 				{{/each}}
 			</div>
 		{{/if}}

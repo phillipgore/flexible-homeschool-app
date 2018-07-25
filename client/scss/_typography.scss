@@ -2,6 +2,8 @@ h1 {
 	margin: 0px;
 	padding: 0px;
 	font-size: 20px;
+	font-weight: 400;
+	line-height: 1.25;
 
 	i {
 		display: inline-block;
@@ -31,6 +33,7 @@ h2 {
 	margin: 0px;
 	padding: 0px;
 	font-size: 18px;
+	font-weight: 400;
 
 	i {
 		display: inline-block;
@@ -45,10 +48,11 @@ h3 {
 	margin: 0px;
 	padding: 0px;
 	font-size: 14px;
+	font-weight: 600;
 }
 
 p { 
-	margin: 0px;
+	margin: 0px 0px 9px 0px;
 	padding: 0px;
 	line-height: 1.25; 
 
@@ -67,12 +71,34 @@ p {
 	&.p-md {
 		font-size: 14px;
 	}
+
+	&:last-child, &:last-of-type {
+		margin-bottom: 0px;
+	}
 }
 
 ul, ol {
 	line-height: 1.25;
-	margin: 0px;
-	padding: 6px 0px 15px 36px;
+	margin: 0px 0px 9px 0px;
+	padding: 0px 0px 0px 36px;
+
+	&.info-list {
+		list-style: none;
+		padding: 0px;
+
+		li {
+			margin: 9px 0px 0px;
+
+			i {
+				display: inline-block;
+				float: left;
+				font-size: 20px;
+				margin-right: 9px;
+				text-align: center;
+				width: 18px;
+			}
+		}
+	}
 }
 
 .line-height-1-5 { line-height: 1.5 }
