@@ -37,7 +37,6 @@
 	border-radius: 3px;
 	background-color: $color-gray-lightest;
 	border: 1px solid $color-gray-dark;
-	font-weight: 300;
 
 	&.tracking-view {
 		position: absolute;
@@ -55,42 +54,17 @@
 		display: block;
 		font-size: 12px;
 		font-weight: 500;
-		margin: 0px;
+		margin: 0px 0px 3px 0px;
 		padding: 0px;
 		color: $color-primary;
 	}
 
-	p {
-		margin-bottom: 18px;
-
-		&:last-of-type, 
-		&:last-child,
-		&:only-of-type,
-		&:only-child, {
-			margin-bottom: 0px;
-		}
-	}
-
-	a {
-		margin-bottom: 18px;
-		color: $color-black;
-		font-size: 16px;
+	section {
+		margin: 0px 0px 18px 0px;
 		padding: 0px;
-		line-height: 1.25;
-		font-weight: 300;
-		text-decoration: none;
-		display: block;
 
-		i {
-			color: $color-primary;
-		}
-
-		&:hover {
-			color: $color-primary;
-
-			i {
-				color: $color-gray-darkest;
-			}
+		&:last-child {
+			margin-bottom: 0px
 		}
 	}
 }

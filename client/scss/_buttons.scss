@@ -1,7 +1,6 @@
 a {
 	color: $color-primary;
 	text-decoration: none;
-	font-weight: normal;
 
 	&:hover {
 		text-decoration: underline;
@@ -31,7 +30,6 @@ a {
 button, .btn {
 	display: inline-block;
 	font-family: $font-family-default;
-	font-weight: normal;
 	font-size: 16px;
 	color: $color-white;
 	border-radius: 3px;

@@ -13,7 +13,6 @@ form {
 
 		&.error, &.cc-error, &.student-error  {
 			color: $color-danger;
-			font-weight: 300;
 			margin-top: -8px;
 			margin-bottom: 12px;
 		}
@@ -185,7 +184,6 @@ form {
 			.radio-label {
 				display: inline-block;
 				font-size: 16px;
-				font-weight: 400;
 				color: $color-black;
 
 				.radio-option-not-available {
@@ -237,7 +235,6 @@ form {
 		.checkbox-label {
 			display: inline-block;
 			font-size: 16px;
-			font-weight: 400;
 			color: $color-black;
 
 			.checkbox-option-not-available {
