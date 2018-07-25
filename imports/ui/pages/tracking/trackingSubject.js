@@ -127,7 +127,7 @@ Template.trackingSubject.events({
 			completed: event.currentTarget.completed.value.trim() === 'true',
 			completedOn: event.currentTarget.completedOn.value.trim(),
 			completionTime: event.currentTarget.completionTime.value.trim(),
-			description: event.currentTarget.description.value.trim(),
+			description: Session.get($(event.currentTarget).find('.editor-content').attr('id')),
 		}
 
 		Meteor.call('updateLesson', lessonPoperties, function(error, result) {

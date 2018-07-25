@@ -54,7 +54,7 @@ Template.resourcesNewBook.onRendered( function() {
 				link: template.find("[name='link']").value.trim(),
 				publisher: template.find("[name='publisher']").value.trim(),
 				publicationDate: template.find("[name='publicationDate']").value.trim(),
-				description: template.find("[name='description']").value.trim(),
+				description: Session.get($(event.currentTarget).find('.editor-content').attr('id')),
 			};
 
 			Meteor.call('insertResource', resourceProperties, function(error, resourceId) {

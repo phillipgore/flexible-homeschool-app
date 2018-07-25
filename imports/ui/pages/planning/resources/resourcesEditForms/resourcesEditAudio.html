@@ -39,7 +39,7 @@
 			<input type="text" name="link" id="link" placeholder="http://www.itunes.com" autocomplete="off" value="{{resource.link}}">
 
 			<label>Descripton</label>
-			<textarea class="m-tn-b-36" name="description" id="description" placeholder="The first box set from..." rows="4" value="{{resource.description}}"></textarea>
+			{{> editor classes="m-tn-b-18" placeholder="The first box set from..." existingContent=resource.description}}
 
 			<footer class="toolbar toolbar-bottom toolbar-gray">
 				<a href="{{cancelPath}}" class="btn btn-gray-darker fl-tn-left">Cancel</a>

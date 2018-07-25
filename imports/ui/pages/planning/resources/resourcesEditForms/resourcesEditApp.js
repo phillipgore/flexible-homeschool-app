@@ -44,7 +44,7 @@ Template.resourcesEditApp.onRendered( function() {
 				title: template.find("[name='title']").value.trim(),
 				availability: template.find("[name='availability']:checked").value.trim(),
 				link: template.find("[name='link']").value.trim(),
-				description: template.find("[name='description']").value.trim(),
+				description: Session.get($(event.currentTarget).find('.editor-content').attr('id')),
 			};
 
 			Meteor.call('updateResource', FlowRouter.getParam('selectedResourceId'), resourceProperties, function(error) {

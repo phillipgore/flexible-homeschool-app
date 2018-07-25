@@ -8,6 +8,7 @@ import '/imports/ui/layouts/app.js';
 import '/imports/ui/components/toolbar.js';
 import '/imports/ui/components/creditCard.js';
 import '/imports/ui/components/navbar.js';
+import '/imports/ui/components/editor.js';
 	// Loaders
 	import '/imports/ui/components/loaders/deleting.html';
 	import '/imports/ui/components/loaders/loading.html';

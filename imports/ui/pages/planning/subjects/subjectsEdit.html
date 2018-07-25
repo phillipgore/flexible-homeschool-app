@@ -10,7 +10,7 @@
 				<label>Subject Name</label>
 				<input type="text" name="name" id="name" placeholder="Math" autocomplete="off" value="{{selectedSubject.name}}">
 				<label>Descripton</label>
-				<textarea class="m-tn-b-neg-3" name="description" id="description" placeholder="Learn basic mathematics..." rows="4" value="{{selectedSubject.description}}"></textarea>
+				{{> editor placeholder="Learn basic mathematics..." existingContent=selectedSubject.description}}
 			</div>
 
 			<h2 class="m-tn-t-36 m-tn-b-9">Step 2: Resources</h2>

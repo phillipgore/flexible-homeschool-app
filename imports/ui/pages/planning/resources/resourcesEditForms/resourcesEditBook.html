@@ -50,7 +50,7 @@
 			</div>
 
 			<label>Descripton</label>
-			<textarea class="m-tn-b-18" name="description" id="description" placeholder="Ponyboy Curtis is leaving..." rows="4" value="{{resource.description}}"></textarea>
+			{{> editor classes="m-tn-b-18" placeholder="Ponyboy Curtis is leaving..." existingContent=resource.description}}
 
 			<footer class="toolbar toolbar-bottom toolbar-gray">
 				<a href="{{cancelPath}}" class="btn btn-gray-darker fl-tn-left">Cancel</a>

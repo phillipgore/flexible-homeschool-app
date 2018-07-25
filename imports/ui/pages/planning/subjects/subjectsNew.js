@@ -82,7 +82,7 @@ Template.subjectsNew.onRendered( function() {
 
 			const subjectProperties = {
 				name: template.find("[name='name']").value.trim(),
-				description: template.find("[name='description']").value.trim(),
+				description: Session.get($(event.currentTarget).find('.editor-content').attr('id')),
 				resources: resourceIds,
 				schoolYearId: template.find("[name='schoolYearId']").value.trim(),
 			};
