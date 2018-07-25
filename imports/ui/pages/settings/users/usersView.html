@@ -6,18 +6,22 @@
 			</div>
 			<div class="view-title">
 				<h1 class="m-tn-b-3">{{user.info.firstName}} {{user.info.lastName}}</h1>
-				<h3 class="p-sm txt-gray-darkest">
+				<p class="txt-gray-darkest">
 					{{user.info.relationshipToStudents}}
-				</h3>
+				</p>
 			</div>
 		</div>
 		<div class="view-info m-tn-b-36 p-tn-18">
-			<label>Email</label>
-			<a href="mailto:{{user.emails.[0].address}}" class="txt-ellipsis">
-				<i class="fss-email"></i> {{user.emails.[0].address}}
-			</a>
-			<label>Role</label>
-			<p class="m-tn-b-6">{{user.info.role}}</p>
+			<section>
+				<label>Email</label>
+				<a href="mailto:{{user.emails.[0].address}}" class="txt-ellipsis">
+					<i class="fss-email"></i> {{user.emails.[0].address}}
+				</a>
+			</section>
+			<section>
+				<label>Role</label>
+				<p class="m-tn-b-6">{{user.info.role}}</p>
+			</section>
 		</div>
 		{{#unless user.emails.[0].verified}}
 			<div class="row txt-tn-center m-tn-t-30">
