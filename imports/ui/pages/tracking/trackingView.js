@@ -17,6 +17,7 @@ Template.trackingView.onCreated( function() {
 	template.autorun(() => {
 		// Subscriptions
 		this.trackingData = Meteor.subscribe('trackingViewPub', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedWeekId'));
+		this.subjectInfo = Meteor.subscribe('subjectInfo', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedWeekId'));
 	});
 
 	Session.set({
@@ -39,6 +40,10 @@ Template.trackingView.onRendered( function() {
 Template.trackingView.helpers({
 	subscriptionReady: function() {
 		return Template.instance().trackingData.ready();
+	},
+
+	subjectInfoReady: function() {
+		return Template.instance().subjectInfo.ready();
 	},
 
 	student: function() {

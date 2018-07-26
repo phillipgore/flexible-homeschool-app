@@ -6,10 +6,10 @@
 		{{studentName student.preferredFirstName.name student.lastName}}
 		{{#if subjects.count}}
 			<div class="col-lg-1of2">
-				{{> trackingSubject subjects=subjectsOne}}
+				{{> trackingSubject subjects=subjectsOne subjectInfoReady=subjectInfoReady }}
 			</div>
 			<div class="col-lg-1of2">
-				{{> trackingSubject subjects=subjectsTwo}}
+				{{> trackingSubject subjects=subjectsTwo subjectInfoReady=subjectInfoReady }}
 			</div>
 		{{else}}
 			<div class="txt-tn-center m-tn-t-72">

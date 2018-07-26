@@ -26,15 +26,30 @@ Meteor.publish('trackingViewPub', function(studentId, weekId) {
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
 	let lessonSubjectIds = Subjects.find({studentId: studentId, deletedOn: { $exists: false }}).map(subject => subject._id);	
 	let subjectIds = Lessons.find({weekId: weekId, deletedOn: { $exists: false }}).map(lesson => (lesson.subjectId))
-	let resourceIds = _.flattenDeep(Subjects.find({_id: {$in: subjectIds}, groupId: groupId, studentId: studentId, deletedOn: { $exists: false }}).map(subject => subject.resources));
+	// let resourceIds = _.flattenDeep(Subjects.find({_id: {$in: subjectIds}, groupId: groupId, studentId: studentId, deletedOn: { $exists: false }}).map(subject => subject.resources));
 
 	return [
 		Students.find({groupId: groupId, deletedOn: { $exists: false }, _id: studentId}),
-		Subjects.find({_id: {$in: subjectIds}, groupId: groupId, studentId: studentId, deletedOn: { $exists: false }}, {sort: {name: 1}, fields: {groupId: 0, userId: 0, createdOn: 0, updatedOn: 0, deletedOn: 0}}),
-		Resources.find({groupId: groupId, deletedOn: { $exists: false }, _id: {$in: resourceIds}}, {sort: {title: 1}, fields: {title: 1, type: 1}}),
+		Subjects.find({_id: {$in: subjectIds}, groupId: groupId, studentId: studentId, deletedOn: { $exists: false }}, {sort: {name: 1}, fields: {groupId: 0, description: 0, userId: 0, createdOn: 0, updatedOn: 0, deletedOn: 0}}),
+		// Resources.find({groupId: groupId, deletedOn: { $exists: false }, _id: {$in: resourceIds}}, {sort: {title: 1}, fields: {title: 1, type: 1}}),
 		Lessons.find({groupId: groupId, deletedOn: { $exists: false }, subjectId: {$in: lessonSubjectIds}, weekId: weekId}, {sort: {order: 1}, fields: {groupId: 0, userId: 0, createdOn: 0, updatedOn: 0, deletedOn: 0}})
 	]
 });
+
+Meteor.publish('subjectInfo', function(studentId, weekId) {
+	if (!this.userId) {
+		return this.ready();
+	}
+
+	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
+	let subjectIds = Lessons.find({weekId: weekId, deletedOn: { $exists: false }}).map(lesson => (lesson.subjectId))
+	let resourceIds = _.flattenDeep(Subjects.find({_id: {$in: subjectIds}, groupId: groupId, studentId: studentId, deletedOn: { $exists: false }}).map(subject => subject.resources));
+
+	return [
+		Subjects.find({_id: {$in: subjectIds}, groupId: groupId, studentId: studentId, deletedOn: { $exists: false }}, {sort: {name: 1}, fields: {description: 1}}),
+		Resources.find({groupId: groupId, deletedOn: { $exists: false }, _id: {$in: resourceIds}}, {sort: {title: 1}, fields: {title: 1, type: 1}}),
+	]
+})
 
 Meteor.publish('subject', function(subjectId) {
 	if (!this.userId) {
