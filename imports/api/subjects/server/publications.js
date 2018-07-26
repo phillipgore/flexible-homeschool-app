@@ -18,18 +18,21 @@ Meteor.publish('schooYearStudentSubjects', function(schoolYearId, studentId) {
 });
 
 
-Meteor.publish('studentWeekSubjects', function(studentId, weekId) {
+Meteor.publish('trackingViewPub', function(studentId, weekId) {
 	if (!this.userId) {
 		return this.ready();
 	}
 
-	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;	
+	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
+	let lessonSubjectIds = Subjects.find({studentId: studentId, deletedOn: { $exists: false }}).map(subject => subject._id);	
 	let subjectIds = Lessons.find({weekId: weekId, deletedOn: { $exists: false }}).map(lesson => (lesson.subjectId))
 	let resourceIds = _.flattenDeep(Subjects.find({_id: {$in: subjectIds}, groupId: groupId, studentId: studentId, deletedOn: { $exists: false }}).map(subject => subject.resources));
 
 	return [
+		Students.find({groupId: groupId, deletedOn: { $exists: false }, _id: studentId}),
 		Subjects.find({_id: {$in: subjectIds}, groupId: groupId, studentId: studentId, deletedOn: { $exists: false }}, {sort: {name: 1}, fields: {groupId: 0, userId: 0, createdOn: 0, updatedOn: 0}}),
 		Resources.find({groupId: groupId, deletedOn: { $exists: false }, _id: {$in: resourceIds}}, {sort: {title: 1}, fields: {title: 1, type: 1}}),
+		Lessons.find({groupId: groupId, deletedOn: { $exists: false }, subjectId: {$in: lessonSubjectIds}, weekId: weekId}, {sort: {order: 1}, fields: {groupId: 0, userId: 0, createdOn: 0, updatedOn: 0}})
 	]
 });
 
