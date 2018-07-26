@@ -4,7 +4,7 @@
 			<div class="clearfix m-tn-h-9 m-tn-b-0">
 				<div class="col-tn-7of9">
 					<div class="track-icon"><i class="txt-primary fss-subjects"></i></div>
-					<div class="track-label txt-ellipsis">{{subject.name}}</div>
+					<div class="track-label txt-ellipsis">{{subject.name}} {{#if subjectInfoReady}}Ready{{else}}Not Ready{{/if}}</div>
 				</div>
 				<div class="col-tn-2of9">
 					<button id="{{subject._id}}" class="js-show-subject-info width-64 tiny fl-tn-right">
