@@ -271,6 +271,7 @@ ul.data-list {
 
 		a.list-item-link, .list-item-inner {
 			display: block;
+			margin-bottom: 0px;
 			padding-top: 16px;
 			padding-bottom: 16px;
 			background-color: $color-white;
@@ -325,6 +326,7 @@ ul.data-list {
 	.list-item:last-of-type {
 		.list-item-link {
 			border: none;
+			margin: 0px;
 		}
 	}
 }
