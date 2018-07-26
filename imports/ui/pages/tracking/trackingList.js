@@ -11,23 +11,17 @@ StudentStats = new Mongo.Collection('studentStats');
 
 Template.trackingList.onCreated( function() {
 	let template = Template.instance();
-	
-	template.autorun(() => {
-		this.trackingData = Meteor.subscribe('trackinglistPub', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'), FlowRouter.getParam('selectedWeekId'));
-	});
-
-	Session.set({
-		selectedStudentId: FlowRouter.getParam('selectedStudentId'),
-		toolbarType: 'tracking',
-		editUrl: '',
-		newUrl: '',
-	});
+	this.trackingData = Meteor.subscribe('trackinglistPub', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'), FlowRouter.getParam('selectedWeekId'));
 });
 
 Template.trackingList.onRendered( function() {
 	Session.set({
 		labelOne: 'Tracking',
 		activeNav: 'trackingList',
+		selectedStudentId: FlowRouter.getParam('selectedStudentId'),
+		toolbarType: 'tracking',
+		editUrl: '',
+		newUrl: '',
 	});
 });
 
