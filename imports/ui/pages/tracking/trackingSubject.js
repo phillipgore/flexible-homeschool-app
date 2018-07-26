@@ -13,6 +13,10 @@ import './trackingSubject.html';
 
 	
 Template.trackingSubject.helpers({
+	subjectInfoReady: function() {
+		return Session.get('subjectInfoReady');
+	},
+
 	resources: function(resourceIds) {
 		return Resources.find({_id: {$in: resourceIds}});
 	},

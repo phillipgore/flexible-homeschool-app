@@ -74,8 +74,8 @@ p {
 		font-size: 14px;
 	}
 
-	&:last-child, &:last-of-type {
-		margin-bottom: 0px;
+	&:last-child, &:last-of-type, &:only-child {
+		padding-bottom: 0px;
 	}
 }
 
