@@ -30,9 +30,9 @@ Meteor.publish('trackingViewPub', function(studentId, weekId) {
 
 	return [
 		Students.find({groupId: groupId, deletedOn: { $exists: false }, _id: studentId}),
-		Subjects.find({_id: {$in: subjectIds}, groupId: groupId, studentId: studentId, deletedOn: { $exists: false }}, {sort: {name: 1}, fields: {groupId: 0, userId: 0, createdOn: 0, updatedOn: 0}}),
+		Subjects.find({_id: {$in: subjectIds}, groupId: groupId, studentId: studentId, deletedOn: { $exists: false }}, {sort: {name: 1}, fields: {groupId: 0, userId: 0, createdOn: 0, updatedOn: 0, deletedOn: 0}}),
 		Resources.find({groupId: groupId, deletedOn: { $exists: false }, _id: {$in: resourceIds}}, {sort: {title: 1}, fields: {title: 1, type: 1}}),
-		Lessons.find({groupId: groupId, deletedOn: { $exists: false }, subjectId: {$in: lessonSubjectIds}, weekId: weekId}, {sort: {order: 1}, fields: {groupId: 0, userId: 0, createdOn: 0, updatedOn: 0}})
+		Lessons.find({groupId: groupId, deletedOn: { $exists: false }, subjectId: {$in: lessonSubjectIds}, weekId: weekId}, {sort: {order: 1}, fields: {groupId: 0, userId: 0, createdOn: 0, updatedOn: 0, deletedOn: 0}})
 	]
 });
 

@@ -13,10 +13,7 @@ Template.trackingList.onCreated( function() {
 	let template = Template.instance();
 	
 	template.autorun(() => {
-		this.subjectData = Meteor.subscribe('allStudents');
-		Meteor.subscribe('allSchoolYearsPath', FlowRouter.getParam('selectedStudentId'));
-		Meteor.subscribe('studentTermsPath', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
-		Meteor.subscribe('studentStats', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'), FlowRouter.getParam('selectedWeekId'));
+		this.trackingData = Meteor.subscribe('trackinglistPub', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'), FlowRouter.getParam('selectedWeekId'));
 	});
 
 	Session.set({
@@ -36,7 +33,7 @@ Template.trackingList.onRendered( function() {
 
 Template.trackingList.helpers({
 	subscriptionReady: function() {
-		return Template.instance().subjectData.ready();
+		return Template.instance().trackingData.ready();
 	},
 
 	students: function() {

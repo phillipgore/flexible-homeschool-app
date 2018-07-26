@@ -44,10 +44,6 @@ Meteor.publish('studentTermsPath', function(schoolYearId, studentId) {
 			return this.ready();
 		}
 
-		SchoolYears.find();
-		Weeks.find();
-		Lessons.find();
-
 		let self = this;
 
 		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;

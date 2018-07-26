@@ -27,11 +27,6 @@ Meteor.publish('allSchoolYearsPath', function() {
 		let self = this;
 
 		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-
-		// Terms.find({groupId: groupId});
-		// Weeks.find({groupId: groupId});
-		// Lessons.find({groupId: groupId});
-
 		let schoolYears = SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}, fields: {startYear: 1, endYear: 1}});
 
 		schoolYears.map((schoolYear) => {
@@ -52,11 +47,6 @@ Meteor.publish('studentSchoolYearsPath', function(studentId) {
 		let self = this;
 
 		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-
-		// Terms.find({groupId: groupId});
-		// Weeks.find({groupId: groupId});
-		// Lessons.find({groupId: groupId});
-
 		let schoolYears = SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}, fields: {startYear: 1, endYear: 1}});
 
 		schoolYears.map((schoolYear) => {
