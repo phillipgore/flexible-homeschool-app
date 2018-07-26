@@ -17,7 +17,9 @@ Template.trackingView.onCreated( function() {
 	template.autorun(() => {
 		// Subscriptions
 		this.trackingData = Meteor.subscribe('trackingViewPub', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedWeekId'));
-		this.subjectInfo = Meteor.subscribe('subjectInfo', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedWeekId'));
+		if (template.trackingData.ready()) {
+			this.subjectInfo = Meteor.subscribe('subjectInfo', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedWeekId'));
+		}
 	});
 
 	Session.set({
