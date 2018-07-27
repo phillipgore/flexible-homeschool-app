@@ -3,6 +3,10 @@ import SimpleSchema from 'simpl-schema';
 
 export const Subjects = new Mongo.Collection('subjects');
 
+if ( Meteor.isServer ) {
+    Subjects.rawCollection().createIndex({ groupId: 1, studentId: 1, schoolYearId: 1 }, {name: "subjectsIndex"});
+}
+
 Subjects.allow({
   insert: () => false,
   update: () => false,

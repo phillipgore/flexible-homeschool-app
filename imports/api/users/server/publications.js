@@ -1,3 +1,5 @@
+Meteor.users.rawCollection().createIndex({ 'info.groupId': 1 }, {name: "usersIndex"});
+
 Meteor.publish('allUsers', function (){ 
 	if (!this.userId) {
 		return this.ready();

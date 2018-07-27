@@ -3,6 +3,10 @@ import SimpleSchema from 'simpl-schema';
 
 export const Terms = new Mongo.Collection('terms');
 
+if ( Meteor.isServer ) {
+    Terms.rawCollection().createIndex({ groupId: 1, schoolYearId: 1, order: 1 }, {name: "termsIndex"});
+}
+
 Terms.allow({
   insert: () => false,
   update: () => false,

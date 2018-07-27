@@ -4,7 +4,7 @@ import SimpleSchema from 'simpl-schema';
 export const Resources = new Mongo.Collection('resources');
 
 if ( Meteor.isServer ) {
-    Resources._ensureIndex({ title: 1, author: 1, artist: 1, director: 1, director: 1, description: 1 });
+    Resources.rawCollection().createIndex({ groupId: 1, title: 1, author: 1, artist: 1, director: 1 }, {name: "resourcesIndex"});
 }
 
 Resources.allow({
