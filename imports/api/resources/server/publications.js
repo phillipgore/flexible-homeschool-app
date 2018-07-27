@@ -33,7 +33,7 @@ Meteor.publish('searchResources', function( search ) {
 		let regex = new RegExp( search, 'i' );
 
 		let query = {groupId: groupId, deletedOn: { $exists: false }, $or: [ { title: regex }, { author: regex }, { artist: regex }, { director: regex } ]};
-		let projection = { limit: 100, sort: { title: 1 } };
+		let projection = { limit: 25, sort: { title: 1 } };
 
 		return Resources.find( query, projection );
 	}
