@@ -59,9 +59,9 @@ Meteor.publish('trackinglistPub', function(studentId, schoolYearId, termId, week
 		let schoolYears = SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}, fields: {startYear: 1, endYear: 1}});
 		let terms = Terms.find({schoolYearId: schoolYearId, groupId: groupId, deletedOn: { $exists: false }}, {sort: {order: 1}, fields: {order: 1, schoolYearId: 1}});
 
-		students.map((student) => {
-			self.added('students', student._id, student);
-		});
+		// students.map((student) => {
+		// 	self.added('students', student._id, student);
+		// });
 
 		students.map((student) => {
 			student.studentId = student._id;

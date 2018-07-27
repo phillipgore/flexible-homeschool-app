@@ -1,6 +1,7 @@
 .track {
 	position: relative;
 	background-color: $color-white;
+	dsiplay: block;
 
 	.track-label {
 		color: $color-black;
@@ -163,6 +164,10 @@
 		z-index: 100;
 	}
 
+	&.inactive {
+		display: none;
+	}
+
 	@media only screen and (min-width: 640px) {
 		&.active {
 			position: relative;
@@ -173,7 +178,12 @@
 			z-index: auto;
 		}
 
+		&.inactive {
+			display: block;
+		}
+
 		.track-input {
+			
 			.track-form {
 				position: absolute;
 				top: 9px;
@@ -186,6 +196,7 @@
 				z-index: 300;
 				padding: 9px;
 				min-height: 413px;
+				margin-bottom: 36px;
 
 				.toolbar-bottom {
 					height: auto;

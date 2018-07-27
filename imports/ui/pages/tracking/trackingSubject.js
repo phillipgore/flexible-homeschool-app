@@ -87,12 +87,17 @@ Template.trackingSubject.events({
 		$('.js-hide, .js-info').hide();
 		$('.js-show').show();
 
+		let subjectId = $(event.currentTarget).attr('data-subject-id');
 		let lessonId = $(event.currentTarget).attr('data-lesson-id');
-		autosize($('#description-' + lessonId));
-		autosize.update($('#description-' + lessonId));
+		Session.set('lessonScrollTop', $('#js-subject-track-' + subjectId).offset().top - 80);
+
 		$('.js-lesson-input').removeAttr('style');
-		$(event.currentTarget).parentsUntil('.js-subject-track').parent().addClass('active');
+		$('#js-subject-track-' + subjectId).addClass('active');
+		$('.js-subject-track').not('.active').addClass('inactive');
+
 		$('#' + lessonId).show();
+		$(window).scrollTop(0);
+
 		$('#completed-on-' + lessonId).pickadate({
 			format: 'mmmm d, yyyy',
 			today: 'Today',
@@ -105,7 +110,11 @@ Template.trackingSubject.events({
 		event.preventDefault();
 
 		$('.js-subject-track').removeClass('active');
+		$('.js-subject-track').removeClass('inactive');
 		$('.js-lesson-input').removeAttr('style');
+		if ($(window).width() < 640) {
+			$(window).scrollTop(Session.get('lessonScrollTop'));
+		}
 	},
 
 	'change .js-completed-checkbox, change .js-assigned-checkbox'(event) {
@@ -123,7 +132,11 @@ Template.trackingSubject.events({
 		$('[data-lesson-id="' + lessonId + '"]').find('.js-lesson-updating').show();
 
 		$('.js-subject-track').removeClass('active');
+		$('.js-subject-track').removeClass('inactive');
 		$('.js-lesson-input').removeAttr('style');
+		if ($(window).width() < 640) {
+			$(window).scrollTop(Session.get('lessonScrollTop'));
+		}
 
 		let lessonPoperties = {
 			_id: $(event.currentTarget).parent().attr('id'),
