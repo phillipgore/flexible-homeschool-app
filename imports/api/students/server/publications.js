@@ -6,6 +6,9 @@ import {studentSchoolYearsStatusAndPaths} from '../../../modules/server/function
 import {studentTermStatusAndPaths} from '../../../modules/server/functions';
 import {allSchoolYearsStatusAndPaths} from '../../../modules/server/functions';
 
+import {studentPaths} from '../../../modules/server/functions';
+import {studentStats} from '../../../modules/server/functions';
+
 Meteor.publish('allStudents', function() {
 	if (!this.userId) {
 		return this.ready();
@@ -13,27 +16,6 @@ Meteor.publish('allStudents', function() {
 
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
 	return Students.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}, fields: {birthday: 1, firstName: 1, middleName: 1, lastName: 1, 'preferredFirstName.name': 1}});
-});
-
-Meteor.publish('studentStats', function(schoolYearId, termId, weekId) {
-	this.autorun(function (computation) {
-		if (!this.userId) {
-			return this.ready();
-		}
-
-		let self = this;
-
-		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-		let students = Students.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}, fields: {id: 1}});
-
-		students.map((student) => {
-			student.studentId = student._id;
-			term = studentStatusAndPaths(student, student._id, schoolYearId, termId, weekId);
-			self.added('studentStats', Random.id(), student);
-		});
-
-		self.ready();
-	});
 });
 
 Meteor.publish('student', function(studentId) {
@@ -59,14 +41,8 @@ Meteor.publish('trackinglistPub', function(studentId, schoolYearId, termId, week
 		let schoolYears = SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}, fields: {startYear: 1, endYear: 1}});
 		let terms = Terms.find({schoolYearId: schoolYearId, groupId: groupId, deletedOn: { $exists: false }}, {sort: {order: 1}, fields: {order: 1, schoolYearId: 1}});
 
-		// students.map((student) => {
-		// 	self.added('students', student._id, student);
-		// });
-
 		students.map((student) => {
-			student.studentId = student._id;
-			term = studentStatusAndPaths(student, student._id, schoolYearId, termId, weekId);
-			self.added('studentStats', Random.id(), student);
+			self.added('students', student._id, student);
 		});
 
 		schoolYears.map((schoolYear) => {
@@ -82,3 +58,34 @@ Meteor.publish('trackinglistPub', function(studentId, schoolYearId, termId, week
 		self.ready();
 	});
 });
+
+
+Meteor.publish('trackingStatsPub', function(studentId, schoolYearId, termId, weekId) {
+	this.autorun(function (computation) {
+		if (!this.userId) {
+			return this.ready();
+		}
+
+		let self = this;
+
+		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
+		let students = Students.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}, fields: {birthday: 1, firstName: 1, middleName: 1, lastName: 1, 'preferredFirstName.name': 1}});
+
+		students.map((student) => {
+			student.studentId = student._id;
+			term = studentStats(student, student._id, schoolYearId, termId, weekId);
+			self.added('studentStats', Random.id(), student);
+		});
+
+		self.ready();
+	});
+});
+
+
+
+
+
+
+
+
+

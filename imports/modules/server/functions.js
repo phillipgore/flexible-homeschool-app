@@ -53,7 +53,43 @@ function getFirstLesson (lessons) {
 	return Lessons.findOne({_id: {$in: lessonIds}, completed: true, deletedOn: { $exists: false }}, {sort: {order: -1}});
 };
 
-export function studentStatusAndPaths(student, studentId, schoolYearId, termId, weekId) {
+
+
+
+export function studentPaths(student, studentId, schoolYearId, termId, weekId) {
+	let subjectIds = Subjects.find({studentId: studentId, schoolYearId: schoolYearId, deletedOn: { $exists: false }}).map(subject => (subject._id));
+
+	// Term Status
+	if (termId) {
+		// First Week URL ID
+		let weekIds = Weeks.find({termId: termId, deletedOn: { $exists: false }}).map(week => (week._id));
+		let lessons = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: weekIds}, deletedOn: { $exists: false }});
+
+		if (lessons.count()) {
+			let firstLesson = getFirstLesson(lessons);
+			let firstWeek = Weeks.findOne({_id: firstLesson.weekId, deletedOn: { $exists: false }});
+
+			student.firstWeekId = firstWeek._id;
+		} else {
+			let firstWeek = Weeks.findOne({termId: termId, deletedOn: { $exists: false }}, {sort: {order: 1}})
+
+			if (firstWeek) {
+				student.firstWeekId = firstWeek._id;
+			} else {
+				student.firstWeekId = 'empty';	
+			}
+		}
+	} else {
+		student.firstWeekId = 'empty';
+	}
+
+	return student;
+};
+
+
+
+
+export function studentStats(student, studentId, schoolYearId, termId, weekId) {
 	let subjectIds = Subjects.find({studentId: studentId, schoolYearId: schoolYearId, deletedOn: { $exists: false }}).map(subject => (subject._id));
 
 	// Year Status
@@ -88,28 +124,8 @@ export function studentStatusAndPaths(student, studentId, schoolYearId, termId, 
 				student.termProgress =  Math.floor(termPercentComplete);
 			}
 		}
-
-		// First Week URL ID
-		let weekIds = Weeks.find({termId: termId, deletedOn: { $exists: false }}).map(week => (week._id));
-		let lessons = Lessons.find({subjectId: {$in: subjectIds}, weekId: {$in: weekIds}, deletedOn: { $exists: false }});
-
-		if (lessons.count()) {
-			let firstLesson = getFirstLesson(lessons);
-			let firstWeek = Weeks.findOne({_id: firstLesson.weekId, deletedOn: { $exists: false }});
-
-			student.firstWeekId = firstWeek._id;
-		} else {
-			let firstWeek = Weeks.findOne({termId: termId, deletedOn: { $exists: false }}, {sort: {order: 1}})
-
-			if (firstWeek) {
-				student.firstWeekId = firstWeek._id;
-			} else {
-				student.firstWeekId = 'empty';	
-			}
-		}
 	} else {
 		student.termProgress =  0;
-		student.firstWeekId = 'empty';
 	}
 
 	// Week Status
@@ -133,6 +149,9 @@ export function studentStatusAndPaths(student, studentId, schoolYearId, termId, 
 
 	return student;
 };
+
+
+
 
 export function allSchoolYearsStatusAndPaths(schoolYear, schoolYearId) {
 	if (schoolYearId) {
@@ -171,6 +190,9 @@ export function allSchoolYearsStatusAndPaths(schoolYear, schoolYearId) {
 	return schoolYear;
 };
 
+
+
+
 export function studentSchoolYearsStatusAndPaths(schoolYear, schoolYearId, studentId) {
 	if (schoolYearId) {
 		let subjectIds = Subjects.find({studentId: studentId, schoolYearId: schoolYearId, deletedOn: { $exists: false }}).map(subject => (subject._id));
@@ -208,6 +230,9 @@ export function studentSchoolYearsStatusAndPaths(schoolYear, schoolYearId, stude
 	return schoolYear;
 };
 
+
+
+
 export function allTermStatusAndPaths(term, termId, schoolYearId) {
 	if (termId) {
 		let subjectIds = Subjects.find({schoolYearId: schoolYearId, deletedOn: { $exists: false }}).map(subject => (subject._id));
@@ -239,6 +264,9 @@ export function allTermStatusAndPaths(term, termId, schoolYearId) {
 	}
 	return term;
 };
+
+
+
 
 export function studentTermStatusAndPaths(term, termId, schoolYearId, studentId) {
 	if (termId) {
@@ -272,6 +300,9 @@ export function studentTermStatusAndPaths(term, termId, schoolYearId, studentId)
 	return term;
 };
 
+
+
+
 export function weekStatus(week, weekId, studentId) {
 	if (weekId) {
 		function getSubjectIds(schoolYear, studentId) {
@@ -293,6 +324,9 @@ export function weekStatus(week, weekId, studentId) {
 	}
 	return week;
 };
+
+
+
 
 export function minutesConvert(minutes) {
 	if (isNaN(minutes)) {
