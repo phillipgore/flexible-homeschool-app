@@ -4,8 +4,7 @@ import SimpleSchema from 'simpl-schema';
 export const SchoolYears = new Mongo.Collection('schoolYears');
 
 if ( Meteor.isServer ) {
-	SchoolYears.rawCollection().dropIndex("schoolYearsIndex");
-    // SchoolYears.rawCollection().createIndex({ groupId: 1, startYear: 1 }, {name: "schoolYearsIndex"});
+    SchoolYears.rawCollection().createIndex({ groupId: 1, startYear: 1 }, {name: "schoolYearsIndex"});
 }
 
 SchoolYears.allow({

@@ -4,8 +4,7 @@ import SimpleSchema from 'simpl-schema';
 export const Terms = new Mongo.Collection('terms');
 
 if ( Meteor.isServer ) {
-	Terms.rawCollection().dropIndex("termsIndex");
-    // Terms.rawCollection().createIndex({ schoolYearId: 1, order: 1 }, {name: "termsIndex"});
+    Terms.rawCollection().createIndex({ schoolYearId: 1, order: 1 }, {name: "termsIndex"});
 }
 
 Terms.allow({
