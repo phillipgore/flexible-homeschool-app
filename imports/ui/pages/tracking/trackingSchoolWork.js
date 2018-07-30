@@ -138,6 +138,8 @@ Template.trackingSchoolWork.events({
 			$(window).scrollTop(Session.get('lessonScrollTop'));
 		}
 
+		console.log(event.currentTarget.completedOn.value.trim())
+
 		let lessonPoperties = {
 			_id: $(event.currentTarget).parent().attr('id'),
 			assigned: event.currentTarget.assigned.value.trim() === 'true',
