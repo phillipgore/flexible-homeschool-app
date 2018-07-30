@@ -17,7 +17,7 @@ Template.planningList.helpers({
 		{divider: false, classes: '', icon: 'fss-students', label: 'Students'},
 		{divider: false, classes: '', icon: 'fss-school-years', label: 'School Years'},
 		{divider: false, classes: '', icon: 'fss-resources', label: 'Resources'},
-		{divider: false, classes: '', icon: 'fss-subjects', label: 'Subjects'},
+		{divider: false, classes: '', icon: 'fss-school-work', label: 'School Work'},
 	],
 
 	selectedStudentId: function() {
@@ -28,7 +28,7 @@ Template.planningList.helpers({
 		return Session.get('selectedSchoolYearId');
 	},
 
-	subjectAvailable: function() {
+	schoolWorkAvailable: function() {
 		if (Counts.get('schoolYearCount') && Counts.get('studentCount')) {
 			return true;
 		}
@@ -58,8 +58,8 @@ Template.planningList.helpers({
 		return false;
 	},
 
-	selectedSubjectId: function() {
-		return Session.get('selectedSubjectId');
+	selectedSchoolWorkId: function() {
+		return Session.get('selectedSchoolWorkId');
 	},
 
 	active: function(currentRoute, route) {

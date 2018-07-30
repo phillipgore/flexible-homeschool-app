@@ -4,7 +4,7 @@ import SimpleSchema from 'simpl-schema';
 export const Lessons = new Mongo.Collection('lessons');
 
 if ( Meteor.isServer ) {
-    Lessons.rawCollection().createIndex({ weekId: 1, subjectId: 1, order: 1 }, {name: "lessonsIndex"});
+    Lessons.rawCollection().createIndex({ weekId: 1, schoolWorkId: 1, order: 1 }, {name: "lessonsIndex"});
 }
 
 Lessons.allow({
@@ -50,9 +50,9 @@ const LessonsSchema = new SimpleSchema({
         label: "Description",
         optional: true
     },
-    subjectId: {
+    schoolWorkId: {
         type: String,
-        label: "Subject ID"
+        label: "School Work ID"
     },
     weekId: {
         type: String,

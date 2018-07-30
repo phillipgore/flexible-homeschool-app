@@ -3,7 +3,7 @@ import { Groups } from '../../api/groups/groups.js';
 import { SchoolYears } from '../../api/schoolYears/schoolYears.js';
 import { Students } from '../../api/students/students.js';
 import { Resources } from '../../api/resources/resources.js';
-import { Subjects } from '../../api/subjects/subjects.js';
+import { SchoolWork } from '../../api/schoolWork/schoolWork.js';
 import { Reports } from '../../api/reports/reports.js';
 import { Terms } from '../../api/terms/terms.js';
 import { Weeks } from '../../api/weeks/weeks.js';
@@ -211,25 +211,25 @@ Template.app.events({
 		});
 	},
 	
-	'click .js-delete-subject-confirmed'(event) {
+	'click .js-delete-schoolWork-confirmed'(event) {
 		event.preventDefault();
 		$('.js-deleting').show();
 
-		function nextSubjectId(selectedSubjectId) {
-			let subjectIds = Subjects.find({}, {sort: {name: 1}}).map(subject => (subject._id));
-			let selectedIndex = subjectIds.indexOf(selectedSubjectId);
+		function nextSchoolWorkId(selectedSchoolWorkId) {
+			let schoolWorkIds = SchoolWork.find({}, {sort: {name: 1}}).map(schoolWork => (schoolWork._id));
+			let selectedIndex = schoolWorkIds.indexOf(selectedSchoolWorkId);
 
 			if (selectedIndex) {
-				return subjectIds[selectedIndex - 1]
+				return schoolWorkIds[selectedIndex - 1]
 			}
-			return subjectIds[selectedIndex + 1]
+			return schoolWorkIds[selectedIndex + 1]
 		};
 
-		let newSubjectId = nextSubjectId(FlowRouter.getParam('selectedSubjectId'));
+		let newSchoolWorkId = nextSchoolWorkId(FlowRouter.getParam('selectedSchoolWorkId'));
 		let dialogId = Dialogs.findOne()._id;
 
 		Dialogs.remove({_id: dialogId});
-		Meteor.call('deleteSubject', FlowRouter.getParam('selectedSubjectId'), function(error) {
+		Meteor.call('deleteSchoolWork', FlowRouter.getParam('selectedSchoolWorkId'), function(error) {
 			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',
@@ -237,8 +237,8 @@ Template.app.events({
 					message: error.reason,
 				});
 			} else {
-				Session.set('selectedSubjectId', newSubjectId);
-				FlowRouter.go('/planning/subjects/view/3/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ newSubjectId);
+				Session.set('selectedSchoolWorkId', newSchoolWorkId);
+				FlowRouter.go('/planning/schoolWork/view/3/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ newSchoolWorkId);
 				$('.js-deleting').hide();
 			}
 		});
@@ -332,8 +332,8 @@ Template.app.events({
 			editUrl: '/planning/students/edit/3/' + $(event.currentTarget).attr('id'),
 		});
 
-		let sessionSubjectIdName = 'selectedSubject' + $(event.currentTarget).attr('id') + Session.get('selectedSchoolYearId') + 'Id';
-		Session.set('selectedSubjectId', Session.get(sessionSubjectIdName));
+		let sessionSchoolWorkIdName = 'selectedSchoolWork' + $(event.currentTarget).attr('id') + Session.get('selectedSchoolYearId') + 'Id';
+		Session.set('selectedSchoolWorkId', Session.get(sessionSchoolWorkIdName));
 	},
 
 	'click .js-planning-student'(event) {
@@ -354,8 +354,8 @@ Template.app.events({
 			editUrl: '/planning/schoolyears/edit/3/' + $(event.currentTarget).attr('id'),
 		});
 
-		let sessionSubjectIdName = 'selectedSubject' + Session.get('selectedStudentId') + $(event.currentTarget).attr('id') + 'Id';
-		Session.set('selectedSubjectId', Session.get(sessionSubjectIdName));
+		let sessionSchoolWorkIdName = 'selectedSchoolWork' + Session.get('selectedStudentId') + $(event.currentTarget).attr('id') + 'Id';
+		Session.set('selectedSchoolWorkId', Session.get(sessionSchoolWorkIdName));
 	},
 
 	'click .js-planning-school-year'(event) {
@@ -413,12 +413,12 @@ Template.app.events({
 		});
 	},
 
-	'click .js-subject'(event) {
+	'click .js-schoolWork'(event) {
 		Session.set({
-			selectedStudentId: $(event.currentTarget).attr('data-subject-student'),
-			selectedSchoolYearId: $(event.currentTarget).attr('data-subject-school-Year'),
-			selectedSubjectId: $(event.currentTarget).attr('id'),
-			editUrl: '/planning/subjects/edit/3/' + $(event.currentTarget).attr('data-subject-student') +'/'+ $(event.currentTarget).attr('data-subject-school-Year') +'/'+ $(event.currentTarget).attr('id'),
+			selectedStudentId: $(event.currentTarget).attr('data-schoolWork-student'),
+			selectedSchoolYearId: $(event.currentTarget).attr('data-schoolWork-school-Year'),
+			selectedSchoolWorkId: $(event.currentTarget).attr('id'),
+			editUrl: '/planning/schoolWork/edit/3/' + $(event.currentTarget).attr('data-schoolWork-student') +'/'+ $(event.currentTarget).attr('data-schoolWork-school-Year') +'/'+ $(event.currentTarget).attr('id'),
 		});
 	},
 

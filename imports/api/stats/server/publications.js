@@ -2,7 +2,7 @@ import {Counts} from 'meteor/tmeasday:publish-counts';
 import {Students} from '../../students/students.js';
 import {SchoolYears} from '../../schoolYears/schoolYears.js';
 import {Resources} from '../../resources/resources.js';
-import {Subjects} from '../../subjects/subjects.js';
+import {SchoolWork} from '../../schoolWork/schoolWork.js';
 import {Weeks} from '../../weeks/weeks.js';
 import {Lessons} from '../../lessons/lessons.js';
 import {Reports} from '../../reports/reports.js';
@@ -117,34 +117,34 @@ Meteor.publish('initialIds', function(currentYear) {
 		if (valueFirstResource) {ids['resourceCurrentType'] = valueFirstResource.type} else {ids['resourceCurrentType'] = 'empty'};
 
 
-		// Initial Subjects
+		// Initial School Work
 		if (studentIds.length && schoolYearIds.length) {
 			studentIds.forEach((studentId) => {
 				schoolYearIds.forEach((schoolYearId) => {
-					let keyName = 'subject' + studentId + schoolYearId;
-					let valueSubject = Subjects.findOne({groupId: groupId, schoolYearId: schoolYearId, studentId: studentId, deletedOn: { $exists: false }}, {sort: {name: 1}});
+					let keyName = 'schoolWork' + studentId + schoolYearId;
+					let valueSchoolWork = SchoolWork.findOne({groupId: groupId, schoolYearId: schoolYearId, studentId: studentId, deletedOn: { $exists: false }}, {sort: {name: 1}});
 
-					if (valueSubject) {ids[keyName] = valueSubject._id} else {ids[keyName] = 'empty'};
+					if (valueSchoolWork) {ids[keyName] = valueSchoolWork._id} else {ids[keyName] = 'empty'};
 				});
 			});
 		}
 
 		if (studentIds.length && !schoolYearIds.length) {
 			studentIds.forEach((studentId) => {
-				let keyName = 'subject' + studentId + 'empty';
+				let keyName = 'schoolWork' + studentId + 'empty';
 				ids[keyName] = 'empty'
 			});
 		}
 
 		if (!studentIds.length && schoolYearIds.length) {
 			schoolYearIds.forEach((schoolYearId) => {
-				let keyName = 'subjectempty' + schoolYearId;
+				let keyName = 'schoolWorkempty' + schoolYearId;
 				ids[keyName] = 'empty'
 			});
 		}
 
 		if (!studentIds.length && !schoolYearIds.length) {
-			ids.subjectemptyempty = 'empty';
+			ids.schoolWorkemptyempty = 'empty';
 		}
 
 
@@ -162,7 +162,7 @@ Meteor.publish('initialStats', function() {
 	Counts.publish(this, 'schoolYearCount', SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}));
 	Counts.publish(this, 'studentCount', Students.find({groupId: groupId, deletedOn: { $exists: false }}));
 	Counts.publish(this, 'resourceCount', Resources.find({groupId: groupId, deletedOn: { $exists: false }}));
-	Counts.publish(this, 'subjectCount', Subjects.find({groupId: groupId, deletedOn: { $exists: false }}));
+	Counts.publish(this, 'schoolWorkCount', SchoolWork.find({groupId: groupId, deletedOn: { $exists: false }}));
 	Counts.publish(this, 'reportCount', Reports.find({groupId: groupId, deletedOn: { $exists: false }}));	
 	Counts.publish(this, 'userCount', Meteor.users.find({'info.groupId': groupId}));
 });

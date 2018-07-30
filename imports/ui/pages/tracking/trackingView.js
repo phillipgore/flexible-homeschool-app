@@ -2,7 +2,7 @@ import {Template} from 'meteor/templating';
 import { Students } from '../../../api/students/students.js';
 import { SchoolYears } from '../../../api/schoolYears/schoolYears.js';
 import { Resources } from '../../../api/resources/resources.js';
-import { Subjects } from '../../../api/subjects/subjects.js';
+import { SchoolWork } from '../../../api/schoolWork/schoolWork.js';
 import { Terms } from '../../../api/terms/terms.js';
 import { Weeks } from '../../../api/weeks/weeks.js';
 import { Lessons } from '../../../api/lessons/lessons.js';
@@ -12,16 +12,16 @@ import autosize from 'autosize';
 import './trackingView.html';
 
 Template.trackingView.onCreated( function() {
-	Session.set('subjectInfoReady', false);
+	Session.set('schoolWorkInfoReady', false);
 	let template = Template.instance();
 	
 	template.autorun(() => {
 		// Subscriptions
 		this.trackingData = Meteor.subscribe('trackingViewPub', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedWeekId'));
 		if (template.trackingData.ready()) {
-			this.subjectInfo = Meteor.subscribe('subjectInfo', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedWeekId'));
-			if (template.subjectInfo.ready()) {
-				Session.set('subjectInfoReady', true);
+			this.schoolWorkInfo = Meteor.subscribe('schoolWorkInfo', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedWeekId'));
+			if (template.schoolWorkInfo.ready()) {
+				Session.set('schoolWorkInfoReady', true);
 			}
 		}
 	});
@@ -60,18 +60,18 @@ Template.trackingView.helpers({
 		return SchoolYears.findOne({_id: FlowRouter.getParam('selectedSchoolYearId')});
 	},
 
-	subjects: function() {
-		return Subjects.find({studentId: FlowRouter.getParam('selectedStudentId'), schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}, {sort: {name: 1}});
+	schoolWork: function() {
+		return SchoolWork.find({studentId: FlowRouter.getParam('selectedStudentId'), schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}, {sort: {name: 1}});
 	},
 
-	subjectsOne: function(subjectsCount) {
-		let subjectsLimit = Subjects.find({studentId: FlowRouter.getParam('selectedStudentId'), schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}).count() / 2;
-		return Subjects.find({studentId: FlowRouter.getParam('selectedStudentId'), schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}, {sort: {name: 1}, limit: subjectsLimit});
+	schoolWorkOne: function(schoolWorkCount) {
+		let schoolWorkLimit = SchoolWork.find({studentId: FlowRouter.getParam('selectedStudentId'), schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}).count() / 2;
+		return SchoolWork.find({studentId: FlowRouter.getParam('selectedStudentId'), schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}, {sort: {name: 1}, limit: schoolWorkLimit});
 	},
 
-	subjectsTwo: function(subjectsCount) {
-		let subjectsSkip = Subjects.find({studentId: FlowRouter.getParam('selectedStudentId'), schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}).count() / 2;
-		return Subjects.find({studentId: FlowRouter.getParam('selectedStudentId'), schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}, {sort: {name: 1}, skip: subjectsSkip});
+	schoolWorkTwo: function(schoolWorkCount) {
+		let schoolWorkSkip = SchoolWork.find({studentId: FlowRouter.getParam('selectedStudentId'), schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}).count() / 2;
+		return SchoolWork.find({studentId: FlowRouter.getParam('selectedStudentId'), schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}, {sort: {name: 1}, skip: schoolWorkSkip});
 	},
 
 	studentName(first, last) {

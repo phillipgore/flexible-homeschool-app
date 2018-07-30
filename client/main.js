@@ -21,7 +21,7 @@ import '/imports/ui/components/editor.js';
 	import '/imports/ui/components/subbars/subbarAccounts.html';
 	import '/imports/ui/components/subbars/subbarReporting.js';
 	import '/imports/ui/components/subbars/subbarResources.js';
-	import '/imports/ui/components/subbars/subbarSubjects.js';
+	import '/imports/ui/components/subbars/subbarSchoolWork.js';
 	import '/imports/ui/components/subbars/subbarTracking.js';	
 
 
@@ -57,12 +57,12 @@ import '/imports/ui/pages/planning/planningList.js';
 	import '/imports/ui/pages/planning/resources/resourcesNewForms/resourcesNewVideo.js';
 	import '/imports/ui/pages/planning/resources/resourcesList.js';
 	import '/imports/ui/pages/planning/resources/resourcesView.js';
-	// Subjects
-	import '/imports/ui/pages/planning/subjects/subjectsNew.js';
-	import '/imports/ui/pages/planning/subjects/subjectsNewList.js';
-	import '/imports/ui/pages/planning/subjects/subjectsList.js';
-	import '/imports/ui/pages/planning/subjects/subjectsView.js';
-	import '/imports/ui/pages/planning/subjects/subjectsEdit.js';
+	// School Work
+	import '/imports/ui/pages/planning/schoolWork/schoolWorkNew.js';
+	import '/imports/ui/pages/planning/schoolWork/schoolWorkNewList.js';
+	import '/imports/ui/pages/planning/schoolWork/schoolWorkList.js';
+	import '/imports/ui/pages/planning/schoolWork/schoolWorkView.js';
+	import '/imports/ui/pages/planning/schoolWork/schoolWorkEdit.js';
 	// Students
 	import '/imports/ui/pages/planning/students/studentsNew.js';
 	import '/imports/ui/pages/planning/students/studentsList.js';
@@ -72,7 +72,7 @@ import '/imports/ui/pages/planning/planningList.js';
 
 // Tracking
 import '/imports/ui/pages/tracking/trackingList.js';
-import '/imports/ui/pages/tracking/trackingSubject.js';
+import '/imports/ui/pages/tracking/trackingSchoolWork.js';
 import '/imports/ui/pages/tracking/trackingView.js';
 
 
@@ -83,7 +83,7 @@ import '/imports/ui/pages/reporting/reportingView.js';
 import '/imports/ui/pages/reporting/reportingEdit.js';
 import '/imports/ui/pages/reporting/reports/reportingSchoolYears.js';
 import '/imports/ui/pages/reporting/reports/reportingTerms.js';
-import '/imports/ui/pages/reporting/reports/reportingSubjects.js';
+import '/imports/ui/pages/reporting/reports/reportingSchoolWork.js';
 import '/imports/ui/pages/reporting/reports/reportingResources.js';
 
 

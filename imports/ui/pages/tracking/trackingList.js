@@ -1,6 +1,6 @@
 import {Template} from 'meteor/templating';
 import { Students } from '../../../api/students/students.js';
-import { Subjects } from '../../../api/subjects/subjects.js';
+import { SchoolWork } from '../../../api/schoolWork/schoolWork.js';
 import { SchoolYears } from '../../../api/schoolYears/schoolYears.js';
 import { Terms } from '../../../api/terms/terms.js';
 import { Weeks } from '../../../api/weeks/weeks.js';

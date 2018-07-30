@@ -1,108 +1,43 @@
 @font-face {
-    font-family: 'Flexible-School-Schedule';
-    src:  url('/fonts/Flexible-School-Schedule.eot'),
-        url('/fonts/Flexible-School-Schedule.ttf'),
-        url('/fonts/Flexible-School-Schedule.woff'),
-        url('/fonts/Flexible-School-Schedule.svg');
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'Flexible-School-Schedule';
+  src:  url('fonts/Flexible-School-Schedule.eot?ul26o0');
+  src:  url('fonts/Flexible-School-Schedule.eot?ul26o0#iefix') format('embedded-opentype'),
+    url('fonts/Flexible-School-Schedule.ttf?ul26o0') format('truetype'),
+    url('fonts/Flexible-School-Schedule.woff?ul26o0') format('woff'),
+    url('fonts/Flexible-School-Schedule.svg?ul26o0#Flexible-School-Schedule') format('svg');
+  font-weight: normal;
+  font-style: normal;
 }
 
 i {
-    /* use !important to prevent issues with browser extensions that change fonts */
-    font-family: 'Flexible-School-Schedule' !important;
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'Flexible-School-Schedule' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
 
-    /* Better Font Rendering =========== */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.fss-list-ol:before {
-  content: "\e94c";
-}
-.fss-list-ul:before {
-  content: "\e94d";
-}
 .fss-bold:before {
-  content: "\e949";
-}
-.fss-italic:before {
-  content: "\e94a";
-}
-.fss-underline:before {
-  content: "\e94b";
-}
-.fss-work:before {
-  content: "\e948";
-}
-.fss-tag:before {
-  content: "\e947";
-}
-.fss-open-circle:before {
-  content: "\e946";
-}
-.fss-password:before {
-  content: "\e945";
-}
-.fss-report-resource:before {
-  content: "\e943";
-}
-.fss-report-new:before {
-  content: "\e942";
-}
-.fss-app-new:before {
-  content: "\e93d";
-}
-.fss-audio-new:before {
-  content: "\e93e";
-}
-.fss-book-new:before {
-  content: "\e93f";
-}
-.fss-link-new:before {
-  content: "\e940";
-}
-.fss-video-new:before {
-  content: "\e941";
-}
-.fss-caret-circle:before {
-  content: "\e93c";
-}
-.fss-back-circle:before {
-  content: "\e93b";
-}
-.fss-users-new:before {
-  content: "\e93a";
-}
-.fss-resources-new:before {
-  content: "\e936";
-}
-.fss-school-years-new:before {
-  content: "\e937";
-}
-.fss-students-new:before {
-  content: "\e938";
-}
-.fss-subjects-new:before {
-  content: "\e939";
-}
-.fss-print:before {
   content: "\e935";
 }
-.fss-activity:before {
-  content: "\e934";
+.fss-italic:before {
+  content: "\e936";
 }
-.fss-data:before {
-  content: "\e933";
+.fss-list-ol:before {
+  content: "\e937";
 }
-.fss-email:before {
-  content: "\e932";
+.fss-list-ul:before {
+  content: "\e938";
+}
+.fss-underline:before {
+  content: "\e939";
 }
 .fss-actions:before {
   content: "\e900";
@@ -158,13 +93,13 @@ i {
 .fss-circle:before {
   content: "\e911";
 }
-.fss-close-circle:before {
+.fss-close:before {
   content: "\e912";
 }
-.fss-close:before {
+.fss-danger:before {
   content: "\e913";
 }
-.fss-danger:before {
+.fss-data:before {
   content: "\e914";
 }
 .fss-delete:before {
@@ -173,87 +108,97 @@ i {
 .fss-edit:before {
   content: "\e916";
 }
-.fss-info:before {
+.fss-email:before {
   content: "\e917";
 }
-.fss-invoices:before {
+.fss-info:before {
   content: "\e918";
 }
-.fss-link:before {
+.fss-invoices:before {
   content: "\e919";
 }
-.fss-logo:before {
+.fss-link:before {
   content: "\e91a";
 }
-.fss-new-circle:before {
+.fss-logo:before {
   content: "\e91b";
 }
-.fss-new:before {
+.fss-new-circle:before {
   content: "\e91c";
 }
-.fss-notes:before {
+.fss-new:before {
   content: "\e91d";
 }
-.fss-pause-circle:before {
+.fss-open-circle:before {
   content: "\e91e";
 }
-.fss-planning:before {
+.fss-password:before {
   content: "\e91f";
 }
-.fss-play-circle:before {
+.fss-pause-circle:before {
   content: "\e920";
 }
-.fss-reporting:before {
+.fss-planning:before {
   content: "\e921";
 }
-.fss-resources:before {
+.fss-play-circle:before {
   content: "\e922";
 }
-.fss-school-years:before {
+.fss-print:before {
   content: "\e923";
 }
-.fss-search:before {
+.fss-reporting:before {
   content: "\e924";
 }
-.fss-searching:before {
+.fss-resources:before {
   content: "\e925";
 }
-.fss-settings:before {
+.fss-school-work:before {
   content: "\e926";
 }
-.fss-signout:before {
+.fss-school-years:before {
   content: "\e927";
 }
-.fss-students:before {
+.fss-search:before {
   content: "\e928";
 }
-.fss-subjects:before {
+.fss-searching:before {
   content: "\e929";
 }
-.fss-success:before {
+.fss-settings:before {
   content: "\e92a";
 }
-.fss-support:before {
+.fss-signout:before {
   content: "\e92b";
 }
-.fss-terms:before {
+.fss-students:before {
   content: "\e92c";
 }
-.fss-tracking:before {
+.fss-support:before {
   content: "\e92d";
 }
-.fss-users-female:before {
+.fss-tag:before {
   content: "\e92e";
 }
-.fss-users:before {
+.fss-terms:before {
   content: "\e92f";
 }
-.fss-video:before {
+.fss-tracking:before {
   content: "\e930";
 }
-.fss-warning:before {
+.fss-users-female:before {
   content: "\e931";
 }
+.fss-users:before {
+  content: "\e932";
+}
+.fss-video:before {
+  content: "\e933";
+}
+.fss-warning:before {
+  content: "\e934";
+}
+
 
 .fss-fw-16 {
     width: 16px;

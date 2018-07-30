@@ -22,7 +22,7 @@ Reports.deny({
 const ReportsSchema = new SimpleSchema({
     name: {
         type: String,
-        label: "Subject Name",
+        label: "School Work Name",
     },
 
     // School Years
@@ -69,30 +69,30 @@ const ReportsSchema = new SimpleSchema({
 		defaultValue: true,
 	},
 	
-	// Subjects
-	subjectsReportVisible: {
+	// School Work
+	schoolWorkReportVisible: {
 		type: Boolean,
-		label: "Subjects Report",
+		label: "School Work Report",
 		defaultValue: true,
 	},
-	subjectsStatsVisible: {
+	schoolWorkStatsVisible: {
 		type: Boolean,
-		label: "Subjects Stats",
+		label: "School Work Stats",
 		defaultValue: true,
 	},
-	subjectsProgressVisible: {
+	schoolWorkProgressVisible: {
 		type: Boolean,
-		label: "Subjects Progress",
+		label: "School Work Progress",
 		defaultValue: true,
 	},
-	subjectsTimesVisible: {
+	schoolWorkTimesVisible: {
 		type: Boolean,
-		label: "Subjects Times",
+		label: "School Work Times",
 		defaultValue: true,
 	},
-	subjectsResourcesVisible: {
+	schoolWorkResourcesVisible: {
 		type: Boolean,
-		label: "Subjects Resources",
+		label: "School Work Resources",
 		defaultValue: true,
 	},
 
@@ -112,9 +112,9 @@ const ReportsSchema = new SimpleSchema({
 		label: "Resources Publication",
 		defaultValue: true,
 	},
-	resourcesSubjectsVisible: {
+	resourcesSchoolWorkVisible: {
 		type: Boolean,
-		label: "Resources Subjects",
+		label: "Resources School Work",
 		defaultValue: true,
 	},
 	resourcesLinkVisible: {

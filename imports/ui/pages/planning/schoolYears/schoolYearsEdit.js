@@ -1,7 +1,7 @@
 import {Template} from 'meteor/templating';
 import { SchoolYears } from '../../../../api/schoolYears/schoolYears.js';
 import { Terms } from '../../../../api/terms/terms.js';
-import { Subjects } from '../../../../api/subjects/subjects.js';
+import { SchoolWork } from '../../../../api/schoolWork/schoolWork.js';
 import { Weeks } from '../../../../api/weeks/weeks.js';
 import { Lessons } from '../../../../api/lessons/lessons.js';
 import {yearValidation} from '../../../../modules/functions';
@@ -147,8 +147,8 @@ Template.schoolYearsEdit.events({
 		});
 
 		let lessonCount = []
-		Subjects.find().forEach((subject) => {
-			let count = Lessons.find({subjectId: subject._id, weekId: {$in: weekIds}}).count()
+		SchoolWork.find().forEach((schoolWork) => {
+			let count = Lessons.find({schoolWorkId: schoolWork._id, weekId: {$in: weekIds}}).count()
 			lessonCount.push(count);
 		});
 
@@ -234,8 +234,8 @@ Template.schoolYearsEdit.events({
 		});
 
 		let lessonCount = []
-		Subjects.find().forEach((subject) => {
-			let count = Lessons.find({subjectId: subject._id, weekId: {$in: weekIds}}).count()
+		SchoolWork.find().forEach((schoolWork) => {
+			let count = Lessons.find({schoolWorkId: schoolWork._id, weekId: {$in: weekIds}}).count()
 			lessonCount.push(count);
 		});
 
@@ -300,8 +300,8 @@ Template.schoolYearsEdit.events({
 						for (i = 0; i < weekMoreDeleteIds.length; i++) {
 							weekDeleteIds.push(weekMoreDeleteIds[i]);
 						}
-						Subjects.find().forEach((subject) => {
-							let lessonIds = Lessons.find({subjectId: subject._id, weekId: {$in: currentWeekIds}}).map(lesson => (lesson._id));
+						SchoolWork.find().forEach((schoolWork) => {
+							let lessonIds = Lessons.find({schoolWorkId: schoolWork._id, weekId: {$in: currentWeekIds}}).map(lesson => (lesson._id));
 							let lessonsPerWeek = Math.ceil(lessonIds.length / newWeekCount);
 							
 							currentWeekIds.forEach((weekId, index) => {

@@ -4,18 +4,18 @@
 		<h2 class="txt-tn-center txt-gray-darkest txt-capitalize print-only-block m-tn-b-18">{{selectedSchoolYear.startYear}}-{{selectedSchoolYear.endYear}}, Term {{selectedTerm.order}}, Week {{selectedWeek.order}}</h2>
 
 		{{studentName student.preferredFirstName.name student.lastName}}
-		{{#if subjects.count}}
+		{{#if schoolWork.count}}
 			<div class="col-lg-1of2">
-				{{> trackingSubject subjects=subjectsOne}}
+				{{> trackingSchoolWork schoolWork=schoolWorkOne}}
 			</div>
 			<div class="col-lg-1of2">
-				{{> trackingSubject subjects=subjectsTwo}}
+				{{> trackingSchoolWork schoolWork=schoolWorkTwo}}
 			</div>
 		{{else}}
 			<div class="txt-tn-center m-tn-t-72">
-				<i class="fss-subjects font-size-64 txt-gray m-tn-r-9"></i>
-				<h1 class="m-tn-t-36">Requires Subjects</h1>
-				<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36 txt-gray-darkest">Go to "Planning" to add subjects.</p>
+				<i class="fss-school-work font-size-64 txt-gray m-tn-r-9"></i>
+				<h1 class="m-tn-t-36">Requires School Work</h1>
+				<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36 txt-gray-darkest">Go to "Planning" to add schoolWork.</p>
 			</div>
 		{{/if}}
 	</main>

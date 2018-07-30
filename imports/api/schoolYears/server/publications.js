@@ -2,7 +2,7 @@ import {SchoolYears} from '../schoolYears.js';
 import {Students} from '../../students/students.js';
 import {Terms} from '../../terms/terms.js';
 import {Weeks} from '../../weeks/weeks.js';
-import {Subjects} from '../../subjects/subjects.js';
+import {SchoolWork} from '../../schoolWork/schoolWork.js';
 import {Resources} from '../../resources/resources.js';
 import {Lessons} from '../../lessons/lessons.js';
 import {allSchoolYearsStatusAndPaths} from '../../../modules/server/functions';
@@ -100,7 +100,7 @@ Meteor.publish('schoolYearComplete', function(schoolYearId) {
 	return [
 		SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }, _id: schoolYearId}),
 		Terms.find({groupId: groupId, deletedOn: { $exists: false }, schoolYearId: schoolYearId}, {sort: {order: 1}}),
-		Subjects.find(
+		SchoolWork.find(
 			{groupId: groupId, deletedOn: { $exists: false }, schoolYearId: schoolYearId}, 
 			{sort: {name: 1}, fields: {schoolYearId: 1, name: 1}}
 		),

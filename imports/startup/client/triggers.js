@@ -97,8 +97,8 @@ function initialData(context) {
 		Session.set('selectedResourceId', InitialIds.findOne().resourceAllAll)	
 	}
 
-	if (!Session.get('selectedSubjectId')) {
-		Session.set('selectedSubjectId', InitialIds.find().fetch()[0]['subject' + Session.get('selectedStudentId') + Session.get('selectedSchoolYearId')]);
+	if (!Session.get('selectedSchoolWorkId')) {
+		Session.set('selectedSchoolWorkId', InitialIds.find().fetch()[0]['schoolWork' + Session.get('selectedStudentId') + Session.get('selectedSchoolYearId')]);
 	}
 
 	// Initial Paths
@@ -276,10 +276,10 @@ FlowRouter.triggers.enter([checkRoleObserver], {only: [
 	'resourcesNew',
 	'resourcesView',
 	'resourcesEdit',
-	'subjectsList',
-	'subjectsNew',
-	'subjectsView',
-	'subjectsEdit',
+	'schoolWorkList',
+	'schoolWorkNew',
+	'schoolWorkView',
+	'schoolWorkEdit',
 ]});
 
 FlowRouter.triggers.enter([checkRoleApplication], {only: [

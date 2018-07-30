@@ -49,7 +49,7 @@
 
 						{{#if newable}}
 							<!-- New Button -->
-							<a class="btn-tool dis-sm-none" href="{{newUrl}}" title="New Student, School Year, Subject or User">
+							<a class="btn-tool dis-sm-none" href="{{newUrl}}" title="New Student, School Year, School Work or User">
 								<i class="fss-new btn-tool-icon"></i>
 							</a>
 						{{/if}}
@@ -57,7 +57,7 @@
 						{{#if resourceNewable}}
 							<!-- New Dropdown Button -->
 							<div class="btn-tool-dropdown dis-sm-none">
-								<a class="js-dropdown btn-tool" href="#" data-menu="#newResource" title="New Student, School Year, Subject or User">
+								<a class="js-dropdown btn-tool" href="#" data-menu="#newResource" title="New Student, School Year, School Work or User">
 									<i class="fss-new btn-tool-icon dis-sm-none"></i>
 									<i class="fss-new btn-tool-icon dis-tn-none dis-sm-inline-block"></i>
 								</a>
@@ -121,7 +121,7 @@
 
 						<!-- New Dropdown Button -->
 						<div class="btn-tool-dropdown dis-tn-none dis-sm-inline-block">
-							<a class="js-dropdown btn-tool" href="#" data-menu="#newPlanning" title="New Student, School Year, Subject or User">
+							<a class="js-dropdown btn-tool" href="#" data-menu="#newPlanning" title="New Student, School Year, School Work or User">
 								<i class="fss-new btn-tool-icon dis-sm-none"></i>
 								<i class="fss-new-circle btn-tool-icon dis-tn-none dis-sm-inline-block"></i>
 							</a>
@@ -138,11 +138,11 @@
 									</a>
 								</li>
 								<li class="dropdown-item">
-									<a class="js-new-subject dropdown-item-link {{#if subjectDisabled}}disabled{{/if}}" 
-										href="/planning/subjects/new/3/{{selectedStudentId}}/{{selectedSchoolYearId}}"
-										title="{{#if subjectDisabled}}Subjects require Students and School Years.{{/if}}"
+									<a class="js-new-schoolWork dropdown-item-link {{#if schoolWorkDisabled}}disabled{{/if}}" 
+										href="/planning/schoolWork/new/3/{{selectedStudentId}}/{{selectedSchoolYearId}}"
+										title="{{#if schoolWorkDisabled}}School Work require Students and School Years.{{/if}}"
 									>
-										<i class="fss-subjects fss-fw-16 m-tn-r-4"></i> New Subject
+										<i class="fss-school-work fss-fw-16 m-tn-r-4"></i> New School Work
 									</a>
 								</li>
 

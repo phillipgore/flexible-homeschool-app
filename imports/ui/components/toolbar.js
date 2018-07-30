@@ -86,7 +86,7 @@ Template.toolbar.helpers({
 		return false;
 	},
 
-	subjectDisabled: function() {
+	schoolWorkDisabled: function() {
 		if (!Counts.get('studentCount') || !Counts.get('schoolYearCount')) {
 			return true;
 		}
@@ -167,7 +167,7 @@ Template.toolbar.events({
 		FlowRouter.go(newPath)
 	},
 
-	'click .js-new-subject'(event) {
+	'click .js-new-schoolWork'(event) {
 		event.preventDefault();
 
 		if (!$(event.currentTarget).hasClass('disabled')) {
@@ -205,13 +205,13 @@ Template.toolbar.events({
 		});
 	},
 
-	'click .js-delete-subject'(event) {
+	'click .js-delete-schoolWork'(event) {
 		event.preventDefault();
 
 		Dialogs.insert({
 			heading: 'Confirmation',
-			message: 'Are you sure you want to delete this Subject?',
-			confirmClass: 'js-delete js-delete-subject-confirmed',
+			message: 'Are you sure you want to delete this School Work?',
+			confirmClass: 'js-delete js-delete-schoolWork-confirmed',
 		});
 	},
 

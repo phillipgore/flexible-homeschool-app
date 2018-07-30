@@ -4,7 +4,7 @@ import {SchoolYears} from '../../api/schoolYears/schoolYears.js';
 import {Terms} from '../../api/terms/terms.js';
 import {Weeks} from '../../api/weeks/weeks.js';
 import {Resources} from '../../api/resources/resources.js';
-import {Subjects} from '../../api/subjects/subjects.js';
+import {SchoolWork} from '../../api/schoolWork/schoolWork.js';
 import {Lessons} from '../../api/lessons/lessons.js';
 
 
@@ -197,7 +197,7 @@ let resources = [
 	}
 ];
 
-let subjects = [
+let schoolWork = [
 	[
 		{
 			order: 1,
@@ -303,20 +303,20 @@ Meteor.methods({
 
 		Students.find({groupId: groupId}).forEach((student, index) => {
 			SchoolYears.find({groupId: groupId}).forEach((schoolYear, index) => {
-				subjects[index].forEach((subject) => {
-					subject.studentId = student._id;
-					subject.schoolYearId = schoolYear._id;
-					let timesPerWeek = subject.timesPerWeek;
-					delete subject.timesPerWeek;
+				schoolWork[index].forEach((schoolWork) => {
+					schoolWork.studentId = student._id;
+					schoolWork.schoolYearId = schoolYear._id;
+					let timesPerWeek = schoolWork.timesPerWeek;
+					delete schoolWork.timesPerWeek;
 
-					let subjectId = Subjects.insert(subject);
+					let schoolWorkId = SchoolWork.insert(schoolWork);
 
-					subject.timesPerWeek = timesPerWeek;
+					schoolWork.timesPerWeek = timesPerWeek;
 
 					Terms.find({schoolYearId: schoolYear._id}).forEach((term, index) => {
 						Weeks.find({termId: term._id}).forEach((week, index) => {
 							for (i = 0; i < timesPerWeek; i++) { 
-							    Lessons.insert({order: parseFloat((index + 1) + '.' + (i + 1)), weekId: week._id, subjectId: subjectId});
+							    Lessons.insert({order: parseFloat((index + 1) + '.' + (i + 1)), weekId: week._id, schoolWorkId: schoolWorkId});
 							}
 						});
 					});
@@ -335,7 +335,7 @@ Meteor.methods({
 		let groupId = Meteor.user().info.groupId
 
 		Lessons.remove({groupId: groupId});
-		Subjects.remove({groupId: groupId});
+		SchoolWork.remove({groupId: groupId});
 		Weeks.remove({groupId: groupId});
 		Terms.remove({groupId: groupId});
 		SchoolYears.remove({groupId: groupId});

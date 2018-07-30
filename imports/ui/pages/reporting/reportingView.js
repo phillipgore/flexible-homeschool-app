@@ -3,7 +3,7 @@ import { Reports } from '../../../api/reports/reports.js';
 import { SchoolYears } from '../../../api/schoolYears/schoolYears.js';
 import { Students } from '../../../api/students/students.js';
 import { Resources } from '../../../api/resources/resources.js';
-import { Subjects } from '../../../api/subjects/subjects.js';
+import { SchoolWork } from '../../../api/schoolWork/schoolWork.js';
 import { Terms } from '../../../api/terms/terms.js';
 import { Weeks } from '../../../api/weeks/weeks.js';
 import { Lessons } from '../../../api/lessons/lessons.js';
@@ -18,7 +18,7 @@ Template.reportingView.onCreated( function() {
 	template.autorun(() => {
 		this.reportSchoolYearData = Meteor.subscribe('reportSchoolYears', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
 		this.reportTermData = Meteor.subscribe('reportTerms', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
-		this.reportSubjectData = Meteor.subscribe('reportSubjects', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
+		this.reportSchoolWorkData = Meteor.subscribe('reportSchoolWork', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
 		this.reportResourceData = Meteor.subscribe('reportResources', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
 		this.studentData = Meteor.subscribe('allStudents');
 		this.pathData = Meteor.subscribe('studentSchoolYearsPath', FlowRouter.getParam('selectedStudentId'));
@@ -38,7 +38,7 @@ Template.reportingView.onRendered( function() {
 
 Template.reportingView.helpers({
 	subscriptionReady: function() {
-		if (Template.instance().reportSchoolYearData.ready() && Template.instance().reportTermData.ready() && Template.instance().reportSubjectData.ready() && Template.instance().reportResourceData.ready() && Template.instance().studentData.ready() && Template.instance().pathData.ready()) {
+		if (Template.instance().reportSchoolYearData.ready() && Template.instance().reportTermData.ready() && Template.instance().reportSchoolWorkData.ready() && Template.instance().reportResourceData.ready() && Template.instance().studentData.ready() && Template.instance().pathData.ready()) {
 			return true;
 		}
 		return false;

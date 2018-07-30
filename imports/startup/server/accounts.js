@@ -24,7 +24,7 @@ Accounts.emailTemplates = {
 	siteName: 'Flexible School Schedule',
 
 	resetPassword: {
-		subject: function(user, url) {
+		schoolWork: function(user, url) {
 			return 'Reset your password for ' + Accounts.emailTemplates.siteName + '.';
 		},
 		text: function(user, url) {
@@ -35,7 +35,7 @@ Accounts.emailTemplates = {
 	},
 
 	verifyEmail: {
-		subject: function(user, url) {
+		schoolWork: function(user, url) {
 			return 'Please verify email address for ' + Accounts.emailTemplates.siteName + '.';
 		},
 		text: function(user, url) {

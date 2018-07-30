@@ -43,16 +43,16 @@ Template.reportingEdit.onRendered( function() {
 				termsProgressVisible: template.find("[name='termsProgressVisible']").value.trim() === 'true',
 				termsTimesVisible: template.find("[name='termsTimesVisible']").value.trim() === 'true',
 				
-				subjectsReportVisible: template.find("[name='subjectsReportVisible']").value.trim() === 'true',
-				subjectsStatsVisible: template.find("[name='subjectsStatsVisible']").value.trim() === 'true',
-				subjectsProgressVisible: template.find("[name='subjectsProgressVisible']").value.trim() === 'true',
-				subjectsTimesVisible: template.find("[name='subjectsTimesVisible']").value.trim() === 'true',
-				subjectsResourcesVisible: template.find("[name='subjectsResourcesVisible']").value.trim() === 'true',
+				schoolWorkReportVisible: template.find("[name='schoolWorkReportVisible']").value.trim() === 'true',
+				schoolWorkStatsVisible: template.find("[name='schoolWorkStatsVisible']").value.trim() === 'true',
+				schoolWorkProgressVisible: template.find("[name='schoolWorkProgressVisible']").value.trim() === 'true',
+				schoolWorkTimesVisible: template.find("[name='schoolWorkTimesVisible']").value.trim() === 'true',
+				schoolWorkResourcesVisible: template.find("[name='schoolWorkResourcesVisible']").value.trim() === 'true',
 
 				resourcesReportVisible: template.find("[name='resourcesReportVisible']").value.trim() === 'true',
 				resourcesOriginatorVisible: template.find("[name='resourcesOriginatorVisible']").value.trim() === 'true',
 				resourcesPublicationVisible: template.find("[name='resourcesPublicationVisible']").value.trim() === 'true',
-				resourcesSubjectsVisible: template.find("[name='resourcesSubjectsVisible']").value.trim() === 'true',
+				resourcesSchoolWorkVisible: template.find("[name='resourcesSchoolWorkVisible']").value.trim() === 'true',
 				resourcesLinkVisible: template.find("[name='resourcesLinkVisible']").value.trim() === 'true',
 				resourcesDescriptionVisible: template.find("[name='resourcesDescriptionVisible']").value.trim() === 'true',
 			}

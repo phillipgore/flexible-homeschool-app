@@ -28,8 +28,8 @@ Template.navbar.helpers({
 		if (Session.get('planningPathName') === 'resources') {
 			return '/planning/resources/view/1/' + Session.get('selectedResourceType') +'/'+ Session.get('selectedResourceAvailability') +'/'+ Session.get('selectedResourceId') +'/'+ Session.get('selectedResourceCurrentTypeId');
 		}
-		if (Session.get('planningPathName') === 'subjects') {
-			return '/planning/subjects/view/1/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedSubjectId');
+		if (Session.get('planningPathName') === 'schoolWork') {
+			return '/planning/schoolWork/view/1/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedSchoolWorkId');
 		}
 	},
 
