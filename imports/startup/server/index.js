@@ -7,6 +7,7 @@ import './accounts.js';
 import './admin.js';
 import './stripe.js';
 import './mailchimp.js';
+import './migrations.js';
 import './endpoints.js';
 import './fixtures.js';
 

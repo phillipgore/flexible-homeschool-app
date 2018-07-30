@@ -43,3 +43,4 @@ meteorhacks:inject-initial
 underscore@1.0.10
 force-ssl
 vazco:universe-html-purifier
+percolate:migrations
