@@ -4,8 +4,7 @@ import SimpleSchema from 'simpl-schema';
 export const Lessons = new Mongo.Collection('lessons');
 
 if ( Meteor.isServer ) {
-	Lessons.rawCollection().dropIndex("lessonsIndex");
-    // Lessons.rawCollection().createIndex({ weekId: 1, schoolWorkId: 1, order: 1 }, {name: "lessonsIndex"});
+    Lessons.rawCollection().createIndex({ weekId: 1, schoolWorkId: 1, order: 1 }, {name: "lessonsIndex"});
 }
 
 Lessons.allow({
