@@ -4,7 +4,7 @@ const mailchimp = new Mailchimp(Meteor.settings.private.mailchimp);
 
 Meteor.methods({
 	mcSubscription: function(mcSubscriptionProperties) {
-		mailchimp.post('/lists/' + Meteor.settings.private.mailchimpListId + '/members', {
+		mailchimp.put('/lists/' + Meteor.settings.private.mailchimpListId + '/members/' + mcSubscriptionProperties.emailHash, {
 			"email_address": mcSubscriptionProperties.email,
 			"status": "subscribed",
 			"merge_fields": {

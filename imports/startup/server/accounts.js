@@ -1,6 +1,8 @@
 import {Groups} from '../../api/groups/groups.js';
 import '../../api/groups/methods.js';
 
+import md5 from 'md5';
+
 process.env.MAIL_URL = Meteor.settings.private.mailUrl;
 
 Meteor.methods({
@@ -62,6 +64,7 @@ Accounts.onCreateUser((options, user) => {
 
 	let mcSubscriptionProperties = {
 		email: options.email,
+		emailHash: md5(options.email),
 		firstName: options.info.firstName,
 		lastName: options.info.lastName
 	};

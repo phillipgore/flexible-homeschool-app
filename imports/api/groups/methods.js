@@ -2,11 +2,16 @@ import {Mongo} from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
 
 import {Groups} from './groups.js';
+import {Lessons} from '../lessons/lessons.js';
 
 Meteor.methods({
-	insertGroup: function() {
-		let groupId = Groups.insert({subscriptionStatus: 'pending'});
-		return groupId;
+	insertGroup: function(userEmail) {
+		if (Accounts.findUserByEmail(userEmail)) {
+			throw new Meteor.Error(500, 'Email already exists.');
+		} else {
+			let groupId = Groups.insert({subscriptionStatus: 'pending'});
+			return groupId;
+		}
 	},
 
 	updateGroup: function(groupProperties) {

@@ -160,7 +160,7 @@ Template.createAccount.events({
 		if (cardValidation() && accountForm.indexOf(false) === -1) {
 			$('.js-saving').show();
 			$('.js-submit').prop('disabled', true);
-			Meteor.call('insertGroup', function(error, groupId) {
+			Meteor.call('insertGroup', user.email, function(error, groupId) {
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',

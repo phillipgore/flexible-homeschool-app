@@ -151,10 +151,11 @@
 	border-radius: 11px;
 	background-color: $color-white;
 	color: $color-danger;
+	line-height: 1;
 
 	&:before {
 		font-family: 'Flexible-School-Schedule' !important;	
-		content: "\e931";
+		content: "\e973";
 	}
 
 	@media only screen and (min-width: 640px) {

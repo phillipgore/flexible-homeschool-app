@@ -54,6 +54,7 @@ Template.usersNew.onRendered( function() {
 
 			let mcSubscriptionProperties = {
 				email: template.find("[name='email']").value.trim(),
+				emailHash: md5(template.find("[name='email']").value.trim()),
 				firstName: template.find("[name='firstName']").value.trim(),
 				lastName: template.find("[name='lastName']").value.trim()
 			};
