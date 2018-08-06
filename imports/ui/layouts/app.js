@@ -46,7 +46,7 @@ Template.app.helpers({
 	},
 
 	showSubbar: function() {
-		if (Session.get('windowHeight') >= 640 || Session.get('selectedFramePosition') === 2 || FlowRouter.current().route.name === 'trackingView' || FlowRouter.current().route.name === 'createAccount' || FlowRouter.current().route.name === 'verifySent' || FlowRouter.current().route.name === 'verifySuccess' || FlowRouter.current().route.name === 'signIn' || FlowRouter.current().route.name === 'reset' || FlowRouter.current().route.name === 'resetSent' || FlowRouter.current().route.name === 'resetPassword' || FlowRouter.current().route.name === 'resetSuccess') {
+		if (Session.get('windowHeight') >= 640 || Session.get('selectedFramePosition') === 2 || Session.get('selectedFramePosition') === 3 || FlowRouter.current().route.name === 'trackingView' || FlowRouter.current().route.name === 'createAccount' || FlowRouter.current().route.name === 'verifySent' || FlowRouter.current().route.name === 'verifySuccess' || FlowRouter.current().route.name === 'signIn' || FlowRouter.current().route.name === 'reset' || FlowRouter.current().route.name === 'resetSent' || FlowRouter.current().route.name === 'resetPassword' || FlowRouter.current().route.name === 'resetSuccess') {
 			return true;
 		}
 		return false;
