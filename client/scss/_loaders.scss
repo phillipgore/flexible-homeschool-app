@@ -66,6 +66,18 @@
 		transform-origin: right center;
 	}
 
+	&.loader-icon-on-white {
+		background-color: $color-gray-dark;
+
+		&:before {
+			background-color: $color-white;
+		}
+
+		&:after {
+			background-color: $color-white;
+		}
+	}
+
 	&.loader-icon-sm {
 		height: 26px;
 		width: 26px;

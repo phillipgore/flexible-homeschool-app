@@ -100,78 +100,6 @@ let resources = [
   {
     type: "link",
     searchIndex: [],
-    title: "100 Civic Questions",
-    authorFirstName: "",
-    authorLastName: "",
-    availability: "own",
-    description: ""
-  },
-  {
-    type: "link",
-    searchIndex: [],
-    title: "15 Day Health Challenges",
-    authorFirstName: "",
-    authorLastName: "",
-    availability: "own",
-    description: ""
-  },
-  {
-    type: "link",
-    searchIndex: [],
-    title: "1692 Transcriptions of Salem Witch Trial Court Records",
-    authorFirstName: "",
-    authorLastName: "",
-    availability: "own",
-    description: ""
-  },
-  {
-    type: "link",
-    searchIndex: [],
-    title: "1740 Free Grace: John Wesley Denounces the Doctrine of Predestination",
-    authorFirstName: "",
-    authorLastName: "",
-    availability: "own",
-    description: ""
-  },
-  {
-    type: "link",
-    searchIndex: [],
-    title: '1741 Jonathan Edwards\' "Sinners in the Hands of an Angry God" Sermon',
-    authorFirstName: "",
-    authorLastName: "",
-    availability: "own",
-    description: ""
-  },
-  {
-    type: "link",
-    searchIndex: [],
-    title: "1765 Declaration of Rights",
-    authorFirstName: "",
-    authorLastName: "",
-    availability: "own",
-    description: ""
-  },
-  {
-    type: "link",
-    searchIndex: [],
-    title: "1775 Edmund Burke's Plea for Conciliation with the American Colonies",
-    authorFirstName: "",
-    authorLastName: "",
-    availability: "own",
-    description: ""
-  },
-  {
-    type: "link",
-    searchIndex: [],
-    title: "1775 The Mecklenburg Declaration of Independence",
-    authorFirstName: "",
-    authorLastName: "",
-    availability: "own",
-    description: "<p>Don't read the whole thing ~ just the intro and a few key phrases.</p>"
-  },
-  {
-    type: "link",
-    searchIndex: [],
     title: "1776 The Declaration of Independence",
     authorFirstName: "",
     authorLastName: "",
@@ -181,88 +109,7 @@ let resources = [
   {
     type: "link",
     searchIndex: [],
-    title: "1777 Articles of Confederation",
-    authorFirstName: "",
-    authorLastName: "",
-    availability: "own",
-    description: ""
-  },
-  {
-    type: "link",
-    searchIndex: [],
-    title: "1781 Articles of Capitulation",
-    authorFirstName: "Yorktown",
-    authorLastName: "",
-    availability: "own",
-    description: ""
-  },
-  {
-    type: "link",
-    searchIndex: [],
-    title: "1783 Treaty with Great Britain",
-    authorFirstName: "",
-    authorLastName: "",
-    availability: "own",
-    description: ""
-  },
-  {
-    type: "link",
-    searchIndex: [],
     title: "1787 Constitution of the United States",
-    authorFirstName: "",
-    authorLastName: "",
-    availability: "own",
-    description: ""
-  },
-  {
-    type: "link",
-    searchIndex: [],
-    title: "1787 The Federalist Papers",
-    authorFirstName: "articles 1 and 2",
-    authorLastName: "",
-    availability: "own",
-    description: ""
-  },
-  {
-    type: "link",
-    searchIndex: [],
-    title: "1789  Washington's First Inaugural Address",
-    authorFirstName: "",
-    authorLastName: "",
-    availability: "own",
-    description: ""
-  },
-  {
-    type: "link",
-    searchIndex: [],
-    title: "1794 Treaty with the Six Nations",
-    authorFirstName: "",
-    authorLastName: "",
-    availability: "own",
-    description: ""
-  },
-  {
-    type: "link",
-    searchIndex: [],
-    title: "1796 Washington's Farewell Address",
-    authorFirstName: "",
-    authorLastName: "",
-    availability: "own",
-    description: ""
-  },
-  {
-    type: "link",
-    searchIndex: [],
-    title: "1803 Treaty with France (Louisiana Purchase)",
-    authorFirstName: "",
-    authorLastName: "",
-    availability: "own",
-    description: ""
-  },
-  {
-    type: "link",
-    searchIndex: [],
-    title: "30-Day Healthy Family Challenges",
     authorFirstName: "",
     authorLastName: "",
     availability: "own",
@@ -2236,7 +2083,7 @@ let schoolWork = [
   {
     name: "Geometry / Trigonometry",
     description: "<p>Look at two sources of help before coming to ask for help from parents.</p>",
-    resources: ["Geometry/Trig"],
+    resourceTitles: ["Geometry/Trig"],
     timesPerWeek: 5
   },
   {
@@ -2272,13 +2119,13 @@ Meteor.methods({
 		}
 		let groupId = Meteor.user().info.groupId;
 
-        // console.log('Students Start');
+        console.log('Students Start');
 		studentProperties.forEach((student, index) => {
 			let studentId = Students.insert(student);
 		});
-        // console.log('Students Finish');
+        console.log('Students Finish');
 
-        // console.log('School Years Start');
+        console.log('School Years Start');
 		schoolYearProperties.forEach((schoolYear, index) => {
 			let termProperties = schoolYear.terms;
 			delete schoolYear.terms;
@@ -2295,35 +2142,38 @@ Meteor.methods({
 				} 
 			})
 		});
-        // console.log('School Years Finish');
+        console.log('School Years Finish');
 
-        // console.log('Resources Start');
+        console.log('Resources Start');
 		resources.forEach((resource, index) => {
 			Resources.insert(resource);
 		});
-        // console.log('Resources Finish');
+        console.log('Resources Finish');
 
-        // console.log('School Work Start');
+        console.log('School Work Start');
 		Students.find({firstName: 'Lanaya'}).forEach((student, index) => {
 			SchoolYears.find({startYear: '2019'}).forEach((schoolYear, index) => {
 				schoolWork.forEach((schoolWork) => {
 					schoolWork.studentId = student._id;
 					schoolWork.schoolYearId = schoolYear._id;
-          if (schoolWork.resourceTitles.length) {
-            schoolWork.resources = Resources.find({title: {$in: schoolWork.resourceTitles}}).map(resource => resource._id);
-          }
+                    if (schoolWork.resourceTitles.length) {
+                        schoolWork.resources = Resources.find({title: {$in: schoolWork.resourceTitles}}).map(resource => resource._id);
+                    } else {
+                        schoolWork.resources = [];
+                    }
+                    console.log('resources: ' + schoolWork.resources)
 					let timesPerWeek = schoolWork.timesPerWeek;
 					delete schoolWork.timesPerWeek;
-          delete schoolWork.resourceTitles
+                    delete schoolWork.resourceTitles
 
 					let schoolWorkId = SchoolWork.insert(schoolWork);
 					schoolWork.timesPerWeek = timesPerWeek;
-            // console.log('School Work Id: ' + schoolWorkId);
+                    console.log('School Work Id: ' + schoolWorkId);
 
 					Terms.find({schoolYearId: schoolYear._id}).forEach((term, index) => {
 						Weeks.find({termId: term._id}).forEach((week, index) => {
 							for (i = 0; i < timesPerWeek; i++) { 
-                    // console.log(week._id +" "+ schoolWorkId);
+                            console.log(week._id +" "+ schoolWorkId);
 							    Lessons.insert({order: parseFloat((index + 1) + '.' + (i + 1)), weekId: week._id, schoolWorkId: schoolWorkId});
 							}
 						});
@@ -2331,7 +2181,7 @@ Meteor.methods({
 				})
 			});
 		});
-        // console.log('School Work Finish');
+        console.log('School Work Finish');
 
 		Groups.update(groupId, {$set: {testData: true}});
 	},

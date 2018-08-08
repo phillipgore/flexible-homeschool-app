@@ -195,22 +195,15 @@ ul.list {
 
 			.list-item-loading {
 				position: absolute;
-				top: 16px;
+				top: 15px;
 				right: 9px;
 				z-index: 300;
 				font-size: 16px;
 				text-align: center;
-				height: 17px;
-				width: 17px;
+				height: 18px;
+				width: 18px;
 				color: $color-gray-darkest;
 				display: none;
-
-				&:before {
-					font-family: 'Flexible-School-Schedule' !important;	
-					content: "\e934";
-					display: inline-block;
-    				animation: rotation 1.0s infinite linear;
-				}
 			}
 
 			&.disabled {
