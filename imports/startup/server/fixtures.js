@@ -2119,13 +2119,13 @@ Meteor.methods({
 		}
 		let groupId = Meteor.user().info.groupId;
 
-        console.log('Students Start');
+        // console.log('Students Start');
 		studentProperties.forEach((student, index) => {
 			let studentId = Students.insert(student);
 		});
-        console.log('Students Finish');
+        // console.log('Students Finish');
 
-        console.log('School Years Start');
+        // console.log('School Years Start');
 		schoolYearProperties.forEach((schoolYear, index) => {
 			let termProperties = schoolYear.terms;
 			delete schoolYear.terms;
@@ -2142,17 +2142,17 @@ Meteor.methods({
 				} 
 			})
 		});
-        console.log('School Years Finish');
+        // console.log('School Years Finish');
 
-        console.log('Resources Start');
+        // console.log('Resources Start');
 		resources.forEach((resource, index) => {
 			Resources.insert(resource);
 		});
-        console.log('Resources Finish');
+        // console.log('Resources Finish');
 
-        console.log('School Work Start');
-		Students.find({firstName: 'Lanaya'}).forEach((student, index) => {
-			SchoolYears.find({startYear: '2019'}).forEach((schoolYear, index) => {
+        // console.log('School Work Start');
+		Students.find({groupId: groupId, firstName: 'Lanaya'}).forEach((student, index) => {
+			SchoolYears.find({groupId: groupId, startYear: '2019'}).forEach((schoolYear, index) => {
 				schoolWork.forEach((schoolWork) => {
 					schoolWork.studentId = student._id;
 					schoolWork.schoolYearId = schoolYear._id;
@@ -2161,19 +2161,19 @@ Meteor.methods({
                     } else {
                         schoolWork.resources = [];
                     }
-                    console.log('resources: ' + schoolWork.resources)
+                    // console.log('resources: ' + schoolWork.resources)
 					let timesPerWeek = schoolWork.timesPerWeek;
 					delete schoolWork.timesPerWeek;
                     delete schoolWork.resourceTitles
 
 					let schoolWorkId = SchoolWork.insert(schoolWork);
 					schoolWork.timesPerWeek = timesPerWeek;
-                    console.log('School Work Id: ' + schoolWorkId);
+                    // console.log('School Work Id: ' + schoolWorkId);
 
-					Terms.find({schoolYearId: schoolYear._id}).forEach((term, index) => {
+					Terms.find({groupId: groupId, schoolYearId: schoolYear._id}).forEach((term, index) => {
 						Weeks.find({termId: term._id}).forEach((week, index) => {
 							for (i = 0; i < timesPerWeek; i++) { 
-                            console.log(week._id +" "+ schoolWorkId);
+                            // console.log(week._id +" "+ schoolWorkId);
 							    Lessons.insert({order: parseFloat((index + 1) + '.' + (i + 1)), weekId: week._id, schoolWorkId: schoolWorkId});
 							}
 						});
@@ -2181,7 +2181,7 @@ Meteor.methods({
 				})
 			});
 		});
-        console.log('School Work Finish');
+        // console.log('School Work Finish');
 
 		Groups.update(groupId, {$set: {testData: true}});
 	},
