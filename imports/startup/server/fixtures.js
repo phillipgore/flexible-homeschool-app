@@ -2236,7 +2236,7 @@ let schoolWork = [
   {
     name: "Geometry / Trigonometry",
     description: "<p>Look at two sources of help before coming to ask for help from parents.</p>",
-    resources: Resources.find({title: {$in: ["Geometry/Trig"]}}).map(resource => resource._id),
+    resources: ["Geometry/Trig"],
     timesPerWeek: 5
   },
   {
