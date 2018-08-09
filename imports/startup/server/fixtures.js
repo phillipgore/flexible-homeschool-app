@@ -2117,13 +2117,13 @@ Meteor.methods({
 		}
 		let groupId = Meteor.user().info.groupId;
 
-        console.log('Students Start');
+        // console.log('Students Start');
 		studentProperties.forEach((student, index) => {
 			let studentId = Students.insert(student);
 		});
-        console.log('Students Finish');
+        // console.log('Students Finish');
 
-        console.log('School Years Start');
+        // console.log('School Years Start');
 		schoolYearProperties.forEach((schoolYear, index) => {
 			let termProperties = schoolYear.terms;
 			delete schoolYear.terms;
@@ -2140,42 +2140,42 @@ Meteor.methods({
 				} 
 			})
 		});
-        console.log('School Years Finish');
+        // console.log('School Years Finish');
 
-        console.log('Resources Start');
+        // console.log('Resources Start');
 		resources.forEach((resource, index) => {
 			Resources.insert(resource);
 		});
-        console.log('Resources Finish');
+      // console.log('Resources Finish');
 
-        schoolWorkItems.forEach((schoolWork) => {
-            if (schoolWork.resourceTitles) {
-                schoolWork.resources = Resources.find({title: {$in: schoolWork.resourceTitles}}).map(resource => resource._id);
-            } else {
-                schoolWork.resources = [];
-            }
-        });
+      schoolWorkItems.forEach((schoolWork) => {
+          if (schoolWork.resourceTitles) {
+              schoolWork.resources = Resources.find({title: {$in: schoolWork.resourceTitles}}).map(resource => resource._id);
+          } else {
+              schoolWork.resources = [];
+          }
+      });
 
-        console.log('School Work Start');
+      // console.log('School Work Start');
 		Students.find({groupId: groupId}).forEach((student, index) => {
 			SchoolYears.find({groupId: groupId, startYear: {$lte: '2018'}}).forEach((schoolYear, index) => {
 				schoolWorkItems.forEach((schoolWork) => {
 					schoolWork.studentId = student._id;
 					schoolWork.schoolYearId = schoolYear._id;
 
-                    console.log('resources: ' + schoolWork.resources)
+                    // console.log('resources: ' + schoolWork.resources)
 					let timesPerWeek = schoolWork.timesPerWeek;
 					delete schoolWork.timesPerWeek;
                     delete schoolWork.resourceTitles
 
 					let schoolWorkId = SchoolWork.insert(schoolWork);
 					schoolWork.timesPerWeek = timesPerWeek;
-                    console.log('School Work Id: ' + schoolWorkId);
+                    // console.log('School Work Id: ' + schoolWorkId);
 
 					Terms.find({groupId: groupId, schoolYearId: schoolYear._id}).forEach((term, index) => {
 						Weeks.find({termId: term._id}).forEach((week, index) => {
 							for (i = 0; i < timesPerWeek; i++) { 
-                            console.log(week._id +" "+ schoolWorkId);
+                            // console.log(week._id +" "+ schoolWorkId);
                                 let lessonProperties = {
                                     order: parseFloat((index + 1) + '.' + (i + 1)), 
                                     weekId: week._id, 
@@ -2197,7 +2197,7 @@ Meteor.methods({
 				})
 			});
 		});
-        console.log('School Work Finish');
+        // console.log('School Work Finish');
 
 		Groups.update(groupId, {$set: {testData: true}});
 	},

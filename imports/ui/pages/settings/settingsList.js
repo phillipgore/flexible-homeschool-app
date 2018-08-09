@@ -45,6 +45,13 @@ Template.settingsList.helpers({
 		return false;
 	},
 
+	developer: function(role) {
+		if (role === 'Developer') {
+			return true;
+		}
+		return false;
+	},
+
 	group: function() {
 		return Groups.findOne({});
 	},
