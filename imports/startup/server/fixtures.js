@@ -2157,7 +2157,7 @@ Meteor.methods({
       });
 
       // console.log('School Work Start');
-		Students.find({groupId: groupId}).forEach((student, index) => {
+		Students.find({groupId: groupId, firstName: 'Lanaya'}).forEach((student, index) => {
 			SchoolYears.find({groupId: groupId, startYear: {$lte: '2018'}}).forEach((schoolYear, index) => {
 				schoolWorkItems.forEach((schoolWork) => {
 					schoolWork.studentId = student._id;
