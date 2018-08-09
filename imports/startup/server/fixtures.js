@@ -8,7 +8,7 @@ import {SchoolWork} from '../../api/schoolWork/schoolWork.js';
 import {Lessons} from '../../api/lessons/lessons.js';
 
 
-let studentProperties = [
+let fixtureStudents = [
 	{
 		firstName: 'Lanaya',
 		middleName: 'Elizabeth',
@@ -42,20 +42,20 @@ let studentProperties = [
 		},
 		birthday: 'Apr 13, 2006',
 	},
-	// {
-	// 	firstName: 'Harrison',
-	// 	middleName: 'Lee',
-	// 	lastName: 'Gore',
-	// 	nickname: 'Harry',
-	// 	preferredFirstName: {
-	// 		type: 'firstName',
-	// 		name: 'Harrison',
-	// 	},
-	// 	birthday: 'Jun 6, 2010',
-	// },
+	{
+		firstName: 'Harrison',
+		middleName: 'Lee',
+		lastName: 'Gore',
+		nickname: 'Harry',
+		preferredFirstName: {
+			type: 'firstName',
+			name: 'Harrison',
+		},
+		birthday: 'Jun 6, 2010',
+	},
 ];
 
-let schoolYearProperties = [
+let fixtureSchoolYears = [
 	// {
 	// 	startYear: '2016',
 	// 	endYear: '2017',
@@ -96,7 +96,7 @@ let schoolYearProperties = [
 	},
 ];
 
-let resources = [
+let fixtureResources = [
 	{
 		type: "link",
 		searchIndex: [],
@@ -2025,7 +2025,7 @@ let resources = [
 	}
 ];
 
-let schoolWorkItems = [
+let fixtureSchoolWork = [
 	{
 		name: "Artist Study: Vermeer",
 		description: "<p>1632-1675 Dutch Baroque. Morning Time.</p>",
@@ -2108,23 +2108,24 @@ let schoolWorkItems = [
 		resourceTitles: ["How to Read a Book"],
 		timesPerWeek: 2
 	}
-]
+];
 
 Meteor.methods({
 	addTestData() {
-		if (!Groups.findOne({_id: Meteor.user().info.groupId}).appAdmin) {
+		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
+
+		if (!Groups.findOne({_id: groupId}).appAdmin) {
 			throw new Meteor.Error('no-role-app', 'You do not have permission to add test data.');
 		}
-		let groupId = Meteor.user().info.groupId;
 
 		// console.log('Students Start');
-		studentProperties.forEach((student, index) => {
+		fixtureStudents.forEach((student, index) => {
 			let studentId = Students.insert(student);
 		});
 		// console.log('Students Finish');
 
 		// console.log('School Years Start');
-		schoolYearProperties.forEach((schoolYear, index) => {
+		fixtureSchoolYears.forEach((schoolYear, index) => {
 			let termProperties = schoolYear.terms;
 			delete schoolYear.terms;
 			let schoolYearId = SchoolYears.insert(schoolYear);
@@ -2143,14 +2144,14 @@ Meteor.methods({
 		// console.log('School Years Finish');
 
 		// console.log('Resources Start');
-		resources.forEach((resource, index) => {
+		fixtureResources.forEach((resource, index) => {
 			Resources.insert(resource);
 		});
 		// console.log('Resources Finish');
 
-		schoolWorkItems.forEach((schoolWork) => {
+		fixtureSchoolWork.forEach((schoolWork) => {
 			if (schoolWork.resourceTitles) {
-				schoolWork.resources = Resources.find({title: {$in: schoolWork.resourceTitles}}).map(resource => resource._id);
+				schoolWork.resources = Resources.find({_id: groupId, title: {$in: schoolWork.resourceTitles}}).map(resource => resource._id);
 			} else {
 				schoolWork.resources = [];
 			}
@@ -2159,7 +2160,8 @@ Meteor.methods({
 		// console.log('School Work Start');
 		Students.find({groupId: groupId}).forEach((student, index) => {
 			SchoolYears.find({groupId: groupId, startYear: {$lte: '2018'}}).forEach((schoolYear, index) => {
-				schoolWorkItems.forEach((schoolWork) => {
+				fixtureSchoolWork.forEach((schoolWork) => {
+
 					schoolWork.studentId = student._id;
 					schoolWork.schoolYearId = schoolYear._id;
 
@@ -2173,41 +2175,46 @@ Meteor.methods({
 					// console.log('School Work Id: ' + schoolWorkId);
 
 					Terms.find({groupId: groupId, schoolYearId: schoolYear._id}).forEach((term, index) => {
-						Weeks.find({termId: term._id}).forEach((week, index) => {
+						Weeks.find({groupId: groupId, termId: term._id}).forEach((week, index) => {
 							for (i = 0; i < timesPerWeek; i++) { 
-							// console.log(week._id +" "+ schoolWorkId);
-							let lessonProperties = {
-								order: parseFloat((index + 1) + '.' + (i + 1)), 
-								weekId: week._id, 
-								schoolWorkId: schoolWorkId
-							}
-							if (lessonProperties.order < 4 ) {
-								lessonProperties.completed = true
-							}
+								// console.log(week._id +" "+ schoolWorkId);
+								let lessonProperties = {
+									order: parseFloat((index + 1) + '.' + (i + 1)), 
+									weekId: week._id, 
+									schoolWorkId: schoolWorkId
+								}
 
-							if (schoolYear.startYear < '2018') {
-								lessonProperties.completed = true
-							} else if (lessonProperties.order > 3.9 && lessonProperties.order <= parseFloat('5.' + Math.floor(timesPerWeek / 2).toString())) {
-								lessonProperties.completed = true
-							}
+								if (lessonProperties.order < 4 ) {
+									lessonProperties.completed = true
+								}
+
+								if (schoolYear.startYear < '2018') {
+									lessonProperties.completed = true
+								} else if (lessonProperties.order > 3.9 && lessonProperties.order <= parseFloat('5.' + Math.floor(timesPerWeek / 2).toString())) {
+									lessonProperties.completed = true
+								}
+
 								Lessons.insert(lessonProperties);
 							}
 						});
 					});
-				})
+
+				});
 			});
 		});
 		// console.log('School Work Finish');
 
 		Groups.update(groupId, {$set: {testData: true}});
+
+		return false;
 	},
 
 	removeTestData() {
-		if (!Groups.findOne({_id: Meteor.user().info.groupId}).appAdmin) {
+		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
+
+		if (!Groups.findOne({_id: groupId}).appAdmin) {
 			throw new Meteor.Error('no-role-app', 'You do not have permission to add test data.');
 		}
-
-		let groupId = Meteor.user().info.groupId
 
 		Lessons.remove({groupId: groupId});
 		SchoolWork.remove({groupId: groupId});
