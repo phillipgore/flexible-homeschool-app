@@ -2035,11 +2035,13 @@ let fixtureSchoolWork = [
 	{
 		name: "Composer Study: Baroque Era",
 		description: "<p>Morning Time.</p>",
+		resourceTitles: [],
 		timesPerWeek: 2
 	},
 	{
 		name: "Current Events",
 		description: "<p>Listen to News Podcasts. Read Student Daily News. Watch talk shows and discuss with Dad. Read weekly blogs about current interests.</p>",
+		resourceTitles: [],
 		timesPerWeek: 5
 	},
 	{
@@ -2118,13 +2120,13 @@ Meteor.methods({
 			throw new Meteor.Error('no-role-app', 'You do not have permission to add test data.');
 		}
 
-		// console.log('Students Start');
+		console.log('Students Start');
 		fixtureStudents.forEach((student, index) => {
 			let studentId = Students.insert(student);
 		});
-		// console.log('Students Finish');
+		console.log('Students Finish');
 
-		// console.log('School Years Start');
+		console.log('School Years Start');
 		fixtureSchoolYears.forEach((schoolYear, index) => {
 			let termProperties = schoolYear.terms;
 			delete schoolYear.terms;
@@ -2141,23 +2143,23 @@ Meteor.methods({
 				} 
 			})
 		});
-		// console.log('School Years Finish');
+		console.log('School Years Finish');
 
-		// console.log('Resources Start');
+		console.log('Resources Start');
 		fixtureResources.forEach((resource, index) => {
 			Resources.insert(resource);
 		});
-		// console.log('Resources Finish');
+		console.log('Resources Finish');
 
 		fixtureSchoolWork.forEach((schoolWork) => {
 			if (schoolWork.resourceTitles) {
-				schoolWork.resources = Resources.find({_id: groupId, title: {$in: schoolWork.resourceTitles}}).map(resource => resource._id);
+				schoolWork.resources = Resources.find({groupId: groupId, title: {$in: schoolWork.resourceTitles}}).map(resource => resource._id);
 			} else {
 				schoolWork.resources = [];
 			}
 		});
 
-		// console.log('School Work Start');
+		console.log('School Work Start');
 		Students.find({groupId: groupId}).forEach((student, index) => {
 			SchoolYears.find({groupId: groupId, startYear: {$lte: '2018'}}).forEach((schoolYear, index) => {
 				fixtureSchoolWork.forEach((schoolWork) => {
@@ -2165,19 +2167,19 @@ Meteor.methods({
 					schoolWork.studentId = student._id;
 					schoolWork.schoolYearId = schoolYear._id;
 
-					// console.log('resources: ' + schoolWork.resources)
+					console.log('resources: ' + schoolWork.resources)
 					let timesPerWeek = schoolWork.timesPerWeek;
 					delete schoolWork.timesPerWeek;
 					delete schoolWork.resourceTitles
 
 					let schoolWorkId = SchoolWork.insert(schoolWork);
 					schoolWork.timesPerWeek = timesPerWeek;
-					// console.log('School Work Id: ' + schoolWorkId);
+					console.log('School Work Id: ' + schoolWorkId);
 
 					Terms.find({groupId: groupId, schoolYearId: schoolYear._id}).forEach((term, index) => {
 						Weeks.find({groupId: groupId, termId: term._id}).forEach((week, index) => {
 							for (i = 0; i < timesPerWeek; i++) { 
-								// console.log(week._id +" "+ schoolWorkId);
+								console.log(week._id +" "+ schoolWorkId);
 								let lessonProperties = {
 									order: parseFloat((index + 1) + '.' + (i + 1)), 
 									weekId: week._id, 
@@ -2202,7 +2204,7 @@ Meteor.methods({
 				});
 			});
 		});
-		// console.log('School Work Finish');
+		console.log('School Work Finish');
 
 		Groups.update(groupId, {$set: {testData: true}});
 
