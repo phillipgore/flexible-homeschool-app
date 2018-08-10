@@ -41,6 +41,6 @@ meteorhacks:ssr
 pascoual:pdfjs
 meteorhacks:inject-initial
 underscore@1.0.10
-force-ssl
+force-ssl@1.1.0
 vazco:universe-html-purifier
 percolate:migrations
