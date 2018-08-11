@@ -59,20 +59,11 @@ Template.schoolWorkEdit.onRendered( function() {
 	$('.js-form-school-work-update').validate({
 		rules: {
 			name: { required: true },
-			timesPerWeek: { number: true },
+			timesPerWeek: { number: true, max: 7 },
 		},
 		messages: {
 			name: { required: "Required." },
-			timesPerWeek: { number: "" },
-		},
-		errorPlacement: function(error, element) {
-			let placement = $(element).data('error');
-			if (placement) {
-				$(element).parent().addClass('error');
-				$(placement).append(error)
-			} else {
-				error.insertAfter(element);
-			}
+			timesPerWeek: { number: "Number Required.", max: 'Limit 7.' },
 		},
 
 		submitHandler() {
