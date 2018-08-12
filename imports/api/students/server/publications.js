@@ -62,61 +62,26 @@ Meteor.publish('trackinglistPub', function(studentId, schoolYearId, termId, week
 });
 
 
-Meteor.publish('trackingStatsPub', function(studentId, schoolYearId, termId, weekId) {
-	this.autorun(function (computation) {
-		if (!this.userId) {
-			return this.ready();
-		}
+// Meteor.publish('trackingStatsPub', function(studentId, schoolYearId, termId, weekId) {
+// 	this.autorun(function (computation) {
+// 		if (!this.userId) {
+// 			return this.ready();
+// 		}
 
-		let self = this;
+// 		let self = this;
 
-		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-		let students = Students.find({groupId: groupId, deletedOn: { $exists: false }}, {fields: {_id: 1}});
+// 		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
+// 		let students = Students.find({groupId: groupId, deletedOn: { $exists: false }}, {fields: {_id: 1}});
 
-		students.map((student) => {
-			student.studentId = student._id;
-			term = studentStats(student, student._id, schoolYearId, termId, weekId);
-			self.added('studentStats', Random.id(), student);
-		});
+// 		students.map((student) => {
+// 			student.studentId = student._id;
+// 			term = studentStats(student, student._id, schoolYearId, termId, weekId);
+// 			self.added('studentStats', Random.id(), student);
+// 		});
 
-		self.ready();
-	});
-});
-
-Meteor.publish('testStatsPub', function(studentId, schoolYearId, termId, weekId) {
-	this.autorun(function (computation) {
-		if (!this.userId) {
-			return this.ready();
-		}
-
-		let self = this;
-
-		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-		let students = Students.find({groupId: groupId, deletedOn: { $exists: false }}, {fields: {_id: 1}});
-
-		console.log('run')
-
-		students.map((student) => {
-			let schoolWorkIds = SchoolWork.find({studentId: student._id, schoolYearId: schoolYearId, deletedOn: { $exists: false }}).map(schoolWork => (schoolWork._id));
-
-			let yearLessonsTotal = Lessons.aggregate(
-				{$match: {groupId: groupId, schoolWorkId: {$in: schoolWorkIds}, deletedOn: { $exists: false }}},
-				{$group: {_id: '$weekId', count: { $sum: 1 }}}
-			);
-
-			let yearLessonsComplete = Lessons.aggregate(
-				{$match: {groupId: groupId, schoolWorkId: {$in: schoolWorkIds}, deletedOn: { $exists: false }, completed: true}},
-				{$group: {_id: '$weekId', count: { $sum: 1 }}}
-			);
-
-			student.studentId = student._id;
-			student.weekProgress = Math.floor(yearLessonsComplete[0].count / yearLessonsTotal[0].count * 100);
-			self.added('testStats', Random.id(), student);
-		});
-
-		self.ready();
-	});
-});
+// 		self.ready();
+// 	});
+// });
 
 
 

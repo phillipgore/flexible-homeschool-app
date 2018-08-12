@@ -9,15 +9,10 @@ import './trackingList.html';
 
 import _ from 'lodash'
 
-StudentStats = new Mongo.Collection('studentStats');
-
 Template.trackingList.onCreated( function() {
 	let template = Template.instance();
 
 	this.trackingData = Meteor.subscribe('trackinglistPub', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'), FlowRouter.getParam('selectedWeekId'));
-	template.autorun(() => {
-		this.subscribe('trackingStatsPub', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'), FlowRouter.getParam('selectedWeekId'));
-	});
 });
 
 Template.trackingList.onRendered( function() {
