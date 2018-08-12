@@ -60,6 +60,14 @@ Template.trackingView.helpers({
 		return SchoolYears.findOne({_id: FlowRouter.getParam('selectedSchoolYearId')});
 	},
 
+	selectedTerm: function() {
+		return Terms.findOne({_id: FlowRouter.getParam('selectedTermId')});
+	},
+
+	selectedWeek: function() {
+		return Weeks.findOne({_id: FlowRouter.getParam('selectedWeekId')});
+	},
+
 	schoolWork: function() {
 		return SchoolWork.find({studentId: FlowRouter.getParam('selectedStudentId'), schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}, {sort: {name: 1}});
 	},

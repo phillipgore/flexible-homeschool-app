@@ -56,15 +56,15 @@ Template.trackingList.helpers({
 	},
 
 	yearsProgress: function(studentId) {
-		return _.find(Session.get('progressStats'), ['studentId', studentId]) && _.find(Session.get('progressStats'), ['studentId', studentId]).yearProgress;
+		let yearProgress = _.find(Session.get('progressStats'), ['studentId', studentId]) && _.find(Session.get('progressStats'), ['studentId', studentId]).yearProgress;
+		if (!yearProgress) {
+			return 0;
+		}
+		return yearProgress;
 	},
 
 	yearsProgressStatus: function(studentId) {
-		let yearProgress = _.find(Session.get('progressStats'), ['studentId', studentId]) && _.find(Session.get('progressStats'), ['studentId', studentId]).yearProgress;
-		if (yearProgress === 100) {
-			return 'meter-progress-primary';
-		}
-		return false;
+		return _.find(Session.get('progressStats'), ['studentId', studentId]) && _.find(Session.get('progressStats'), ['studentId', studentId]).yearProgress;;
 	},
 
 	termsProgress: function(studentId) {
@@ -72,15 +72,15 @@ Template.trackingList.helpers({
 	},
 
 	termsProgressStatus: function(studentId) {
-		let termProgress = _.find(Session.get('progressStats'), ['studentId', studentId]) && _.find(Session.get('progressStats'), ['studentId', studentId]).termProgress;
-		if (termProgress === 100) {
-			return 'meter-progress-primary';
-		}
-		return false;
+		return _.find(Session.get('progressStats'), ['studentId', studentId]) && _.find(Session.get('progressStats'), ['studentId', studentId]).termProgress;
 	},
 
 	weeksProgress: function(studentId) {
-		return _.find(Session.get('progressStats'), ['studentId', studentId]) && _.find(Session.get('progressStats'), ['studentId', studentId]).weekProgress;
+		let weekProgress = _.find(Session.get('progressStats'), ['studentId', studentId]) && _.find(Session.get('progressStats'), ['studentId', studentId]).weekProgress;
+		if (!weekProgress) {
+			return 0;
+		}
+		return weekProgress;
 	},
 
 	weeksProgressStatus: function(studentId) {

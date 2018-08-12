@@ -66,7 +66,7 @@ Template.subbarTracking.helpers({
 	},
 
 	terms: function() {
-		return Terms.find({}, {sort: {order: 1}});
+		return Terms.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}, {sort: {order: 1}});
 	},
 
 	selectedTermId: function() {
