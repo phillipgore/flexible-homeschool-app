@@ -11,7 +11,12 @@ import moment from 'moment';
 import autosize from 'autosize';
 import './trackingSchoolWork.html';
 
-	
+Template.trackingSchoolWork.onCreated( function() {
+	Meteor.call('getProgressStats', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'), FlowRouter.getParam('selectedWeekId'), function(error, result) {
+		Session.set('progressStats', result);
+	});
+});
+
 Template.trackingSchoolWork.helpers({
 	schoolWorkInfoReady: function() {
 		return Session.get('schoolWorkInfoReady');
@@ -138,8 +143,6 @@ Template.trackingSchoolWork.events({
 			$(window).scrollTop(Session.get('lessonScrollTop'));
 		}
 
-		console.log(event.currentTarget.completedOn.value.trim())
-
 		let lessonPoperties = {
 			_id: $(event.currentTarget).parent().attr('id'),
 			assigned: event.currentTarget.assigned.value.trim() === 'true',
@@ -159,6 +162,9 @@ Template.trackingSchoolWork.events({
 				
 				$('.js-lesson-updating').hide();
 			} else {
+				Meteor.call('getProgressStats', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'), FlowRouter.getParam('selectedWeekId'), function(error, result) {
+					Session.set('progressStats', result);
+				});
 				$('.js-lesson-updating').hide();
 			}
 		});

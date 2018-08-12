@@ -1,6 +1,8 @@
 import {Students} from '../students.js';
 import {SchoolYears} from '../../schoolYears/schoolYears.js';
 import {Terms} from '../../terms/terms.js';
+import {SchoolWork} from '../../schoolWork/schoolWork.js';
+import {Lessons} from '../../lessons/lessons.js';
 import {studentStatusAndPaths} from '../../../modules/server/functions';
 import {studentSchoolYearsStatusAndPaths} from '../../../modules/server/functions';
 import {studentTermStatusAndPaths} from '../../../modules/server/functions';
@@ -75,6 +77,41 @@ Meteor.publish('trackingStatsPub', function(studentId, schoolYearId, termId, wee
 			student.studentId = student._id;
 			term = studentStats(student, student._id, schoolYearId, termId, weekId);
 			self.added('studentStats', Random.id(), student);
+		});
+
+		self.ready();
+	});
+});
+
+Meteor.publish('testStatsPub', function(studentId, schoolYearId, termId, weekId) {
+	this.autorun(function (computation) {
+		if (!this.userId) {
+			return this.ready();
+		}
+
+		let self = this;
+
+		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
+		let students = Students.find({groupId: groupId, deletedOn: { $exists: false }}, {fields: {_id: 1}});
+
+		console.log('run')
+
+		students.map((student) => {
+			let schoolWorkIds = SchoolWork.find({studentId: student._id, schoolYearId: schoolYearId, deletedOn: { $exists: false }}).map(schoolWork => (schoolWork._id));
+
+			let yearLessonsTotal = Lessons.aggregate(
+				{$match: {groupId: groupId, schoolWorkId: {$in: schoolWorkIds}, deletedOn: { $exists: false }}},
+				{$group: {_id: '$weekId', count: { $sum: 1 }}}
+			);
+
+			let yearLessonsComplete = Lessons.aggregate(
+				{$match: {groupId: groupId, schoolWorkId: {$in: schoolWorkIds}, deletedOn: { $exists: false }, completed: true}},
+				{$group: {_id: '$weekId', count: { $sum: 1 }}}
+			);
+
+			student.studentId = student._id;
+			student.weekProgress = Math.floor(yearLessonsComplete[0].count / yearLessonsTotal[0].count * 100);
+			self.added('testStats', Random.id(), student);
 		});
 
 		self.ready();

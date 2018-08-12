@@ -7,6 +7,8 @@ import { Weeks } from '../../../api/weeks/weeks.js';
 import { Lessons } from '../../../api/lessons/lessons.js';
 import './trackingList.html';
 
+import _ from 'lodash'
+
 StudentStats = new Mongo.Collection('studentStats');
 
 Template.trackingList.onCreated( function() {
@@ -59,11 +61,11 @@ Template.trackingList.helpers({
 	},
 
 	yearsProgress: function(studentId) {
-		return StudentStats.findOne({studentId: studentId}) && StudentStats.findOne({studentId: studentId}).yearProgress;
+		return _.find(Session.get('progressStats'), ['studentId', studentId]) && _.find(Session.get('progressStats'), ['studentId', studentId]).yearProgress;
 	},
 
 	yearsProgressStatus: function(studentId) {
-		let yearProgress = StudentStats.findOne({studentId: studentId}) && StudentStats.findOne({studentId: studentId}).yearProgress;
+		let yearProgress = _.find(Session.get('progressStats'), ['studentId', studentId]) && _.find(Session.get('progressStats'), ['studentId', studentId]).yearProgress;
 		if (yearProgress === 100) {
 			return 'meter-progress-primary';
 		}
@@ -71,11 +73,11 @@ Template.trackingList.helpers({
 	},
 
 	termsProgress: function(studentId) {
-		return StudentStats.findOne({studentId: studentId}) && StudentStats.findOne({studentId: studentId}).termProgress;
+		return _.find(Session.get('progressStats'), ['studentId', studentId]) && _.find(Session.get('progressStats'), ['studentId', studentId]).termProgress;
 	},
 
 	termsProgressStatus: function(studentId) {
-		let termProgress = StudentStats.findOne({studentId: studentId}) && StudentStats.findOne({studentId: studentId}).termProgress;
+		let termProgress = _.find(Session.get('progressStats'), ['studentId', studentId]) && _.find(Session.get('progressStats'), ['studentId', studentId]).termProgress;
 		if (termProgress === 100) {
 			return 'meter-progress-primary';
 		}
@@ -83,15 +85,19 @@ Template.trackingList.helpers({
 	},
 
 	weeksProgress: function(studentId) {
-		return StudentStats.findOne({studentId: studentId}) && StudentStats.findOne({studentId: studentId}).weekProgress;
+		return _.find(Session.get('progressStats'), ['studentId', studentId]) && _.find(Session.get('progressStats'), ['studentId', studentId]).weekProgress;
 	},
 
 	weeksProgressStatus: function(studentId) {
-		let weekProgress = StudentStats.findOne({studentId: studentId}) && StudentStats.findOne({studentId: studentId}).weekProgress;
+		let weekProgress = _.find(Session.get('progressStats'), ['studentId', studentId]) && _.find(Session.get('progressStats'), ['studentId', studentId]).weekProgress;
 		if (weekProgress === 100) {
 			return 'meter-progress-primary';
 		}
 		return false;
+	},
+
+	progressStats: function(studentId) {
+		return _.find(Session.get('progressStats'), ['studentId', studentId]);
 	},
 
 	active: function(id) {
