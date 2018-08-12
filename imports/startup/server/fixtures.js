@@ -2179,7 +2179,7 @@ Meteor.methods({
 					Terms.find({groupId: groupId, schoolYearId: schoolYear._id}).forEach((term, index) => {
 						Weeks.find({groupId: groupId, termId: term._id}).forEach((week, index) => {
 							for (i = 0; i < timesPerWeek; i++) { 
-								console.log(week._id +" "+ schoolWorkId);
+								// console.log(week._id +" "+ schoolWorkId);
 								let lessonProperties = {
 									order: parseFloat((index + 1) + '.' + (i + 1)), 
 									weekId: week._id, 
