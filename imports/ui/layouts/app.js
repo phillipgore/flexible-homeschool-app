@@ -354,9 +354,6 @@ Template.app.events({
 			selectedSchoolYearId: $(event.currentTarget).attr('id'),
 			editUrl: '/planning/schoolyears/edit/3/' + $(event.currentTarget).attr('id'),
 		});
-		Meteor.call('getProgressStats', $(event.currentTarget).attr('id'), Session.get('selectedTermId'), Session.get('selectedWeekId'), function(error, result) {
-			Session.set('progressStats', result);
-		});
 		let sessionSchoolWorkIdName = 'selectedSchoolWork' + Session.get('selectedStudentId') + $(event.currentTarget).attr('id') + 'Id';
 		Session.set('selectedSchoolWorkId', Session.get(sessionSchoolWorkIdName));
 	},
@@ -375,16 +372,10 @@ Template.app.events({
 
 	'click .js-term'(event) {
 		Session.set('selectedTermId', $(event.currentTarget).attr('id'));
-		Meteor.call('getProgressStats', Session.get('selectedSchoolYearId'), $(event.currentTarget).attr('id'), Session.get('selectedWeekId'), function(error, result) {
-			Session.set('progressStats', result);
-		});
 	},
 
 	'click .js-week'(event) {
 		Session.set('selectedWeekId', $(event.currentTarget).attr('id'));
-		Meteor.call('getProgressStats', Session.get('selectedSchoolYearId'), Session.get('selectedTermId'), $(event.currentTarget).attr('id'), function(error, result) {
-			Session.set('progressStats', result);
-		});
 	},
 
 	'click .js-resource'(event) {
