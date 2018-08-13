@@ -34,7 +34,13 @@
 							<label class="p-tn-b-12">Resources</label>
 							<ul class="info-list">
 								{{#each resource in resources work.resources}}
-									<li class="txt-ellipsis p-tn-b-3"><i class="fss-{{resource.type}} txt-primary"></i> {{resource.title}}</li>
+									<li class="txt-ellipsis p-tn-b-3">
+										{{#if resource.link}}
+											<a href="{{resource.link}}"><i class="fss-{{resource.type}} txt-primary"></i> {{resource.title}}</a>
+										{{else}}
+											<i class="fss-{{resource.type}} txt-primary"></i> {{resource.title}}
+										{{/if}}
+									</li>
 								{{/each}}
 							</ul>
 						</section>
