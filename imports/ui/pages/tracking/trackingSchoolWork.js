@@ -158,8 +158,6 @@ Template.trackingSchoolWork.events({
 			picker.set('select', new Date());
 		}
 
-		console.log(lessonPoperties)
-
 		Meteor.call('updateLesson', lessonPoperties, function(error, result) {
 			if (error) {
 				Alerts.insert({
