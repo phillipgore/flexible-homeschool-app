@@ -1,6 +1,6 @@
 <template name="trackingSchoolWork">
 	{{#each work in schoolWork}}
-		<div id="js-schoolWork-track-{{work._id}}" class="js-schoolWork-track track p-tn-t-18">
+		<div id="js-schoolWork-track-{{work._id}}" class="js-schoolWork-track track p-tn-t-18 | page-break-inside-avoid">
 			<div class="clearfix m-tn-h-9 m-tn-b-0">
 				<div class="col-tn-7of9">
 					<div class="track-icon"><i class="txt-primary fss-school-work"></i></div>
@@ -88,6 +88,33 @@
 					</form>
 				</div>
 			{{/each}}
+
+			<!-- Print Only -->
+			<div class="row">
+				<div class="col-1of1">
+					<div class="view-info p-tn-9 m-tn-h-9 m-tn-t-12 print-only-block">
+						{{#if work.description.length}}
+							<section>
+								<label>Description</label>
+								{{{work.description}}}
+							</section>
+						{{/if}}
+
+						{{#if work.resources.length}}
+							<section>
+								<label>Resources</label>
+								<ul class="info-list">
+									{{#each resource in resources work.resources}}
+										<li class="txt-ellipsis p-tn-b-3"><i class="fss-{{resource.type}} txt-primary"></i> {{resource.title}}</li>
+									{{/each}}
+								</ul>
+							</section>
+						{{/if}}
+					</div>
+				</div>
+			</div>
+			<!-- /Print Only -->
+
 		</div>
 	{{/each}}
 </template>

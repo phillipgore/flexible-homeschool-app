@@ -105,7 +105,7 @@ Template.schoolWorkNew.onRendered( function() {
 						Alerts.insert({
 							colorClass: 'bg-info',
 							iconClass: 'fss-info',
-							message: 'This schoolWork has been added to '+ studentsCount +' total students.',
+							message: 'This School Work has been added to '+ studentsCount +' total students.',
 						});
 					}
 				}

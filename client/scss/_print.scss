@@ -21,6 +21,10 @@
 		display: none;
 	}
 
+	.page-break-inside-avoid {
+		page-break-inside: avoid;
+	}
+
 	.toolbar,
 	.subbar,
 	.navbar {
@@ -65,6 +69,11 @@
 
 	button {
 		margin: -1px;
+	}
+
+	.track .track-btn-container button {
+		margin: auto;
+		border-right: 2px solid $color-white;
 	}
 	
 }
