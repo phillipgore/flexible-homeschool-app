@@ -1,17 +1,25 @@
 <template name="trackingSchoolWork">
 	{{#each work in schoolWork}}
 		<div id="js-schoolWork-track-{{work._id}}" class="js-schoolWork-track track p-tn-t-18 | page-break-inside-avoid">
-			<div class="clearfix m-tn-h-9 m-tn-b-0">
+			<div class="clearfix m-tn-h-9 m-tn-b-0 print-hide">
 				<div class="col-tn-7of9">
 					<div class="track-icon"><i class="txt-primary fss-school-work"></i></div>
 					<div class="track-label txt-ellipsis">{{work.name}}</div>
 				</div>
 				<div class="col-tn-2of9">
-					<button id="{{work._id}}" class="js-show-schoolWork-info width-64 tiny fl-tn-right print-hide">
+					<button id="{{work._id}}" class="js-show-schoolWork-info width-64 tiny fl-tn-right">
 						<span class="js-show js-label-{{work._id}}">Show</span><span class="js-hide js-label-{{work._id}} hide">Hide</span> Info
 					</button>
 				</div>
 			</div>
+
+			<!-- Print Only -->
+			<div class="m-tn-h-9 m-tn-b-0  print-only-block">
+				<div class="track-icon"><i class="txt-primary fss-school-work"></i></div>
+				<div class="track-label txt-ellipsis">{{work.name}}</div>
+			</div>
+			<!-- /Print Only -->
+
 			<div class="js-{{work._id}} js-info view-info tracking-view p-tn-18 m-tn-h-9 m-tn-t-6 m-tn-b-18 hide">
 				{{#if schoolWorkInfoReady}}
 					{{#if work.description.length}}
