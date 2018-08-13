@@ -152,6 +152,14 @@ Template.trackingSchoolWork.events({
 			description: Session.get($(event.currentTarget).find('.editor-content').attr('id')),
 		}
 
+		if (!lessonPoperties.completed) {
+			delete lessonPoperties.completedOn;
+			var picker = $(event.currentTarget).find('.js-completed-on').pickadate('picker');
+			picker.set('select', new Date());
+		}
+
+		console.log(lessonPoperties)
+
 		Meteor.call('updateLesson', lessonPoperties, function(error, result) {
 			if (error) {
 				Alerts.insert({
