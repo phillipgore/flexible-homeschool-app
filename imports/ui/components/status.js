@@ -18,7 +18,7 @@ Template.status.helpers({
 	},
 
 	showReconnect: function () {
-		if (Meteor.status() === 'waiting' || Meteor.status().connected === 'offline') {
+		if (Meteor.status() === 'waiting' || Meteor.status() === 'offline') {
 			return true;
 		}
 		return false;
