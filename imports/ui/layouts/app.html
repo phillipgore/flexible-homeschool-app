@@ -1,4 +1,6 @@
-<template name="app">	
+<template name="app">
+	{{> status}}
+
 	<div class="alert-container">
 		{{#each alert in alerts}}
 		<div class="alert {{alert.colorClass}}">

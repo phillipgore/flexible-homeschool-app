@@ -1,0 +1,10 @@
+<template name="status">
+	{{#unless connected}}
+		<div class="status p-tn-18">
+			{{message}}
+			{{#if showReconnect}}
+				<button>Try Connecting</button>
+			{{/if}}
+		</div>
+	{{/unless}}
+</template>

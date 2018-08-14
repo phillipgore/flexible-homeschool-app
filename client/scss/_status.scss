@@ -1,0 +1,11 @@
+.status {
+	position: absolute;
+	z-index: 25000;
+	background-color: rgba(0, 0, 0, 0.75);
+	color: $color-white;
+	display: inline-block;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	border-radius: 3px;
+}
