@@ -1,9 +1,9 @@
 <template name="status">
 	{{#unless connected}}
 		<div class="status p-tn-18">
-			{{message}}
+			<h1 class="txt-tn-center">Status: {{message}}</h1>
 			{{#if showReconnect}}
-				<button>Try Connecting</button>
+				<button class="js-reconnect btn-block small m-tn-t-15">Reconnect</button>
 			{{/if}}
 		</div>
 	{{/unless}}

@@ -78,6 +78,18 @@
 		}
 	}
 
+	&.loader-icon-on-black {
+		background-color: $color-white;
+
+		&:before {
+			background-color: $color-black;
+		}
+
+		&:after {
+			background-color: $color-black;
+		}
+	}
+
 	&.loader-icon-sm {
 		height: 26px;
 		width: 26px;

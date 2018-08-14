@@ -14,11 +14,11 @@ Template.status.helpers({
 	},
 
 	message: function () {
-		return _.capitalize(Meteor.status().status) + '.';
+		return _.capitalize(Meteor.status().status);
 	},
 
 	showReconnect: function () {
-		if (Meteor.status().connected === 'waiting' || Meteor.status().connected === 'offline') {
+		if (Meteor.status() === 'waiting' || Meteor.status().connected === 'offline') {
 			return true;
 		}
 		return false;
