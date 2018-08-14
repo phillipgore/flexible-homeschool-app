@@ -12,18 +12,11 @@ import autosize from 'autosize';
 import './trackingView.html';
 
 Template.trackingView.onCreated( function() {
-	Session.set('schoolWorkInfoReady', false);
 	let template = Template.instance();
 	
 	template.autorun(() => {
 		// Subscriptions
 		this.trackingData = Meteor.subscribe('trackingViewPub', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedWeekId'));
-		if (template.trackingData.ready()) {
-			this.schoolWorkInfo = Meteor.subscribe('schoolWorkInfo', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedWeekId'));
-			if (template.schoolWorkInfo.ready()) {
-				Session.set('schoolWorkInfoReady', true);
-			}
-		}
 	});
 
 	Session.set({

@@ -21,32 +21,28 @@
 			<!-- /Print Only -->
 
 			<div class="js-{{work._id}} js-info view-info tracking-view p-tn-18 m-tn-h-9 m-tn-t-6 m-tn-b-18 hide">
-				{{#if schoolWorkInfoReady}}
-					{{#if work.description.length}}
-						<section>
-							<label>Description</label>
-							{{{work.description}}}
-						</section>
-					{{/if}}
+				{{#if work.description.length}}
+					<section>
+						<label>Description</label>
+						{{{work.description}}}
+					</section>
+				{{/if}}
 
-					{{#if work.resources.length}}
-						<section>
-							<label class="p-tn-b-12">Resources</label>
-							<ul class="info-list">
-								{{#each resource in resources work.resources}}
-									<li class="txt-ellipsis p-tn-b-3">
-										{{#if resource.link}}
-											<a href="{{resource.link}}"><i class="fss-{{resource.type}} txt-primary"></i> {{resource.title}}</a>
-										{{else}}
-											<i class="fss-{{resource.type}} txt-primary"></i> {{resource.title}}
-										{{/if}}
-									</li>
-								{{/each}}
-							</ul>
-						</section>
-					{{/if}}
-				{{else}}
-					<p class="txt-gray-darkest">Information Loading...</p>
+				{{#if work.resources.length}}
+					<section>
+						<label class="p-tn-b-12">Resources</label>
+						<ul class="info-list">
+							{{#each resource in resources work.resources}}
+								<li class="txt-ellipsis p-tn-b-3">
+									{{#if resource.link}}
+										<a href="{{resource.link}}"><i class="fss-{{resource.type}} txt-primary"></i> {{resource.title}}</a>
+									{{else}}
+										<i class="fss-{{resource.type}} txt-primary"></i> {{resource.title}}
+									{{/if}}
+								</li>
+							{{/each}}
+						</ul>
+					</section>
 				{{/if}}
 			</div>
 			<div class="row track-btn-container m-tn-h-9">

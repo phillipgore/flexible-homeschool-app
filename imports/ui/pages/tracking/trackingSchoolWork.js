@@ -18,10 +18,6 @@ Template.trackingSchoolWork.onCreated( function() {
 });
 
 Template.trackingSchoolWork.helpers({
-	schoolWorkInfoReady: function() {
-		return Session.get('schoolWorkInfoReady');
-	},
-
 	resources: function(resourceIds) {
 		return Resources.find({_id: {$in: resourceIds}});
 	},
