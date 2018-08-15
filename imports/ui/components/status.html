@@ -1,6 +1,6 @@
 <template name="status">
 	{{#unless connected}}
-		<div class="status {{status}}">
+		<div class="status {{#if connecting}}connecting{{/if}}">
 			<h1>
 				<div class="loader-icon loader-icon-on-primary loader-icon-xs fl-tn-left m-tn-t-4"></div> {{message}}
 			</h1>
