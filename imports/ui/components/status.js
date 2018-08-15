@@ -6,7 +6,7 @@ import moment from 'moment';
 
 Template.status.helpers({
 	status: function () {
-		return Meteor.status();
+		return Meteor.status().status;
 	},
 
 	connected: function () {
@@ -15,13 +15,6 @@ Template.status.helpers({
 
 	message: function () {
 		return _.capitalize(Meteor.status().status);
-	},
-
-	connecting: function () {
-		if (Meteor.status().status === 'connecting') {
-			return true;
-		}
-		return false;
 	},
 });
 
