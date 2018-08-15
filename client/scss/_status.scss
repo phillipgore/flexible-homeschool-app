@@ -2,22 +2,32 @@
 	position: absolute;
 	z-index: 500;
 	background-color: $color-primary;
-	width: 100%;
 	top: 0;
 	bottom: 0;
 	left: 50%;
 	transform: translate(-50%);
 	text-align: center;
-	padding: 12px 0px;
+	padding: 12px 86px;
+	text-align: right;
 	dsiplay: none;
+
+	&.connected {
+		width: 297px;
+	}
 
 	&.connecting {
 		width: 302px;
-		padding: 12px 86px;
-		text-align: right;
+	}
 
-		.loader-icon {
-			display: block;
-		}
+	&.waiting {
+		width: 266px;
+	}
+
+	&.offline {
+		width: 256px;
+	}
+
+	&.failed {
+		width: 252px;
 	}
 }
