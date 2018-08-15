@@ -10,6 +10,7 @@ if ( Meteor.isServer ) {
     Lessons.rawCollection().createIndex({schoolWorkId: 1, deletedOn: 1}, {name: "lessonsIndexFour"});
     Lessons.rawCollection().createIndex({weekId: 1, completed: 1, schoolWorkId: 1, deletedOn: 1}, {name: "lessonsIndexFive"});
     Lessons.rawCollection().createIndex({groupId: 1, weekId: 1, schoolWorkId: 1, order: 1, deletedOn: 1}, {name: "lessonsIndexSix"});
+    Lessons.rawCollection().createIndex({groupId: 1, weekId: 1, order: 1, deletedOn: 1}, {name: "lessonsIndexSeven"});
 }
 
 Lessons.allow({

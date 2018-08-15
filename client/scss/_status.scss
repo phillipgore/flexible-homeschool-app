@@ -9,12 +9,7 @@
 	transform: translate(-50%);
 	text-align: center;
 	padding: 12px 0px;
-
-	&.connected {
-		.loader-icon {
-			display: block;
-		}
-	}
+	dsiplay: none;
 
 	&.connecting {
 		width: 302px;
