@@ -17,8 +17,8 @@ Template.status.helpers({
 		return _.capitalize(Meteor.status().status);
 	},
 
-	showReconnect: function () {
-		if (Meteor.status() === 'waiting' || Meteor.status() === 'offline') {
+	connecting: function () {
+		if (Meteor.status().status === 'connecting') {
 			return true;
 		}
 		return false;

@@ -78,15 +78,15 @@
 		}
 	}
 
-	&.loader-icon-on-black {
+	&.loader-icon-on-primary {
 		background-color: $color-white;
 
 		&:before {
-			background-color: $color-black;
+			background-color: $color-primary;
 		}
 
 		&:after {
-			background-color: $color-black;
+			background-color: $color-primary;
 		}
 	}
 
