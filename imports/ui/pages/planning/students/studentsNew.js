@@ -7,8 +7,6 @@ Template.studentsNew.onRendered( function() {
 	Session.set({
 		toolbarType: 'new',
 		labelThree: 'New Student',
-		
-		
 		activeNav: 'planningList',
 	});
 

@@ -10,7 +10,7 @@ Meteor.publish('allWeeks', function() {
 	}
 
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-	return Weeks.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {order: 1}});
+	return Weeks.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {order: 1}, fields: {order: 1, termId: 1}});
 });
 
 Meteor.publish('weeksPath', function(termId, studentId) {

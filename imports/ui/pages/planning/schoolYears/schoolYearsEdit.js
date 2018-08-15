@@ -30,8 +30,6 @@ Template.schoolYearsEdit.onRendered( function() {
 	Session.set({
 		toolbarType: 'edit',
 		labelThree: 'Edit School Year',
-		
-		
 		activeNav: 'planningList',
 	});
 })
