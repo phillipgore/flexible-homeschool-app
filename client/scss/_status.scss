@@ -10,8 +10,10 @@
 	text-align: center;
 	padding: 12px 0px;
 
-	.loader-icon {
-		display: none;
+	&.connected {
+		.loader-icon {
+			display: block;
+		}
 	}
 
 	&.connecting {
