@@ -6,7 +6,7 @@ import moment from 'moment';
 
 Template.status.helpers({
 	status: function () {
-		return JSON.stringify(Meteor.status())
+		return Meteor.status();
 	},
 
 	connected: function () {
