@@ -7,20 +7,20 @@ import { Lessons } from '../../../../api/lessons/lessons.js';
 import {yearValidation} from '../../../../modules/functions';
 import './schoolYearsEdit.html';
 
+import _ from 'lodash'
 LocalTerms = new Mongo.Collection(null);
 
 Template.schoolYearsEdit.onCreated( function() {
 	let template = Template.instance();
 
 	template.autorun( () => {
-		template.subscribe('schoolYearComplete', FlowRouter.getParam('selectedSchoolYearId'), () => {
+		template.subscribe('schoolYearEdit', FlowRouter.getParam('selectedSchoolYearId'), () => {
 			LocalTerms.remove({});
-			let termCount = 1;
 			Terms.find().forEach(function(term) {
-				LocalTerms.insert({id: term._id, order: term.order, delete: false});
-				termCount++
+				LocalTerms.insert({id: term._id, isNew: false, order: term.order, origOrder: term.order, weeksPerTerm: term.weeksPerTerm, origWeeksPerTerm: term.weeksPerTerm, lessonCount: term.lessonCount, minLessonCount: term.minLessonCount, isDeletable: term.isDeletable, undeletableLessonCount: term.undeletableLessonCount, delete: false});
 			});
-		    LocalTerms.insert({order: termCount, delete: false});
+			let order = LocalTerms.find({delete: false}).count() + 1;
+		    LocalTerms.insert({id: Random.id(), isNew: true, order: order, lessonCount: 0, minLessonCount: 0, isDeletable: true, undeletableLessonCount: 0, delete: false});
 	    })
 	})
 });
@@ -41,56 +41,6 @@ Template.schoolYearsEdit.helpers({
 
 	terms: function() {
 		return Terms.find();
-	},
-
-	termDeletable: function(termId) {
-		let weekIds = [];
-		Weeks.find({termId: termId}).forEach((week) => {
-			weekIds.push(week._id)
-		});
-		let lessons = Lessons.find({weekId: {$in: weekIds}}).count();
-		let lessonsDeletable = Lessons.find({
-			weekId: {$in: weekIds},
-			$and: [{
-				completedOn: null,
-			    completionTime: null,
-			    description: null,
-			}]
-		}).count();
-
-		if (lessons === lessonsDeletable) {
-			return true;
-		}
-		return false;
-	},
-
-	lessonUndeletableCount(termId) {
-		let weekIds = [];
-		Weeks.find({termId: termId}).forEach((week) => {
-			weekIds.push(week._id)
-		});
-		let lessons = Lessons.find({weekId: {$in: weekIds}}).count();
-		let lessonsDeletable = Lessons.find({
-			weekId: {$in: weekIds},
-			$and: [{
-				completedOn: null,
-			    completionTime: null,
-			    description: null,
-			}]
-		}).count();
-
-		return lessons - lessonsDeletable;
-	},
-
-	weeks: function() {
-		return Weeks.find();
-	},
-
-	termWeekCount: function(termId) {
-		if (termId) {
-			return Weeks.find({termId: termId}).count();
-		}
-		return '';
 	},
 
 	localTerms: function() {
@@ -131,34 +81,36 @@ Template.schoolYearsEdit.events({
 			Alerts.remove({});
 		}
 
-		let localTermCount = LocalTerms.find({delete: false}).count();
-		if (valueCount.length === localTermCount) {
-			LocalTerms.insert({order: localTermCount + 1, delete: false});
-		}
-
 		let termId = $(event.target).parentsUntil('.js-term-input').parent().attr('id');
 		let newWeekCount = $(event.target).val();
 
-		let weekIds = [];
-		Weeks.find({termId: termId}).forEach((week) => {
-			weekIds.push(week._id)
-		});
+		let localTermCount = LocalTerms.find({delete: false}).count();
+		if (valueCount.length === localTermCount) {
+			LocalTerms.insert({id: Random.id(), isNew: true, order: localTermCount + 1, lessonCount: 0, minLessonCount: 0, isDeletable: true, undeletableLessonCount: 0, delete: false});
+		}
 
-		let lessonCount = []
-		SchoolWork.find().forEach((schoolWork) => {
-			let count = Lessons.find({schoolWorkId: schoolWork._id, weekId: {$in: weekIds}}).count()
-			lessonCount.push(count);
-		});
-
-		let minLessonCount = Math.max(...lessonCount);
-		let lessonDist = Math.ceil(minLessonCount / 7)
+		let minLessonCount = LocalTerms.findOne({id: termId}).minLessonCount;
+		let requiredNumberOfWeeks = Math.ceil(minLessonCount / 7);
 		
-		if (lessonDist > newWeekCount) {
+		if (requiredNumberOfWeeks > newWeekCount) {
 			$('#' + termId).find('.js-weeks-per-term').addClass('error');
-			$('#' + termId).find('.js-weeks-per-term-errors').text('At least ' + lessonDist + ' weeks are required for existing lessons.').show();
+			$('#' + termId).find('.js-weeks-per-term-errors').text('At least ' + requiredNumberOfWeeks + ' weeks are required for existing lessons.').show();
+			$('.js-submit').prop('disabled', true);
 		} else {
-			$('#' + termId).find('.js-weeks-per-term').removeClass('error');
-			$('#' + termId).find('.js-weeks-per-term-errors').text('');
+			let value = parseInt($('#' + termId).find('.js-weeks-per-term').val())
+			if (isNaN(value) && LocalTerms.findOne({id: termId}).isNew === false || value <= 0 && LocalTerms.findOne({id: termId}).isNew === false) {
+				$('#' + termId).find('.js-weeks-per-term').addClass('error');
+				$('#' + termId).find('.js-weeks-per-term-errors').text('Must have at least one week.').show();
+				$('.js-submit').prop('disabled', true);
+			} else if (_.isNumber(value) && value <= 0 && LocalTerms.findOne({id: termId}).isNew === true) {
+				$('#' + termId).find('.js-weeks-per-term').addClass('error');
+				$('#' + termId).find('.js-weeks-per-term-errors').text('Must have at least one week.').show();
+				$('.js-submit').prop('disabled', true);
+			} else {
+				$('#' + termId).find('.js-weeks-per-term').removeClass('error');
+				$('#' + termId).find('.js-weeks-per-term-errors').text('');
+				$('.js-submit').prop('disabled', false);
+			}
 		}
 	},
 
@@ -206,276 +158,69 @@ Template.schoolYearsEdit.events({
 		if (yearValidation(event.target.value.trim())) {
 			$('.js-start-year').removeClass('error');
 			$('.js-start-year-errors').text('');
+			$('.js-submit').prop('disabled', false);
 		} else {
 			$('.js-start-year').addClass('error');
 			$('.js-start-year-errors').text('Must be a valid 4 digit year.').show();
+			$('.js-submit').prop('disabled', true);
 		}
 	},
 
 	'submit .js-form-school-year-edit'(event) {
 		event.preventDefault();
 
-		if (yearValidation(event.target.startYear.value.trim())) {
-			$('.js-start-year').removeClass('error');
-			$('.js-start-year-errors').text('');
-		} else {
-			$('.js-start-year').addClass('error');
-			$('.js-start-year-errors').text('Must be a valid 4 digit year.').show();
+		$('.js-updating').show();
+		$('.js-submit').prop('disabled', true);
+
+		// Get new School Year Properties from Form
+		let schoolYearProperties = {
+			startYear: event.target.startYear.value.trim(),
+			endYear: event.target.endYear.value.trim(),
 		}
 
-		let termId = $(event.target).parentsUntil('.js-term-input').parent().attr('id');
-		let newWeekCount = $(event.target).val();
-
-		let weekIds = [];
-		Weeks.find({termId: termId}).forEach((week) => {
-			weekIds.push(week._id)
+		LocalTerms.find().forEach(term => {
+			let order = $('#' + term.id + ' .js-term-order').val();
+			let weeksPerTerm = $('#' + term.id + ' .js-weeks-per-term').val();
+			LocalTerms.update(term._id, {$set: {order: order, weeksPerTerm: weeksPerTerm}})
 		});
 
-		let lessonCount = []
-		SchoolWork.find().forEach((schoolWork) => {
-			let count = Lessons.find({schoolWorkId: schoolWork._id, weekId: {$in: weekIds}}).count()
-			lessonCount.push(count);
+
+		let termDeleteIds = [];
+		let termInsertProperties = [];
+		let termUpdateProperties = [];
+
+		LocalTerms.find().forEach((term) => {
+			if (!term.isNew && term.delete) {
+				termDeleteIds.push(term.id)
+			} else if (term.isNew && term.weeksPerTerm) {
+				termInsertProperties.push({order: term.order, weeksPerTerm: term.weeksPerTerm, schoolYearId: FlowRouter.getParam('selectedSchoolYearId')})
+			} else if (!term.isNew) {
+				if (term.order != term.origOrder || term.weeksPerTerm != term.origWeeksPerTerm) {
+					termUpdateProperties.push({_id: term.id, order: term.order, weeksPerTerm: term.weeksPerTerm, origWeeksPerTerm: term.origWeeksPerTerm})
+				}
+			}
 		});
 
-		let minLessonCount = Math.max(...lessonCount);
-		let lessonDist = Math.ceil(minLessonCount / 7)
+		Meteor.call('updateSchoolYear', FlowRouter.getParam('selectedSchoolYearId'), schoolYearProperties, termDeleteIds, termInsertProperties, termUpdateProperties, function(error) {
+			if (error) {
+				Alerts.insert({
+					colorClass: 'bg-danger',
+					iconClass: 'fss-danger',
+					message: error.reason,
+				});
+				
+				$('.js-updating').hide();
+				$('.js-submit').prop('disabled', false);
+			} else {
+				$('.js-updating').hide();
+				$('.js-submit').prop('disabled', false);
+				FlowRouter.go('/planning/schoolyears/view/3/' + FlowRouter.getParam('selectedSchoolYearId'));
+
+			}
+		});
 		
-		if (lessonDist > newWeekCount) {
-			$('#' + termId).find('.js-weeks-per-term').addClass('error');
-			$('#' + termId).find('.js-weeks-per-term-errors').text('At least ' + lessonDist + ' weeks are required for existing lessons.').show();
-		} else {
-			$('#' + termId).find('.js-weeks-per-term').removeClass('error');
-			$('#' + termId).find('.js-weeks-per-term-errors').text('');
-		}
-
-		if (yearValidation(event.target.startYear.value.trim()) || lessonDist > newWeekCount) {
-			$('.js-updating').show();
-			$('.js-submit').prop('disabled', true);
-
-			let schoolYearProperties = {
-				startYear: event.target.startYear.value.trim(),
-				endYear: event.target.endYear.value.trim(),
-			}
-
-			let termDeleteIds = [];
-			LocalTerms.find({delete: true}).forEach((term) => {
-				termDeleteIds.push(term.id);
-			});
-
-			let weekDeleteIds = [];
-			Weeks.find({termId: {$in: termDeleteIds}}).forEach((week) => {
-				weekDeleteIds.push(week._id)
-			});
-
-			let lessonDeleteIds = [];
-			Lessons.find({weekId: {$in: weekDeleteIds}}).forEach((lesson) => {
-				lessonDeleteIds.push(lesson._id)
-			});
-
-			let termUpdateProperties = [];
-			let termInsertProperties = [];
-			let weekInsertProperties = [];
-			let lessonUpdateProperties = [];
-
-			$(event.target).find('.js-term-input').each(function(index) {
-				let termId = $(this).attr('id');
-				let currentWeeks = Weeks.find({termId: termId});
-				let currentWeekIds = currentWeeks.map(week => (week._id));
-				let currentWeekCount = currentWeeks.count();
-				let newWeekCount = $(this).find('.js-weeks-per-term').val();
-				let weeksDif = newWeekCount - currentWeekCount;
-
-				if (termId && newWeekCount) {
-					if (weeksDif > -1) {
-						for (i = 0; i < weeksDif; i++) {
-							weekInsertProperties.push({
-								termId: termId, 
-								order: currentWeekCount + 1 + i,
-							})
-						}
-					} else {
-						let weekMoreDeleteIds = Weeks.find({termId: termId}, {limit: Math.abs(weeksDif), sort: {order: -1}}).map(week => (week._id));
-						for (i = 0; i < weekMoreDeleteIds.length; i++) {
-							weekDeleteIds.push(weekMoreDeleteIds[i]);
-						}
-						SchoolWork.find().forEach((schoolWork) => {
-							let lessonIds = Lessons.find({schoolWorkId: schoolWork._id, weekId: {$in: currentWeekIds}}).map(lesson => (lesson._id));
-							let lessonsPerWeek = Math.ceil(lessonIds.length / newWeekCount);
-							
-							currentWeekIds.forEach((weekId, index) => {
-								let startSlice = index * lessonsPerWeek;
-								let endSlice = startSlice + lessonsPerWeek;
-								let lesssonSlice = lessonIds.slice(startSlice, endSlice)
-								lesssonSlice.forEach((lessonId) => {
-									lessonUpdateProperties.push({_id: lessonId, weekId: weekId});
-								})
-							});
-						});
-					}
-					termUpdateProperties.push({_id: termId, order: index +1});
-				} else if (newWeekCount) {
-					termInsertProperties.push({order: index +1, weeksPerTerm: newWeekCount});
-				}
-			});
-
-			Meteor.call('updateSchoolYear', FlowRouter.getParam('selectedSchoolYearId'), schoolYearProperties, function(error) {
-				if (error) {
-					Alerts.insert({
-						colorClass: 'bg-danger',
-						iconClass: 'fss-danger',
-						message: error.reason,
-					});
-					
-					$('.js-updating').hide();
-					$('.js-submit').prop('disabled', false);
-					return false;
-				}
-			});
-
-			if (lessonDeleteIds.length) {
-				Meteor.call('batchRemoveLessons', lessonDeleteIds, function(error) {
-					if (error) {
-						Alerts.insert({
-							colorClass: 'bg-danger',
-							iconClass: 'fss-danger',
-							message: error.reason,
-						});
-						
-						$('.js-updating').hide();
-						$('.js-submit').prop('disabled', false);
-						return false;
-					}
-				});
-			}
-
-			if (weekDeleteIds.length) {
-				Meteor.call('batchRemoveWeeks', weekDeleteIds, function(error) {
-					if (error) {
-						Alerts.insert({
-							colorClass: 'bg-danger',
-							iconClass: 'fss-danger',
-							message: error.reason,
-						});
-						
-						$('.js-updating').hide();
-						$('.js-submit').prop('disabled', false);
-						return false;
-					}
-				});
-			}
-
-			if (termDeleteIds.length) {
-				Meteor.call('batchRemoveTerms', termDeleteIds, function(error) {
-					if (error) {
-						Alerts.insert({
-							colorClass: 'bg-danger',
-							iconClass: 'fss-danger',
-							message: error.reason,
-						});
-						
-						$('.js-updating').hide();
-						$('.js-submit').prop('disabled', false);
-						return false;
-					}
-				});
-			}
-
-			if (termUpdateProperties.length) {
-				Meteor.call('batchUpdateTerms', termUpdateProperties, function(error) {
-					if (error) {
-						Alerts.insert({
-							colorClass: 'bg-danger',
-							iconClass: 'fss-danger',
-							message: error.reason,
-						});
-						
-						$('.js-updating').hide();
-						$('.js-submit').prop('disabled', false);
-						return false;
-					}
-				});
-			}
-
-			if (lessonUpdateProperties.length) {
-				Meteor.call('batchUpdateLessons', lessonUpdateProperties, function(error) {
-					if (error) {
-						Alerts.insert({
-							colorClass: 'bg-danger',
-							iconClass: 'fss-danger',
-							message: error.reason,
-						});
-						
-						$('.js-updating').hide();
-						$('.js-submit').prop('disabled', false);
-						return false;
-					}
-				});
-			}
-
-			if (weekInsertProperties.length) {
-				Meteor.call('batchInsertWeeks', weekInsertProperties, function(error) {
-					if (error) {
-						Alerts.insert({
-							colorClass: 'bg-danger',
-							iconClass: 'fss-danger',
-							message: error.reason,
-						});
-
-						$('.js-updating').hide();
-						$('.js-submit').prop('disabled', false);
-						return false;
-					}
-				});
-			}
-
-			if (termInsertProperties.length) {
-				termInsertProperties.forEach(function(term) {
-					const weeksPerTerm = term.weeksPerTerm;
-					term.schoolYearId = FlowRouter.getParam('selectedSchoolYearId');
-					delete term.weeksPerTerm;
-
-					Meteor.call('insertTerm', term, function(error, termId) {
-						if (error) {
-							Alerts.insert({
-								colorClass: 'bg-danger',
-								iconClass: 'fss-danger',
-								message: error.reason,
-							});
-				
-							$('.js-updating').hide();
-							$('.js-submit').prop('disabled', false);
-							return false;
-						} else {
-							let newWeekInsertProperties = []							
-							for (i = 0; i < parseInt(weeksPerTerm); i++) { 
-							    newWeekInsertProperties.push({order: i + 1, termId: termId});
-							}
-
-							Meteor.call('batchInsertWeeks', newWeekInsertProperties, function(error) {
-								if (error) {
-									Alerts.insert({
-										colorClass: 'bg-danger',
-										iconClass: 'fss-danger',
-										message: error.reason,
-									});
-				
-									$('.js-updating').hide();
-									$('.js-submit').prop('disabled', false);
-									return false;
-								}
-							});
-						}
-					});
-				});
-			}
-
-			$('.js-updating').hide();
-			$('.js-submit').prop('disabled', false);
-			FlowRouter.go('/planning/schoolyears/view/3/' + FlowRouter.getParam('selectedSchoolYearId'));
-		}
-
 		return false;
-	}
+	},
 
 
 });

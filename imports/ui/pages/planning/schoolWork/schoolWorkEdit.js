@@ -61,6 +61,7 @@ Template.schoolWorkEdit.onRendered( function() {
 			name: { required: true },
 			timesPerWeek: { number: true, max: 7 },
 		},
+		
 		messages: {
 			name: { required: "Required." },
 			timesPerWeek: { number: "Number Required.", max: 'Limit 7.' },
