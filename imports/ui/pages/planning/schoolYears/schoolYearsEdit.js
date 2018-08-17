@@ -16,7 +16,7 @@ Template.schoolYearsEdit.onCreated( function() {
 	template.autorun( () => {
 		template.subscribe('schoolYearEdit', FlowRouter.getParam('selectedSchoolYearId'), () => {
 			LocalTerms.remove({});
-			Terms.find().forEach(function(term) {
+			Terms.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}).forEach(function(term) {
 				LocalTerms.insert({id: term._id, isNew: false, order: term.order, origOrder: term.order, weeksPerTerm: term.weeksPerTerm, origWeeksPerTerm: term.weeksPerTerm, lessonCount: term.lessonCount, minLessonCount: term.minLessonCount, isDeletable: term.isDeletable, undeletableLessonCount: term.undeletableLessonCount, delete: false});
 			});
 			let order = LocalTerms.find({delete: false}).count() + 1;
@@ -40,11 +40,10 @@ Template.schoolYearsEdit.helpers({
 	},
 
 	terms: function() {
-		return Terms.find();
+		return Terms.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId')});
 	},
 
 	localTerms: function() {
-		LocalTerms.find().forEach(term => {console.log(term)})
 		return LocalTerms.find({delete: false});
 	},
 
