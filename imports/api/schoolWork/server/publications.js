@@ -14,7 +14,7 @@ Meteor.publish('schooYearStudentSchoolWork', function(schoolYearId, studentId) {
 	}
 
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;	
-	return SchoolWork.find({groupId: groupId, schoolYearId: schoolYearId, studentId: studentId, deletedOn: { $exists: false }}, {sort: {name: 1}, fields: {groupId: 0, userId: 0, createdOn: 0, updatedOn: 0, deletedOn: 0}});
+	return SchoolWork.find({groupId: groupId, schoolYearId: schoolYearId, studentId: studentId, deletedOn: { $exists: false }}, {sort: {name: 1}, fields: {order: 1, name: 1, studentId: 1, schoolYearId: 1}});
 });
 
 

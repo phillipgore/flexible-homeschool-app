@@ -30,18 +30,18 @@ Template.schoolYearsNew.onRendered( function() {
 		messages: {
 			startYear: { 
 				required: "Required.", 
-				number: "Must be a valid 4 digit year.",
-				date: "Must be a valid 4 digit year.",
+				number: "Must be a 4 digit year.",
+				date: "Must be a 4 digit year.",
 
 			},
 			endYear: { 
-				number: "Must be a valid 4 digit year.",
-				date: "Must be a valid 4 digit year.",
+				number: "Must be a  4 digit year.",
+				date: "Must be a 4 digit year.",
 			},
 			weeksPerTerm1: { 
 				required: "Must have at least one term.", 
-				number: "Must be a valid 4 digit year.",
-				min: "Must have at least one week."
+				number: "Must be a 4 digit year.",
+				min: "Must have at one week."
 			},
 		},		
 
