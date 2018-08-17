@@ -23,6 +23,12 @@ Meteor.methods({
 		});
 	},
 
+	bulkWriteLessons: function(bulkLessonProperties) {
+		console.log('bulk write Lessons start-----')
+		Lessons.rawCollection().bulkWrite(bulkLessonProperties)
+		console.log('-----bulk write Lessons end')
+	},
+
 	batchRemoveLessons: function(lessonIds) {
 		lessonIds.forEach(function(lessonId, index) {
 			Lessons.remove(lessonId);

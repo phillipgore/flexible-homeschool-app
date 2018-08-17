@@ -226,7 +226,7 @@ Template.schoolYearsEdit.events({
 				message: "Please be patient. This could take a bit.",
 			});
 
-			Meteor.call('updateSchoolYearTerms', FlowRouter.getParam('selectedSchoolYearId'), schoolYearProperties, termDeleteIds, termInsertProperties, termUpdateProperties, function(error) {
+			Meteor.call('updateSchoolYearTerms', FlowRouter.getParam('selectedSchoolYearId'), schoolYearProperties, termDeleteIds, termInsertProperties, termUpdateProperties, Meteor.userId(), Meteor.user().info.groupId, function(error) {
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',

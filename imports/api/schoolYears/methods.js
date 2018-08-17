@@ -40,12 +40,24 @@ Meteor.methods({
 
 
 
-	updateSchoolYearTerms: function(schoolYearId, schoolYearProperties, termDeleteIds, termInsertProperties, termUpdateProperties) {
+	updateSchoolYearTerms: function(schoolYearId, schoolYearProperties, termDeleteIds, termInsertProperties, termUpdateProperties, userId, groupId) {
 
 		let weekDeleteIds = Weeks.find({termId: {$in: termDeleteIds}}).map(week => week._id);
-		let lessonDeleteIds = Lessons.find({weekId: {$in: weekDeleteIds}}).map(lesson => lesson._id);
-		let weekInsertProperties = [];
-		let lessonUpdateProperties = [];
+
+		let weekBulkDelete = [];
+		let lessonBulkDelete = [];
+
+		Weeks.find({termId: {$in: termDeleteIds}}).map(week => week._id).forEach(weekId => {
+			weekBulkDelete.push({deleteOne: {"filter": {_id: weekId}}});
+		})
+
+		Lessons.find({weekId: {$in: weekDeleteIds}}).map(lesson => lesson._id).forEach(lessonId => {
+			lessonBulkDelete.push({deleteOne: {"filter": {_id: lessonId}}})
+		})
+
+
+		let weekBulkInsertProperties = [];
+		let lessonBulkUpdateProperties = [];
 
 		termUpdateProperties.forEach(term => {
 			let weeksDif = term.weeksPerTerm - term.origWeeksPerTerm;
@@ -55,16 +67,19 @@ Meteor.methods({
 			if (weeksDif >= 0) {
 				// Create new Week properties if any are needed
 				for (i = 0; i < weeksDif; i++) {
-					weekInsertProperties.push({
+					weekBulkInsertProperties.push({insertOne: {"document": {
 						termId: term._id, 
-						order: term.origWeeksPerTerm + 1 + i,
-					})
+						order: term.origWeeksPerTerm + 1 + i, 
+						groupId: groupId, 
+						userId: userId, 
+						createdOn: new Date()
+					}}})
 				}
 			} else {
 				// Get Weeks to be deleted from lower Week count in form (last weeks first)
 				let weekMoreDeleteIds = Weeks.find({termId: term._id}, {limit: Math.abs(weeksDif), sort: {order: -1}}).map(week => (week._id));
 				for (i = 0; i < weekMoreDeleteIds.length; i++) {
-					weekDeleteIds.push(weekMoreDeleteIds[i]);
+					weekBulkDelete.push({deleteOne: {"filter": {_id: weekMoreDeleteIds[i]}}});
 				}
 
 				SchoolWork.find().forEach((schoolWork) => {
@@ -78,7 +93,7 @@ Meteor.methods({
 						let lesssonSlice = lessonIds.slice(startSlice, endSlice);
 
 						lesssonSlice.forEach((lessonId) => {
-							lessonUpdateProperties.push({_id: lessonId, weekId: weekId});
+							lessonBulkUpdateProperties.push({updateOne: {"filter": {_id: lessonId}, update: {$set: {weekId: weekId}}}});
 						});
 					});
 				});
@@ -90,8 +105,8 @@ Meteor.methods({
 
 		
 		// Removes Lessons
-		if (lessonDeleteIds.length) {
-			Meteor.call('batchRemoveLessons', lessonDeleteIds, function(error) {
+		if (lessonBulkDelete.length) {
+			Meteor.call('bulkWriteLessons', lessonBulkDelete, function(error) {
 				if (error) {
 					throw new Meteor.Error(500, error);
 				}
@@ -100,8 +115,8 @@ Meteor.methods({
 		}
 
 		// Removes Weeks
-		if (weekDeleteIds.length) {
-			Meteor.call('batchRemoveWeeks', weekDeleteIds, function(error) {
+		if (weekBulkDelete.length) {
+			Meteor.call('bulkWriteWeeks', weekBulkDelete, function(error) {
 				if (error) {
 					throw new Meteor.Error(500, error);
 				}
@@ -130,8 +145,8 @@ Meteor.methods({
 		}
 
 		// Updates Lessons
-		if (lessonUpdateProperties.length) {
-			Meteor.call('batchUpdateLessons', lessonUpdateProperties, function(error) {
+		if (lessonBulkUpdateProperties.length) {
+			Meteor.call('bulkWriteLessons', lessonBulkUpdateProperties, function(error) {
 				if (error) {
 					throw new Meteor.Error(500, error);
 				}
@@ -140,8 +155,8 @@ Meteor.methods({
 		}
 
 		// Inserts Weeks
-		if (weekInsertProperties.length) {
-			Meteor.call('batchInsertWeeks', weekInsertProperties, function(error) {
+		if (weekBulkInsertProperties.length) {
+			Meteor.call('bulkWriteWeeks', weekBulkInsertProperties, function(error) {
 				if (error) {
 					throw new Meteor.Error(500, error);
 				}
@@ -162,13 +177,19 @@ Meteor.methods({
 						}
 						console.log('term ' +termId+ ' inserted')
 					} else {
-						let newWeekInsertProperties = []							
+						let newWeekBulkInsertProperties = []							
 						for (i = 0; i < parseInt(weeksPerTerm); i++) { 
-						    newWeekInsertProperties.push({order: i + 1, termId: termId});
+						    newWeekBulkInsertProperties.push({insertOne: {"document": {
+						    	order: i + 1, 
+						    	termId: termId, 
+						    	groupId: groupId, 
+						    	userId: userId, 
+						    	createdOn: new Date()
+						    }}});
 						}
 
 						// Inserts Weeks
-						Meteor.call('batchInsertWeeks', newWeekInsertProperties, function(error) {
+						Meteor.call('bulkWriteWeeks', newWeekBulkInsertProperties, function(error) {
 							if (error) {
 								throw new Meteor.Error(500, error);
 							}

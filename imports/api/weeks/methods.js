@@ -28,4 +28,10 @@ Meteor.methods({
 			Weeks.remove(weekId);
 		});
 	},
+
+	bulkWriteWeeks: function(bulkWeekProperties) {
+		console.log('bulk write Weeks start-----')
+		let test = Weeks.rawCollection().bulkWrite(bulkWeekProperties);
+		console.log('-----bulk write Weeks end')
+	},
 })
