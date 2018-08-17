@@ -240,7 +240,6 @@ Template.schoolYearsEdit.events({
 					$('.js-updating').hide();
 					$('.js-submit').prop('disabled', false);
 					FlowRouter.go('/planning/schoolyears/view/3/' + FlowRouter.getParam('selectedSchoolYearId'));
-
 				}
 			});
 		} else {
@@ -258,7 +257,6 @@ Template.schoolYearsEdit.events({
 					$('.js-updating').hide();
 					$('.js-submit').prop('disabled', false);
 					FlowRouter.go('/planning/schoolyears/view/3/' + FlowRouter.getParam('selectedSchoolYearId'));
-
 				}
 			});
 		}

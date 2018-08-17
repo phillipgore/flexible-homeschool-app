@@ -128,7 +128,6 @@ Meteor.methods({
 				console.log('terms updated')
 			});
 		}
-		console.log('terms updated')
 
 		// Updates Lessons
 		if (lessonUpdateProperties.length) {
@@ -139,7 +138,6 @@ Meteor.methods({
 				console.log('lessons updated')
 			});
 		}
-		console.log('lessons updated')
 
 		// Inserts Weeks
 		if (weekInsertProperties.length) {

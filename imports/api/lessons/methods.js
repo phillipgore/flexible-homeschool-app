@@ -16,8 +16,10 @@ Meteor.methods({
 	},
 
 	batchUpdateLessons: function(lessonProperties) {
+		let total = lessonProperties.length
 		lessonProperties.forEach(function(lesson, index) {
 			Lessons.update(lesson._id, {$set: lesson});
+			console.log(index +' of '+ total)
 		});
 	},
 
