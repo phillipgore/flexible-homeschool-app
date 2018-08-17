@@ -1,0 +1,23 @@
+.well {
+	position: relative;
+	border-radius: 3px;
+	padding: 9px;
+
+	.well-icon {
+		position: absolute;
+		top: 9px;
+		left: 9px;
+		width: 18px;
+		font-size: 18px;
+		text-align: center;
+	}
+
+	.well-message {
+		margin: -3px 0px 0px 30px;
+		line-height: 1.5;
+
+		p {
+			line-height: 1.5;
+		}
+	}
+}

@@ -131,7 +131,7 @@ Meteor.publish('schoolYearEdit', function(schoolYearId) {
 		terms.map((term) => {
 			let weekIds = Weeks.find({groupId: groupId, deletedOn: { $exists: false }, termId: term._id}).map(week => week._id);
 			let lessonCount = Lessons.find({groupId: groupId, deletedOn: { $exists: false }, weekId: {$in: weekIds}}).count();
-			let deletableLessonCount = Lessons.find({groupId: groupId, deletedOn: { $exists: false }, weekId: {$in: weekIds}, $and: [{completedOn: null, completionTime: null, description: null}]}).count();
+			let deletableLessonCount = Lessons.find({groupId: groupId, deletedOn: { $exists: false }, weekId: {$in: weekIds}, $and: [{completed: null, completedOn: null, completionTime: null, description: null}]}).count();
 
 			let schoolWorkLessonCount = [];
 			schoolWork.forEach((work) => {
@@ -146,17 +146,6 @@ Meteor.publish('schoolYearEdit', function(schoolYearId) {
 			term.undeletableLessonCount = lessonCount - deletableLessonCount;
 			self.added('terms', term._id, term);
 		});
-
-		// return [
-		// 	SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }, _id: schoolYearId}),
-		// 	Terms.find({groupId: groupId, deletedOn: { $exists: false }, schoolYearId: schoolYearId}, {sort: {order: 1}, fields: {order: 1}}),
-		// 	SchoolWork.find(
-		// 		{groupId: groupId, deletedOn: { $exists: false }, schoolYearId: schoolYearId}, 
-		// 		{sort: {name: 1}, fields: {schoolYearId: 1, name: 1}}
-		// 	),
-		// 	Weeks.find({groupId: groupId, deletedOn: { $exists: false }, termId: {$in: termIds}}, {sort: {order: 1}, fields: {order: 1, termId: 1}}),
-		// 	Lessons.find({groupId: groupId, deletedOn: { $exists: false }, weekId: {$in: weekIds}}, {sort: {order: 1}, fields: {schoolWorkId: 1, weekId: 1, completedOn: 1, completionTime: 1, description: 1}}),
-		// ];
 
 		self.ready();
 	});

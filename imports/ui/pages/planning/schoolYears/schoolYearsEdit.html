@@ -15,7 +15,7 @@
 				</div>
 			</div>
 
-			<div class="well bg-gray-lighter m-tn-b-36">
+			<div class="well bg-gray-lighter m-tn-b-18">
 				<div class="row">
 					<label class="col-tn-3of11">Terms</label>
 					<label class="col-tn-8of11">Total Weeks: <span class="js-total">{{schoolYear.weeksPerYear}}</span></label>
@@ -28,7 +28,7 @@
 							</div>
 							<div class="col-tn-8of11 pos-relative p-tn-r-36">
 								<input class="js-term-order" type="hidden" name="order" id="js-term-order" value="{{indexIncrement @index}}">
-								<input class="js-weeks-per-term" type="text" name="weeksPerTerm{{indexIncrement @index}}" id="weeks-per-term" placeholder="12" autocomplete="off" maxlength="2" min="1" value="{{localTerm.weeksPerTerm}}">
+								<input class="js-weeks-per-term {{#unless localTerm.isNew}}js-existing{{/unless}}" type="text" name="weeksPerTerm{{indexIncrement @index}}" id="weeks-per-term" placeholder="12" autocomplete="off" maxlength="2" min="1" value="{{localTerm.weeksPerTerm}}">
 								<label class="error js-weeks-per-term-errors"></label>
 								<span class="pos-absolute pos-top-right p-tn-t-3">
 									{{#if localTerm.isDeletable}}
@@ -45,6 +45,19 @@
 							</div>
 						</div>
 					{{/each}}
+				</div>
+			</div>
+
+			<div class="well bg-warning m-tn-b-9 txt-white">
+				<div class="well-icon"><i class="fss-warning"></i></div>
+				<div class="well-message">
+					<p>Changing the number of weeks for an existing term will cause the school work times within those terms to be distributed evenly across the remaining weeks.</p>
+				</div>
+			</div>
+			<div class="js-new-warning well bg-warning m-tn-b-18 txt-white">
+				<div class="well-icon"><i class="fss-warning"></i></div>
+				<div class="well-message">
+					<p>Existing school work times will not be distributed across newly created weeks.</p>
 				</div>
 			</div>
 

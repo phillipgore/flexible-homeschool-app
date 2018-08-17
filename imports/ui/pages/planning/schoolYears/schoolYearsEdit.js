@@ -44,6 +44,7 @@ Template.schoolYearsEdit.helpers({
 	},
 
 	localTerms: function() {
+		LocalTerms.find().forEach(term => {console.log(term)})
 		return LocalTerms.find({delete: false});
 	},
 
@@ -117,19 +118,19 @@ Template.schoolYearsEdit.events({
 	'click .js-term-delete-disabled'(event) {
 		event.preventDefault();
 
-		let overLessons = event.currentTarget.id;
+		let overTimes = event.currentTarget.id;
 
 		function plural(overLessons) {
 			if (overLessons === '1') {
-				return"lesson";
+				return"time";
 			}
-			return "lessons";
+			return "times";
 		}
 
 		Alerts.insert({
 			colorClass: 'bg-danger',
 			iconClass: 'fss-danger',
-			message: "You may not delete this term. It would remove " + overLessons + " " + plural(overLessons) + " you have already worked on.",
+			message: "You may not delete this term. It would remove " + overTimes + " " + plural(overTimes) + " you have already worked on it.",
 		});
 	},
 
@@ -152,7 +153,7 @@ Template.schoolYearsEdit.events({
 		$('.js-total').html(totalWeeks);
 	},
 
-	'blur .js-start-year'(event) {
+	'keyup .js-start-year'(event) {
 		event.preventDefault();
 
 		if (yearValidation(event.target.value.trim())) {
@@ -161,7 +162,21 @@ Template.schoolYearsEdit.events({
 			$('.js-submit').prop('disabled', false);
 		} else {
 			$('.js-start-year').addClass('error');
-			$('.js-start-year-errors').text('Must be a valid 4 digit year.').show();
+			$('.js-start-year-errors').text('Must be a 4 digit year.').show();
+			$('.js-submit').prop('disabled', true);
+		}
+	},
+
+	'keyup .js-end-year'(event) {
+		event.preventDefault();
+
+		if (yearValidation(event.target.value.trim())) {
+			$('.js-end-year').removeClass('error');
+			$('.js-end-year-errors').text('');
+			$('.js-submit').prop('disabled', false);
+		} else {
+			$('.js-end-year').addClass('error');
+			$('.js-end-year-errors').text('Must be a 4 digit year.').show();
 			$('.js-submit').prop('disabled', true);
 		}
 	},
@@ -201,23 +216,49 @@ Template.schoolYearsEdit.events({
 			}
 		});
 
-		Meteor.call('updateSchoolYear', FlowRouter.getParam('selectedSchoolYearId'), schoolYearProperties, termDeleteIds, termInsertProperties, termUpdateProperties, function(error) {
-			if (error) {
-				Alerts.insert({
-					colorClass: 'bg-danger',
-					iconClass: 'fss-danger',
-					message: error.reason,
-				});
-				
-				$('.js-updating').hide();
-				$('.js-submit').prop('disabled', false);
-			} else {
-				$('.js-updating').hide();
-				$('.js-submit').prop('disabled', false);
-				FlowRouter.go('/planning/schoolyears/view/3/' + FlowRouter.getParam('selectedSchoolYearId'));
+		if (termDeleteIds.length || termInsertProperties.length || termUpdateProperties.length) {
+			Alerts.insert({
+				colorClass: 'bg-info',
+				iconClass: 'fss-info',
+				message: "Please be patient. This could take a bit.",
+			});
 
-			}
-		});
+			Meteor.call('updateSchoolYearTerms', FlowRouter.getParam('selectedSchoolYearId'), schoolYearProperties, termDeleteIds, termInsertProperties, termUpdateProperties, function(error) {
+				if (error) {
+					Alerts.insert({
+						colorClass: 'bg-danger',
+						iconClass: 'fss-danger',
+						message: error.reason,
+					});
+					
+					$('.js-updating').hide();
+					$('.js-submit').prop('disabled', false);
+				} else {
+					$('.js-updating').hide();
+					$('.js-submit').prop('disabled', false);
+					FlowRouter.go('/planning/schoolyears/view/3/' + FlowRouter.getParam('selectedSchoolYearId'));
+
+				}
+			});
+		} else {
+			Meteor.call('updateSchoolYear', FlowRouter.getParam('selectedSchoolYearId'), schoolYearProperties, function(error) {
+				if (error) {
+					Alerts.insert({
+						colorClass: 'bg-danger',
+						iconClass: 'fss-danger',
+						message: error.reason,
+					});
+					
+					$('.js-updating').hide();
+					$('.js-submit').prop('disabled', false);
+				} else {
+					$('.js-updating').hide();
+					$('.js-submit').prop('disabled', false);
+					FlowRouter.go('/planning/schoolyears/view/3/' + FlowRouter.getParam('selectedSchoolYearId'));
+
+				}
+			});
+		}
 		
 		return false;
 	},

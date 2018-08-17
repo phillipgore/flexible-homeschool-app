@@ -13,9 +13,9 @@ Meteor.methods({
 		return schoolYearId;
 	},
 
-	// updateSchoolYear: function(schoolYearId, schoolYearProperties) {
-	// 	SchoolYears.update(schoolYearId, {$set: schoolYearProperties});
-	// },
+	updateSchoolYear: function(schoolYearId, schoolYearProperties) {
+		SchoolYears.update(schoolYearId, {$set: schoolYearProperties});
+	},
 
 	deleteSchoolYear: function(schoolYearId) {
 		let schoolWorkIds = SchoolWork.find({schoolYearId: schoolYearId}).map(schoolWork => (schoolWork._id))
@@ -40,7 +40,7 @@ Meteor.methods({
 
 
 
-	updateSchoolYear: function(schoolYearId, schoolYearProperties, termDeleteIds, termInsertProperties, termUpdateProperties) {
+	updateSchoolYearTerms: function(schoolYearId, schoolYearProperties, termDeleteIds, termInsertProperties, termUpdateProperties) {
 
 		let weekDeleteIds = Weeks.find({termId: {$in: termDeleteIds}}).map(week => week._id);
 		let lessonDeleteIds = Lessons.find({weekId: {$in: weekDeleteIds}}).map(lesson => lesson._id);
@@ -52,7 +52,7 @@ Meteor.methods({
 			let currentWeekIds = Weeks.find({termId: term._id}).map(week => week._id);
 
 			// Check to see if the new Week count is lower than the existing Week count
-			if (weeksDif > -1) {
+			if (weeksDif >= 0) {
 				// Create new Week properties if any are needed
 				for (i = 0; i < weeksDif; i++) {
 					weekInsertProperties.push({
@@ -68,8 +68,8 @@ Meteor.methods({
 				}
 
 				SchoolWork.find().forEach((schoolWork) => {
-					let lessonIds = Lessons.find({schoolWorkId: schoolWork._id, weekId: {$in: currentWeekIds}}).map(lesson => (lesson._id));
-					let lessonsPerWeek = Math.ceil(lessonIds.length / term.weeksPerTerm);
+					let lessonIds = Lessons.find({schoolWorkId: schoolWork._id, weekId: {$in: currentWeekIds}}, {sort: {completedOn: -1, completed: -1, assigned: -1}}).map(lesson => (lesson._id));
+					let lessonsPerWeek = Math.ceil(lessonIds.length / currentWeekIds.length);
 					
 					// Redistribute Lessons over Weeks (more per week = fewer weeks with lessons)
 					currentWeekIds.forEach((weekId, index) => {
@@ -85,24 +85,8 @@ Meteor.methods({
 			};
 		});
 
-		// console.log('/-------------------------------------------------------------------/')
-		// console.log('schoolYearProperties: ' + JSON.stringify(schoolYearProperties));
-		// console.log('termDeleteIds: ' + termDeleteIds);
-		// console.log('termInsertProperties: ' + JSON.stringify(termInsertProperties));
-		// console.log('termUpdateProperties: ' + JSON.stringify(termUpdateProperties));
-		// console.log('weekDeleteIds: ' + weekDeleteIds);
-		// console.log('lessonDeleteIds: ' + lessonDeleteIds.length);
-		// console.log('weekInsertProperties: ' + weekInsertProperties);
-		// console.log('lessonUpdateProperties: ' + lessonUpdateProperties);
-
-		// return false
-
 		// Updates School Year
-		Meteor.call('updateSchoolYear', schoolYearId, schoolYearProperties, function(error) {
-			if (error) {
-				throw new Meteor.Error(500, error);
-			}
-		});
+		SchoolYears.update(schoolYearId, {$set: schoolYearProperties});
 
 		// Removes Lessons
 		if (lessonDeleteIds.length) {
