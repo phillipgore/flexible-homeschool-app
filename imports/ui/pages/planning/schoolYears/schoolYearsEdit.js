@@ -14,7 +14,7 @@ Template.schoolYearsEdit.onCreated( function() {
 	let template = Template.instance();
 
 	template.autorun( () => {
-		template.subscribe('schoolYearEdit', FlowRouter.getParam('selectedSchoolYearId'), () => {
+		this.schoolYearData = Meteor.subscribe('schoolYearEdit', FlowRouter.getParam('selectedSchoolYearId'), () => {
 			LocalTerms.remove({});
 			Terms.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}).forEach(function(term) {
 				LocalTerms.insert({id: term._id, isNew: false, order: term.order, origOrder: term.order, weeksPerTerm: term.weeksPerTerm, origWeeksPerTerm: term.weeksPerTerm, lessonCount: term.lessonCount, minLessonCount: term.minLessonCount, isDeletable: term.isDeletable, undeletableLessonCount: term.undeletableLessonCount, delete: false});
@@ -35,6 +35,10 @@ Template.schoolYearsEdit.onRendered( function() {
 })
 
 Template.schoolYearsEdit.helpers({
+	subscriptionReady: function() {
+		return Template.instance().schoolYearData.ready();
+	},
+
 	schoolYear: function() {
 		return SchoolYears.findOne({_id: FlowRouter.getParam('selectedSchoolYearId')});
 	},
