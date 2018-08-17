@@ -119,7 +119,7 @@ Meteor.publish('schoolYearEdit', function(schoolYearId) {
 
 		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
 		let schoolYears = SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }, _id: schoolYearId}, {fields: {startYear: 1, endYear: 1}});
-		let terms = Terms.find({groupId: groupId, deletedOn: { $exists: false }, schoolYearId: schoolYearId}, {sort: {order: 1}, fields: {order: 1}});	
+		let terms = Terms.find({groupId: groupId, deletedOn: { $exists: false }, schoolYearId: schoolYearId}, {sort: {order: 1}, fields: {order: 1, schoolYearId: 1}});	
 		let schoolWork = SchoolWork.find({groupId: groupId, deletedOn: { $exists: false }, schoolYearId: schoolYearId});	
 		let termIds = Terms.find({groupId: groupId, deletedOn: { $exists: false }, schoolYearId: schoolYearId}).map(term => term._id);
 
