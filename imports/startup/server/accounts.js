@@ -22,11 +22,11 @@ Accounts.config({
 });
 
 Accounts.emailTemplates = {
-	from: 'Flexible Homeschool App <no-reply@flexibleschoolschedule.com>',
+	from: 'Flexible Homeschool App <no-reply@aflexiblehomeschool.com>',
 	siteName: 'Flexible Homeschool App',
 
 	resetPassword: {
-		schoolWork: function(user, url) {
+		subject: function(user, url) {
 			return 'Reset your password for ' + Accounts.emailTemplates.siteName + '.';
 		},
 		text: function(user, url) {
@@ -37,7 +37,7 @@ Accounts.emailTemplates = {
 	},
 
 	verifyEmail: {
-		schoolWork: function(user, url) {
+		subject: function(user, url) {
 			return 'Please verify email address for ' + Accounts.emailTemplates.siteName + '.';
 		},
 		text: function(user, url) {

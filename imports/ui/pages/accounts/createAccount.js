@@ -175,6 +175,9 @@ Template.createAccount.events({
 					subscriptionProperties.customer.metadata.groupId = groupId;
 					
 					Accounts.createUser(user, function(error) {
+						if (error) {
+							console.log(error);
+						}
 						if (error && error.reason != 'unverified') {
 							Alerts.insert({
 								colorClass: 'bg-danger',
@@ -186,6 +189,9 @@ Template.createAccount.events({
 							$('.js-submit').prop('disabled', false);
 						} else { 
 							stripe.createToken(Session.get('cardNumber')).then((result) => {
+								if (result.error) {
+									console.log(result.error);
+								}
 								if (result.error) {
 									let groupProperties = {
 										_id: groupId,
@@ -208,6 +214,9 @@ Template.createAccount.events({
 								} else {
 									subscriptionProperties.customer.source = result.token.id;
 									Meteor.call('createSubscription', groupId, result.token.card.id, subscriptionProperties, function(error, updatedGroupProperties) {
+										if (error) {
+											console.log(error);
+										}
 										if (error) {
 											Alerts.insert({
 												colorClass: 'bg-danger',
