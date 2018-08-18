@@ -38,8 +38,6 @@ Meteor.methods({
 		});
 	},
 
-
-
 	updateSchoolYearTerms: function(schoolYearId, schoolYearProperties, termDeleteIds, termInsertProperties, termUpdateProperties, userId, groupId) {
 
 		let weekDeleteIds = Weeks.find({termId: {$in: termDeleteIds}}).map(week => week._id);

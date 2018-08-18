@@ -71,12 +71,15 @@ Template.schoolWorkEdit.onRendered( function() {
 			$('.js-updating').show();
 			$('.js-submit').prop('disabled', true);
 
+
+			// Get Resources Ids from local collection
 			let resourceIds = [];
 			LocalResources.find().forEach(function(resource) {
 				resourceIds.push(resource.id);
 			});
 
-			const schoolWorkProperties = {
+			// Get School Work Properties from form
+			let schoolWorkProperties = {
 				name: template.find("[name='name']").value.trim(),
 				description: Session.get($(event.currentTarget).find('.editor-content').attr('id')),
 				resources: resourceIds,
@@ -84,6 +87,7 @@ Template.schoolWorkEdit.onRendered( function() {
 				schoolYearId: FlowRouter.getParam('selectedSchoolYearId'),
 			}
 
+			// Get Lesson Properties from form
 			let newLessonProperties = [];
 			$("[name='timesPerWeek']").each(function(index) {
 				for (i = 0; i < parseInt(this.value); i++) { 
@@ -91,8 +95,10 @@ Template.schoolWorkEdit.onRendered( function() {
 				}
 			})
 
+			// Get existing Lessons from collection
 			let lessons = Lessons.find({schoolWorkId: FlowRouter.getParam('selectedSchoolWorkId')}, {sort: {completed: -1, order: 1}});
 
+			// If FEWER new Lessons
 			if (lessons.count() > newLessonProperties.length) {
 				// Find Removeable Lessons
 				let dif = lessons.count() - newLessonProperties.length;
@@ -127,6 +133,7 @@ Template.schoolWorkEdit.onRendered( function() {
 					updateLessonProperties.push(property)
 				});
 
+			// if MORE new Lessons
 			} else if (lessons.count() < newLessonProperties.length) {
 				// Create needed Number of New Lessons Needed
 				let dif = newLessonProperties.length - lessons.count();
@@ -154,6 +161,7 @@ Template.schoolWorkEdit.onRendered( function() {
 				var insertLessonProperties = allLessonProperties.slice(endSlice);
 				var removeLessonIds = [];
 
+			// If SAME number of new Lessons
 			} else {
 				let currentLessonProperties = Lessons.find({schoolWorkId: FlowRouter.getParam('selectedSchoolWorkId')}, {sort: {completed: -1, order: 1}})
 				var updateLessonProperties = [];
