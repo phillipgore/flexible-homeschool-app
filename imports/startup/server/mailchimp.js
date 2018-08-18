@@ -11,10 +11,6 @@ Meteor.methods({
 				"FNAME": mcSubscriptionProperties.firstName,
 				"LNAME": mcSubscriptionProperties.lastName
 			}
-		}).then((subscription) => {
-			mailchimp.post('/lists/' + Meteor.settings.private.mailchimpListId + '/segments/' + Meteor.settings.private.mailchimpSegmentId + '/members', {
-				"email_address": subscription.email_address
-			});
 		}).catch(function (error) {
 			console.log(error);
 		})

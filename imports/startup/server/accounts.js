@@ -22,8 +22,8 @@ Accounts.config({
 });
 
 Accounts.emailTemplates = {
-	from: 'Flexible School Schedule <no-reply@flexibleschoolschedule.com>',
-	siteName: 'Flexible School Schedule',
+	from: 'Flexible Homeschool App <no-reply@flexibleschoolschedule.com>',
+	siteName: 'Flexible Homeschool App',
 
 	resetPassword: {
 		schoolWork: function(user, url) {
