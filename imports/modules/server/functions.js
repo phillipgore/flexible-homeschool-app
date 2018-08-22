@@ -160,8 +160,9 @@ export function allSchoolYearsStatusAndPaths(schoolYear, schoolYearId) {
 		if (Terms.find({schoolYearId: schoolYearId, deletedOn: { $exists: false }}).count()) {
 			if (lessons.count()) {
 				let firstWeekId = getFirstLesson(lessons, lessonsComplete, lessonsIncomplete).weekId;
+				console.log('firstWeekId: ' + firstWeekId)
 				let firstWeek = Weeks.findOne({_id: firstWeekId, deletedOn: { $exists: false }});
-				console.log(firstWeek.termId);
+				console.log('firstWeek.termId: ' + firstWeek.termId)
 
 				schoolYear.firstTermId = firstWeek.termId;
 				schoolYear.firstWeekId = firstWeekId;
@@ -202,8 +203,9 @@ export function studentSchoolYearsStatusAndPaths(schoolYear, schoolYearId, stude
 		if (Terms.find({schoolYearId: schoolYearId, deletedOn: { $exists: false }}).count()) {
 			if (lessons.count()) {
 				let firstWeekId = getFirstLesson(lessons, lessonsComplete, lessonsIncomplete).weekId;
+				console.log('firstWeekId: ' + firstWeekId)
 				let firstWeek = Weeks.findOne({_id: firstWeekId, deletedOn: { $exists: false }});
-				console.log(firstWeek.termId);
+				console.log('firstWeek.termId: ' + firstWeek.termId)
 
 				schoolYear.firstTermId = firstWeek.termId;
 				schoolYear.firstWeekId = firstWeekId;
