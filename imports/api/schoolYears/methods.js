@@ -66,6 +66,7 @@ Meteor.methods({
 				// Create new Week properties if any are needed
 				for (i = 0; i < weeksDif; i++) {
 					weekBulkInsertProperties.push({insertOne: {"document": {
+						_id: Random.id(),
 						termId: term._id, 
 						order: term.origWeeksPerTerm + 1 + i, 
 						groupId: groupId, 
@@ -178,6 +179,7 @@ Meteor.methods({
 						let newWeekBulkInsertProperties = []							
 						for (i = 0; i < parseInt(weeksPerTerm); i++) { 
 						    newWeekBulkInsertProperties.push({insertOne: {"document": {
+						    	_id: Random.id(),
 						    	order: i + 1, 
 						    	termId: termId, 
 						    	groupId: groupId, 
