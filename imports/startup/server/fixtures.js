@@ -2835,7 +2835,7 @@ Meteor.methods({
 
 		// Insert Lessons
 		Students.find({groupId: groupId}).forEach(student => {
-			SchoolYears.find({groupId: groupId, startYear: {$lte: '2018'}}).forEach(schoolYear => {
+			SchoolYears.find({groupId: groupId, startYear: '2018'}).forEach(schoolYear => {
 				Terms.find({schoolYearId: schoolYear._id}, {sort: {order: 1}}).forEach(term => {
 					let weekIds = Weeks.find({termId: term._id}, {sort: {order: 1}}).map(week => week._id);
 					let schoolWorkIds = SchoolWork.find({studentId: student._id, schoolYearId: schoolYear._id}, {sort: {name: 1}}).map(schoolWork => schoolWork._id)
