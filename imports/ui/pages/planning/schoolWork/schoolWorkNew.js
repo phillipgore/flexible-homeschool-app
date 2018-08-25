@@ -85,7 +85,7 @@ Template.schoolWorkNew.onRendered( function() {
 				}
 			})
 			
-			Meteor.call('batchInsertSchoolWork', studentIds, schoolWorkProperties, lessonProperties, function(error, newSchoolWork) {
+			Meteor.call('insertSchoolWork', studentIds, schoolWorkProperties, lessonProperties, function(error, newSchoolWork) {
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',

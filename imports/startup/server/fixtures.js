@@ -2812,7 +2812,7 @@ Meteor.methods({
 			delete schoolWork.resourceTitles
 		});
 
-		SchoolYears.find({groupId: groupId}).forEach(schoolYear => {
+		SchoolYears.find({groupId: groupId, startYear: '2018'}).forEach(schoolYear => {
 			Students.find({groupId: groupId}).forEach(student => {
 				sourceSchoolWork.forEach(schoolWork => {
 					fixtureSchoolWork.push(
@@ -2830,7 +2830,6 @@ Meteor.methods({
 				});
 			});
 		});
-
 		SchoolWork.batchInsert(fixtureSchoolWork)
 
 		// Insert Lessons

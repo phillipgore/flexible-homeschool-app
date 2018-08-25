@@ -10,23 +10,18 @@ Meteor.methods({
 	},
 
 	batchInsertLessons(lessonProperties) {
-		lessonProperties.forEach(function(lesson, index) { 
-			Lessons.insert(lesson);
-		});
+		Lessons.batchInsert(lessonProperties);
 	},
 
 	batchUpdateLessons: function(lessonProperties) {
 		let total = lessonProperties.length
 		lessonProperties.forEach(function(lesson, index) {
 			Lessons.update(lesson._id, {$set: lesson});
-			console.log(index +' of '+ total)
 		});
 	},
 
 	bulkWriteLessons: function(bulkLessonProperties) {
-		console.log('bulk write Lessons start-----')
 		Lessons.rawCollection().bulkWrite(bulkLessonProperties)
-		console.log('-----bulk write Lessons end')
 	},
 
 	batchRemoveLessons: function(lessonIds) {

@@ -142,21 +142,18 @@ Template.subbarTracking.helpers({
 
 Template.subbarTracking.events({
 	'click .js-school-year'(event) {
-		console.log('School Year');
 		Meteor.call('getProgressStats', $(event.currentTarget).attr('id'), $(event.currentTarget).attr('data-term-id'), $(event.currentTarget).attr('data-week-id'), function(error, result) {
 			Session.set('progressStats', result);
 		});
 	},
 
 	'click .js-term'(event) {
-		console.log('Term');
 		Meteor.call('getProgressStats', $(event.currentTarget).attr('data-school-year-id'), $(event.currentTarget).attr('id'), $(event.currentTarget).attr('data-week-id'), function(error, result) {
 			Session.set('progressStats', result);
 		});
 	},
 	
 	'click .js-week'(event) {
-		console.log('Week');
 		Meteor.call('getProgressStats', $(event.currentTarget).attr('data-school-year-id'), $(event.currentTarget).attr('data-term-id'), $(event.currentTarget).attr('id'), function(error, result) {
 			Session.set('progressStats', result);
 		});

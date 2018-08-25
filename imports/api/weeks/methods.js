@@ -18,9 +18,7 @@ Meteor.methods({
 	},
 
 	batchInsertWeeks(weekProperties) {
-		weekProperties.forEach(function(week) {
-			Weeks.insert(week);
-		})
+		Weeks.batchInsert(weekProperties);
 	},
 
 	batchRemoveWeeks: function(weekIds) {
@@ -30,8 +28,6 @@ Meteor.methods({
 	},
 
 	bulkWriteWeeks: function(bulkWeekProperties) {
-		console.log('bulk write Weeks start-----')
 		let test = Weeks.rawCollection().bulkWrite(bulkWeekProperties);
-		console.log('-----bulk write Weeks end')
 	},
 })

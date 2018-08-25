@@ -109,7 +109,6 @@ Meteor.methods({
 				if (error) {
 					throw new Meteor.Error(500, error);
 				}
-				console.log('lessons removed')
 			});
 		}
 
@@ -119,7 +118,6 @@ Meteor.methods({
 				if (error) {
 					throw new Meteor.Error(500, error);
 				}
-				console.log('weeks removed')
 			});
 		}
 
@@ -129,7 +127,6 @@ Meteor.methods({
 				if (error) {
 					throw new Meteor.Error(500, error);
 				}
-				console.log('terms removed')
 			});
 		}
 
@@ -139,7 +136,6 @@ Meteor.methods({
 				if (error) {
 					throw new Meteor.Error(500, error);
 				}
-				console.log('terms updated')
 			});
 		}
 
@@ -149,7 +145,6 @@ Meteor.methods({
 				if (error) {
 					throw new Meteor.Error(500, error);
 				}
-				console.log('lessons updated')
 			});
 		}
 
@@ -159,7 +154,6 @@ Meteor.methods({
 				if (error) {
 					throw new Meteor.Error(500, error);
 				}
-				console.log('weeks inserted')
 			});
 		}
 
@@ -174,7 +168,6 @@ Meteor.methods({
 						if (error) {
 							throw new Meteor.Error(500, error);
 						}
-						console.log('term ' +termId+ ' inserted')
 					} else {
 						let newWeekBulkInsertProperties = []							
 						for (i = 0; i < parseInt(weeksPerTerm); i++) { 
@@ -193,14 +186,12 @@ Meteor.methods({
 							if (error) {
 								throw new Meteor.Error(500, error);
 							}
-							console.log('new week inserted')
 						});
 					}
 				});
 			});
 		};
 
-		console.log('/---------------------/')
 		return true;
 	},
 })
