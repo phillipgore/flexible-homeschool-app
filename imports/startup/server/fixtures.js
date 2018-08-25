@@ -1159,7 +1159,10 @@ Meteor.methods({
 				authorFirstName: "Michael",
 				authorLastName: "Schneider",
 				availability: "own",
-				description: ""
+				description: "",
+				groupId: groupId, 
+				userId: userId, 
+				createdOn: new Date()
 			},
 			{
 				type: "book",
@@ -2892,7 +2895,6 @@ Meteor.methods({
 		Lessons.batchInsert(fixtureLessons);
 
 		Groups.update(groupId, {$set: {testData: true}});
-		return false
 	},
 
 	removeTestData() {
