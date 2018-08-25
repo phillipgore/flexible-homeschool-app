@@ -18,7 +18,9 @@ Meteor.methods({
 	},
 
 	batchInsertWeeks(weekProperties) {
-		Weeks.batchInsert(weekProperties);
+		weekProperties.forEach(function(week) {
+			Weeks.insert(week);
+		})
 	},
 
 	batchRemoveWeeks: function(weekIds) {
