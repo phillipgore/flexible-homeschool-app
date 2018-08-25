@@ -10,7 +10,9 @@ Meteor.methods({
 	},
 
 	batchInsertLessons(lessonProperties) {
-		Lessons.batchInsert(lessonProperties);
+		lessonProperties.forEach(function(lesson, index) { 
+			Lessons.insert(lesson);
+		});
 	},
 
 	batchUpdateLessons: function(lessonProperties) {
