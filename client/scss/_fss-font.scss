@@ -24,6 +24,9 @@ i {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.fss-external-link:before {
+  content: "\e90c";
+}
 .fss-exclaimation:before {
   content: "\e900";
 }
