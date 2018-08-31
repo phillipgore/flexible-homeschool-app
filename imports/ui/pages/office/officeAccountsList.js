@@ -9,10 +9,6 @@ Template.officeAccountsList.onCreated( function() {
 
 Template.officeAccountsList.helpers({
 	groups: function() {
-		return Groups.find()
-	},
-
-	accounts: function() {
-		return Meteor.users.find({'info.role': 'Administrator'}, {sort: {'info.lastName': 1, 'info.firstName': 1}});
+		return Groups.find({appAdmin: false});
 	},
 });

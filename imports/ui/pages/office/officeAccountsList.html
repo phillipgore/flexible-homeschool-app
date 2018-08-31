@@ -2,14 +2,14 @@
 	<div class="office-content">
 		<ul class="list">
 			{{#each group in groups}}
-				<!-- <li class="list-item">
-					<a id="{{account._id}}" href="#" class="js-account list-item-link p-tn-rl-9">
+				<li class="list-item">
+					<a id="{{group._id}}" href="#" class="js-group list-item-link p-tn-rl-9">
 						<div class="list-item-icon"><i class="txt-info fss-users"></i></div> 
-						<div class="list-item-label">{{account.info.firstName}} {{account.info.lastName}} 
-							<span class="list-item-sublabel">({{account.info.relationshipToStudents}})</span>
+						<div class="list-item-label">{{group.userFirstName}} {{group.userLastName}} 
+							<span class="list-item-sublabel">({{group.userRelationshipToStudents}})</span>
 						</div>
 					</a>
-				</li> -->
+				</li>
 			{{/each}}
 		</ul>
 	</div>

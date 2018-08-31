@@ -10,6 +10,7 @@ Meteor.publish('allAccounts', function() {
 			let user = Meteor.users.findOne({groupId: group._id, 'info.role': 'Administrator'});
 			group.userFirstName = user.firstName;
 			group.userLastName = user.lastName;
+			group.userRelationshipToStudents = user.relationshipToStudents;
 			group.userRole = user.info.role;
 			self.added('groups', group._id, group);
 		});
