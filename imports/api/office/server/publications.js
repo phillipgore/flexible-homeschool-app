@@ -1,7 +1,20 @@
-Meteor.publish('allAccounts', function (){ 
-	if (!this.userId) {
-		return this.ready();
-	}
+Meteor.publish('allAccounts', function() {
+	this.autorun(function (computation) {
+		if (!this.userId) {
+			return this.ready();
+		}
 
-	return Meteor.users.find({'info.role': 'Administrator'}, {fields: {'info.firstName': 1, 'info.lastName': 1, 'info.relationshipToStudents': 1, 'info.role': 1}});
+		let self = this;
+
+		Groups.find({appAdmin: false}).map((group) => {
+			let user = Meteor.users.findOne({groupId: group._id, 'info.role': 'Administrator'});
+			group.userFirstName = user.firstName;
+			group.userLastName = user.lastName;
+			group.userRole = user.info.role;
+			self.added('groups', group._id, group);
+		});
+		
+
+		self.ready();
+	});
 });
