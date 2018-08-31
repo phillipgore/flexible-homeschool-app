@@ -1,5 +1,5 @@
 Meteor.publish('allAccounts', function (){ 
-	if (!this.userId || Meteor.users.findOne({ _id: this.userId }).info.role != 'Application Administrator') {
+	if (!this.userId) {
 		return this.ready();
 	}
 
