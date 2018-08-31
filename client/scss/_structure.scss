@@ -56,6 +56,11 @@ hr {
 		}
 	}
 
+	.office-content {
+		padding-top: 50px;
+		min-height: 100%;
+	}
+
 	.frame-container-outer {
 		overflow-x: hidden;
 		min-height: 100vh;
@@ -243,7 +248,8 @@ hr {
 	.resetPassword,
 	.resetSuccess,
 	.billingError,
-	.pausedUser {
+	.pausedUser,
+	.officeDashboard {
 		.frame-one {
 			width: 66.66666%;
 			float: none;
@@ -329,7 +335,8 @@ hr {
 	.resetPassword,
 	.resetSuccess,
 	.billingError,
-	.pausedUser {
+	.pausedUser,
+	.officeDashboard {
 		.frame-one {
 			width: 100%;
 		}
@@ -339,7 +346,8 @@ hr {
 	.reportingNew,
 	.reportingView,
 	.reportingEdit,
-	.supportView {
+	.supportView,
+	.officeAccounts {
 		.frame-two {
 			width: calc(100% - 288px);
 			max-width: 828px;
@@ -382,7 +390,8 @@ hr {
 	.reportingNew,
 	.reportingView,
 	.reportingEdit,
-	.supportView {
+	.supportView,
+	.officeAccounts {
 		.frame-two {
 			border-right: 1px solid $color-gray;
 		}

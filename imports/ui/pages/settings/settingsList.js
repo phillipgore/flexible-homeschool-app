@@ -39,14 +39,14 @@ Template.settingsList.helpers({
 	},
 
 	applicationAdministrator: function(role) {
-		if (role === 'Application Administrator' || role === 'Developer') {
+		if (role === 'Application Administrator') {
 			return true;
 		}
 		return false;
 	},
 
-	developer: function(role) {
-		if (role === 'Developer') {
+	developerOrApplicationAdministrator: function(role) {
+		if (role === 'Application Administrator' || role === 'Developer') {
 			return true;
 		}
 		return false;

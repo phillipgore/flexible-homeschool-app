@@ -24,6 +24,12 @@ i {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.fss-dashboard:before {
+  content: "\e90e";
+}
+.fss-back-office:before {
+  content: "\e90d";
+}
 .fss-external-link:before {
   content: "\e90c";
 }

@@ -1,6 +1,14 @@
 <template name="settingsList">
 	<main class="app-content app-content-preceeds-toolbar">
 		<ul class="list">
+			{{#if applicationAdministrator user.info.role}}
+				<li class="list-item">
+					<a href="/office/dashboard" class="list-item-link bg-white p-tn-rl-9">
+						<div class="list-item-icon"><i class="fss-back-office"></i></div> 
+						<div class="list-item-label">Back Office</div>
+					</a>
+				</li>
+			{{/if}}
 			<li class="list-item">
 				{{#if userRestricted user.info.role}}
 					<span data-section="users" data-role="{{user.info.role}}" class="js-restricted list-item-inner disabled bg-white p-tn-rl-9">
@@ -45,7 +53,7 @@
 					</a>
 				{{/if}}
 			</li>
-			{{#if applicationAdministrator user.info.role}}
+			{{#if developerOrApplicationAdministrator user.info.role}}
 				{{#if group.testData}}
 					<li class="list-item">
 						<a href="#" class="js-remove-test-data list-item-link bg-white p-tn-rl-9">

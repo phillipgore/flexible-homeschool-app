@@ -3,6 +3,7 @@ import '/imports/startup/client';
 // Layouts
 import '/imports/ui/layouts/initializing.js';
 import '/imports/ui/layouts/app.js';
+import '/imports/ui/layouts/office.js';
 
 // Components
 import '/imports/ui/components/toolbar.js';
@@ -36,6 +37,13 @@ import '/imports/ui/pages/accounts/reset/resetSent.js';
 import '/imports/ui/pages/accounts/reset/resetPassword.js';
 import '/imports/ui/pages/accounts/reset/resetSuccess.js';
 import '/imports/ui/pages/accounts/pausedUser.js';
+
+
+// Office
+import '/imports/ui/pages/office/officeDashboard.js';
+import '/imports/ui/pages/office/officeAccounts.js';
+import '/imports/ui/pages/office/officeAccountsList.js';
+import '/imports/ui/pages/office/officeAccount.js';
 
 
 // Planning

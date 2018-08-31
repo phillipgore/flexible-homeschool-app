@@ -30,6 +30,6 @@ Meteor.methods({
 	},
 
 	bulkWriteWeeks: function(bulkWeekProperties) {
-		let test = Weeks.rawCollection().bulkWrite(bulkWeekProperties);
+		Weeks.rawCollection().bulkWrite(bulkWeekProperties);
 	},
 })

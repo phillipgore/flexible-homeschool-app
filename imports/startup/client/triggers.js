@@ -183,7 +183,18 @@ function scrollReset(context) {
 	// $('.frame-one, .frame-two, .frame-three').scrollTop(0);
 };
 
+function isAppAdmin(context) {
+	if (Meteor.user().info.role != 'Application Administrator') {
+		FlowRouter.go('/')
+	}
+}
+
 FlowRouter.triggers.enter([setFramePosition, clearAlerts, scrollReset]);
+
+FlowRouter.triggers.enter([isAppAdmin], {only: [
+	'officeAccounts',
+	'officeDashboard'
+]});
 
 FlowRouter.triggers.enter([checkSignIn], {only: [
 	'createAccount',

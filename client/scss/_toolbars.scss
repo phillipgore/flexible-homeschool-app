@@ -12,6 +12,10 @@
 		background-color: $color-primary;
 	}
 
+	&.toolbar-info {
+		background-color: $color-info;
+	}
+
 	&.toolbar-bottom {
 		height: 51px;
 		position: fixed;

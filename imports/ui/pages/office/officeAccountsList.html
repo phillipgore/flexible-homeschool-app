@@ -1,0 +1,16 @@
+<template name="officeAccountsList">
+	<div class="office-content">
+		<ul class="list">
+			{{#each account in accounts}}
+				<li class="list-item">
+					<a id="{{account._id}}" href="/settings/accounts/view/3/{{account._id}}" class="js-account list-item-link p-tn-rl-9">
+						<div class="list-item-icon"><i class="txt-info fss-users"></i></div> 
+						<div class="list-item-label">{{account.info.firstName}} {{account.info.lastName}} 
+							<span class="list-item-sublabel">({{account.info.relationshipToStudents}})</span>
+						</div>
+					</a>
+				</li>
+			{{/each}}
+		</ul>
+	</div>
+</template>

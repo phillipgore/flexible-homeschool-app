@@ -8,7 +8,12 @@ $color-primary-lighter: #CBE0CB;
 $color-primary-lightest: #ECF3EC;
 
 $color-success: #7CB27C;
+
 $color-info: #6BA6E0;
+$color-info-light: lighten(#6BA6E0, 15%);
+$color-info-lighter: lighten(#6BA6E0, 20%);
+$color-info-lightest: lighten(#6BA6E0, 30%);
+
 $color-warning: #E0B56B;
 $color-danger: #E06B6B;
 $color-royal: #A66CE0;
