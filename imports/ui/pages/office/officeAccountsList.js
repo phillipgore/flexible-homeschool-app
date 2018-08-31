@@ -1,5 +1,5 @@
 import {Template} from 'meteor/templating';
-import {Groups} from '../../groups/groups.js'
+import {Groups} from '../../../api/groups/groups.js';
 import './officeAccountsList.html';
 
 Template.officeAccountsList.onCreated( function() {
