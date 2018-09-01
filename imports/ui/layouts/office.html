@@ -29,25 +29,33 @@
 			<div class="row">
 				<!-- Toolbar Left -->
 				<div class="toolbar-left">
-					<nav class="navbar row m-tn-l-18">
-						<div class="col-tn-1of4">
-							<a class="js-btn-nav js-btn-nav-reporting-list btn-nav btn-nav-info first {{isActiveRoute 'officeDashboard'}}" href="{{pathFor 'officeDashboard'}}" title="Dashboard">
-								<i class="fss-dashboard btn-nav-icon"></i>
-								<div class="btn-nav-label">Dashboard</div>
-							</a>
-						</div>
-						<div class="col-tn-1of4">
-							<a class="js-btn-nav js-btn-nav-reporting-list btn-nav btn-nav-info last {{isActiveRoute 'officeAccounts'}}" href="{{pathFor 'officeAccounts'}}" title="Accounts">
-								<i class="fss-users btn-nav-icon"></i>
-								<div class="btn-nav-label">Users</div>
-							</a>
+					<nav class="navbar row">
+						<div class="p-md-rl-18">
+							<div class="col-tn-1of3 col-lg-1of2">
+								<a class="js-btn-nav js-btn-nav-reporting-list btn-nav btn-nav-info first {{isActiveRoute 'officeDashboard'}}" href="{{pathFor 'officeDashboard'}}" title="Dashboard">
+									<i class="fss-dashboard btn-nav-icon"></i>
+									<div class="btn-nav-label">Dashboard</div>
+								</a>
+							</div>
+							<div class="col-tn-1of3 col-lg-1of2">
+								<a class="js-btn-nav js-btn-nav-reporting-list btn-nav btn-nav-info last {{isActiveRoute 'officeAccounts'}}" href="{{pathFor 'officeAccounts'}}" title="Accounts">
+									<i class="fss-users btn-nav-icon"></i>
+									<div class="btn-nav-label">Users</div>
+								</a>
+							</div>
+							<div class="col-tn-1of3 dis-lg-none">
+								<a class="js-btn-nav js-btn-nav-reporting-list btn-nav btn-nav-info" href="/" title="Flexible Homeschool App">
+									<i class="fss-logo-plain btn-nav-icon"></i>
+									<div class="btn-nav-label">Application</div>
+								</a>
+							</div>
 						</div>
 					</nav>
 				</div>
 				<!-- Toolbar Right -->
 				<div class="toolbar-right">
 					<!-- Edit Button -->
-						<a class="btn-tool btn-tool-info fl-tn-right" href="/" title="Flexible Homeschool App">
+						<a class="btn-tool btn-tool-info fl-tn-right dis-tn-none dis-lg-block" href="/" title="Flexible Homeschool App">
 							<i class="fss-logo-plain btn-tool-icon"></i>
 						</a>
 				</div>
