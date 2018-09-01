@@ -12,24 +12,16 @@ Template.officeAccountsList.helpers({
 		return Groups.find({appAdmin: false}, {sort: {createdOn: -1}});
 	},
 
-	accountPausedOrPending: function (subscriptionStatus) {
-		if (subscriptionStatus === 'pausePending' || subscriptionStatus === 'paused') {
-			return true;
-		}
-		return false;
-	},
-
-	accountPausePending: function (subscriptionStatus) {
+	subscriptionStatus: function (subscriptionStatus) {
 		if (subscriptionStatus === 'pausePending') {
-			return true;
+			return 'txt-warning';
 		}
-		return false;
-	},
-
-	accountPaused: function (subscriptionStatus) {
 		if (subscriptionStatus === 'paused') {
-			return true;
+			return 'txt-gray-darker';
 		}
-		return false;
+		if (subscriptionStatus === 'error') {
+			return 'txt-danger';
+		}
+		return 'txt-info';
 	},
 });

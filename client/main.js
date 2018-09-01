@@ -43,7 +43,7 @@ import '/imports/ui/pages/accounts/pausedUser.js';
 import '/imports/ui/pages/office/officeDashboard.js';
 import '/imports/ui/pages/office/officeAccounts.js';
 import '/imports/ui/pages/office/officeAccountsList.js';
-import '/imports/ui/pages/office/officeAccount.js';
+import '/imports/ui/pages/office/officeAccountView.js';
 
 
 // Planning

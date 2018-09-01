@@ -1,0 +1,9 @@
+<template name="officeAccountView">
+	<div class="office-content">
+		{{#if group}}
+			{{#each user in groupUsers}}
+				<div>{{user.info.firstName}} {{user.info.lastName}}</div>
+			{{/each}}
+		{{/if}}
+	</div>
+</template>

@@ -8,7 +8,7 @@ Meteor.publish('allAccounts', function() {
 
 		let self = this;
 
-		let groups = Groups.find({appAdmin: false})
+		let groups = Groups.find({appAdmin: false}, {fields: {subscriptionStatus: 1, appAdmin: 1, createdOn: 1}})
 
 		groups.map((group) => {
 			let user = Meteor.users.findOne({'info.groupId': group._id, 'info.role': 'Administrator'});
@@ -22,3 +22,14 @@ Meteor.publish('allAccounts', function() {
 		self.ready();
 	});
 });
+
+Meteor.publish('account', function(groupId) {
+	if (!this.userId) {
+		return this.ready();
+	}
+
+	return [
+		Groups.find({_id: groupId}),
+		Meteor.users.find({'info.groupId': groupId})
+	]
+})
