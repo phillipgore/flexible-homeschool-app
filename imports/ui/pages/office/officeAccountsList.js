@@ -7,6 +7,12 @@ Template.officeAccountsList.onCreated( function() {
 	this.subscribe('allAccounts');
 });
 
+Template.officeAccountsList.onRendered( function() {
+	Session.set({
+		labelOne: 'Accounts',
+	});
+});
+
 Template.officeAccountsList.helpers({
 	groups: function() {
 		return Groups.find({appAdmin: false}, {sort: {createdOn: -1}});

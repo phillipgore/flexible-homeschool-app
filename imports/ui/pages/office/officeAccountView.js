@@ -3,16 +3,30 @@ import {Groups} from '../../../api/groups/groups.js';
 import './officeAccountView.html';
 
 Template.officeAccountView.onCreated( function() {
-	// Subscriptions
-	this.subscribe('account', FlowRouter.getParam('selectedAccountId'));
+	let template = Template.instance();
+	
+	template.autorun(() => {
+		this.subscribe('account', FlowRouter.getParam('selectedAccountId'));
+	});
+});
+
+Template.officeAccountView.onRendered( function() {
+	
 });
 
 Template.officeAccountView.helpers({
-	group: function() {
-		return Groups.find({_id: FlowRouter.getParam('selectedAccountId')});
+	account: function() {
+		return Groups.findOne({_id: FlowRouter.getParam('selectedAccountId')});
 	},
 
-	groupUsers: function() {
-		return Meteor.users.find({'info.groupId': FlowRouter.getParam('selectedAccountId')})
-	}
+	accountUsers: function() {
+		return Meteor.users.find({'info.groupId': FlowRouter.getParam('selectedAccountId')});
+	},
+
+	userName(first, last) {
+		if (first && last) {
+			Session.set({labelTwo: first + ' ' + last});
+		}
+		return false;
+	},
 });

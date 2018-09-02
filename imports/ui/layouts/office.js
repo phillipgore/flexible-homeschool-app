@@ -8,10 +8,6 @@ Template.office.onRendered( function() {
 });
 
 Template.office.helpers({
-	userId: function() {
-		return Meteor.userId();
-	},
-
 	windowHeight: function() {
 		return Session.get('windowHeight');
 	},

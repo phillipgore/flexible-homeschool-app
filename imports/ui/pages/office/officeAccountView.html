@@ -1,9 +1,14 @@
 <template name="officeAccountView">
-	<div class="office-content">
-		{{#if group}}
-			{{#each user in groupUsers}}
-				<div>{{user.info.firstName}} {{user.info.lastName}}</div>
+	<main class="app-content app-content-preceeds-toolbar app-content-data">
+		{{userName account.userFirstName account.userLastName}}
+
+		<label class="txt-info font-size-12 txt-weight-900">Id:</label>
+		<div class="m-tn-b-12">{{account._id}}</div>
+		<label class="txt-info font-size-12 txt-weight-900">Users:</label>
+		{{#if account}}
+			{{#each user in accountUsers}}
+				<div>{{user.info.firstName}} {{user.info.lastName}} ({{user.info.role}})</div>
 			{{/each}}
 		{{/if}}
-	</div>
+	</main>
 </template>
