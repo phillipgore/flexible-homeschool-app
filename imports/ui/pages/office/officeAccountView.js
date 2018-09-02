@@ -29,4 +29,11 @@ Template.officeAccountView.helpers({
 		}
 		return false;
 	},
+
+	isPending(status) {
+		if (status === 'pausePending') {
+			return 'Pause Pending';
+		}
+		return status;
+	}
 });
