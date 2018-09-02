@@ -4,10 +4,20 @@
 
 		<label class="txt-info font-size-12 txt-weight-900">Id:</label>
 		<div class="m-tn-b-12">{{account._id}}</div>
+
+		<label class="txt-info font-size-12 txt-weight-900">Created:</label>
+		<div class="m-tn-b-12">{{dateFormat account.createdOn}}</div>
+
+		<label class="txt-info font-size-12 txt-weight-900">Subscription Status:</label>
+		<div class="m-tn-b-12 txt-capitalize">{{account.subscriptionStatus}}</div>
+
+		<label class="txt-info font-size-12 txt-weight-900">Email:</label>
+		<div class="m-tn-b-12 txt-lowercase">{{account.userEmail}}</div>
+
 		<label class="txt-info font-size-12 txt-weight-900">Users:</label>
 		{{#if account}}
 			{{#each user in accountUsers}}
-				<div>{{user.info.firstName}} {{user.info.lastName}} ({{user.info.role}})</div>
+				<div class="m-tn-b-12">{{user.info.firstName}} {{user.info.lastName}} ({{user.info.role}})</div>
 			{{/each}}
 		{{/if}}
 	</main>
