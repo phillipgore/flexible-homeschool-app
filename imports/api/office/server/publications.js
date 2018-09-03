@@ -34,6 +34,23 @@ Meteor.publish('allAccounts', function() {
 	});
 });
 
+Meteor.publish('allAccountTotals', function(groupId) {
+	if (!this.userId) {
+		return this.ready();
+	}
+	
+	Counts.publish(this, 'allAccountsCount', Groups.find({deletedOn: { $exists: false }}));
+	Counts.publish(this, 'allAccountUsersCount', Meteor.users.find({deletedOn: { $exists: false }}));
+	Counts.publish(this, 'allAccountStudentsCount', Students.find({deletedOn: { $exists: false }}));
+	Counts.publish(this, 'allAccountSchoolYearsCount', SchoolYears.find({deletedOn: { $exists: false }}));
+	Counts.publish(this, 'allAccountTermsCount', Terms.find({deletedOn: { $exists: false }}));
+	Counts.publish(this, 'allAccountWeeksCount', Weeks.find({deletedOn: { $exists: false }}));
+	Counts.publish(this, 'allAccountResourcesCount', Resources.find({deletedOn: { $exists: false }}));
+	Counts.publish(this, 'allAccountSchoolWorkCount', SchoolWork.find({deletedOn: { $exists: false }}));
+	Counts.publish(this, 'allAccountLessonsCount', Lessons.find({deletedOn: { $exists: false }}));
+	Counts.publish(this, 'allAccountReportsCount', Reports.find({deletedOn: { $exists: false }}));
+});
+
 Meteor.publish('account', function(groupId) {
 	if (!this.userId) {
 		return this.ready();

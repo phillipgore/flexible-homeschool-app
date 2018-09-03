@@ -1,5 +1,16 @@
 <template name="officeDashboard">
 	<main class="app-content app-content-preceeds-toolbar app-content-data">
-		<h1>Office Dashboard</h1>
+		<label class="txt-info font-size-12 txt-weight-900">Counts:</label>
+		
+		<div class="m-tn-b-12">Users: {{getPublishedCount 'allAccountsCount'}}</div>
+		<div class="m-tn-b-12">Users: {{getPublishedCount 'allAccountUsersCount'}}</div>
+		<div class="m-tn-b-12">Students: {{getPublishedCount 'allAccountStudentsCount'}}</div>
+		<div class="m-tn-b-12">School Years: {{getPublishedCount 'allAccountSchoolYearsCount'}}</div>
+		<div class="m-tn-b-12">Terms: {{getPublishedCount 'allAccountTermsCount'}}</div>
+		<div class="m-tn-b-12">Weeks: {{getPublishedCount 'allAccountWeeksCount'}}</div>
+		<div class="m-tn-b-12">Resources: {{getPublishedCount 'allAccountResourcesCount'}}</div>
+		<div class="m-tn-b-12">SchoolWork: {{getPublishedCount 'allAccountSchoolWorkCount'}}</div>
+		<div class="m-tn-b-12">Lessons: {{getPublishedCount 'allAccountLessonsCount'}}</div>
+		<div class="m-tn-b-12">Reports: {{getPublishedCount 'allAccountReportsCount'}}</div>
 	</main>
 </template>
