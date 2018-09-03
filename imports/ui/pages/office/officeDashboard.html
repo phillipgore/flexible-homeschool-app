@@ -1,8 +1,14 @@
 <template name="officeDashboard">
 	<main class="app-content app-content-preceeds-toolbar app-content-data">
 		<label class="txt-info font-size-12 txt-weight-900">Counts:</label>
-		
-		<div class="m-tn-b-12">Users: {{getPublishedCount 'allAccountsCount'}}</div>
+
+		<div class="m-tn-b-12">Active Accounts: {{getPublishedCount 'allActiveAccountsCount'}}</div>
+		<div class="m-tn-b-12">Pause Pending Accounts: {{getPublishedCount 'allPausePendingAccountsCount'}}</div>
+		<div class="m-tn-b-12">Paused Accounts: {{getPublishedCount 'allPauseedAccountsCount'}}</div>
+		<div class="m-tn-b-12">Errored Accounts: {{getPublishedCount 'allErrorAccountsCount'}}</div>
+
+
+
 		<div class="m-tn-b-12">Users: {{getPublishedCount 'allAccountUsersCount'}}</div>
 		<div class="m-tn-b-12">Students: {{getPublishedCount 'allAccountStudentsCount'}}</div>
 		<div class="m-tn-b-12">School Years: {{getPublishedCount 'allAccountSchoolYearsCount'}}</div>
@@ -13,4 +19,7 @@
 		<div class="m-tn-b-12">Lessons: {{getPublishedCount 'allAccountLessonsCount'}}</div>
 		<div class="m-tn-b-12">Reports: {{getPublishedCount 'allAccountReportsCount'}}</div>
 	</main>
+	{{#unless subscriptionReady}}
+		{{> loading}}
+	{{/unless}}
 </template>

@@ -5,7 +5,7 @@ Template.officeDashboard.onCreated( function() {
 	let template = Template.instance();
 	
 	template.autorun(() => {
-		this.subscribe('allAccountTotals')
+		this.accountData = Meteor.subscribe('allAccountTotals')
 	});
 });
 
@@ -14,3 +14,9 @@ Template.officeDashboard.onRendered( function() {
 		labelOne: 'Dashboard',
 	});
 });
+
+Template.officeDashboard.helpers({
+	subscriptionReady: function() {
+		return Template.instance().accountData.ready();
+	},
+})

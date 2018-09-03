@@ -32,4 +32,7 @@
 		<div class="m-tn-b-12">Lessons: {{getPublishedCount 'accountLessonsCount'}}</div>
 		<div class="m-tn-b-12">Reports: {{getPublishedCount 'accountReportsCount'}}</div>
 	</main>
+	{{#unless subscriptionReady}}
+		{{> loading}}
+	{{/unless}}
 </template>

@@ -13,4 +13,7 @@
 			{{/each}}
 		</ul>
 	</main>
+	{{#unless subscriptionReady}}
+		{{> loading}}
+	{{/unless}}
 </template>

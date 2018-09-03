@@ -4,7 +4,7 @@ import './officeAccountsList.html';
 
 Template.officeAccountsList.onCreated( function() {
 	// Subscriptions
-	this.subscribe('allAccounts');
+	this.accountData = Meteor.subscribe('allAccounts');
 });
 
 Template.officeAccountsList.onRendered( function() {
@@ -14,6 +14,10 @@ Template.officeAccountsList.onRendered( function() {
 });
 
 Template.officeAccountsList.helpers({
+	subscriptionReady: function() {
+		return Template.instance().accountData.ready();
+	},
+	
 	groups: function() {
 		return Groups.find({appAdmin: false}, {sort: {createdOn: -1}});
 	},

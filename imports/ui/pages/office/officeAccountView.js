@@ -6,8 +6,8 @@ Template.officeAccountView.onCreated( function() {
 	let template = Template.instance();
 	
 	template.autorun(() => {
-		this.subscribe('account', FlowRouter.getParam('selectedAccountId'));
-		this.subscribe('accountTotals', FlowRouter.getParam('selectedAccountId'))
+		this.accountData = Meteor.subscribe('account', FlowRouter.getParam('selectedAccountId'));
+		this.accountTotals = Meteor.subscribe('accountTotals', FlowRouter.getParam('selectedAccountId'))
 	});
 
 	Meteor.call('getAccountStats', FlowRouter.getParam('selectedAccountId'), function(error, result) {
@@ -20,6 +20,13 @@ Template.officeAccountView.onRendered( function() {
 });
 
 Template.officeAccountView.helpers({
+	subscriptionReady: function() {
+		if (Template.instance().accountData.ready() && Template.instance().accountTotals.ready()) {
+			return true;
+		}
+		return false;
+	},
+
 	account: function() {
 		return Groups.findOne({_id: FlowRouter.getParam('selectedAccountId')});
 	},
