@@ -20,5 +20,16 @@
 				<div class="m-tn-b-12">{{user.info.firstName}} {{user.info.lastName}} ({{user.info.role}})</div>
 			{{/each}}
 		{{/if}}
+
+		<label class="txt-info font-size-12 txt-weight-900">Counts:</label>
+		<div class="m-tn-b-12">Users: {{getPublishedCount 'accountUsersCount'}}</div>
+		<div class="m-tn-b-12">Students: {{getPublishedCount 'accountStudentsCount'}}</div>
+		<div class="m-tn-b-12">School Years: {{getPublishedCount 'accountSchoolYearsCount'}}</div>
+		<div class="m-tn-b-12">Terms: {{getPublishedCount 'accountTermsCount'}}</div>
+		<div class="m-tn-b-12">Weeks: {{getPublishedCount 'accountWeeksCount'}}</div>
+		<div class="m-tn-b-12">Resources: {{getPublishedCount 'accountResourcesCount'}}</div>
+		<div class="m-tn-b-12">SchoolWork: {{getPublishedCount 'accountSchoolWorkCount'}}</div>
+		<div class="m-tn-b-12">Lessons: {{getPublishedCount 'accountLessonsCount'}}</div>
+		<div class="m-tn-b-12">Reports: {{getPublishedCount 'accountReportsCount'}}</div>
 	</main>
 </template>

@@ -11,7 +11,7 @@ import './migrations.js';
 import './endpoints.js';
 import './fixtures.js';
 
-
+import '../../api/office/methods.js';
 import '../../api/office/server/publications.js';
 
 import '../../api/stats/methods.js';

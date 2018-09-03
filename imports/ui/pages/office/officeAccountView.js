@@ -7,6 +7,11 @@ Template.officeAccountView.onCreated( function() {
 	
 	template.autorun(() => {
 		this.subscribe('account', FlowRouter.getParam('selectedAccountId'));
+		this.subscribe('accountTotals', FlowRouter.getParam('selectedAccountId'))
+	});
+
+	Meteor.call('getAccountStats', FlowRouter.getParam('selectedAccountId'), function(error, result) {
+		Session.set('accountStats', result);
 	});
 });
 
@@ -21,6 +26,10 @@ Template.officeAccountView.helpers({
 
 	accountUsers: function() {
 		return Meteor.users.find({'info.groupId': FlowRouter.getParam('selectedAccountId')});
+	},
+
+	accountStats: function() {
+		return Session.get('accountStats');
 	},
 
 	userName(first, last) {

@@ -11,6 +11,10 @@ import _ from 'lodash'
 
 Meteor.methods({
 	getProgressStats(schoolYearId, termId, weekId) {
+		if (!this.userId) {
+			return false;
+		}
+		
 		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
 		let students = Students.find({groupId: groupId, deletedOn: { $exists: false }}, {fields: {_id: 1}});
 
