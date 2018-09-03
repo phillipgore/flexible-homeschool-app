@@ -89,8 +89,9 @@ Meteor.publish('schoolWorkResources', function(schoolWorkId) {
 	if ( schoolWorkId ) {
 		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
 		let schoolWork = SchoolWork.findOne({groupId: groupId, deletedOn: { $exists: false }, _id: schoolWorkId});
+		let resources = Resources.find({groupId: groupId, deletedOn: { $exists: false }, _id: {$in: schoolWork.resources}});
 
-		return Resources.find({groupId: groupId, deletedOn: { $exists: false }, _id: {$in: schoolWork.resources}});
+		return resources
 	}
 	return this.ready();
 });
