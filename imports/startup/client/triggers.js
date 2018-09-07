@@ -4,7 +4,6 @@ import { Students } from '../../api/students/students.js';
 import { Terms } from '../../api/terms/terms.js';
 import { Weeks } from '../../api/weeks/weeks.js';
 InitialIds = new Mongo.Collection('initialIds');
-InitialPaths = new Mongo.Collection('initialPaths');
 
 import moment from 'moment';
 import _ from 'lodash'
@@ -23,12 +22,11 @@ let userData = Meteor.subscribe('userData');
 let groupStatus = Meteor.subscribe('groupStatus');
 let initialIds = Meteor.subscribe('initialIds', startYearFunction(year));
 let initialStats = Meteor.subscribe('initialStats');
-let initialPaths = Meteor.subscribe('initialPaths');
 
 FlowRouter.wait();
 
 Tracker.autorun(() => {
-	if (userData.ready() && groupStatus.ready() && initialIds.ready() && initialStats.ready() && initialPaths.ready() && !FlowRouter._initialized) {
+	if (userData.ready() && groupStatus.ready() && initialIds.ready() && initialStats.ready() && !FlowRouter._initialized) {
 		FlowRouter.initialize()
 	}
 });

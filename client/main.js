@@ -1,7 +1,6 @@
 import '/imports/startup/client';
 
 // Layouts
-import '/imports/ui/layouts/initializing.js';
 import '/imports/ui/layouts/app.js';
 import '/imports/ui/layouts/office.js';
 
@@ -37,6 +36,7 @@ import '/imports/ui/pages/accounts/reset/resetSent.js';
 import '/imports/ui/pages/accounts/reset/resetPassword.js';
 import '/imports/ui/pages/accounts/reset/resetSuccess.js';
 import '/imports/ui/pages/accounts/pausedUser.js';
+import '/imports/ui/pages/accounts/initializing.js';
 
 
 // Office

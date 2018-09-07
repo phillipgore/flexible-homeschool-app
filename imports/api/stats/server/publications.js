@@ -167,27 +167,6 @@ Meteor.publish('initialStats', function() {
 	Counts.publish(this, 'userCount', Meteor.users.find({'info.groupId': groupId}));
 });
 
-Meteor.publish('initialPaths', function() {
-	this.autorun(function (computation) {
-		if (!this.userId) {
-			return this.ready();
-		}
-
-		let self = this;
-
-		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-		let schoolYears = SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}, fields: {startYear: 1, endYear: 1}});
-
-		schoolYears.map((schoolYear) => {
-			schoolYear = allSchoolYearsStatusAndPaths(schoolYear, schoolYear._id);
-			schoolYear.schoolYearId = schoolYear._id;
-			self.added('initialPaths', Random.id(), schoolYear);
-		});
-
-		self.ready();
-	});
-});
-
 Meteor.publish('resourceStats', function() {
 	if (!this.userId) {
 		return this.ready();
