@@ -33,20 +33,29 @@ Tracker.autorun(() => {
 	}
 });
 
+
+
+// Redirection if signed in.
 function checkSignIn(context, redirect) {
 	if (Meteor.userId()) {
 		redirect('/initializing');
 	}
 };
 
-function checkSignOut(context, redirect) {
-	if (!Meteor.userId()) {
-		redirect('/sign-in');
-	} else if (!Meteor.user().status.active) {
-		redirect('/paused/user');
-	}
-};
+FlowRouter.triggers.enter([checkSignIn], {only: [
+	'createAccount',
+	'verifySent',
+	'verifySuccess',
+	'signIn',
+	'reset',
+	'resetSent',
+	'resetPassword',
+	'resetSuccess'
+]});
 
+
+
+// Retireve initial data.
 function initialData(context) {
 	// Initial Frame
 	if (!Session.get('selectedFramePosition')) {
@@ -111,101 +120,21 @@ function initialData(context) {
 	}	
 };
 
-function checkRoleUser(context, redirect) {
-	if (Meteor.user().info.role === 'User') {
-		if (_.startsWith(context.route.name, 'users') || _.startsWith(context.route.name, 'billing')) {
-			redirect('/settings/support/view/1');
-		}
+// Redirection if signed out.
+function checkSignOut(context, redirect) {
+	if (!Meteor.userId()) {
+		redirect('/sign-in');
+	} else if (!Meteor.user().status.active) {
+		redirect('/paused/user');
 	}
 };
 
-function checkRoleObserver(context, redirect) {
-	if (Meteor.user().info.role === 'Observer') {
-		if (_.startsWith(context.route.name, 'users') || _.startsWith(context.route.name, 'billing')) {
-			redirect('/settings/support/view/1');
-		} else {
-			redirect('/settings/users/restricted/2');
-		}
-	}
-};
-
-function checkRoleApplication (context, redirect) {
-	if (Meteor.user().info.role === 'Application Administrator' || Meteor.user().info.role === 'Developer') {
-		redirect('/settings/support/view/1');
-	} 
-};
-
+// Redirection if payment error.
 function checkPaymentError(context, redirect) {
 	if (Groups.findOne().subscriptionStatus === 'error') {
 		redirect('/settings/billing/error/1');
 	}
 };
-
-function checkSubscriptionPaused(context, redirect) {
-	if (Groups.findOne().subscriptionStatus === 'paused') {
-		redirect('/settings/billing/invoices/2');
-	}
-};
-
-function resetSessions(context) {
-	Session.set({
-		card: '',
-		hideCoupon: false,
-		cardNumber: 'none',
-		cardCvc: 'none',
-		cardExpiry: 'none',
-		postalCode: 'none',
-		coupon: ''
-	});
-};
-
-function setFramePosition(context) {
-	let currentPostion = context.params.selectedFramePosition;
-
-	if (!currentPostion || currentPostion === '1') {
-		Session.setPersistent('selectedFramePosition', 1);
-		Session.setPersistent('selectedFrameClass', 'frame-position-one');		
-	} else if (currentPostion === '2') {
-		Session.setPersistent('selectedFramePosition', 2);
-		Session.setPersistent('selectedFrameClass', 'frame-position-two');		
-	} else if (currentPostion === '3') {
-		Session.setPersistent('selectedFramePosition', 3);
-		Session.setPersistent('selectedFrameClass', 'frame-position-three');		
-	} 
-};
-
-function clearAlerts(context) {
-	Alerts.remove({});
-};
-
-function scrollReset(context) {
-	$(window).scrollTop(0);
-	// $('.frame-one, .frame-two, .frame-three').scrollTop(0);
-};
-
-function isAppAdmin(context) {
-	if (Meteor.user().info.role != 'Application Administrator') {
-		FlowRouter.go('/')
-	}
-}
-
-FlowRouter.triggers.enter([setFramePosition, clearAlerts, scrollReset]);
-
-FlowRouter.triggers.enter([isAppAdmin], {only: [
-	'officeAccounts',
-	'officeDashboard'
-]});
-
-FlowRouter.triggers.enter([checkSignIn], {only: [
-	'createAccount',
-	'verifySent',
-	'verifySuccess',
-	'signIn',
-	'reset',
-	'resetSent',
-	'resetPassword',
-	'resetSuccess'
-]});
 
 FlowRouter.triggers.enter([initialData, checkSignOut, checkPaymentError], {except: [
 	'createAccount',
@@ -220,37 +149,16 @@ FlowRouter.triggers.enter([initialData, checkSignOut, checkPaymentError], {excep
 	'pausedUser'
 ]});
 
-FlowRouter.triggers.enter([resetSessions], {except: [
-	'usersView',
-	'usersNew',
-	'usersVerifyResent',
-	'usersEdit',
-	'usersRestricted',
-	'billingError',
-	'billingInvoices',
-	'billingEdit',
-	'billingCoupons',
-	'supportView',
-	'usersView',
-]});
 
-FlowRouter.triggers.enter([checkSubscriptionPaused], {except: [
-	'createAccount',
-	'verifySent',
-	'verifySuccess',
-	'signIn',
-	'reset',
-	'resetSent',
-	'resetPassword',
-	'resetSuccess',
-	'billingError',
-	'billingList', 
-	'billingInvoices', 
-	'billingEdit',
-	'billingCoupons', 
-	'supportList',
-	'pausedUser'
-]});
+
+// Redirect based on user role.
+function checkRoleUser(context, redirect) {
+	if (Meteor.user().info.role === 'User') {
+		if (_.startsWith(context.route.name, 'users') || _.startsWith(context.route.name, 'billing')) {
+			redirect('/settings/support/view/1');
+		}
+	}
+};
 
 FlowRouter.triggers.enter([checkRoleUser], {only: [
 	'usersList',
@@ -263,6 +171,19 @@ FlowRouter.triggers.enter([checkRoleUser], {only: [
 	'billingEdit',
 	'billingCoupons',
 ]});
+
+
+
+// Redirection based on observer role.
+function checkRoleObserver(context, redirect) {
+	if (Meteor.user().info.role === 'Observer') {
+		if (_.startsWith(context.route.name, 'users') || _.startsWith(context.route.name, 'billing')) {
+			redirect('/settings/support/view/1');
+		} else {
+			redirect('/settings/users/restricted/2');
+		}
+	}
+};
 
 FlowRouter.triggers.enter([checkRoleObserver], {only: [
 	'usersList',
@@ -293,7 +214,16 @@ FlowRouter.triggers.enter([checkRoleObserver], {only: [
 	'schoolWorkEdit',
 ]});
 
-FlowRouter.triggers.enter([checkRoleApplication], {only: [
+
+
+// Redirection based on App Admin or Dev role.
+function checkRoleAppAdminOrDev (context, redirect) {
+	if (Meteor.user().info.role === 'Application Administrator' || Meteor.user().info.role === 'Developer') {
+		redirect('/settings/support/view/1');
+	} 
+};
+
+FlowRouter.triggers.enter([checkRoleAppAdminOrDev], {only: [
 	'usersList',
 	'usersNew',
 	'usersVerifySent',
@@ -304,4 +234,113 @@ FlowRouter.triggers.enter([checkRoleApplication], {only: [
 	'billingEdit',
 	'billingCoupons',
 ]});
+
+
+
+// Redirection based on a paused subscription.
+function checkSubscriptionPaused(context, redirect) {
+	if (Groups.findOne().subscriptionStatus === 'paused') {
+		redirect('/settings/billing/invoices/2');
+	}
+};
+
+FlowRouter.triggers.enter([checkSubscriptionPaused], {except: [
+	'createAccount',
+	'verifySent',
+	'verifySuccess',
+	'signIn',
+	'reset',
+	'resetSent',
+	'resetPassword',
+	'resetSuccess',
+	'billingError',
+	'billingList', 
+	'billingInvoices', 
+	'billingEdit',
+	'billingCoupons', 
+	'supportList',
+	'pausedUser'
+]});
+
+
+
+// CC infor reset.
+function resetSessions(context) {
+	Session.set({
+		card: '',
+		hideCoupon: false,
+		cardNumber: 'none',
+		cardCvc: 'none',
+		cardExpiry: 'none',
+		postalCode: 'none',
+		coupon: ''
+	});
+};
+
+FlowRouter.triggers.enter([resetSessions], {except: [
+	'usersView',
+	'usersNew',
+	'usersVerifyResent',
+	'usersEdit',
+	'usersRestricted',
+	'billingError',
+	'billingInvoices',
+	'billingEdit',
+	'billingCoupons',
+	'supportView',
+	'usersView',
+]});
+
+
+
+// Set frame position.
+function setFramePosition(context) {
+	let currentPostion = context.params.selectedFramePosition;
+
+	if (!currentPostion || currentPostion === '1') {
+		Session.setPersistent('selectedFramePosition', 1);
+		Session.setPersistent('selectedFrameClass', 'frame-position-one');		
+	} else if (currentPostion === '2') {
+		Session.setPersistent('selectedFramePosition', 2);
+		Session.setPersistent('selectedFrameClass', 'frame-position-two');		
+	} else if (currentPostion === '3') {
+		Session.setPersistent('selectedFramePosition', 3);
+		Session.setPersistent('selectedFrameClass', 'frame-position-three');		
+	} 
+};
+
+// Clear Alerts.
+function clearAlerts(context) {
+	Alerts.remove({});
+};
+
+// Reset scroll position.
+function scrollReset(context) {
+	$(window).scrollTop(0);
+};
+
+FlowRouter.triggers.enter([setFramePosition, clearAlerts, scrollReset]);
+
+
+
+// Redirection based on App Admin role.
+function isAppAdmin(context) {
+	if (Meteor.user().info.role != 'Application Administrator') {
+		FlowRouter.go('/')
+	}
+}
+
+FlowRouter.triggers.enter([isAppAdmin], {only: [
+	'officeAccounts',
+	'officeDashboard'
+]});
+
+
+
+
+
+
+
+
+
 
