@@ -68,7 +68,6 @@ Template.trackingList.helpers({
 	},
 
 	termsProgress: function(studentId) {
-		console.log('test')
 		return _.find(Session.get('progressStats'), ['studentId', studentId]) && _.find(Session.get('progressStats'), ['studentId', studentId]).termProgress;
 	},
 
