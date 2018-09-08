@@ -61,7 +61,7 @@ FlowRouter.triggers.enter([checkSignIn], {only: [
 
 // Retireve initial data.
 function initialData(context) {
-	let initialIds = Session.get('initialIds')
+	let initialIds = Session.get('initialIds');
 
 	// Initial Frame
 	if (!Session.get('selectedFramePosition')) {

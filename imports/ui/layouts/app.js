@@ -343,8 +343,8 @@ Template.app.events({
 			editUrl: '/planning/students/edit/3/' + $(event.currentTarget).attr('id'),
 		});
 
-		let termId = InitialIds.find().fetch()[0]['term' + $(event.currentTarget).attr('id') + Session.get('selectedSchoolYearId')];
-		let weekId = InitialIds.find().fetch()[0]['week' + $(event.currentTarget).attr('id') + Session.get('selectedSchoolYearId') + termId];
+		let termId = Session.get('initialIds')['termId'];
+		let weekId = Session.get('initialIds')['weekId'];
 		Session.set('selectedTermId', termId);
 		Session.set('selectedWeekId', weekId);
 	},
@@ -364,8 +364,8 @@ Template.app.events({
 			editUrl: '/planning/schoolyears/edit/3/' + $(event.currentTarget).attr('id'),
 		});
 
-		let termId = InitialIds.find().fetch()[0]['term' + Session.get('selectedStudentId') + $(event.currentTarget).attr('id')];
-		let weekId = InitialIds.find().fetch()[0]['week' + Session.get('selectedStudentId') + $(event.currentTarget).attr('id') + termId];
+		let termId = Session.get('initialIds')['termId'];
+		let weekId = Session.get('initialIds')['weekId'];
 		Session.set('selectedTermId', termId);
 		Session.set('selectedWeekId', weekId);
 	},
@@ -408,8 +408,8 @@ Template.app.events({
 		Session.set({
 			selectedResourceType: 'all',
 			selectedResourceAvailability: 'all',
-			selectedResourceId: InitialIds.findOne().resourceAllAll,
-			selectedResourceCurrentType: InitialIds.findOne().resourceCurrentType,
+			selectedResourceId: Session.get('initialIds').resourceAllAll,
+			selectedResourceCurrentType: Session.get('initialIds').resourceCurrentType,
 		});
 	},
 

@@ -7,8 +7,8 @@ Template.resourcesNewAudio.onCreated( function() {
 	Session.set('selectedResourceNewType', FlowRouter.getParam('selectedResourceNewType'));
 	Session.set('selectedResourceType', 'all');
 	Session.set('selectedResourceAvailability', 'all');
-	Session.set('selectedResourceId', InitialIds.findOne().resourceAllAll);
-	Session.set('selectedResourceCurrentType', InitialIds.findOne().resourceCurrentType);
+	Session.set('selectedResourceId', Session.get('initialIds').resourceAllAll);
+	Session.set('selectedResourceCurrentType', Session.get('initialIds').resourceCurrentType);
 });
 
 Template.resourcesNewAudio.onRendered( function() {

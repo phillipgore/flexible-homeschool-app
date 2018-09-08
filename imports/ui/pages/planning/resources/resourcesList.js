@@ -14,6 +14,23 @@ Template.resourcesList.onCreated( function() {
 
 	Meteor.call('getInitialResourceIds', function(error, result) {
 		Session.set('initialResourceIds', result);
+
+		let initialResourceIds = Session.get('initialResourceIds')
+		if (!Session.get('selectedResourceType')) {
+			Session.set('selectedResourceType', 'all');
+		}
+
+		if (!Session.get('selectedResourceAvailability')) {
+			Session.set('selectedResourceType', 'all');
+		}
+
+		if (!Session.get('selectedResourceId')) {
+			Session.set('selectedResourceId', initialResourceIds.resourceAllAll);
+		}
+
+		if (!Session.get('selectedResourceCurrentTypeId')) {
+			Session.set('selectedResourceCurrentTypeId', 'all');
+		}
 	});
 
 	Session.set('selectedResourceAvailability', FlowRouter.getParam('selectedResourceAvailability'));
