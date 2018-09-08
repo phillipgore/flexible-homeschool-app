@@ -9,7 +9,7 @@ Template.resourcesList.onCreated( function() {
 	
 	template.autorun(() => {
 		this.resourceData = Meteor.subscribe('scopedResources', FlowRouter.getParam('selectedResourceType'), FlowRouter.getParam('selectedResourceAvailability'));
-		Meteor.subscribe('resourceStats');
+		this.subscribe('resourceStats');
 	});
 
 	Session.set('selectedResourceAvailability', FlowRouter.getParam('selectedResourceAvailability'));

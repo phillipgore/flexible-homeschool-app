@@ -55,10 +55,22 @@ FlowRouter.triggers.enter([checkSignIn], {only: [
 
 // Retireve initial data.
 function initialData(context) {
+	let initialIds = InitialIds.findOne()
+
 	// Initial Frame
 	if (!Session.get('selectedFramePosition')) {
 		Session.setPersistent('selectedFramePosition', 1);
 		Session.setPersistent('selectedFrameClass', 'frame-position-one');
+	}
+
+	// Initial Student
+	if (!Session.get('selectedStudentId')) {
+		Session.set('selectedStudentId', initialIds.studentId);
+	}
+
+	// Initial School Year
+	if (!Session.get('selectedSchoolYearId')) {
+		Session.set('selectedSchoolYearId', initialIds.schoolYearId);
 	}
 
 	// Initial Resources
@@ -70,43 +82,34 @@ function initialData(context) {
 		Session.set('selectedResourceAvailability', 'all');
 	}
 
-
-	// Initial Ids
-	let initialIds = InitialIds.findOne()
-	Object.keys(initialIds).forEach(function(key) {
-		if (key != '_id' && !Session.get('selected' + _.upperFirst(key) + 'Id')) {
-			// console.log('selected' + _.upperFirst(key) + 'Id: ' + initialIds[key])
-			Session.set('selected' + _.upperFirst(key) + 'Id', initialIds[key]);
-		}
-	});
-	
-
-	// Nav Ids
-	if (!Session.get('selectedTermId')) {
-		let termId = InitialIds.find().fetch()[0]['term' + Session.get('selectedStudentId') + Session.get('selectedSchoolYearId')];
-		if (termId) { 
-			Session.set('selectedTermId', termId);
-		} else {
-			Session.set('selectedTermId', 'empty');
-		}
-	}
-
-	if (!Session.get('selectedWeekId')) {
-		let weekId = InitialIds.find().fetch()[0]['week' + Session.get('selectedStudentId') + Session.get('selectedSchoolYearId') + Session.get('selectedTermId')];
-		if (weekId) {
-			Session.set('selectedWeekId', weekId);
-		} else {
-			Session.set('selectedWeekId', 'empty');
-		}
-	}
-
 	if (!Session.get('selectedResourceId')) {
-		Session.set('selectedResourceId', InitialIds.findOne().resourceAllAll)	
+		Session.set('selectedResourceId', initialIds.resourceId);
 	}
 
-	if (!Session.get('selectedSchoolWorkId')) {
-		Session.set('selectedSchoolWorkId', InitialIds.find().fetch()[0]['schoolWork' + Session.get('selectedStudentId') + Session.get('selectedSchoolYearId')]);
+	if (!Session.get('selectedResourceCurrentTypeId')) {
+		Session.set('selectedResourceCurrentTypeId', initialIds.resourceType);
 	}
+
+	// Initial Term
+	if (!Session.get('selectedTermId')) {
+		Session.set('selectedTermId', initialIds.termId);
+	}
+
+	// Initial Week
+	if (!Session.get('selectedWeekId')) {
+		Session.set('selectedWeekId', initialIds.weekId);
+	}
+
+	// Initial Week
+	if (!Session.get('selectedSchoolWorkId')) {
+		Session.set('selectedSchoolWorkId', initialIds.schoolWorkId);
+	}
+
+	// Initial User
+	if (!Session.get('selecteduserId')) {
+		Session.set('selectedUserId', initialIds.userId);
+	}
+
 
 	// Initial Paths
 	if (!Session.get('planningPathName')) {

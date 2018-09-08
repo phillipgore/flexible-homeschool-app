@@ -2,8 +2,19 @@ import {Template} from 'meteor/templating';
 import {SchoolYears} from '../../../api/schoolYears/schoolYears.js';
 import {Students} from '../../../api/students/students.js';
 import {SchoolWork} from '../../../api/schoolWork/schoolWork.js';
-import moment from 'moment';
 import './subbarSchoolWork.html';
+
+import moment from 'moment';
+import _ from 'lodash'
+InitialSchoolWorkIds = new Mongo.Collection('initialSchoolWorkIds');
+
+Template.subbarSchoolWork.onCreated( function() {
+	let template = Template.instance();
+	
+	template.autorun(() => {
+		this.subscribe('initialSchoolWorkIds')
+	});
+});
 
 Template.subbarSchoolWork.helpers({
 	schoolWorkCount: function() {
@@ -47,7 +58,9 @@ Template.subbarSchoolWork.helpers({
 	},
 
 	studentSchoolYearSchoolWorkId: function(studentId, schoolYearId) {
-		return Session.get('selectedSchoolWork' + studentId + schoolYearId + 'Id');
+		let schoolWorkIds = InitialSchoolWorkIds.findOne();
+		let key = 'schoolWork' + studentId + schoolYearId;
+		return schoolWorkIds[key];
 	},
 	
 	activeListItem: function(currentItem, item) {

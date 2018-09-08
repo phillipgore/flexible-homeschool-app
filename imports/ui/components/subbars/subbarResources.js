@@ -2,6 +2,15 @@ import {Template} from 'meteor/templating';
 import './subbarResources.html';
 
 import _ from 'lodash'
+InitialResourceIds = new Mongo.Collection('initialResourceIds');
+
+Template.subbarResources.onCreated( function() {
+	let template = Template.instance();
+	
+	template.autorun(() => {
+		this.subscribe('initialResourceIds')
+	});
+});
 
 Template.subbarResources.helpers({
 	types: [
@@ -46,7 +55,9 @@ Template.subbarResources.helpers({
 	},
 
 	typeAvailabilityResourceId: function(type, availability) {
-		return Session.get('selectedResource' + _.capitalize(type) + _.capitalize(availability) + 'Id');
+		let resourceIds = InitialResourceIds.findOne();
+		let key = 'resource' + _.capitalize(type) + _.capitalize(availability);
+		return resourceIds[key];
 	},
 
 	typeAvailability: function(type, availability) {

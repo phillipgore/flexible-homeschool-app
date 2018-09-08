@@ -8,6 +8,54 @@ import {Lessons} from '../../lessons/lessons.js';
 
 import _ from 'lodash'
 
+Meteor.publish('initialSchoolWorkIds', function() {
+	this.autorun(function (computation) {
+		if (!this.userId) {
+			return this.ready();
+		}
+
+		let self = this;
+		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
+		let ids = {};
+
+		let studentIds = Students.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}}).map((student) => (student._id))
+		let schoolYearIds = SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}}).map((schoolYear) => (schoolYear._id))
+		
+		// Initial School Work
+		if (studentIds.length && schoolYearIds.length) {
+			studentIds.forEach((studentId) => {
+				schoolYearIds.forEach((schoolYearId) => {
+					let keyName = 'schoolWork' + studentId + schoolYearId;
+					let valueSchoolWork = SchoolWork.findOne({groupId: groupId, schoolYearId: schoolYearId, studentId: studentId, deletedOn: { $exists: false }}, {sort: {name: 1}});
+
+					if (valueSchoolWork) {ids[keyName] = valueSchoolWork._id} else {ids[keyName] = 'empty'};
+				});
+			});
+		}
+
+		if (studentIds.length && !schoolYearIds.length) {
+			studentIds.forEach((studentId) => {
+				let keyName = 'schoolWork' + studentId + 'empty';
+				ids[keyName] = 'empty'
+			});
+		}
+
+		if (!studentIds.length && schoolYearIds.length) {
+			schoolYearIds.forEach((schoolYearId) => {
+				let keyName = 'schoolWorkempty' + schoolYearId;
+				ids[keyName] = 'empty'
+			});
+		}
+
+		if (!studentIds.length && !schoolYearIds.length) {
+			ids.schoolWorkemptyempty = 'empty';
+		}
+
+		self.added('initialSchoolWorkIds', Random.id(), ids);
+		self.ready();
+	});
+});
+
 Meteor.publish('schooYearStudentSchoolWork', function(schoolYearId, studentId) {
 	if (!this.userId) {
 		return this.ready();

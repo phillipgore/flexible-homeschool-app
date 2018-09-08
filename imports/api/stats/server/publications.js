@@ -21,29 +21,15 @@ Meteor.publish('initialIds', function(currentYear) {
 		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
 		let ids = {};
 
-
 		let userId = Meteor.users.findOne({'info.groupId': groupId, 'emails.0.verified': true, 'status.active': true}, {sort: {'info.lastName': 1, 'info.firstName': 1}})._id;
 		let studentIds = Students.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}}).map((student) => (student._id))
-		let schoolYears = SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}, fields: {startYear: 1, endYear: 1}});
-		let resourceTypes = ['all', 'book', 'link', 'video', 'audio', 'app'];
-		let resourceAvailabilities = ['all', 'own', 'borrowed', 'need'];
-		let schoolYearIds = SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}}).map((schoolYear) => (schoolYear._id))
-		let report = Reports.findOne({groupId: groupId, deletedOn: { $exists: false }}, {sort: {name: 1}});
-
-
-		// Initial User
-		if (userId) {ids.user = userId} else {ids.user = 'empty'};
 
 
 		// Intiial Student
-		if (studentIds.length) {ids.student = studentIds[0]} else {ids.student = 'empty'};
+		if (studentIds.length) {ids.studentId = studentIds[0]} else {ids.studentId = 'empty'};
 
 
-		// Intiial Report
-		if (report) {ids.report = report._id} else {ids.report = 'empty'};
-
-
-		// Initial Times
+		// Initial School Year
 		function schoolYearId(currentYear) {
 			if (!SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}).count()) {
 				return 'empty'
@@ -54,104 +40,51 @@ Meteor.publish('initialIds', function(currentYear) {
 			return SchoolYears.findOne({groupId: groupId, startYear: {$lte: currentYear}, deletedOn: { $exists: false }}, {sort: {starYear: 1}})._id;
 
 		};
-		ids.schoolYear = schoolYearId(currentYear);
-
-		if (studentIds.length) {
-			studentIds.forEach((studentId) => {
-				schoolYears.map((schoolYear) => {
-					schoolYear = studentSchoolYearsStatusAndPaths(schoolYear, schoolYear._id, studentId);
-
-					let keyNameTerm = 'term' + studentId + schoolYear._id;
-					let valueTerm = schoolYear.firstTermId;
-					if (valueTerm) {ids[keyNameTerm] = valueTerm} else {ids[keyNameTerm] = 'empty'};
-
-					let keyNameWeek = 'week' + studentId + schoolYear._id + schoolYear.firstTermId;
-					let valueWeek = schoolYear.firstWeekId;
-					if (valueWeek) {ids[keyNameWeek] = valueWeek} else {ids[keyNameWeek] = 'empty'};
-				});
-			});
-		} else {
-			if (schoolYears.count()) {
-				schoolYears.map((schoolYear) => {
-					schoolYear = allSchoolYearsStatusAndPaths(schoolYear, schoolYear._id);
-
-					let keyNameTerm = 'termempty' + schoolYear._id;
-					let valueTerm = schoolYear.firstTermId;
-					if (valueTerm) {ids[keyNameTerm] = valueTerm} else {ids[keyNameTerm] = 'empty'};
-
-					let keyNameWeek = 'weekempty' + schoolYear._id + schoolYear.firstTermId;
-					let valueWeek = schoolYear.firstWeekId;
-					if (valueWeek) {ids[keyNameWeek] = valueWeek} else {ids[keyNameWeek] = 'empty'};
-				});
-			} else {
-				ids.termemptyempty = 'empty';
-				ids.weekemptyemptyempty = 'empty';
-			}
-		}
+		ids.schoolYearId = schoolYearId(currentYear);
 
 
 		// Initial Resources
-		resourceTypes.forEach((type) => {
-			resourceAvailabilities.forEach((availability) => {
-				function query (type, availability) {
-					if (type === 'all' && availability === 'all') {
-						return {groupId: groupId, deletedOn: { $exists: false }};
-					}
-					if (type === 'all' && availability != 'all') {
-						return {availability: availability, groupId: groupId, deletedOn: { $exists: false }};
-					}
-					if (type != 'all' && availability === 'all') {
-						return {type: type, groupId: groupId, deletedOn: { $exists: false }};
-					}
-					return {type: type, availability: availability, groupId: groupId, deletedOn: { $exists: false }};
-				};
+		let valueResource = Resources.findOne({groupId: groupId, deletedOn: { $exists: false }}, {sort: {title: 1}});
+		if (valueResource) {ids.resourceId = valueResource._id} else {ids.resourceId = 'empty'};
+		if (valueResource) {ids.resourceType = valueResource.type} else {ids.resourceType = 'empty'};
 
-				let keyName = _.capitalize(type) + _.capitalize(availability);
-				let valueResource = Resources.findOne(query(type, availability), {sort: {title: 1}});
 
-				if (valueResource) {ids['resource' + keyName] = valueResource._id} else {ids['resource' + keyName] = 'empty'};
-			})
-		});
+		// Initial Terms and Weeks
+		let initialSchoolYear = SchoolYears.findOne({_id: ids.schoolYearId, groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}, fields: {startYear: 1, endYear: 1}});
 
-		let valueFirstResource = Resources.findOne({groupId: groupId, deletedOn: { $exists: false }}, {sort: {title: 1}});
-		if (valueFirstResource) {ids['resourceCurrentType'] = valueFirstResource.type} else {ids['resourceCurrentType'] = 'empty'};
+
+		if (ids.schoolYearId === 'empty') {
+			ids.termId === 'empty';
+			ids.weekId === 'empty';
+		} else {
+			let schoolYear = studentSchoolYearsStatusAndPaths(initialSchoolYear, initialSchoolYear._id, ids.studentId);
+
+			let valueTerm = schoolYear.firstTermId;
+			if (valueTerm) {ids.termId = valueTerm} else {ids.termId = 'empty'};
+
+			let valueWeek = schoolYear.firstWeekId;
+			if (valueWeek) {ids.weekId = valueWeek} else {ids.weekId = 'empty'};
+		}
 
 
 		// Initial School Work
-		if (studentIds.length && schoolYearIds.length) {
-			studentIds.forEach((studentId) => {
-				schoolYearIds.forEach((schoolYearId) => {
-					let keyName = 'schoolWork' + studentId + schoolYearId;
-					let valueSchoolWork = SchoolWork.findOne({groupId: groupId, schoolYearId: schoolYearId, studentId: studentId, deletedOn: { $exists: false }}, {sort: {name: 1}});
-
-					if (valueSchoolWork) {ids[keyName] = valueSchoolWork._id} else {ids[keyName] = 'empty'};
-				});
-			});
+		if (ids.schoolYearId === 'empty' || ids.termId === 'empty' || ids.weekId === 'empty') {
+			ids.schoolWorkId === 'empty';
+		} else {
+			let valueSchoolWork = SchoolWork.findOne({groupId: groupId, schoolYearId: ids.schoolYearId, studentId: ids.studentId, deletedOn: { $exists: false }}, {sort: {name: 1}});
+			if (valueSchoolWork) {ids.schoolWorkId = valueSchoolWork._id} else {ids.schoolWorkId = 'empty'};
 		}
 
-		if (studentIds.length && !schoolYearIds.length) {
-			studentIds.forEach((studentId) => {
-				let keyName = 'schoolWork' + studentId + 'empty';
-				ids[keyName] = 'empty'
-			});
-		}
 
-		if (!studentIds.length && schoolYearIds.length) {
-			schoolYearIds.forEach((schoolYearId) => {
-				let keyName = 'schoolWorkempty' + schoolYearId;
-				ids[keyName] = 'empty'
-			});
-		}
-
-		if (!studentIds.length && !schoolYearIds.length) {
-			ids.schoolWorkemptyempty = 'empty';
-		}
+		// Initial User
+		if (userId) {ids.userId = userId} else {ids.userId = 'empty'};
 
 
 		self.added('initialIds', Random.id(), ids);
 		self.ready();
 	});
-});
+
+})
 
 Meteor.publish('initialStats', function() {
 	if (!this.userId) {
