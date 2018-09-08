@@ -6,15 +6,7 @@ import './subbarSchoolWork.html';
 
 import moment from 'moment';
 import _ from 'lodash'
-InitialSchoolWorkIds = new Mongo.Collection('initialSchoolWorkIds');
 
-Template.subbarSchoolWork.onCreated( function() {
-	let template = Template.instance();
-	
-	template.autorun(() => {
-		this.subscribe('initialSchoolWorkIds')
-	});
-});
 
 Template.subbarSchoolWork.helpers({
 	schoolWorkCount: function() {
@@ -58,7 +50,7 @@ Template.subbarSchoolWork.helpers({
 	},
 
 	studentSchoolYearSchoolWorkId: function(studentId, schoolYearId) {
-		let schoolWorkIds = InitialSchoolWorkIds.findOne();
+		let schoolWorkIds = Session.get('initialSchoolWorkIds');
 		let key = 'schoolWork' + studentId + schoolYearId;
 		return schoolWorkIds[key];
 	},

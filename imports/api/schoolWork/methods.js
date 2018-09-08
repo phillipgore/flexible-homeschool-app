@@ -1,16 +1,57 @@
 import {Mongo} from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
 
+import {Students} from '../students/students.js';
+import {SchoolYears} from '../schoolYears/schoolYears.js';
 import {SchoolWork} from './schoolWork.js';
 import {Lessons} from '../lessons/lessons.js';
 
 import _ from 'lodash'
 
 Meteor.methods({
-	// insertSchoolWork(schoolWorkProperties) {
-	// 	const schoolWorkId = SchoolWork.insert(schoolWorkProperties);
-	// 	return schoolWorkId;
-	// },
+	getInitialSchoolWorkIds() {
+		if (!this.userId) {
+			return false;
+		}
+
+		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
+		let ids = {};
+
+		let studentIds = Students.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}}).map((student) => (student._id))
+		let schoolYearIds = SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}}).map((schoolYear) => (schoolYear._id))
+		
+		// Initial School Work
+		if (studentIds.length && schoolYearIds.length) {
+			studentIds.forEach((studentId) => {
+				schoolYearIds.forEach((schoolYearId) => {
+					let keyName = 'schoolWork' + studentId + schoolYearId;
+					let valueSchoolWork = SchoolWork.findOne({groupId: groupId, schoolYearId: schoolYearId, studentId: studentId, deletedOn: { $exists: false }}, {sort: {name: 1}});
+
+					if (valueSchoolWork) {ids[keyName] = valueSchoolWork._id} else {ids[keyName] = 'empty'};
+				});
+			});
+		}
+
+		if (studentIds.length && !schoolYearIds.length) {
+			studentIds.forEach((studentId) => {
+				let keyName = 'schoolWork' + studentId + 'empty';
+				ids[keyName] = 'empty'
+			});
+		}
+
+		if (!studentIds.length && schoolYearIds.length) {
+			schoolYearIds.forEach((schoolYearId) => {
+				let keyName = 'schoolWorkempty' + schoolYearId;
+				ids[keyName] = 'empty'
+			});
+		}
+
+		if (!studentIds.length && !schoolYearIds.length) {
+			ids.schoolWorkemptyempty = 'empty';
+		}
+
+		return ids;
+	},
 
 	updateSchoolWork: function(schoolWorkId, schoolWorkProperties) {
 		SchoolWork.update(schoolWorkId, {$set: schoolWorkProperties});

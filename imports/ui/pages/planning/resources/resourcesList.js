@@ -12,6 +12,10 @@ Template.resourcesList.onCreated( function() {
 		this.subscribe('resourceStats');
 	});
 
+	Meteor.call('getInitialResourceIds', function(error, result) {
+		Session.set('initialResourceIds', result);
+	});
+
 	Session.set('selectedResourceAvailability', FlowRouter.getParam('selectedResourceAvailability'));
 	Session.set('selectedResourceType', FlowRouter.getParam('selectedResourceType'));
 });
