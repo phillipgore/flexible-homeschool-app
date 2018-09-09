@@ -43,6 +43,10 @@ Template.registerHelper('dateFormat', (date) => {
   return moment.utc(date).format('MMMM D, YYYY');
 });
 
+Template.registerHelper('dateTimeFormat', (date) => {
+  return moment.utc(date).format('MMMM D, YYYY - h:mm A');
+});
+
 Template.registerHelper('shortDateFormat', (date) => {
   return moment.utc(date).format('M/D/YY');
 });
