@@ -36,7 +36,8 @@ Template.signIn.onRendered( function() {
 						$('.js-submit').prop('disabled', false);
 					}
 				} else {
-					FlowRouter.go('/initializing');
+					console.log('go /')
+					FlowRouter.go('/');
 				}
 			});
 

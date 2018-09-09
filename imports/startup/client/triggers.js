@@ -7,7 +7,8 @@ import { Weeks } from '../../api/weeks/weeks.js';
 import moment from 'moment';
 import _ from 'lodash'
 
-Session.set('initialIdsReady', false);
+InitialIds = new Mongo.Collection('initialIds');
+
 let year = moment().year();
 let month = moment().month();
 
@@ -20,19 +21,15 @@ function startYearFunction(year) {
 
 let userData = Meteor.subscribe('userData');
 let groupStatus = Meteor.subscribe('groupStatus');
-let initialStats = Meteor.subscribe('initialStats');
-
-Meteor.call('getInitialIds', startYearFunction(year), function(error, result) {
-	Session.set('initialIds', result);
-	Session.set('initialIdsReady', true);
-});
+let getInitialIds = Meteor.subscribe('initialIds', startYearFunction(year));
+let getInitialStats = Meteor.subscribe('initialStats');
 
 
 
 FlowRouter.wait();
 
 Tracker.autorun(() => {
-	if (userData.ready() && groupStatus.ready() && Session.get('initialIdsReady') && initialStats.ready() && !FlowRouter._initialized) {
+	if (userData.ready() && groupStatus.ready() && getInitialIds.ready() && getInitialStats.ready() && !FlowRouter._initialized) {
 		FlowRouter.initialize()
 	}
 });
@@ -61,7 +58,8 @@ FlowRouter.triggers.enter([checkSignIn], {only: [
 
 // Retireve initial data.
 function initialData(context) {
-	let initialIds = Session.get('initialIds');
+	let initialIds = InitialIds.findOne();
+	Session.set('initialIds', initialIds)
 
 	// Initial Frame
 	if (!Session.get('selectedFramePosition')) {
@@ -124,7 +122,7 @@ function initialData(context) {
 
 	if (Session.get('selectedStudentId') && Session.get('selectedSchoolYearId') && Session.get('selectedTermId') && Session.get('selectedWeekId')) {
 		Session.set('initialized', true);
-	}	
+	}
 };
 
 // Redirection if signed out.
