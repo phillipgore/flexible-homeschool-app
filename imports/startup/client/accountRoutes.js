@@ -59,6 +59,23 @@ FlowRouter.route('/sign-in', {
 	},
 });
 
+FlowRouter.route('/sign-out', {
+	name: 'signOut',
+	action() {
+		Accounts.logout(function(error) {
+			if (error) {
+				Alerts.insert({
+					colorClass: 'bg-danger',
+					iconClass: 'fss-danger',
+					message: error.reason,
+				});
+			} else {
+				FlowRouter.go("/sign-in");
+			}
+		});
+	},
+});
+
 FlowRouter.route('/reset', {
 	name: 'reset',
 	action() {
