@@ -21,7 +21,7 @@
 			<!-- /Print Only -->
 
 			<div class="js-{{work._id}} js-info view-info tracking-view p-tn-18 m-tn-h-9 m-tn-t-6 m-tn-b-18 hide">
-				{{#if work.description.length}}
+				<!-- {{#if work.description.length}}
 					<section>
 						<label>Description / General Instructions</label>
 						{{{work.description}}}
@@ -43,7 +43,7 @@
 							{{/each}}
 						</ul>
 					</section>
-				{{/if}}
+				{{/if}} -->
 			</div>
 			<div class="row track-btn-container m-tn-h-9">
 				{{#each lesson in lessons work._id}}
@@ -62,7 +62,7 @@
 					</div>
 					
 					<form id="js-form-{{lesson._id}}" class="js-form-lessons-update track-form">
-						<div class="row checkbox-collection p-tn-t-6">
+						<!-- <div class="row checkbox-collection p-tn-t-6">
 							<div class="col-tn-1of2">
 								<label class="checkbox">
 									<input class="js-assigned-checkbox" type="checkbox" name="assigned" value="{{lesson.assigned}}" checked="{{lesson.assigned}}">
@@ -94,7 +94,7 @@
 						<footer class="toolbar toolbar-bottom toolbar-gray">
 							<button data-close-id="{{lesson._id}}" class="js-close btn btn-gray-darker fl-tn-left">Cancel</button>
 							<button type="submit" class="js-submit fl-tn-right">Update</button>
-						</footer>
+						</footer> -->
 					</form>
 				</div>
 			{{/each}}
