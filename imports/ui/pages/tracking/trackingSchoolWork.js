@@ -9,6 +9,7 @@ import { Lessons } from '../../../api/lessons/lessons.js';
 
 import moment from 'moment';
 import autosize from 'autosize';
+import _ from 'lodash'
 import './trackingSchoolWork.html';
 
 Template.trackingSchoolWork.onCreated( function() {
@@ -43,7 +44,8 @@ Template.trackingSchoolWork.helpers({
 	},
 
 	lessonCount: function(schoolWorkId) {
-		return Lessons.find({weekId: FlowRouter.getParam('selectedWeekId'), schoolWorkId: schoolWorkId}).count();
+		let lessons = SchoolWork.findOne({_id: schoolWorkId}).lessons;
+		return lessons.length;
 	},
 
 	lessonPosition: function(schoolWorkId, lessonId) {
@@ -55,18 +57,17 @@ Template.trackingSchoolWork.helpers({
 		return moment();
 	},
 
-	lessonStatus: function(lessonAssigned, lessonCompleted, schoolWorkId) {
-		let lessonsIncompleteCount = Lessons.find({weekId: FlowRouter.getParam('selectedWeekId'), schoolWorkId: schoolWorkId, completed: false}, {sort: {order: 1}}).count()
-		if (!lessonsIncompleteCount && lessonCompleted) {
+	lessonStatus: function(lesson, lessons) {
+		if (!_.some(lessons, ['completed', false])) {
 			return 'btn-primary';
 		}
-		if (lessonCompleted) {
+		if (lesson.completed) {
 			return 'btn-secondary';
 		}
-		if (lessonAssigned) {
+		if (lesson.assigned) {
 			return 'btn-warning';
 		}
-		return '';
+		return false;
 	},
 });
 
