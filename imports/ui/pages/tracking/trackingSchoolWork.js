@@ -75,12 +75,18 @@ Template.trackingSchoolWork.events({
 	'click .js-show-schoolWork-info'(event) {
 		event.preventDefault();
 
+		let schoolWorkId = $(event.currentTarget).attr('id');
+
 		$('.js-schoolWork-track').removeClass('active');
 		$('.js-lesson-input').removeAttr('style');
 
-		let schoolWorkId = $(event.currentTarget).attr('id');
 		$('.js-label-' + schoolWorkId).toggle();
 		$('.js-' + schoolWorkId).toggle();
+
+		Meteor.subscribe('schoolWorkInfo', schoolWorkId, function() {
+			$('.js-loader-' + schoolWorkId).hide();
+			$('.js-info-' + schoolWorkId).show();
+		})
 	},
 
 	'click .js-lesson-btn'(event) {
