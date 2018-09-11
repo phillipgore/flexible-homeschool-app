@@ -62,28 +62,6 @@ Meteor.publish('trackinglistPub', function(studentId, schoolYearId, termId, week
 });
 
 
-// Meteor.publish('trackingStatsPub', function(studentId, schoolYearId, termId, weekId) {
-// 	this.autorun(function (computation) {
-// 		if (!this.userId) {
-// 			return this.ready();
-// 		}
-
-// 		let self = this;
-
-// 		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-// 		let students = Students.find({groupId: groupId, deletedOn: { $exists: false }}, {fields: {_id: 1}});
-
-// 		students.map((student) => {
-// 			student.studentId = student._id;
-// 			term = studentStats(student, student._id, schoolYearId, termId, weekId);
-// 			self.added('studentStats', Random.id(), student);
-// 		});
-
-// 		self.ready();
-// 	});
-// });
-
-
 
 
 
