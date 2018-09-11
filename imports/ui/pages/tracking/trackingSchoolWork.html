@@ -21,18 +21,18 @@
 			<!-- /Print Only -->
 
 			<div class="js-{{work._id}} js-info view-info tracking-view p-tn-18 m-tn-h-9 m-tn-t-6 m-tn-b-18 hide">
-				<span class="js-loader-{{work._id}}" >
+				<span class="js-loader-{{work._id}}">
 					{{> viewLoading}}
 				</span>
 				<span class="js-info-{{work._id}} hide">
-					{{#if work.description.length}}
+					{{#if work.description}}
 						<section>
 							<label>Description / General Instructions</label>
 							{{{work.description}}}
 						</section>
 					{{/if}}
 
-					{{#if work.resources.length}}
+					{{#if work.resources}}
 						<section>
 							<label class="p-tn-b-12">Resources</label>
 							<ul class="info-list">
