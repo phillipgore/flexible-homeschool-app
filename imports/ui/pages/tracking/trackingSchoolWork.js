@@ -79,6 +79,11 @@ Template.trackingSchoolWork.events({
 	'click .js-show-schoolWork-info'(event) {
 		event.preventDefault();
 
+		$('.js-show').show();
+		$('.js-hide').hide();
+		$('.js-info').hide();
+		Session.set('schoolWorkInfo', 'result');
+
 		if ($(event.currentTarget).hasClass('js-closed')) {
 			$(event.currentTarget).removeClass('js-closed');
 			let schoolWorkId = $(event.currentTarget).attr('id');
@@ -97,10 +102,7 @@ Template.trackingSchoolWork.events({
 				$('.js-info-' + schoolWorkId).show();
 			})
 		} else {
-			$('.js-show').show();
-			$('.js-hide').hide();
-			$('.js-info').hide();
-			Session.set('schoolWorkInfo', 'result');
+			$(event.currentTarget).addClass('js-closed');
 		}		
 	},
 
