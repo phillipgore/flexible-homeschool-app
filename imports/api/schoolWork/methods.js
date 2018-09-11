@@ -3,6 +3,7 @@ import SimpleSchema from 'simpl-schema';
 
 import {Students} from '../students/students.js';
 import {SchoolYears} from '../schoolYears/schoolYears.js';
+import {Resources} from '../resources/resources.js';
 import {SchoolWork} from './schoolWork.js';
 import {Lessons} from '../lessons/lessons.js';
 
@@ -51,6 +52,24 @@ Meteor.methods({
 		}
 
 		return ids;
+	},
+
+	getSchoolWorkInfo: function(schoolWorkId) {
+		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
+		let info = {};
+		let resourceInfo = [];
+
+		info.description = SchoolWork.findOne({_id: schoolWorkId, groupId: groupId, deletedOn: { $exists: false }}).description;
+
+		let resourceIds = _.flattenDeep(SchoolWork.find({_id: schoolWorkId, groupId: groupId, deletedOn: { $exists: false }}).map(schoolWork => schoolWork.resources));
+		let resources = Resources.find({groupId: groupId, deletedOn: { $exists: false }, _id: {$in: resourceIds}}, {sort: {title: 1}, fields: {title: 1, type: 1, link: 1}});
+		resources.forEach(resource => {
+			resourceInfo.push({_id: resource._id, title: resource.title, type: resource.type, link: resource.link})
+		})
+
+		info.resources = resourceInfo;
+
+		return info;
 	},
 
 	updateSchoolWork: function(schoolWorkId, schoolWorkProperties) {

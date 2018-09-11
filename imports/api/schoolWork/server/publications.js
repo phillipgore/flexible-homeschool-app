@@ -44,20 +44,6 @@ Meteor.publish('trackingViewPub', function(studentId, weekId) {
 	});
 });
 
-Meteor.publish('schoolWorkInfo', function(schoolWorkId) {
-	if (!this.userId) {
-		return this.ready();
-	}
-
-	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-	let resourceIds = _.flattenDeep(SchoolWork.find({_id: schoolWorkId, groupId: groupId, deletedOn: { $exists: false }}).map(schoolWork => schoolWork.resources));
-
-	return [
-		SchoolWork.find({_id: schoolWorkId, groupId: groupId, deletedOn: { $exists: false }}, {sort: {name: 1}, fields: {groupId: 0, userId: 0, createdOn: 0, updatedOn: 0, deletedOn: 0}}),
-		Resources.find({groupId: groupId, deletedOn: { $exists: false }, _id: {$in: resourceIds}}, {sort: {title: 1}, fields: {title: 1, type: 1, link: 1}}),
-	]
-});
-
 Meteor.publish('schoolWork', function(schoolWorkId) {
 	if (!this.userId) {
 		return this.ready();

@@ -25,18 +25,18 @@
 					{{> viewLoading}}
 				</span>
 				<span class="js-info-{{work._id}} hide">
-					{{#if work.description}}
+					{{#if workInfo.description}}
 						<section>
 							<label>Description / General Instructions</label>
-							{{{work.description}}}
+							{{{workInfo.description}}}
 						</section>
 					{{/if}}
 
-					{{#if work.resources}}
+					{{#if workInfo.resources}}
 						<section>
 							<label class="p-tn-b-12">Resources</label>
 							<ul class="info-list">
-								{{#each resource in resources work.resources}}
+								{{#each resource in workInfo.resources}}
 									<li class="txt-ellipsis p-tn-b-3">
 										{{#if resource.link}}
 											<a href="{{resource.link}}"><i class="fss-{{resource.type}} txt-primary"></i> {{resource.title}}</a>
@@ -67,7 +67,7 @@
 					</div>
 					
 					<form id="js-form-{{lesson._id}}" class="js-form-lessons-update track-form">
-						<!-- <div class="row checkbox-collection p-tn-t-6">
+						<div class="row checkbox-collection p-tn-t-6">
 							<div class="col-tn-1of2">
 								<label class="checkbox">
 									<input class="js-assigned-checkbox" type="checkbox" name="assigned" value="{{lesson.assigned}}" checked="{{lesson.assigned}}">
@@ -99,7 +99,7 @@
 						<footer class="toolbar toolbar-bottom toolbar-gray">
 							<button data-close-id="{{lesson._id}}" class="js-close btn btn-gray-darker fl-tn-left">Cancel</button>
 							<button type="submit" class="js-submit fl-tn-right">Update</button>
-						</footer> -->
+						</footer>
 					</form>
 				</div>
 			{{/each}}

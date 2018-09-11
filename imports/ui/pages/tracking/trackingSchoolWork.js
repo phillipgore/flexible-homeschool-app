@@ -57,6 +57,10 @@ Template.trackingSchoolWork.helpers({
 		return moment();
 	},
 
+	workInfo: function() {
+		return Session.get('schoolWorkInfo');
+	},
+
 	lessonStatus: function(lesson, lessons) {
 		if (!_.some(lessons, ['completed', false])) {
 			return 'btn-primary';
@@ -75,15 +79,23 @@ Template.trackingSchoolWork.events({
 	'click .js-show-schoolWork-info'(event) {
 		event.preventDefault();
 
+		$('.js-show').show();
+		$('.js-hide').hide();
+		$('.js-info').hide();
+		Session.set('schoolWorkInfo', 'result');
+
 		let schoolWorkId = $(event.currentTarget).attr('id');
 
 		$('.js-schoolWork-track').removeClass('active');
 		$('.js-lesson-input').removeAttr('style');
 
-		$('.js-label-' + schoolWorkId).toggle();
-		$('.js-' + schoolWorkId).toggle();
+		$('.js-show.js-label-' + schoolWorkId).hide();
+		$('.js-hide.js-label-' + schoolWorkId).show();
+		$('.js-' + schoolWorkId).show();
 
-		Meteor.subscribe('schoolWorkInfo', schoolWorkId, function() {
+		Meteor.call('getSchoolWorkInfo', schoolWorkId, function(error, result) {
+			Session.set('schoolWorkInfo', result);
+
 			$('.js-loader-' + schoolWorkId).hide();
 			$('.js-info-' + schoolWorkId).show();
 		})
@@ -94,6 +106,7 @@ Template.trackingSchoolWork.events({
 
 		$('.js-hide, .js-info').hide();
 		$('.js-show').show();
+		Session.set('schoolWorkInfo', 'result');
 
 		let schoolWorkId = $(event.currentTarget).attr('data-schoolWork-id');
 		let lessonId = $(event.currentTarget).attr('data-lesson-id');
