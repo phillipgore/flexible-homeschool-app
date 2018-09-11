@@ -79,26 +79,29 @@ Template.trackingSchoolWork.events({
 	'click .js-show-schoolWork-info'(event) {
 		event.preventDefault();
 
-		$('.js-show').show();
-		$('.js-hide').hide();
-		$('.js-info').hide();
-		Session.set('schoolWorkInfo', 'result');
+		if ($(event.currentTarget).hasClass('js-closed')) {
+			$(event.currentTarget).removeClass('js-closed');
+			let schoolWorkId = $(event.currentTarget).attr('id');
 
-		let schoolWorkId = $(event.currentTarget).attr('id');
+			$('.js-schoolWork-track').removeClass('active');
+			$('.js-lesson-input').removeAttr('style');
 
-		$('.js-schoolWork-track').removeClass('active');
-		$('.js-lesson-input').removeAttr('style');
+			$('.js-show.js-label-' + schoolWorkId).hide();
+			$('.js-hide.js-label-' + schoolWorkId).show();
+			$('.js-' + schoolWorkId).show();
 
-		$('.js-show.js-label-' + schoolWorkId).hide();
-		$('.js-hide.js-label-' + schoolWorkId).show();
-		$('.js-' + schoolWorkId).show();
+			Meteor.call('getSchoolWorkInfo', schoolWorkId, function(error, result) {
+				Session.set('schoolWorkInfo', result);
 
-		Meteor.call('getSchoolWorkInfo', schoolWorkId, function(error, result) {
-			Session.set('schoolWorkInfo', result);
-
-			$('.js-loader-' + schoolWorkId).hide();
-			$('.js-info-' + schoolWorkId).show();
-		})
+				$('.js-loader-' + schoolWorkId).hide();
+				$('.js-info-' + schoolWorkId).show();
+			})
+		} else {
+			$('.js-show').show();
+			$('.js-hide').hide();
+			$('.js-info').hide();
+			Session.set('schoolWorkInfo', 'result');
+		}		
 	},
 
 	'click .js-lesson-btn'(event) {
