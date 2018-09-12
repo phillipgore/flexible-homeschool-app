@@ -190,11 +190,13 @@ Template.trackingSchoolWork.events({
 				});
 				
 				$('.js-lesson-updating').hide();
+				Session.set('lessonInfo', null);
 			} else {
 				Meteor.call('getProgressStats', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'), FlowRouter.getParam('selectedWeekId'), function(error, result) {
 					Session.set('progressStats', result);
 				});
 				$('.js-lesson-updating').hide();
+				Session.set('lessonInfo', null);
 			}
 		});
 
