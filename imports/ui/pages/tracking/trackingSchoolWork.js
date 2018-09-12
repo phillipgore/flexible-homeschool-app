@@ -1,11 +1,7 @@
 import {Template} from 'meteor/templating';
-import { Students } from '../../../api/students/students.js';
-import { SchoolYears } from '../../../api/schoolYears/schoolYears.js';
-import { Resources } from '../../../api/resources/resources.js';
 import { SchoolWork } from '../../../api/schoolWork/schoolWork.js';
 import { Terms } from '../../../api/terms/terms.js';
 import { Weeks } from '../../../api/weeks/weeks.js';
-import { Lessons } from '../../../api/lessons/lessons.js';
 
 import moment from 'moment';
 import autosize from 'autosize';
@@ -19,10 +15,6 @@ Template.trackingSchoolWork.onCreated( function() {
 });
 
 Template.trackingSchoolWork.helpers({
-	resources: function(resourceIds) {
-		return Resources.find({_id: {$in: resourceIds}});
-	},
-
 	terms: function() {
 		return Terms.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}, {sort: {order: 1}});
 	},
@@ -46,7 +38,7 @@ Template.trackingSchoolWork.helpers({
 
 	lessonPosition: function(schoolWorkId, lessonId) {
 		let lessonIds = SchoolWork.findOne({_id: schoolWorkId}).lessons.map(lesson => (lesson._id))
-		return Lessons.find() && lessonIds.indexOf(lessonId);
+		return lessonIds.indexOf(lessonId);
 	},
 
 	todaysDate: function() {
@@ -55,6 +47,10 @@ Template.trackingSchoolWork.helpers({
 
 	workInfo: function() {
 		return Session.get('schoolWorkInfo');
+	},
+
+	lessonInfo: function() {
+		return Session.get('lessonInfo');
 	},
 
 	lessonStatus: function(lesson, lessons) {
@@ -78,7 +74,7 @@ Template.trackingSchoolWork.events({
 		$('.js-show').show();
 		$('.js-hide').hide();
 		$('.js-info').hide();
-		Session.set('schoolWorkInfo', 'result');
+		Session.set('schoolWorkInfo', null);
 
 		if ($(event.currentTarget).hasClass('js-closed')) {
 			$(event.currentTarget).removeClass('js-closed');
@@ -107,24 +103,30 @@ Template.trackingSchoolWork.events({
 
 		$('.js-hide, .js-info').hide();
 		$('.js-show').show();
-		Session.set('schoolWorkInfo', 'result');
+		Session.set('schoolWorkInfo', null);
+		Session.set('lessonInfo', null);
 
 		let schoolWorkId = $(event.currentTarget).attr('data-schoolWork-id');
 		let lessonId = $(event.currentTarget).attr('data-lesson-id');
 		Session.set('lessonScrollTop', $('#js-schoolWork-track-' + schoolWorkId).offset().top - 80);
 
-		$('.js-lesson-input').removeAttr('style');
-		$('#js-schoolWork-track-' + schoolWorkId).addClass('active');
-		$('.js-schoolWork-track').not('.active').addClass('inactive');
+		Meteor.call('getLesson', lessonId, function(error, result) {
+			Session.set('lessonInfo', result);
+			console.log(Session.get('lessonInfo'));
 
-		$('#' + lessonId).show();
-		$(window).scrollTop(0);
+			$('.js-lesson-input').removeAttr('style');
+			$('#js-schoolWork-track-' + schoolWorkId).addClass('active');
+			$('.js-schoolWork-track').not('.active').addClass('inactive');
 
-		$('#completed-on-' + lessonId).pickadate({
-			format: 'mmmm d, yyyy',
-			today: 'Today',
-			clear: 'Clear',
-			close: 'Close',
+			$('#' + lessonId).show();
+			$(window).scrollTop(0);
+
+			$('#completed-on-' + lessonId).pickadate({
+				format: 'mmmm d, yyyy',
+				today: 'Today',
+				clear: 'Clear',
+				close: 'Close',
+			});
 		});
 	},
 
@@ -137,6 +139,7 @@ Template.trackingSchoolWork.events({
 		if ($(window).width() < 640) {
 			$(window).scrollTop(Session.get('lessonScrollTop'));
 		}
+		Session.set('lessonInfo', null);
 	},
 
 	'change .js-completed-checkbox, change .js-assigned-checkbox'(event) {

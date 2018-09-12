@@ -68,18 +68,18 @@
 					</div>
 					
 					<form id="js-form-{{lesson._id}}" class="js-form-lessons-update track-form">
-						{{> lessonLoading}}
-						<!-- <div class="row checkbox-collection p-tn-t-6">
+						<!-- {{> lessonLoading}} -->
+						<div class="row checkbox-collection p-tn-t-6">
 							<div class="col-tn-1of2">
 								<label class="checkbox">
-									<input class="js-assigned-checkbox" type="checkbox" name="assigned" value="{{lesson.assigned}}" checked="{{lesson.assigned}}">
+									<input class="js-assigned-checkbox" type="checkbox" name="assigned" value="{{lessonInfo.assigned}}" checked="{{lessonInfo.assigned}}">
 									<div class="checkbox-icon"></div> 
 									<div class="checkbox-label">Do Next</div>
 								</label>
 							</div>
 							<div class="col-tn-1of2">
 								<label class="checkbox fl-tn-right">
-									<input class="js-completed-checkbox" type="checkbox" name="completed" value="{{lesson.completed}}" checked="{{lesson.completed}}">
+									<input class="js-completed-checkbox" type="checkbox" name="completed" value="{{lessonInfo.completed}}" checked="{{lessonInfo.completed}}">
 									<div class="checkbox-icon"></div> 
 									<div class="checkbox-label">Complete</div>
 								</label>
@@ -91,17 +91,17 @@
 						<label>Completion Time</label>
 						<div class="row">
 							<div class="col-tn-1of5">
-								<input type="text" name="completionTime" id="completion-time" placeholder="30" autocomplete="off" value="{{lesson.completionTime}}">
+								<input type="text" name="completionTime" id="completion-time" placeholder="30" autocomplete="off" value="{{lessonInfo.completionTime}}">
 							</div>
 							<div class="col-tn-4of5 font-weight-normal p-tn-l-6 p-tn-t-9">Minutes</div>
 						</div>
 						<label>Descripton</label>
-						{{> editor classes="m-tn-b-18" placeholder="In this session we..." existingContent=lesson.description}}
+						{{> editor classes="m-tn-b-18" placeholder="In this session we..." existingContent=lessonInfo.description}}
 						
 						<footer class="toolbar toolbar-bottom toolbar-gray">
-							<button data-close-id="{{lesson._id}}" class="js-close btn btn-gray-darker fl-tn-left">Cancel</button>
+							<button data-close-id="{{lessonInfo._id}}" class="js-close btn btn-gray-darker fl-tn-left">Cancel</button>
 							<button type="submit" class="js-submit fl-tn-right">Update</button>
-						</footer> -->
+						</footer>
 					</form>
 				</div>
 			{{/each}}

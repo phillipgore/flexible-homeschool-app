@@ -34,7 +34,7 @@ Meteor.publish('trackingViewPub', function(studentId, weekId) {
 			let schoolWorkLessons = Lessons.find({groupId: groupId, deletedOn: { $exists: false }, schoolWorkId: schoolWorkItem._id, weekId: weekId}, {sort: {order: 1}});
 			let lesson = []
 			schoolWorkLessons.forEach(schoolWorkLesson => {
-				lesson.push({_id: schoolWorkLesson._id, order: schoolWorkLesson.order, assigned: schoolWorkLesson.assigned, completed: schoolWorkLesson.completed})
+				lesson.push({_id: schoolWorkLesson._id, order: schoolWorkLesson.order, assigned: schoolWorkLesson.assigned, completed: schoolWorkLesson.completed, completedOn: schoolWorkLesson.completedOn})
 			})
 			schoolWorkItem.lessons = lesson;
 			self.added('schoolWork', schoolWorkItem._id, schoolWorkItem);
