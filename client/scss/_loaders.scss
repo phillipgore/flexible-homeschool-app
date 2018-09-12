@@ -90,6 +90,18 @@
 		}
 	}
 
+	&.loader-icon-on-gray-lightest {
+		background-color: $color-gray-darker;
+
+		&:before {
+			background-color: $color-gray-lightest;
+		}
+
+		&:after {
+			background-color: $color-gray-lightest;
+		}
+	}
+
 	&.loader-icon-sm {
 		height: 26px;
 		width: 26px;
@@ -192,7 +204,7 @@
 	}
 }
 
-.frame-one{
+.frame-one {
 	.loading-container {
 		z-index: 800;
 	}

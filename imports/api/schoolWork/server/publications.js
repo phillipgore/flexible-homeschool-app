@@ -17,32 +17,30 @@ Meteor.publish('schooYearStudentSchoolWork', function(schoolYearId, studentId) {
 	return SchoolWork.find({groupId: groupId, schoolYearId: schoolYearId, studentId: studentId, deletedOn: { $exists: false }}, {sort: {name: 1}, fields: {order: 1, name: 1, studentId: 1, schoolYearId: 1}});
 });
 
-// Meteor.publish('trackingViewPub', function(studentId, weekId) {
-// 	this.autorun(function (computation) {
-// 		if (!this.userId) {
-// 			return this.ready();
-// 		}
-
-// 	});
-// });
-
-
 Meteor.publish('trackingViewPub', function(studentId, weekId) {
-	if (!this.userId) {
-		return this.ready();
-	}
+	this.autorun(function (computation) {
+		if (!this.userId) {
+			return this.ready();
+		}
 
-	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-	let lessonSchoolWorkIds = SchoolWork.find({studentId: studentId, deletedOn: { $exists: false }}).map(schoolWork => schoolWork._id);	
-	let schoolWorkIds = Lessons.find({weekId: weekId, deletedOn: { $exists: false }}).map(lesson => (lesson.schoolWorkId))
-	let resourceIds = _.flattenDeep(SchoolWork.find({_id: {$in: schoolWorkIds}, groupId: groupId, studentId: studentId, deletedOn: { $exists: false }}).map(schoolWork => schoolWork.resources));
+		let self = this;
 
-	return [
-		Students.find({groupId: groupId, deletedOn: { $exists: false }, _id: studentId}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}, fields: {birthday: 1, firstName: 1, middleName: 1, lastName: 1, 'preferredFirstName.name': 1}}),
-		SchoolWork.find({_id: {$in: schoolWorkIds}, groupId: groupId, studentId: studentId, deletedOn: { $exists: false }}, {sort: {name: 1}, fields: {groupId: 0, userId: 0, createdOn: 0, updatedOn: 0, deletedOn: 0}}),
-		Resources.find({groupId: groupId, deletedOn: { $exists: false }, _id: {$in: resourceIds}}, {sort: {title: 1}, fields: {title: 1, type: 1, link: 1}}),
-		Lessons.find({groupId: groupId, deletedOn: { $exists: false }, schoolWorkId: {$in: lessonSchoolWorkIds}, weekId: weekId}, {sort: {order: 1}, fields: {groupId: 0, userId: 0, createdOn: 0, updatedOn: 0, deletedOn: 0}})
-	]
+		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
+		let schoolWorkIds = Lessons.find({weekId: weekId, deletedOn: { $exists: false }}).map(lesson => (lesson.schoolWorkId))
+
+		let schoolWork = SchoolWork.find({_id: {$in: schoolWorkIds}, groupId: groupId, studentId: studentId, deletedOn: { $exists: false }}, {sort: {name: 1}, fields: {order: 1, name: 1, studentId: 1, schoolYearId: 1}});
+		
+		schoolWork.map((schoolWorkItem) => {
+			let schoolWorkLessons = Lessons.find({groupId: groupId, deletedOn: { $exists: false }, schoolWorkId: schoolWorkItem._id, weekId: weekId}, {sort: {order: 1}});
+			let lesson = []
+			schoolWorkLessons.forEach(schoolWorkLesson => {
+				lesson.push({_id: schoolWorkLesson._id, order: schoolWorkLesson.order, assigned: schoolWorkLesson.assigned, completed: schoolWorkLesson.completed, completedOn: schoolWorkLesson.completedOn})
+			})
+			schoolWorkItem.lessons = lesson;
+			self.added('schoolWork', schoolWorkItem._id, schoolWorkItem);
+		});
+		
+		self.ready();
 });
 
 Meteor.publish('schoolWork', function(schoolWorkId) {

@@ -26,7 +26,7 @@ Meteor.publish('weeksPath', function(termId, studentId) {
 		let self = this;
 
 		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-		let weeks = Weeks.find({termId: termId, groupId: groupId, deletedOn: { $exists: false }}, {sort: {order: 1}, fields: {groupId: 0, userId: 0, createdOn: 0}});
+		let weeks = Weeks.find({termId: termId, groupId: groupId, deletedOn: { $exists: false }}, {sort: {order: 1}, fields: {groupId: 0, userId: 0, createdOn: 0, deletedOn: 0}});
 
 		weeks.map((week) => {
 			week = weekStatus(week, week._id, studentId);

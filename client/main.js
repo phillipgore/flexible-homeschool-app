@@ -18,6 +18,8 @@ import '/imports/ui/components/status.js';
 	import '/imports/ui/components/loaders/sendingEmail.html';
 	import '/imports/ui/components/loaders/signingOut.html';
 	import '/imports/ui/components/loaders/updating.html';
+	import '/imports/ui/components/loaders/viewLoading.html';
+	import '/imports/ui/components/loaders/lessonLoading.html';
 	// Subbars
 	import '/imports/ui/components/subbars/subbarAccounts.html';
 	import '/imports/ui/components/subbars/subbarReporting.js';
