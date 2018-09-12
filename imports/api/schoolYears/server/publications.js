@@ -50,7 +50,7 @@ Meteor.publish('studentSchoolYearsPath', function(studentId) {
 		let schoolYears = SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}, fields: {startYear: 1, endYear: 1}});
 
 		schoolYears.map((schoolYear) => {
-			schoolYear = studentSchoolYearsStatusAndPaths(schoolYear, schoolYear._id, studentId);
+			schoolYear = studentSchoolYearsStatusAndPaths(schoolYear, studentId);
 			self.added('schoolYears', schoolYear._id, schoolYear);
 		});
 

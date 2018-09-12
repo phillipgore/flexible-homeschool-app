@@ -36,7 +36,6 @@ Template.signIn.onRendered( function() {
 						$('.js-submit').prop('disabled', false);
 					}
 				} else {
-					console.log('go /')
 					FlowRouter.go('/');
 				}
 			});

@@ -8,6 +8,12 @@ import moment from 'moment';
 import _ from 'lodash'
 
 
+Template.subbarSchoolWork.onCreated( function() {
+	Meteor.call('getInitialSchoolWorkIds', function(error, result) {
+		Session.set('initialSchoolWorkIds', result);
+	});
+});
+
 Template.subbarSchoolWork.helpers({
 	schoolWorkCount: function() {
 		return SchoolWork.find().count();

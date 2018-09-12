@@ -4,7 +4,6 @@ import { Terms } from '../../../api/terms/terms.js';
 import { Weeks } from '../../../api/weeks/weeks.js';
 
 import moment from 'moment';
-import autosize from 'autosize';
 import _ from 'lodash'
 import './trackingSchoolWork.html';
 

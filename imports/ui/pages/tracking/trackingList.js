@@ -1,10 +1,7 @@
 import {Template} from 'meteor/templating';
 import { Students } from '../../../api/students/students.js';
-import { SchoolWork } from '../../../api/schoolWork/schoolWork.js';
 import { SchoolYears } from '../../../api/schoolYears/schoolYears.js';
 import { Terms } from '../../../api/terms/terms.js';
-import { Weeks } from '../../../api/weeks/weeks.js';
-import { Lessons } from '../../../api/lessons/lessons.js';
 import './trackingList.html';
 
 import _ from 'lodash'
@@ -12,10 +9,7 @@ import _ from 'lodash'
 Template.trackingList.onCreated( function() {
 	let template = Template.instance();
 
-	this.trackingData = Meteor.subscribe('trackinglistPub', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'), FlowRouter.getParam('selectedWeekId'));
-	Meteor.call('getInitialSchoolWorkIds', function(error, result) {
-		Session.set('initialSchoolWorkIds', result);
-	});
+	this.trackingData = Meteor.subscribe('trackingListPub', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'), FlowRouter.getParam('selectedWeekId'));
 });
 
 Template.trackingList.onRendered( function() {

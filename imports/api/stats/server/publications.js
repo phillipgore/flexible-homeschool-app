@@ -57,7 +57,7 @@ Meteor.publish('initialIds', function(currentYear) {
 			ids.termId === 'empty';
 			ids.weekId === 'empty';
 		} else {
-			let schoolYear = studentSchoolYearsStatusAndPaths(initialSchoolYear, initialSchoolYear._id, ids.studentId);
+			let schoolYear = studentSchoolYearsStatusAndPaths(initialSchoolYear, ids.studentId);
 
 			let valueTerm = schoolYear.firstTermId;
 			if (valueTerm) {ids.termId = valueTerm} else {ids.termId = 'empty'};

@@ -188,17 +188,18 @@ export function allSchoolYearsStatusAndPaths(schoolYear, schoolYearId) {
 
 
 
-export function studentSchoolYearsStatusAndPaths(schoolYear, schoolYearId, studentId) {
-	if (schoolYearId) {
-		let schoolWorkIds = SchoolWork.find({studentId: studentId, schoolYearId: schoolYearId, deletedOn: { $exists: false }}).map(schoolWork => (schoolWork._id));
+export function studentSchoolYearsStatusAndPaths(schoolYear, studentId) {
+	if (schoolYear) {
+		let schoolWorkIds = SchoolWork.find({studentId: studentId, schoolYearId: schoolYear._id, deletedOn: { $exists: false }}).map(schoolWork => (schoolWork._id));
 
 		let lessons = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, deletedOn: { $exists: false }});
-		let lessonsComplete = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, completed: true, deletedOn: { $exists: false }});
-		let lessonsIncomplete = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, completed: false, deletedOn: { $exists: false }});
-		let lessonsAssigned = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, completed: false, assigned: true, deletedOn: { $exists: false }});
+		let lessonsComplete = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, deletedOn: { $exists: false }, completed: true});
+		let lessonsIncomplete = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, deletedOn: { $exists: false }, completed: false});	
+		let lessonsAssigned = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, deletedOn: { $exists: false }, completed: false, assigned: true});
+
 		schoolYear.status = status(lessons.count(), lessonsComplete.count(), lessonsAssigned.count());
 
-		if (Terms.find({schoolYearId: schoolYearId, deletedOn: { $exists: false }}).count()) {
+		if (Terms.find({schoolYearId: schoolYear._id, deletedOn: { $exists: false }}).count()) {
 			if (lessons.count()) {
 				let firstWeekId = getFirstLesson(lessons, lessonsComplete, lessonsIncomplete).weekId;
 				let firstWeek = Weeks.findOne({_id: firstWeekId, deletedOn: { $exists: false }});
@@ -206,7 +207,7 @@ export function studentSchoolYearsStatusAndPaths(schoolYear, schoolYearId, stude
 				schoolYear.firstTermId = firstWeek.termId;
 				schoolYear.firstWeekId = firstWeekId;
 			} else {
-				let firstTerm = Terms.findOne({schoolYearId: schoolYearId, deletedOn: { $exists: false }}, {sort: {order: 1}})
+				let firstTerm = Terms.findOne({schoolYearId: schoolYear._id, deletedOn: { $exists: false }}, {sort: {order: 1}})
 				let firstWeek = Weeks.findOne({termId: firstTerm._id, deletedOn: { $exists: false }}, {sort: {order: 1}})
 
 				schoolYear.firstTermId = firstTerm._id;
