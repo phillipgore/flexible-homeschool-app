@@ -39,8 +39,9 @@ Meteor.publish('trackingViewPub', function(studentId, weekId) {
 			schoolWorkItem.lessons = lesson;
 			self.added('schoolWork', schoolWorkItem._id, schoolWorkItem);
 		});
-		
+
 		self.ready();
+	});
 });
 
 Meteor.publish('schoolWork', function(schoolWorkId) {
