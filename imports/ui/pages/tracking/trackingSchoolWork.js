@@ -110,23 +110,26 @@ Template.trackingSchoolWork.events({
 		let lessonId = $(event.currentTarget).attr('data-lesson-id');
 		Session.set('lessonScrollTop', $('#js-schoolWork-track-' + schoolWorkId).offset().top - 80);
 
+		$('.js-lesson-input').removeAttr('style');
+		$('#js-schoolWork-track-' + schoolWorkId).addClass('active');
+		$('.js-schoolWork-track').not('.active').addClass('inactive');
+
+		$('#' + lessonId).show();
+		$(window).scrollTop(0);
+
+		$('#completed-on-' + lessonId).pickadate({
+			format: 'mmmm d, yyyy',
+			today: 'Today',
+			clear: 'Clear',
+			close: 'Close',
+		});
+
 		Meteor.call('getLesson', lessonId, function(error, result) {
 			Session.set('lessonInfo', result);
 			console.log(Session.get('lessonInfo'));
 
-			$('.js-lesson-input').removeAttr('style');
-			$('#js-schoolWork-track-' + schoolWorkId).addClass('active');
-			$('.js-schoolWork-track').not('.active').addClass('inactive');
-
-			$('#' + lessonId).show();
-			$(window).scrollTop(0);
-
-			$('#completed-on-' + lessonId).pickadate({
-				format: 'mmmm d, yyyy',
-				today: 'Today',
-				clear: 'Clear',
-				close: 'Close',
-			});
+			$('.js-loader-' + lessonId).hide();
+			$('.js-info-' + lessonId).show();
 		});
 	},
 
