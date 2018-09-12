@@ -21,10 +21,9 @@
 			<!-- /Print Only -->
 
 			<div class="js-{{work._id}} js-info view-info tracking-view p-tn-18 m-tn-h-9 m-tn-t-6 m-tn-b-18 hide">
-				<span class="js-loader-{{work._id}}">
+				{{#unless workInfo}}
 					{{> viewLoading}}
-				</span>
-				<span class="js-info-{{work._id}} hide">
+				{{else}}
 					{{#if workInfo.description}}
 						<section>
 							<label>Description / General Instructions</label>
@@ -48,7 +47,7 @@
 							</ul>
 						</section>
 					{{/if}}
-				</span>
+				{{/unless}}
 			</div>
 			<div class="row track-btn-container m-tn-h-9">
 				{{#each lesson in work.lessons}}
@@ -61,13 +60,15 @@
 			</div>
 			{{#each lesson in work.lessons}}
 				<div id="{{lesson._id}}" class="js-lesson-input track-input">
+
 					<div class="row m-tn-h-9">
 						<div class="track-arrow offset-tn-{{lessonPosition work._id lesson._id}}of{{lessonCount work._id}} col-tn-1of{{lessonCount work._id}}">
 						</div>
 					</div>
 					
 					<form id="js-form-{{lesson._id}}" class="js-form-lessons-update track-form">
-						<div class="row checkbox-collection p-tn-t-6">
+						{{> lessonLoading}}
+						<!-- <div class="row checkbox-collection p-tn-t-6">
 							<div class="col-tn-1of2">
 								<label class="checkbox">
 									<input class="js-assigned-checkbox" type="checkbox" name="assigned" value="{{lesson.assigned}}" checked="{{lesson.assigned}}">
@@ -99,7 +100,7 @@
 						<footer class="toolbar toolbar-bottom toolbar-gray">
 							<button data-close-id="{{lesson._id}}" class="js-close btn btn-gray-darker fl-tn-left">Cancel</button>
 							<button type="submit" class="js-submit fl-tn-right">Update</button>
-						</footer>
+						</footer> -->
 					</form>
 				</div>
 			{{/each}}

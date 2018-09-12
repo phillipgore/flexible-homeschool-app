@@ -39,17 +39,13 @@ Template.trackingSchoolWork.helpers({
 		return Weeks.findOne({_id: FlowRouter.getParam('selectedWeekId')});
 	},
 
-	lessons: function(schoolWorkId) {
-		return Lessons.find({weekId: FlowRouter.getParam('selectedWeekId'), schoolWorkId: schoolWorkId}, {sort: {order: 1}});
-	},
-
 	lessonCount: function(schoolWorkId) {
 		let lessons = SchoolWork.findOne({_id: schoolWorkId}).lessons;
 		return lessons.length;
 	},
 
 	lessonPosition: function(schoolWorkId, lessonId) {
-		let lessonIds = Lessons.find({weekId: FlowRouter.getParam('selectedWeekId'), schoolWorkId: schoolWorkId}, {sort: {order: 1}}).map(lesson => (lesson._id))
+		let lessonIds = SchoolWork.findOne({_id: schoolWorkId}).lessons.map(lesson => (lesson._id))
 		return Lessons.find() && lessonIds.indexOf(lessonId);
 	},
 
@@ -97,9 +93,6 @@ Template.trackingSchoolWork.events({
 
 			Meteor.call('getSchoolWorkInfo', schoolWorkId, function(error, result) {
 				Session.set('schoolWorkInfo', result);
-
-				$('.js-loader-' + schoolWorkId).hide();
-				$('.js-info-' + schoolWorkId).show();
 			})
 		} else {
 			$(event.currentTarget).addClass('js-closed');
