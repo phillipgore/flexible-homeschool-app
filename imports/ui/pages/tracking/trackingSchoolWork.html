@@ -21,7 +21,10 @@
 			<!-- /Print Only -->
 
 			<div class="js-{{work._id}} js-info view-info tracking-view p-tn-18 m-tn-h-9 m-tn-t-6 m-tn-b-18 hide">
-				{{#if workInfo}}
+				<span class="js-loader-{{work._id}}">
+					{{> viewLoading}}
+				</span>
+				<span class="js-info-{{work._id}} hide">
 					{{#if workInfo.description}}
 						<section>
 							<label>Description / General Instructions</label>
@@ -45,9 +48,7 @@
 							</ul>
 						</section>
 					{{/if}}
-				{{else}}
-					{{> viewLoading}}
-				{{/if}}
+				</span>
 			</div>
 			<div class="row track-btn-container m-tn-h-9">
 				{{#each lesson in work.lessons}}

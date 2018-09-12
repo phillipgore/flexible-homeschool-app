@@ -93,6 +93,9 @@ Template.trackingSchoolWork.events({
 
 			Meteor.call('getSchoolWorkInfo', schoolWorkId, function(error, result) {
 				Session.set('schoolWorkInfo', result);
+
+				$('.js-loader-' + schoolWorkId).hide();
+				$('.js-info-' + schoolWorkId).show();
 			})
 		} else {
 			$(event.currentTarget).addClass('js-closed');
