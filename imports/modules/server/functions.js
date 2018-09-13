@@ -21,7 +21,7 @@ function status (lessonsTotal, lessonsCompletedTotal, lessonsAssignedTotal) {
 	return 'partial'
 };
 
-function getFirstLesson (lessons, lessonsComplete, lessonsIncomplete) {
+function getFirstLesson(lessons, lessonsComplete, lessonsIncomplete) {
 	let lessonWeekIds = lessons.map(lesson => lesson.weekId);
 	let lessonsCompletedWeekIds = lessonsComplete.map(lesson => lesson.weekId);
 	let lessonIncompletedWeekIds = lessonsIncomplete.map(lesson => lesson.weekId);
@@ -33,16 +33,17 @@ function getFirstLesson (lessons, lessonsComplete, lessonsIncomplete) {
 		}
 	});
 
-	let lessonIds = lessons.map(lesson => lesson._id);
 	if (partialWeeks.length) {
 		return Lessons.findOne({weekId: partialWeeks[0], deletedOn: { $exists: false }});
 	}
 
-	if (Lessons.find({_id: {$in: lessonIds}, completed: false, deletedOn: { $exists: false }}, {sort: {order: 1}}).count()) {
-		return Lessons.findOne({_id: {$in: lessonIds}, completed: false, deletedOn: { $exists: false }}, {sort: {order: 1}});
+	if (lessonsIncomplete.count()) {
+		let lessonIncompleteIds = lessonsIncomplete.map(lesson => lesson._id);
+		return Lessons.findOne({_id: {$in: lessonIncompleteIds}}, {sort: {order: 1}});
 	}
 
-	return Lessons.findOne({_id: {$in: lessonIds}, completed: true, deletedOn: { $exists: false }}, {sort: {order: -1}});
+	let lessonsCompleteIds = lessonsComplete.map(lesson => lesson._id);
+	return Lessons.findOne({_id: {$in: lessonsCompleteIds}}, {sort: {order: -1}});
 };
 
 
