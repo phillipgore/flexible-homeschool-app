@@ -8,15 +8,6 @@ import './officeRoutes.js';
 
 import moment from 'moment';
 
-FlowRouter.route('/initializing', {
-	name: 'initializing',
-	action() {
-		BlazeLayout.render('initializing');
-	},
-});
-
-
-
 Accounts.onLogout(() => {
 	Session.clear();
 });

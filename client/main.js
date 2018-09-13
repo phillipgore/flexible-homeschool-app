@@ -38,7 +38,6 @@ import '/imports/ui/pages/accounts/reset/resetSent.js';
 import '/imports/ui/pages/accounts/reset/resetPassword.js';
 import '/imports/ui/pages/accounts/reset/resetSuccess.js';
 import '/imports/ui/pages/accounts/pausedUser.js';
-import '/imports/ui/pages/accounts/initializing.js';
 
 
 // Office
