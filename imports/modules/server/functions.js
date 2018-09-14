@@ -34,16 +34,16 @@ function getFirstLesson(lessons, lessonsComplete, lessonsIncomplete) {
 	});
 
 	if (partialWeeks.length) {
-		return Lessons.findOne({weekId: partialWeeks[0], deletedOn: { $exists: false }});
+		return Lessons.findOne({weekId: partialWeeks[0], deletedOn: { $exists: false }}, {fields: {weekId: 1}});
 	}
 
-	if (lessonsIncomplete.count()) {
+	if (lessonsIncomplete.length) {
 		let lessonIncompleteIds = lessonsIncomplete.map(lesson => lesson._id);
-		return Lessons.findOne({_id: {$in: lessonIncompleteIds}}, {sort: {order: 1}});
+		return Lessons.findOne({_id: {$in: lessonIncompleteIds}}, {sort: {order: 1}, fields: {weekId: 1}});
 	}
 
 	let lessonsCompleteIds = lessonsComplete.map(lesson => lesson._id);
-	return Lessons.findOne({_id: {$in: lessonsCompleteIds}}, {sort: {order: -1}});
+	return Lessons.findOne({_id: {$in: lessonsCompleteIds}}, {sort: {order: -1}, fields: {weekId: 1}});
 };
 
 
@@ -56,14 +56,14 @@ export function studentPaths(student, studentId, schoolYearId, termId, weekId) {
 
 		// First Week URL ID
 		let weekIds = Weeks.find({termId: termId, deletedOn: { $exists: false }}).map(week => (week._id));
-		let lessons = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, weekId: {$in: weekIds}, deletedOn: { $exists: false }});
+		let lessons = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, weekId: {$in: weekIds}, deletedOn: { $exists: false }}, {fields: {completed: 1, weekId: 1}});
 		
 		if (lessons.count()) {
-			let lessonsComplete = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, weekId: {$in: weekIds}, deletedOn: { $exists: false }, completed: true});
-			let lessonsInComplete = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, weekId: {$in: weekIds}, deletedOn: { $exists: false }, completed: false});
+			let lessonsComplete = _.filter(lessons, ['completed', true]);
+			let lessonsIncomplete = _.filter(lessons, ['completed', false]);
 
-			let firstLesson = getFirstLesson(lessons, lessonsComplete, lessonsInComplete);
-			let firstWeek = Weeks.findOne({_id: firstLesson.weekId, deletedOn: { $exists: false }});
+			let firstWeekId = getFirstLesson(lessons, lessonsComplete, lessonsInComplete).weekId;
+			let firstWeek = Weeks.findOne({_id: firstWeekId, deletedOn: { $exists: false }});
 
 			student.firstWeekId = firstWeek._id;
 		} else {
@@ -89,8 +89,9 @@ export function studentStats(student, studentId, schoolYearId, termId, weekId) {
 	let schoolWorkIds = SchoolWork.find({studentId: studentId, schoolYearId: schoolYearId, deletedOn: { $exists: false }}).map(schoolWork => (schoolWork._id));
 
 	// Year Status
-	let yearLessonsTotal = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, deletedOn: { $exists: false }}).count();
-	let yearLessonsCompletedTotal = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, completed: true, deletedOn: { $exists: false }}).count();
+	let lessons = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, deletedOn: { $exists: false }}, {fields: {completed: 1}}).fetch();
+	let yearLessonsTotal = lessons.length;
+	let yearLessonsCompletedTotal = _.filter(lessons, ['completed', true]).length;
 	let yearPercentComplete = yearLessonsCompletedTotal / yearLessonsTotal * 100;
 
 	if (yearPercentComplete > 0 && yearPercentComplete < 1) {
@@ -107,8 +108,9 @@ export function studentStats(student, studentId, schoolYearId, termId, weekId) {
 	if (termId) {
 		let termWeeksIds = Weeks.find({termId: termId, deletedOn: { $exists: false }}).map(week => (week._id));
 
-		let termLessonsTotal = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, weekId: {$in: termWeeksIds}, deletedOn: { $exists: false }}).count();
-		let termLessonsCompletedTotal = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, weekId: {$in: termWeeksIds}, completed: true, deletedOn: { $exists: false }}).count();
+		let lessons = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, weekId: {$in: termWeeksIds}, deletedOn: { $exists: false }}, {fields: {completed: 1}}).fetch();
+		let termLessonsTotal = lessons.length;
+		let termLessonsCompletedTotal = _.filter(lessons, ['completed', true]).length;
 		let termPercentComplete = termLessonsCompletedTotal / termLessonsTotal * 100;
 
 		if (termPercentComplete > 0 && termPercentComplete < 1) {
@@ -126,8 +128,9 @@ export function studentStats(student, studentId, schoolYearId, termId, weekId) {
 
 	// Week Status
 	if (weekId) {
-		let weekLessonsTotal = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, weekId: weekId, deletedOn: { $exists: false }}).count();
-		let weekLessonsCompletedTotal = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, weekId: weekId, completed: true, deletedOn: { $exists: false }}).count();
+		let lessons = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, weekId: weekId, deletedOn: { $exists: false }}, {fields: {completed: 1}}).fetch()
+		let weekLessonsTotal = lessons.length;
+		let weekLessonsCompletedTotal = _.filter(lessons, ['completed', true]).length;
 		let weekPercentComplete = weekLessonsCompletedTotal / weekLessonsTotal * 100;
 
 		if (weekPercentComplete > 0 && weekPercentComplete < 1) {
@@ -153,14 +156,15 @@ export function allSchoolYearsStatusAndPaths(schoolYear, schoolYearId) {
 	if (schoolYearId) {
 		let schoolWorkIds = SchoolWork.find({schoolYearId: schoolYearId, deletedOn: { $exists: false }}).map(schoolWork => (schoolWork._id));
 
-		let lessons = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, deletedOn: { $exists: false }});
-		let lessonsComplete = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, completed: true, deletedOn: { $exists: false }});
-		let lessonsIncomplete = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, completed: false, deletedOn: { $exists: false }});
-		let lessonsAssigned = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, completed: false, assigned: true, deletedOn: { $exists: false }});
-		schoolYear.status = status(lessons.count(), lessonsComplete.count(), lessonsAssigned.count());
+		let lessons = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, deletedOn: { $exists: false }}, {fields: {completed: 1, assigned: 1, weekId: 1}}).fetch();
+		let lessonsComplete = _.filter(lessons, ['completed', true]);
+		let lessonsIncomplete = _.filter(lessons, ['completed', false]);	
+		let lessonsAssigned = _.filter(lessons, {'completed': false, 'assigned': true});
 
-		if (Terms.find({schoolYearId: schoolYearId, deletedOn: { $exists: false }}).count()) {
-			if (lessons.count()) {
+		schoolYear.status = status(lessons.length, lessonsComplete.length, lessonsAssigned.length);
+
+		if (Terms.find({schoolYearId: schoolYearId, deletedOn: { $exists: false }}).length) {
+			if (lessons.length) {
 				let firstWeekId = getFirstLesson(lessons, lessonsComplete, lessonsIncomplete).weekId;
 				let firstWeek = Weeks.findOne({_id: firstWeekId, deletedOn: { $exists: false }});
 
@@ -194,15 +198,15 @@ export function studentSchoolYearsStatusAndPaths(schoolYear, studentId) {
 	if (schoolYear) {
 		let schoolWorkIds = SchoolWork.find({studentId: studentId, schoolYearId: schoolYear._id, deletedOn: { $exists: false }}).map(schoolWork => (schoolWork._id));
 
-		let lessons = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, deletedOn: { $exists: false }});
-		let lessonsComplete = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, deletedOn: { $exists: false }, completed: true});
-		let lessonsIncomplete = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, deletedOn: { $exists: false }, completed: false});	
-		let lessonsAssigned = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, deletedOn: { $exists: false }, completed: false, assigned: true});
+		let lessons = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, deletedOn: { $exists: false }}, {fields: {completed: 1, assigned: 1, weekId: 1}}).fetch();
+		let lessonsComplete = _.filter(lessons, ['completed', true]);
+		let lessonsIncomplete = _.filter(lessons, ['completed', false]);	
+		let lessonsAssigned = _.filter(lessons, {'completed': false, 'assigned': true});
 
-		schoolYear.status = status(lessons.count(), lessonsComplete.count(), lessonsAssigned.count());
+		schoolYear.status = status(lessons.length, lessonsComplete.length, lessonsAssigned.length);
 
 		if (Terms.find({schoolYearId: schoolYear._id, deletedOn: { $exists: false }}).count()) {
-			if (lessons.count()) {
+			if (lessons.length) {
 				let firstWeekId = getFirstLesson(lessons, lessonsComplete, lessonsIncomplete).weekId;
 				let firstWeek = Weeks.findOne({_id: firstWeekId, deletedOn: { $exists: false }});
 
@@ -237,13 +241,14 @@ export function allTermStatusAndPaths(term, termId, schoolYearId) {
 		let schoolWorkIds = SchoolWork.find({schoolYearId: schoolYearId, deletedOn: { $exists: false }}).map(schoolWork => (schoolWork._id));
 		let weekIds = Weeks.find({termId: termId, deletedOn: { $exists: false }}).map(week => (week._id));
 
-		let lessons = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, weekId: {$in: weekIds}, deletedOn: { $exists: false }});
-		let lessonsComplete = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, weekId: {$in: weekIds}, completed: true, deletedOn: { $exists: false }});
-		let lessonsIncomplete = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, weekId: {$in: weekIds}, completed: false, deletedOn: { $exists: false }});
-		let lessonsAssigned = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, weekId: {$in: weekIds}, completed: false, assigned: true, deletedOn: { $exists: false }});
-		term.status = status(lessons.count(), lessonsComplete.count(), lessonsAssigned.count());
+		let lessons = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, deletedOn: { $exists: false }}, {fields: {completed: 1, assigned: 1, weekId: 1}}).fetch();
+		let lessonsComplete = _.filter(lessons, ['completed', true]);
+		let lessonsIncomplete = _.filter(lessons, ['completed', false]);	
+		let lessonsAssigned = _.filter(lessons, {'completed': false, 'assigned': true});
 
-		if (lessons.count()) {
+		term.status = status(lessons.length, lessonsComplete.length, lessonsAssigned.length);
+
+		if (lessons.length) {
 			let firstWeekId = getFirstLesson(lessons, lessonsComplete, lessonsIncomplete).weekId;
 			let firstWeek = Weeks.findOne({_id: firstWeekId, deletedOn: { $exists: false }});
 
@@ -271,13 +276,14 @@ export function studentTermStatusAndPaths(term, termId, schoolYearId, studentId)
 		let schoolWorkIds = SchoolWork.find({studentId: studentId, schoolYearId: schoolYearId, deletedOn: { $exists: false }}).map(schoolWork => (schoolWork._id));
 		let weekIds = Weeks.find({termId: termId, deletedOn: { $exists: false }}).map(week => (week._id));
 
-		let lessons = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, weekId: {$in: weekIds}, deletedOn: { $exists: false }});
-		let lessonsComplete = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, weekId: {$in: weekIds}, completed: true, deletedOn: { $exists: false }});
-		let lessonsIncomplete = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, weekId: {$in: weekIds}, completed: false, deletedOn: { $exists: false }});
-		let lessonsAssigned = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, weekId: {$in: weekIds}, completed: false, assigned: true, deletedOn: { $exists: false }});
-		term.status = status(lessons.count(), lessonsComplete.count(), lessonsAssigned.count());
+		let lessons = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, weekId: {$in: weekIds}, deletedOn: { $exists: false }}, {fields: {completed: 1, assigned: 1, weekId: 1}}).fetch();
+		let lessonsComplete = _.filter(lessons, ['completed', true]);
+		let lessonsIncomplete = _.filter(lessons, ['completed', false]);	
+		let lessonsAssigned = _.filter(lessons, {'completed': false, 'assigned': true});
 
-		if (lessons.count()) {
+		term.status = status(lessons.length, lessonsComplete.length, lessonsAssigned.length);
+
+		if (lessons.length) {
 			let firstWeekId = getFirstLesson(lessons, lessonsComplete, lessonsIncomplete).weekId;
 			let firstWeek = Weeks.findOne({_id: firstWeekId, deletedOn: { $exists: false }});
 		
@@ -314,9 +320,10 @@ export function weekStatus(week, weekId, studentId) {
 		let schoolYearId = Terms.findOne({_id: termId, deletedOn: { $exists: false }}, {sort: {order: 1}}).schoolYearId;
 		let schoolWorkIds = getSchoolWorkIds(schoolYearId, studentId);
 
-		let lessonsTotal = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, weekId: weekId, deletedOn: { $exists: false }}).count();
-		let lessonsCompletedTotal = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, weekId: weekId, completed: true, deletedOn: { $exists: false }}).count();
-		let lessonsAssignedTotal = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, weekId: weekId, completed: false, assigned: true, deletedOn: { $exists: false }}).count();
+		let lessons = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, weekId: weekId, deletedOn: { $exists: false }}, {fields: {completed: 1, assigned: 1}}).fetch()
+		let lessonsTotal = lessons.length;
+		let lessonsCompletedTotal = _.filter(lessons, ['completed', true]).length;
+		let lessonsAssignedTotal = _.filter(lessons, {'completed': false, 'assigned': true}).length;
 		week.status = status(lessonsTotal, lessonsCompletedTotal, lessonsAssignedTotal);
 	}
 	return week;
