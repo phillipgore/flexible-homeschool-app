@@ -20,7 +20,8 @@ Template.reportingView.onCreated( function() {
 		this.reportTermData = Meteor.subscribe('reportTerms', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
 		this.reportSchoolWorkData = Meteor.subscribe('reportSchoolWork', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
 		this.reportResourceData = Meteor.subscribe('reportResources', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
-		this.studentData = Meteor.subscribe('allStudents');
+		this.studentsData = Meteor.subscribe('allStudents');
+		this.studentData = Meteor.subscribe('student', FlowRouter.getParam('selectedStudentId'));
 		this.pathData = Meteor.subscribe('studentSchoolYearsPath', FlowRouter.getParam('selectedStudentId'));
 	});
 });
@@ -38,7 +39,7 @@ Template.reportingView.onRendered( function() {
 
 Template.reportingView.helpers({
 	subscriptionReady: function() {
-		if (Template.instance().reportSchoolYearData.ready() && Template.instance().reportTermData.ready() && Template.instance().reportSchoolWorkData.ready() && Template.instance().reportResourceData.ready() && Template.instance().studentData.ready() && Template.instance().pathData.ready()) {
+		if (Template.instance().reportSchoolYearData.ready() && Template.instance().reportTermData.ready() && Template.instance().reportSchoolWorkData.ready() && Template.instance().reportResourceData.ready() && Template.instance().studentsData.ready() && Template.instance().studentData.ready() && Template.instance().pathData.ready()) {
 			return true;
 		}
 		return false;
