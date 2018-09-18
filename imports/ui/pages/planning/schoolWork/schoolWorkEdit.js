@@ -169,12 +169,12 @@ Template.schoolWorkEdit.onRendered( function() {
 				var updateLessonProperties = [];
 				var insertLessonProperties = [];
 				var removeLessonIds = [];
+				
 				currentLessonProperties.forEach(function(property, index) {
 					property.order = newLessonProperties[index].order;
 					property.weekId = newLessonProperties[index].weekId;
 					updateLessonProperties.push(property)
 				});
-
 			}
 
 			Meteor.call('updateSchoolWork', updateSchoolWorkProperties, removeLessonIds, updateLessonProperties, insertLessonProperties, function(error, result) {

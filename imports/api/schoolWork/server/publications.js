@@ -70,7 +70,7 @@ Meteor.publish('schoolWorkView', function(schoolWorkId) {
 			let terms = Terms.find({groupId: groupId, deletedOn: { $exists: false }, schoolYearId: schoolWork.schoolYearId});
 			let resources = Resources.find({groupId: groupId, deletedOn: { $exists: false }, _id: {$in: schoolWork.resources}});
 
-			termStats = []
+			let termStats = []
 			terms.forEach((term) => {
 				let weekIds = Weeks.find({groupId: groupId, deletedOn: { $exists: false }, termId: term._id}).map((week) => (week._id));
 				let lessonCount = Lessons.find({schoolWorkId: schoolWorkId, weekId: {$in: weekIds}}).count();
