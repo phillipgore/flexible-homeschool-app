@@ -82,7 +82,7 @@ Template.schoolWorkEdit.onRendered( function() {
 			let updateSchoolWorkProperties = {
 				_id: FlowRouter.getParam('selectedSchoolWorkId'),
 				name: template.find("[name='name']").value.trim(),
-				description: Session.get($(event.currentTarget).find('.editor-content').attr('id')),
+				description: $('#' + $(event.currentTarget).find('.editor-content').attr('id')).html(),
 				resources: resourceIds,
 				studentId: FlowRouter.getParam('selectedStudentId'),
 				schoolYearId: FlowRouter.getParam('selectedSchoolYearId'),

@@ -47,7 +47,7 @@ Template.resourcesNewLink.onRendered( function() {
 				searchIndex: [],
 				title: template.find("[name='title']").value.trim(),
 				link: template.find("[name='link']").value.trim(),
-				description: Session.get($(event.currentTarget).find('.editor-content').attr('id')),
+				description: $('#' + $(event.currentTarget).find('.editor-content').attr('id')).html(),
 				availability: 'own',
 			};
 

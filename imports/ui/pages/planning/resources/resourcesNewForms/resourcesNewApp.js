@@ -46,7 +46,7 @@ Template.resourcesNewApp.onRendered( function() {
 				title: template.find("[name='title']").value.trim(),
 				availability: template.find("[name='availability']:checked").value.trim(),
 				link: template.find("[name='link']").value.trim(),
-				description: Session.get($(event.currentTarget).find('.editor-content').attr('id')),
+				description: $('#' + $(event.currentTarget).find('.editor-content').attr('id')).html(),
 			};
 
 			Meteor.call('insertResource', resourceProperties, function(error, resourceId) {

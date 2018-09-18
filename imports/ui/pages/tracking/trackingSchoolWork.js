@@ -125,7 +125,6 @@ Template.trackingSchoolWork.events({
 
 		Meteor.call('getLesson', lessonId, function(error, result) {
 			Session.set('lessonInfo', result);
-			console.log(Session.get('lessonInfo'));
 
 			$('.js-loader-' + lessonId).hide();
 			$('.js-info-' + lessonId).show();
@@ -171,14 +170,14 @@ Template.trackingSchoolWork.events({
 			completed: event.currentTarget.completed.value.trim() === 'true',
 			completedOn: event.currentTarget.completedOn.value.trim(),
 			completionTime: event.currentTarget.completionTime.value.trim(),
-			description: Session.get($(event.currentTarget).find('.editor-content').attr('id')),
+			description: $('#' + $(event.currentTarget).find('.editor-content').attr('id')).html(),
 		}
 
-		if (!lessonPoperties.completed) {
-			delete lessonPoperties.completedOn;
-			var picker = $(event.currentTarget).find('.js-completed-on').pickadate('picker');
-			picker.set('select', new Date());
-		}
+		// if (!lessonPoperties.completed) {
+		// 	delete lessonPoperties.completedOn;
+		// 	var picker = $(event.currentTarget).find('.js-completed-on').pickadate('picker');
+		// 	picker.set('select', new Date());
+		// }
 
 		Meteor.call('updateLesson', lessonPoperties, function(error, result) {
 			if (error) {
