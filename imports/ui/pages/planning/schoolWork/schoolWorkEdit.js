@@ -79,7 +79,8 @@ Template.schoolWorkEdit.onRendered( function() {
 			});
 
 			// Get School Work Properties from form
-			let schoolWorkProperties = {
+			let updateSchoolWorkProperties = {
+				_id: FlowRouter.getParam('selectedSchoolWorkId'),
 				name: template.find("[name='name']").value.trim(),
 				description: Session.get($(event.currentTarget).find('.editor-content').attr('id')),
 				resources: resourceIds,
@@ -90,8 +91,9 @@ Template.schoolWorkEdit.onRendered( function() {
 			// Get Lesson Properties from form
 			let newLessonProperties = [];
 			$("[name='timesPerWeek']").each(function(index) {
+				let weekOrder = this.dataset.weekOrder;
 				for (i = 0; i < parseInt(this.value); i++) { 
-				    newLessonProperties.push({order: parseFloat((index + 1) + '.' + (i + 1)), weekId: this.dataset.weekId});
+				    newLessonProperties.push({order: weekOrder + '.' + (i + 1), weekId: this.dataset.weekId});
 				}
 			})
 
@@ -175,7 +177,7 @@ Template.schoolWorkEdit.onRendered( function() {
 
 			}
 
-			Meteor.call('updateSchoolWork', FlowRouter.getParam('selectedSchoolWorkId'), schoolWorkProperties, function(error, schoolWorkId) {
+			Meteor.call('updateSchoolWork', updateSchoolWorkProperties, removeLessonIds, updateLessonProperties, insertLessonProperties, function(error, result) {
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',
@@ -186,52 +188,9 @@ Template.schoolWorkEdit.onRendered( function() {
 					$('.js-updating').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
-					if (insertLessonProperties.length) {
-						Meteor.call('batchInsertLessons', insertLessonProperties, function(error) {
-							if (error) {
-								Alerts.insert({
-									colorClass: 'bg-danger',
-									iconClass: 'fss-danger',
-									message: error.reason,
-								});
-					
-								$('.js-updating').hide();
-								$('.js-submit').prop('disabled', false);
-							}
-						});
-					}
-
-					if (removeLessonIds.length) {
-						Meteor.call('batchRemoveLessons', removeLessonIds, function(error) {
-							if (error) {
-								Alerts.insert({
-									colorClass: 'bg-danger',
-									iconClass: 'fss-danger',
-									message: error.reason,
-								}); 
-					
-								$('.js-updating').hide();
-								$('.js-submit').prop('disabled', false);
-							}
-						});
-					}
-
-					Meteor.call('batchUpdateLessons', updateLessonProperties, function(error) {
-						if (error) {
-							Alerts.insert({
-								colorClass: 'bg-danger',
-								iconClass: 'fss-danger',
-								message: error.reason,
-							});
-					
-							$('.js-updating').hide();
-							$('.js-submit').prop('disabled', false);
-						} else {
-							$('.js-updating').hide();
-							$('.js-submit').prop('disabled', false);
-							FlowRouter.go('/planning/schoolWork/view/3/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ schoolWorkId);
-						}
-					});
+					$('.js-updating').hide();
+					$('.js-submit').prop('disabled', false);
+					FlowRouter.go('/planning/schoolWork/view/3/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedSchoolWorkId'));
 				}
 			});
 
