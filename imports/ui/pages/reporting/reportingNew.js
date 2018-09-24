@@ -44,8 +44,15 @@ Template.reportingNew.onRendered( function() {
 				schoolWorkReportVisible: template.find("[name='schoolWorkReportVisible']").value.trim() === 'true',
 				schoolWorkStatsVisible: template.find("[name='schoolWorkStatsVisible']").value.trim() === 'true',
 				schoolWorkProgressVisible: template.find("[name='schoolWorkProgressVisible']").value.trim() === 'true',
-				schoolWorkTimesVisible: template.find("[name='schoolWorkTimesVisible']").value.trim() === 'true',
+				timesPerWeekCompletionTimeVisible: template.find("[name='timesPerWeekCompletionTimeVisible']").value.trim() === 'true',
+				schoolWorkDescriptionVisible: template.find("[name='schoolWorkResourcesVisible']").value.trim() === 'true',
 				schoolWorkResourcesVisible: template.find("[name='schoolWorkResourcesVisible']").value.trim() === 'true',
+
+				timesPerWeekReportVisible: template.find("[name='timesPerWeekReportVisible']").value.trim() === 'true',
+				timesPerWeekProgressVisible: template.find("[name='timesPerWeekProgressVisible']").value.trim() === 'true',
+				timesPerWeekCompletionDateVisible: template.find("[name='timesPerWeekCompletionDateVisible']").value.trim() === 'true',
+				schoolWorkTimesVisible: template.find("[name='schoolWorkTimesVisible']").value.trim() === 'true',
+				timesPerWeekDescriptionVisible: template.find("[name='timesPerWeekDescriptionVisible']").value.trim() === 'true',
 
 				resourcesReportVisible: template.find("[name='resourcesReportVisible']").value.trim() === 'true',
 				resourcesOriginatorVisible: template.find("[name='resourcesOriginatorVisible']").value.trim() === 'true',
@@ -66,7 +73,7 @@ Template.reportingNew.onRendered( function() {
 					$('.js-saving').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
-					FlowRouter.go('/reporting/view/2/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ reportId);
+					FlowRouter.go('/reporting/view/1/' + Session.get('selectedStudentId') +"/"+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedReportingTermId') +'/'+ Session.get('selectedReportingWeekId') +"/"+ reportId);
 				}
 			});
 
@@ -88,6 +95,10 @@ Template.reportingNew.helpers({
 
 	selectedReportId: function() {
 		return Session.get('selectedReportId');
+	},
+	
+	cancelPath: function() {
+		return '/reporting/view/2/' + Session.get('selectedStudentId') +"/"+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedReportingTermId') +'/'+ Session.get('selectedReportingWeekId') +"/"+ Session.get('selectedReportId');
 	},
 });
 

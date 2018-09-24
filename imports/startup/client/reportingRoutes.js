@@ -11,7 +11,18 @@ FlowRouter.route('/reporting/new/:selectedFramePosition', {
 	},
 });
 
-FlowRouter.route('/reporting/view/:selectedFramePosition/:selectedStudentId/:selectedSchoolYearId/:selectedReportId', {
+// FlowRouter.route('/reporting/view/:selectedFramePosition/:selectedStudentId/:selectedSchoolYearId/:selectedReportId', {
+// 	name: 'reportingView',
+// 	action(params) {
+// 		BlazeLayout.render('app', {
+// 			subbar: 'subbarReporting',
+// 			frameOne: 'reportingList',
+// 			frameTwo: 'reportingView',
+// 		});
+// 	},
+// });
+
+FlowRouter.route('/reporting/view/:selectedFramePosition/:selectedStudentId/:selectedSchoolYearId/:selectedTermId/:selectedWeekId/:selectedReportId', {
 	name: 'reportingView',
 	action(params) {
 		BlazeLayout.render('app', {
@@ -22,24 +33,13 @@ FlowRouter.route('/reporting/view/:selectedFramePosition/:selectedStudentId/:sel
 	},
 });
 
-FlowRouter.route('/reporting/edit/:selectedFramePosition/:selectedStudentId/:selectedSchoolYearId/:selectedReportId', {
+FlowRouter.route('/reporting/edit/:selectedFramePosition/:selectedReportId', {
 	name: 'reportingEdit',
 	action(params) {
 		BlazeLayout.render('app', {
 			subbar: '',
 			frameOne: 'reportingList',
 			frameTwo: 'reportingEdit',
-		});
-	},
-});
-
-FlowRouter.route('/reporting/print/:selectedFramePosition/:selectedStudentId/:selectedSchoolYearId/:selectedReportId', {
-	name: 'reportingPrint',
-	action(params) {
-		BlazeLayout.render('print', {
-			hiddenOne: '',
-			hiddenTwo: 'reportingList',
-			page: 'reportingView',
 		});
 	},
 });

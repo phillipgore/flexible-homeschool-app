@@ -90,9 +90,41 @@ const ReportsSchema = new SimpleSchema({
 		label: "School Work Times",
 		defaultValue: true,
 	},
+	schoolWorkDescriptionVisible: {
+		type: Boolean,
+		label: "School Work Description",
+		defaultValue: true,
+	},
 	schoolWorkResourcesVisible: {
 		type: Boolean,
 		label: "School Work Resources",
+		defaultValue: true,
+	},
+	
+	// Times Per Week
+	timesPerWeekReportVisible: {
+		type: Boolean,
+		label: "Times Per Week Report",
+		defaultValue: true,
+	},
+	timesPerWeekProgressVisible: {
+		type: Boolean,
+		label: "Times Per Week Progress",
+		defaultValue: true,
+	},
+	timesPerWeekCompletionDateVisible: {
+		type: Boolean,
+		label: "Times Per Week Completeion Date",
+		defaultValue: true,
+	},
+	timesPerWeekCompletionTimeVisible: {
+		type: Boolean,
+		label: "Times Per Week Completion Time",
+		defaultValue: true,
+	},
+	timesPerWeekDescriptionVisible: {
+		type: Boolean,
+		label: "Times Per Week Description",
 		defaultValue: true,
 	},
 

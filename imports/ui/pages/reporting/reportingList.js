@@ -23,6 +23,14 @@ Template.reportingList.helpers({
 		return Session.get('selectedStudentId');
 	},
 
+	selectedReportingTermId: function() {
+		return Session.get('selectedReportingTermId');
+	},
+
+	selectedReportingWeekId: function() {
+		return Session.get('selectedReportingWeekId');
+	},
+
 	selectedSchoolYearId: function() {
 		return Session.get('selectedSchoolYearId');
 	},

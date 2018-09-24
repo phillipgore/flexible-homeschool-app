@@ -77,6 +77,11 @@ Meteor.publish('initialIds', function(currentYear) {
 		if (userId) {ids.userId = userId} else {ids.userId = 'empty'};
 
 
+		let valueReport = Reports.findOne({groupId: groupId, deletedOn: { $exists: false }}, {sort: {title: 1}});
+		// Initial User
+		if (valueReport) {ids.reportId = valueReport._id} else {ids.reportId = 'empty'};
+
+
 		self.added('initialIds', Random.id(), ids);
 		self.ready();
 	});

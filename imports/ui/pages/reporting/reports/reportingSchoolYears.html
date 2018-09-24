@@ -35,18 +35,22 @@
 			{{/if}}
 			{{#if report.schoolYearTimesVisible}}
 				<div class="row font-weight-normal txt-tn-center m-tn-b-18">
-					<p>
-						<span class="txt-gray-darker">Total Time:</span> {{schoolYear.totalTime}}
-					</p>
-					<p>
-						<span class="txt-gray-darker">Average Time Per Term:</span> {{schoolYear.averageTerms}}
-					</p>
-					<p>
-						<span class="txt-gray-darker">Average Time Per Week:</span> {{schoolYear.averageWeeks}}
-					</p>
-					<p>
-						<span class="txt-gray-darker">Average Time Per Lesson:</span> {{schoolYear.averageLessons}}
-					</p>
+					<div class="p-tn-b-9 p-lg-b-0 col-lg-1of2">
+						<p>
+							<span class="txt-gray-darker">Total Time:</span> {{schoolYear.totalTime}}
+						</p>
+						<p>
+							<span class="txt-gray-darker">Average Time Per Term:</span> {{schoolYear.averageTerms}}
+						</p>
+					</div>
+					<div class="col-lg-1of2">
+						<p>
+							<span class="txt-gray-darker">Average Time Per Week:</span> {{schoolYear.averageWeeks}}
+						</p>
+						<p>
+							<span class="txt-gray-darker">Average Time Per Lesson:</span> {{schoolYear.averageLessons}}
+						</p>
+					</div>
 				</div>
 			{{/if}}
 		</div>

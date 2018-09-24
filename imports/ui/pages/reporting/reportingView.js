@@ -17,12 +17,14 @@ Template.reportingView.onCreated( function() {
 	
 	template.autorun(() => {
 		this.reportSchoolYearData = Meteor.subscribe('reportSchoolYears', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
-		this.reportTermData = Meteor.subscribe('reportTerms', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
-		this.reportSchoolWorkData = Meteor.subscribe('reportSchoolWork', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
-		this.reportResourceData = Meteor.subscribe('reportResources', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
+		// this.reportTermData = Meteor.subscribe('reportTerms', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
+		// this.reportSchoolWorkData = Meteor.subscribe('reportSchoolWork', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
+		// this.reportResourceData = Meteor.subscribe('reportResources', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
 		this.studentsData = Meteor.subscribe('allStudents');
 		this.studentData = Meteor.subscribe('student', FlowRouter.getParam('selectedStudentId'));
 		this.pathData = Meteor.subscribe('studentSchoolYearsPath', FlowRouter.getParam('selectedStudentId'));
+
+		this.reportData = Meteor.subscribe('reportData', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'), FlowRouter.getParam('selectedWeekId'), FlowRouter.getParam('selectedReportId'));
 	});
 });
 
@@ -32,7 +34,7 @@ Template.reportingView.onRendered( function() {
 		selectedSchoolYearId: FlowRouter.getParam('selectedSchoolYearId'),
 		selectedStudentId: FlowRouter.getParam('selectedStudentId'),
 		toolbarType: 'report',
-		editUrl: '/reporting/edit/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedReportId'),
+		editUrl: '/reporting/edit/2/' + FlowRouter.getParam('selectedReportId'),
 		activeNav: 'reportingList',
 	});
 });

@@ -38,7 +38,7 @@ Template.navbar.helpers({
 	},
 
 	reportingPath: function() {
-		return '/reporting/view/1/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedReportId');
+		return '/reporting/view/1/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedReportingTermId') +'/'+ Session.get('selectedReportingWeekId') +'/'+ Session.get('selectedReportId');
 	},
 
 	active(nav) {

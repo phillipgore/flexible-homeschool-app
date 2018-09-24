@@ -76,14 +76,27 @@ function getInitialData() {
 		Session.set('selectedTermId', initialIds.termId);
 	}
 
+	if (!Session.get('selectedReportingTermId')) {
+		Session.set('selectedReportingTermId', initialIds.termId);
+	}
+
 	// Initial Week
 	if (!Session.get('selectedWeekId')) {
 		Session.set('selectedWeekId', initialIds.weekId);
 	}
 
-	// Initial Week
+	if (!Session.get('selectedReportingWeekId')) {
+		Session.set('selectedReportingWeekId', initialIds.weekId);
+	}
+
+	// Initial School Work
 	if (!Session.get('selectedSchoolWorkId')) {
 		Session.set('selectedSchoolWorkId', initialIds.schoolWorkId);
+	}
+
+	// Initial Report
+	if (!Session.get('selectedReportId')) {
+		Session.set('selectedReportId', initialIds.reportId);
 	}
 
 	// Initial User

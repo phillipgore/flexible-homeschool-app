@@ -371,11 +371,19 @@ Template.app.events({
 	},
 
 	'click .js-term'(event) {
-		Session.set('selectedTermId', $(event.currentTarget).attr('id'));
+		let termId = $(event.currentTarget).attr('id');
+		if (termId != 'allTerms') {
+			Session.set('selectedTermId', termId);
+		}
+		Session.set('selectedReportingTermId', termId);
 	},
 
 	'click .js-week'(event) {
-		Session.set('selectedWeekId', $(event.currentTarget).attr('id'));
+		let weekId = $(event.currentTarget).attr('id');
+		if (weekId != 'allWeeks') {
+			Session.set('selectedWeekId', weekId);
+		}
+		Session.set('selectedReportingWeekId', weekId);
 	},
 
 	'click .js-resource'(event) {

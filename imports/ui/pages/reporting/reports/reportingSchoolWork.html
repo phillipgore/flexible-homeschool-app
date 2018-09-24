@@ -25,7 +25,7 @@
 							</div>
 						{{/if}}
 						{{#if report.schoolWorkProgressVisible}}
-							<div class="meter meter-large m-tn-b-9">
+							<div class="meter meter-large m-tn-b-18">
 								<div class="meter-progress {{#if term.progressStatus}}meter-progress-primary{{/if}}" style="width: {{work.progress}}%;">
 									<div class="meter-label">School Work's Progress: {{work.progress}}%</div>
 								</div>
@@ -34,18 +34,22 @@
 						{{/if}}
 						{{#if report.schoolWorkTimesVisible}}
 							<div class="row font-weight-normal txt-tn-center m-tn-b-18">
-								<p>
-									<span class="txt-gray-darker">Total Time:</span> {{work.totalTime}}
-								</p>
-								<p>
-									<span class="txt-gray-darker">Average Time Per Term:</span> {{work.averageTerms}}
-								</p>
-								<p>
-									<span class="txt-gray-darker">Average Time Per Week:</span> {{work.averageWeeks}}
-								</p>
-								<p>
-									<span class="txt-gray-darker">Average Time Per Lesson:</span> {{work.averageLessons}}
-								</p>
+								<div class="p-tn-b-9 p-lg-b-0 col-lg-1of2">
+									<p>
+										<span class="txt-gray-darker">Total Time:</span> {{work.totalTime}}
+									</p>
+									<p>
+										<span class="txt-gray-darker">Average Time Per Term:</span> {{work.averageTerms}}
+									</p>
+								</div>
+								<div class="col-lg-1of2">
+									<p>
+										<span class="txt-gray-darker">Average Time Per Week:</span> {{work.averageWeeks}}
+									</p>
+									<p>
+										<span class="txt-gray-darker">Average Time Per Lesson:</span> {{work.averageLessons}}
+									</p>
+								</div>
 							</div>
 						{{/if}}
 						{{#if report.schoolWorkResourcesVisible}}

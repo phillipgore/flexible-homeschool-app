@@ -34,15 +34,21 @@
 						{{/if}}
 						{{#if report.termsTimesVisible}}
 							<div class="row font-weight-normal txt-tn-center m-tn-b-18">
-								<p>
-									<span class="txt-gray-darker">Total Time:</span> {{term.totalTime}}
-								</p>
-								<p>
-									<span class="txt-gray-darker">Average Time Per Week:</span> {{term.averageWeeks}}
-								</p>
-								<p>
-									<span class="txt-gray-darker">Average Time Per Lesson:</span> {{term.averageLessons}}
-								</p>
+								<div class="p-tn-b-9">
+									<p>
+										<span class="txt-gray-darker">Total Time:</span> {{term.totalTime}}
+									</p>
+								</div>
+								<div class="p-tn-b-9 col-lg-1of2">
+									<p>
+										<span class="txt-gray-darker">Average Time Per Week:</span> {{term.averageWeeks}}
+									</p>
+								</div>
+								<div class="p-tn-b-9 col-lg-1of2">
+									<p>
+										<span class="txt-gray-darker">Average Time Per Lesson:</span> {{term.averageLessons}}
+									</p>
+								</div>
 							</div>
 						{{/if}}
 					</div>

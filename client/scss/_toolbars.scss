@@ -124,6 +124,15 @@
 			border-left: 1px solid $color-white;
 		}
 	}
+
+	@media only screen and (min-width: 720px) {
+		.subbar-four-btn {
+			width: 720px;
+			margin: 0px auto;
+			border-right: 1px solid $color-white;
+			border-left: 1px solid $color-white;
+		}
+	}
 }
 
 .navbar {
