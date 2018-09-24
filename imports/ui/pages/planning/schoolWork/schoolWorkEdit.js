@@ -106,6 +106,7 @@ Template.schoolWorkEdit.onRendered( function() {
 				let dif = lessons.count() - newLessonProperties.length;
 				let removeLessons = Lessons.find({
 					$and: [{
+						completed: false,
 						completedOn: null,
 					    completionTime: null,
 					    description: null,
@@ -262,6 +263,14 @@ Template.schoolWorkEdit.helpers({
 
 	lessonCount: function(weekId) {
         return Lessons.find({weekId: weekId, schoolWorkId: FlowRouter.getParam('selectedSchoolWorkId')}).count();
+	},
+
+	lessonCompleteCount: function(weekId) {
+        return Lessons.find({weekId: weekId, completed: true, schoolWorkId: FlowRouter.getParam('selectedSchoolWorkId')}).count();
+	},
+
+	lessonIncompleteCount: function(weekId) {
+        return Lessons.find({weekId: weekId, completed: false, schoolWorkId: FlowRouter.getParam('selectedSchoolWorkId')}).count();
 	},
 
 	searching() {

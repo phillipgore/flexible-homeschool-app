@@ -109,9 +109,10 @@ Meteor.methods({
 					"filter": {_id: lesson._id},
 					"update": {
 						$set: {
-							order: lesson.order,
-							schoolWorkId: lesson.schoolWorkId,
-							weekId: lesson.weekId
+							"order": lesson.order,
+							"schoolWorkId": lesson.schoolWorkId,
+							"weekId": lesson.weekId,
+							"updatedOn": new Date()
 						}
 					}
 				}});
