@@ -88,102 +88,57 @@ Template.schoolWorkEdit.onRendered( function() {
 				schoolYearId: FlowRouter.getParam('selectedSchoolYearId'),
 			}
 
+
+			let insertLessonProperties = [];
+			let removeLessonIds = [];
+
 			// Get Lesson Properties from form
-			let newLessonProperties = [];
 			$("[name='timesPerWeek']").each(function(index) {
+				let weekId = this.dataset.weekId
 				let weekOrder = this.dataset.weekOrder;
-				for (i = 0; i < parseInt(this.value); i++) { 
-				    newLessonProperties.push({order: weekOrder + '.' + (i + 1), weekId: this.dataset.weekId});
+				let totalLessons =  parseInt(this.dataset.lessonCount);
+				let completeLessons = parseInt(this.dataset.lessonCompleteCount);
+				let newLessonsTotal = parseInt(this.value) || 0;
+
+				if (newLessonsTotal > totalLessons) {
+					let addCount =  newLessonsTotal - totalLessons;
+					for (i = 0; i < addCount; i++) { 
+					    insertLessonProperties.push({
+					    	order: weekOrder + '.' + (i + 1 + parseInt(totalLessons)),
+					    	schoolWorkId: FlowRouter.getParam('selectedSchoolWorkId'),
+					    	weekId: this.dataset.weekId
+					    });
+					}
 				}
-			})
+				if (newLessonsTotal < totalLessons && newLessonsTotal >= completeLessons) {
+					let removalCount = totalLessons - newLessonsTotal;
+					console.log(removalCount);
+					let removeableLessonsIds = Lessons.find({weekId: weekId, completed: false, schoolWorkId: FlowRouter.getParam('selectedSchoolWorkId')}, {sort: {order: -1}, limit: removalCount}).map(lesson => (lesson._id));
 
-			// Get existing Lessons from collection
-			let lessons = Lessons.find({schoolWorkId: FlowRouter.getParam('selectedSchoolWorkId')}, {sort: {completed: -1, order: 1}});
-
-			// If FEWER new Lessons
-			if (lessons.count() > newLessonProperties.length) {
-				// Find Removeable Lessons
-				let dif = lessons.count() - newLessonProperties.length;
-				let removeLessons = Lessons.find({
-					$and: [{
-						completed: false,
-						completedOn: null,
-					    completionTime: null,
-					    description: null,
-					}]
-				}, {sort: {order: -1}, limit: dif});
-
-				var removeLessonIds = removeLessons.map(lesson => (lesson._id));
-
-				// Determine If Lessons Can Be Removed
-				if (dif > removeLessonIds.length) {
-					let overLessons = removeLessonIds.length - dif;
+					removeableLessonsIds.forEach(lessonId => {
+						removeLessonIds.push(lessonId);
+					});
+				}
+				if (newLessonsTotal < completeLessons) {
 					Alerts.insert({
 						colorClass: 'bg-danger',
 						iconClass: 'fss-danger',
-						message: "These changes would delete lessons you have already worked on. Add at least " + overLessons + " lessons to the schoolWork.",
+						message: "These changes would delete lessons you have already worked on.",
 					});
 					return false;
 				}
+			})
 
-				// Reorder Remaining Lessons And Assign to Weeks
-				let currentLessonProperties = Lessons.find({_id: {$nin: removeLessonIds}, schoolWorkId: FlowRouter.getParam('selectedSchoolWorkId')}, {sort: {completed: -1, order: 1}})
-				var updateLessonProperties = [];
-				var insertLessonProperties = [];
-				currentLessonProperties.forEach(function(property, index) {
-					property.order = newLessonProperties[index].order;
-					property.weekId = newLessonProperties[index].weekId;
-					updateLessonProperties.push(property)
-				});
+			// console.log(insertLessonProperties)
+			// console.log(removeLessonIds)
 
-			// if MORE new Lessons
-			} else if (lessons.count() < newLessonProperties.length) {
-				// Create needed Number of New Lessons Needed
-				let dif = newLessonProperties.length - lessons.count();
-
-				let currentLessonProperties = Lessons.find({schoolWorkId: FlowRouter.getParam('selectedSchoolWorkId')}, {sort: {completed: -1, order: 1}}).fetch();
-				for (i = 0; i < dif; i++) { 
-				    currentLessonProperties.push({order: parseFloat((i + lessons.count()) + '.' + (i + 1)), weekId: null});
-				}
-
-				// Reorder Remaining Lessons And Assign to Weeks
-				let schoolWorkId = FlowRouter.getParam('selectedSchoolWorkId');
-				let allLessonProperties = []
-				currentLessonProperties.forEach(function(property, index) {
-					property.order = newLessonProperties[index].order;
-					property.weekId = newLessonProperties[index].weekId;
-					property.schoolWorkId = schoolWorkId;
-					allLessonProperties.push(property);
-				});
-
-				// Seperate Update Lessons from Insert Lessons
-				let startSlice = lessons.count();
-				let endSlice = 0 - dif;
-
-				var updateLessonProperties = allLessonProperties.slice(0, startSlice);
-				var insertLessonProperties = allLessonProperties.slice(endSlice);
-				var removeLessonIds = [];
-
-			// If SAME number of new Lessons
-			} else {
-				let currentLessonProperties = Lessons.find({schoolWorkId: FlowRouter.getParam('selectedSchoolWorkId')}, {sort: {completed: -1, order: 1}})
-				var updateLessonProperties = [];
-				var insertLessonProperties = [];
-				var removeLessonIds = [];
-				
-				currentLessonProperties.forEach(function(property, index) {
-					property.order = newLessonProperties[index].order;
-					property.weekId = newLessonProperties[index].weekId;
-					updateLessonProperties.push(property)
-				});
-			}
-
-			Meteor.call('updateSchoolWork', updateSchoolWorkProperties, removeLessonIds, updateLessonProperties, insertLessonProperties, function(error, result) {
+			Meteor.call('updateSchoolWork', updateSchoolWorkProperties, removeLessonIds, insertLessonProperties, function(error, result) {
 				if (error) {
+					console.log(error)
 					Alerts.insert({
 						colorClass: 'bg-danger',
 						iconClass: 'fss-danger',
-						message: error.reason,
+						message: error.reason.message,
 					});
 					
 					$('.js-updating').hide();
@@ -303,12 +258,45 @@ Template.schoolWorkEdit.events({
 	},
 
 	'change .js-times-per-week-preset'(event) {
+		$(event.currentTarget).parentsUntil('.js-times-per-week-container').parent().find('.js-times-per-week').each(function() {
+			let completeLessons = $(this).attr('data-lesson-complete-count');
+			let newLessons = event.currentTarget.value;
+			let termOrder = $(this).parentsUntil('.js-times-per-week-container').parent().attr('data-term-order')
+
+			if (newLessons < completeLessons && completeLessons > 0) {
+				$(this).addClass('error');
+				$(this).parent().find('.js-times-per-week-errors').text('Min ' + completeLessons + '.').show();
+				$('.js-submit').prop('disabled', true);
+				$('.js-label-' + termOrder +'.js-label-show').hide();
+				$('.js-label-' + termOrder +'.js-label-hide').show();
+				$('.js-' + termOrder + '.js-weeks-input').slideDown('fast');
+			} else {
+				$(this).removeClass('error');
+				$(this).parent().find('.js-times-per-week-errors').text('');
+				$('.js-submit').prop('disabled', false);
+			}
+		})
 		$('#' + event.currentTarget.dataset.termId).find('.js-times-per-week').val(event.currentTarget.value);
 	},
 
 	'change .js-times-per-week'(event) {
 		$('#' + event.currentTarget.dataset.termId + ' .js-times-per-week-preset option').removeProp('selected');
 		$('#' + event.currentTarget.dataset.termId + ' .js-times-per-week-preset option:disabled').prop('selected', true);
+	},
+
+	'blur .js-times-per-week'(event) {
+		let completeLessons = event.currentTarget.dataset.lessonCompleteCount;
+		let newLessons = $(event.currentTarget).val();
+
+		if (newLessons < completeLessons && completeLessons > 0) {
+			$(event.currentTarget).addClass('error');
+			$(event.currentTarget).parent().find('.js-times-per-week-errors').text('Min ' + completeLessons + '.').show();
+			$('.js-submit').prop('disabled', true);
+		} else {
+			$(event.currentTarget).removeClass('error');
+			$(event.currentTarget).parent().find('.js-times-per-week-errors').text('');
+			$('.js-submit').prop('disabled', false);
+		}
 	},
 
 	'click .js-show-individual-weeks'(event) {
