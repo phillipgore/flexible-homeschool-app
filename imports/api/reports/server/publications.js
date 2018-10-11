@@ -63,6 +63,14 @@ Meteor.publish('reportData', function(studentId, schoolYearId, termId, weekId, r
 
 			let reportWeeks = getReportWeeks(weekId);
 
+			function percentComplete(completedTotal, total) {
+				if (!completedTotal || !total) {
+					return 0;
+				} else {
+					return completedTotal / total * 100;
+				}
+			}
+
 
 
 			// School Year Data
@@ -85,7 +93,7 @@ Meteor.publish('reportData', function(studentId, schoolYearId, termId, weekId, r
 
 				let yearLessonsTotal = yearLessons.length;
 				let yearLessonsCompletedTotal = _.filter(yearLessons, ['completed', true]).length;
-				let yearPercentComplete = yearLessonsCompletedTotal / yearLessonsTotal * 100;
+				let yearPercentComplete = percentComplete(yearLessonsCompletedTotal, yearLessonsTotal);
 				let yearLessonsIncompletedTotal = _.filter(yearLessons, ['completed', false]).length;
 
 				if (report.schoolYearStatsVisible) {
@@ -162,12 +170,12 @@ Meteor.publish('reportData', function(studentId, schoolYearId, termId, weekId, r
 					if (report.termsProgressVisible) {
 						// Term Progress
 						let lessonsCompletedTotal = _.filter(termLessons, ['completed', true]).length;
-						let percentComplete = lessonsCompletedTotal / termLessonsTotal * 100;
+						let termPercentComplete = percentComplete(lessonsCompletedTotal, termLessonsTotal);
 						
-						if (percentComplete > 0 && percentComplete < 1) {
+						if (termPercentComplete > 0 && termPercentComplete < 1) {
 							termData.progress =  1;
 						} else {
-							termData.progress = Math.floor(percentComplete);
+							termData.progress = Math.floor(termPercentComplete);
 						}
 
 						// Term Progress Status
@@ -248,11 +256,11 @@ Meteor.publish('reportData', function(studentId, schoolYearId, termId, weekId, r
 						// School Work Year Progress
 						let lessonsTotal = schoolWorkLessons.length;
 						let lessonsCompletedTotal = _.filter(schoolWorkLessons, ['completed', true]).length;
-						let percentComplete = lessonsCompletedTotal / lessonsTotal * 100;
-						if (percentComplete > 0 && percentComplete < 1) {
+						let schoolWorkPercentComplete = percentComplete(lessonsCompletedTotal, lessonsTotal);
+						if (schoolWorkPercentComplete > 0 && schoolWorkPercentComplete < 1) {
 							schoolWorkData.progress = 1;
 						} else {
-							schoolWorkData.progress = Math.floor(percentComplete);
+							schoolWorkData.progress = Math.floor(schoolWorkPercentComplete);
 						}
 
 						// School Work Year Progress Status
@@ -385,30 +393,6 @@ Meteor.publish('reportData', function(studentId, schoolYearId, termId, weekId, r
 				});
 			}
 		}	
-
-		self.ready();
-	});
-});
-
-Meteor.publish('reportResources', function(schoolYearId, studentId) {
-	this.autorun(function (computation) {
-		if (!this.userId) {
-			return this.ready();
-		}
-
-		let self = this;
-		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-		let student = Students.findOne({_id: studentId, groupId: groupId, deletedOn: { $exists: false }});
-		let schoolYear = SchoolYears.findOne({_id: schoolYearId, groupId: groupId, deletedOn: { $exists: false }});
-
-		if (student && schoolYear) {
-			let resourceIds = _.flatten( SchoolWork.find({groupId: groupId, schoolYearId: schoolYearId, studentId: studentId, deletedOn: { $exists: false }}).map(schoolWork => (schoolWork.resources)) );
-			let resources = Resources.find({_id: {$in: resourceIds}, groupId: groupId, deletedOn: { $exists: false }});
-
-			resources.map((rescource) => {
-				self.added('resources', rescource._id, rescource);
-			});
-		}
 
 		self.ready();
 	});

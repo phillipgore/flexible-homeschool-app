@@ -10,6 +10,14 @@ import {minutesConvert} from '../../../../modules/functions';
 import _ from 'lodash'
 import './reportingSchoolWork.html';
 
+function getPercentComplete(completedTotal, total) {
+	if (!completedTotal || !total) {
+		return 0;
+	} else {
+		return completedTotal / total * 100;
+	}
+}
+
 Template.reportingSchoolWork.helpers({
 	report: function() {
 		return Reports.findOne({_id: FlowRouter.getParam('selectedReportId')})
@@ -35,7 +43,7 @@ Template.reportingSchoolWork.helpers({
 		let lessons = _.filter(lessonData, ['schoolWorkId', schoolWorkId]);
 		let lessonsTotal = lessons.length;
 		let lessonsCompletedTotal = _.filter(lessons, ['completed', true]).length;
-		let percentComplete = lessonsCompletedTotal / lessonsTotal * 100;
+		let percentComplete = getPercentComplete(lessonsCompletedTotal, lessonsTotal);
 		if (percentComplete > 0 && percentComplete < 1) {
 			return 1;
 		} else {
@@ -47,7 +55,7 @@ Template.reportingSchoolWork.helpers({
 		let lessons = _.filter(lessonData, ['schoolWorkId', schoolWorkId]);
 		let lessonsTotal = lessons.length;
 		let lessonsCompletedTotal = _.filter(lessons, ['completed', true]).length;
-		let percentComplete = lessonsCompletedTotal / lessonsTotal * 100;
+		let percentComplete = getPercentComplete(lessonsCompletedTotal, lessonsTotal);
 
 		if (Math.floor(percentComplete) === 100) {
 			return true;
