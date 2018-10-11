@@ -19,8 +19,26 @@ Template.reportingTerms.helpers({
 	},
 
 	terms: function() {
-		return Terms.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId')});
+		if (FlowRouter.getParam('selectedTermId') === 'allTerms') {
+			return Terms.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId'), _id: {$ne: 'allTerms'}});
+		} else {
+			return Terms.find({_id: FlowRouter.getParam('selectedTermId')});
+		}
 	},
+
+	rowVisible: function(termsStatsVisible, termsTimesVisible) {
+		if (!termsStatsVisible && !termsTimesVisible) {
+			return 'dis-tn-none';
+		}
+		return false;
+	},
+
+	colSpan: function(termsStatsVisible, termsTimesVisible) {
+		if (termsStatsVisible && termsTimesVisible) {
+			return 1;
+		}
+		return 2;
+	}
 });
 
 

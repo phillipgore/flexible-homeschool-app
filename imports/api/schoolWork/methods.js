@@ -72,7 +72,7 @@ Meteor.methods({
 		return info;
 	},
 
-	updateSchoolWork: function(updateSchoolWorkProperties, removeLessonIds, updateLessonProperties, insertLessonProperties) {
+	updateSchoolWork: function(updateSchoolWorkProperties, removeLessonIds, insertLessonProperties) {
 		let groupId = Meteor.user().info.groupId;
 		let userId = Meteor.userId();
 
@@ -81,6 +81,7 @@ Meteor.methods({
 
 		if (insertLessonProperties.length) {
 			insertLessonProperties.forEach(lesson => {
+				console.log(lesson)
 				bulkLessons.push({insertOne: {"document": {
 					_id: Random.id(),
 					order: lesson.order,
@@ -100,21 +101,6 @@ Meteor.methods({
 				bulkLessons.push({deleteOne: {"filter": {
 					_id: lessonId
 				}}});
-			})
-		}
-
-		if (updateLessonProperties.length) {
-			updateLessonProperties.forEach(lesson => {
-				bulkLessons.push({updateOne: {
-					"filter": {_id: lesson._id},
-					"update": {
-						$set: {
-							order: lesson.order,
-							schoolWorkId: lesson.schoolWorkId,
-							weekId: lesson.weekId
-						}
-					}
-				}});
 			})
 		}
 

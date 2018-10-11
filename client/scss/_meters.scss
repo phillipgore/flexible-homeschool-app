@@ -41,4 +41,16 @@
 			background-color: $color-primary;
 		}
 	}
+
+	&.meter-report {
+		background-color: $color-white;
+		margin: 0px;
+		height: 18px;
+		border-radius: 9px;
+
+		.meter-label {
+			padding: 2px 8px 0px;
+			font-weight: 500;		
+		}
+	}
 }

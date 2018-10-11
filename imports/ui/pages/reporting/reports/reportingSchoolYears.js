@@ -19,17 +19,23 @@ Template.reportingSchoolYears.helpers({
 		return Reports.findOne({_id: FlowRouter.getParam('selectedReportId')})
 	},
 
-	selectedSchoolYearId: function() {
-		return FlowRouter.getParam('selectedSchoolYearId');
-	},
-
-	selectedSchoolYear: function() {
-		return SchoolYears.findOne({_id: FlowRouter.getParam('selectedSchoolYearId')})
-	},
-
 	schoolYear: function() {
 		return SchoolYears.findOne({_id: FlowRouter.getParam('selectedSchoolYearId')});
 	},
+
+	rowVisible: function(schoolYearStatsVisible, schoolYearTimesVisible) {
+		if (!schoolYearStatsVisible && !schoolYearTimesVisible) {
+			return 'dis-tn-none';
+		}
+		return false;
+	},
+
+	colSpan: function(schoolYearStatsVisible, schoolYearTimesVisible) {
+		if (schoolYearStatsVisible && schoolYearTimesVisible) {
+			return 1;
+		}
+		return 2;
+	}
 });
 
 

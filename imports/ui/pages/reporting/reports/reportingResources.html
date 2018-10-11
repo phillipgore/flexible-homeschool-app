@@ -1,61 +1,54 @@
 <template name="reportingResources">
 	{{#if report.resourcesReportVisible}}
-		<h1 class="m-tn-b-9"><i class="txt-primary fss-resources"></i> Resources</h1>
-		<div class="report p-tn-trl-18 m-tn-b-18 m-sm-b-27">
-			{{#if resources.count}}
-				{{#each resource in resources}}
-					<div class="report-section">
-						<div class="font-weight-normal m-tn-b-9 p-tn-b-9">
-							<div class="clearfix m-tn-b-12">
-								<h2 class="txt-ellipsis"><i class="txt-primary {{resourceIcon resource.type}}"></i> {{resource.title}}</h2>
-							</div>
-							{{#if report.resourcesOriginatorVisible}}
-								{{#if resourceOrigin resource.authorFirstName resource.authorLastName}}
-									<p><span class="txt-gray-darker">Author:</span> {{resource.authorFirstName}} {{resource.authorLastName}}</p>
-								{{/if}}
-
-								{{#if resourceOrigin resource.directorFirstName resource.directorLastName}}
-									<p><span class="txt-gray-darker">Director:</span> {{resource.directorFirstName}} {{resource.directorLastName}}</p>
-								{{/if}}
-
-								{{#if resourceOrigin resource.artistFirstName resource.artistLastName}}
-									<p><span class="txt-gray-darker">Artist:</span> {{resource.artistFirstName}} {{resource.artistLastName}}</p>
-								{{/if}}
-							{{/if}}
-							{{#if report.resourcesPublicationVisible}}
-								{{#if resource.publisher}}
-									<p><span class="txt-gray-darker">Publisher:</span> {{resource.publisher}}</p>
-								{{/if}}
-
-								{{#if resource.publicationDate}}
-									<p><span class="txt-gray-darker">Publication Date:</span> {{dateFormat resource.publicationDate}}</p>
-								{{/if}}
+		{{#if resources.count}}
+			{{#each resource in resources}}
+				<table>
+					<tr>
+						<th colspan="2"><p><i class="{{resourceIcon resource.type}}"></i> {{resource.title}}</p></th>
+					</tr>
+					<tr>
+						{{#if report.resourcesOriginatorVisible}}
+							<td width="50%" colspan="{{colSpan report.resourcesOriginatorVisible report.resourcesLinkVisible}}">
+								<span class="txt-gray-darkest">Author: </span> {{resource.authorFirstName}} {{resource.authorLastName}}
+							</td>
+						{{/if}}
+						{{#if report.resourcesLinkVisible}}
+							<td width="50%" colspan="{{colSpan report.resourcesOriginatorVisible report.resourcesLinkVisible}}">
+								<span class="txt-gray-darkest">Link: </span> <a href="{{resource.link}}">{{resource.link}}</a>
+							</td>
+						{{/if}}
+					</tr>
+					{{#if report.resourcesPublicationVisible}}
+					<tr>
+						<td width="50%">
+							<span class="txt-gray-darkest">Publisher: </span> {{resource.publisher}}
+						</td>
+						<td width="50%">
+							<span class="txt-gray-darkest">Publication Date: </span> {{dateFormat resource.publicationDate}}
+						</td>
+					</tr>
+					{{/if}}
+					{{#if sectionVisible report.resourcesDescriptionVisible report.resourcesSchoolWorkVisible}}
+						<tr>
+							{{#if report.resourcesDescriptionVisible}}
+								<td width="50%" colspan="{{colSpan report.resourcesDescriptionVisible report.resourcesSchoolWorkVisible}}">
+									<div class="txt-gray-darkest p-tn-b-6">Description: </div> 
+									{{{resource.description}}}
+								</td>
 							{{/if}}
 							{{#if report.resourcesSchoolWorkVisible}}
-								<p>
-									<span class="txt-gray-darker">SchoolWork:</span> 
-									{{resourceSchoolWork resource._id}}
-								</p>
+								<td width="50%" colspan="{{colSpan report.resourcesDescriptionVisible report.resourcesSchoolWorkVisible}}">
+									<div class="txt-gray-darkest p-tn-b-6">School Work: </div> 
+									{{#each work in resource.schoolWork}}
+										<p>{{work}}</p>
+									{{/each}}
+								</td>
 							{{/if}}
-							{{#if report.resourcesLinkVisible}}
-								{{#if resource.link}}
-									<a href="{{resource.link}}" target="_blank" class="inline-icon dis-tn-block txt-ellipsis">
-										<i class="fss-link"></i> {{resource.link}}
-									</a>
-								{{/if}}
-							{{/if}}
-							{{#if report.resourcesDescriptionVisible}}
-								{{#if resource.description}}
-									<p><span class="txt-gray-darker">Description:</span> {{{resource.description}}}</p>
-								{{/if}}
-							{{/if}}
-						</div>
-					</div>
-				{{/each}}
-			{{else}}
-				<h2 class="m-tn-b-12">No Resources</h2>
-			{{/if}}
-		</div>
+						</tr>
+					{{/if}}
+				</table>
+			{{/each}}
+		{{/if}}
 	{{/if}}
 </template>
 

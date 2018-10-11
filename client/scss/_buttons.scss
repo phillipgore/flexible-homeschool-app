@@ -167,8 +167,8 @@ button, .btn {
 	font-size: 14px;
 	font-weight: 500;
 	color: $color-black;
-	text-align: center;
 	text-decoration: none;
+	text-align: center;
 	background-color: $color-gray;
 	border: none;
 	border-right: 1px solid $color-white;
@@ -178,6 +178,33 @@ button, .btn {
 	display: block;
 	padding-top: 5px;
 	margin-bottom: 0px;
+	position: relative;
+
+	.btn-sub-label {
+		padding: 0px 24px 0px 9px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		text-align: left;
+
+		@media only screen and (min-width: 640px) {
+			padding: 0px;
+			text-align: center;
+		}
+
+		&:after {
+			font-family: 'Flexible-School-Schedule' !important;	
+			content: "\e941";
+			position: absolute;
+			top: 5px;
+			right: 9px;
+
+			@media only screen and (min-width: 640px) {
+				position: static;
+				content: " \e941";
+			}
+		}
+	}
 
 	&:hover, &:focus, &:active {
     	outline: none;

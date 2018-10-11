@@ -1,80 +1,130 @@
 <template name="reportingSchoolWork">
 	{{#if report.schoolWorkReportVisible}}
-		<h1 class="m-tn-b-9"><i class="fss-school-work txt-primary"></i> School Work</h1>
-		<div class="report p-tn-trl-18 m-tn-b-18 m-sm-b-27">
-			{{#if schoolWork.count}}
-				{{#each work in schoolWork}}
-					<div class="report-section">
-						<div class="clearfix m-tn-b-12">
-							<h2>{{work.name}}</h2>
-						</div>
-						{{#if report.schoolWorkStatsVisible}}
-							<div class="row font-weight-normal txt-tn-center m-tn-b-12">
-								<div class="col-tn-1of3 right-border">
-									<div class="font-size-24 m-tn-b-3">{{work.termCount}}</div>
-									<div class="txt-gray-darker">Terms</div>
-								</div>
-								<div class="col-tn-1of3 right-border">
-									<div class="font-size-24 m-tn-b-3">{{work.weekCount}}</div>
-									<div class="txt-gray-darker">Weeks</div>
-								</div>
-								<div class="col-tn-1of3">
-									<div class="font-size-24 m-tn-b-3">{{work.lessonCount}}</div>
-									<div class="txt-gray-darker">Times</div>
-								</div>
-							</div>
-						{{/if}}
+		{{#each work in schoolWork}}
+			<table>
+				<tr>
+					<th width="50%">
+						<p><i class="fss-school-work"></i> {{work.name}}</p>
+					</th>
+					<th width="50%">
 						{{#if report.schoolWorkProgressVisible}}
-							<div class="meter meter-large m-tn-b-18">
-								<div class="meter-progress {{#if term.progressStatus}}meter-progress-primary{{/if}}" style="width: {{work.progress}}%;">
-									<div class="meter-label">School Work's Progress: {{work.progress}}%</div>
-								</div>
-								<div class="meter-label">School Work's Progress: {{work.progress}}%</div>
+							<div class="meter meter-report">
+							<div class="meter-progress {{#if work.progressComplete}}meter-progress-primary{{/if}}" style="width: {{work.progress}}%;">
+								<div class="meter-label">Progress: {{work.progress}}%</div>
 							</div>
+							<div class="meter-label">Progress: {{work.progress}}%</div>
+						</div>
 						{{/if}}
-						{{#if report.schoolWorkTimesVisible}}
-							<div class="row font-weight-normal txt-tn-center m-tn-b-18">
-								<div class="p-tn-b-9 p-lg-b-0 col-lg-1of2">
-									<p>
-										<span class="txt-gray-darker">Total Time:</span> {{work.totalTime}}
-									</p>
-									<p>
-										<span class="txt-gray-darker">Average Time Per Term:</span> {{work.averageTerms}}
-									</p>
-								</div>
-								<div class="col-lg-1of2">
-									<p>
-										<span class="txt-gray-darker">Average Time Per Week:</span> {{work.averageWeeks}}
-									</p>
-									<p>
-										<span class="txt-gray-darker">Average Time Per Lesson:</span> {{work.averageLessons}}
-									</p>
-								</div>
-							</div>
-						{{/if}}
-						{{#if report.schoolWorkResourcesVisible}}
-							<div class="view-info no-border p-tn-12 m-tn-b-18">
-								{{#if work.resources.length}}
-									{{#each resource in resources work.resources}}
-										<p class="font-weight-normal">
-											<i class="txt-primary {{resourceIcon resource.type}}"></i>
-											{{resource.title}}
-										</p>
-									{{/each}}
-								{{else}}
-									<p class="font-weight-normal">
-										<i class="txt-primary fss-resources"></i>
-										No Resources
-									</p>
-								{{/if}}
-							</div>
-						{{/if}}
-					</div>
+					</th>
+				</tr>
+				{{#if report.schoolWorkDescriptionVisible}}
+					{{#if work.description}}
+						<tr>
+							<td colspan="2">
+								{{{work.description}}}
+							</td>
+						</tr>
+					{{/if}}
+				{{/if}}
+				<tr class="{{rowVisible report.schoolWorkStatsVisible report.schoolWorkTimesVisible}}">
+					{{#if report.schoolWorkStatsVisible}}
+						<td colspan="{{colSpan report.schoolWorkStatsVisible report.schoolWorkTimesVisible}}">
+							<span class="txt-gray-darkest">Terms: </span>{{work.termCount}}
+						</td>
+					{{/if}}
+					{{#if report.schoolWorkTimesVisible}}
+						<td colspan="{{colSpan report.schoolWorkStatsVisible report.schoolWorkTimesVisible}}">
+							<span class="txt-gray-darkest">Total Time: </span>{{work.totalTime}}
+						</td>
+					{{/if}}
+					
+				</tr>
+				<tr class="{{rowVisible report.schoolWorkStatsVisible report.schoolWorkTimesVisible}}">
+					{{#if report.schoolWorkStatsVisible}}
+						<td colspan="{{colSpan report.schoolWorkStatsVisible report.schoolWorkTimesVisible}}">
+							<span class="txt-gray-darkest">Weeks: </span>{{work.weekCount}}
+						</td>
+					{{/if}}
+					{{#if report.schoolWorkTimesVisible}}
+						<td colspan="{{colSpan report.schoolWorkStatsVisible report.schoolWorkTimesVisible}}">
+							<span class="txt-gray-darkest">Avg / Week: </span>{{work.averageWeeks}}
+						</td>
+					{{/if}}
+					
+				</tr>
+				<tr class="{{rowVisible report.schoolWorkStatsVisible report.schoolWorkTimesVisible}}">
+					{{#if report.schoolWorkStatsVisible}}
+						<td colspan="{{colSpan report.schoolWorkStatsVisible report.schoolWorkTimesVisible}}">
+							<span class="txt-gray-darkest">Times: </span>{{work.lessonCount}}
+						</td>
+					{{/if}}
+					{{#if report.schoolWorkTimesVisible}}
+						<td colspan="{{colSpan report.schoolWorkStatsVisible report.schoolWorkTimesVisible}}">
+							<span class="txt-gray-darkest">Avg / Lesson: </span>{{work.averageLessons}}
+						</td>
+					{{/if}}
+				</tr>
+				{{#if report.schoolWorkResourcesVisible}}
+					{{#if work.resources.length}}
+						<tr>
+							<td colspan="2">
+								{{#each resource in work.resources}}
+								<p class="m-tn-tb-3"><i class="{{resourceIcon resource.type}} txt-primary"></i> {{resource.title}}</p>
+								{{/each}}
+							</td>
+						</tr>
+					{{/if}}
+				{{/if}}
+			</table>
+
+			{{#if report.timesPerWeekReportVisible}}
+				{{#each term in terms}}
+					<table class="nested">
+						{{#each week in termWeeks term._id}}
+							<tr>
+								<th colspan="3" class="font-weight-500">Term {{term.order}}: Week {{week.order}}</th>
+								<th style="padding-left: 15%">
+									{{#if report.timesPerWeekProgressVisible}}
+										<div class="meter meter-report">
+											<div class="meter-progress {{#if progressComplete week.lessonData work._id}}meter-progress-primary{{/if}}" style="width: {{progress week.lessonData work._id}}%;">
+												<div class="meter-label">Progress: {{progress week.lessonData work._id}}%</div>
+											</div>
+											<div class="meter-label">Progress: {{progress week.lessonData work._id}}%</div>
+										</div>
+									{{/if}}
+								</th>
+							</tr>
+							{{#each lesson in schoolWorkLessons week.lessonData work._id}}
+								<tr>
+									<th width="15%" class="font-weight-500">Lesson {{lesson.order}}</th>
+									<td width="10%">
+										{{#if lesson.completedOn.length}}
+											{{shortDateFormat lesson.completedOn}}
+										{{else}}
+											<span class="txt-gray-darkest">N/A</span>
+										{{/if}}
+									</td>
+									<td width="10%">
+										{{#if lesson.completionTime}}
+											{{lesson.completionTime}} min
+										{{else}}
+											<span class="txt-gray-darkest">N/A</span>
+										{{/if}}
+									</td>
+									<td width="65%">
+										{{#if lesson.description.length}}
+											{{{lesson.description}}}
+										{{else}}
+											<span class="txt-gray-darkest">N/A</span>
+										{{/if}}
+									</td>
+								</tr>
+							{{/each}}
+						{{/each}}
+					</table>
 				{{/each}}
-			{{else}}
-				<h2 class="m-tn-b-12"><i class="fss-school-work txt-primary"></i> No School Work</h2>
 			{{/if}}
-		</div>
+		{{/each}}
 	{{/if}}
 </template>
 

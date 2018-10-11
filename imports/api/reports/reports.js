@@ -105,26 +105,11 @@ const ReportsSchema = new SimpleSchema({
 	timesPerWeekReportVisible: {
 		type: Boolean,
 		label: "Times Per Week Report",
-		defaultValue: true,
+		defaultValue: false,
 	},
 	timesPerWeekProgressVisible: {
 		type: Boolean,
 		label: "Times Per Week Progress",
-		defaultValue: true,
-	},
-	timesPerWeekCompletionDateVisible: {
-		type: Boolean,
-		label: "Times Per Week Completeion Date",
-		defaultValue: true,
-	},
-	timesPerWeekCompletionTimeVisible: {
-		type: Boolean,
-		label: "Times Per Week Completion Time",
-		defaultValue: true,
-	},
-	timesPerWeekDescriptionVisible: {
-		type: Boolean,
-		label: "Times Per Week Description",
 		defaultValue: true,
 	},
 

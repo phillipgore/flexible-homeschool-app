@@ -5,7 +5,7 @@
 				{{#if students.count}}
 					<div class="btn-sub-dropdown">
 						<a id="{{selectedStudent._id}}" href="#" data-menu="#students" class="js-dropdown btn-sub">
-							{{selectedStudent.preferredFirstName.name}} {{selectedStudent.lastName}} <i class="fss-caret-down"></i>
+							<div class="btn-sub-label">{{selectedStudent.preferredFirstName.name}} {{selectedStudent.lastName}}</div>
 						</a>
 						<ul id="students" class="dropdown-menu dropdown-sub m-tn-rl-9 hide">
 							<div class="dropdown-arrow"></div>
@@ -38,7 +38,7 @@
 				{{#if schoolYears.count}}
 					<div class="btn-sub-dropdown">
 						<a id="{{selectedSchoolYear._id}}" href="#" data-menu="#years" class="js-dropdown btn-sub last">
-							{{selectedSchoolYear.startYear}}-{{selectedSchoolYear.endYear}} <i class="fss-caret-down"></i>
+							<div class="btn-sub-label">{{selectedSchoolYear.startYear}}-{{selectedSchoolYear.endYear}}</div>
 						</a>
 						<ul id="years" class="dropdown-menu dropdown-sub m-tn-rl-9 hide">
 							<div class="dropdown-arrow"></div>

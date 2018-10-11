@@ -8,7 +8,7 @@
 					{{#if students.count}}
 						<div class="btn-sub-dropdown">
 							<a id="{{selectedStudentId}}" href="#" data-menu="#students" class="js-dropdown btn-sub">
-								{{selectedStudent.preferredFirstName.name}} {{selectedStudent.lastName}} <i class="fss-caret-down"></i>
+								<div class="btn-sub-label">{{selectedStudent.preferredFirstName.name}} {{selectedStudent.lastName}}</div>
 							</a>
 							<ul id="students" class="dropdown-menu dropdown-sub m-tn-rl-9 hide">
 								<div class="dropdown-arrow"></div>
@@ -38,7 +38,7 @@
 					{{#if schoolYears.count}}
 						<div class="btn-sub-dropdown">
 							<a id="{{selectedSchoolYearId}}" href="#" data-menu="#years" class="js-dropdown btn-sub">
-								{{selectedSchoolYear.startYear}}-{{selectedSchoolYear.endYear}} <i class="fss-caret-down"></i>
+								<div class="btn-sub-label">{{selectedSchoolYear.startYear}}-{{selectedSchoolYear.endYear}}</div>
 							</a>
 							<ul id="years" class="dropdown-menu dropdown-sub m-tn-rl-9 hide">
 								<div class="dropdown-arrow"></div>
@@ -68,7 +68,7 @@
 				{{#if terms.count}}
 					<div class="btn-sub-dropdown">
 						<a id="{{selectedTermId}}" href="#" data-menu="#terms" class="js-dropdown btn-sub">
-							{{#unless selectedTerm.order}}All Terms{{else}}Term {{selectedTerm.order}}{{/unless}} <i class="fss-caret-down"></i>
+							<div class="btn-sub-label">{{#unless selectedTerm.order}}All Terms{{else}}Term {{selectedTerm.order}}{{/unless}}</div>
 						</a>
 						<ul id="terms" class="dropdown-menu dropdown-sub m-tn-rl-9 hide">
 							<div class="dropdown-arrow"></div>
@@ -99,35 +99,40 @@
 					</span>
 				{{/if}}
 			</div>
+
 			<div class="col-tn-1of4">
 				{{#if weeks.count}}
-					<div class="btn-sub-dropdown">
-						<a id="{{selectedWeekId}}" href="#" data-menu="#weeks" class="js-dropdown btn-sub last">
-							{{#unless selectedWeek.order}}All Weeks{{else}}Week {{selectedWeek.order}}{{/unless}} <i class="fss-caret-down"></i>
-						</a>
-						<ul id="weeks" class="dropdown-menu dropdown-sub m-tn-rl-9 hide">
-							<div class="dropdown-arrow"></div>
-							{{#unless weekSubReady}}
-								{{> loadingDropdown}}
-							{{else}}
-								{{#each week in weeks}}
-									<li class="dropdown-item">
-										<a data-school-year-id="{{selectedSchoolYearId}}" data-term-id="{{selectedTermId}}" id="{{week._id}}" class="js-week dropdown-item-link" href="/reporting/view/{{selectedFramePosition}}/{{selectedStudentId}}/{{selectedSchoolYearId}}/{{selectedTermId}}/{{week._id}}/{{selectedReportId}}">
-											{{#unless selectedFramePositionOne}}
-												<div class="dropdown-item-icon"><i class="{{weekStatus week.status}}"></i></div>
-											{{/unless}}
-											<div class="dropdown-item-label">{{#unless week.order}}All Weeks{{else}}Week {{week.order}}{{/unless}}</div>
-											{{#if activeListItem selectedWeekId week._id}}
-												<div class="dropdown-item-icon-right">
-													<i class="fss-planning txt-gray-darker"></i>
-												</div>
-											{{/if}}
-										</a>
-									</li>
-								{{/each}}
-							{{/unless}}
-						</ul>
-					</div>
+					{{#unless selectedTerm.order}}
+						<span class="btn-sub last txt-gray-darkest">All Weeks</span>
+					{{else}}
+						<div class="btn-sub-dropdown">
+							<a id="{{selectedWeekId}}" href="#" data-menu="#weeks" class="js-dropdown btn-sub last">
+								<div class="btn-sub-label">{{#unless selectedWeek.order}}All Weeks{{else}}Week {{selectedWeek.order}}{{/unless}}</div>
+							</a>
+							<ul id="weeks" class="dropdown-menu dropdown-sub m-tn-rl-9 hide">
+								<div class="dropdown-arrow"></div>
+								{{#unless weekSubReady}}
+									{{> loadingDropdown}}
+								{{else}}
+									{{#each week in weeks}}
+										<li class="dropdown-item">
+											<a data-school-year-id="{{selectedSchoolYearId}}" data-term-id="{{selectedTermId}}" id="{{week._id}}" class="js-week dropdown-item-link" href="/reporting/view/{{selectedFramePosition}}/{{selectedStudentId}}/{{selectedSchoolYearId}}/{{selectedTermId}}/{{week._id}}/{{selectedReportId}}">
+												{{#unless selectedFramePositionOne}}
+													<div class="dropdown-item-icon"><i class="{{weekStatus week.status}}"></i></div>
+												{{/unless}}
+												<div class="dropdown-item-label">{{#unless week.order}}All Weeks{{else}}Week {{week.order}}{{/unless}}</div>
+												{{#if activeListItem selectedWeekId week._id}}
+													<div class="dropdown-item-icon-right">
+														<i class="fss-planning txt-gray-darker"></i>
+													</div>
+												{{/if}}
+											</a>
+										</li>
+									{{/each}}
+								{{/unless}}
+							</ul>
+						</div>
+					{{/unless}}
 				{{else}}
 					<span class="btn-sub last txt-gray-darkest">
 						{{#unless selectedTerm.order}}All Weeks{{else}}No Weeks{{/unless}}

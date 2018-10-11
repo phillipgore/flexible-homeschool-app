@@ -52,9 +52,6 @@ Template.reportingEdit.onRendered( function() {
 
 				timesPerWeekReportVisible: template.find("[name='timesPerWeekReportVisible']").value.trim() === 'true',
 				timesPerWeekProgressVisible: template.find("[name='timesPerWeekProgressVisible']").value.trim() === 'true',
-				timesPerWeekCompletionDateVisible: template.find("[name='timesPerWeekCompletionDateVisible']").value.trim() === 'true',
-				schoolWorkTimesVisible: template.find("[name='schoolWorkTimesVisible']").value.trim() === 'true',
-				timesPerWeekDescriptionVisible: template.find("[name='timesPerWeekDescriptionVisible']").value.trim() === 'true',
 
 				resourcesReportVisible: template.find("[name='resourcesReportVisible']").value.trim() === 'true',
 				resourcesOriginatorVisible: template.find("[name='resourcesOriginatorVisible']").value.trim() === 'true',
@@ -75,7 +72,7 @@ Template.reportingEdit.onRendered( function() {
 					$('.js-updating').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
-					FlowRouter.go('/reporting/view/1/' + Session.get('selectedStudentId') +"/"+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedReportingTermId') +'/'+ Session.get('selectedReportingWeekId') +"/"+ Session.get('selectedReportId'));
+					FlowRouter.go('/reporting/view/2/' + Session.get('selectedStudentId') +"/"+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedReportingTermId') +'/'+ Session.get('selectedReportingWeekId') +"/"+ Session.get('selectedReportId'));
 				}
 			});
 
@@ -102,7 +99,7 @@ Template.reportingEdit.helpers({
 	},
 	
 	cancelPath: function() {
-		return '/reporting/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId') +'/'+ FlowRouter.getParam('selectedReportId');
+		return '/reporting/view/2/' + Session.get('selectedStudentId') +"/"+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedReportingTermId') +'/'+ Session.get('selectedReportingWeekId') +"/"+ Session.get('selectedReportId');
 	},
 });
 

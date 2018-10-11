@@ -17,12 +17,38 @@
 					</div>
 				{{else}}
 					{{#if reports.count}}
-						<h1 class="txt-tn-center">{{selectedStudent.firstName}} {{selectedStudent.middleName}} {{selectedStudent.lastName}}</h1>
-						<h2 class="txt-tn-center txt-gray-darkest m-tn-b-18">{{schoolYear.startYear}}-{{schoolYear.endYear}}</h2>
-						{{> reportingSchoolYears}}
-						{{> reportingTerms}}
-						{{> reportingSchoolWork}}
-						{{> reportingResources}}
+						<div class="report-wrapper">
+							<h1 class="txt-tn-center m-tn-b-3">{{selectedStudent.firstName}} {{selectedStudent.middleName}} {{selectedStudent.lastName}}</h1>
+							<h2 class="txt-tn-center txt-gray-darkest m-tn-b-36">{{selectedSchoolYear.startYear}}-{{selectedSchoolYear.endYear}} : {{termLabel selectedTerm._id selectedTerm.order}} : {{weekLabel selectedWeek._id selectedWeek.order}}</h2>
+							
+							{{#if selectedReport.schoolYearReportVisible}}
+								<div class="report-divider">
+									<div class="report-divider-label">School Year</div>
+								</div> 
+							{{/if}}
+							{{> reportingSchoolYears}}
+							
+							{{#if selectedReport.termsReportVisible}}
+								<div class="report-divider">
+									<div class="report-divider-label">Terms</div>
+								</div> 
+							{{/if}}
+							{{> reportingTerms}}
+
+							{{#if selectedReport.schoolWorkReportVisible}}
+								<div class="report-divider">
+									<div class="report-divider-label">School Work</div>
+								</div> 
+							{{/if}}
+							{{> reportingSchoolWork}}
+							
+							{{#if selectedReport.resourcesReportVisible}}
+								<div class="report-divider">
+									<div class="report-divider-label">Resources</div>
+								</div> 
+							{{/if}}
+							{{> reportingResources}}
+						</div>
 					{{/if}}
 				{{/unless}}
 			{{/unless}}

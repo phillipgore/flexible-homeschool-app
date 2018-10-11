@@ -29,18 +29,6 @@ Template.subbarReporting.helpers({
 		return Template.instance().weekData.ready();
 	},
 
-	students: function() {
-		return Students.find({}, {sort: {birthday: 1, lastName: 1, firstName: 1}});
-	},
-
-	selectedStudentId: function() {
-		return FlowRouter.getParam('selectedStudentId');
-	},
-
-	selectedStudent: function() {
-		return Students.findOne({_id: FlowRouter.getParam('selectedStudentId')});
-	},
-
 	schoolYears: function() {
 		return SchoolYears.find({}, {sort: {startYear: 1}});
 	},
@@ -51,6 +39,18 @@ Template.subbarReporting.helpers({
 
 	selectedSchoolYear: function() {
 		return SchoolYears.findOne({_id: FlowRouter.getParam('selectedSchoolYearId')});
+	},
+
+	students: function() {
+		return Students.find({}, {sort: {birthday: 1, lastName: 1, firstName: 1}});
+	},
+
+	selectedStudentId: function() {
+		return FlowRouter.getParam('selectedStudentId');
+	},
+
+	selectedStudent: function() {
+		return Students.findOne({_id: FlowRouter.getParam('selectedStudentId')});
 	},
 
 	yearStatus: function(schoolYearStatus) {

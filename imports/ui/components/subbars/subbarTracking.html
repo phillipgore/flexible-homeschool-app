@@ -5,7 +5,7 @@
 				{{#if schoolYears.count}}
 					<div class="btn-sub-dropdown">
 						<a id="{{selectedSchoolYearId}}" href="#" data-menu="#years" class="js-dropdown btn-sub">
-							{{selectedSchoolYear.startYear}}-{{selectedSchoolYear.endYear}} <i class="fss-caret-down"></i>
+							<div class="btn-sub-label">{{selectedSchoolYear.startYear}}-{{selectedSchoolYear.endYear}}</div>
 						</a>
 						<ul id="years" class="dropdown-menu dropdown-sub m-tn-rl-9 hide">
 							<div class="dropdown-arrow"></div>
@@ -40,7 +40,7 @@
 				{{#if terms.count}}
 					<div class="btn-sub-dropdown">
 						<a id="{{selectedTermId}}" href="#" data-menu="#terms" class="js-dropdown btn-sub">
-							Term {{selectedTerm.order}} <i class="fss-caret-down"></i>
+							<div class="btn-sub-label">Term {{selectedTerm.order}}</div>
 						</a>
 						<ul id="terms" class="dropdown-menu dropdown-sub m-tn-rl-9 hide">
 							<div class="dropdown-arrow"></div>
@@ -75,7 +75,7 @@
 				{{#if weeks.count}}
 					<div class="btn-sub-dropdown">
 						<a id="{{selectedWeekId}}" href="#" data-menu="#weeks" class="js-dropdown btn-sub last">
-							Week {{selectedWeek.order}} <i class="fss-caret-down"></i>
+							<div class="btn-sub-label">Week {{selectedWeek.order}}</div>
 						</a>
 						<ul id="weeks" class="dropdown-menu dropdown-sub m-tn-rl-9 hide">
 							<div class="dropdown-arrow"></div>

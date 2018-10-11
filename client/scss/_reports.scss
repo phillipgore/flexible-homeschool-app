@@ -18,3 +18,84 @@
 .report-form {
 	max-width: 640px;
 }
+
+.report-table {
+	border: 1px solid $color-gray-dark;
+	border-radius: 3px;
+	overflow: hidden;
+
+	.report-heading {
+		background-color: $color-gray-light;
+		padding: 9px;
+	}
+
+	.report-row {
+		font-size: 14px;
+
+		.report-cell {
+			padding: 11px 9px;
+			border-top: 1px solid $color-gray-dark;
+			border-right: 1px solid $color-gray-dark;
+
+			&:last-child, &:only-child {
+				border-right: 0px;
+			}
+		}
+	}
+}
+
+.report-wrapper {
+	hr:first-of-type {
+		display: none;
+	}
+
+	.report-divider {
+		height: 27px;
+		position: relative;
+		border-top: 1px solid $color-gray;
+
+		.report-divider-label {
+			color: $color-gray-darkest;
+			background-color: $color-white;
+			padding: 0px 9px;
+			text-align: center;
+			font-size: 14px;
+			position: absolute;
+			left: 50%;
+			transform: translate(-50%, -60%);
+		}
+	}
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+	border-radius: 3px 3px 0px 0px;
+	overflow: hidden;
+    text-align: left;
+    margin-bottom: 27px;
+
+    &.nested {
+    	border-radius: 0px;
+	    margin-top: -28px;
+	    font-size: 14px;
+    }
+
+    tr {
+		border-collapse: collapse;
+		overflow: hidden;
+		border: 1px solid $color-gray-dark;
+    }
+
+    th {
+    	background-color: $color-gray-light;
+    	padding: 9px;
+    	font-weight: 400;
+    }
+
+    td {
+    	border: 1px solid $color-gray-dark;
+    	font-size: 14px;
+    	padding: 11px 9px;
+    }
+}

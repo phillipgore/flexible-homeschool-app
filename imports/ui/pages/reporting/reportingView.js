@@ -16,15 +16,10 @@ Template.reportingView.onCreated( function() {
 	let template = Template.instance();
 	
 	template.autorun(() => {
-		this.reportSchoolYearData = Meteor.subscribe('reportSchoolYears', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
-		// this.reportTermData = Meteor.subscribe('reportTerms', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
-		// this.reportSchoolWorkData = Meteor.subscribe('reportSchoolWork', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
-		// this.reportResourceData = Meteor.subscribe('reportResources', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
+		this.reportData = Meteor.subscribe('reportData', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'), FlowRouter.getParam('selectedWeekId'), FlowRouter.getParam('selectedReportId'));
 		this.studentsData = Meteor.subscribe('allStudents');
 		this.studentData = Meteor.subscribe('student', FlowRouter.getParam('selectedStudentId'));
 		this.pathData = Meteor.subscribe('studentSchoolYearsPath', FlowRouter.getParam('selectedStudentId'));
-
-		this.reportData = Meteor.subscribe('reportData', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'), FlowRouter.getParam('selectedWeekId'), FlowRouter.getParam('selectedReportId'));
 	});
 });
 
@@ -41,7 +36,7 @@ Template.reportingView.onRendered( function() {
 
 Template.reportingView.helpers({
 	subscriptionReady: function() {
-		if (Template.instance().reportSchoolYearData.ready() && Template.instance().reportTermData.ready() && Template.instance().reportSchoolWorkData.ready() && Template.instance().reportResourceData.ready() && Template.instance().studentsData.ready() && Template.instance().studentData.ready() && Template.instance().pathData.ready()) {
+		if (Template.instance().reportData.ready() && Template.instance().studentsData.ready() && Template.instance().studentData.ready() && Template.instance().pathData.ready()) {
 			return true;
 		}
 		return false;
@@ -55,8 +50,34 @@ Template.reportingView.helpers({
 		return Students.findOne({_id: FlowRouter.getParam('selectedStudentId')});
 	},
 
-	schoolYear: function() {
+	selectedSchoolYear: function() {
 		return SchoolYears.findOne({_id: FlowRouter.getParam('selectedSchoolYearId')});
+	},
+
+	selectedTerm: function() {
+		return Terms.findOne({_id: FlowRouter.getParam('selectedTermId')});
+	},
+
+	termLabel: function(termId, termOrder) {
+		if (termId === 'allTerms') {
+			return 'All Terms';
+		}
+		return 'Term ' + termOrder
+	},
+
+	selectedWeek: function() {
+		return Weeks.findOne({_id: FlowRouter.getParam('selectedWeekId')});
+	},
+
+	weekLabel: function(weekId, weekOrder) {
+		if (weekId === 'allWeeks' || !weekOrder) {
+			return 'All Weeks';
+		}
+		return 'Week ' + weekOrder
+	},
+
+	selectedReport: function() {
+		return Reports.findOne({_id: FlowRouter.getParam('selectedReportId')})
 	},
 
 	studentCount: function() {

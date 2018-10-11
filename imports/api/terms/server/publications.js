@@ -73,7 +73,7 @@ Meteor.publish('studentTermsPath', function(schoolYearId, studentId, showAllTerm
 		}
 
 		if (showAllTerms && terms.count()) {
-			let allTerms = {order: 0, schoolYearId: schoolYearId, status: getStatus(termStatus), firstWeekId: 'empty'}
+			let allTerms = {order: 0, schoolYearId: schoolYearId, status: getStatus(termStatus), firstWeekId: 'allWeeks'}
 			self.added('terms', 'allTerms', allTerms);
 		}
 

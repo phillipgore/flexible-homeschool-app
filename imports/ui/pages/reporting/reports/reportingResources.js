@@ -46,20 +46,20 @@ Template.reportingResources.helpers({
 		return false;
 	},
 
-	resourceIcon: function(resource) {
-		if (resource === 'app') {
+	resourceIcon: function(resourceType) {
+		if (resourceType === 'app') {
 			return 'fss-app';
 		}
-		if (resource === 'audio') {
+		if (resourceType === 'audio') {
 			return 'fss-audio';
 		}
-		if (resource === 'book') {
+		if (resourceType === 'book') {
 			return 'fss-book';
 		}
-		if (resource === 'link') {
+		if (resourceType === 'link') {
 			return 'fss-link';
 		}
-		if (resource === 'video') {
+		if (resourceType === 'video') {
 			return 'fss-video';
 		}
 	},
@@ -76,6 +76,27 @@ Template.reportingResources.helpers({
 
 	resourceSchoolWork: function(resourceId) {
 		return SchoolWork.find({resources: {$in: [resourceId]}}).map(schoolWork => (schoolWork.name)).join(', ');
+	},
+
+	rowVisible: function(cellOne, cellTwo) {
+		if (!cellOne && !cellTwo) {
+			return 'dis-tn-none';
+		}
+		return false;
+	},
+
+	colSpan: function(cellOne, cellTwo) {
+		if (cellOne && cellTwo) {
+			return 1;
+		}
+		return 2;
+	},
+
+	sectionVisible: function(cellOne, cellTwo) {
+		if (cellOne || cellTwo) {
+			return true;
+		}
+		return false;
 	},
 });
 
