@@ -72,7 +72,7 @@ Template.subbarReporting.helpers({
 	},
 
 	terms: function() {
-		return Terms.find({}, {sort: {order: 1}});
+		return Terms.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}, {sort: {order: 1}});
 	},
 
 	selectedTermId: function() {
@@ -102,7 +102,7 @@ Template.subbarReporting.helpers({
 	},
 
 	weeks: function() {
-		return Weeks.find({}, {sort: {order: 1}});
+		return Weeks.find({termId: FlowRouter.getParam('selectedTermId')}, {sort: {order: 1}});
 	},
 
 	selectedWeekId: function() {
