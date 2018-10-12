@@ -433,21 +433,21 @@ Template.app.events({
 	'click .js-report'(event) {
 		Session.set({
 			selectedReportId: $(event.currentTarget).attr('id'),
-			editUrl: '/reporting/edit/2/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ $(event.currentTarget).attr('id'),
+			editUrl: '/reporting/edit/2/' + $(event.currentTarget).attr('id'),
 		});
 	},
 
 	'click .js-report-student'(event) {
 		Session.set({
 			selectedStudentId: $(event.currentTarget).attr('id'),
-			editUrl: '/reporting/edit/2/' + $(event.currentTarget).attr('id') +'/'+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedReportId'),
+			editUrl: '/reporting/edit/2/' + Session.get('selectedReportId'),
 		});
 	},
 
 	'click .js-report-school-year'(event) {
 		Session.set({
 			selectedSchoolYearId: $(event.currentTarget).attr('id'),
-			editUrl: '/reporting/edit/2/' + Session.get('selectedStudentId') +'/'+ $(event.currentTarget).attr('id') +'/'+ Session.get('selectedReportId'),
+			editUrl: '/reporting/edit/2/' + Session.get('selectedReportId'),
 		});
 	},
 });
