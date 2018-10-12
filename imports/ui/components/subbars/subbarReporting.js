@@ -3,6 +3,7 @@ import {Students} from '../../../api/students/students.js';
 import {SchoolYears} from '../../../api/schoolYears/schoolYears.js';
 import {Terms} from '../../../api/terms/terms.js';
 import {Weeks} from '../../../api/weeks/weeks.js';
+import {Reports} from '../../../api/reports/reports.js';
 import moment from 'moment';
 import './subbarReporting.html';
 
@@ -33,20 +34,12 @@ Template.subbarReporting.helpers({
 		return SchoolYears.find({}, {sort: {startYear: 1}});
 	},
 
-	selectedSchoolYearId: function() {
-		return FlowRouter.getParam('selectedSchoolYearId');
-	},
-
 	selectedSchoolYear: function() {
 		return SchoolYears.findOne({_id: FlowRouter.getParam('selectedSchoolYearId')});
 	},
 
 	students: function() {
 		return Students.find({}, {sort: {birthday: 1, lastName: 1, firstName: 1}});
-	},
-
-	selectedStudentId: function() {
-		return FlowRouter.getParam('selectedStudentId');
 	},
 
 	selectedStudent: function() {
@@ -75,10 +68,6 @@ Template.subbarReporting.helpers({
 		return Terms.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}, {sort: {order: 1}});
 	},
 
-	selectedTermId: function() {
-		return FlowRouter.getParam('selectedTermId');
-	},
-
 	selectedTerm: function() {
 		return Terms.findOne({_id: FlowRouter.getParam('selectedTermId')});
 	},
@@ -105,10 +94,6 @@ Template.subbarReporting.helpers({
 		return Weeks.find({termId: FlowRouter.getParam('selectedTermId')}, {sort: {order: 1}});
 	},
 
-	selectedWeekId: function() {
-		return FlowRouter.getParam('selectedWeekId');
-	},
-
 	selectedWeek: function() {
 		return Weeks.findOne({_id: FlowRouter.getParam('selectedWeekId')});
 	},
@@ -131,8 +116,8 @@ Template.subbarReporting.helpers({
 		}
 	},
 
-	selectedReportId: function() {
-		return FlowRouter.getParam('selectedReportId');
+	selectedReport: function() {
+		return Reports.findOne({_id: FlowRouter.getParam('selectedReportId')});
 	},
 	
 	activeListItem: function(currentItem, item) {

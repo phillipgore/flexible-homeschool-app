@@ -10,7 +10,7 @@ Template.createAccount.onCreated( function() {
 });
 
 Template.createAccount.onRendered( function() {	
-	Session.set('hideCoupon', true);
+	Session.set('hideCoupon', false);
 });
 
 Template.createAccount.helpers({

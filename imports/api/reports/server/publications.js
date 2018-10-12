@@ -86,10 +86,8 @@ Meteor.publish('reportData', function(studentId, schoolYearId, termId, weekId, r
 
 			if (report.schoolYearReportVisible) {
 				let schoolYearStats = {};
-				console.log(yearSchoolYear.startYear);console.log(yearSchoolYear.endYear);
+
 				schoolYearStats.schoolYearId = yearSchoolYear._id;
-				schoolYearStats.startYear = yearSchoolYear.startYear;
-				schoolYearStats.endYear = yearSchoolYear.endYear;
 
 				let yearLessonsTotal = yearLessons.length;
 				let yearLessonsCompletedTotal = _.filter(yearLessons, ['completed', true]).length;
