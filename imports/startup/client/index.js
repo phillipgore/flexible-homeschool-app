@@ -31,19 +31,31 @@ Template.registerHelper('selectedFramePosition', () => {
 });
 
 Template.registerHelper('dateFormat', (date) => {
-  return moment.utc(date).format('MMMM D, YYYY');
+	if (date) {
+		return moment.utc(date).format('MMMM D, YYYY');
+	}
+	return '';
 });
 
 Template.registerHelper('dateTimeFormat', (date) => {
-  return moment.utc(date).format('MMMM D, YYYY - h:mm A');
+	if (date) {
+	  return moment.utc(date).format('MMMM D, YYYY - h:mm A');
+	}
+	return '';
 });
 
 Template.registerHelper('shortDateFormat', (date) => {
-  return moment.utc(date).format('M/D/YY');
+	if (date) {
+	  return moment.utc(date).format('M/D/YY');
+	}
+	return '';
 });
 
 Template.registerHelper('stripeDateFormat', (date) => {
-  return moment.unix(date).format('M/D/YY');
+	if (date) {
+	  return moment.unix(date).format('M/D/YY');
+	}
+	return '';
 });
 
 Template.registerHelper('age', (date) => {
