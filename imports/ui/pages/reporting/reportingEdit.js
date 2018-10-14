@@ -47,7 +47,7 @@ Template.reportingEdit.onRendered( function() {
 				schoolWorkStatsVisible: template.find("[name='schoolWorkStatsVisible']").value.trim() === 'true',
 				schoolWorkProgressVisible: template.find("[name='schoolWorkProgressVisible']").value.trim() === 'true',
 				schoolWorkTimesVisible: template.find("[name='schoolWorkTimesVisible']").value.trim() === 'true',
-				schoolWorkDescriptionVisible: template.find("[name='schoolWorkResourcesVisible']").value.trim() === 'true',
+				schoolWorkDescriptionVisible: template.find("[name='schoolWorkDescriptionVisible']").value.trim() === 'true',
 				schoolWorkResourcesVisible: template.find("[name='schoolWorkResourcesVisible']").value.trim() === 'true',
 
 				timesPerWeekReportVisible: template.find("[name='timesPerWeekReportVisible']").value.trim() === 'true',
