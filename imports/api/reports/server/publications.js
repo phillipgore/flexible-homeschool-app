@@ -322,7 +322,7 @@ Meteor.publish('reportData', function(studentId, schoolYearId, termId, weekId, r
 						lessonData.schoolWorkId = lesson.schoolWorkId;
 						lessonData.completed = lesson.completed;
 						if (lesson.completedOn) {
-							lessonData.completedOn = lesson.completedOn.toString();
+							lessonData.completedOn = lesson.completedOn.toDateString();
 						}
 						lessonData.completionTime = lesson.completionTime;
 						lessonData.description = lesson.description;
