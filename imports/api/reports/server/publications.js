@@ -121,7 +121,7 @@ Meteor.publish('reportData', function(studentId, schoolYearId, termId, weekId, r
 				}
 
 				if (report.schoolYearTimesVisible) {
-					let yearCompletedWeekIds = _.filter(yearLessons, ['completed', true]).map(lesson => (lesson.weekId));
+					let yearCompletedWeekIds = _.uniq(_.filter(yearLessons, ['completed', true]).map(lesson => (lesson.weekId)));
 					let yearCompletedTermIds = Weeks.find({_id: {$in: yearCompletedWeekIds}, deletedOn: { $exists: false }}).map(week => (week.termId));
 					let yearTermsTotal = Terms.find({_id: {$in: yearCompletedTermIds}}).count();			
 					let yearWeeksTotal = yearCompletedWeekIds.length;
@@ -193,8 +193,8 @@ Meteor.publish('reportData', function(studentId, schoolYearId, termId, weekId, r
 						termData.totalTime = minutesConvert(totalMinutes);
 
 						//  Terms Average Weeks
-						let completedWeekIds = _.filter(termLessons, ['completed', true]).map(lesson => (lesson.weekId));
-						let weeksTotal = termWeekIds.length;
+						let completedWeekIds = _.uniq(_.filter(termLessons, ['completed', true]).map(lesson => (lesson.weekId)));
+						let weeksTotal = completedWeekIds.length;
 						let averageWeekMinutes = _.sum(lessonCompletionTimes) / weeksTotal;
 						termData.averageWeeks = minutesConvert(averageWeekMinutes);
 
