@@ -104,15 +104,19 @@ Meteor.methods({
 			})
 		}
 
-		let result = Lessons.rawCollection().bulkWrite(
-			bulkLessons
-		).then((lessons) => {
-			return lessons;
-		}).catch((error) => {
-			throw new Meteor.Error(500, error);
-		});
+		if (bulkLessons.length) {
+			let result = Lessons.rawCollection().bulkWrite(
+				bulkLessons
+			).then((lessons) => {
+				return lessons;
+			}).catch((error) => {
+				throw new Meteor.Error(500, error);
+			});
 
-		return result;
+			return result;
+		}
+
+		return false;
 	},
 
 	deleteSchoolWork: function(schoolWorkId) {

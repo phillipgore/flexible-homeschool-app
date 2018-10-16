@@ -129,12 +129,8 @@ Template.schoolWorkEdit.onRendered( function() {
 				}
 			})
 
-			// console.log(insertLessonProperties)
-			// console.log(removeLessonIds)
-
 			Meteor.call('updateSchoolWork', updateSchoolWorkProperties, removeLessonIds, insertLessonProperties, function(error, result) {
 				if (error) {
-					console.log(error)
 					Alerts.insert({
 						colorClass: 'bg-danger',
 						iconClass: 'fss-danger',
