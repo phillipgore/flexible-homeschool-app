@@ -253,6 +253,9 @@ Template.app.events({
 			let reportIds = Reports.find({}, {sort: {name: 1}}).map(report => (report._id));
 			let selectedIndex = reportIds.indexOf(selectedReportId);
 
+			if (reportIds.length === 1) {
+				return 'empty';
+			}
 			if (selectedIndex) {
 				return reportIds[selectedIndex - 1]
 			}
@@ -272,7 +275,7 @@ Template.app.events({
 				});
 			} else {
 				Session.set('selectedReportId', newReportId);
-				FlowRouter.go('/reporting/view/1/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ newReportId);
+				FlowRouter.go('/reporting/view/1/' + Session.get('selectedStudentId') +"/"+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedReportingTermId') +'/'+ Session.get('selectedReportingWeekId') +"/"+ newReportId);
 				$('.js-deleting').hide();
 			}
 		});
