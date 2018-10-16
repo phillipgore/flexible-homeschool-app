@@ -99,9 +99,9 @@
 								<div class="col-tn-4of5 font-weight-normal p-tn-l-6 p-tn-t-9">Minutes</div>
 							</div>
 							<label>Descripton</label>
-							{{> editor classes="m-tn-b-18" placeholder="In this session we..." existingContent=lessonInfo.description}}
+							{{> editor classes="js-description m-tn-b-18" placeholder="In this session we..." existingContent=lessonInfo.description}}
 							
-							<footer class="toolbar toolbar-bottom toolbar-gray">
+							<footer class="toolbar toolbar-bottom toolbar-gray row">
 								<button data-close-id="{{lessonInfo._id}}" class="js-close btn btn-gray-darker fl-tn-left">Cancel</button>
 								<button type="submit" class="js-submit fl-tn-right">Update</button>
 							</footer>

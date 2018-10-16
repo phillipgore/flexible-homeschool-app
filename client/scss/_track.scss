@@ -198,7 +198,6 @@
 				z-index: 300;
 				padding: 9px;
 				min-height: 413px;
-				padding-bottom: 89px;
 
 				.toolbar-bottom {
 					height: auto;
@@ -207,15 +206,6 @@
 				textarea {
 					height: 159px;
 				}
-			}
-		}
-	}
-
-	@media only screen and (min-width: 896px) {
-		.track-input {
-
-			.track-form {
-				padding-bottom: 9px;
 			}
 		}
 	}
