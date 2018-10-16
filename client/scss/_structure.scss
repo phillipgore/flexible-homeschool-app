@@ -283,6 +283,10 @@ hr {
 		&.app-content-preceeds-toolbar {
 			padding-bottom: 96px;
 		}
+
+		&.app-content-tracking {
+			padding-bottom: 136px;
+		}
 	}
 }
 
@@ -297,6 +301,10 @@ hr {
 		}
 
 		&.app-content-preceeds-toolbar {
+			padding-bottom: 77px;
+		}
+
+		&.app-content-tracking {
 			padding-bottom: 77px;
 		}
 	}
