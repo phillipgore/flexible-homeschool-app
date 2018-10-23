@@ -192,20 +192,26 @@
 				right: 9px;
 				left: 9px;
 				bottom: auto;
-				border-radius: 3px;
-				border: 1px solid $color-gray-dark;
-				background-color: $color-gray-lightest;
 				z-index: 300;
-				padding: 9px;
-				min-height: 413px;
-				margin-bottom: 59px;
+				border-top: none;
+				background-color: transparent;
+				padding: 0px;
 
-				.toolbar-bottom {
-					height: auto;
-				}
+				.track-form-wrapper {
+					border-radius: 3px;
+					border: 1px solid $color-gray-dark;
+					background-color: $color-gray-lightest;
+					padding: 9px;
+					min-height: 413px;
+					margin-bottom: 90px;
 
-				textarea {
-					height: 159px;
+					.toolbar-bottom {
+						height: auto;
+					}
+
+					textarea {
+						height: 159px;
+					}
 				}
 			}
 		}

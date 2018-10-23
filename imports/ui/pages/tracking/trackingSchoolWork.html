@@ -68,44 +68,46 @@
 					</div>
 					
 					<form id="js-form-{{lesson._id}}" class="js-form-lessons-update track-form">
-						<span class="js-loader-{{lesson._id}}">
-							{{> lessonLoading}}
-						</span>
-						<span class="js-info-{{lesson._id}} hide">
-							<div class="row checkbox-collection p-tn-t-6">
-								<div class="col-tn-1of2">
-									<label class="checkbox">
-										<input class="js-assigned-checkbox" type="checkbox" name="assigned" value="{{lessonInfo.assigned}}" checked="{{lessonInfo.assigned}}">
-										<div class="checkbox-icon"></div> 
-										<div class="checkbox-label">Do Next</div>
-									</label>
+						<div class="track-form-wrapper">
+							<span class="js-loader-{{lesson._id}}">
+								{{> lessonLoading}}
+							</span>
+							<span class="js-info-{{lesson._id}} hide">
+								<div class="row checkbox-collection p-tn-t-6">
+									<div class="col-tn-1of2">
+										<label class="checkbox">
+											<input class="js-assigned-checkbox" type="checkbox" name="assigned" value="{{lessonInfo.assigned}}" checked="{{lessonInfo.assigned}}">
+											<div class="checkbox-icon"></div> 
+											<div class="checkbox-label">Do Next</div>
+										</label>
+									</div>
+									<div class="col-tn-1of2">
+										<label class="checkbox fl-tn-right">
+											<input class="js-completed-checkbox" type="checkbox" name="completed" value="{{lessonInfo.completed}}" checked="{{lessonInfo.completed}}">
+											<div class="checkbox-icon"></div> 
+											<div class="checkbox-label">Complete</div>
+										</label>
+									</div>
 								</div>
-								<div class="col-tn-1of2">
-									<label class="checkbox fl-tn-right">
-										<input class="js-completed-checkbox" type="checkbox" name="completed" value="{{lessonInfo.completed}}" checked="{{lessonInfo.completed}}">
-										<div class="checkbox-icon"></div> 
-										<div class="checkbox-label">Complete</div>
-									</label>
-								</div>
-							</div>
 
-							<label>Completion Date</label>
-							<input type="text" id="completed-on-{{lesson._id}}" name="completedOn" class="js-completed-on" placeholder="{{dateFormat todaysDate}}" value="{{dateFormat lesson.completedOn}}">
-							<label>Completion Time</label>
-							<div class="row">
-								<div class="col-tn-1of5">
-									<input type="text" name="completionTime" id="completion-time" placeholder="30" autocomplete="off" value="{{lessonInfo.completionTime}}">
+								<label>Completion Date</label>
+								<input type="text" id="completed-on-{{lesson._id}}" name="completedOn" class="js-completed-on" placeholder="{{dateFormat todaysDate}}" value="{{dateFormat lesson.completedOn}}">
+								<label>Completion Time</label>
+								<div class="row">
+									<div class="col-tn-1of5">
+										<input type="text" name="completionTime" id="completion-time" placeholder="30" autocomplete="off" value="{{lessonInfo.completionTime}}">
+									</div>
+									<div class="col-tn-4of5 font-weight-normal p-tn-l-6 p-tn-t-9">Minutes</div>
 								</div>
-								<div class="col-tn-4of5 font-weight-normal p-tn-l-6 p-tn-t-9">Minutes</div>
-							</div>
-							<label>Descripton</label>
-							{{> editor classes="js-description m-tn-b-18" placeholder="In this session we..." existingContent=lessonInfo.description}}
-							
-							<footer class="toolbar toolbar-bottom toolbar-gray row">
-								<button data-close-id="{{lessonInfo._id}}" class="js-close btn btn-gray-darker fl-tn-left">Cancel</button>
-								<button type="submit" class="js-submit fl-tn-right">Update</button>
-							</footer>
-						</span>
+								<label>Descripton</label>
+								{{> editor classes="js-description m-tn-b-18" placeholder="In this session we..." existingContent=lessonInfo.description}}
+								
+								<footer class="toolbar toolbar-bottom toolbar-gray row">
+									<button data-close-id="{{lessonInfo._id}}" class="js-close btn btn-gray-darker fl-tn-left">Cancel</button>
+									<button type="submit" class="js-submit fl-tn-right">Update</button>
+								</footer>
+							</span>
+						</div>
 					</form>
 				</div>
 			{{/each}}
