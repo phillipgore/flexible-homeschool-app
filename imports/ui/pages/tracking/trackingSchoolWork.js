@@ -113,9 +113,6 @@ Template.trackingSchoolWork.events({
 		$('#js-schoolWork-track-' + schoolWorkId).addClass('active');
 		$('.js-schoolWork-track').not('.active').addClass('inactive');
 
-		let containerHeight = $('.js-app-content').outerHeight() + 810;
-		$('.js-app-content').height(containerHeight);
-
 		$('#' + lessonId).show();
 		$(window).scrollTop(0);
 
@@ -136,8 +133,6 @@ Template.trackingSchoolWork.events({
 
 	'click .js-close'(event) {
 		event.preventDefault();
-
-		$('.js-app-content').height('auto');
 
 		$('.js-schoolWork-track').removeClass('active');
 		$('.js-schoolWork-track').removeClass('inactive');
@@ -177,6 +172,12 @@ Template.trackingSchoolWork.events({
 			completionTime: event.currentTarget.completionTime.value.trim(),
 			description: $('#' + $(event.currentTarget).find('.editor-content').attr('id')).html(),
 		}
+
+		// if (!lessonPoperties.completed) {
+		// 	delete lessonPoperties.completedOn;
+		// 	var picker = $(event.currentTarget).find('.js-completed-on').pickadate('picker');
+		// 	picker.set('select', new Date());
+		// }
 
 		Meteor.call('updateLesson', lessonPoperties, function(error, result) {
 			if (error) {
