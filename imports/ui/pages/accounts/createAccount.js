@@ -78,13 +78,14 @@ Template.createAccount.events({
 			subscription: {
 				customer: null,
 				items: [{plan: Meteor.settings.public.stripePlanId}],
-				coupon: Meteor.settings.public.stripeSignUpDiscount,
 			},
 		}
 
-		// if (event.target.coupon.value.trim() != '') {
-		// 	subscriptionProperties.subscription.coupon = event.target.coupon.value.trim()
-		// }
+		if (event.target.coupon.value.trim().length) {
+			subscriptionProperties.subscription.coupon = event.target.coupon.value.trim();
+		} else {
+			subscriptionProperties.subscription.coupon = Meteor.settings.public.stripeSignUpDiscount;
+		}
 
 		let accountForm = [];
 		let passwordsPresent = [];
