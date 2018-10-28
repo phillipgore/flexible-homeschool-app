@@ -46,3 +46,4 @@ vazco:universe-html-purifier
 percolate:migrations
 sakulstra:aggregate
 mikowals:batch-insert
+mdg:meteor-apm-agent

@@ -14,7 +14,7 @@ Meteor.publish('allWeeks', function() {
 	return Weeks.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {order: 1}, fields: {order: 1, termId: 1}});
 });
 
-Meteor.publish('weeksPath', function(termId, studentId, showAllWeeks) {
+Meteor.publish('weeksPath', function(studentId, schoolYearId, termId, showAllWeeks) {
 	this.autorun(function (computation) {
 		if (!this.userId) {
 			return this.ready();
@@ -31,7 +31,7 @@ Meteor.publish('weeksPath', function(termId, studentId, showAllWeeks) {
 			let totalWeekStatus = []
 
 			weeks.map((week) => {
-				week = weekStatus(week, week._id, studentId);
+				week = weekStatus(week, week._id, schoolYearId, studentId);
 				totalWeekStatus.push(week.status)
 				self.added('weeks', week._id, week);
 			});
