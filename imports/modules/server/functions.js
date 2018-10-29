@@ -194,15 +194,17 @@ export function allSchoolYearsStatusAndPaths(schoolYear, schoolYearId) {
 
 
 
-export function studentSchoolYearsStatusAndPaths(groupId, studentId, schoolYear, lessons) {
+export function studentSchoolYearsStatusAndPaths(studentId, schoolYear, lessons) {
 	if (schoolYear) {
 		let lessonsComplete = _.filter(lessons, ['completed', true]);
 		let lessonsIncomplete = _.filter(lessons, ['completed', false]);	
 		let lessonsAssigned = _.filter(lessons, {'completed': false, 'assigned': true});
 
-		schoolYear.status = status(groupId: groupId, lessons.length, lessonsComplete.length, lessonsAssigned.length);
+		let term = Terms.findOne({schoolYearId: schoolYear._id, deletedOn: { $exists: false }}, {sort: {order: 1}, fields: {_id: 1}})
 
-		if (Terms.find({groupId: groupId, schoolYearId: schoolYear._id, deletedOn: { $exists: false }}, {fields: {_id: 1}}).count()) {
+		schoolYear.status = status(lessons.length, lessonsComplete.length, lessonsAssigned.length);
+
+		if (term) {
 			if (lessons.length) {
 				let firstWeekId = getFirstLesson(lessons, lessonsComplete, lessonsIncomplete).weekId;
 				let firstWeek = Weeks.findOne({_id: firstWeekId, deletedOn: { $exists: false }});
@@ -210,8 +212,8 @@ export function studentSchoolYearsStatusAndPaths(groupId, studentId, schoolYear,
 				schoolYear.firstTermId = firstWeek.termId;
 				schoolYear.firstWeekId = firstWeekId;
 			} else {
-				let firstTerm = Terms.findOne({groupId: groupId, schoolYearId: schoolYear._id, deletedOn: { $exists: false }}, {sort: {order: 1}})
-				let firstWeek = Weeks.findOne({groupId: groupId, termId: firstTerm._id, deletedOn: { $exists: false }}, {sort: {order: 1}})
+				let firstTerm = term
+				let firstWeek = Weeks.findOne({termId: firstTerm._id, deletedOn: { $exists: false }}, {sort: {order: 1}, fields: {_id: 1}})
 
 				schoolYear.firstTermId = firstTerm._id;
 

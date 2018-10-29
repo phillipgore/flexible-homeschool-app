@@ -56,14 +56,13 @@ Meteor.publish('initialIds', function(currentYear) {
 		} else {
 			let initialSchoolYear = SchoolYears.findOne({_id: ids.schoolYearId, groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}, fields: {startYear: 1, endYear: 1}});		
 			
-			let schoolWorkIds = SchoolWork.find({
-				groupId: groupId, 
+			let schoolWorkIds = SchoolWork.find({ 
 				studentId: ids.studentId, 
 				schoolYearId: initialSchoolYear._id, 
 				deletedOn: { $exists: false }
 			}).map(schoolWork => (schoolWork._id));
-			let lessons = Lessons.find({groupId: groupId, schoolWorkId: {$in: schoolWorkIds}, deletedOn: { $exists: false }}, {fields: {completed: 1, assigned: 1, weekId: 1}}).fetch();
-			let schoolYear = studentSchoolYearsStatusAndPaths(groupId, ids.studentId, initialSchoolYear, lessons);
+			let lessons = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, deletedOn: { $exists: false }}, {fields: {completed: 1, assigned: 1, weekId: 1}}).fetch();
+			let schoolYear = studentSchoolYearsStatusAndPaths(ids.studentId, initialSchoolYear, lessons);
 
 			let valueTerm = schoolYear.firstTermId;
 			if (valueTerm) {ids.termId = valueTerm} else {ids.termId = 'empty'};
