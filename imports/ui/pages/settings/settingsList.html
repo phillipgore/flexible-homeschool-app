@@ -26,7 +26,7 @@
 				{{/if}}
 			</li>
 			<li class="list-item">
-				{{#if userRestricted user.info.role}}
+				<!-- {{#if userRestricted user.info.role}}
 					<span data-section="users" data-role="{{user.info.role}}" class="js-restricted list-item-inner disabled bg-white p-tn-rl-9">
 						<div class="list-item-icon"><i class="fss-password"></i></div> 
 						<div class="list-item-label">Reset Password</div>
@@ -36,7 +36,11 @@
 						<div class="list-item-icon"><i class="fss-password"></i></div> 
 						<div class="list-item-label">Reset Password</div>
 					</a>
-				{{/if}}
+				{{/if}} -->
+				<a href="#" class="js-reset-password list-item-link bg-white p-tn-rl-9">
+					<div class="list-item-icon"><i class="fss-password"></i></div> 
+					<div class="list-item-label">Reset Password</div>
+				</a>
 			</li>
 			<li class="list-item">
 				{{#if userRestricted user.info.role}}
