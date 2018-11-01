@@ -158,7 +158,7 @@ function checkPaymentError(context, redirect) {
 	}
 };
 
-FlowRouter.triggers.enter([initialData, checkSignOut, checkPaymentError], {except: [
+FlowRouter.triggers.enter([checkSignOut, checkPaymentError, initialData], {except: [
 	'createAccount',
 	'verifySent',
 	'verifySuccess',
