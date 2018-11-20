@@ -81,7 +81,6 @@ Meteor.methods({
 
 		if (insertLessonProperties.length) {
 			insertLessonProperties.forEach(lesson => {
-				console.log(lesson)
 				bulkLessons.push({insertOne: {"document": {
 					_id: Random.id(),
 					order: lesson.order,
@@ -189,8 +188,10 @@ Meteor.methods({
 					});
 				});
 			});
-
-			return Lessons.rawCollection().bulkWrite(bulkLessons)
+			if (lessonProperties.length) {
+				return Lessons.rawCollection().bulkWrite(bulkLessons)
+			}
+			return [];
 		}).then((schoolWork) => {
 			return newSchoolWork;
 		}).catch((error) => {
