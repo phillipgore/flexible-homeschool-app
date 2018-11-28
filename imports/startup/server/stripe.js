@@ -107,7 +107,7 @@ Meteor.methods({
 					throw new Meteor.Error(500, error.message);
 				});
 			}
-			if (subscription.status === 'active' && subscription.cancel_at_period_end === true) {
+			if (subscription.status === 'paused' && subscription.cancel_at_period_end === true) {
 				let result = stripe.subscriptions.update(subscription.id, {
 					items: [{
 						id: subscription.items.data[0].id,
