@@ -1,5 +1,4 @@
 import {Counts} from 'meteor/tmeasday:publish-counts';
-
 import {Groups} from '../../groups/groups.js';
 import {Students} from '../../students/students.js';
 import {SchoolYears} from '../../schoolYears/schoolYears.js';
@@ -9,6 +8,8 @@ import {Resources} from '../../resources/resources.js';
 import {SchoolWork} from '../../schoolWork/schoolWork.js';
 import {Lessons} from '../../lessons/lessons.js';
 import {Reports} from '../../reports/reports.js';
+
+import _ from 'lodash';
 
 
 Meteor.publish('allAccounts', function() {
@@ -20,16 +21,16 @@ Meteor.publish('allAccounts', function() {
 		let self = this;
 
 		let groups = Groups.find({appAdmin: false}, {fields: {subscriptionStatus: 1, appAdmin: 1, createdOn: 1}})
+		let adminUsers = Meteor.users.find({'info.role': 'Administrator'}).fetch();
 
 		groups.map((group) => {
-			let user = Meteor.users.findOne({'info.groupId': group._id, 'info.role': 'Administrator'});
-			group.userFirstName = user.info.firstName;
-			group.userLastName = user.info.lastName;
-			group.userEmail = user.emails[0].address;
+			let user = _.filter(adminUsers, ['info.groupId', group._id]);
+			group.userFirstName = user[0].info.firstName;
+			group.userLastName = user[0].info.lastName;
+			group.userEmail = user[0].emails[0].address;
 			self.added('groups', group._id, group);
 		});
 		
-
 		self.ready();
 	});
 });
@@ -72,14 +73,6 @@ Meteor.publish('account', function(groupId) {
 
 		let groups = Groups.find({appAdmin: false}, {fields: {subscriptionStatus: 1, appAdmin: 1, createdOn: 1}})
 		let users = Meteor.users.find({'info.groupId': groupId});
-
-		groups.map((group) => {
-			let user = Meteor.users.findOne({'info.groupId': group._id, 'info.role': 'Administrator'});
-			group.userFirstName = user.info.firstName;
-			group.userLastName = user.info.lastName;
-			group.userEmail = user.emails[0].address;
-			self.added('groups', group._id, group);
-		});
 
 		users.map((user) => {
 			self.added('users', user._id, user);
