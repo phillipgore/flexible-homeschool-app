@@ -1,55 +1,52 @@
-import {Template} from 'meteor/templating';
-import {Groups} from '../../../api/groups/groups.js';
+import { Template } from 'meteor/templating';
+import { Groups } from '../../../api/groups/groups.js';
 import './officeAccountView.html';
 
-Template.officeAccountView.onCreated( function() {
-	let template = Template.instance();
-	
-	template.autorun(() => {
-		this.accountData = Meteor.subscribe('account', FlowRouter.getParam('selectedAccountId'));
-		this.accountTotals = Meteor.subscribe('accountTotals', FlowRouter.getParam('selectedAccountId'))
-	});
+Template.officeAccountView.onCreated(() => {
+  let template = Template.instance();
 
-	Meteor.call('getAccountStats', FlowRouter.getParam('selectedAccountId'), function(error, result) {
-		Session.set('accountStats', result);
-	});
+  template.autorun(() => {
+    this.accountData = Meteor.subscribe('account', FlowRouter.getParam('selectedGroupId'));
+    this.accountTotals = Meteor.subscribe('accountTotals', FlowRouter.getParam('selectedGroupId'));
+  });
+
 });
 
-Template.officeAccountView.onRendered( function() {
-	
+Template.officeAccountView.onRendered(function()  {
+
 });
 
 Template.officeAccountView.helpers({
-	subscriptionReady: function() {
-		if (Template.instance().accountData.ready() && Template.instance().accountTotals.ready()) {
-			return true;
-		}
-		return false;
-	},
+  subscriptionReady: function() {
+    if (Template.instance().accountData.ready() && Template.instance().accountTotals.ready()) {
+      return true;
+    }
+    return false;
+  },
 
-	account: function() {
-		return Groups.findOne({_id: FlowRouter.getParam('selectedAccountId')});
-	},
+  account() {
+    return Groups.findOne({ _id: FlowRouter.getParam('selectedGroupId') });
+  },
 
-	accountUsers: function() {
-		return Meteor.users.find({'info.groupId': FlowRouter.getParam('selectedAccountId')});
-	},
+  accountUsers() {
+    return Meteor.users.find({ 'info.groupId': FlowRouter.getParam('selectedGroupId') });
+  },
 
-	accountStats: function() {
-		return Session.get('accountStats');
-	},
+  accountStats() {
+    return Session.get('accountStats');
+  },
 
-	userName(first, last) {
-		if (first && last) {
-			Session.set({labelTwo: first + ' ' + last});
-		}
-		return false;
-	},
+  userName(first, last) {
+    if (first && last) {
+      Session.set({ labelTwo: `${first} ${last}` });
+    }
+    return false;
+  },
 
-	isPending(status) {
-		if (status === 'pausePending') {
-			return 'Pause Pending';
-		}
-		return status;
-	}
+  isPending(status) {
+    if (status === 'pausePending') {
+      return 'Pause Pending';
+    }
+    return status;
+  },
 });

@@ -100,7 +100,7 @@ function getInitialData() {
 	}
 
 	// Initial User
-	if (!Session.get('selecteduserId')) {
+	if (!Session.get('selectedUserId')) {
 		Session.set('selectedUserId', initialIds.userId);
 	}
 
@@ -108,6 +108,11 @@ function getInitialData() {
 	if (!Session.get('planningPathName')) {
 		Session.set('planningPathName', 'students');
 	}	
+
+	// Initial Group
+	if (Meteor.user().info.role === 'Application Administrator' && !Session.get('selectedGroupId')) {
+		Session.set('selectedGroupId', initialIds.groupId);
+	}
 };
 
 // Redirection if signed in.

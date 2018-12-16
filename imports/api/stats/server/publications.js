@@ -1,3 +1,4 @@
+import {Groups} from '../../groups/groups.js';
 import {Counts} from 'meteor/tmeasday:publish-counts';
 import {Students} from '../../students/students.js';
 import {SchoolYears} from '../../schoolYears/schoolYears.js';
@@ -87,6 +88,14 @@ Meteor.publish('initialIds', function(currentYear) {
 		let valueReport = Reports.findOne({groupId: groupId, deletedOn: { $exists: false }}, {sort: {title: 1}});
 		// Initial User
 		if (valueReport) {ids.reportId = valueReport._id} else {ids.reportId = 'empty'};
+
+		// Initial Group
+		if (Groups.findOne({_id: groupId}).appAdmin) {
+			let appAdminGroupId = Groups.find({appAdmin: true}, {fields: {_id: 1}}).map(group => group._id);
+			let initialGroupId = Meteor.users.findOne({'info.groupId': {$nin: appAdminGroupId}}, {sort: {'info.lastName': 1, 'info.firstName': 1}}).info.groupId;
+
+			if (initialGroupId) {ids.groupId = initialGroupId} else {ids.groupId = 'empty'};
+		}
 
 
 		self.added('initialIds', Random.id(), ids);

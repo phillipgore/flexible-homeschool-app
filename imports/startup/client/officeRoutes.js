@@ -17,7 +17,7 @@ FlowRouter.route('/office/accounts/:selectedFramePosition', {
 	},
 });
 
-FlowRouter.route('/office/accounts/view/:selectedFramePosition/:selectedAccountId', {
+FlowRouter.route('/office/accounts/view/:selectedFramePosition/:selectedGroupId', {
 	name: 'officeAccountView',
 	action(params) {
 		BlazeLayout.render('office', {

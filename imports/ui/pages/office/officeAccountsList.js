@@ -34,4 +34,11 @@ Template.officeAccountsList.helpers({
 		}
 		return 'txt-info';
 	},
+
+	active: function(id) {
+		if (FlowRouter.getParam('selectedGroupId') === id) {
+			return true;
+		}
+		return false;
+	}
 });

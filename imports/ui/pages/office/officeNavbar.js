@@ -2,7 +2,9 @@ import {Template} from 'meteor/templating';
 import './officeNavbar.html';
 
 Template.officeNavbar.helpers({
-	
+	selectedGroupId: function() {
+		return Session.get('selectedGroupId');
+	},
 });
 
 Template.officeNavbar.events({

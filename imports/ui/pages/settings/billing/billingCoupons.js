@@ -53,7 +53,6 @@ Template.billingCoupons.onRendered( function() {
 			let stripeCouponCode = template.find("[name='coupon']").value.trim().toLowerCase();
 
 			Meteor.call('applyCoupon', stripeSubscriptionId, stripeCouponCode, function(error, result) {
-				console.log(result);
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',

@@ -28,3 +28,9 @@ Template.office.helpers({
 		return Session.get('selectedFrameClass')
 	},
 });
+
+Template.office.events({
+	'click .js-group'(event) {
+		Session.set('selectedGroupId', $(event.currentTarget).attr('id'));
+	},
+});

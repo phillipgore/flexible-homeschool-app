@@ -3,7 +3,7 @@
 		<ul class="list">
 			{{#each group in groups}}
 				<li class="list-item">
-					<a id="{{group._id}}" href="/office/accounts/view/2/{{group._id}}" class="js-group list-item-link p-tn-rl-9">
+					<a id="{{group._id}}" href="/office/accounts/view/2/{{group._id}}" class="js-group list-item-link p-tn-rl-9  {{#if active group._id}}active{{/if}}">
 						<div class="list-item-icon"><i class="fss-users {{subscriptionStatus group.subscriptionStatus}}"></i></div> 
 						<div class="list-item-label">{{group.userFirstName}} {{group.userLastName}} 
 							<span class="list-item-sublabel">({{group.userEmail}})</span>

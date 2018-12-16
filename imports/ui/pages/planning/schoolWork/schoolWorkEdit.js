@@ -112,7 +112,6 @@ Template.schoolWorkEdit.onRendered( function() {
 				}
 				if (newLessonsTotal < totalLessons && newLessonsTotal >= completeLessons) {
 					let removalCount = totalLessons - newLessonsTotal;
-					console.log(removalCount);
 					let removeableLessonsIds = Lessons.find({weekId: weekId, completed: false, schoolWorkId: FlowRouter.getParam('selectedSchoolWorkId')}, {sort: {order: -1}, limit: removalCount}).map(lesson => (lesson._id));
 
 					removeableLessonsIds.forEach(lessonId => {

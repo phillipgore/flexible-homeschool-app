@@ -20,5 +20,10 @@
     "simpl-schema": "^1.5.0",
     "strip": "^3.0.0",
     "stripe": "^5.10.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.10.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0"
   }
 }
