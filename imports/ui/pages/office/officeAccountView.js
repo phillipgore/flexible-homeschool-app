@@ -2,7 +2,7 @@ import { Template } from 'meteor/templating';
 import { Groups } from '../../../api/groups/groups.js';
 import './officeAccountView.html';
 
-Template.officeAccountView.onCreated(() => {
+Template.officeAccountView.onCreated( function() {
   let template = Template.instance();
 
   template.autorun(() => {
