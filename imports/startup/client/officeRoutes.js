@@ -26,3 +26,13 @@ FlowRouter.route('/office/accounts/view/:selectedFramePosition/:selectedGroupId'
 		});
 	},
 });
+
+FlowRouter.route('/office/accounts/new/:selectedFramePosition', {
+	name: 'officeAccountsNew',
+	action() {
+		BlazeLayout.render('office', {
+			frameOne: 'officeAccountsList',
+			frameTwo: 'officeAccountsNew',
+		});
+	},
+});

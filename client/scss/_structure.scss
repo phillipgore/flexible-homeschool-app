@@ -356,7 +356,8 @@ hr {
 	.reportingEdit,
 	.supportView,
 	.officeAccountsList,
-	.officeAccountView {
+	.officeAccountView,
+	.officeAccountsNew {
 		.frame-two {
 			width: calc(100% - 288px);
 			max-width: 828px;
@@ -401,7 +402,8 @@ hr {
 	.reportingEdit,
 	.supportView,
 	.officeAccountsList,
-	.officeAccountView {
+	.officeAccountView,
+	.officeAccountsNew {
 		.frame-two {
 			border-right: 1px solid $color-gray;
 		}

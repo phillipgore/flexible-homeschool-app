@@ -76,6 +76,17 @@ form {
 				color: $color-gray;
 			}
 		}
+
+		&.input-info {
+			&:focus {
+				outline: none;
+				border-color: $color-info;
+
+				&::placeholder {
+					color: lighten($color-info, 10%);
+				}
+			}
+		}
 	}
 
 	textarea {

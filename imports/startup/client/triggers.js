@@ -358,8 +358,9 @@ function isAppAdmin(context) {
 }
 
 FlowRouter.triggers.enter([isAppAdmin], {only: [
-	'officeAccounts',
-	'officeDashboard'
+	'officeDashboard',
+	'officeAccountsList',
+	'officeAccountView'
 ]});
 
 
