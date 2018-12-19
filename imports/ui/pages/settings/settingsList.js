@@ -56,6 +56,13 @@ Template.settingsList.helpers({
 		return Groups.findOne({});
 	},
 
+	groupPaused: function(status) {
+		if (status === 'paused') {
+			return true;
+		}
+		return false;
+	},
+
 	selectedUserId: function() {
 		return Session.get('selectedUserId');
 	},
@@ -86,6 +93,14 @@ Template.settingsList.events({
 			colorClass: 'bg-info',
 			iconClass: 'fss-info',
 			message: message(role),
+		});
+	},
+
+	'click .js-paused '(event) {
+		Alerts.insert({
+			colorClass: 'bg-info',
+			iconClass: 'fss-info',
+			message: 'Your account is paused. You are not being billed nor do you have acces to your data. You may unpause your account at any time.',
 		});
 	},
 

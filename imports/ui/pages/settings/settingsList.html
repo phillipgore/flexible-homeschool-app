@@ -16,27 +16,23 @@
 						<div class="list-item-label">Users</div>
 					</span>
 				{{else}}
-					<a href="/settings/users/view/2/{{selectedUserId}}" class="list-item-link bg-white p-tn-rl-9 
-					{{#if active currentRouteName 'usersView'}}active{{/if}} 
-					{{#if active currentRouteName 'usersNew'}}active{{/if}} 
-					{{#if active currentRouteName 'usersVerifySent'}}active{{/if}}">
-						<div class="list-item-icon"><i class="fss-users"></i></div> 
-						<div class="list-item-label">Users</div>
-					</a>
+					{{#if groupPaused group.subscriptionStatus}}
+						<span data-section="users" data-role="{{user.info.role}}" class="js-paused list-item-inner disabled bg-white p-tn-rl-9">
+							<div class="list-item-icon"><i class="fss-users"></i></div> 
+							<div class="list-item-label">Users</div>
+						</span>
+					{{else}}
+						<a href="/settings/users/view/2/{{selectedUserId}}" class="list-item-link bg-white p-tn-rl-9 
+						{{#if active currentRouteName 'usersView'}}active{{/if}} 
+						{{#if active currentRouteName 'usersNew'}}active{{/if}} 
+						{{#if active currentRouteName 'usersVerifySent'}}active{{/if}}">
+							<div class="list-item-icon"><i class="fss-users"></i></div> 
+							<div class="list-item-label">Users</div>
+						</a>
+					{{/if}}
 				{{/if}}
 			</li>
 			<li class="list-item">
-				<!-- {{#if userRestricted user.info.role}}
-					<span data-section="users" data-role="{{user.info.role}}" class="js-restricted list-item-inner disabled bg-white p-tn-rl-9">
-						<div class="list-item-icon"><i class="fss-password"></i></div> 
-						<div class="list-item-label">Reset Password</div>
-					</span>
-				{{else}}
-					<a href="#" class="js-reset-password list-item-link bg-white p-tn-rl-9">
-						<div class="list-item-icon"><i class="fss-password"></i></div> 
-						<div class="list-item-label">Reset Password</div>
-					</a>
-				{{/if}} -->
 				<a href="#" class="js-reset-password list-item-link bg-white p-tn-rl-9">
 					<div class="list-item-icon"><i class="fss-password"></i></div> 
 					<div class="list-item-label">Reset Password</div>
