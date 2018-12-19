@@ -1,12 +1,14 @@
+
+import './triggers/getInitialData.js';
+
 import './triggers/checkPaymentError';
 import './triggers/checkRoleAppAdminOrDev';
 import './triggers/checkRoleObserver';
 import './triggers/checkRoleUser.js';
-import './triggers/checkSignIn';
+// import './triggers/checkSignIn';
 import './triggers/checkSignOut';
 import './triggers/checkSubscriptionPaused';
 import './triggers/clearAlerts';
-import './triggers/getInitialData.js';
 import './triggers/isAppAdmin';
 import './triggers/resetSessions';
 import './triggers/scrollReset';
