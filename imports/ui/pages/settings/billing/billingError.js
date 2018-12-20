@@ -27,6 +27,13 @@ Template.billingError.helpers({
 	group: function() {
 		return Groups.findOne({});
 	},
+
+	freeTrialExpired: function(status) {
+		if (status === 'freeTrialExpired') {
+			return true;
+		}
+		return false;
+	} 
 });
 
 Template.billingError.events({

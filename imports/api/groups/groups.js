@@ -60,6 +60,22 @@ const GroupsSchema = new SimpleSchema({
         label: "Subscription Error Message",
         optional: true
     },
+    freeTrial: {
+        type: Object,
+        label: "Free Trial",
+        optional: true
+    },
+    'freeTrial.createdAs': {
+        type: Boolean,
+        label: "Created As A Free Trial",
+        defaultValue: false,
+        optional: true
+    },
+    'freeTrial.expiration': {
+        type: Date,
+        label: "Free Trial Expiration Date",
+        optional: true
+    },
     appAdmin: {
         type: Boolean,
         label: "Application Admin Group",

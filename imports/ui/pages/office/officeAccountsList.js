@@ -36,5 +36,12 @@ Template.officeAccountsList.helpers({
 			return true;
 		}
 		return false;
-	}
+	},
+
+	activeRoute: function(currentRoute, route) {
+		if (currentRoute === route) {
+			return true;
+		}
+		return false;
+	},
 });

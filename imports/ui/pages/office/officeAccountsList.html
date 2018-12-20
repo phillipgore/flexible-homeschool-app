@@ -1,6 +1,15 @@
 <template name="officeAccountsList">
 	<main class="app-content app-content-preceeds-toolbar">
 		<ul class="list">
+			{{#if activeRoute currentRouteName 'officeAccountsNew'}}
+				<li class="list-item">
+					<span class="list-item-inner p-tn-rl-9 active">
+						<div class="list-item-icon"><i class="txt-royal fss-users"></i></div> 
+						<div class="list-item-label font-style-italic font-weight-normal"> New Free Trial
+						</div>
+					</span>
+				</li>
+			{{/if}}
 			{{#each group in groups}}
 				<li class="list-item">
 					<a id="{{group._id}}" href="/office/accounts/view/2/{{group._id}}" class="js-group list-item-link p-tn-rl-9  {{#if active group._id}}active{{/if}}">

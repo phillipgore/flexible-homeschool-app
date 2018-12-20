@@ -53,3 +53,17 @@ if (!Groups.find({appAdmin: true}).count()) {
 		}
 	});
 }
+
+Meteor.methods({
+	insertFreeTrial: function(user) {
+		if (Accounts.findUserByEmail(user.email)) {
+			throw new Meteor.Error(500, 'Email already exists.');
+		} else {
+			let groupId = Groups.insert({subscriptionStatus: 'active'});
+			user.info.groupId = groupId;
+			let userId = Accounts.createUser(user);
+			Meteor.users.update(userId, {$set: {"emails.0.verified" :true}});
+			return groupId;
+		}
+	},
+})

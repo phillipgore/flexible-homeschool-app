@@ -4,7 +4,6 @@ import './triggers/checkPaymentError';
 import './triggers/checkRoleAppAdminOrDev';
 import './triggers/checkRoleObserver';
 import './triggers/checkRoleUser.js';
-import './triggers/checkSignIn';
 import './triggers/checkSignOut';
 import './triggers/checkSubscriptionPaused';
 import './triggers/clearAlerts';

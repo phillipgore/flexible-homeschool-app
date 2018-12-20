@@ -1,16 +1,21 @@
 import {Template} from 'meteor/templating';
-import Stripe from '../../../modules/stripe';
-import {cardValidation, emailValidation, passwordValidation, requiredValidation} from '../../../modules/functions';
-import './officeAccountsNew.html';
+import {emailValidation, passwordValidation, requiredValidation} from '../../../modules/functions';
 
 import moment from 'moment';
+import _ from 'lodash'
+import './officeAccountsNew.html';
 
 Template.officeAccountsNew.onCreated( function() {
 	
 });
 
 Template.officeAccountsNew.onRendered( function() {	
-	Session.set('hideCoupon', false);
+	$('#free-trial-expiration').pickadate({
+		format: 'mmmm d, yyyy',
+		today: 'Today',
+		clear: 'Clear',
+		close: 'Close',
+	});
 });
 
 Template.officeAccountsNew.helpers({
@@ -26,13 +31,12 @@ Template.officeAccountsNew.helpers({
 		{label: 'I Am Aunt', value: 'Aunt'},
 		{label: 'I Am Uncle', value: 'Uncle'},
 	],
-
 });
 
 Template.officeAccountsNew.events({
 	'submit .js-form-create-account'(event) {
 		event.preventDefault();
-		
+
 		let user = {
 			email: event.target.email.value.trim(),
 			password: event.target.password.value.trim(),
@@ -49,24 +53,10 @@ Template.officeAccountsNew.events({
 			}
 		}
 
-		// let subscriptionProperties = {
-		// 	customer: {
-		// 		email: user.email,
-		// 		metadata: {
-		// 			groupId: null,
-		// 		}
-		// 	},
-		// 	subscription: {
-		// 		customer: null,
-		// 		items: [{plan: Meteor.settings.public.stripePlanId}],
-		// 	},
-		// }
-
-		// if (event.target.coupon.value.trim().length) {
-		// 	subscriptionProperties.subscription.coupon = event.target.coupon.value.trim();
-		// } else {
-		// 	subscriptionProperties.subscription.coupon = Meteor.settings.public.stripeSignUpDiscount;
-		// }
+		let freeTrialExpiration = event.currentTarget.freeTrialExpiration.value.trim();
+		console.log(user)
+		console.log(freeTrialExpiration)
+		return false
 
 		let accountForm = [];
 		let passwordsPresent = [];
@@ -137,43 +127,34 @@ Template.officeAccountsNew.events({
 				accountForm.push(false);
 			}
 		}
+		
+		if (requiredValidation(freeTrialExpiration)) {
+			$('#free-trial-expiration').removeClass('error');
+			$('.free-trial-expiration-errors').text('');
+		} else {
+			$('#free-trial-expiration').addClass('error');
+			$('.free-trial-expiration-errors').text('Required.');
+			accountForm.push(false);
+		}
 
 		
 		if (accountForm.indexOf(false) === -1) {
 			$('.js-saving').show();
 			$('.js-submit').prop('disabled', true);
-			Meteor.call('insertGroup', user.email, function(error, groupId) {
-				if (error) {
+			Meteor.call('insertFreeTrial', user, function(error, groupId) {
+				if (error && error.reason != 'unverified') {
 					Alerts.insert({
 						colorClass: 'bg-danger',
 						iconClass: 'fss-danger',
 						message: error.reason,
 					});
-					
+			
 					$('.js-saving').hide();
 					$('.js-submit').prop('disabled', false);
-				} else {
-					user.info.groupId = groupId;
-					
-					Accounts.createUser(user, function(error) {
-						if (error) {
-							console.log(error);
-						}
-						if (error && error.reason != 'unverified') {
-							Alerts.insert({
-								colorClass: 'bg-danger',
-								iconClass: 'fss-danger',
-								message: error.reason,
-							});
-					
-							$('.js-saving').hide();
-							$('.js-submit').prop('disabled', false);
-						} else { 
-							FlowRouter.go('/office/accounts/view/2/' + groupId);
-						}
-					});
+				} else { 
+					FlowRouter.go('/office/accounts/view/2/' + groupId);
 				}
-			});
+			})
 
 			return false;
 		}

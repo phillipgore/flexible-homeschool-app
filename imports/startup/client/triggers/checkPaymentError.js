@@ -2,7 +2,7 @@ import { Groups } from '../../../api/groups/groups.js';
 
 
 function checkPaymentError(context, redirect) {
-	if (Groups.findOne().subscriptionStatus === 'error') {
+	if (Groups.findOne().subscriptionStatus === 'error' || Groups.findOne().subscriptionStatus === 'freeTrialExpired') {
 		redirect('/settings/billing/error/1');
 	}
 };
