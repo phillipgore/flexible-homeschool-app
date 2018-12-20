@@ -91,12 +91,9 @@ Meteor.publish('initialIds', function(currentYear) {
 
 		// Initial Group
 		if (Groups.findOne({_id: groupId}).appAdmin) {
-			// let appAdminGroupId = Groups.find({appAdmin: true}, {fields: {_id: 1}}).map(group => group._id);
-			// let initialGroupId = Meteor.users.findOne({'info.groupId': {$nin: appAdminGroupId}}, {sort: {'info.lastName': 1, 'info.firstName': 1}}).info.groupId;
+			let initialGroup = Groups.findOne({appAdmin: false}, {fields: {_id: 1}, sort: {createdOn: -1}}); 
 
-			let initialGroupId = Groups.findOne({appAdmin: false}, {fields: {_id: 1}, sort: {createdOn: -1}})._id; 
-
-			if (initialGroupId) {ids.groupId = initialGroupId} else {ids.groupId = 'empty'};
+			if (initialGroup) {ids.groupId = initialGroup._id} else {ids.groupId = 'empty'};
 		}
 
 
