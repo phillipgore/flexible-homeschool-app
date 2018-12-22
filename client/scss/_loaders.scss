@@ -277,10 +277,14 @@
 		}
 	}
 
-	.trackingView,
+	.trackingView, 
 	.reportingNew,
 	.reportingView,
-	.reportingEdit {
+	.reportingEdit,
+	.supportView,
+	.officeAccountsList,
+	.officeAccountView,
+	.officeAccountsNew {
 
 		.frame-two .loading-container {
 			border-right: 1px solid $color-gray;
