@@ -6,8 +6,7 @@ SyncedCron.add({
 	name: 'Check for expired Free Trials',
 	schedule: function(parser) {
 		// parser is a later.parse object
-		// return parser.text('at 12:00 am');
-		return parser.text('every 15 sec');
+		return parser.text('at 12:00 am');
 	},
 	job: function() {
 		let freeTrialGroups = Groups.find({subscriptionStatus: 'freeTrial'})
