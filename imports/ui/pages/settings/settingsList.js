@@ -56,6 +56,13 @@ Template.settingsList.helpers({
 		return Groups.findOne({});
 	},
 
+	freeTrial: function(status) {
+		if (status === 'freeTrial') {
+			return true;
+		}
+		return false;
+	},
+
 	groupPaused: function(status) {
 		if (status === 'paused') {
 			return true;

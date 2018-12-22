@@ -46,11 +46,19 @@
 						{{#if group.stripePaymentAttempt}}<div class="list-item-badge"></div>{{/if}}
 					</span>
 				{{else}}
-					<a href="/settings/billing/invoices/2" class="list-item-link bg-white p-tn-rl-9 {{#if active currentRouteName 'billingInvoices'}}active{{/if}} {{#if active currentRouteName 'billingEdit'}}active{{/if}}">
-						<div class="list-item-icon"><i class="fss-billing"></i></div> 
-						<div class="list-item-label">Billing</div>
-						{{#if group.stripePaymentAttempt}}<div class="list-item-badge"></div>{{/if}}
-					</a>
+					{{#if freeTrial group.subscriptionStatus}}
+						<span data-section="billing" class="list-item-inner disabled bg-white p-tn-rl-9">
+							<div class="list-item-icon"><i class="fss-billing"></i></div> 
+							<div class="list-item-label">Billing (Free Trial)</div>
+							{{#if group.stripePaymentAttempt}}<div class="list-item-badge"></div>{{/if}}
+						</span>
+					{{else}}
+						<a href="/settings/billing/invoices/2" class="list-item-link bg-white p-tn-rl-9 {{#if active currentRouteName 'billingInvoices'}}active{{/if}} {{#if active currentRouteName 'billingEdit'}}active{{/if}}">
+							<div class="list-item-icon"><i class="fss-billing"></i></div> 
+							<div class="list-item-label">Billing</div>
+							{{#if group.stripePaymentAttempt}}<div class="list-item-badge"></div>{{/if}}
+						</a>
+					{{/if}}
 				{{/if}}
 			</li>
 			{{#if developerOrApplicationAdministrator user.info.role}}

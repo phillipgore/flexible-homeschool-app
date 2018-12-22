@@ -36,6 +36,9 @@
 .picker__input.picker__input--active {
   border-color: $color-primary;
 }
+.picker-info .picker__input.picker__input--active {
+  border-color: $color-info;
+}
 /**
  * The holder is the only “scrollable” top-level container element.
  */

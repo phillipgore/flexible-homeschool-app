@@ -20,7 +20,7 @@ Meteor.publish('allAccounts', function() {
 
 		let self = this;
 
-		let groups = Groups.find({appAdmin: false}, {fields: {subscriptionStatus: 1, appAdmin: 1, createdOn: 1}})
+		let groups = Groups.find({appAdmin: false}, {fields: {subscriptionStatus: 1, appAdmin: 1, freeTrial: 1, createdOn: 1}})
 		let adminUsers = Meteor.users.find({'info.role': 'Administrator'}, {fields: {'info.groupId': 1, 'info.firstName': 1, 'info.lastName': 1, emails: 1}}).fetch();
 
 		groups.map((group) => {
@@ -30,7 +30,7 @@ Meteor.publish('allAccounts', function() {
 			group.userEmail = user[0].emails[0].address;
 			self.added('groups', group._id, group);
 		});
-		
+
 		self.ready();
 	});
 });

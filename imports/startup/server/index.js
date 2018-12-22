@@ -10,6 +10,7 @@ import './mailchimp.js';
 import './migrations.js';
 import './endpoints.js';
 import './fixtures.js';
+import './cron.js';
 
 import '../../api/office/methods.js';
 import '../../api/office/server/publications.js';

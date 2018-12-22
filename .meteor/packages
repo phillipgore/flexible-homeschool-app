@@ -47,3 +47,4 @@ percolate:migrations
 sakulstra:aggregate
 mikowals:batch-insert
 mdg:meteor-apm-agent
+percolate:synced-cron

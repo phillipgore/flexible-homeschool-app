@@ -65,15 +65,14 @@ const GroupsSchema = new SimpleSchema({
         label: "Free Trial",
         optional: true
     },
-    'freeTrial.createdAs': {
-        type: Boolean,
-        label: "Created As A Free Trial",
-        defaultValue: false,
-        optional: true
-    },
     'freeTrial.expiration': {
         type: Date,
         label: "Free Trial Expiration Date",
+        optional: true
+    },
+    'freeTrial.initialPassword': {
+        type: String,
+        label: "Free Trial Initial Password",
         optional: true
     },
     appAdmin: {

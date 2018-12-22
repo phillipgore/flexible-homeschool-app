@@ -5,13 +5,16 @@
 			<div class="row">
 				<div class="m-tn-b-30">
 					<div class="col-tn-1of2 p-tn-r-3">
-						<input class="input-info" type="text" name="firstName" id="first-name" placeholder="First Name" autocomplete="off">
+						<label class="txt-info">First Name</label>
+						<input class="input-info" type="text" name="firstName" id="first-name" placeholder="Jane" autocomplete="off">
 						<label class="error first-name-errors"></label>
 					</div>
 					<div class="col-tn-1of2 p-tn-l-3">
-						<input class="input-info" type="text" name="lastName" id="last-name" placeholder="Last Name" autocomplete="off">
+						<label class="txt-info">Last Name</label>
+						<input class="input-info" type="text" name="lastName" id="last-name" placeholder="Smith" autocomplete="off">
 						<label class="error last-name-errors"></label>
 					</div>
+					<label class="txt-info">Relationship To Students</label>
 					<div class="fss-select">
 						<select name="relationshipToStudents" id="relationship-to-students">
 							{{#each relationship in relationships}}
@@ -23,15 +26,15 @@
 				
 				
 				<div class="m-tn-b-30">
-					<input class="input-info" type="email" name="email" id="email" placeholder="Email" autocomplete="off">
+					<label class="txt-info">Email</label>
+					<input class="input-info" type="email" name="email" id="email" placeholder="jane@email.com" autocomplete="off">
 					<label class="error email-errors"></label>
-					<input class="input-info" type="password" name="password" id="password" placeholder="Password" autocomplete="off">
-					<label class="error password-errors"></label>
-					<input class="input-info" type="password" name="retypePassword" id="retype-password" placeholder="Retype Password" autocomplete="off">
-					<label class="error retype-password-errors"></label>
+					<input class="input-info" type="hidden" name="password" id="password" placeholder="Password" autocomplete="off" value="{{initialPassword}}">
+					<label class="txt-info">Initial Password</label>
+					<div class="well bg-gray-lightest border-gray-darkest">{{initialPassword}}</div>
 				</div>
 
-				<div class="m-tn-b-24 pos-relative">
+				<div class="m-tn-b-24 pos-relative picker-info">
 					<label class="txt-info">Free Trial Expiration Date</label>
 					<input type="text" id="free-trial-expiration" name="freeTrialExpiration" class="js-free-trial-expiration input-info" placeholder="{{dateFormat todaysDate}}" value="">
 					<label class="error free-trial-expiration-errors"></label>

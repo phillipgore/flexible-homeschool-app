@@ -28,6 +28,12 @@ Template.officeAccountsList.helpers({
 		if (subscriptionStatus === 'error') {
 			return 'txt-danger';
 		}
+		if (subscriptionStatus === 'freeTrial') {
+			return 'txt-royal';
+		}
+		if (subscriptionStatus === 'freeTrialExpired') {
+			return 'txt-royal expired';
+		}
 		return 'txt-info';
 	},
 

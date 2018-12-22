@@ -1,8 +1,10 @@
 import {Template} from 'meteor/templating';
-import {emailValidation, passwordValidation, requiredValidation} from '../../../modules/functions';
+import {emailValidation, requiredValidation} from '../../../modules/functions';
 
 import moment from 'moment';
-import _ from 'lodash'
+import _ from 'lodash';
+import gpw from 'generate-random-password';
+
 import './officeAccountsNew.html';
 
 Template.officeAccountsNew.onCreated( function() {
@@ -15,6 +17,7 @@ Template.officeAccountsNew.onRendered( function() {
 		today: 'Today',
 		clear: 'Clear',
 		close: 'Close',
+		min: new Date(),
 	});
 });
 
@@ -31,11 +34,27 @@ Template.officeAccountsNew.helpers({
 		{label: 'I Am Aunt', value: 'Aunt'},
 		{label: 'I Am Uncle', value: 'Uncle'},
 	],
+
+	initialPassword: function() {
+		return gpw.generateRandomPassword( 8, 0 );
+	},
+
+	todaysDate: function() {
+		return new Date();
+	}
 });
 
 Template.officeAccountsNew.events({
 	'submit .js-form-create-account'(event) {
 		event.preventDefault();
+
+		let group = {
+			subscriptionStatus: 'freeTrial', 
+			freeTrial: { 
+				expiration: event.currentTarget.freeTrialExpiration.value.trim(),
+				initialPassword: event.target.password.value.trim(),
+			}
+		}
 
 		let user = {
 			email: event.target.email.value.trim(),
@@ -53,13 +72,7 @@ Template.officeAccountsNew.events({
 			}
 		}
 
-		let freeTrialExpiration = event.currentTarget.freeTrialExpiration.value.trim();
-		console.log(user)
-		console.log(freeTrialExpiration)
-		return false
-
 		let accountForm = [];
-		let passwordsPresent = [];
 		if (requiredValidation(user.info.firstName)) {
 			$('#first-name').removeClass('error');
 			$('.first-name-errors').text('');
@@ -96,39 +109,8 @@ Template.officeAccountsNew.events({
 			$('.email-errors').text('Required.');
 			accountForm.push(false);
 		}
-
-		if (requiredValidation(user.password)) {
-			$('#password').removeClass('error');
-			$('.password-errors').text('');
-			passwordsPresent.push(true);
-		} else {
-			$('#password').addClass('error');
-			$('.password-errors').text('Required.');
-			accountForm.push(false);
-		}
-
-		if (requiredValidation(event.target.retypePassword.value.trim())) {
-			$('#retype-password').removeClass('error');
-			$('.retype-password-errors').text('');
-			passwordsPresent.push(true);
-		} else {
-			$('#retype-password').addClass('error');
-			$('.retype-password-errors').text('Required.');
-			accountForm.push(false);
-		}
-
-		if (passwordsPresent.length === 2) {
-			if (passwordValidation(user.password, event.target.retypePassword.value.trim())) {
-				$('#password, #retype-password').removeClass('error');
-				$('.password-errors, .retype-password-errors').text('');
-			} else {
-				$('#password, #retype-password').addClass('error');
-				$('.password-errors, .retype-password-errors').text('Passwords must match.');
-				accountForm.push(false);
-			}
-		}
 		
-		if (requiredValidation(freeTrialExpiration)) {
+		if (requiredValidation(group.freeTrial.expiration)) {
 			$('#free-trial-expiration').removeClass('error');
 			$('.free-trial-expiration-errors').text('');
 		} else {
@@ -141,7 +123,7 @@ Template.officeAccountsNew.events({
 		if (accountForm.indexOf(false) === -1) {
 			$('.js-saving').show();
 			$('.js-submit').prop('disabled', true);
-			Meteor.call('insertFreeTrial', user, function(error, groupId) {
+			Meteor.call('insertFreeTrial', group, user, function(error, groupId) {
 				if (error && error.reason != 'unverified') {
 					Alerts.insert({
 						colorClass: 'bg-danger',

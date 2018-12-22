@@ -1,5 +1,7 @@
 import {Groups} from '../../api/groups/groups.js';
 
+import moment from 'moment';
+
 // Create Application Admin Account
 if (!Groups.find({appAdmin: true}).count()) {	
 	let users = [
@@ -52,18 +54,51 @@ if (!Groups.find({appAdmin: true}).count()) {
 			});
 		}
 	});
-}
+};
 
 Meteor.methods({
-	insertFreeTrial: function(user) {
+	insertFreeTrial: function(group, user) {
 		if (Accounts.findUserByEmail(user.email)) {
 			throw new Meteor.Error(500, 'Email already exists.');
 		} else {
-			let groupId = Groups.insert({subscriptionStatus: 'active'});
-			user.info.groupId = groupId;
-			let userId = Accounts.createUser(user);
-			Meteor.users.update(userId, {$set: {"emails.0.verified" :true}});
-			return groupId;
+			let groupId = Groups.insert(group, function(error, result) {
+				if (error) {
+					throw new Meteor.Error(500, error.reason);
+				} else {
+					user.info.groupId = result;
+					let userId = Accounts.createUser(user);
+					Meteor.users.update(userId, {$set: {"emails.0.verified" :true}});
+
+
+					SSR.compileTemplate('freeTrialEmail', Assets.getText('freeTrialEmail.html'));
+
+					var emailData = {
+						firstName: user.info.firstName,
+						email: user.email,
+						password: user.password,
+						expiration: moment(group.freeTrial.expiration).format('MMMM D, YYYY'),
+					};
+
+					console.log(emailData)
+
+					Email.send({
+						to: user.email,
+						from: "Flexible Homeschool App <no-reply@aflexiblehomeschool.com>",
+						subject: "Free Trial - Flexible Homeschool App",
+						html: SSR.render('freeTrialEmail', emailData),
+					});
+				}
+			});
+			return groupId;	
 		}
 	},
-})
+});
+
+
+
+
+
+
+
+
+

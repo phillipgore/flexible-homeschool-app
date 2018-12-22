@@ -45,21 +45,21 @@ Template.registerHelper('selectedFramePosition', () => {
 
 Template.registerHelper('dateFormat', (date) => {
 	if (date) {
-		return moment.utc(date).format('MMMM D, YYYY');
+		return moment(date).format('MMMM D, YYYY');
 	}
 	return '';
 });
 
 Template.registerHelper('dateTimeFormat', (date) => {
 	if (date) {
-	  return moment.utc(date).format('MMMM D, YYYY - h:mm A');
+	  return moment(date).format('MMMM D, YYYY - h:mm A');
 	}
 	return '';
 });
 
 Template.registerHelper('shortDateFormat', (date) => {
 	if (date) {
-	  return moment.utc(date).format('M/D/YY');
+	  return moment(date).format('M/D/YY');
 	}
 	return '';
 });

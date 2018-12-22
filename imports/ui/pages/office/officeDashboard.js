@@ -18,5 +18,5 @@ Template.officeDashboard.onRendered(() => {
 Template.officeDashboard.helpers({
   subscriptionReady() {
     return Template.instance().accountData.ready();
-  }
+  },
 });

@@ -57,6 +57,14 @@
 .picker__select--year:focus {
   border-color: $color-primary;
 }
+.picker-info .picker__select--month:focus,
+.picker-info .picker__select--year:focus {
+  border-color: $color-info;
+}
+.picker-info .picker__select--month:focus,
+.picker-info .picker__select--year:focus {
+  border-color: $color-info;
+}
 /**
  * The month navigation buttons.
  */
@@ -179,8 +187,11 @@
   right: 2px;
   width: 0;
   height: 0;
-  border-top: 0.5em solid darken($color-primary, 25%);;
+  border-top: 0.5em solid darken($color-primary, 25%);
   border-left: .5em solid transparent;
+}
+.picker-info .picker__day--today:before {
+  border-top: 0.5em solid darken($color-info, 25%);
 }
 .picker__day--disabled:before {
   border-top-color: $color-gray-dark;
@@ -194,8 +205,15 @@
   color: $color-black;
   background: lighten($color-primary, 25%);
 }
+.picker-info .picker__day--infocus:hover,
+.picker-info .picker__day--outfocus:hover {
+  background: lighten($color-info, 25%);
+}
 .picker__day--highlighted {
   border-color: $color-primary;
+}
+.picker-info .picker__day--highlighted {
+  border-color: $color-info;
 }
 .picker__day--highlighted:hover,
 .picker--focused .picker__day--highlighted {
@@ -203,10 +221,20 @@
   color: $color-black;
   background: lighten($color-primary, 25%);
 }
+.picker-info .picker__day--highlighted:hover,
+.picker-info .picker--focused .picker__day--highlighted {
+  background: lighten($color-info, 25%);
+}
 .picker__day--selected,
 .picker__day--selected:hover,
 .picker--focused .picker__day--selected {
   background: $color-primary;
+  color: $color-white;
+}
+.picker-info .picker__day--selected,
+.picker-info .picker__day--selected:hover,
+.picker-info .picker--focused .picker__day--selected {
+  background: $color-info;
   color: $color-white;
 }
 .picker__day--disabled,
@@ -259,6 +287,12 @@
   background: lighten($color-primary, 25%);
   border-color: $color-primary;
   outline: none;
+}
+.picker-info .picker__button--today:focus,
+.picker-info .picker__button--clear:focus,
+.picker-info .picker__button--close:focus {
+  background: lighten($color-info, 25%);
+  border-color: $color-info;
 }
 .picker__button--today:before,
 .picker__button--clear:before,
