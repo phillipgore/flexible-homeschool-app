@@ -27,6 +27,10 @@
 	.report-heading {
 		background-color: $color-gray-light;
 		padding: 9px;
+
+		@media print {		
+			box-shadow: inset 0px 0px 0px 100px $color-gray-light;
+		}
 	}
 
 	.report-row {
@@ -91,6 +95,10 @@ table {
     	background-color: $color-gray-light;
     	padding: 9px;
     	font-weight: 400;
+
+		@media print {		
+			box-shadow: inset 0px 0px 0px 100px $color-gray-light;
+		}
     }
 
     td {

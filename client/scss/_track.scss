@@ -26,6 +26,30 @@
 			border-right: 1px solid $color-white;
 			background-color: $color-gray-light;
 
+			@media print {
+				box-shadow: inset 0px 0px 0px 100px $color-gray-light;
+
+				&.btn-secondary {
+					box-shadow: inset 0px 0px 0px 100px $color-danger;
+				}
+
+				&.btn-gray-darker {
+					box-shadow: inset 0px 0px 0px 100px $color-gray-darker;
+				}
+
+				&.btn-gray-dark {
+					box-shadow: inset 0px 0px 0px 100px $color-gray-dark;
+				}
+
+				&.btn-info {
+					box-shadow: inset 0px 0px 0px 100px $color-info;
+				}
+
+				&.btn-white-info {
+					box-shadow: inset 0px 0px 0px 100px lighten($color-info, 28%);
+				}
+			}
+
 			.loader-icon {
 				background-color: $color-gray-darker;
 
