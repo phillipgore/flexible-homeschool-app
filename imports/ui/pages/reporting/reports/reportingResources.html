@@ -2,7 +2,7 @@
 	{{#if report.resourcesReportVisible}}
 		{{#if resources.count}}
 			{{#each resource in resources}}
-				<table>
+				<table class="page-break-inside-avoid">
 					<tr>
 						<th colspan="2"><p><i class="{{resourceIcon resource.type}}"></i> {{resource.title}}</p></th>
 					</tr>
