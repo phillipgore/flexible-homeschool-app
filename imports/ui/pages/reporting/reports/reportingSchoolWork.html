@@ -5,7 +5,7 @@
 				<table>
 					<tr>
 						<th width="50%">
-							<p><i class="fss-school-work"></i> {{work.name}}</p>
+							<p><i class="fss-school-work"></i> {{report.schoolWorkStatsVisible}} {{work.name}}</p>
 						</th>
 						<th width="50%">
 							{{#if report.schoolWorkProgressVisible}}
@@ -114,9 +114,9 @@
 									<tr>
 										<td class="txt-tn-center">
 											{{#if lesson.completed}}
-												<img class="img-tn-16 img-lg-flex" src="/img/checkbox-btn-checked.svg">
+												<img class="img-tn-16" src="/img/checkbox-btn-checked.svg">
 											{{else}}
-												<img class="img-tn-16 img-flex" src="/img/checkbox-btn.svg">
+												<img class="img-tn-16" src="/img/checkbox-btn.svg">
 											{{/if}}
 										</td>
 										<td class="txt-tn-center">{{lesson.order}}</td>
