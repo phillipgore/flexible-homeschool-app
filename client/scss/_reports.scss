@@ -107,3 +107,17 @@ table {
     	padding: 11px 9px;
     }
 }
+
+@media only screen and (min-width: 0px) {
+	.cell-tn-w-5 { width: 5%; }
+	.cell-tn-w-10 { width: 10%; }
+	.cell-tn-w-60 { width: 60%; }
+	.cell-tn-w-65 { width: 65%; }
+}
+
+@media only screen and (min-width: 896px) {
+	.cell-lg-w-5 { width: 5%; }
+	.cell-lg-w-10 { width: 10%; }
+	.cell-lg-w-60 { width: 60%; }
+	.cell-lg-w-65 { width: 65%; }
+}
