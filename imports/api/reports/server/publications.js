@@ -77,7 +77,7 @@ Meteor.publish('reportData', function(studentId, schoolYearId, termId, weekId, r
 			let yearSchoolYear = SchoolYears.find({_id: schoolYearId, groupId: groupId, deletedOn: { $exists: false }}).fetch();
 			let yearTerms = Terms.find({schoolYearId: schoolYearId}).fetch();
 			let yearWeeks = Weeks.find({termId: {$in: yearTerms.map(term => term._id)}}).fetch();
-			let yearSchoolWork = SchoolWork.find({groupId: groupId, schoolYearId: schoolYearId, studentId: studentId, deletedOn: { $exists: false }}).fetch();
+			let yearSchoolWork = SchoolWork.find({groupId: groupId, schoolYearId: schoolYearId, studentId: studentId, deletedOn: { $exists: false }}, {sort: {name: 1}}).fetch();
 			let yearLessons = Lessons.find({groupId: groupId, schoolWorkId: {$in: yearSchoolWork.map(schoolWork => schoolWork._id)}, deletedOn: { $exists: false }}, {sort: {order: 1}}).fetch();
 			let yearResources = Resources.find({_id: {$in: _.flatten(yearSchoolWork.map(schoolWork => schoolWork.resources))}, groupId: groupId, deletedOn: { $exists: false }}, {fields: {type: 1, title: 1, availability: 1}}).fetch();
 
