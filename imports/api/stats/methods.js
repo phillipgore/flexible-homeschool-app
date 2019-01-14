@@ -44,12 +44,6 @@ Meteor.methods({
 		ids.schoolYearId = schoolYearId(currentYear);
 
 
-		// Initial Resources
-		let valueResource = Resources.findOne({groupId: groupId, deletedOn: { $exists: false }}, {sort: {title: 1}});
-		if (valueResource) {ids.resourceId = valueResource._id} else {ids.resourceId = 'empty'};
-		if (valueResource) {ids.resourceType = valueResource.type} else {ids.resourceType = 'empty'};
-
-
 		// Initial Terms and Weeks
 		let initialSchoolYear = SchoolYears.findOne({_id: ids.schoolYearId, groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}, fields: {startYear: 1, endYear: 1}});
 

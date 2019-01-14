@@ -21,3 +21,106 @@
 		}
 	}
 }
+
+.popover {
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 875;
+
+	@media only screen and (min-width: 640px) {
+		background-color: rgba(0,0,0,0.70);
+	}
+
+	.popover-well {
+		position: absolute;
+		top: 8px;
+		right: 8px;
+		bottom: 8px;
+		left: 8px;
+		background-color: $color-primary-lightest;
+		padding: 9px;
+		border-radius: 3px;
+		overflow: hidden;
+		box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.80);
+
+		.popover-header {
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			right: 0px;
+			height: 50px;
+			padding: 12px 9px;
+			background-color: $color-primary-lightest;
+			border-bottom: 1px solid $color-primary-light;
+		}
+
+		.popover-content {
+			position: absolute;
+			top: 59px;
+			right: 9px;
+			bottom: 50px;
+			left: 9px;
+			overflow-y: auto;
+			-webkit-overflow-scrolling: touch;
+
+			.loading-container {
+				top: 58px;
+				left: 8px;
+				right: 8px;
+				background-color: $color-primary-lightest;
+			}
+
+			.loader-icon {
+				background-color: $color-primary;
+
+				&:before {
+					background-color: $color-primary-lightest;
+				}
+
+				&:after {
+					background-color: $color-primary-lightest;
+				}
+			}
+
+			.loading-container .loader {
+				background-color: $color-primary-lightest;
+				border: 1px solid $color-primary;
+				color: $color-primary;
+			}
+
+			.loader-message {
+				color: $color-primary;
+			}
+
+			@media only screen and (min-width: 480px) {
+				right: 17px;
+				left: 17px;
+			}
+		}
+
+		.popover-buttonbar {
+			height: 50px;
+			position: absolute;
+			bottom: 0px;
+			right: 0px;
+			left: 0px;
+			z-index: 800;
+			text-align: center;
+			color: $color-white;
+			padding: 7px 9px 0px;
+			background-color: $color-primary-lightest;
+			border-top: 1px solid $color-primary-light;
+		}
+
+		@media only screen and (min-width: 640px) {
+			max-width: 320px;
+			height: 568px;
+			margin: 0px auto;
+			top: 50%;
+			transform: translateY(-50%);
+		}
+	}
+}

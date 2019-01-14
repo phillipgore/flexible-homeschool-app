@@ -12,27 +12,6 @@ Template.resourcesList.onCreated( function() {
 		this.subscribe('resourceStats');
 	});
 
-	Meteor.call('getInitialResourceIds', function(error, result) {
-		Session.set('initialResourceIds', result);
-
-		let initialResourceIds = Session.get('initialResourceIds')
-		if (!Session.get('selectedResourceType')) {
-			Session.set('selectedResourceType', 'all');
-		}
-
-		if (!Session.get('selectedResourceAvailability')) {
-			Session.set('selectedResourceType', 'all');
-		}
-
-		if (!Session.get('selectedResourceId')) {
-			Session.set('selectedResourceId', initialResourceIds.resourceAllAll);
-		}
-
-		if (!Session.get('selectedResourceCurrentTypeId')) {
-			Session.set('selectedResourceCurrentTypeId', 'all');
-		}
-	});
-
 	Session.set('selectedResourceAvailability', FlowRouter.getParam('selectedResourceAvailability'));
 	Session.set('selectedResourceType', FlowRouter.getParam('selectedResourceType'));
 });
@@ -61,12 +40,16 @@ Template.resourcesList.helpers({
 		return FlowRouter.getParam('selectedResourceAvailability');
 	},
 
+	selectedResourceId: function() {
+		return FlowRouter.getParam('selectedResourceId');
+	},
+
 	selectedResourceCurrentTypeId: function() {
 		return FlowRouter.getParam('selectedResourceCurrentTypeId');
 	},
 
 	selectedResourceNewType: function() {
-		return Session.get('selectedResourceNewType');
+		return Session.get('selectedResourceNewType')
 	},
 
 	resourceCount: function(type, availability) {

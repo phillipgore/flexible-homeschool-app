@@ -1,6 +1,6 @@
 <template name="schoolWorkNew">
 	
-	<main class="app-content app-content-preceeds-toolbar app-content-form">
+	<main class="app-content app-content-preceeds-toolbar app-content-form pos-relative">
 		<form class="js-form-school-work-new row">
 			<h2 class="m-tn-b-9">Step 1: Information</h2>
 			<label class="m-tn-b-6">Students</label>
@@ -21,11 +21,37 @@
 				{{> editor placeholder="Read a chapter a day..."}}
 			</div>
 
-			<h2 class="m-tn-t-36 m-tn-b-9">Step 2: Resources</h2>
-			<label>Search To Attach Resources</label>
-			<div class="pos-relative">
+			<h2 class="m-tn-t-72 m-tn-b-9">Step 2: Resources</h2>
+			<div class="well bg-gray-lighter p-tn-b-0 m-tn-b-18">
+				<label class="m-tn-b-9">Attached Resources</label>
+				<ul class="list">
+					{{#each resource in localResources}}
+					<li class="list-item">
+						<div class="list-item-inner dark-border top-border p-tn-rl-9 m-tn-rl-neg-9">
+							<input type="hidden" name="resourceId" id="resource-id" value="{{resource.id}}">
+							<div class="list-item-icon"><i class="fss-{{resource.type}} txt-primary"></i></div>
+							<div class="list-item-label">{{resource.title}}</div>
+							<div class="list-item-btn">
+								<a id="{{resource.id}}" href="#" class="js-remove-resource btn btn-circle bg-danger small">
+									<i class="fss-close"></i>
+								</a>
+							</div>
+						</div>
+					</li>
+					{{else}}
+					<li class="list-item">
+						<div class="list-item-inner dark-border top-border txt-tn-center p-tn-rl-9 m-tn-rl-neg-9">
+							No Attached Resources
+						</div>
+					</li>
+					{{/each}}
+				</ul>
+			</div>
+
+			<label>Attach An Existing Resource</label>
+			<div class="pos-relative m-tn-b-15">
 				<div class="icn-overlay">
-					<input type="text" name="searchResources" id="search-resources" placeholder="Search Resources" autocomplete="off">
+					<input type="text" name="searchResources" id="search-resources" placeholder="Search Existing Resources" autocomplete="off">
 					<div class="icn-left">
 						{{#if searching}}
 						<div class="loader-icon loader-icon-on-white loader-icon-tn"></div>
@@ -63,33 +89,26 @@
 				{{/if}}
 			</div>
 
-			<div class="well bg-gray-lighter p-tn-b-0 m-tn-b-18">
-				<label class="m-tn-b-9">Attached Resources</label>
-				<ul class="list">
-					{{#each resource in localResources}}
-					<li class="list-item">
-						<div class="list-item-inner dark-border top-border p-tn-rl-9 m-tn-rl-neg-9">
-							<input type="hidden" name="resourceId" id="resource-id" value="{{resource.id}}">
-							<div class="list-item-icon"><i class="fss-{{resource.type}} txt-primary"></i></div>
-							<div class="list-item-label">{{resource.title}}</div>
-							<div class="list-item-btn">
-								<a id="{{resource.id}}" href="#" class="js-remove-resource btn btn-circle bg-danger small">
-									<i class="fss-close"></i>
-								</a>
-							</div>
-						</div>
-					</li>
-					{{else}}
-					<li class="list-item">
-						<div class="list-item-inner dark-border top-border txt-tn-center p-tn-rl-9 m-tn-rl-neg-9">
-							No Attached Resources
-						</div>
-					</li>
-					{{/each}}
-				</ul>
+			<label>Attach A New Resource</label>
+			<div class="row m-tn-rl-neg-3">
+				<div class="col-tn-1of5 p-tn-rl-3">
+					<button id="book" class="js-resource-btn btn btn-gray-darker btn-block" title="Attache New Book"><i class="fss-book"></i></button>
+				</div>
+				<div class="col-tn-1of5 p-tn-rl-3">
+					<button id="link" class="js-resource-btn btn btn-gray-darker btn-block" title="Attache New Link"><i class="fss-link"></i></button>
+				</div>
+				<div class="col-tn-1of5 p-tn-rl-3">
+					<button id="audio" class="js-resource-btn btn btn-gray-darker btn-block" title="Attache New Audio"><i class="fss-audio"></i></button>
+				</div>
+				<div class="col-tn-1of5 p-tn-rl-3">
+					<button id="video" class="js-resource-btn btn btn-gray-darker btn-block" title="Attache New Video"><i class="fss-video"></i></button>
+				</div>
+				<div class="col-tn-1of5 p-tn-rl-3">
+					<button id="app" class="js-resource-btn btn btn-gray-darker btn-block" title="Attache New App"><i class="fss-app"></i></button>
+				</div>
 			</div>
 
-			<h2 class="m-tn-t-36 m-tn-b-9">Step 3: Schedule</h2>
+			<h2 class="m-tn-t-72 m-tn-b-9">Step 3: Schedule</h2>
 			<label class="m-tn-b-3">School Year</label>
 			<div class="fss-select">
 				<select class="js-school-year-select" name="schoolYearId">
@@ -134,6 +153,27 @@
 				<button type="submit" class="js-submit fl-tn-right">Save</button>
 			</footer>
 		</form>
+
+		<div class="js-resource-popover popover frame-ignore hide">
+			<div class="popover-well">
+				<div class="popover-header row">
+					<div class="col-tn-3of4">
+						<h1>Attach <span class="js-resource-type txt-capitalize"></span></h1>
+					</div>
+					<div class="col-tn-1of4">
+						<a href="#" class="js-close-resource-popover btn btn-circle small fl-tn-right">
+							<i class="fss-close"></i>
+						</a>
+					</div>
+				</div>
+				<div class="popover-content"> 
+					{{> resourcesForm}}
+				</div>
+				<footer class="popover-buttonbar">
+					<button type="submit" class="js-create-attach btn-block">Save And Attach</button>
+				</footer>
+			</div>
+		</div>
 	</main>
 	{{#unless subscriptionReady}}
 		{{> loading}}

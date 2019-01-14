@@ -1,0 +1,123 @@
+<template name="resourcesForm">
+
+	<form class="js-form-new-resource row">
+
+		<!-- Title -->
+		<label>Title</label>
+		<input type="text" name="title" id="title" placeholder="{{titlePlaceholder}}" autocomplete="off" value="{{resource.title}}">
+		<!-- /Title -->
+
+
+
+		<!-- Author, Director or Artist -->
+		<div class="row">
+			{{#if activeComponent resourceFormType 'book'}}
+				<div class="col-tn-1of2 p-tn-r-3">
+					<label>Author's First Name</label>
+					<input type="text" name="authorFirstName" id="authorFirstName" placeholder="S.E." autocomplete="off" value="{{resource.authorFirstName}}">
+				</div>
+				<div class="col-tn-1of2 p-tn-l-3">
+					<label>Author's Last Name</label>
+					<input type="text" name="authorLastName" id="authorLastName" placeholder="Hinton" autocomplete="off" value="{{resource.authorLastName}}">
+				</div>
+			{{/if}}
+
+			{{#if activeComponent resourceFormType 'video'}}
+				<div class="col-tn-1of2 p-tn-r-3">
+					<label>Director's First Name</label>
+					<input type="text" name="directorFirstName" id="directorFirstName" placeholder="Tom" autocomplete="off" value="{{resource.directorFirstName}}">
+				</div>
+				<div class="col-tn-1of2 p-tn-l-3">
+					<label>Director's Last Name</label>
+					<input type="text" name="directorLastName" id="directorLastName" placeholder="Hooper" autocomplete="off" value="{{resource.directorLastName}}">
+				</div>
+			{{/if}}
+
+			{{#if activeComponent resourceFormType 'audio'}}
+				<div class="col-tn-1of2 p-tn-r-3">
+					<label>Artist's First Name</label>
+					<input type="text" name="artistFirstName" id="artistFirstName" placeholder="George" autocomplete="off" value="{{resource.artistFirstName}}">
+				</div>
+				<div class="col-tn-1of2 p-tn-l-3">
+					<label>Artist's Last Name</label>
+					<input type="text" name="artistLastName" id="artistLastName" placeholder="Strait" autocomplete="off" value="{{resource.artistLastName}}">
+				</div>
+			{{/if}}
+		</div>
+		<!-- /Author, Director or Artist -->
+
+
+
+		<!-- Availability -->
+		{{#unless activeComponent resourceFormType 'link'}}
+			<label>Availability</label>
+			<div class="radio-collection m-tn-b-12">
+				<label class="radio">
+					<input class="js-radio-own" type="radio" name="availability" value="own" checked="{{checkAvailability resource.availability 'own'}}">
+					<div class="radio-icon"></div> 
+					<div class="radio-label">I own it.</div>
+				</label><br>
+				<label class="radio">
+					<input class="js-radio-borrowed" type="radio" name="availability" value="borrowed" checked="{{checkAvailability resource.availability 'borrowed'}}">
+					<div class="radio-icon"></div> 
+					<div class="radio-label">I borrowed it.</div>
+				</label><br>
+				<label class="radio">
+					<input class="js-radio-need" type="radio" name="availability" value="need" checked="{{checkAvailability resource.availability 'need'}}">
+					<div class="radio-icon"></div> 
+					<div class="radio-label">I need it.</div>
+				</label>
+			</div>
+		{{/unless}}
+		<!-- /Availability -->
+
+
+
+		<!-- Link -->
+		<label>Link</label>
+		<input type="text" name="link" id="link" placeholder="{{linkPlaceholder}}" autocomplete="off" value="{{resource.link}}">
+		<!-- /Link -->
+		
+
+
+		<!-- Publishing Information -->
+		{{#if activeComponent resourceFormType 'book'}}
+		<div class="row">
+			<div class="col-tn-1of2 p-tn-r-3">
+				<label>Publisher</label>
+				<input type="text" name="publisher" id="publisher" placeholder="Dell" autocomplete="off" value="{{resource.publisher}}">
+			</div>
+			<div class="col-tn-1of2 p-tn-l-3">
+				<label>Publication Date</label>
+				<input type="text" name="publicationDate" id="publication-date" placeholder="Apr 24, 1967" autocomplete="off" value="{{dateFormat resource.publicationDate}}">
+			</div>
+		</div>
+		{{/if}}
+		<!-- /Publishing Information -->
+
+
+
+		<!-- Description -->
+		<label>Descripton</label>
+		{{> editor classes="m-tn-b-18" placeholder=descriptionPlaceholder existingContent=resource.description}}
+		<!-- /Description -->
+
+
+
+		<!-- Footer -->
+		{{#if activeRoute currentRouteName 'resourcesNew'}}
+			<footer class="toolbar toolbar-bottom toolbar-gray">
+				<a href="/planning/resources/view/2/{{selectedResourceType}}/{{selectedResourceAvailability}}/{{selectedResourceId}}/{{selectedResourceCurrentTypeId}}" class="js-cancel btn btn-gray-darker fl-tn-left">Cancel</a>
+				<button type="submit" class="js-submit fl-tn-right">{{submitLabel}}</button>
+			</footer>
+		{{/if}}
+		<!-- /Footer -->
+
+	</form>
+	<span class="resource-loading">
+		{{#unless Template.subscriptionsReady}}
+			{{> loading}}
+		{{/unless}}
+		{{> saving}}
+	</span>
+</template>

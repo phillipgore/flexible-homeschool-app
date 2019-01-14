@@ -233,6 +233,13 @@
 		}
 	}
 
+	.frame-ignore {
+		.loading-container {
+			width: auto;
+			border-left: none;
+		}
+	}
+
 	.createAccount,
 	.verifySent,
 	.verifySuccess,
@@ -274,6 +281,15 @@
 			left: 576px;
 			width: calc(100% - 576px);
 			max-width: 828px;
+		}
+	}
+
+	.frame-ignore {
+		.loading-container {
+			border-right: none;
+			left: auto;
+			width: auto;
+			max-width: auto;
 		}
 	}
 

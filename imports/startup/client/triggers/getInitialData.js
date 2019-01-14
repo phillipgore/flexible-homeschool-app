@@ -21,12 +21,15 @@ let groupStatus = Meteor.subscribe('groupStatus');
 let getInitialIds = Meteor.subscribe('initialIds', startYearFunction(year));
 let getInitialStats = Meteor.subscribe('initialStats');
 
-
+Meteor.call('getInitialResourceIds', function(error, result) {
+	Session.set('initialResourceIds', result);
+	Session.set('initialResourcesReady', true);
+});
 
 FlowRouter.wait();
 
 Tracker.autorun(() => {
-	if (userData.ready() && groupStatus.ready() && getInitialIds.ready() && getInitialStats.ready() && !FlowRouter._initialized) {
+	if (userData.ready() && groupStatus.ready() && getInitialIds.ready() && getInitialStats.ready() && Session.get('initialResourcesReady') && !FlowRouter._initialized) {
 		FlowRouter.initialize()
 	}
 });
@@ -63,11 +66,11 @@ function getInitialData() {
 	}
 
 	if (!Session.get('selectedResourceId')) {
-		Session.set('selectedResourceId', initialIds.resourceId);
+		Session.set('selectedResourceId', Session.get('initialResourceIds').resourceAllAll);
 	}
 
 	if (!Session.get('selectedResourceCurrentTypeId')) {
-		Session.set('selectedResourceCurrentTypeId', initialIds.resourceType);
+		Session.set('selectedResourceCurrentTypeId', 'all');
 	}
 
 	// Initial Term

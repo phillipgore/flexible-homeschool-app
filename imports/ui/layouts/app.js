@@ -419,8 +419,6 @@ Template.app.events({
 		Session.set({
 			selectedResourceType: 'all',
 			selectedResourceAvailability: 'all',
-			selectedResourceId: Session.get('initialIds').resourceAllAll,
-			selectedResourceCurrentType: Session.get('initialIds').resourceCurrentType,
 		});
 	},
 
