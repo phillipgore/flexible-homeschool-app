@@ -21,21 +21,24 @@
 				</a>
 			</li>
 			<li class="list-item">
-				<a id="resources" href="/planning/resources/view/2/{{selectedResourceType}}/{{selectedResourceAvailability}}/{{selectedResourceId}}/{{#if typeIsAll selectedResourceType}}{{selectedResourceCurrentTypeId}}{{else}}{{selectedResourceType}}{{/if}}" class="js-planning list-item-link p-tn-rl-9 
-				{{#if active currentRouteName 'resourcesNew'}}active{{/if}}
-				{{#if active currentRouteName 'resourcesView'}}active{{/if}}
-				{{#if active currentRouteName 'resourcesEdit'}}active{{/if}}">
-					<div class="list-item-icon"><i class="txt-primary fss-resources"></i></div> 
-					<div class="list-item-label">Resources</div>
-				</a>
-			</li>
-			<li class="list-item">
 				<a id="schoolWork" href="/planning/schoolWork/view/2/{{selectedStudentId}}/{{selectedSchoolYearId}}/{{selectedSchoolWorkId}}" class="js-planning list-item-link p-tn-rl-9 
 				{{#if active currentRouteName 'schoolWorkNew'}}active{{/if}}
 				{{#if active currentRouteName 'schoolWorkView'}}active{{/if}}
 				{{#if active currentRouteName 'schoolWorkEdit'}}active{{/if}}">
 					<div class="list-item-icon"><i class="txt-primary fss-school-work"></i></div> 
 					<div class="list-item-label">School Work</div>
+				</a>
+			</li>
+
+			<li class="list-spacer"></li>
+
+			<li class="list-item">
+				<a id="resources" href="/planning/resources/view/2/{{selectedResourceType}}/{{selectedResourceAvailability}}/{{selectedResourceId}}/{{#if typeIsAll selectedResourceType}}{{selectedResourceCurrentTypeId}}{{else}}{{selectedResourceType}}{{/if}}" class="js-planning list-item-link p-tn-rl-9 
+				{{#if active currentRouteName 'resourcesNew'}}active{{/if}}
+				{{#if active currentRouteName 'resourcesView'}}active{{/if}}
+				{{#if active currentRouteName 'resourcesEdit'}}active{{/if}}">
+					<div class="list-item-icon"><i class="txt-primary fss-resources"></i></div> 
+					<div class="list-item-label">Resource Manager</div>
 				</a>
 			</li>
 		</ul>
