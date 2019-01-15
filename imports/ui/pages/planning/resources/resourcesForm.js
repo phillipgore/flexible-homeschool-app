@@ -56,7 +56,7 @@ Template.resourcesForm.onRendered( function() {
 			const resourceProperties = {
 				title: template.find("[name='title']").value.trim(),
 				link: template.find("[name='link']").value.trim(),
-				description: $('#' + $(event.currentTarget).find('.editor-content').attr('id')).html(),
+				description: $('#' + $('.js-form-new-resource').find('.editor-content').attr('id')).html(),
 			};
 
 			if (Session.get('currentType') === 'book') {
@@ -170,7 +170,7 @@ Template.resourcesForm.helpers({
 		if (availability === 'own' && FlowRouter.getRouteName() === 'resourcesNew') {
 			return true;
 		}
-		if (availability === 'own' && FlowRouter.getRouteName() === 'schoolWorkNew' || FlowRouter.getRouteName() === 'schoolWorkEdit') {
+		if (availability === 'own' && FlowRouter.getRouteName() === 'schoolWorkNew' || availability === 'own' && FlowRouter.getRouteName() === 'schoolWorkEdit') {
 			return true;
 		}
 		return false;
@@ -193,8 +193,8 @@ Template.resourcesForm.helpers({
 		return false;
 	},
 
-	activeRoute: function(currentRouteName, route) {
-		if (currentRouteName === route) {
+	isResourceRoute: function(currentRouteName) {
+		if (currentRouteName === 'resourcesNew' || currentRouteName === 'resourcesEdit') {
 			return true;
 		}
 		return false;

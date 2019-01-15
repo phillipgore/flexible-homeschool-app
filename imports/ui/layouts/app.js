@@ -100,6 +100,27 @@ Template.app.events({
 		}, 350);
 	},
 
+	// Show/Hide Help
+	'click .js-show-help'(event) {
+		event.preventDefault();
+
+		let helpClass = '.' + $(event.currentTarget).attr('id');
+
+		$('.js-show').show();
+		$('.js-hide').hide();
+		$('.js-info').slideUp('fast');
+
+		if ($(event.currentTarget).hasClass('js-closed')) {
+			
+
+			$(event.currentTarget).removeClass('js-closed').addClass('js-open');
+			$(event.currentTarget).find('.js-show').hide();
+			$(event.currentTarget).find('.js-hide').show();
+			$(helpClass).slideDown('fast');
+		} else {
+			$(event.currentTarget).removeClass('js-open').addClass('js-closed');
+		}		
+	},
 
 	// Dialog Confirmations
 	'click .js-dialog-cancel'(event) {

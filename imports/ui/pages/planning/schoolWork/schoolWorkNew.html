@@ -2,7 +2,23 @@
 	
 	<main class="app-content app-content-preceeds-toolbar app-content-form pos-relative">
 		<form class="js-form-school-work-new row">
-			<h2 class="m-tn-b-9">Step 1: Information</h2>
+
+			
+
+			<!-- Information -->
+			<div class="row m-tn-b-9">
+				<h2 class="col-tn-7of9">Step 1: Information</h2>
+				<h2 class="col-tn-2of9">
+					<button id="js-info-help" class="js-show-help js-closed btn-info width-68 tiny fl-tn-right">
+						<span class="js-show">Show</span><span class="js-hide hide">Hide</span> Help
+					</button>
+				</h2>
+			</div>
+			<div class="js-info-help js-info well bg-info txt-white m-tn-t-neg-3 m-tn-b-12 hide">
+				<p class="p-md line-height-1-5">Select the students for whom this item of School Work is to be scheduled then give it an appropriate name.</p>
+				<p class="p-md line-height-1-5">Be sure to keep General Instructions flexible. For instance, "Read three chapters a week” is always helpful. It doesn’t matter if you speed up, slow down or even stop schooling for a bit. It’s a general goal for every week.</p> 
+				<p class="p-md line-height-1-5">General Instructions appear in the Tracking section where daily work is scheduled and completed.</p>
+			</div>
 			<label class="m-tn-b-6">Students</label>
 			{{#each student in students}}
 				<div>
@@ -20,95 +36,147 @@
 				<label>General Instructions</label>
 				{{> editor placeholder="Read a chapter a day..."}}
 			</div>
+			<!-- /Information -->
 
-			<h2 class="m-tn-t-72 m-tn-b-9">Step 2: Resources</h2>
-			<div class="well bg-gray-lighter p-tn-b-0 m-tn-b-18">
-				<label class="m-tn-b-9">Attached Resources</label>
+			
+
+			<!-- Resources -->
+			<div class="row m-tn-t-72 m-tn-b-9">
+				<h2 class="col-tn-7of9">Step 2: Resources</h2>
+				<h2 class="col-tn-2of9">
+					<button id="js-resources-help" class="js-show-help js-closed btn-info width-68 tiny fl-tn-right">
+						<span class="js-show">Show</span><span class="js-hide hide">Hide</span> Help
+					</button>
+				</h2>
+			</div>
+			<div class="js-resources-help js-info well bg-info txt-white m-tn-t-neg-3 m-tn-b-12 hide">
+				<p class="p-md line-height-1-5">You can search for resources that have already been entered and attach them to this item of School Work.</p>
+				<p class="p-md line-height-1-5 m-tn-b-9">You can also click one of the buttons below to create a new Resource and attach it to this item of School Work.</p>
 				<ul class="list">
-					{{#each resource in localResources}}
-					<li class="list-item">
-						<div class="list-item-inner dark-border top-border p-tn-rl-9 m-tn-rl-neg-9">
-							<input type="hidden" name="resourceId" id="resource-id" value="{{resource.id}}">
-							<div class="list-item-icon"><i class="fss-{{resource.type}} txt-primary"></i></div>
-							<div class="list-item-label">{{resource.title}}</div>
-							<div class="list-item-btn">
-								<a id="{{resource.id}}" href="#" class="js-remove-resource btn btn-circle bg-danger small">
-									<i class="fss-close"></i>
-								</a>
-							</div>
-						</div>
-					</li>
-					{{else}}
-					<li class="list-item">
-						<div class="list-item-inner dark-border top-border txt-tn-center p-tn-rl-9 m-tn-rl-neg-9">
-							No Attached Resources
-						</div>
-					</li>
-					{{/each}}
+					<li class="p-tn-b-9"><i class="fss-book normal"></i> New Book</li>
+					<li class="p-tn-b-9"><i class="fss-link normal"></i> New Link</li>
+					<li class="p-tn-b-9"><i class="fss-audio normal"></i> New Audio</li>
+					<li class="p-tn-b-9"><i class="fss-video normal"></i> New Video</li>
+					<li><i class="fss-app normal"></i> New App</li>
 				</ul>
 			</div>
 
-			<label>Attach An Existing Resource</label>
-			<div class="pos-relative m-tn-b-15">
-				<div class="icn-overlay">
-					<input type="text" name="searchResources" id="search-resources" placeholder="Search Existing Resources" autocomplete="off">
-					<div class="icn-left">
-						{{#if searching}}
-						<div class="loader-icon loader-icon-on-white loader-icon-tn"></div>
-						{{else}}
-						<i class="fss-search"></i>
-						{{/if}}
+				<!-- Existing Resources -->
+				<label>Attach An Existing Resource</label>
+				<div class="pos-relative m-tn-b-15">
+					<div class="icn-overlay">
+						<input type="text" name="searchResources" id="search-resources" placeholder="Search Existing Resources" autocomplete="off">
+						<div class="icn-left">
+							{{#if searching}}
+							<div class="loader-icon loader-icon-on-white loader-icon-tn"></div>
+							{{else}}
+							<i class="fss-search"></i>
+							{{/if}}
+						</div>
+						<a href="#" class="js-clear-search icn-right">
+							<div class="btn btn-circle bg-danger small">
+								<i class="fss-close"></i>
+							</div>
+						</a>
 					</div>
-					<a href="#" class="js-clear-search icn-right">
-						<div class="btn btn-circle bg-danger small">
-							<i class="fss-close"></i>
-						</div>
-					</a>
-				</div>
-				
-				{{#if query}}
-				<ul class="list list-search-results">
-					{{#each resource in resources}}
-					<li class="list-item">
-						<div class="list-item-inner p-tn-rl-9">
-							<div class="list-item-icon"><i class="fss-{{resource.type}} txt-primary"></i></div>
-							<div class="list-item-label txt-ellipsis">{{resource.title}}</div>
-							<div class="list-item-btn">
-								<a id="{{resource._id}}" href="#" class="js-add-resource btn btn-circle small">
-									<i class="fss-new"></i>
-								</a>
+					
+					{{#if query}}
+					<ul class="list list-search-results">
+						{{#each resource in resources}}
+						<li class="list-item">
+							<div class="list-item-inner p-tn-rl-9">
+								<div class="list-item-icon"><i class="fss-{{resource.type}} txt-primary"></i></div>
+								<div class="list-item-label txt-ellipsis">{{resource.title}}</div>
+								<div class="list-item-btn">
+									<a id="{{resource._id}}" href="#" class="js-add-resource btn btn-circle small">
+										<i class="fss-new"></i>
+									</a>
+								</div>
 							</div>
-						</div>
-					</li>
-					{{else}}
-					<li class="list-item p-tn-rl-9">
-						<div class="list-item-inner">No Results.</div>
-					</li>
-					{{/each}}
-				</ul>
-				{{/if}}
+						</li>
+						{{else}}
+						<li class="list-item p-tn-rl-9">
+							<div class="list-item-inner">No Results.</div>
+						</li>
+						{{/each}}
+					</ul>
+					{{/if}}
+				</div>
+				<!-- /Existing Resources -->
+				
+				<!-- New Resources -->
+				<label>Attach A New Resource</label>
+				<div class="row m-tn-rl-neg-3 m-tn-b-27">
+					<div class="col-tn-1of5 p-tn-rl-3">
+						<button id="book" class="js-resource-btn btn btn-gray-darker btn-block" title="Attach New Book"><i class="fss-book"></i></button>
+					</div>
+					<div class="col-tn-1of5 p-tn-rl-3">
+						<button id="link" class="js-resource-btn btn btn-gray-darker btn-block" title="Attach New Link"><i class="fss-link"></i></button>
+					</div>
+					<div class="col-tn-1of5 p-tn-rl-3">
+						<button id="audio" class="js-resource-btn btn btn-gray-darker btn-block" title="Attach New Audio"><i class="fss-audio"></i></button>
+					</div>
+					<div class="col-tn-1of5 p-tn-rl-3">
+						<button id="video" class="js-resource-btn btn btn-gray-darker btn-block" title="Attach New Video"><i class="fss-video"></i></button>
+					</div>
+					<div class="col-tn-1of5 p-tn-rl-3">
+						<button id="app" class="js-resource-btn btn btn-gray-darker btn-block" title="Attach New App"><i class="fss-app"></i></button>
+					</div>
+				</div>
+				<!-- /New Resources -->
+				
+				<!-- Attached Resources -->
+				<div class="well bg-gray-lighter p-tn-b-0">
+					<label class="m-tn-b-9">Attached Resources</label>
+					<ul class="list">
+						{{#each resource in localResources}}
+						<li class="list-item">
+							<div class="list-item-inner dark-border top-border p-tn-rl-9 m-tn-rl-neg-9">
+								<input type="hidden" name="resourceId" id="resource-id" value="{{resource.id}}">
+								<div class="list-item-icon"><i class="fss-{{resource.type}} txt-primary"></i></div>
+								<div class="list-item-label">{{resource.title}}</div>
+								<div class="list-item-btn">
+									<a id="{{resource.id}}" href="#" class="js-remove-resource btn btn-circle bg-danger small">
+										<i class="fss-close"></i>
+									</a>
+								</div>
+							</div>
+						</li>
+						{{else}}
+						<li class="list-item">
+							<div class="list-item-inner dark-border top-border txt-tn-center p-tn-rl-9 m-tn-rl-neg-9">
+								No Attached Resources
+							</div>
+						</li>
+						{{/each}}
+					</ul>
+				</div>
+				<!-- /Attached Resources -->
+			<!-- /Resources -->
+
+
+			
+			<!-- Schedule -->
+			<div class="row m-tn-t-72 m-tn-b-9">
+				<h2 class="col-tn-7of9">Step 3: Schedule</h2>
+				<h2 class="col-tn-2of9">
+					<button id="js-schedule-help" class="js-show-help js-closed btn-info width-68 tiny fl-tn-right">
+						<span class="js-show">Show</span><span class="js-hide hide">Hide</span> Help
+					</button>
+				</h2>
+			</div>
+			<div class="js-schedule-help js-info well bg-info txt-white m-tn-t-neg-3 m-tn-b-6 hide">
+				<p class="p-md line-height-1-5">Select the School Year for this item of School Work then set the number of segments ("days") it will be done each week for each term.</p>
+				<p class="p-md line-height-1-5">This can be done very quickly with the drop-down preset. However, if you need to fine-tune your schedule you can click “Show Individual Weeks” and set each Week individually.</p>
+			</div>
+			<div class="js-schedule-help js-info well bg-info txt-white m-tn-b-12 hide">
+				<p class="p-md line-height-1-5">An important underlying concept of the app is to think of timeframes as representational not concrete. For instance Week 3 is simply the third week you do school not specifically September 3rd - 7th.</p>
+
+				<p class="p-md line-height-1-5">The same is true for “times” or “days”. Generally one “time” represents one “day” but it does not represent a specific day like October 3rd.</p>
+
+				<p class="p-md line-height-1-5">These representational timeframes allow for flexibility. Once you are used to the concept you will find it simplifies both your homeschool life and the use of Flexible Homeschool App.</p>
 			</div>
 
-			<label>Attach A New Resource</label>
-			<div class="row m-tn-rl-neg-3">
-				<div class="col-tn-1of5 p-tn-rl-3">
-					<button id="book" class="js-resource-btn btn btn-gray-darker btn-block" title="Attache New Book"><i class="fss-book"></i></button>
-				</div>
-				<div class="col-tn-1of5 p-tn-rl-3">
-					<button id="link" class="js-resource-btn btn btn-gray-darker btn-block" title="Attache New Link"><i class="fss-link"></i></button>
-				</div>
-				<div class="col-tn-1of5 p-tn-rl-3">
-					<button id="audio" class="js-resource-btn btn btn-gray-darker btn-block" title="Attache New Audio"><i class="fss-audio"></i></button>
-				</div>
-				<div class="col-tn-1of5 p-tn-rl-3">
-					<button id="video" class="js-resource-btn btn btn-gray-darker btn-block" title="Attache New Video"><i class="fss-video"></i></button>
-				</div>
-				<div class="col-tn-1of5 p-tn-rl-3">
-					<button id="app" class="js-resource-btn btn btn-gray-darker btn-block" title="Attache New App"><i class="fss-app"></i></button>
-				</div>
-			</div>
-
-			<h2 class="m-tn-t-72 m-tn-b-9">Step 3: Schedule</h2>
 			<label class="m-tn-b-3">School Year</label>
 			<div class="fss-select">
 				<select class="js-school-year-select" name="schoolYearId">
@@ -147,18 +215,24 @@
 				</div>
 			</div>
 			{{/each}}
+			<!-- /Schedule -->
 
+
+
+			<!-- Footer -->
 			<footer class="toolbar toolbar-bottom toolbar-gray m-tn-t-27">
 				<a href="/planning/schoolWork/view/2/{{selectedStudentId}}/{{selectedSchoolYearId}}/{{selectedSchoolWorkId}}" class="js-cancel btn btn-gray-darker fl-tn-left">Cancel</a>
 				<button type="submit" class="js-submit fl-tn-right">Save</button>
 			</footer>
+			<!-- /Footer -->
+
 		</form>
 
 		<div class="js-resource-popover popover frame-ignore hide">
 			<div class="popover-well">
 				<div class="popover-header row">
 					<div class="col-tn-3of4">
-						<h1>Attach <span class="js-resource-type txt-capitalize"></span></h1>
+						<h1>New <span class="js-resource-type txt-capitalize"></span></h1>
 					</div>
 					<div class="col-tn-1of4">
 						<a href="#" class="js-close-resource-popover btn btn-circle small fl-tn-right">
@@ -170,7 +244,7 @@
 					{{> resourcesForm}}
 				</div>
 				<footer class="popover-buttonbar">
-					<button type="submit" class="js-create-attach btn-block">Save And Attach</button>
+					<button type="submit" class="js-create-attach btn-block">Attach <span class="js-resource-type txt-capitalize"></span></button>
 				</footer>
 			</div>
 		</div>
