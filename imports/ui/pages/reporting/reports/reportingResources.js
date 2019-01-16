@@ -36,7 +36,7 @@ Template.reportingResources.helpers({
 
 	// School Work Resources
 	resources: function() {
-		return Resources.find({}, {sort: {title: 1}})
+		return Resources.find()
 	},
 
 	resourceOrigin: function(firstName, lastName) {
