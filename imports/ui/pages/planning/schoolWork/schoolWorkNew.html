@@ -3,53 +3,56 @@
 	<main class="app-content app-content-preceeds-toolbar app-content-form pos-relative">
 		<form class="js-form-school-work-new row">
 			<div class="step-container">
-				<div class="step-circle bg-danger">1</div>
+				<div data-id="js-step-one" class="js-step-circle js-circle-one step-circle bg-info">1</div>
 				<div class="step-line"></div>
-				<div class="step-circle bg-warning">2</div>
+				<div data-id="js-step-two" class="js-step-circle js-circle-two step-circle">2</div>
 				<div class="step-line"></div>
-				<div class="step-circle">3</div>
+				<div data-id="js-step-three" class="js-step-circle js-circle-three step-circle">3</div>
 			</div>
 
 			
 
 			<!-- Information -->
-			<div class="js-step-one row m-tn-b-9">
-				<h2 class="col-tn-7of9">Step 1: Information</h2>
-				<h2 class="col-tn-2of9">
-					<button id="js-info-help" class="js-show-help js-closed btn-info width-68 tiny fl-tn-right">
-						<span class="js-show">Show</span><span class="js-hide hide">Hide</span> Help
-					</button>
-				</h2>
-			</div>
-			<div class="js-info-help js-info well bg-info txt-white m-tn-t-neg-3 m-tn-b-12 hide">
-				<p class="p-md line-height-1-5">Select the students for whom this item of School Work is to be scheduled then give it an appropriate name.</p>
-				<p class="p-md line-height-1-5">Be sure to keep General Instructions flexible. For instance, "Read three chapters a week” is always helpful. It doesn’t matter if you speed up, slow down or even stop schooling for a bit. It’s a general goal for every week.</p> 
-				<p class="p-md line-height-1-5">General Instructions appear in the Tracking section where daily work is scheduled and completed.</p>
-			</div>
-			<label class="m-tn-b-6">Students</label>
-			{{#each student in students}}
-				<div>
-					<label class="checkbox">
-						<input class="js-checkbox js-student-id" type="checkbox" name="studentId" id="{{student._id}}" value="{{isChecked student._id}}" checked="{{isChecked student._id}}">
-						<div class="checkbox-icon"></div> 
-						<div class="checkbox-label">{{student.preferredFirstName.name}} {{student.lastName}}</div>
-					</label>
+			<div class="js-step-one js-step">
+				<div class="row m-tn-b-9">
+					<h2 class="col-tn-7of9">Step 1: Information</h2>
+					<h2 class="col-tn-2of9">
+						<button id="js-info-help" class="js-show-help js-closed btn-info width-68 tiny fl-tn-right">
+							<span class="js-show">Show</span><span class="js-hide hide">Hide</span> Help
+						</button>
+					</h2>
 				</div>
-			{{/each}}
-			<label id="studentId-error" class="student-error hide" for="studentId">At least one student must be checked.</label>
-			<div class="well bg-gray-lighter m-tn-b-18">
-				<label>School Work Name</label>
-				<input type="text" name="name" id="name" placeholder="Math" autocomplete="off">
-				<label>General Instructions</label>
-				{{> editor placeholder="Read a chapter a day..."}}
+				<div class="js-info-help js-info well bg-info txt-white m-tn-t-neg-3 m-tn-b-12 hide">
+					<p class="p-md line-height-1-5">Select the students for whom this item of School Work is to be scheduled then give it an appropriate name.</p>
+					<p class="p-md line-height-1-5">Be sure to keep General Instructions flexible. For instance, "Read three chapters a week” is always helpful. It doesn’t matter if you speed up, slow down or even stop schooling for a bit. It’s a general goal for every week.</p> 
+					<p class="p-md line-height-1-5">General Instructions appear in the Tracking section where daily work is scheduled and completed.</p>
+				</div>
+				<label class="m-tn-b-6">Students</label>
+				{{#each student in students}}
+					<div>
+						<label class="checkbox">
+							<input class="js-checkbox js-student-id" type="checkbox" name="studentId" id="{{student._id}}" value="{{isChecked student._id}}" checked="{{isChecked student._id}}">
+							<div class="checkbox-icon"></div> 
+							<div class="checkbox-label">{{student.preferredFirstName.name}} {{student.lastName}}</div>
+						</label>
+					</div>
+				{{/each}}
+				<label id="studentId-error" class="student-error hide" for="studentId">At least one student must be checked.</label>
+				<div class="well bg-gray-lighter m-tn-b-18">
+					<label>School Work Name</label>
+					<input type="text" name="name" id="name" placeholder="Math" autocomplete="off">
+					<label class="error name-errors"></label>
+					<label>General Instructions</label>
+					{{> editor placeholder="Read a chapter a day..."}}
+				</div>
 			</div>
 			<!-- /Information -->
 
 			
 
 			<!-- Resources -->
-			<div class="js-step-two hide">
-				<div class="row m-tn-t-72 m-tn-b-9">
+			<div class="js-step-two js-step hide">
+				<div class="row m-tn-b-9">
 					<h2 class="col-tn-7of9">Step 2: Resources</h2>
 					<h2 class="col-tn-2of9">
 						<button id="js-resources-help" class="js-show-help js-closed btn-info width-68 tiny fl-tn-right">
@@ -166,8 +169,8 @@
 
 			
 			<!-- Schedule -->
-			<div class="js-step-three hide">
-				<div class="row m-tn-t-72 m-tn-b-9">
+			<div class="js-step-three js-step hide">
+				<div class="row m-tn-b-9">
 					<h2 class="col-tn-7of9">Step 3: Schedule</h2>
 					<h2 class="col-tn-2of9">
 						<button id="js-schedule-help" class="js-show-help js-closed btn-info width-68 tiny fl-tn-right">
@@ -231,16 +234,19 @@
 
 
 			<!-- Footer -->
-			<footer class="js-step-one toolbar toolbar-bottom toolbar-gray m-tn-t-27">
-				<button class="js-next-step fl-tn-right">Step 2</button>
+			<footer class="js-step-one js-step toolbar toolbar-bottom toolbar-gray m-tn-t-27">
+				<a href="/planning/schoolWork/view/2/{{selectedStudentId}}/{{selectedSchoolYearId}}/{{selectedSchoolWorkId}}" class="js-cancel btn btn-gray-darker fl-tn-left">Cancel</a>
+				<button data-id="js-step-two" class="js-step-btn fl-tn-right">Next <i class="icn-forward"></i></button>
 			</footer>
-			<footer class="js-step-one toolbar toolbar-bottom toolbar-gray m-tn-t-27 hide">
-				<button class="js-next-step btn-gray-darker fl-tn-left">Step 1</button>
-				<button class="js-next-step fl-tn-right">Step 3</button>
+			<footer class="js-step-two js-step toolbar toolbar-bottom toolbar-gray m-tn-t-27 hide">
+				<a href="/planning/schoolWork/view/2/{{selectedStudentId}}/{{selectedSchoolYearId}}/{{selectedSchoolWorkId}}" class="js-cancel btn btn-gray-darker fl-tn-left">Cancel</a>
+				<button data-id="js-step-three" class="js-step-btn fl-tn-right">Next <i class="icn-forward"></i></button>
+				<button data-id="js-step-one" class="js-step-btn fl-tn-right m-tn-r-6"><i class="icn-back"></i> Prev</button>
 			</footer>
-			<footer class="toolbar toolbar-bottom toolbar-gray m-tn-t-27 hide">
+			<footer class="js-step-three js-step toolbar toolbar-bottom toolbar-gray m-tn-t-27 hide">
 				<a href="/planning/schoolWork/view/2/{{selectedStudentId}}/{{selectedSchoolYearId}}/{{selectedSchoolWorkId}}" class="js-cancel btn btn-gray-darker fl-tn-left">Cancel</a>
 				<button type="submit" class="js-submit fl-tn-right">Save</button>
+				<button data-id="js-step-two" class="js-step-btn fl-tn-right m-tn-r-6"><i class="icn-back"></i> Prev</button>
 			</footer>
 			<!-- /Footer -->
 

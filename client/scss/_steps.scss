@@ -55,8 +55,8 @@ $line-size: 5px;
 		height: $circle-size;
 		border-radius: $circle-size / 2;
 		background-color: $color-gray-lightest;
-		border: $circle-border-size solid $color-gray;
-		color: $color-gray;
+		border: $circle-border-size solid $color-gray-darker;
+		color: $color-gray-darker;
 		text-align: center;
 		font-weight: $font-weight;
 		padding-top: $circle-size * 0.16;
@@ -65,9 +65,10 @@ $line-size: 5px;
 		text-decoration: none;
 		position: relative;
 		z-index: 2;
+		user-select: none;
 
 		&:hover {
-			background-color: $color-gray;
+			background-color: $color-gray-darker;
 			color: $color-gray-lightest;
 		}
 

@@ -3,7 +3,6 @@ import moment from 'moment';
 
 InitialIds = new Mongo.Collection('initialIds');
 
-Session.set('initialResourcesReady', false);
 
 let year = moment().year();
 let month = moment().month();
@@ -21,6 +20,8 @@ let userData = Meteor.subscribe('userData');
 let groupStatus = Meteor.subscribe('groupStatus');
 let getInitialIds = Meteor.subscribe('initialIds', startYearFunction(year));
 let getInitialStats = Meteor.subscribe('initialStats');
+
+
 
 FlowRouter.wait();
 
@@ -66,15 +67,8 @@ function getInitialData() {
 	}
 
 	if (!Session.get('selectedResourceCurrentTypeId')) {
-		Session.set('selectedResourceCurrentTypeId', 'all');
+		Session.set('selectedResourceCurrentTypeId', initialIds.resourceType);
 	}
-
-	Meteor.call('getInitialResourceIds', function(error, result) {
-		if (result) {
-			Session.set('initialResourceIds', result);
-			Session.set('initialResourcesReady', true);
-		}
-	});
 
 	// Initial Term
 	if (!Session.get('selectedTermId')) {
