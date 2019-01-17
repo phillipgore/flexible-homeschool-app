@@ -44,7 +44,7 @@ Template.billingError.events({
 			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',
-					iconClass: 'fss-danger',
+					iconClass: 'icn-danger',
 					message: error.reason,
 				});
 			} else {
@@ -85,7 +85,7 @@ Template.billingError.events({
 						if (error) {
 							Alerts.insert({
 								colorClass: 'bg-danger',
-								iconClass: 'fss-danger',
+								iconClass: 'icn-danger',
 								message: error.reason,
 							});
 					

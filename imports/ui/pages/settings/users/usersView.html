@@ -2,7 +2,7 @@
 	<main class="app-content app-content-preceeds-toolbar app-content-data">
 		<div class="view-heading m-tn-b-21">
 			<div class="view-icon">
-				<i class="fss-users"></i>
+				<i class="icn-users"></i>
 			</div>
 			<div class="view-title">
 				<h1 class="m-tn-b-3">{{user.info.firstName}} {{user.info.lastName}}</h1>
@@ -15,7 +15,7 @@
 			<section>
 				<label>Email</label>
 				<a href="mailto:{{user.emails.[0].address}}" class="txt-ellipsis">
-					<i class="fss-email"></i> {{user.emails.[0].address}}
+					<i class="icn-email"></i> {{user.emails.[0].address}}
 				</a>
 			</section>
 			<section>
@@ -26,18 +26,18 @@
 		{{#unless user.emails.[0].verified}}
 			<div class="row txt-tn-center m-tn-t-30">
 				<a id="{{user._id}}" data-user-email="{{user.emails.[0].address}}" data-user-name="{{user.info.firstName}} {{user.info.lastName}}" href="#" class="js-resend-verificatin-email btn dis-tn-inline-block fl-tn-right">
-					<i class="fss-email fss-fw-16 m-tn-r-4"></i> Resend Verification
+					<i class="icn-email icn-fw-16 m-tn-r-4"></i> Resend Verification
 				</a>
 			</div>
 		{{else}}
 			<div class="row txt-tn-center m-tn-t-30">
 				{{#if user.status.active}}
 					<a class="btn js-pause-user dis-tn-inline-block fl-tn-right" href="#">
-						<i class="fss-pause-circle fss-fw-16 m-tn-r-4"></i> Pause User
+						<i class="icn-pause-circle icn-fw-16 m-tn-r-4"></i> Pause User
 					</a>
 				{{else}}
 					<a class="btn js-unpause-user dis-tn-inline-block fl-tn-right" href="#">
-						<i class="fss-play-circle fss-fw-16 m-tn-r-4"></i> Unpause User
+						<i class="icn-play-circle icn-fw-16 m-tn-r-4"></i> Unpause User
 					</a>
 				{{/if}}
 			</div>

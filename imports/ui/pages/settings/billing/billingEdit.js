@@ -55,7 +55,7 @@ Template.billingEdit.events({
 				if (result.error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',
-						iconClass: 'fss-danger',
+						iconClass: 'icn-danger',
 						message: result.error,
 					});
 					
@@ -71,7 +71,7 @@ Template.billingEdit.events({
 							$('.js-submit').prop('disabled', false);
 							Alerts.insert({
 								colorClass: 'bg-danger',
-								iconClass: 'fss-danger',
+								iconClass: 'icn-danger',
 								message: error.reason,
 							});
 						} else {
@@ -79,7 +79,7 @@ Template.billingEdit.events({
 								if (error) {
 									Alerts.insert({
 										colorClass: 'bg-danger',
-										iconClass: 'fss-danger',
+										iconClass: 'icn-danger',
 										message: error.reason,
 									});
 								} else {
@@ -90,7 +90,7 @@ Template.billingEdit.events({
 									$('.js-submit').prop('disabled', false);
 									Alerts.insert({
 										colorClass: 'bg-info',
-										iconClass: 'fss-info',
+										iconClass: 'icn-info',
 										message: 'Your card has been updated.',
 									});
 								}

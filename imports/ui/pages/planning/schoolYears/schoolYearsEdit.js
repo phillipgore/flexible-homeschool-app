@@ -76,7 +76,7 @@ Template.schoolYearsEdit.events({
 			Alerts.insert({
 				type: 'terms',
 				colorClass: 'bg-warning',
-				iconClass: 'fss-warning',
+				iconClass: 'icn-warning',
 				message: "You have exceeded 52 weeks.",
 			});
 		}
@@ -132,7 +132,7 @@ Template.schoolYearsEdit.events({
 
 		Alerts.insert({
 			colorClass: 'bg-danger',
-			iconClass: 'fss-danger',
+			iconClass: 'icn-danger',
 			message: "You may not delete this term. It would remove " + overTimes + " " + plural(overTimes) + " you have already worked on it.",
 		});
 	},
@@ -222,7 +222,7 @@ Template.schoolYearsEdit.events({
 		if (termDeleteIds.length || termInsertProperties.length || termUpdateProperties.length) {
 			Alerts.insert({
 				colorClass: 'bg-info',
-				iconClass: 'fss-info',
+				iconClass: 'icn-info',
 				message: "Please be patient. This could take a bit.",
 			});
 
@@ -230,7 +230,7 @@ Template.schoolYearsEdit.events({
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',
-						iconClass: 'fss-danger',
+						iconClass: 'icn-danger',
 						message: error.reason,
 					});
 					
@@ -247,7 +247,7 @@ Template.schoolYearsEdit.events({
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',
-						iconClass: 'fss-danger',
+						iconClass: 'icn-danger',
 						message: error.reason,
 					});
 					

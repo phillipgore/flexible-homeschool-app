@@ -15,7 +15,16 @@ $color-info-lighter: lighten(#6BA6E0, 20%);
 $color-info-lightest: lighten(#6BA6E0, 30%);
 
 $color-warning: #E0B56B;
+$color-warning-light: lighten(#E0B56B, 15%);
+$color-warning-lighter: lighten(#E0B56B, 20%);
+$color-warning-lightest: lighten(#E0B56B, 30%);
+
 $color-danger: #E06B6B;
+$color-danger-light: lighten(#E06B6B, 15%);
+$color-danger-lighter: lighten(#E06B6B, 20%);
+$color-danger-lightest: lighten(#E06B6B, 30%);
+
+
 $color-royal: #A66CE0;
 
 

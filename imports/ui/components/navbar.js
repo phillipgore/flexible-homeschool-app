@@ -87,7 +87,7 @@ Template.navbar.events({
 		let section = $(event.currentTarget).attr('data-section');
 		Alerts.insert({
 			colorClass: 'bg-info',
-			iconClass: 'fss-info',
+			iconClass: 'icn-info',
 			message: 'Your role of "' + role + '" is not allowed to access the ' + _.capitalize(section) + ' section.',
 		});
 	},

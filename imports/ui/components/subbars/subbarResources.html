@@ -17,11 +17,11 @@
 										class="js-resource js-type dropdown-item-link" 
 										href="/planning/resources/view/{{selectedFramePosition}}/{{type._id}}/{{selectedResourceAvailability}}/{{typeAvailabilityResourceId type._id selectedResourceAvailability}}/{{#if typeIsAll type._id}}{{selectedResourceCurrentTypeId}}{{else}}{{type._id}}{{/if}}"
 									>
-									<div class="dropdown-item-icon"><i class="fss-circle {{typeAvailability type._id}}"></i></div>
+									<div class="dropdown-item-icon"><i class="icn-circle {{typeAvailability type._id}}"></i></div>
 									<div class="dropdown-item-label">{{type.label}}</div>
 									{{#if activeListItem selectedResourceType type._id}}
 										<div class="dropdown-item-icon-right">
-											<i class="fss-planning txt-gray-darker"></i>
+											<i class="icn-planning txt-gray-darker"></i>
 										</div>
 									{{/if}}
 									</a>
@@ -44,11 +44,11 @@
 									data-resource-availability="{{availability._id}}" 
 									class="js-resource js-availability dropdown-item-link" 
 									href="/planning/resources/view/{{selectedFramePosition}}/{{selectedResourceType}}/{{availability._id}}/{{typeAvailabilityResourceId selectedResourceType availability._id}}/{{#if typeIsAll type._id}}{{selectedResourceCurrentTypeId}}{{else}}{{selectedResourceType}}{{/if}}">
-										<div class="dropdown-item-icon"><i class="fss-circle {{availabilityStatus selectedResourceType availability._id}}"></i></div>
+										<div class="dropdown-item-icon"><i class="icn-circle {{availabilityStatus selectedResourceType availability._id}}"></i></div>
 										<div class="dropdown-item-label">{{availability.label}}</div>
 										{{#if activeListItem selectedResourceAvailability availability._id}}
 											<div class="dropdown-item-icon-right">
-												<i class="fss-planning txt-gray-darker"></i>
+												<i class="icn-planning txt-gray-darker"></i>
 											</div>
 										{{/if}}
 									</a>

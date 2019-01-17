@@ -65,7 +65,7 @@ Template.reportingEdit.onRendered( function() {
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',
-						iconClass: 'fss-danger',
+						iconClass: 'icn-danger',
 						message: error.reason,
 					});
 					

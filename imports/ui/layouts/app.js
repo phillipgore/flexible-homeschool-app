@@ -63,11 +63,11 @@ Template.app.events({
 
 
 	// Select Input
-	'focus .fss-select select'(event) {
+	'focus .icn-select select'(event) {
 		$(event.target).parent().addClass('focus');
 	},
 
-	'blur .fss-select select'(event) {
+	'blur .icn-select select'(event) {
 		$(event.target).parent().removeClass('focus');
 	},
 
@@ -151,7 +151,7 @@ Template.app.events({
 			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',
-					iconClass: 'fss-danger',
+					iconClass: 'icn-danger',
 					message: error.reason,
 				});
 			} else {
@@ -185,7 +185,7 @@ Template.app.events({
 			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',
-					iconClass: 'fss-danger',
+					iconClass: 'icn-danger',
 					message: error.reason,
 				});
 			} else {
@@ -222,7 +222,7 @@ Template.app.events({
 			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',
-					iconClass: 'fss-danger',
+					iconClass: 'icn-danger',
 					message: error.reason,
 				});
 			} else {
@@ -255,7 +255,7 @@ Template.app.events({
 			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',
-					iconClass: 'fss-danger',
+					iconClass: 'icn-danger',
 					message: error.reason,
 				});
 			} else {
@@ -291,7 +291,7 @@ Template.app.events({
 			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',
-					iconClass: 'fss-danger',
+					iconClass: 'icn-danger',
 					message: error.reason,
 				});
 			} else {
@@ -314,7 +314,7 @@ Template.app.events({
 			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',
-					iconClass: 'fss-danger',
+					iconClass: 'icn-danger',
 					message: error.reason,
 				});
 			} else {
@@ -336,7 +336,7 @@ Template.app.events({
 			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',
-					iconClass: 'fss-danger',
+					iconClass: 'icn-danger',
 					message: error.reason,
 				});
 			} else {

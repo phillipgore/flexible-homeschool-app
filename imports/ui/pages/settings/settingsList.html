@@ -4,7 +4,7 @@
 			{{#if applicationAdministrator user.info.role}}
 				<li class="list-item">
 					<a href="/office/dashboard/1" class="list-item-link bg-white p-tn-rl-9">
-						<div class="list-item-icon"><i class="fss-back-office"></i></div> 
+						<div class="list-item-icon"><i class="icn-back-office"></i></div> 
 						<div class="list-item-label">Back Office</div>
 					</a>
 				</li>
@@ -12,13 +12,13 @@
 			<li class="list-item">
 				{{#if userRestricted user.info.role}}
 					<span data-section="users" data-role="{{user.info.role}}" class="js-restricted list-item-inner disabled bg-white p-tn-rl-9">
-						<div class="list-item-icon"><i class="fss-users"></i></div> 
+						<div class="list-item-icon"><i class="icn-users"></i></div> 
 						<div class="list-item-label">Users</div>
 					</span>
 				{{else}}
 					{{#if groupPaused group.subscriptionStatus}}
 						<span data-section="users" data-role="{{user.info.role}}" class="js-paused list-item-inner disabled bg-white p-tn-rl-9">
-							<div class="list-item-icon"><i class="fss-users"></i></div> 
+							<div class="list-item-icon"><i class="icn-users"></i></div> 
 							<div class="list-item-label">Users</div>
 						</span>
 					{{else}}
@@ -26,7 +26,7 @@
 						{{#if active currentRouteName 'usersView'}}active{{/if}} 
 						{{#if active currentRouteName 'usersNew'}}active{{/if}} 
 						{{#if active currentRouteName 'usersVerifySent'}}active{{/if}}">
-							<div class="list-item-icon"><i class="fss-users"></i></div> 
+							<div class="list-item-icon"><i class="icn-users"></i></div> 
 							<div class="list-item-label">Users</div>
 						</a>
 					{{/if}}
@@ -34,27 +34,27 @@
 			</li>
 			<li class="list-item">
 				<a href="#" class="js-reset-password list-item-link bg-white p-tn-rl-9">
-					<div class="list-item-icon"><i class="fss-password"></i></div> 
+					<div class="list-item-icon"><i class="icn-password"></i></div> 
 					<div class="list-item-label">Reset Password</div>
 				</a>
 			</li>
 			<li class="list-item">
 				{{#if userRestricted user.info.role}}
 					<span data-section="billing" data-role="{{user.info.role}}" class="js-restricted list-item-inner disabled bg-white p-tn-rl-9">
-						<div class="list-item-icon"><i class="fss-billing"></i></div> 
+						<div class="list-item-icon"><i class="icn-billing"></i></div> 
 						<div class="list-item-label">Billing</div>
 						{{#if group.stripePaymentAttempt}}<div class="list-item-badge"></div>{{/if}}
 					</span>
 				{{else}}
 					{{#if freeTrial group.subscriptionStatus}}
 						<span data-section="billing" class="list-item-inner disabled bg-white p-tn-rl-9">
-							<div class="list-item-icon"><i class="fss-billing"></i></div> 
+							<div class="list-item-icon"><i class="icn-billing"></i></div> 
 							<div class="list-item-label">Billing (Free Trial)</div>
 							{{#if group.stripePaymentAttempt}}<div class="list-item-badge"></div>{{/if}}
 						</span>
 					{{else}}
 						<a href="/settings/billing/invoices/2" class="list-item-link bg-white p-tn-rl-9 {{#if active currentRouteName 'billingInvoices'}}active{{/if}} {{#if active currentRouteName 'billingEdit'}}active{{/if}}">
-							<div class="list-item-icon"><i class="fss-billing"></i></div> 
+							<div class="list-item-icon"><i class="icn-billing"></i></div> 
 							<div class="list-item-label">Billing</div>
 							{{#if group.stripePaymentAttempt}}<div class="list-item-badge"></div>{{/if}}
 						</a>
@@ -65,7 +65,7 @@
 				{{#if group.testData}}
 					<li class="list-item">
 						<a href="#" class="js-remove-test-data list-item-link bg-white p-tn-rl-9">
-							<div class="list-item-icon"><i class="fss-data txt-danger"></i></div> 
+							<div class="list-item-icon"><i class="icn-data txt-danger"></i></div> 
 							<div class="list-item-label txt-danger">Remove All Test Data</div>
 							<div class="list-item-loading">
 								<div class="loader-icon loader-icon-on-white loader-icon-xs"></div>
@@ -75,7 +75,7 @@
 				{{else}}
 					<li class="list-item">
 						<a href="#" class="js-add-test-data list-item-link bg-white p-tn-rl-9">
-							<div class="list-item-icon"><i class="fss-data"></i></div> 
+							<div class="list-item-icon"><i class="icn-data"></i></div> 
 							<div class="list-item-label">Add Test Data</div>
 							<div class="list-item-loading">
 								<div class="loader-icon loader-icon-on-white loader-icon-xs"></div>
@@ -86,7 +86,7 @@
 			{{/if}}
 			<li class="list-item">
 				<a href="http://www.aflexiblehomeschool.com/tutorials/tracking" target="_target" class="list-item-link bg-white p-tn-rl-9 {{#if active currentRouteName 'supportView'}}active{{/if}}">
-					<div class="list-item-icon"><i class="fss-support"></i></div> 
+					<div class="list-item-icon"><i class="icn-support"></i></div> 
 					<div class="list-item-label">Support</div>
 				</a>
 			</li>
@@ -95,7 +95,7 @@
 
 			<li class="list-item">
 				<a href="#" class="js-sign-out list-item-link bg-white p-tn-rl-9">
-					<div class="list-item-icon"><i class="txt-primary fss-signout"></i></div> 
+					<div class="list-item-icon"><i class="txt-primary icn-signout"></i></div> 
 					<div class="list-item-label">Sign Out: {{user.info.firstName}} {{user.info.lastName}}</div>
 				</a>
 			</li>

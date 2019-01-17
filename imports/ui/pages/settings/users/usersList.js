@@ -38,9 +38,9 @@ Template.usersList.helpers({
 
 	gender: function(relationship) {
 		if (relationship === 'Mom' || relationship === 'Sister' || relationship === 'Grandma' || relationship === 'Aunt' || relationship === 'Teacher') {
-			return 'fss-users-female';
+			return 'icn-users-female';
 		}
-		return 'fss-users';
+		return 'icn-users';
 	},
 
 	activeRoute: function(currentRoute, route) {

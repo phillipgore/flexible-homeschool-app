@@ -65,9 +65,9 @@ function getInitialData() {
 		Session.set('selectedResourceAvailability', 'all');
 	}
 
-	if (!Session.get('selectedResourceId')) {
-		Session.set('selectedResourceId', Session.get('initialResourceIds').resourceAllAll);
-	}
+	// if (!Session.get('selectedResourceId')) {
+	// 	Session.set('selectedResourceId', Session.get('initialResourceIds').resourceAllAll);
+	// }
 
 	if (!Session.get('selectedResourceCurrentTypeId')) {
 		Session.set('selectedResourceCurrentTypeId', 'all');

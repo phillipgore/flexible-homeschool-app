@@ -8,7 +8,7 @@
 					{{#if activeRoute currentRouteName 'resourcesNew'}}
 						<li class="list-item">
 							<span class="list-item-inner p-tn-rl-9 active">
-								<div class="list-item-icon"><i class="txt-primary fss-{{selectedResourceNewType}}"></i></div> 
+								<div class="list-item-icon"><i class="txt-primary icn-{{selectedResourceNewType}}"></i></div> 
 								<div class="list-item-label font-style-italic font-weight-normal"> New <span class="txt-capitalize">{{selectedResourceNewType}}</span>
 								</div>
 							</span>
@@ -21,14 +21,14 @@
 								data-resource-availability="{{selectedResourceAvailability}}" 
 								href="/planning/resources/view/3/{{selectedResourceType}}/{{selectedResourceAvailability}}/{{resource._id}}/{{resource.type}}" class="js-resource list-item-link p-tn-rl-9 {{#if active resource._id}}active{{/if}}"
 							>
-								<div class="list-item-icon"><i class="txt-primary fss-{{resource.type}} fss-fw-16"></i></div> 
+								<div class="list-item-icon"><i class="txt-primary icn-{{resource.type}} icn-fw-16"></i></div> 
 								<div class="list-item-label">
 									{{resource.title}} 
 									<span class="print-only-inline {{availability resource.availability}}">{{availabilityText resource.availability}}</span>
 								</div>
 								{{#if isLink resource.type}}
 									<div class="list-item-dropdown-loader">
-										<i class="fss-circle txt-primary font-size-21 print-hide fl-tn-right txt-tn-right m-tn-r-9 m-tn-t-neg-2" title="Links are always available."></i>
+										<i class="icn-circle txt-primary font-size-21 print-hide fl-tn-right txt-tn-right m-tn-r-9 m-tn-t-neg-2" title="Links are always available."></i>
 									</div>
 								{{/if}}
 							</a>
@@ -39,9 +39,9 @@
 								<a href="#" data-menu="#dropdown{{resource._id}}" class="js-dropdown print-hide list-item-dropdown {{availability resource.availability}}"></a>
 								<div id="dropdown{{resource._id}}" class="list-item-dropdown-menu print-hide hide">
 									<div class="list-item-dropdown-options clearfix">
-										<a id="own" data-resource-id="{{resource._id}}" href="#" class="js-resouce-availability-btn fl-tn-left"><i class="fss-circle txt-royal"></i> Own</a>
-										<a id="borrowed" data-resource-id="{{resource._id}}" href="#" class="js-resouce-availability-btn fl-tn-left"><i class="fss-circle txt-info"></i> Borrowed</a>
-										<a id="need" data-resource-id="{{resource._id}}" href="#" class="js-resouce-availability-btn fl-tn-left"><i class="fss-circle txt-warning"></i> Need</a>
+										<a id="own" data-resource-id="{{resource._id}}" href="#" class="js-resouce-availability-btn fl-tn-left"><i class="icn-circle txt-royal"></i> Own</a>
+										<a id="borrowed" data-resource-id="{{resource._id}}" href="#" class="js-resouce-availability-btn fl-tn-left"><i class="icn-circle txt-info"></i> Borrowed</a>
+										<a id="need" data-resource-id="{{resource._id}}" href="#" class="js-resouce-availability-btn fl-tn-left"><i class="icn-circle txt-warning"></i> Need</a>
 									</div>
 								</div>
 							{{/unless}}
@@ -50,14 +50,14 @@
 				</ul>
 			{{else}}
 				<div class="txt-tn-center m-tn-t-72">
-					<i class="fss-resources font-size-64 txt-gray"></i>
+					<i class="icn-resources font-size-64 txt-gray"></i>
 					<h1 class="m-tn-t-36">Sorry</h1>
 					<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36 txt-gray-darkest">No resources fit the selected criteria.</p>
 				</div>
 			{{/if}}
 		{{else}}
 			<div class="txt-tn-center m-tn-t-72">
-				<i class="fss-resources font-size-64 txt-gray"></i>
+				<i class="icn-resources font-size-64 txt-gray"></i>
 				<h1 class="m-tn-t-36">Add Your First Resource</h1>
 				<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36 txt-gray-darkest">Click the plus icon above to add your first Resource.</p>
 			</div>

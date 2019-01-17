@@ -24,7 +24,7 @@ Template.usersView.events({
 		if (Meteor.users.find().count() === 1) {
 			Alerts.insert({
 				colorClass: 'bg-danger',
-				iconClass: 'fss-danger',
+				iconClass: 'icn-danger',
 				message: 'You must have at least one active user.',
 			});
 			return false;
@@ -33,7 +33,7 @@ Template.usersView.events({
 		if (Meteor.users.findOne({_id: FlowRouter.getParam('selectedUserId')}).info.role === 'Administrator') {
 			Alerts.insert({
 				colorClass: 'bg-danger',
-				iconClass: 'fss-danger',
+				iconClass: 'icn-danger',
 				message: 'Administrators cannot be paused.',
 			});
 			return false;
@@ -43,13 +43,13 @@ Template.usersView.events({
 			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',
-					iconClass: 'fss-danger',
+					iconClass: 'icn-danger',
 					message: error.reason,
 				});
 			} else {
 				Alerts.insert({
 					colorClass: 'bg-info',
-					iconClass: 'fss-info',
+					iconClass: 'icn-info',
 					message: 'This User has been paused. They will no longer have access to the app. You may upause them at any time.',
 				});
 			}
@@ -63,13 +63,13 @@ Template.usersView.events({
 			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',
-					iconClass: 'fss-danger',
+					iconClass: 'icn-danger',
 					message: error.reason,
 				});
 			} else {
 				Alerts.insert({
 					colorClass: 'bg-info',
-					iconClass: 'fss-info',
+					iconClass: 'icn-info',
 					message: 'This User has been unpaused. They now have access to the app. You may pause them again at any time.',
 				});
 			}
@@ -88,13 +88,13 @@ Template.usersView.events({
 			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',
-					iconClass: 'fss-danger',
+					iconClass: 'icn-danger',
 					message: error.reason,
 				});
 			} else {
 				Alerts.insert({
 					colorClass: 'bg-info',
-					iconClass: 'fss-email',
+					iconClass: 'icn-email',
 					message: 'We resent ' + userName + ' an email with a verification link. It may take a few minutes for the email to arrive.',
 				});
 				$('.js-sending').hide();

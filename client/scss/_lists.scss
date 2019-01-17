@@ -19,8 +19,8 @@ ul.list {
 			width: 37px;
 
 			&:before {
-				font-family: 'Flexible-School-Schedule' !important;
-				content: "\e94c";
+				font-family: 'Flexible-Homeschool-App' !important;	
+				content: "\e916";
 				font-size: 20px;
 				color: inherit;
 				position: absolute;
@@ -29,8 +29,8 @@ ul.list {
 			}
 
 			&:after {
-				font-family: 'Flexible-School-Schedule' !important;	
-				content: " \e942";
+				font-family: 'Flexible-Homeschool-App' !important;	
+				content: " \e90b";
 				font-size: 13px;
 				color: $color-white;
 				position: absolute;
@@ -188,8 +188,8 @@ ul.list {
 				color: $color-danger;
 
 				&:before {
-					font-family: 'Flexible-School-Schedule' !important;	
-					content: "\e973";
+					font-family: 'Flexible-Homeschool-App' !important;	
+					content: "\e948";
 				}
 			}
 

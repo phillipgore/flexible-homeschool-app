@@ -43,7 +43,7 @@ Template.createAccount.events({
 			Alerts.insert({
 				_id: 'cc-info',
 				colorClass: 'bg-info',
-				iconClass: 'fss-info',
+				iconClass: 'icn-info',
 				message: '<div class="p-tn-tb-6"><p class="line-height-1-75 m-tn-b-15">We ask for your credit card to allow your membership to continue after your free trial, should you choose not to pause your account.</p> <p class="line-height-1-75 m-tn-b-15">This also allows us to reduce fraud and prevent multiple trials for one person. Which helps us deliver quality service for honest customers.</p> <p class="line-height-1-75">You can pause your account anytime. We’ll even send you an email seven days before your trial is over to remind you it’s about to expire.</p></div>',
 			});
 		}
@@ -165,7 +165,7 @@ Template.createAccount.events({
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',
-						iconClass: 'fss-danger',
+						iconClass: 'icn-danger',
 						message: error.reason,
 					});
 					
@@ -182,7 +182,7 @@ Template.createAccount.events({
 						if (error && error.reason != 'unverified') {
 							Alerts.insert({
 								colorClass: 'bg-danger',
-								iconClass: 'fss-danger',
+								iconClass: 'icn-danger',
 								message: error.reason,
 							});
 					
@@ -205,7 +205,7 @@ Template.createAccount.events({
 											FlowRouter.go('/verify/sent');
 											Alerts.insert({
 												colorClass: 'bg-danger',
-												iconClass: 'fss-danger',
+												iconClass: 'icn-danger',
 												message: error,
 											});
 										} else {
@@ -221,7 +221,7 @@ Template.createAccount.events({
 										if (error) {
 											Alerts.insert({
 												colorClass: 'bg-danger',
-												iconClass: 'fss-danger',
+												iconClass: 'icn-danger',
 												message: error.reason,
 											});
 					

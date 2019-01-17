@@ -16,7 +16,7 @@
 			<li class="list-spacer"></li>
 			<li class="list-item">
 				<a href="/settings/billing/invoices/3" class="js-billing list-item-link bg-white p-tn-rl-9 {{#if active currentRouteName 'billingInvoices'}}active{{/if}}">
-					<div class="list-item-icon"><i class="txt-primary fss-invoices"></i></div> 
+					<div class="list-item-icon"><i class="txt-primary icn-invoices"></i></div> 
 					<div class="list-item-label">Invoices</div>
 				</a>
 			</li>
@@ -29,7 +29,7 @@
 			</li>
 			<li class="list-item">
 				<a href="/settings/billing/coupons/3" class="js-billing list-item-link bg-white p-tn-rl-9 {{#if active currentRouteName 'billingCoupons'}}active{{/if}}">
-					<div class="list-item-icon"><i class="txt-primary fss-tag"></i></div> 
+					<div class="list-item-icon"><i class="txt-primary icn-tag"></i></div> 
 					<div class="list-item-label">Coupon Codes</div>
 				</a>
 			</li>
@@ -39,7 +39,7 @@
 			{{#if accountPausedOrPending group.subscriptionStatus}}
 				<li class="list-item">
 					<a href="#" id="{{group._id}}" class="js-unpause-account list-item-link bg-white p-tn-rl-9">
-						<div class="list-item-icon"><i class="txt-primary fss-play-circle"></i></div> 
+						<div class="list-item-icon"><i class="txt-primary icn-play-circle"></i></div> 
 						<div class="list-item-label">Unpause Account</div>
 						<div class="list-item-loading"></div> 
 					</a>
@@ -47,7 +47,7 @@
 			{{else}}
 				<li class="list-item">
 					<a href="#" id="{{group._id}}" class="js-pause-account list-item-link bg-white p-tn-rl-9">
-						<div class="list-item-icon"><i class="txt-primary fss-pause-circle"></i></div> 
+						<div class="list-item-icon"><i class="txt-primary icn-pause-circle"></i></div> 
 						<div class="list-item-label">Pause Account</div>
 						<div class="list-item-loading"></div>
 					</a>

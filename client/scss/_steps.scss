@@ -1,0 +1,123 @@
+$circle-border-size: 4px;
+$circle-size: 45px;
+$font-weight: 600;
+$line-size: 5px;
+
+.step-container {
+	display: flex;
+	justify-content: space-between;
+	padding: 10px 0px;
+	margin-bottom: 30px;
+
+	.step-line {
+		margin: (($circle-size / 2) - ($line-size / 2)) (0 - ($circle-size / 2)) 0px;
+		height: $line-size;
+		background-color: $color-gray;
+		flex-grow: 1;
+		position: relative;
+		z-index: 1;
+
+		&:last-of-type {
+			display: none;
+		}
+
+		&.bg-primary {
+			background-color: $color-primary;
+		}
+
+		&.bg-info {
+			background-color: $color-info;
+		}
+
+		&.bg-warning {
+			background-color: $color-warning;
+		}
+
+		&.bg-danger {
+			background-color: $color-danger;
+		}
+	}
+
+	&.column {
+		flex-direction: column;
+		margin-bottom: 0px;
+
+		.step-line {
+			margin: (0 - ($circle-size / 2)) 0px (0 - ($circle-size / 2)) (($circle-size / 2) - ($line-size / 2));
+			width: $line-size;
+			height: 74px;
+		}
+	}
+
+	.step-circle {
+		display: block;
+		width: $circle-size;
+		height: $circle-size;
+		border-radius: $circle-size / 2;
+		background-color: $color-gray-lightest;
+		border: $circle-border-size solid $color-gray;
+		color: $color-gray;
+		text-align: center;
+		font-weight: $font-weight;
+		padding-top: $circle-size * 0.16;
+		font-size: $circle-size * 0.44444;
+		line-height: normal;
+		text-decoration: none;
+		position: relative;
+		z-index: 2;
+
+		&:hover {
+			background-color: $color-gray;
+			color: $color-gray-lightest;
+		}
+
+		&.bg-primary {
+			text-decoration: none;
+			background-color: $color-primary-lightest;
+			border-color: $color-primary;
+			color: $color-primary;
+
+			&:hover {
+				background-color: $color-primary;
+				color: $color-primary-lightest;
+			}
+		}
+
+		&.bg-info {
+			text-decoration: none;
+			background-color: $color-info-lightest;
+			border-color: $color-info;
+			color: $color-info;
+
+			&:hover {
+				background-color: $color-info;
+				color: $color-info-lightest;
+			}
+		}
+
+		&.bg-warning {
+			text-decoration: none;
+			background-color: $color-warning-lightest;
+			border-color: $color-warning;
+			color: $color-warning;
+
+			&:hover {
+				background-color: $color-warning;
+				color: $color-warning-lightest;
+			}
+		}
+
+		&.bg-danger {
+			text-decoration: none;
+			background-color: $color-danger-lightest;
+			border-color: $color-danger;
+			color: $color-danger;
+
+			&:hover {
+				background-color: $color-danger;
+				color: $color-danger-lightest;
+			}
+		}
+	}
+
+}

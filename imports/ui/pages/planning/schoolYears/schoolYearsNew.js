@@ -65,7 +65,7 @@ Template.schoolYearsNew.onRendered( function() {
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',
-						iconClass: 'fss-danger',
+						iconClass: 'icn-danger',
 						message: error.reason,
 					});
 					
@@ -81,7 +81,7 @@ Template.schoolYearsNew.onRendered( function() {
 							if (error) {
 								Alerts.insert({
 									colorClass: 'bg-danger',
-									iconClass: 'fss-danger',
+									iconClass: 'icn-danger',
 									message: error.reason,
 								});
 					
@@ -98,7 +98,7 @@ Template.schoolYearsNew.onRendered( function() {
 									if (error) {
 										Alerts.insert({
 											colorClass: 'bg-danger',
-											iconClass: 'fss-danger',
+											iconClass: 'icn-danger',
 											message: error.reason,
 										});
 					
@@ -151,7 +151,7 @@ Template.schoolYearsNew.events({
 			Alerts.insert({
 				type: 'terms',
 				colorClass: 'bg-warning',
-				iconClass: 'fss-warning',
+				iconClass: 'icn-warning',
 				message: "You have exceeded 52 weeks.",
 			});
 		}

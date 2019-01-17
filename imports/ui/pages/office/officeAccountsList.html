@@ -5,7 +5,7 @@
 				{{#if activeRoute currentRouteName 'officeAccountsNew'}}
 					<li class="list-item">
 						<span class="list-item-inner p-tn-rl-9 active">
-							<div class="list-item-icon"><i class="txt-royal fss-users"></i></div> 
+							<div class="list-item-icon"><i class="txt-royal icn-users"></i></div> 
 							<div class="list-item-label font-style-italic font-weight-normal"> New Free Trial
 							</div>
 						</span>
@@ -14,7 +14,7 @@
 				{{#each group in groups}}
 					<li class="list-item">
 						<a id="{{group._id}}" href="/office/accounts/view/2/{{group._id}}" class="js-group list-item-link p-tn-rl-9  {{#if active group._id}}active{{/if}}">
-							<div class="list-item-icon"><i class="fss-users {{subscriptionStatus group.subscriptionStatus}}"></i></div> 
+							<div class="list-item-icon"><i class="icn-users {{subscriptionStatus group.subscriptionStatus}}"></i></div> 
 							<div class="list-item-label">{{group.userFirstName}} {{group.userLastName}} 
 								<span class="list-item-sublabel">({{group.userEmail}})</span>
 							</div>
@@ -24,7 +24,7 @@
 			</ul>
 		{{else}}
 			<div class="txt-tn-center m-tn-t-72">
-				<i class="fss-users font-size-64 txt-gray"></i>
+				<i class="icn-users font-size-64 txt-gray"></i>
 				<h1 class="m-tn-t-36">No User Accounts</h1>
 				<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36 txt-gray-darkest">The app currently has no user accounts.</p>
 			</div>

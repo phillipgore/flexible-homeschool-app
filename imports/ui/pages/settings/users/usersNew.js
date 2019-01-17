@@ -64,7 +64,7 @@ Template.usersNew.onRendered( function() {
 					if (error.reason != 'unverified') {
 						Alerts.insert({
 							colorClass: 'bg-danger',
-							iconClass: 'fss-danger',
+							iconClass: 'icn-danger',
 							message: error.reason,
 						});
 					
@@ -76,7 +76,7 @@ Template.usersNew.onRendered( function() {
 						if (error) {
 							Alerts.insert({
 								colorClass: 'bg-danger',
-								iconClass: 'fss-danger',
+								iconClass: 'icn-danger',
 								message: error.reason,
 							});
 						} else {
@@ -84,7 +84,7 @@ Template.usersNew.onRendered( function() {
 						    	FlowRouter.go('/settings/users/view/3/' + userId);
 								Alerts.insert({
 									colorClass: 'bg-info',
-									iconClass: 'fss-email',
+									iconClass: 'icn-email',
 									message: 'We sent ' + userProperties.info.firstName +' '+ userProperties.info.lastName + ' an email with a verification link. It may take a few minutes for the email to arrive.',
 								});
 							});

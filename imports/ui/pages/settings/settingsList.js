@@ -98,7 +98,7 @@ Template.settingsList.events({
 		}
 		Alerts.insert({
 			colorClass: 'bg-info',
-			iconClass: 'fss-info',
+			iconClass: 'icn-info',
 			message: message(role),
 		});
 	},
@@ -106,7 +106,7 @@ Template.settingsList.events({
 	'click .js-paused '(event) {
 		Alerts.insert({
 			colorClass: 'bg-info',
-			iconClass: 'fss-info',
+			iconClass: 'icn-info',
 			message: 'Your account is paused. You are not being billed nor do you have acces to your data. You may unpause your account at any time.',
 		});
 	},
@@ -129,7 +129,7 @@ Template.settingsList.events({
 			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',
-					iconClass: 'fss-danger',
+					iconClass: 'icn-danger',
 					message: error.reason,
 				});
 				$('.list-item-loading').hide();
@@ -137,7 +137,7 @@ Template.settingsList.events({
 				$('.list-item-loading').hide();
 				Alerts.insert({
 					colorClass: 'bg-info',
-					iconClass: 'fss-info',
+					iconClass: 'icn-info',
 					message: 'Test data has been added. You may remove it at anytime.',
 				});
 			}
@@ -152,7 +152,7 @@ Template.settingsList.events({
 			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',
-					iconClass: 'fss-danger',
+					iconClass: 'icn-danger',
 					message: error.reason,
 				});
 				$('.list-item-loading').hide();
@@ -160,7 +160,7 @@ Template.settingsList.events({
 				$('.list-item-loading').hide();
 				Alerts.insert({
 					colorClass: 'bg-info',
-					iconClass: 'fss-info',
+					iconClass: 'icn-info',
 					message: 'All test data has been removed. You may add it back at anytime.',
 				});
 			}
@@ -174,7 +174,7 @@ Template.settingsList.events({
 			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',
-					iconClass: 'fss-danger',
+					iconClass: 'icn-danger',
 					message: error.reason,
 				});
 			} else {

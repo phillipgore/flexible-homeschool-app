@@ -25,7 +25,7 @@
 				{{#if upcomingInvoices}}
 					<li class="list-item">
 						<a href="#" class="list-item-link dark-border p-tn-rl-9">
-							<div class="list-item-icon"><i class="txt-warning fss-circle"></i></div> 
+							<div class="list-item-icon"><i class="txt-warning icn-circle"></i></div> 
 							<div class="list-item-label">
 								{{centsToDollars upcomingInvoices.amount_due}}
 								<p class="p-sm font-weight-400 txt-gray-darkest dis-tn-inline-block p-tn-t-4">
@@ -49,7 +49,7 @@
 				{{#each invoice in invoices.data}}
 					<li class="list-item">
 						<a href="#" class="list-item-link dark-border p-tn-rl-9">
-							<div class="list-item-icon"><i class="{{invoiceStatus invoice.attempted invoice.paid}} fss-circle"></i></div> 
+							<div class="list-item-icon"><i class="{{invoiceStatus invoice.attempted invoice.paid}} icn-circle"></i></div> 
 							<div class="list-item-label">
 								{{centsToDollars invoice.amount_paid}}
 								<p class="p-sm font-weight-400 txt-gray-darkest dis-tn-inline-block p-tn-t-4">

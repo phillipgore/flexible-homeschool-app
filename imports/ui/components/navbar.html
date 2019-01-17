@@ -4,32 +4,32 @@
 			<div class="col-tn-1of4">
 				{{#if userRestricted user.info.role}}
 					<span data-section="planning" data-role="{{user.info.role}}" class="js-navbar-restricted btn-nav first disabled" title="Planning">
-						<i class="fss-planning btn-nav-icon"></i>
+						<i class="icn-planning btn-nav-icon"></i>
 						<div class="btn-nav-label">Planning</div>
 					</span>
 				{{else}}
 					<a class="js-btn-nav js-btn-nav-planning-list btn-nav first {{active 'planningList'}}" href="{{planningPath}}" title="Planning">
-						<i class="fss-planning btn-nav-icon"></i>
+						<i class="icn-planning btn-nav-icon"></i>
 						<div class="btn-nav-label">Planning</div>
 					</a>
 				{{/if}}
 			</div>
 			<div class="col-tn-1of4">
 				<a class="js-btn-nav js-btn-nav-tracking-list btn-nav {{active 'trackingList'}}" href="{{trackingPath}}" title="Tracking">
-					<i class="fss-tracking btn-nav-icon"></i>
+					<i class="icn-tracking btn-nav-icon"></i>
 					<div class="btn-nav-label">Tracking</div>
 				</a>
 			</div>
 			<div class="col-tn-1of4">
 				<a class="js-btn-nav js-btn-nav-reporting-list btn-nav {{active 'reportingList'}}" href="{{reportingPath}}" title="Reporting">
-					<i class="fss-reporting btn-nav-icon"></i>
+					<i class="icn-reporting btn-nav-icon"></i>
 					<div class="btn-nav-label">Reporting</div>
 				</a>
 			</div>
 			<div class="col-tn-1of4">
 				<a class="js-btn-nav js-btn-nav-settings-list btn-nav last {{active 'settingsList'}} pos-relative" href="/settings/users/view/1/{{selectedUserId}}" title="Settings">
 					{{#if group.stripePaymentAttempt}}<div class="navbar-badge"></div>{{/if}}
-					<i class="fss-settings btn-nav-icon"></i>
+					<i class="icn-settings btn-nav-icon"></i>
 					<div class="btn-nav-label">Settings</div>
 				</a>
 			</div>

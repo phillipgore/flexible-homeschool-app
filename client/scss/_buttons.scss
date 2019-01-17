@@ -215,15 +215,15 @@ button, .btn {
 		}
 
 		&:after {
-			font-family: 'Flexible-School-Schedule' !important;	
-			content: "\e941";
+			font-family: 'Flexible-Homeschool-App' !important;	
+			content: "\e90a";
 			position: absolute;
 			top: 5px;
 			right: 9px;
 
 			@media only screen and (min-width: 640px) {
 				position: static;
-				content: " \e941";
+				content: " \e90a";
 			}
 		}
 	}

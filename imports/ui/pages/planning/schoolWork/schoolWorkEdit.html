@@ -41,13 +41,13 @@
 			</div>
 			<div class="js-resources-help js-info well bg-info txt-white m-tn-t-neg-3 m-tn-b-12 hide">
 				<p class="p-md line-height-1-5">You can search for resources that have already been entered and attach them to this item of School Work.</p>
-				<p class="p-md line-height-1-5 m-tn-b-9">You can also click one of the buttons below to create a new Resource and attach it to this item of School Work.</p>
+				<p class="p-md line-height-1-5 m-tn-b-9">You can also click one of the buttons below to create a new Resource and attach it to this item of School Work. Resources created here will be in the Resource Manager.</p>
 				<ul class="list">
-					<li class="p-tn-b-9"><i class="fss-book normal"></i> New Book</li>
-					<li class="p-tn-b-9"><i class="fss-link normal"></i> New Link</li>
-					<li class="p-tn-b-9"><i class="fss-audio normal"></i> New Audio</li>
-					<li class="p-tn-b-9"><i class="fss-video normal"></i> New Video</li>
-					<li><i class="fss-app normal"></i> New App</li>
+					<li class="p-tn-b-9"><i class="icn-book normal"></i> New Book</li>
+					<li class="p-tn-b-9"><i class="icn-link normal"></i> New Link</li>
+					<li class="p-tn-b-9"><i class="icn-audio normal"></i> New Audio</li>
+					<li class="p-tn-b-9"><i class="icn-video normal"></i> New Video</li>
+					<li><i class="icn-app normal"></i> New App</li>
 				</ul>
 			</div>
 
@@ -60,12 +60,12 @@
 							{{#if searching}}
 							<div class="loader-icon loader-icon-on-white loader-icon-tn"></div>
 							{{else}}
-							<i class="fss-search"></i>
+							<i class="icn-search"></i>
 							{{/if}}
 						</div>
 						<a href="#" class="js-clear-search icn-right">
 							<div class="btn btn-circle bg-danger small">
-								<i class="fss-close"></i>
+								<i class="icn-close"></i>
 							</div>
 						</a>
 					</div>
@@ -75,11 +75,11 @@
 						{{#each resource in resources}}
 						<li class="list-item">
 							<div class="list-item-inner p-tn-rl-9">
-								<div class="list-item-icon"><i class="fss-{{resource.type}} txt-primary"></i></div>
+								<div class="list-item-icon"><i class="icn-{{resource.type}} txt-primary"></i></div>
 								<div class="list-item-label txt-ellipsis">{{resource.title}}</div>
 								<div class="list-item-btn">
 									<a id="{{resource._id}}" href="#" class="js-add-resource btn btn-circle small">
-										<i class="fss-new"></i>
+										<i class="icn-new"></i>
 									</a>
 								</div>
 							</div>
@@ -98,19 +98,19 @@
 				<label>Attach A New Resource</label>
 				<div class="row m-tn-rl-neg-3 m-tn-b-27">
 					<div class="col-tn-1of5 p-tn-rl-3">
-						<button id="book" class="js-resource-btn btn btn-gray-darker btn-block" title="Attach New Book"><i class="fss-book"></i></button>
+						<button id="book" class="js-resource-btn btn btn-gray-darker btn-block" title="Attach New Book"><i class="icn-book"></i></button>
 					</div>
 					<div class="col-tn-1of5 p-tn-rl-3">
-						<button id="link" class="js-resource-btn btn btn-gray-darker btn-block" title="Attach New Link"><i class="fss-link"></i></button>
+						<button id="link" class="js-resource-btn btn btn-gray-darker btn-block" title="Attach New Link"><i class="icn-link"></i></button>
 					</div>
 					<div class="col-tn-1of5 p-tn-rl-3">
-						<button id="audio" class="js-resource-btn btn btn-gray-darker btn-block" title="Attach New Audio"><i class="fss-audio"></i></button>
+						<button id="audio" class="js-resource-btn btn btn-gray-darker btn-block" title="Attach New Audio"><i class="icn-audio"></i></button>
 					</div>
 					<div class="col-tn-1of5 p-tn-rl-3">
-						<button id="video" class="js-resource-btn btn btn-gray-darker btn-block" title="Attach New Video"><i class="fss-video"></i></button>
+						<button id="video" class="js-resource-btn btn btn-gray-darker btn-block" title="Attach New Video"><i class="icn-video"></i></button>
 					</div>
 					<div class="col-tn-1of5 p-tn-rl-3">
-						<button id="app" class="js-resource-btn btn btn-gray-darker btn-block" title="Attach New App"><i class="fss-app"></i></button>
+						<button id="app" class="js-resource-btn btn btn-gray-darker btn-block" title="Attach New App"><i class="icn-app"></i></button>
 					</div>
 				</div>
 				<!-- /New Resources -->
@@ -123,11 +123,11 @@
 						<li class="list-item">
 							<div class="list-item-inner dark-border top-border p-tn-rl-9 m-tn-rl-neg-9">
 								<input type="hidden" name="resourceId" id="resource-id" value="{{resource.id}}">
-								<div class="list-item-icon"><i class="fss-{{resource.type}} txt-primary"></i></div>
+								<div class="list-item-icon"><i class="icn-{{resource.type}} txt-primary"></i></div>
 								<div class="list-item-label">{{resource.title}}</div>
 								<div class="list-item-btn">
 									<a id="{{resource.id}}" href="#" class="js-remove-resource btn btn-circle bg-danger small">
-										<i class="fss-close"></i>
+										<i class="icn-close"></i>
 									</a>
 								</div>
 							</div>
@@ -160,11 +160,11 @@
 					<p class="p-md line-height-1-5">Set the number of segments ("days") it will be done each week for each term. This can be done very quickly with the drop-down preset. However, if you need to fine-tune your schedule you can click “Show Individual Weeks” and set each Week individually.</p>
 				</div>
 				<div class="well bg-info txt-white m-tn-b-12">
-					<p class="p-md line-height-1-5">An important underlying concept of the app is to think of timeframes as representational not concrete. For instance Week 3 is simply the third week you do school not specifically September 3rd - 7th.</p>
+					<p class="p-md line-height-1-5">An important underlying concept of the app is to think of timeframes as representational, not concrete. For instance Week 3 is simply the third week you do school, not specifically September 3rd - 7th.</p>
 
-					<p class="p-md line-height-1-5">The same is true for “times” or “days”. Generally one “time” represents one “day” but it does not represent a specific day like October 3rd.</p>
+					<p class="p-md line-height-1-5">The same is true for “times” or “days”. Generally one “time” represents one “day”, but it does not represent a specific day like October 3rd.</p>
 
-					<p class="p-md line-height-1-5">These representational timeframes allow for flexibility. Once you are used to the concept you will find it simplifies both your homeschool life and the use of Flexible Homeschool App.</p>
+					<p class="p-md line-height-1-5">These representational timeframes allow for flexibility. Once you are used to the concept, you will find it simplifies both your homeschool life and the use of Flexible Homeschool App.</p>
 				</div>
 			</div>
 
@@ -174,7 +174,7 @@
 			<div id="{{term._id}}" data-term-order="{{term.order}}" class="js-times-per-week-container well bg-gray-lighter m-tn-b-9">
 				<h3 class="m-tn-b-9">Term {{term.order}}</h3>
 				<label>{{weekCount term._id}} Weeks</label>
-				<div class="fss-select">
+				<div class="icn-select">
 					<select data-term-id="{{term._id}}" class="js-times-per-week-preset" name="timesPerWeekPreset" id="times-per-week-preset">
 						<option {{isSelected term._id 'random'}} disabled value>Random Times Per Week</option>
 						<option {{isSelected term._id 0}} value="">0 Times Per Week</option>
@@ -223,7 +223,7 @@
 					</div>
 					<div class="col-tn-1of4">
 						<a href="#" class="js-close-resource-popover btn btn-circle small fl-tn-right">
-							<i class="fss-close"></i>
+							<i class="icn-close"></i>
 						</a>
 					</div>
 				</div>

@@ -89,7 +89,7 @@ Template.schoolWorkNew.onRendered( function() {
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',
-						iconClass: 'fss-danger',
+						iconClass: 'icn-danger',
 						message: error.reason,
 					});
 					
@@ -104,7 +104,7 @@ Template.schoolWorkNew.onRendered( function() {
 					if (studentsCount > 1 ) {
 						Alerts.insert({
 							colorClass: 'bg-info',
-							iconClass: 'fss-info',
+							iconClass: 'icn-info',
 							message: 'This School Work has been added to '+ studentsCount +' total students.',
 						});
 					}
@@ -275,7 +275,7 @@ Template.schoolWorkNew.events({
 			Alerts.insert({
 				type: 'addResource',
 				colorClass: 'bg-warning',
-				iconClass: 'fss-warning',
+				iconClass: 'icn-warning',
 				message: '"' + localResource.title + ' is already attached to this schoolWork.',
 			});
 		} else {

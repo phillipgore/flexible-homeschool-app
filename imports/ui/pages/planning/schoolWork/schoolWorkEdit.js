@@ -121,7 +121,7 @@ Template.schoolWorkEdit.onRendered( function() {
 				if (newLessonsTotal < completeLessons) {
 					Alerts.insert({
 						colorClass: 'bg-danger',
-						iconClass: 'fss-danger',
+						iconClass: 'icn-danger',
 						message: "These changes would delete lessons you have already worked on.",
 					});
 					return false;
@@ -132,7 +132,7 @@ Template.schoolWorkEdit.onRendered( function() {
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',
-						iconClass: 'fss-danger',
+						iconClass: 'icn-danger',
 						message: error.reason.message,
 					});
 					
@@ -339,7 +339,7 @@ Template.schoolWorkEdit.events({
 			Alerts.insert({
 				type: 'addResource',
 				colorClass: 'bg-warning',
-				iconClass: 'fss-warning',
+				iconClass: 'icn-warning',
 				message: '"' +localResource.title + '" is already attached to this schoolWork.',
 			});
 		} else {

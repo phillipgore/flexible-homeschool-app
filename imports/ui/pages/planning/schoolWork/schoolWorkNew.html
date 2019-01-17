@@ -2,11 +2,18 @@
 	
 	<main class="app-content app-content-preceeds-toolbar app-content-form pos-relative">
 		<form class="js-form-school-work-new row">
+			<div class="step-container">
+				<div class="step-circle bg-danger">1</div>
+				<div class="step-line"></div>
+				<div class="step-circle bg-warning">2</div>
+				<div class="step-line"></div>
+				<div class="step-circle">3</div>
+			</div>
 
 			
 
 			<!-- Information -->
-			<div class="row m-tn-b-9">
+			<div class="js-step-one row m-tn-b-9">
 				<h2 class="col-tn-7of9">Step 1: Information</h2>
 				<h2 class="col-tn-2of9">
 					<button id="js-info-help" class="js-show-help js-closed btn-info width-68 tiny fl-tn-right">
@@ -41,186 +48,197 @@
 			
 
 			<!-- Resources -->
-			<div class="row m-tn-t-72 m-tn-b-9">
-				<h2 class="col-tn-7of9">Step 2: Resources</h2>
-				<h2 class="col-tn-2of9">
-					<button id="js-resources-help" class="js-show-help js-closed btn-info width-68 tiny fl-tn-right">
-						<span class="js-show">Show</span><span class="js-hide hide">Hide</span> Help
-					</button>
-				</h2>
-			</div>
-			<div class="js-resources-help js-info well bg-info txt-white m-tn-t-neg-3 m-tn-b-12 hide">
-				<p class="p-md line-height-1-5">You can search for resources that have already been entered and attach them to this item of School Work.</p>
-				<p class="p-md line-height-1-5 m-tn-b-9">You can also click one of the buttons below to create a new Resource and attach it to this item of School Work.</p>
-				<ul class="list">
-					<li class="p-tn-b-9"><i class="fss-book normal"></i> New Book</li>
-					<li class="p-tn-b-9"><i class="fss-link normal"></i> New Link</li>
-					<li class="p-tn-b-9"><i class="fss-audio normal"></i> New Audio</li>
-					<li class="p-tn-b-9"><i class="fss-video normal"></i> New Video</li>
-					<li><i class="fss-app normal"></i> New App</li>
-				</ul>
-			</div>
-
-				<!-- Existing Resources -->
-				<label>Attach An Existing Resource</label>
-				<div class="pos-relative m-tn-b-15">
-					<div class="icn-overlay">
-						<input type="text" name="searchResources" id="search-resources" placeholder="Search Existing Resources" autocomplete="off">
-						<div class="icn-left">
-							{{#if searching}}
-							<div class="loader-icon loader-icon-on-white loader-icon-tn"></div>
-							{{else}}
-							<i class="fss-search"></i>
-							{{/if}}
-						</div>
-						<a href="#" class="js-clear-search icn-right">
-							<div class="btn btn-circle bg-danger small">
-								<i class="fss-close"></i>
-							</div>
-						</a>
-					</div>
-					
-					{{#if query}}
-					<ul class="list list-search-results">
-						{{#each resource in resources}}
-						<li class="list-item">
-							<div class="list-item-inner p-tn-rl-9">
-								<div class="list-item-icon"><i class="fss-{{resource.type}} txt-primary"></i></div>
-								<div class="list-item-label txt-ellipsis">{{resource.title}}</div>
-								<div class="list-item-btn">
-									<a id="{{resource._id}}" href="#" class="js-add-resource btn btn-circle small">
-										<i class="fss-new"></i>
-									</a>
-								</div>
-							</div>
-						</li>
-						{{else}}
-						<li class="list-item p-tn-rl-9">
-							<div class="list-item-inner">No Results.</div>
-						</li>
-						{{/each}}
-					</ul>
-					{{/if}}
+			<div class="js-step-two hide">
+				<div class="row m-tn-t-72 m-tn-b-9">
+					<h2 class="col-tn-7of9">Step 2: Resources</h2>
+					<h2 class="col-tn-2of9">
+						<button id="js-resources-help" class="js-show-help js-closed btn-info width-68 tiny fl-tn-right">
+							<span class="js-show">Show</span><span class="js-hide hide">Hide</span> Help
+						</button>
+					</h2>
 				</div>
-				<!-- /Existing Resources -->
-				
-				<!-- New Resources -->
-				<label>Attach A New Resource</label>
-				<div class="row m-tn-rl-neg-3 m-tn-b-27">
-					<div class="col-tn-1of5 p-tn-rl-3">
-						<button id="book" class="js-resource-btn btn btn-gray-darker btn-block" title="Attach New Book"><i class="fss-book"></i></button>
-					</div>
-					<div class="col-tn-1of5 p-tn-rl-3">
-						<button id="link" class="js-resource-btn btn btn-gray-darker btn-block" title="Attach New Link"><i class="fss-link"></i></button>
-					</div>
-					<div class="col-tn-1of5 p-tn-rl-3">
-						<button id="audio" class="js-resource-btn btn btn-gray-darker btn-block" title="Attach New Audio"><i class="fss-audio"></i></button>
-					</div>
-					<div class="col-tn-1of5 p-tn-rl-3">
-						<button id="video" class="js-resource-btn btn btn-gray-darker btn-block" title="Attach New Video"><i class="fss-video"></i></button>
-					</div>
-					<div class="col-tn-1of5 p-tn-rl-3">
-						<button id="app" class="js-resource-btn btn btn-gray-darker btn-block" title="Attach New App"><i class="fss-app"></i></button>
-					</div>
-				</div>
-				<!-- /New Resources -->
-				
-				<!-- Attached Resources -->
-				<div class="well bg-gray-lighter p-tn-b-0">
-					<label class="m-tn-b-9">Attached Resources</label>
+				<div class="js-resources-help js-info well bg-info txt-white m-tn-t-neg-3 m-tn-b-12 hide">
+					<p class="p-md line-height-1-5">You can search for resources that have already been entered and attach them to this item of School Work.</p>
+					<p class="p-md line-height-1-5 m-tn-b-9">You can also click one of the buttons below to create a new Resource and attach it to this item of School Work. Resources created here will be in the Resource Manager.</p>
 					<ul class="list">
-						{{#each resource in localResources}}
-						<li class="list-item">
-							<div class="list-item-inner dark-border top-border p-tn-rl-9 m-tn-rl-neg-9">
-								<input type="hidden" name="resourceId" id="resource-id" value="{{resource.id}}">
-								<div class="list-item-icon"><i class="fss-{{resource.type}} txt-primary"></i></div>
-								<div class="list-item-label">{{resource.title}}</div>
-								<div class="list-item-btn">
-									<a id="{{resource.id}}" href="#" class="js-remove-resource btn btn-circle bg-danger small">
-										<i class="fss-close"></i>
-									</a>
-								</div>
-							</div>
-						</li>
-						{{else}}
-						<li class="list-item">
-							<div class="list-item-inner dark-border top-border txt-tn-center p-tn-rl-9 m-tn-rl-neg-9">
-								No Attached Resources
-							</div>
-						</li>
-						{{/each}}
+						<li class="p-tn-b-9"><i class="icn-book normal"></i> New Book</li>
+						<li class="p-tn-b-9"><i class="icn-link normal"></i> New Link</li>
+						<li class="p-tn-b-9"><i class="icn-audio normal"></i> New Audio</li>
+						<li class="p-tn-b-9"><i class="icn-video normal"></i> New Video</li>
+						<li><i class="icn-app normal"></i> New App</li>
 					</ul>
 				</div>
-				<!-- /Attached Resources -->
+
+					<!-- Existing Resources -->
+					<label>Attach An Existing Resource</label>
+					<div class="pos-relative m-tn-b-15">
+						<div class="icn-overlay">
+							<input type="text" name="searchResources" id="search-resources" placeholder="Search Existing Resources" autocomplete="off">
+							<div class="icn-left">
+								{{#if searching}}
+								<div class="loader-icon loader-icon-on-white loader-icon-tn"></div>
+								{{else}}
+								<i class="icn-search"></i>
+								{{/if}}
+							</div>
+							<a href="#" class="js-clear-search icn-right">
+								<div class="btn btn-circle bg-danger small">
+									<i class="icn-close"></i>
+								</div>
+							</a>
+						</div>
+						
+						{{#if query}}
+						<ul class="list list-search-results">
+							{{#each resource in resources}}
+							<li class="list-item">
+								<div class="list-item-inner p-tn-rl-9">
+									<div class="list-item-icon"><i class="icn-{{resource.type}} txt-primary"></i></div>
+									<div class="list-item-label txt-ellipsis">{{resource.title}}</div>
+									<div class="list-item-btn">
+										<a id="{{resource._id}}" href="#" class="js-add-resource btn btn-circle small">
+											<i class="icn-new"></i>
+										</a>
+									</div>
+								</div>
+							</li>
+							{{else}}
+							<li class="list-item p-tn-rl-9">
+								<div class="list-item-inner">No Results.</div>
+							</li>
+							{{/each}}
+						</ul>
+						{{/if}}
+					</div>
+					<!-- /Existing Resources -->
+					
+					<!-- New Resources -->
+					<label>Attach A New Resource</label>
+					<div class="row m-tn-rl-neg-3 m-tn-b-27">
+						<div class="col-tn-1of5 p-tn-rl-3">
+							<button id="book" class="js-resource-btn btn btn-gray-darker btn-block" title="Attach New Book"><i class="icn-book"></i></button>
+						</div>
+						<div class="col-tn-1of5 p-tn-rl-3">
+							<button id="link" class="js-resource-btn btn btn-gray-darker btn-block" title="Attach New Link"><i class="icn-link"></i></button>
+						</div>
+						<div class="col-tn-1of5 p-tn-rl-3">
+							<button id="audio" class="js-resource-btn btn btn-gray-darker btn-block" title="Attach New Audio"><i class="icn-audio"></i></button>
+						</div>
+						<div class="col-tn-1of5 p-tn-rl-3">
+							<button id="video" class="js-resource-btn btn btn-gray-darker btn-block" title="Attach New Video"><i class="icn-video"></i></button>
+						</div>
+						<div class="col-tn-1of5 p-tn-rl-3">
+							<button id="app" class="js-resource-btn btn btn-gray-darker btn-block" title="Attach New App"><i class="icn-app"></i></button>
+						</div>
+					</div>
+					<!-- /New Resources -->
+					
+					<!-- Attached Resources -->
+					<div class="well bg-gray-lighter p-tn-b-0">
+						<label class="m-tn-b-9">Attached Resources</label>
+						<ul class="list">
+							{{#each resource in localResources}}
+							<li class="list-item">
+								<div class="list-item-inner dark-border top-border p-tn-rl-9 m-tn-rl-neg-9">
+									<input type="hidden" name="resourceId" id="resource-id" value="{{resource.id}}">
+									<div class="list-item-icon"><i class="icn-{{resource.type}} txt-primary"></i></div>
+									<div class="list-item-label">{{resource.title}}</div>
+									<div class="list-item-btn">
+										<a id="{{resource.id}}" href="#" class="js-remove-resource btn btn-circle bg-danger small">
+											<i class="icn-close"></i>
+										</a>
+									</div>
+								</div>
+							</li>
+							{{else}}
+							<li class="list-item">
+								<div class="list-item-inner dark-border top-border txt-tn-center p-tn-rl-9 m-tn-rl-neg-9">
+									No Attached Resources
+								</div>
+							</li>
+							{{/each}}
+						</ul>
+					</div>
+					<!-- /Attached Resources -->
+			</div>
 			<!-- /Resources -->
 
 
 			
 			<!-- Schedule -->
-			<div class="row m-tn-t-72 m-tn-b-9">
-				<h2 class="col-tn-7of9">Step 3: Schedule</h2>
-				<h2 class="col-tn-2of9">
-					<button id="js-schedule-help" class="js-show-help js-closed btn-info width-68 tiny fl-tn-right">
-						<span class="js-show">Show</span><span class="js-hide hide">Hide</span> Help
-					</button>
-				</h2>
-			</div>
-			<div class="js-schedule-help js-info well bg-info txt-white m-tn-t-neg-3 m-tn-b-6 hide">
-				<p class="p-md line-height-1-5">Select the School Year for this item of School Work then set the number of segments ("days") it will be done each week for each term.</p>
-				<p class="p-md line-height-1-5">This can be done very quickly with the drop-down preset. However, if you need to fine-tune your schedule you can click “Show Individual Weeks” and set each Week individually.</p>
-			</div>
-			<div class="js-schedule-help js-info well bg-info txt-white m-tn-b-12 hide">
-				<p class="p-md line-height-1-5">An important underlying concept of the app is to think of timeframes as representational not concrete. For instance Week 3 is simply the third week you do school not specifically September 3rd - 7th.</p>
+			<div class="js-step-three hide">
+				<div class="row m-tn-t-72 m-tn-b-9">
+					<h2 class="col-tn-7of9">Step 3: Schedule</h2>
+					<h2 class="col-tn-2of9">
+						<button id="js-schedule-help" class="js-show-help js-closed btn-info width-68 tiny fl-tn-right">
+							<span class="js-show">Show</span><span class="js-hide hide">Hide</span> Help
+						</button>
+					</h2>
+				</div>
+				<div class="js-schedule-help js-info well bg-info txt-white m-tn-t-neg-3 m-tn-b-6 hide">
+					<p class="p-md line-height-1-5">Select the School Year for this item of School Work then set the number of segments ("days") it will be done each week for each term.</p>
+					<p class="p-md line-height-1-5">This can be done very quickly with the drop-down preset. However, if you need to fine-tune your schedule, you can click “Show Individual Weeks” and set each Week individually.</p>
+				</div>
+				<div class="js-schedule-help js-info well bg-info txt-white m-tn-b-12 hide">
+					<p class="p-md line-height-1-5">An important underlying concept of the app is to think of timeframes as representational, not concrete. For instance Week 3 is simply the third week you do school, not specifically September 3rd - 7th.</p>
 
-				<p class="p-md line-height-1-5">The same is true for “times” or “days”. Generally one “time” represents one “day” but it does not represent a specific day like October 3rd.</p>
+					<p class="p-md line-height-1-5">The same is true for “times” or “days”. Generally one “time” represents one “day”, but it does not represent a specific day like October 3rd.</p>
 
-				<p class="p-md line-height-1-5">These representational timeframes allow for flexibility. Once you are used to the concept you will find it simplifies both your homeschool life and the use of Flexible Homeschool App.</p>
-			</div>
+					<p class="p-md line-height-1-5">These representational timeframes allow for flexibility. Once you are used to the concept, you will find it simplifies both your homeschool life and the use of Flexible Homeschool App.</p>
+				</div>
 
-			<label class="m-tn-b-3">School Year</label>
-			<div class="fss-select">
-				<select class="js-school-year-select" name="schoolYearId">
-					{{#each schoolYear in schoolYears}}
-						<option value="{{schoolYear._id}}" {{isSelected schoolYear._id}}>{{schoolYear.startYear}}-{{schoolYear.endYear}}</option>
-					{{/each}}
-				</select>
-			</div>
-			{{#each term in terms}}
-			<div id="{{term._id}}" class="well bg-gray-lighter m-tn-b-9">
-				<h3 class="m-tn-b-9">Term {{term.order}}</h3>
-				<label>{{weekCount term._id}} Weeks</label>
-				<div class="fss-select">
-					<select data-term-id="{{term._id}}" class="js-times-per-week-preset" name="timesPerWeekPreset" id="times-per-week-preset">
-						<option disabled selected value>Times Per Week</option>
-						<option value="">0 Times Per Week</option>
-						<option value="1">1 Time Per Week</option>
-						<option value="2">2 Times Per Week</option>
-						<option value="3">3 Times Per Week</option>
-						<option value="4">4 Times Per Week</option>
-						<option value="5">5 Times Per Week</option>
-						<option value="6">6 Times Per Week</option>
-						<option value="7">7 Times Per Week</option>
+				<label class="m-tn-b-3">School Year</label>
+				<div class="icn-select">
+					<select class="js-school-year-select" name="schoolYearId">
+						{{#each schoolYear in schoolYears}}
+							<option value="{{schoolYear._id}}" {{isSelected schoolYear._id}}>{{schoolYear.startYear}}-{{schoolYear.endYear}}</option>
+						{{/each}}
 					</select>
 				</div>
-				<button id="{{term.order}}" class="js-show-individual-weeks btn-gray-dark btn-block extra-small"><span class="js-label-{{term.order}}">Show</span><span class="js-label-{{term.order}} hide">Hide</span> Individual Weeks</button>
-				<div class="js-times-per-week-container m-tn-rl-neg-3 m-tn-b-neg-6 m-tn-t-9">
-					<div class="js-{{term.order}} row hide">
-						{{#each week in weeks term._id}}
-						<div class="col-tn-1of5 p-tn-rl-3">
-							<label>Wk {{week.order}}</label>
-							<input data-term-id="{{term._id}}" data-week-id="{{week._id}}" class="js-times-per-week" type="text" name="timesPerWeek" placeholder="5" autocomplete="off" maxlength="1">
+				{{#each term in terms}}
+				<div id="{{term._id}}" class="well bg-gray-lighter m-tn-b-9">
+					<h3 class="m-tn-b-9">Term {{term.order}}</h3>
+					<label>{{weekCount term._id}} Weeks</label>
+					<div class="icn-select">
+						<select data-term-id="{{term._id}}" class="js-times-per-week-preset" name="timesPerWeekPreset" id="times-per-week-preset">
+							<option disabled selected value>Times Per Week</option>
+							<option value="">0 Times Per Week</option>
+							<option value="1">1 Time Per Week</option>
+							<option value="2">2 Times Per Week</option>
+							<option value="3">3 Times Per Week</option>
+							<option value="4">4 Times Per Week</option>
+							<option value="5">5 Times Per Week</option>
+							<option value="6">6 Times Per Week</option>
+							<option value="7">7 Times Per Week</option>
+						</select>
+					</div>
+					<button id="{{term.order}}" class="js-show-individual-weeks btn-gray-dark btn-block extra-small"><span class="js-label-{{term.order}}">Show</span><span class="js-label-{{term.order}} hide">Hide</span> Individual Weeks</button>
+					<div class="js-times-per-week-container m-tn-rl-neg-3 m-tn-b-neg-6 m-tn-t-9">
+						<div class="js-{{term.order}} row hide">
+							{{#each week in weeks term._id}}
+							<div class="col-tn-1of5 p-tn-rl-3">
+								<label>Wk {{week.order}}</label>
+								<input data-term-id="{{term._id}}" data-week-id="{{week._id}}" class="js-times-per-week" type="text" name="timesPerWeek" placeholder="5" autocomplete="off" maxlength="1">
+							</div>
+							{{/each}}
 						</div>
-						{{/each}}
 					</div>
 				</div>
+				{{/each}}
 			</div>
-			{{/each}}
 			<!-- /Schedule -->
 
 
 
 			<!-- Footer -->
-			<footer class="toolbar toolbar-bottom toolbar-gray m-tn-t-27">
+			<footer class="js-step-one toolbar toolbar-bottom toolbar-gray m-tn-t-27">
+				<button class="js-next-step fl-tn-right">Step 2</button>
+			</footer>
+			<footer class="js-step-one toolbar toolbar-bottom toolbar-gray m-tn-t-27 hide">
+				<button class="js-next-step btn-gray-darker fl-tn-left">Step 1</button>
+				<button class="js-next-step fl-tn-right">Step 3</button>
+			</footer>
+			<footer class="toolbar toolbar-bottom toolbar-gray m-tn-t-27 hide">
 				<a href="/planning/schoolWork/view/2/{{selectedStudentId}}/{{selectedSchoolYearId}}/{{selectedSchoolWorkId}}" class="js-cancel btn btn-gray-darker fl-tn-left">Cancel</a>
 				<button type="submit" class="js-submit fl-tn-right">Save</button>
 			</footer>
@@ -236,7 +254,7 @@
 					</div>
 					<div class="col-tn-1of4">
 						<a href="#" class="js-close-resource-popover btn btn-circle small fl-tn-right">
-							<i class="fss-close"></i>
+							<i class="icn-close"></i>
 						</a>
 					</div>
 				</div>

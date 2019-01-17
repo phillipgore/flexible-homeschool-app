@@ -74,19 +74,19 @@ Template.reportingSchoolWork.helpers({
 
 	resourceIcon: function(resourceType) {
 		if (resourceType === 'app') {
-			return 'fss-app';
+			return 'icn-app';
 		}
 		if (resourceType === 'audio') {
-			return 'fss-audio';
+			return 'icn-audio';
 		}
 		if (resourceType === 'book') {
-			return 'fss-book';
+			return 'icn-book';
 		}
 		if (resourceType === 'link') {
-			return 'fss-link';
+			return 'icn-link';
 		}
 		if (resourceType === 'video') {
-			return 'fss-video';
+			return 'icn-video';
 		}
 	},
 

@@ -28,7 +28,7 @@ Template.signIn.onRendered( function() {
 					} else {
 						Alerts.insert({
 							colorClass: 'bg-danger',
-							iconClass: 'fss-danger',
+							iconClass: 'icn-danger',
 							message: error.reason + '.',
 						});
 					
