@@ -6,6 +6,8 @@ import { SchoolYears } from '../../../../api/schoolYears/schoolYears.js';
 import { Terms } from '../../../../api/terms/terms.js';
 import { Weeks } from '../../../../api/weeks/weeks.js';
 import { Lessons } from '../../../../api/lessons/lessons.js';
+
+import {requiredValidation} from '../../../../modules/functions';
 import './schoolWorkEdit.html';
 
 LocalResources = new Mongo.Collection(null);
@@ -58,12 +60,10 @@ Template.schoolWorkEdit.onRendered( function() {
 	// Form Validation and Submission
 	$('.js-form-school-work-update').validate({
 		rules: {
-			name: { required: true },
 			timesPerWeek: { number: true, max: 7 },
 		},
 		
 		messages: {
-			name: { required: "Required." },
 			timesPerWeek: { number: "Number Required.", max: 'Limit 7.' },
 		},
 
@@ -375,6 +375,52 @@ Template.schoolWorkEdit.events({
 	'click .js-create-attach'(event) {
 		event.preventDefault();
 		$('.js-form-new-resource').submit();
+	},
+
+	'click .js-step-circle, click .js-step-btn'(event) {
+		event.preventDefault();
+
+		let template = Template.instance();
+		let stepClass = $(event.currentTarget).attr('data-id');
+
+
+		if (stepClass === 'js-step-one') {
+			$('.js-step-circle').removeClass('bg-info');
+			$('.js-circle-one').addClass('bg-info');
+
+			$('.js-step').hide();
+			$('.' + stepClass).show();
+		}
+		if (stepClass === 'js-step-two') {
+			if ( requiredValidation($("[name='name']").val().trim()) ) {
+				$('#name').removeClass('error');
+				$('.name-errors').text('');
+
+				$('.js-step-circle').removeClass('bg-info');
+				$('.js-circle-two').addClass('bg-info');
+
+				$('.js-step').hide();
+				$('.' + stepClass).show();
+			} else {
+				$('#name').addClass('error');
+				$('.name-errors').text('Required.');
+			}
+		}
+		if (stepClass === 'js-step-three') {
+			if ( requiredValidation($("[name='name']").val().trim()) ) {
+				$('#name').removeClass('error');
+				$('.name-errors').text('');
+
+				$('.js-step-circle').removeClass('bg-info');
+				$('.js-circle-three').addClass('bg-info');
+
+				$('.js-step').hide();
+				$('.' + stepClass).show();
+			} else {
+				$('#name').addClass('error');
+				$('.name-errors').text('Required.');
+			}
+		}
 	},
 
 	'submit .js-form-school-work-update'(event) {
