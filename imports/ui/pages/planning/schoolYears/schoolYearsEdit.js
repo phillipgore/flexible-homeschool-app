@@ -125,9 +125,9 @@ Template.schoolYearsEdit.events({
 
 		function plural(overLessons) {
 			if (overLessons === '1') {
-				return"time";
+				return"segment";
 			}
-			return "times";
+			return "segments";
 		}
 
 		Alerts.insert({
