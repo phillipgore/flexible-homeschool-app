@@ -79,7 +79,16 @@ Meteor.publish('reportData', function(studentId, schoolYearId, termId, weekId, r
 			let yearWeeks = Weeks.find({termId: {$in: yearTerms.map(term => term._id)}}).fetch();
 			let yearSchoolWork = SchoolWork.find({groupId: groupId, schoolYearId: schoolYearId, studentId: studentId, deletedOn: { $exists: false }}, {sort: {name: 1}}).fetch();
 			let yearLessons = Lessons.find({groupId: groupId, schoolWorkId: {$in: yearSchoolWork.map(schoolWork => schoolWork._id)}, deletedOn: { $exists: false }}, {sort: {order: 1}}).fetch();
-			let yearResources = Resources.find({_id: {$in: _.flatten(yearSchoolWork.map(schoolWork => schoolWork.resources))}, groupId: groupId, deletedOn: { $exists: false }}, {fields: {type: 1, title: 1, availability: 1}}).fetch();
+			let yearResources = Resources.find(
+				{
+					_id: {$in: _.flatten(yearSchoolWork.map(schoolWork => schoolWork.resources))}, 
+					groupId: groupId, deletedOn: { $exists: false }
+				}, 
+				{
+					sort: {title: 1}, 
+					fields: {type: 1, title: 1, availability: 1}
+				}
+			).fetch();
 
 			let yearLessonCompletionTimes = _.filter(yearLessons, ['completed', true]).map(lesson => (lesson.completionTime)).filter(time => (time != undefined));
 			let yearLessonsCompletedTotal = _.filter(yearLessons, ['completed', true]).length;
@@ -346,7 +355,7 @@ Meteor.publish('reportData', function(studentId, schoolYearId, termId, weekId, r
 				let lessons = _.filter(yearLessons, lesson => _.includes(weekIds, lesson.weekId));
 				let schoolWork = _.filter(yearSchoolWork, schoolWork => _.includes(lessons.map(lesson => lesson.schoolWorkId), schoolWork._id))
 				let resourceIds = _.uniq(_.flattenDeep(schoolWork.map(work => work.resources)));
-				let resources = Resources.find({_id: {$in: resourceIds}, groupId: groupId, deletedOn: { $exists: false }});
+				let resources = Resources.find({_id: {$in: resourceIds}, groupId: groupId, deletedOn: { $exists: false }}, {sort: {title: 1}});
 
 				let resourceStats = [];
 				resources.forEach(resource => {
