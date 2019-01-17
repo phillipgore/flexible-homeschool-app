@@ -3,6 +3,7 @@ import moment from 'moment';
 
 InitialIds = new Mongo.Collection('initialIds');
 
+Session.set('initialResourcesReady', false);
 
 let year = moment().year();
 let month = moment().month();
@@ -21,15 +22,10 @@ let groupStatus = Meteor.subscribe('groupStatus');
 let getInitialIds = Meteor.subscribe('initialIds', startYearFunction(year));
 let getInitialStats = Meteor.subscribe('initialStats');
 
-Meteor.call('getInitialResourceIds', function(error, result) {
-	Session.set('initialResourceIds', result);
-	Session.set('initialResourcesReady', true);
-});
-
 FlowRouter.wait();
 
 Tracker.autorun(() => {
-	if (userData.ready() && groupStatus.ready() && getInitialIds.ready() && getInitialStats.ready() && Session.get('initialResourcesReady') && !FlowRouter._initialized) {
+	if (userData.ready() && groupStatus.ready() && getInitialIds.ready() && getInitialStats.ready() && !FlowRouter._initialized) {
 		FlowRouter.initialize()
 	}
 });
@@ -65,13 +61,20 @@ function getInitialData() {
 		Session.set('selectedResourceAvailability', 'all');
 	}
 
-	// if (!Session.get('selectedResourceId')) {
-	// 	Session.set('selectedResourceId', Session.get('initialResourceIds').resourceAllAll);
-	// }
+	if (!Session.get('selectedResourceId')) {
+		Session.set('selectedResourceId', initialIds.resourceId);
+	}
 
 	if (!Session.get('selectedResourceCurrentTypeId')) {
 		Session.set('selectedResourceCurrentTypeId', 'all');
 	}
+
+	Meteor.call('getInitialResourceIds', function(error, result) {
+		if (result) {
+			Session.set('initialResourceIds', result);
+			Session.set('initialResourcesReady', true);
+		}
+	});
 
 	// Initial Term
 	if (!Session.get('selectedTermId')) {
