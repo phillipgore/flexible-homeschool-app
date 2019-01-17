@@ -246,3 +246,32 @@ i {
 .icn-windows:before {
   content: "\e949";
 }
+
+
+
+.icn-fw-16 {
+    width: 16px;
+    text-align: center;
+    display: inline-block;
+}
+
+.icn-fw-22 {
+    width: 22px;
+    text-align: center;
+    display: inline-block;
+}
+
+.icn-spin {
+    display: inline-block;
+    line-height: 0;
+    animation: rotation 1.0s infinite linear;
+}
+
+@keyframes rotation {
+    from { 
+        transform: rotate(0deg); 
+    }
+    to { 
+        transform: rotate(360deg); 
+    }
+}
