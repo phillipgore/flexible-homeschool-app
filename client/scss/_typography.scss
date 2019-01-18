@@ -136,6 +136,10 @@ a {
 	    color: transparent;
 	    text-shadow: 0 0 0 #000;
 	}
+
+	&.txt-ellipsis {
+		display: block;
+	}
 }
 
 .line-height-1 { line-height: 1 }
