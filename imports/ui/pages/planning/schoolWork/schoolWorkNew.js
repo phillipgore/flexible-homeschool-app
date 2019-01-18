@@ -73,7 +73,7 @@ Template.schoolWorkNew.onRendered( function() {
 
 			const schoolWorkProperties = {
 				name: template.find("[name='name']").value.trim(),
-				description: $($('.js-form-school-work-new').find('.editor-content').attr('id')).html(),
+				description: $('.js-form-school-work-new .editor-content').html(),
 				resources: resourceIds,
 				schoolYearId: template.find("[name='schoolYearId']").value.trim(),
 			};
