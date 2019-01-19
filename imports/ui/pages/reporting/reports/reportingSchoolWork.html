@@ -5,7 +5,7 @@
 				<table class="page-break-inside-avoid">
 					<tr>
 						<th width="50%">
-							<p><i class="fss-school-work"></i> {{report.schoolWorkStatsVisible}} {{work.name}}</p>
+							<p><i class="icn-school-work"></i> {{report.schoolWorkStatsVisible}} {{work.name}}</p>
 						</th>
 						<th width="50%">
 							{{#if report.schoolWorkProgressVisible}}
@@ -35,7 +35,7 @@
 						{{/if}}
 						{{#if report.schoolWorkTimesVisible}}
 							<td colspan="{{colSpan report.schoolWorkStatsVisible report.schoolWorkTimesVisible}}">
-								<span class="txt-gray-darkest">Total Time: </span>{{work.totalTime}}
+								<span class="txt-gray-darkest">Total Segments: </span>{{work.totalTime}}
 							</td>
 						{{/if}}
 						
@@ -56,12 +56,12 @@
 					<tr class="{{rowVisible report.schoolWorkStatsVisible report.schoolWorkTimesVisible}}">
 						{{#if report.schoolWorkStatsVisible}}
 							<td colspan="{{colSpan report.schoolWorkStatsVisible report.schoolWorkTimesVisible}}">
-								<span class="txt-gray-darkest">Times: </span>{{work.lessonCount}}
+								<span class="txt-gray-darkest">Segments: </span>{{work.lessonCount}}
 							</td>
 						{{/if}}
 						{{#if report.schoolWorkTimesVisible}}
 							<td colspan="{{colSpan report.schoolWorkStatsVisible report.schoolWorkTimesVisible}}">
-								<span class="txt-gray-darkest">Avg / Lesson: </span>{{work.averageLessons}}
+								<span class="txt-gray-darkest">Avg / Segment: </span>{{work.averageLessons}}
 							</td>
 						{{/if}}
 					</tr>
@@ -98,7 +98,7 @@
 								<tr>
 									<th class="cell-tn-w-10 cell-lg-w-5"></th>
 									<th class="cell-lg-w-10 font-weight-500">
-										<div class="txt-ellipsis txt-tn-center">Lesson</div>
+										<div class="txt-ellipsis txt-tn-center">Segment</div>
 									</th>
 									<th class="cell-tn-w-10 font-weight-500">
 										<div class="txt-ellipsis txt-tn-center">Date</div>
@@ -143,7 +143,7 @@
 				{{/if}}
 			{{/each}}
 		{{else}}
-			<p class="m-tn-b-18"><i class="fss-school-work"></i> No School Work</p>
+			<p class="m-tn-b-18"><i class="icn-school-work"></i> No School Work</p>
 		{{/if}}
 	{{/if}}
 </template>

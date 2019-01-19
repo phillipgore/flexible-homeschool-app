@@ -16,7 +16,7 @@ Template.billingList.onCreated( function() {
 			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',
-					iconClass: 'fss-danger',
+					iconClass: 'icn-danger',
 					message: error.reason,
 				});
 			} else {
@@ -67,29 +67,29 @@ Template.billingList.helpers({
 
 	cardClass: function() {
 		if (!Session.get('card')) {
-			return 'fss-billing';
+			return 'icn-billing';
 		}
 		let brand = Session.get('card').brand;		
 		if (brand === 'Visa') {
-			return 'fss-cc-visa';
+			return 'icn-cc-visa';
 		}
 		if (brand === 'American Express') {
-			return 'fss-cc-amex';
+			return 'icn-cc-amex';
 		}
 		if (brand === 'MasterCard') {
-			return 'fss-cc-master-card';
+			return 'icn-cc-master-card';
 		}
 		if (brand === 'Discover') {
-			return 'fss-cc-discover';
+			return 'icn-cc-discover';
 		}
 		if (brand === 'JCB') {
-			return 'fss-cc-jcb';
+			return 'icn-cc-jcb';
 		}
 		if (brand === 'Diners Club') {
-			return 'fss-cc-diners';
+			return 'icn-cc-diners';
 		}
 		if (brand === 'Unknown') {
-			return 'fss-billing';
+			return 'icn-billing';
 		}
 	},
 
@@ -140,7 +140,7 @@ Template.billingList.events({
 			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',
-					iconClass: 'fss-danger',
+					iconClass: 'icn-danger',
 					message: error.reason,
 				});
 				$('.list-item-loading').hide();
@@ -148,7 +148,7 @@ Template.billingList.events({
 				$('.list-item-loading').hide();
 				Alerts.insert({
 					colorClass: 'bg-info',
-					iconClass: 'fss-info',
+					iconClass: 'icn-info',
 					message: 'Your account has been paused. You may unpause it at anytime.',
 				});
 			}
@@ -165,7 +165,7 @@ Template.billingList.events({
 			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',
-					iconClass: 'fss-danger',
+					iconClass: 'icn-danger',
 					message: error.reason,
 				});
 				$('.list-item-loading').hide();
@@ -173,7 +173,7 @@ Template.billingList.events({
 				$('.list-item-loading').hide();
 				Alerts.insert({
 					colorClass: 'bg-info',
-					iconClass: 'fss-info',
+					iconClass: 'icn-info',
 					message: 'Your account has been unpaused. Welcome back.',
 				});
 			}

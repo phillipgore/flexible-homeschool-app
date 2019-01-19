@@ -3,7 +3,7 @@
 		<div id="js-schoolWork-track-{{work._id}}" class="js-schoolWork-track track p-tn-t-18 | page-break-inside-avoid">
 			<div class="clearfix m-tn-h-9 m-tn-b-0 print-hide">
 				<div class="col-tn-7of9">
-					<div class="track-icon"><i class="txt-primary fss-school-work"></i></div>
+					<div class="track-icon"><i class="txt-primary icn-school-work"></i></div>
 					<div class="track-label txt-ellipsis">{{work.name}}</div>
 				</div>
 				<div class="col-tn-2of9">
@@ -15,7 +15,7 @@
 
 			<!-- Print Only -->
 			<div class="m-tn-h-9 m-tn-b-0  print-only-block">
-				<div class="track-icon"><i class="txt-primary fss-school-work"></i></div>
+				<div class="track-icon"><i class="txt-primary icn-school-work"></i></div>
 				<div class="track-label txt-ellipsis">{{work.name}}</div>
 			</div>
 			<!-- /Print Only -->
@@ -39,9 +39,9 @@
 								{{#each resource in workInfo.resources}}
 									<li class="txt-ellipsis p-tn-b-3">
 										{{#if resource.link}}
-											<a href="{{resource.link}}"><i class="fss-{{resource.type}} txt-primary"></i> {{resource.title}}</a>
+											<a href="{{resource.link}}"><i class="icn-{{resource.type}} txt-primary"></i> {{resource.title}}</a>
 										{{else}}
-											<i class="fss-{{resource.type}} txt-primary"></i> {{resource.title}}
+											<i class="icn-{{resource.type}} txt-primary"></i> {{resource.title}}
 										{{/if}}
 									</li>
 								{{/each}}

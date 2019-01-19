@@ -7,6 +7,7 @@ import moment from 'moment';
 Template.billingInvoices.onCreated( function() {
 	// Subscriptions
 	let template = Template.instance();
+	Session.set('upcomingInvoicesReady', false)
 	
 	template.autorun(() => {
 		this.groupData = Meteor.subscribe('group');
@@ -14,13 +15,11 @@ Template.billingInvoices.onCreated( function() {
 
 	Meteor.call('getUpcomingInvoices', function(error, result) {
 		if (error) {
-			Alerts.insert({
-				colorClass: 'bg-danger',
-				iconClass: 'fss-danger',
-				message: error.reason,
-			});
+			Session.set('upcomingInvoices', '');
+			Session.set('upcomingInvoicesReady', true)
 		} else {
 			Session.set('upcomingInvoices', result);
+			Session.set('upcomingInvoicesReady', true)
 		}
 	});
 
@@ -28,7 +27,7 @@ Template.billingInvoices.onCreated( function() {
 		if (error) {
 			Alerts.insert({
 				colorClass: 'bg-danger',
-				iconClass: 'fss-danger',
+				iconClass: 'icn-danger',
 				message: error.reason,
 			});
 		} else {
@@ -40,7 +39,7 @@ Template.billingInvoices.onCreated( function() {
 		if (error) {
 			Alerts.insert({
 				colorClass: 'bg-danger',
-				iconClass: 'fss-danger',
+				iconClass: 'icn-danger',
 				message: error.reason,
 			});
 		} else {
@@ -52,7 +51,7 @@ Template.billingInvoices.onCreated( function() {
 		if (error) {
 			Alerts.insert({
 				colorClass: 'bg-danger',
-				iconClass: 'fss-danger',
+				iconClass: 'icn-danger',
 				message: error.reason,
 			});
 		} else {
@@ -72,9 +71,13 @@ Template.billingInvoices.onRendered( function() {
 
 Template.billingInvoices.helpers({
 	dataReady: function() {
-		if (Template.instance().groupData.ready() && Session.get('upcomingInvoices') && Session.get('invoices') && Session.get('card') && Session.get('coupon')) {
+		if (Template.instance().groupData.ready() && Session.get('upcomingInvoicesReady') && Session.get('invoices') && Session.get('card') && Session.get('coupon')) {
 			return true;
 		}
+	},
+
+	user: function() {
+		return Meteor.users.findOne();
 	},
 
 	invoices: function() {

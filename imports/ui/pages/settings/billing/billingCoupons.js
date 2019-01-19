@@ -17,7 +17,7 @@ Template.billingCoupons.onCreated( function() {
 		if (error) {
 			Alerts.insert({
 				colorClass: 'bg-danger',
-				iconClass: 'fss-danger',
+				iconClass: 'icn-danger',
 				message: error.reason,
 			});
 		} else {
@@ -56,7 +56,7 @@ Template.billingCoupons.onRendered( function() {
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',
-						iconClass: 'fss-danger',
+						iconClass: 'icn-danger',
 						message: error.reason,
 					});
 					
@@ -66,7 +66,7 @@ Template.billingCoupons.onRendered( function() {
 					FlowRouter.go('/settings/billing/invoices/3');
 					Alerts.insert({
 						colorClass: 'bg-info',
-						iconClass: 'fss-info',
+						iconClass: 'icn-info',
 						message: 'Coupon Code "' +stripeCouponCode+ '" has been applied to your account.',
 					});
 				}

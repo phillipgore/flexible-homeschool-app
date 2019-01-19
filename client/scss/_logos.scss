@@ -1,5 +1,5 @@
 .toolbar-top { 
-	.fss-logo {
+	.icn-logo {
 		margin-top: 13px;
 		font-size: 20px;
 		text-align: center;
@@ -7,10 +7,10 @@
 	}
 }
 
-.fss-logo {
+.icn-logo {
 	&:before {	
-		font-family: 'Flexible-School-Schedule' !important;	
-		content: "\e959";
+		font-family: 'Flexible-Homeschool-App' !important;	
+		content: "\e92b";
 	}
 
 	&:after {
@@ -18,6 +18,6 @@
 	}
 }
 
-.fss-logo-plain:before {
-  content: "\e959";
+.icn-logo-plain:before {
+  content: "\e92b";
 }

@@ -7,7 +7,7 @@
 				{{#if active currentRouteName 'studentsNew'}}active{{/if}}
 				{{#if active currentRouteName 'studentsView'}}active{{/if}}
 				{{#if active currentRouteName 'studentsEdit'}}active{{/if}}">
-					<div class="list-item-icon"><i class="txt-primary fss-students"></i></div> 
+					<div class="list-item-icon"><i class="txt-primary icn-students"></i></div> 
 					<div class="list-item-label">Students</div>
 				</a>
 			</li>
@@ -16,17 +16,8 @@
 				{{#if active currentRouteName 'schoolYearsNew'}}active{{/if}}
 				{{#if active currentRouteName 'schoolYearsView'}}active{{/if}}
 				{{#if active currentRouteName 'schoolYearsEdit'}}active{{/if}}">
-					<div class="list-item-icon"><i class="txt-primary fss-school-years"></i></div> 
+					<div class="list-item-icon"><i class="txt-primary icn-school-years"></i></div> 
 					<div class="list-item-label">School Years</div>
-				</a>
-			</li>
-			<li class="list-item">
-				<a id="resources" href="/planning/resources/view/2/{{selectedResourceType}}/{{selectedResourceAvailability}}/{{selectedResourceId}}/{{#if typeIsAll selectedResourceType}}{{selectedResourceCurrentTypeId}}{{else}}{{selectedResourceType}}{{/if}}" class="js-planning list-item-link p-tn-rl-9 
-				{{#if active currentRouteName 'resourcesNew'}}active{{/if}}
-				{{#if active currentRouteName 'resourcesView'}}active{{/if}}
-				{{#if active currentRouteName 'resourcesEdit'}}active{{/if}}">
-					<div class="list-item-icon"><i class="txt-primary fss-resources"></i></div> 
-					<div class="list-item-label">Resources</div>
 				</a>
 			</li>
 			<li class="list-item">
@@ -34,8 +25,20 @@
 				{{#if active currentRouteName 'schoolWorkNew'}}active{{/if}}
 				{{#if active currentRouteName 'schoolWorkView'}}active{{/if}}
 				{{#if active currentRouteName 'schoolWorkEdit'}}active{{/if}}">
-					<div class="list-item-icon"><i class="txt-primary fss-school-work"></i></div> 
+					<div class="list-item-icon"><i class="txt-primary icn-school-work"></i></div> 
 					<div class="list-item-label">School Work</div>
+				</a>
+			</li>
+
+			<li class="list-spacer"></li>
+
+			<li class="list-item">
+				<a id="resources" href="/planning/resources/view/2/{{selectedResourceType}}/{{selectedResourceAvailability}}/{{selectedResourceId}}/{{#if typeIsAll selectedResourceType}}{{selectedResourceCurrentTypeId}}{{else}}{{selectedResourceType}}{{/if}}" class="js-planning list-item-link p-tn-rl-9 
+				{{#if active currentRouteName 'resourcesNew'}}active{{/if}}
+				{{#if active currentRouteName 'resourcesView'}}active{{/if}}
+				{{#if active currentRouteName 'resourcesEdit'}}active{{/if}}">
+					<div class="list-item-icon"><i class="txt-primary icn-resources"></i></div> 
+					<div class="list-item-label">Resource Manager</div>
 				</a>
 			</li>
 		</ul>

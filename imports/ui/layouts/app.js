@@ -63,11 +63,11 @@ Template.app.events({
 
 
 	// Select Input
-	'focus .fss-select select'(event) {
+	'focus .icn-select select'(event) {
 		$(event.target).parent().addClass('focus');
 	},
 
-	'blur .fss-select select'(event) {
+	'blur .icn-select select'(event) {
 		$(event.target).parent().removeClass('focus');
 	},
 
@@ -100,6 +100,27 @@ Template.app.events({
 		}, 350);
 	},
 
+	// Show/Hide Help
+	'click .js-show-help'(event) {
+		event.preventDefault();
+
+		let helpClass = '.' + $(event.currentTarget).attr('id');
+
+		$('.js-show').show();
+		$('.js-hide').hide();
+		$('.js-info').slideUp('fast');
+
+		if ($(event.currentTarget).hasClass('js-closed')) {
+			
+
+			$(event.currentTarget).removeClass('js-closed').addClass('js-open');
+			$(event.currentTarget).find('.js-show').hide();
+			$(event.currentTarget).find('.js-hide').show();
+			$(helpClass).slideDown('fast');
+		} else {
+			$(event.currentTarget).removeClass('js-open').addClass('js-closed');
+		}		
+	},
 
 	// Dialog Confirmations
 	'click .js-dialog-cancel'(event) {
@@ -130,7 +151,7 @@ Template.app.events({
 			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',
-					iconClass: 'fss-danger',
+					iconClass: 'icn-danger',
 					message: error.reason,
 				});
 			} else {
@@ -164,7 +185,7 @@ Template.app.events({
 			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',
-					iconClass: 'fss-danger',
+					iconClass: 'icn-danger',
 					message: error.reason,
 				});
 			} else {
@@ -201,7 +222,7 @@ Template.app.events({
 			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',
-					iconClass: 'fss-danger',
+					iconClass: 'icn-danger',
 					message: error.reason,
 				});
 			} else {
@@ -234,7 +255,7 @@ Template.app.events({
 			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',
-					iconClass: 'fss-danger',
+					iconClass: 'icn-danger',
 					message: error.reason,
 				});
 			} else {
@@ -270,7 +291,7 @@ Template.app.events({
 			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',
-					iconClass: 'fss-danger',
+					iconClass: 'icn-danger',
 					message: error.reason,
 				});
 			} else {
@@ -293,7 +314,7 @@ Template.app.events({
 			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',
-					iconClass: 'fss-danger',
+					iconClass: 'icn-danger',
 					message: error.reason,
 				});
 			} else {
@@ -315,7 +336,7 @@ Template.app.events({
 			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',
-					iconClass: 'fss-danger',
+					iconClass: 'icn-danger',
 					message: error.reason,
 				});
 			} else {
@@ -419,8 +440,6 @@ Template.app.events({
 		Session.set({
 			selectedResourceType: 'all',
 			selectedResourceAvailability: 'all',
-			selectedResourceId: Session.get('initialIds').resourceAllAll,
-			selectedResourceCurrentType: Session.get('initialIds').resourceCurrentType,
 		});
 	},
 

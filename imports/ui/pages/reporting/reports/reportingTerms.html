@@ -4,7 +4,7 @@
 			{{#each term in terms}}
 				<table class="page-break-inside-avoid">
 					<tr>
-						<th width="50%"><p><i class="fss-terms"></i> Term {{term.order}}</p></th>
+						<th width="50%"><p><i class="icn-terms"></i> Term {{term.order}}</p></th>
 						<th width="50%">
 							{{#if report.termsProgressVisible}}
 								<div class="meter meter-report">
@@ -45,12 +45,12 @@
 					<tr class="{{rowVisible report.termsStatsVisible report.termsTimesVisible}}">
 						{{#if report.termsStatsVisible}}
 							<td colspan="{{colSpan report.termsStatsVisible report.termsTimesVisible}}">
-								<span class="txt-gray-darkest">Times: </span>{{term.lessonCount}}
+								<span class="txt-gray-darkest">Segments: </span>{{term.lessonCount}}
 							</td>
 						{{/if}}
 						{{#if report.termsTimesVisible}}
 							<td colspan="{{colSpan report.termsStatsVisible report.termsTimesVisible}}">
-								<span class="txt-gray-darkest">Avg / Lesson: </span>{{term.averageLessons}}
+								<span class="txt-gray-darkest">Avg / Segment: </span>{{term.averageLessons}}
 							</td>
 						{{/if}}
 						
@@ -58,7 +58,7 @@
 				</table>
 			{{/each}}
 		{{else}}
-			<p class="m-tn-b-18"><i class="fss-terms"></i> No Terms</p>
+			<p class="m-tn-b-18"><i class="icn-terms"></i> No Terms</p>
 		{{/if}}
 	{{/if}}
 </template>

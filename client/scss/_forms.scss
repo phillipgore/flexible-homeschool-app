@@ -129,7 +129,7 @@ form {
 		}
 	}
 
-	.fss-select {
+	.icn-select {
 		border: 1px solid $color-gray-dark;
 	    width: 100%;
 	    border-radius: 3px;
@@ -275,6 +275,21 @@ form {
 				}
 			}
 		}
+	}
+
+	.dropdown-menu-form {
+		position: absolute;
+		top: 45px;
+		right: 0px;
+		left: 0px;
+		z-index: 800;
+		border-radius: 3px;
+		list-style: none;
+		padding: 0px;
+		margin: 0px;
+		overflow: auto;
+		-webkit-overflow-scrolling: touch;
+		background-color: $color-gray;
 	}
 }
 

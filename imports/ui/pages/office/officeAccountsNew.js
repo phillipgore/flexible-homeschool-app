@@ -127,7 +127,7 @@ Template.officeAccountsNew.events({
 				if (error && error.reason != 'unverified') {
 					Alerts.insert({
 						colorClass: 'bg-danger',
-						iconClass: 'fss-danger',
+						iconClass: 'icn-danger',
 						message: error.reason,
 					});
 			

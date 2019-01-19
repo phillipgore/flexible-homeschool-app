@@ -1,0 +1,277 @@
+@font-face {
+  font-family: 'Flexible-Homeschool-App';
+  src:  url('fonts/Flexible-Homeschool-App.eot?oxcc17');
+  src:  url('fonts/Flexible-Homeschool-App.eot?oxcc17#iefix') format('embedded-opentype'),
+    url('fonts/Flexible-Homeschool-App.ttf?oxcc17') format('truetype'),
+    url('fonts/Flexible-Homeschool-App.woff?oxcc17') format('woff'),
+    url('fonts/Flexible-Homeschool-App.svg?oxcc17#Flexible-Homeschool-App') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+i {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'Flexible-Homeschool-App' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icn-actions:before {
+  content: "\e900";
+}
+.icn-android:before {
+  content: "\e901";
+}
+.icn-app:before {
+  content: "\e902";
+}
+.icn-apple:before {
+  content: "\e903";
+}
+.icn-audio:before {
+  content: "\e904";
+}
+.icn-back-office:before {
+  content: "\e905";
+}
+.icn-back:before {
+  content: "\e906";
+}
+.icn-billing:before {
+  content: "\e907";
+}
+.icn-bold:before {
+  content: "\e908";
+}
+.icn-book:before {
+  content: "\e909";
+}
+.icn-caret-down:before {
+  content: "\e90a";
+}
+.icn-caret-left:before {
+  content: "\e90b";
+}
+.icn-caret-right:before {
+  content: "\e90c";
+}
+.icn-caret-up:before {
+  content: "\e90d";
+}
+.icn-carets-up-down:before {
+  content: "\e90e";
+}
+.icn-cc-amex:before {
+  content: "\e90f";
+}
+.icn-cc-diners:before {
+  content: "\e910";
+}
+.icn-cc-discover:before {
+  content: "\e911";
+}
+.icn-cc-jcb:before {
+  content: "\e912";
+}
+.icn-cc-master-card:before {
+  content: "\e913";
+}
+.icn-cc-visa:before {
+  content: "\e914";
+}
+.icn-chrome:before {
+  content: "\e915";
+}
+.icn-circle:before {
+  content: "\e916";
+}
+.icn-close:before {
+  content: "\e917";
+}
+.icn-danger:before {
+  content: "\e918";
+}
+.icn-dashboard:before {
+  content: "\e919";
+}
+.icn-data:before {
+  content: "\e91a";
+}
+.icn-delete:before {
+  content: "\e91b";
+}
+.icn-edge:before {
+  content: "\e91c";
+}
+.icn-edit:before {
+  content: "\e91d";
+}
+.icn-email:before {
+  content: "\e91e";
+}
+.icn-exclaimation:before {
+  content: "\e91f";
+}
+.icn-external-link:before {
+  content: "\e920";
+}
+.icn-forward:before {
+  content: "\e921";
+}
+.icn-hourglass:before {
+  content: "\e922";
+}
+.icn-info:before {
+  content: "\e923";
+}
+.icn-invoices:before {
+  content: "\e924";
+}
+.icn-italic:before {
+  content: "\e925";
+}
+.icn-laptop:before {
+  content: "\e926";
+}
+.icn-lesson:before {
+  content: "\e927";
+}
+.icn-link:before {
+  content: "\e928";
+}
+.icn-list-ol:before {
+  content: "\e929";
+}
+.icn-list-ul:before {
+  content: "\e92a";
+}
+.icn-logo:before {
+  content: "\e92b";
+}
+.icn-new-circle:before {
+  content: "\e92c";
+}
+.icn-new:before {
+  content: "\e92d";
+}
+.icn-open-circle:before {
+  content: "\e92e";
+}
+.icn-password:before {
+  content: "\e92f";
+}
+.icn-pause-circle:before {
+  content: "\e930";
+}
+.icn-phone:before {
+  content: "\e931";
+}
+.icn-planning:before {
+  content: "\e932";
+}
+.icn-play-circle:before {
+  content: "\e933";
+}
+.icn-print:before {
+  content: "\e934";
+}
+.icn-reporting:before {
+  content: "\e935";
+}
+.icn-resources:before {
+  content: "\e936";
+}
+.icn-safari:before {
+  content: "\e937";
+}
+.icn-school-work:before {
+  content: "\e938";
+}
+.icn-school-years:before {
+  content: "\e939";
+}
+.icn-search:before {
+  content: "\e93a";
+}
+.icn-searching:before {
+  content: "\e93b";
+}
+.icn-settings:before {
+  content: "\e93c";
+}
+.icn-signout:before {
+  content: "\e93d";
+}
+.icn-students:before {
+  content: "\e93e";
+}
+.icn-support:before {
+  content: "\e93f";
+}
+.icn-tablet:before {
+  content: "\e940";
+}
+.icn-tag:before {
+  content: "\e941";
+}
+.icn-terms:before {
+  content: "\e942";
+}
+.icn-tracking:before {
+  content: "\e943";
+}
+.icn-underline:before {
+  content: "\e944";
+}
+.icn-users-female:before {
+  content: "\e945";
+}
+.icn-users:before {
+  content: "\e946";
+}
+.icn-video:before {
+  content: "\e947";
+}
+.icn-warning:before {
+  content: "\e948";
+}
+.icn-windows:before {
+  content: "\e949";
+}
+
+
+
+.icn-fw-16 {
+    width: 16px;
+    text-align: center;
+    display: inline-block;
+}
+
+.icn-fw-22 {
+    width: 22px;
+    text-align: center;
+    display: inline-block;
+}
+
+.icn-spin {
+    display: inline-block;
+    line-height: 0;
+    animation: rotation 1.0s infinite linear;
+}
+
+@keyframes rotation {
+    from { 
+        transform: rotate(0deg); 
+    }
+    to { 
+        transform: rotate(360deg); 
+    }
+}

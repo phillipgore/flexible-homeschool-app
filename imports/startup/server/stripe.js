@@ -217,7 +217,7 @@ Meteor.methods({
 		).then((invoices) => {
 			return invoices;
 		}).catch((error) => {
-			throw new Meteor.Error(500, error.message);
+			console.log(Meteor.Error(500, error.message));
 		});
 
 		return result;

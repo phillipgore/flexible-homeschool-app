@@ -14,10 +14,10 @@ Template.planningList.onRendered( function() {
 
 Template.planningList.helpers({
 	items: [
-		{divider: false, classes: '', icon: 'fss-students', label: 'Students'},
-		{divider: false, classes: '', icon: 'fss-school-years', label: 'School Years'},
-		{divider: false, classes: '', icon: 'fss-resources', label: 'Resources'},
-		{divider: false, classes: '', icon: 'fss-school-work', label: 'School Work'},
+		{divider: false, classes: '', icon: 'icn-students', label: 'Students'},
+		{divider: false, classes: '', icon: 'icn-school-years', label: 'School Years'},
+		{divider: false, classes: '', icon: 'icn-resources', label: 'Resources'},
+		{divider: false, classes: '', icon: 'icn-school-work', label: 'School Work'},
 	],
 
 	selectedStudentId: function() {

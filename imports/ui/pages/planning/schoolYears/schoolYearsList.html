@@ -6,7 +6,7 @@
 				{{#if activeRoute currentRouteName 'schoolYearsNew'}}
 					<li class="list-item">
 						<span class="list-item-inner p-tn-rl-9 active">
-							<div class="list-item-icon"><i class="txt-primary fss-school-years"></i></div> 
+							<div class="list-item-icon"><i class="txt-primary icn-school-years"></i></div> 
 							<div class="list-item-label font-style-italic font-weight-normal"> New School Year
 							</div>
 						</span>
@@ -15,7 +15,7 @@
 				{{#each schoolYear in schoolYears}}
 					<li class="list-item">
 						<a id="{{schoolYear._id}}" href="/planning/schoolyears/view/3/{{schoolYear._id}}" class="js-school-year js-planning-school-year list-item-link p-tn-rl-9 {{#if active schoolYear._id}}active{{/if}}">
-							<div class="list-item-icon"><i class="txt-primary fss-school-years"></i></div> 
+							<div class="list-item-icon"><i class="txt-primary icn-school-years"></i></div> 
 							<div class="list-item-label">{{schoolYear.startYear}}-{{schoolYear.endYear}}</div>
 						</a>
 					</li>
@@ -23,7 +23,7 @@
 			</ul>
 		{{else}}
 			<div class="txt-tn-center m-tn-t-72">
-				<i class="fss-school-years font-size-64 txt-gray"></i>
+				<i class="icn-school-years font-size-64 txt-gray"></i>
 				<h1 class="m-tn-t-36">Add Your First School Year</h1>
 				<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36 txt-gray-darkest">Click the plus icon above to add your first School Year.</p>
 			</div>

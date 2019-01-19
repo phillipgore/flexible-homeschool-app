@@ -28,7 +28,7 @@
 		background-color: $color-gray;
 	}
 
-	.fss-logo {
+	.icn-logo {
 		font-size: 20px; 
 		margin-top: 13px;
 	}
@@ -97,6 +97,10 @@
 			display: inline-block;
 			padding-left: 0px;
 		}
+	}
+
+	&.hide {
+		display: none;
 	}
 }
 
@@ -167,8 +171,8 @@
 	line-height: 1;
 
 	&:before {
-		font-family: 'Flexible-School-Schedule' !important;	
-		content: "\e973";
+		font-family: 'Flexible-Homeschool-App' !important;	
+		content: "\e948";
 	}
 
 	@media only screen and (min-width: 640px) {

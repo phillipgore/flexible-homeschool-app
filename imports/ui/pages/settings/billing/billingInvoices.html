@@ -1,6 +1,8 @@
 <template name="billingInvoices">
 	
 	<main class="app-content app-content-preceeds-toolbar app-content-data">
+		<h1 class="txt-tn-center print-only-block">Flexible Homeschool App</h1>
+		<h2 class="txt-tn-center txt-gray-darkest txt-capitalize print-only-block m-tn-b-18">{{user.info.firstName}} {{user.info.lastName}}</h2>
 		<div class="row">
 			<div class="col-xs-2of3 offset-xs-1of6 col-sm-1of1 offset-sm-0 col-xl-2of5 offset-xl-3of10 ">
 				{{#if couponNotice coupon.id group.createdOn coupon.duration_in_months}}
@@ -25,7 +27,7 @@
 				{{#if upcomingInvoices}}
 					<li class="list-item">
 						<a href="#" class="list-item-link dark-border p-tn-rl-9">
-							<div class="list-item-icon"><i class="txt-warning fss-circle"></i></div> 
+							<div class="list-item-icon"><i class="txt-warning icn-circle"></i></div> 
 							<div class="list-item-label">
 								{{centsToDollars upcomingInvoices.amount_due}}
 								<p class="p-sm font-weight-400 txt-gray-darkest dis-tn-inline-block p-tn-t-4">
@@ -49,7 +51,7 @@
 				{{#each invoice in invoices.data}}
 					<li class="list-item">
 						<a href="#" class="list-item-link dark-border p-tn-rl-9">
-							<div class="list-item-icon"><i class="{{invoiceStatus invoice.attempted invoice.paid}} fss-circle"></i></div> 
+							<div class="list-item-icon"><i class="{{invoiceStatus invoice.attempted invoice.paid}} icn-circle"></i></div> 
 							<div class="list-item-label">
 								{{centsToDollars invoice.amount_paid}}
 								<p class="p-sm font-weight-400 txt-gray-darkest dis-tn-inline-block p-tn-t-4">

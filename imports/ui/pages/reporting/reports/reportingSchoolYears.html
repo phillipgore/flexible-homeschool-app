@@ -3,7 +3,7 @@
 		{{#if schoolYear}}
 			<table class="page-break-inside-avoid">
 				<tr>
-					<th width="50%"><p><i class="fss-school-years"></i> {{schoolYear.startYear}}-{{schoolYear.endYear}}</p></th>
+					<th width="50%"><p><i class="icn-school-years"></i> {{schoolYear.startYear}}-{{schoolYear.endYear}}</p></th>
 					<th width="50%">
 						{{#if report.schoolYearProgressVisible}}
 							<div class="meter meter-report">
@@ -57,19 +57,19 @@
 				<tr class="{{rowVisible report.schoolYearStatsVisible report.schoolYearTimesVisible}}">
 					{{#if report.schoolYearStatsVisible}}
 						<td colspan="{{colSpan report.schoolYearStatsVisible report.schoolYearTimesVisible}}">
-							<span class="txt-gray-darkest">Times: </span>{{schoolYear.lessonCount}}
+							<span class="txt-gray-darkest">Segments: </span>{{schoolYear.lessonCount}}
 						</td>
 					{{/if}}
 					{{#if report.schoolYearTimesVisible}}
 						<td colspan="{{colSpan report.schoolYearStatsVisible report.schoolYearTimesVisible}}">
-							<span class="txt-gray-darkest">Avg / Lesson: </span>{{schoolYear.averageLessons}}
+							<span class="txt-gray-darkest">Avg / Segment: </span>{{schoolYear.averageLessons}}
 						</td>
 					{{/if}}
 					
 				</tr>
 			</table>
 		{{else}}
-			<p class="m-tn-b-18"><i class="fss-school-years"></i> No School Years</p>
+			<p class="m-tn-b-18"><i class="icn-school-years"></i> No School Years</p>
 		{{/if}}
 	{{/if}}
 </template>

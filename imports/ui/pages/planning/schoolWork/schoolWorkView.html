@@ -4,7 +4,7 @@
 		{{#if schoolWork}}
 			<div class="view-heading m-tn-b-21">
 				<div class="view-icon">
-					<i class="fss-school-work"></i>
+					<i class="icn-school-work"></i>
 				</div>
 				<div class="view-title">
 					<h1 class="txt-ellipsis m-tn-b-3">{{schoolWork.name}}</h1>
@@ -29,9 +29,9 @@
 							{{#each resource in resources schoolWork.resources}}
 								<li class="txt-ellipsis p-tn-b-3">
 									{{#if resource.link}}
-										<a href="{{resource.link}}"><i class="fss-{{resource.type}} txt-primary"></i> {{resource.title}}</a>
+										<a href="{{resource.link}}"><i class="icn-{{resource.type}} txt-primary"></i> {{resource.title}}</a>
 									{{else}}
-										<i class="fss-{{resource.type}} txt-primary"></i> {{resource.title}}
+										<i class="icn-{{resource.type}} txt-primary"></i> {{resource.title}}
 									{{/if}}
 								</li>
 							{{/each}}
@@ -47,7 +47,7 @@
 				{{#each term in schoolWork.termStats}}
 					<section class="sub-section">
 						<label>Term {{term.termOrder}}</label>
-						<p>{{term.lessonCount}} Time{{sPlural term.lessonCount}}</p>
+						<p>{{term.lessonCount}} Segment{{sPlural term.lessonCount}}</p>
 					</section>
 				{{/each}}
 			</div>

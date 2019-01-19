@@ -31,19 +31,19 @@ Template.resourcesView.helpers({
 
 	resourceIcon: function(resource) {
 		if (resource === 'app') {
-			return 'fss-app';
+			return 'icn-app';
 		}
 		if (resource === 'audio') {
-			return 'fss-audio';
+			return 'icn-audio';
 		}
 		if (resource === 'book') {
-			return 'fss-book';
+			return 'icn-book';
 		}
 		if (resource === 'link') {
-			return 'fss-link';
+			return 'icn-link';
 		}
 		if (resource === 'video') {
-			return 'fss-video';
+			return 'icn-video';
 		}
 	},
 

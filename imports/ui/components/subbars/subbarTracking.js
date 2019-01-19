@@ -49,19 +49,19 @@ Template.subbarTracking.helpers({
 
 	yearStatus: function(schoolYearStatus) {
 		if (schoolYearStatus === 'empty') {
-			return 'fss-open-circle txt-gray-darker';
+			return 'icn-open-circle txt-gray-darker';
 		}
 		if (schoolYearStatus === 'pending') {
-			return 'fss-circle txt-gray-darker';
+			return 'icn-circle txt-gray-darker';
 		}
 		if (schoolYearStatus === 'partial') {
-			return 'fss-circle txt-secondary';
+			return 'icn-circle txt-secondary';
 		}
 		if (schoolYearStatus === 'assigned') {
-			return 'fss-circle txt-warning';
+			return 'icn-circle txt-warning';
 		}
 		if (schoolYearStatus === 'completed') {
-			return 'fss-circle txt-primary';
+			return 'icn-circle txt-primary';
 		}
 	},
 
@@ -79,19 +79,19 @@ Template.subbarTracking.helpers({
 
 	termStatus: function(termStatus) {
 		if (termStatus === 'empty') {
-			return 'fss-open-circle txt-gray-darker';
+			return 'icn-open-circle txt-gray-darker';
 		}
 		if (termStatus === 'pending') {
-			return 'fss-circle txt-gray-darker';
+			return 'icn-circle txt-gray-darker';
 		}
 		if (termStatus === 'partial') {
-			return 'fss-circle txt-secondary';
+			return 'icn-circle txt-secondary';
 		}
 		if (termStatus === 'assigned') {
-			return 'fss-circle txt-warning';
+			return 'icn-circle txt-warning';
 		}
 		if (termStatus === 'completed') {
-			return 'fss-circle txt-primary';
+			return 'icn-circle txt-primary';
 		}
 	},
 
@@ -109,19 +109,19 @@ Template.subbarTracking.helpers({
 
 	weekStatus: function(weekStatus) {
 		if (weekStatus === 'empty') {
-			return 'fss-open-circle txt-gray-darker';
+			return 'icn-open-circle txt-gray-darker';
 		}
 		if (weekStatus === 'pending') {
-			return 'fss-circle txt-gray-darker';
+			return 'icn-circle txt-gray-darker';
 		}
 		if (weekStatus === 'partial') {
-			return 'fss-circle txt-secondary';
+			return 'icn-circle txt-secondary';
 		}
 		if (weekStatus === 'assigned') {
-			return 'fss-circle txt-warning';
+			return 'icn-circle txt-warning';
 		}
 		if (weekStatus === 'completed') {
-			return 'fss-circle txt-primary';
+			return 'icn-circle txt-primary';
 		}
 	},
 

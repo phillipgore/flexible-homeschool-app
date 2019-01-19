@@ -6,6 +6,8 @@ import { SchoolYears } from '../../../../api/schoolYears/schoolYears.js';
 import { Terms } from '../../../../api/terms/terms.js';
 import { Weeks } from '../../../../api/weeks/weeks.js';
 import { Lessons } from '../../../../api/lessons/lessons.js';
+
+import {requiredValidation} from '../../../../modules/functions';
 import './schoolWorkEdit.html';
 
 LocalResources = new Mongo.Collection(null);
@@ -58,12 +60,10 @@ Template.schoolWorkEdit.onRendered( function() {
 	// Form Validation and Submission
 	$('.js-form-school-work-update').validate({
 		rules: {
-			name: { required: true },
 			timesPerWeek: { number: true, max: 7 },
 		},
 		
 		messages: {
-			name: { required: "Required." },
 			timesPerWeek: { number: "Number Required.", max: 'Limit 7.' },
 		},
 
@@ -82,7 +82,7 @@ Template.schoolWorkEdit.onRendered( function() {
 			let updateSchoolWorkProperties = {
 				_id: FlowRouter.getParam('selectedSchoolWorkId'),
 				name: template.find("[name='name']").value.trim(),
-				description: $('#' + $(event.currentTarget).find('.editor-content').attr('id')).html(),
+				description: $('.js-form-school-work-update .editor-content').html(),
 				resources: resourceIds,
 				studentId: FlowRouter.getParam('selectedStudentId'),
 				schoolYearId: FlowRouter.getParam('selectedSchoolYearId'),
@@ -121,7 +121,7 @@ Template.schoolWorkEdit.onRendered( function() {
 				if (newLessonsTotal < completeLessons) {
 					Alerts.insert({
 						colorClass: 'bg-danger',
-						iconClass: 'fss-danger',
+						iconClass: 'icn-danger',
 						message: "These changes would delete lessons you have already worked on.",
 					});
 					return false;
@@ -132,7 +132,7 @@ Template.schoolWorkEdit.onRendered( function() {
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',
-						iconClass: 'fss-danger',
+						iconClass: 'icn-danger',
 						message: error.reason.message,
 					});
 					
@@ -301,6 +301,13 @@ Template.schoolWorkEdit.events({
 		$('.js-' + termOrder).slideToggle('fast');
 	},
 
+	'click .js-remove-resource'(event) {
+		event.preventDefault();
+
+		Alerts.remove({type: 'addResource'});
+		LocalResources.remove({id: event.currentTarget.id});
+	},
+
 	'keyup #search-resources'(event, template) {
 		let value = event.currentTarget.value.trim();
 
@@ -332,7 +339,7 @@ Template.schoolWorkEdit.events({
 			Alerts.insert({
 				type: 'addResource',
 				colorClass: 'bg-warning',
-				iconClass: 'fss-warning',
+				iconClass: 'icn-warning',
 				message: '"' +localResource.title + '" is already attached to this schoolWork.',
 			});
 		} else {
@@ -345,11 +352,75 @@ Template.schoolWorkEdit.events({
 		}
 	},
 
-	'click .js-remove-resource'(event) {
+	'click .js-resource-btn'(event) {
+		event.preventDefault();
+		Session.set('selectedResourceNewType', event.currentTarget.id);
+		Session.set('currentType', event.currentTarget.id);
+		$('.js-resource-popover .js-resource-type').text(event.currentTarget.id);
+		document.getElementsByClassName('js-resource-popover')[0].classList.remove('hide');
+	},
+
+	'click .js-close-resource-popover'(event) {
 		event.preventDefault();
 
-		Alerts.remove({type: 'addResource'});
-		LocalResources.remove({id: event.currentTarget.id});
+		document.getElementsByClassName('js-form-new-resource')[0].reset();
+		document.getElementsByClassName('js-form-new-resource')[0].getElementsByClassName('editor-content')[0].innerHTML = '';
+		if (Session.get('currentType') != 'link') {
+			document.getElementsByClassName('js-form-new-resource')[0].getElementsByClassName('js-radio-own')[0].checked = true;
+		}
+		document.getElementsByClassName('popover-content')[0].scrollTop = 0;
+		document.getElementsByClassName('js-resource-popover')[0].classList.add('hide');
+	},
+
+	'click .js-create-attach'(event) {
+		event.preventDefault();
+		$('.js-form-new-resource').submit();
+	},
+
+	'click .js-step-circle, click .js-step-btn'(event) {
+		event.preventDefault();
+
+		let template = Template.instance();
+		let stepClass = $(event.currentTarget).attr('data-id');
+
+
+		if (stepClass === 'js-step-one') {
+			$('.js-step-circle').removeClass('bg-info');
+			$('.js-circle-one').addClass('bg-info');
+
+			$('.js-step').hide();
+			$('.' + stepClass).show();
+		}
+		if (stepClass === 'js-step-two') {
+			if ( requiredValidation($("[name='name']").val().trim()) ) {
+				$('#name').removeClass('error');
+				$('.name-errors').text('');
+
+				$('.js-step-circle').removeClass('bg-info');
+				$('.js-circle-two').addClass('bg-info');
+
+				$('.js-step').hide();
+				$('.' + stepClass).show();
+			} else {
+				$('#name').addClass('error');
+				$('.name-errors').text('Required.');
+			}
+		}
+		if (stepClass === 'js-step-three') {
+			if ( requiredValidation($("[name='name']").val().trim()) ) {
+				$('#name').removeClass('error');
+				$('.name-errors').text('');
+
+				$('.js-step-circle').removeClass('bg-info');
+				$('.js-circle-three').addClass('bg-info');
+
+				$('.js-step').hide();
+				$('.' + stepClass).show();
+			} else {
+				$('#name').addClass('error');
+				$('.name-errors').text('Required.');
+			}
+		}
 	},
 
 	'submit .js-form-school-work-update'(event) {

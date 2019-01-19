@@ -81,47 +81,6 @@ FlowRouter.route('/planning/schoolyears/edit/:selectedFramePosition/:selectedSch
 
 
 
-// Resources
-FlowRouter.route('/planning/resources/new/:selectedFramePosition/:selectedResourceType/:selectedResourceAvailability/:selectedResourceNewType', {
-	name: 'resourcesNew',
-	action: function(params) {
-		BlazeLayout.render('app', {
-			subbar: 'subbarResources',
-			frameOne: 'planningList',
-			frameTwo: 'resourcesList',
-			frameThree: 'resourcesNew' + _.capitalize(params.selectedResourceNewType),
-		});
-	},
-});
-
-
-FlowRouter.route('/planning/resources/view/:selectedFramePosition/:selectedResourceType/:selectedResourceAvailability/:selectedResourceId/:selectedResourceCurrentTypeId', {
-	name: 'resourcesView',
-	action(params) {
-		BlazeLayout.render('app', {
-			subbar: 'subbarResources',
-			frameOne: 'planningList',
-			frameTwo: 'resourcesList',
-			frameThree: 'resourcesView',
-		});
-	},
-});
-
-FlowRouter.route('/planning/resources/edit/:selectedFramePosition/:selectedResourceType/:selectedResourceAvailability/:selectedResourceId/:selectedResourceCurrentTypeId', {
-	name: 'resourcesEdit',
-	action: function(params, queryParams) {
-		BlazeLayout.render('app', {
-			subbar: 'subbarResources',
-			frameOne: 'planningList',
-			frameTwo: 'resourcesList',
-			frameThree: 'resourcesEdit' + _.capitalize(params.selectedResourceCurrentTypeId),
-		});
-	},
-});
-
-
-
-
 // School Work
 FlowRouter.route('/planning/schoolWork/new/:selectedFramePosition/:selectedStudentId/:selectedSchoolYearId', {
 	name: 'schoolWorkNew',
@@ -155,6 +114,47 @@ FlowRouter.route('/planning/schoolWork/edit/:selectedFramePosition/:selectedStud
 			frameOne: 'planningList',
 			frameTwo: 'schoolWorkList',
 			frameThree: 'schoolWorkEdit',
+		});
+	},
+});
+
+
+
+
+// Resources
+FlowRouter.route('/planning/resources/new/:selectedFramePosition/:selectedResourceType/:selectedResourceAvailability/:selectedResourceNewType', {
+	name: 'resourcesNew',
+	action: function(params) {
+		BlazeLayout.render('app', {
+			subbar: 'subbarResources',
+			frameOne: 'planningList',
+			frameTwo: 'resourcesList',
+			frameThree: 'resourcesNew',
+		});
+	},
+});
+
+
+FlowRouter.route('/planning/resources/view/:selectedFramePosition/:selectedResourceType/:selectedResourceAvailability/:selectedResourceId/:selectedResourceCurrentTypeId', {
+	name: 'resourcesView',
+	action(params) {
+		BlazeLayout.render('app', {
+			subbar: 'subbarResources',
+			frameOne: 'planningList',
+			frameTwo: 'resourcesList',
+			frameThree: 'resourcesView',
+		});
+	},
+});
+
+FlowRouter.route('/planning/resources/edit/:selectedFramePosition/:selectedResourceType/:selectedResourceAvailability/:selectedResourceId/:selectedResourceCurrentTypeId', {
+	name: 'resourcesEdit',
+	action: function(params, queryParams) {
+		BlazeLayout.render('app', {
+			subbar: 'subbarResources',
+			frameOne: 'planningList',
+			frameTwo: 'resourcesList',
+			frameThree: 'resourcesEdit',
 		});
 	},
 });

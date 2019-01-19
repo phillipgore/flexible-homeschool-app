@@ -61,12 +61,16 @@ Template.resourcesList.helpers({
 		return FlowRouter.getParam('selectedResourceAvailability');
 	},
 
+	selectedResourceId: function() {
+		return FlowRouter.getParam('selectedResourceId');
+	},
+
 	selectedResourceCurrentTypeId: function() {
 		return FlowRouter.getParam('selectedResourceCurrentTypeId');
 	},
 
 	selectedResourceNewType: function() {
-		return Session.get('selectedResourceNewType');
+		return Session.get('selectedResourceNewType')
 	},
 
 	resourceCount: function(type, availability) {
@@ -156,7 +160,7 @@ Template.resourcesList.events({
 			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',
-					iconClass: 'fss-danger',
+					iconClass: 'icn-danger',
 					message: error.reason,
 				});
 				
