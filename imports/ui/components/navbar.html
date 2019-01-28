@@ -1,38 +1,70 @@
 <template name="navbar">
 	<nav class="navbar row">
-		<div class="col-md-3of4 offset-md-1of8 | col-lg-4of5 offset-lg-1of10">
+		<div class="col-md-3of4 offset-md-1of8 dis-lg-none">
 			<div class="col-tn-1of4">
 				{{#if userRestricted user.info.role}}
-					<span data-section="planning" data-role="{{user.info.role}}" class="js-navbar-restricted btn-nav first disabled" title="Planning">
-						<i class="icn-planning btn-nav-icon"></i>
+					<span data-section="planning" data-role="{{user.info.role}}" class="js-navbar-restricted btn-nav disabled" title="Planning">
+						<div class="btn-nav-icon first"><i class="icn-planning"></i></div>
 						<div class="btn-nav-label">Planning</div>
 					</span>
 				{{else}}
 					<a class="js-btn-nav js-btn-nav-planning-list btn-nav first {{active 'planningList'}}" href="{{planningPath}}" title="Planning">
-						<i class="icn-planning btn-nav-icon"></i>
+						<div class="btn-nav-icon first"><i class="icn-planning"></i></div>
 						<div class="btn-nav-label">Planning</div>
 					</a>
 				{{/if}}
 			</div>
 			<div class="col-tn-1of4">
 				<a class="js-btn-nav js-btn-nav-tracking-list btn-nav {{active 'trackingList'}}" href="{{trackingPath}}" title="Tracking">
-					<i class="icn-tracking btn-nav-icon"></i>
+					<div class="btn-nav-icon"><i class="icn-tracking"></i></div>
 					<div class="btn-nav-label">Tracking</div>
 				</a>
 			</div>
 			<div class="col-tn-1of4">
 				<a class="js-btn-nav js-btn-nav-reporting-list btn-nav {{active 'reportingList'}}" href="{{reportingPath}}" title="Reporting">
-					<i class="icn-reporting btn-nav-icon"></i>
+					<div class="btn-nav-icon"><i class="icn-reporting"></i></div>
 					<div class="btn-nav-label">Reporting</div>
 				</a>
 			</div>
 			<div class="col-tn-1of4">
-				<a class="js-btn-nav js-btn-nav-settings-list btn-nav last {{active 'settingsList'}} pos-relative" href="/settings/users/view/1/{{selectedUserId}}" title="Settings">
+				<a class="js-btn-nav js-btn-nav-settings-list btn-nav {{active 'settingsList'}} pos-relative" href="/settings/users/view/1/{{selectedUserId}}" title="Settings">
 					{{#if group.stripePaymentAttempt}}<div class="navbar-badge"></div>{{/if}}
-					<i class="icn-settings btn-nav-icon"></i>
+					<div class="btn-nav-icon last"><i class="icn-settings"></i></div>
 					<div class="btn-nav-label">Settings</div>
 				</a>
 			</div>
+		</div>
+
+		<div class="dis-tn-none dis-lg-block m-tn-l-neg-1 p-tn-l-45">
+
+			{{#if userRestricted user.info.role}}
+				<span data-section="planning" data-role="{{user.info.role}}" class="js-navbar-restricted btn-nav disabled" title="Planning">
+					<div class="btn-nav-icon first"><i class="icn-planning"></i></div>
+					<div class="btn-nav-label">Planning</div>
+				</span>
+			{{else}}
+				<a class="js-btn-nav js-btn-nav-planning-list btn-nav first {{active 'planningList'}}" href="{{planningPath}}" title="Planning">
+					<div class="btn-nav-icon first"><i class="icn-planning"></i></div>
+					<div class="btn-nav-label">Planning</div>
+				</a>
+			{{/if}}
+
+			<a class="js-btn-nav js-btn-nav-tracking-list btn-nav {{active 'trackingList'}}" href="{{trackingPath}}" title="Tracking">
+				<div class="btn-nav-icon"><i class="icn-tracking"></i></div>
+				<div class="btn-nav-label">Tracking</div>
+			</a>
+
+			<a class="js-btn-nav js-btn-nav-reporting-list btn-nav {{active 'reportingList'}}" href="{{reportingPath}}" title="Reporting">
+				<div class="btn-nav-icon"><i class="icn-reporting"></i></div>
+				<div class="btn-nav-label">Reporting</div>
+			</a>
+
+			<a class="js-btn-nav js-btn-nav-settings-list btn-nav {{active 'settingsList'}} pos-relative" href="/settings/users/view/1/{{selectedUserId}}" title="Settings">
+				{{#if group.stripePaymentAttempt}}<div class="navbar-badge"></div>{{/if}}
+				<div class="btn-nav-icon last"><i class="icn-settings"></i></div>
+				<div class="btn-nav-label">Settings</div>
+			</a>
+
 		</div>
 	</nav>
 </template>

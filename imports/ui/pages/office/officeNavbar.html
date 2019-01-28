@@ -1,24 +1,35 @@
 <template name="officeNavbar">
 	<nav class="navbar row">
-		<div class="p-md-rl-18">
-			<div class="col-tn-1of3 col-lg-1of2">
+		<div class="p-md-rl-18 dis-lg-none">
+			<div class="col-tn-1of3">
 				<a class="js-btn-nav js-btn-nav-reporting-list btn-nav btn-nav-info first {{isActiveRoute 'officeDashboard'}}" href="/office/dashboard/1" title="Dashboard">
-					<i class="icn-dashboard btn-nav-icon"></i>
+					<div class="btn-nav-icon first"><i class="icn-dashboard"></i></div>
 					<div class="btn-nav-label">Dashboard</div>
 				</a>
 			</div>
-			<div class="col-tn-1of3 col-lg-1of2">
+			<div class="col-tn-1of3">
 				<a class="js-btn-nav js-btn-nav-reporting-list btn-nav btn-nav-info last {{isActiveRoute 'officeAccountsList'}} {{isActiveRoute 'officeAccountView'}}" href="/office/accounts/view/1/{{selectedGroupId}}" title="Accounts">
-					<i class="icn-users btn-nav-icon"></i>
+					<div class="btn-nav-icon last"><i class="icn-users"></i></div>
 					<div class="btn-nav-label">Accounts</div>
 				</a>
 			</div>
-			<div class="col-tn-1of3 dis-lg-none">
+			<div class="col-tn-1of3">
 				<a class="js-btn-nav js-btn-nav-reporting-list btn-nav btn-nav-info" href="/" title="Flexible Homeschool App">
 					<i class="icn-logo-plain btn-nav-icon"></i>
 					<div class="btn-nav-label">Application</div>
 				</a>
 			</div>
+		</div>
+
+		<div class="p-tn-l-72 m-tn-l-21 dis-tn-none dis-lg-block">
+			<a class="js-btn-nav js-btn-nav-reporting-list btn-nav btn-nav-info first {{isActiveRoute 'officeDashboard'}}" href="/office/dashboard/1" title="Dashboard">
+				<div class="btn-nav-icon first"><i class="icn-dashboard"></i></div>
+				<div class="btn-nav-label">Dash</div>
+			</a>
+			<a class="js-btn-nav js-btn-nav-reporting-list btn-nav btn-nav-info last {{isActiveRoute 'officeAccountsList'}} {{isActiveRoute 'officeAccountView'}}" href="/office/accounts/view/1/{{selectedGroupId}}" title="Accounts">
+				<div class="btn-nav-icon last"><i class="icn-users"></i></div>
+				<div class="btn-nav-label">Accounts</div>
+			</a>
 		</div>
 	</nav>
 </template>

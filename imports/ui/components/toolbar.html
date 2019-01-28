@@ -10,12 +10,14 @@
 						<!-- Back Button -->
 						{{#if backButton}}
 							<a class="js-btn-back btn-tool btn-tool-icn-lg dis-sm-none" href="#">
-								<i class="icn-back btn-tool-icon"></i>
+								<div class="btn-tool-icon"><i class="icn-back"></i></div>
+								<div class="btn-tool-label">Back</div>
 							</a>
 						{{/if}}
 
-						<a class="js-btn-back btn-tool btn-tool-icn-lg dis-tn-none dis-sm-inline-block dis-lg-none {{#unless backButton}}disabled{{/unless}}" href="#">
-							<i class="icn-back btn-tool-icon"></i>
+						<a class="js-btn-back btn-tool fl-tn-left dis-tn-none dis-sm-inline-block dis-lg-none {{#unless backButton}}disabled{{/unless}}" href="#">
+							<div class="btn-tool-icon"><i class="icn-back"></i></div>
+							<div class="btn-tool-label">Back</div>
 						</a>
 
 
@@ -123,8 +125,9 @@
 						<!-- New Dropdown Button -->
 						<div class="btn-tool-dropdown dis-tn-none dis-sm-inline-block">
 							<a class="js-dropdown btn-tool" href="#" data-menu="#newPlanning" title="New Student, School Year, School Work or User">
-								<i class="icn-new btn-tool-icon dis-sm-none"></i>
-								<i class="icn-new-circle btn-tool-icon dis-tn-none dis-sm-inline-block"></i>
+								<i class="icn-new dis-sm-none"></i>
+								<div class="btn-tool-icon dis-tn-none dis-sm-block"><i class="icn-new-circle"></i></div>
+								<div class="btn-tool-label dis-tn-none dis-sm-block">New</div>
 							</a>
 							<ul id="newPlanning" class="dropdown-menu dropdown-tool border-none txt-tn-left m-tn-rl-9 hide">
 								<div class="dropdown-arrow"></div>
@@ -194,12 +197,14 @@
 
 						<!-- Edit Button -->
 						<a class="btn-tool dis-tn-none dis-sm-inline-block {{#unless editableDeletable}}disabled{{/unless}} {{#unless editUrl.length}}disabled{{/unless}}" href="{{editUrl}}" title="Edit Selection">
-							<i class="icn-edit btn-tool-icon"></i>{{editable}}
+							<div class="btn-tool-icon"><i class="icn-edit"></i>{{editable}}</div>
+							<div class="btn-tool-label">Edit</div>
 						</a>
 
 						<!-- Delete Button -->
 						<a class="{{deleteClass}} btn-tool dis-tn-none dis-sm-inline-block {{#unless editableDeletable}}disabled{{/unless}} {{#unless deletable}}disabled{{/unless}}" href="#" title="{{#if deletable}}Delete Selection{{else}}Disabled{{/if}}">
-							<i class="icn-delete btn-tool-icon"></i>
+							<div class="btn-tool-icon"><i class="icn-delete"></i></div>
+							<div class="btn-tool-label">Delete</div>
 						</a>
 					</div>
 				</div>
