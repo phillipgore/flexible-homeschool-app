@@ -140,8 +140,8 @@ button, .btn {
 
 		.btn-tool-icon {
 			display: block;
-			margin: 0px 0px 2px;
-			padding: 4px 0px;
+			margin: 0px 0px 3px;
+			padding: 3px 0px;
 			font-size: 15px;
 			border-radius: 3px;
 			background-color: $color-primary-light;
@@ -151,7 +151,7 @@ button, .btn {
 
 		.btn-tool-label {
 			display: block;
-			font-size: 10px;
+			font-size: 11px;
 			font-weight: 400;
 			color: $color-white;
 		}
@@ -178,7 +178,7 @@ button, .btn {
 }
 
 .btn-tool-spacer {
-	width: 17px;
+	width: 12px;
 	margin-right: 9px;
 	height: 32px;
 	margin-top: 9px;
@@ -327,7 +327,7 @@ a.btn-nav {
 		font-size: 15px;
 		font-weight: 500;
 		cursor: default;
-		width: 50px;
+		width: 63px;
 		height: auto;
 		padding: 7px 0px 0px;
 		display: inline-block;
@@ -335,8 +335,8 @@ a.btn-nav {
 
 		.btn-nav-icon {
 			display: block;
-			margin: 0px 0px 2px;
-			padding: 4px 0px;
+			margin: 0px 0px 3px;
+			padding: 3px 0px;
 			font-size: 15px;
 			background-color: $color-primary-light;
 			color: $color-white;
@@ -354,7 +354,7 @@ a.btn-nav {
 		.btn-nav-label {
 			display: block;
 			margin-top: 0px;
-			font-size: 10px;
+			font-size: 11px;
 			font-weight: 400;
 			color: $color-white;
 		}
