@@ -53,6 +53,8 @@ Template.trackingSchoolWork.helpers({
 	},
 
 	lessonStatus: function(lesson, lessons) {
+		$('.js-lesson-updating').hide()
+
 		if (!_.some(lessons, ['completed', false])) {
 			return 'btn-primary';
 		}
@@ -62,6 +64,7 @@ Template.trackingSchoolWork.helpers({
 		if (lesson.assigned) {
 			return 'btn-warning';
 		}
+		
 		return false;
 	},
 });
@@ -193,7 +196,7 @@ Template.trackingSchoolWork.events({
 				Meteor.call('getProgressStats', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'), FlowRouter.getParam('selectedWeekId'), function(error, result) {
 					Session.set('progressStats', result);
 				});
-				$('.js-lesson-updating').hide();
+				// $('.js-lesson-updating').hide();
 				Session.set('lessonInfo', null);
 			}
 		});
