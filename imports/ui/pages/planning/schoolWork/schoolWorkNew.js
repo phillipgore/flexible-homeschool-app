@@ -6,6 +6,7 @@ import { Terms } from '../../../../api/terms/terms.js';
 import { Weeks } from '../../../../api/weeks/weeks.js';
 
 import {requiredValidation} from '../../../../modules/functions';
+import _ from 'lodash'
 import './schoolWorkNew.html';
 
 LocalResources = new Mongo.Collection(null);
@@ -225,9 +226,21 @@ Template.schoolWorkNew.events({
 		$('#' + event.currentTarget.dataset.termId).find('.js-times-per-week').val(event.currentTarget.value);
 	},
 
-	'change .js-times-per-week'(event) {
-		$('#' + event.currentTarget.dataset.termId + ' .js-times-per-week-preset option').removeProp('selected');
-		$('#' + event.currentTarget.dataset.termId + ' .js-times-per-week-preset option:disabled').prop('selected', true);
+	'keyup .js-times-per-week'(event) {
+		let uniqValues = _.uniq(_.map(document.getElementById(event.currentTarget.dataset.termId).getElementsByClassName('js-times-per-week'), 'value'))
+		let randomOption = document.getElementById(event.currentTarget.dataset.termId).getElementsByClassName('js-option-random').length
+		
+		if (uniqValues.length != 1 && !randomOption) {
+			$('#' + event.currentTarget.dataset.termId + ' .js-times-per-week-preset option').removeProp('selected');
+			$('#' + event.currentTarget.dataset.termId + ' .js-times-per-week-preset').prepend('<option class="js-option-random" disabled selected value>Random Segments Per Week</option>');
+		} else if (uniqValues.length == 1) {
+			$('#' + event.currentTarget.dataset.termId + ' .js-option-random').remove();
+			if (!uniqValues[0]) {
+				$('#' + event.currentTarget.dataset.termId + ' .js-times-per-week-preset option:first').prop('selected', true);
+			} else {
+				$('#' + event.currentTarget.dataset.termId + ' .js-times-per-week-preset option[value='+ uniqValues[0] +']').prop('selected', true);
+			}
+		}
 	},
 
 	'click .js-show-individual-weeks'(event) {

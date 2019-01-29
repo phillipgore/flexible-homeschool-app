@@ -198,15 +198,16 @@
 						{{/each}}
 					</select>
 				</div>
+
 				{{#each term in terms}}
 				<div id="{{term._id}}" class="well bg-gray-lighter m-tn-b-9">
 					<h3 class="m-tn-b-9">Term {{term.order}}</h3>
 					<label>{{weekCount term._id}} Weeks</label>
+
 					<div class="icn-select">
 						<select data-term-id="{{term._id}}" class="js-times-per-week-preset" name="timesPerWeekPreset" id="times-per-week-preset">
-							<option disabled selected value>Segments Per Week</option>
-							<option value="">0 Segments Per Week</option>
-							<option value="1">1 Segments Per Week</option>
+							<option selected value="">0 Segments Per Week</option>
+							<option value="1">1 Segment Per Week</option>
 							<option value="2">2 Segments Per Week</option>
 							<option value="3">3 Segments Per Week</option>
 							<option value="4">4 Segments Per Week</option>
@@ -215,7 +216,11 @@
 							<option value="7">7 Segments Per Week</option>
 						</select>
 					</div>
-					<button id="{{term.order}}" class="js-show-individual-weeks btn-gray-dark btn-block extra-small"><span class="js-label-{{term.order}}">Show</span><span class="js-label-{{term.order}} hide">Hide</span> Individual Weeks</button>
+
+					<button id="{{term.order}}" class="js-show-individual-weeks btn-gray-dark btn-block extra-small">
+						<span class="js-label-{{term.order}}">Show</span><span class="js-label-{{term.order}} hide">Hide</span> Individual Weeks
+					</button>
+
 					<div class="js-times-per-week-container m-tn-rl-neg-3 m-tn-b-neg-6 m-tn-t-9">
 						<div class="js-{{term.order}} row hide">
 							{{#each week in weeks term._id}}
@@ -228,6 +233,7 @@
 					</div>
 				</div>
 				{{/each}}
+
 			</div>
 			<!-- /Schedule -->
 

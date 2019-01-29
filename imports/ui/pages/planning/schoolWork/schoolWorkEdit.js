@@ -8,6 +8,7 @@ import { Weeks } from '../../../../api/weeks/weeks.js';
 import { Lessons } from '../../../../api/lessons/lessons.js';
 
 import {requiredValidation} from '../../../../modules/functions';
+import _ from 'lodash'
 import './schoolWorkEdit.html';
 
 LocalResources = new Mongo.Collection(null);
@@ -190,12 +191,11 @@ Template.schoolWorkEdit.helpers({
 
 		if (_.uniq(lessonCounts).length === 1) {
 			if (value === lessonCounts[0]) {
+				$('#' + termId + ' .js-option-random').remove();
 				return 'selected';
 			};
 		}
-		if (value === 'random') {
-			return 'selected';
-		}
+		return null;
 	},
 
 	isRandom: function(termId) {
@@ -279,7 +279,7 @@ Template.schoolWorkEdit.events({
 		$('#' + event.currentTarget.dataset.termId + ' .js-times-per-week-preset option:disabled').prop('selected', true);
 	},
 
-	'blur .js-times-per-week'(event) {
+	'keyup .js-times-per-week'(event) {
 		let completeLessons = event.currentTarget.dataset.lessonCompleteCount;
 		let newLessons = $(event.currentTarget).val();
 
@@ -291,6 +291,21 @@ Template.schoolWorkEdit.events({
 			$(event.currentTarget).removeClass('error');
 			$(event.currentTarget).parent().find('.js-times-per-week-errors').text('');
 			$('.js-submit').prop('disabled', false);
+		}
+
+		let uniqValues = _.uniq(_.map(document.getElementById(event.currentTarget.dataset.termId).getElementsByClassName('js-times-per-week'), 'value'))
+		let randomOption = document.getElementById(event.currentTarget.dataset.termId).getElementsByClassName('js-option-random').length
+		
+		if (uniqValues.length != 1 && !randomOption) {
+			$('#' + event.currentTarget.dataset.termId + ' .js-times-per-week-preset option').removeProp('selected');
+			$('#' + event.currentTarget.dataset.termId + ' .js-times-per-week-preset').prepend('<option class="js-option-random" disabled selected value>Random Segments Per Week</option>');
+		} else if (uniqValues.length == 1) {
+			$('#' + event.currentTarget.dataset.termId + ' .js-option-random').remove();
+			if (!uniqValues[0]) {
+				$('#' + event.currentTarget.dataset.termId + ' .js-times-per-week-preset option:first').prop('selected', true);
+			} else {
+				$('#' + event.currentTarget.dataset.termId + ' .js-times-per-week-preset option[value='+ uniqValues[0] +']').prop('selected', true);
+			}
 		}
 	},
 
