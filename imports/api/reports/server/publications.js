@@ -327,7 +327,7 @@ Meteor.publish('reportData', function(studentId, schoolYearId, termId, weekId, r
 						let lessonData = {};
 
 						lessonData._id = lesson._id;
-						lessonData.order = lesson.order;
+						lessonData.order = lesson.order.toString().split('.')[1];
 						lessonData.schoolWorkId = lesson.schoolWorkId;
 						lessonData.completed = lesson.completed;
 						if (lesson.completedOn) {
