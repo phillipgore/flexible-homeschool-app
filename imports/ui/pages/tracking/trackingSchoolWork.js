@@ -53,7 +53,7 @@ Template.trackingSchoolWork.helpers({
 	},
 
 	lessonStatus: function(lesson, lessons) {
-		$('.js-lesson-updating').hide()
+		$('.js-lesson-updating').hide();
 
 		if (!_.some(lessons, ['completed', false])) {
 			return 'btn-primary';
@@ -64,7 +64,7 @@ Template.trackingSchoolWork.helpers({
 		if (lesson.assigned) {
 			return 'btn-warning';
 		}
-		
+
 		return false;
 	},
 });
