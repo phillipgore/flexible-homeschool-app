@@ -3,8 +3,11 @@ import { Students } from '../../../../api/students/students.js';
 import './studentsEdit.html';
 
 Template.studentsEdit.onCreated( function() {
-	// Subscriptions
-	this.subscribe('student', FlowRouter.getParam('selectedStudentId'));
+	let template = Template.instance();
+	
+	template.autorun(() => {
+		this.studentData = Meteor.subscribe('student', FlowRouter.getParam('selectedStudentId'));
+	});
 });
 
 Template.studentsEdit.onRendered( function() {
