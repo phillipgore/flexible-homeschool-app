@@ -76,10 +76,6 @@ Meteor.methods({
 		];
 
 		let fixtureSchoolYears = [
-			// {
-			// 	startYear: '2016',
-			// 	endYear: '2017',
-			// },
 			{
 				startYear: '2017',
 				endYear: '2018',
@@ -2862,7 +2858,7 @@ Meteor.methods({
 			delete schoolWork.resourceTitles
 		});
 
-		SchoolYears.find({groupId: groupId, startYear: '2018'}).forEach(schoolYear => {
+		SchoolYears.find({groupId: groupId, startYear: {$in: ['2017', '2018']}}).forEach(schoolYear => {
 			Students.find({groupId: groupId}).forEach(student => {
 				sourceSchoolWork.forEach(schoolWork => {
 					fixtureSchoolWork.push(
@@ -2884,7 +2880,10 @@ Meteor.methods({
 
 		// Insert Lessons
 		Students.find({groupId: groupId}).forEach(student => {
-			SchoolYears.find({groupId: groupId, startYear: '2018'}).forEach(schoolYear => {
+			SchoolYears.find({
+				groupId: groupId, 
+				startYear: {$in: ['2017', '2018']}
+			}).forEach(schoolYear => {
 				Terms.find({schoolYearId: schoolYear._id}, {sort: {order: 1}}).forEach(term => {
 					let weekIds = Weeks.find({termId: term._id}, {sort: {order: 1}}).map(week => week._id);
 					let schoolWorkIds = SchoolWork.find({studentId: student._id, schoolYearId: schoolYear._id}, {sort: {name: 1}}).map(schoolWork => schoolWork._id)
@@ -2904,11 +2903,11 @@ Meteor.methods({
 								};
 
 
-								if (schoolYear.startYear === '2018' && term.order === 1) {
+								if (schoolYear.startYear === '2017' && term.order === 1 || schoolYear.startYear === '2018' && term.order === 1) {
 									lessonProperties.completed = true
 								}
 
-								if (schoolYear.startYear === '2018' && term.order === 2) {
+								if (schoolYear.startYear === '2017' && term.order === 2 || schoolYear.startYear === '2018' && term.order === 2) {
 									if (lessonProperties.order > 3.9 && lessonProperties.order <= parseFloat('5.' + Math.floor(timesPerWeek[i] / 2).toString())) {
 										lessonProperties.completed = true
 									} else {
@@ -2920,15 +2919,15 @@ Meteor.methods({
 									}
 								}
 
-								if (schoolYear.startYear === '2018' && term.order === 3) {
+								if (schoolYear.startYear === '2017' && term.order === 3 || schoolYear.startYear === '2018' && term.order === 3) {
 									lessonProperties.completed = false
 								}
 
-								if (schoolYear.startYear < '2018') {
+								if (schoolYear.startYear < '2017' || schoolYear.startYear < '2018') {
 									lessonProperties.completed = true
 								}
 
-								if (schoolYear.startYear > '2018') {
+								if (schoolYear.startYear > '2017' || schoolYear.startYear > '2018') {
 									lessonProperties.completed = false
 								}
 

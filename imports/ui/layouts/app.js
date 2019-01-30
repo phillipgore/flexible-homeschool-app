@@ -357,8 +357,8 @@ Template.app.events({
 			editUrl: '/planning/students/edit/3/' + $(event.currentTarget).attr('id'),
 		});
 
-		let sessionSchoolWorkIdName = 'selectedSchoolWork' + $(event.currentTarget).attr('id') + Session.get('selectedSchoolYearId') + 'Id';
-		Session.set('selectedSchoolWorkId', Session.get(sessionSchoolWorkIdName));
+		// let sessionSchoolWorkIdName = 'selectedSchoolWork' + $(event.currentTarget).attr('id') + Session.get('selectedSchoolYearId') + 'Id';
+		// Session.set('selectedSchoolWorkId', Session.get(sessionSchoolWorkIdName));
 	},
 
 	'click .js-planning-student'(event) {
@@ -378,8 +378,9 @@ Template.app.events({
 			selectedSchoolYearId: $(event.currentTarget).attr('id'),
 			editUrl: '/planning/schoolyears/edit/3/' + $(event.currentTarget).attr('id'),
 		});
-		let sessionSchoolWorkIdName = 'selectedSchoolWork' + Session.get('selectedStudentId') + $(event.currentTarget).attr('id') + 'Id';
-		Session.set('selectedSchoolWorkId', Session.get(sessionSchoolWorkIdName));
+		// let sessionSchoolWorkIdName = 'selectedSchoolWork' + Session.get('selectedStudentId') + $(event.currentTarget).attr('id') + 'Id';
+		// console.log(sessionSchoolWorkIdName)
+		// Session.set('selectedSchoolWorkId', Session.get(sessionSchoolWorkIdName));
 	},
 
 	'click .js-planning-school-year'(event) {

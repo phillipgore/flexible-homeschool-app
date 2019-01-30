@@ -2,6 +2,12 @@ import {Template} from 'meteor/templating';
 import './subbarResources.html';
 import _ from 'lodash'
 
+Template.subbarResources.onCreated( function() {
+	Meteor.call('getInitialResourceIds', function(error, result) {
+		Session.set('initialResourceIds', result);
+	});
+});
+
 Template.subbarResources.helpers({
 	types: [
 		{_id: 'all', label: 'All Types'},
