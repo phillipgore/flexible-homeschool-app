@@ -348,7 +348,10 @@ Template.app.events({
 
 	// List Selections
 	'click .js-user'(event) {
-		Session.set('selectedUserId', $(event.currentTarget).attr('id'));
+		Session.set({
+			selectedUserId: $(event.currentTarget).attr('id'),
+			editUrl: '/settings/users/edit/3/' + $(event.currentTarget).attr('id'),
+		});
 	},
 
 	'click .js-student'(event) {

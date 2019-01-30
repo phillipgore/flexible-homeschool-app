@@ -1,6 +1,8 @@
 import {Template} from 'meteor/templating';
 import './usersNew.html';
 
+import md5 from 'md5';
+
 Template.usersNew.onCreated( function() {
 	// Subscriptions
 	this.subscribe('allUsers');
