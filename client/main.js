@@ -3,6 +3,7 @@ import '/imports/startup/client';
 // Layouts
 import '/imports/ui/layouts/app.js';
 import '/imports/ui/layouts/office.js';
+import '/imports/ui/layouts/notFound.js';
 
 // Components
 import '/imports/ui/components/toolbar.js';
@@ -57,16 +58,6 @@ import '/imports/ui/pages/planning/planningList.js';
 	import '/imports/ui/pages/planning/schoolYears/schoolYearsView.js';
 	import '/imports/ui/pages/planning/schoolYears/schoolYearsEdit.js';
 	// Resources
-	// import '/imports/ui/pages/planning/resources/resourcesEditForms/resourcesEditApp.js';
-	// import '/imports/ui/pages/planning/resources/resourcesEditForms/resourcesEditAudio.js';
-	// import '/imports/ui/pages/planning/resources/resourcesEditForms/resourcesEditBook.js';
-	// import '/imports/ui/pages/planning/resources/resourcesEditForms/resourcesEditLink.js';
-	// import '/imports/ui/pages/planning/resources/resourcesEditForms/resourcesEditVideo.js';
-	// import '/imports/ui/pages/planning/resources/resourcesNewForms/resourcesNewApp.js';
-	// import '/imports/ui/pages/planning/resources/resourcesNewForms/resourcesNewAudio.js';
-	// import '/imports/ui/pages/planning/resources/resourcesNewForms/resourcesNewBook.js';
-	// import '/imports/ui/pages/planning/resources/resourcesNewForms/resourcesNewLink.js';
-	// import '/imports/ui/pages/planning/resources/resourcesNewForms/resourcesNewVideo.js';
 	import '/imports/ui/pages/planning/resources/resourcesForm.js';
 	import '/imports/ui/pages/planning/resources/resourcesEdit.html';
 	import '/imports/ui/pages/planning/resources/resourcesNew.html';

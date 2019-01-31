@@ -19,6 +19,13 @@ import './reportingRoutes.js';
 import './settingsRoutes.js';
 import './officeRoutes.js';
 
+FlowRouter.notFound = {
+    name: 'notFound',
+	action() {
+		BlazeLayout.render('notFound');
+	},
+};
+
 import moment from 'moment';
 
 Accounts.onLogout(() => {
