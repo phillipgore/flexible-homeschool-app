@@ -135,18 +135,17 @@ button, .btn {
 		cursor: default;
 		width: 50px;
 		height: auto;
-		padding: 7px 0px 0px;
+		padding: 6px 0px 0px;
 		margin-left: 9px;
 
 		.btn-tool-icon {
 			display: block;
-			margin: 0px 0px 3px;
-			padding: 3px 0px;
-			font-size: 15px;
+			margin: 0px 0px 2px;
+			padding: 4px 0px;
 			border-radius: 3px;
 			background-color: $color-primary-light;
 			color: $color-white;
-			font-size: 13px;
+			font-size: 15px;
 		}
 
 		.btn-tool-label {
@@ -329,18 +328,17 @@ a.btn-nav {
 		cursor: default;
 		width: 63px;
 		height: auto;
-		padding: 7px 0px 0px;
+		padding: 6px 0px 0px;
 		display: inline-block;
 		float: left;
 
 		.btn-nav-icon {
 			display: block;
-			margin: 0px 0px 3px;
-			padding: 3px 0px;
-			font-size: 15px;
+			margin: 0px 0px 2px;
+			padding: 4px 0px;
 			background-color: $color-primary-light;
 			color: $color-white;
-			font-size: 13px;
+			font-size: 15px;
 
 			&.first {
 				border-radius: 3px 0px 0px 3px;
