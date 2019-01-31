@@ -17,6 +17,7 @@
 			}
 			p {
 				margin: 0px 0px 27px !important;
+				padding: 0px !important;
 				line-height: 2;
 			}
 			table {
@@ -76,16 +77,14 @@
 			<tbody>
 				<tr>
 					<td>
-						<p>{{firstName}},</p>
-						<p>You have been registered for a free trial of Flexible Homeschool App. You can use the information below to login to your account. We reccomend that you change your password.</p>
-						<p style="display:inline-block; padding:9px; margin:18px auto; width:300px; border-radius:3px, background-color:#ECF3EC; border:1px solid #D7D9D9;">
-							Sign In: <span style="font-weight: 700"><a href="https://app.aflexiblehomeschool.com/sign-in">Sign In Page</a></span><br>
-							Email: <span style="font-weight: 700">{{email}}</span><br>
-							Password: <span style="font-weight: 700">{{password}}</span>
+						<p>{{user.info.firstName}},</p>
+						<p>Welcome to Flexible School Schedule. We need to verify your email address to complete your signup. Please click the verification link below (or copy and paste it into your browser).</p>
+						<p style="font-weight: 700; text-align:center">
+							<a href="{{url}}">{{url}}</a>
 						</p>
-						<p>Your free trial is scheduled to end on {{expiration}}. On that date you will NOT loose any of your data but you will need to begin paying for the service.</p>
+						<p>If you have not signed up for Flexible School Schedule, please ignore this email.</p>
 						<p>
-							Enjoy!<br>
+							Happy Homeschooling!<br>
 							<a href="mailto:support@aflexiblehomeschool.com" style="font-weight: 700">support@aflexiblehomeschool.com</a>
 						</p>
 					</td>
