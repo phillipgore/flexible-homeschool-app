@@ -403,8 +403,13 @@ Template.schoolWorkEdit.events({
 			$('.js-step-circle').removeClass('bg-info');
 			$('.js-circle-one').addClass('bg-info');
 
-			$('.js-step').hide();
-			$('.' + stepClass).show();
+			$('.js-show').show();
+			$('.js-hide').hide();
+			$('.js-info').slideUp('fast');
+			$('.js-show-help').removeClass('js-open').addClass('js-closed');
+
+			$('.js-step').addClass('offpage');
+			$('.' + stepClass).removeClass('offpage');
 		}
 		if (stepClass === 'js-step-two') {
 			if ( requiredValidation($("[name='name']").val().trim()) ) {
@@ -414,8 +419,13 @@ Template.schoolWorkEdit.events({
 				$('.js-step-circle').removeClass('bg-info');
 				$('.js-circle-two').addClass('bg-info');
 
-				$('.js-step').hide();
-				$('.' + stepClass).show();
+				$('.js-show').show();
+				$('.js-hide').hide();
+				$('.js-info').slideUp('fast');
+				$('.js-show-help').removeClass('js-open').addClass('js-closed');
+
+				$('.js-step').addClass('offpage');
+				$('.' + stepClass).removeClass('offpage');
 			} else {
 				$('#name').addClass('error');
 				$('.name-errors').text('Required.');
@@ -429,8 +439,13 @@ Template.schoolWorkEdit.events({
 				$('.js-step-circle').removeClass('bg-info');
 				$('.js-circle-three').addClass('bg-info');
 
-				$('.js-step').hide();
-				$('.' + stepClass).show();
+				$('.js-show').show();
+				$('.js-hide').hide();
+				$('.js-info').slideUp('fast');
+				$('.js-show-help').removeClass('js-open').addClass('js-closed');
+
+				$('.js-step').addClass('offpage');
+				$('.' + stepClass).removeClass('offpage');
 			} else {
 				$('#name').addClass('error');
 				$('.name-errors').text('Required.');

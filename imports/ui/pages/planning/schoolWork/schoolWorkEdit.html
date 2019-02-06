@@ -33,7 +33,7 @@
 					<input type="text" name="name" id="name" placeholder="Math" autocomplete="off" value="{{selectedSchoolWork.name}}">
 					<label class="error name-errors"></label>
 					<label>General Instructions</label>
-					{{> editor placeholder="Read a chapter a day..." existingContent=selectedSchoolWork.description}}
+					<div class="editor-container">{{> editor placeholder="Read a chapter a day..." existingContent=selectedSchoolWork.description}}</div>
 				</div>
 			</div>
 			<!-- /Information -->
@@ -41,7 +41,7 @@
 			
 
 			<!-- Resources -->
-			<div class="js-step-two js-step hide">
+			<div class="js-step-two js-step offpage">
 				<div class="row m-tn-b-9">
 					<h2 class="col-tn-7of9">Step 2: Resources</h2>
 					<h2 class="col-tn-2of9">
@@ -159,7 +159,7 @@
 
 			
 			<!-- Schedule -->
-			<div class="js-step-three js-step hide">
+			<div class="js-step-three js-step offpage">
 				<div class="row m-tn-b-9">
 					<h2 class="col-tn-7of9">Step 3: Schedule</h2>
 					<h2 class="col-tn-2of9">
@@ -225,12 +225,12 @@
 				<a href="{{cancelPath}}" class="js-cancel btn btn-gray-darker fl-tn-left">Cancel</a>
 				<button data-id="js-step-two" class="js-step-btn fl-tn-right">Next <i class="icn-forward"></i></button>
 			</footer>
-			<footer class="js-step-two js-step toolbar toolbar-bottom toolbar-gray m-tn-t-27 hide">
+			<footer class="js-step-two js-step toolbar toolbar-bottom toolbar-gray m-tn-t-27 offpage">
 				<a href="{{cancelPath}}" class="js-cancel btn btn-gray-darker fl-tn-left">Cancel</a>
 				<button data-id="js-step-three" class="js-step-btn fl-tn-right">Next <i class="icn-forward"></i></button>
 				<button data-id="js-step-one" class="js-step-btn fl-tn-right m-tn-r-6"><i class="icn-back"></i> Prev</button>
 			</footer>
-			<footer class="js-step-three js-step toolbar toolbar-bottom toolbar-gray m-tn-t-27 hide">
+			<footer class="js-step-three js-step toolbar toolbar-bottom toolbar-gray m-tn-t-27 offpage">
 				<a href="{{cancelPath}}" class="js-cancel btn btn-gray-darker fl-tn-left">Cancel</a>
 				<button type="submit" class="js-submit fl-tn-right">Update</button>
 				<button data-id="js-step-two" class="js-step-btn fl-tn-right m-tn-r-6"><i class="icn-back"></i> Prev</button>

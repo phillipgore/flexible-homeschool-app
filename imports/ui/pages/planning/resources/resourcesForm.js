@@ -1,7 +1,6 @@
 import {Template} from 'meteor/templating';
 import { Resources } from '../../../../api/resources/resources.js';
 
-import autosize from 'autosize';
 import './resourcesForm.html';
 
 
@@ -33,8 +32,6 @@ Template.resourcesForm.onRendered( function() {
 			currentType: FlowRouter.getParam('selectedResourceCurrentTypeId'),
 		});		
 	}
-
-	autosize($('#description'));
 
 	// Form Validation and Submission
 	$('.js-form-new-resource').validate({

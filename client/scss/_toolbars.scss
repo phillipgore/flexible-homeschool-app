@@ -102,6 +102,13 @@
 	&.hide {
 		display: none;
 	}
+
+	&.offpage {
+		position: absolute;
+		top: 100000000000000000000000000px;
+		left: 100000000000000000000000000px;
+		right: auto;
+	}
 }
 
 .subbar {

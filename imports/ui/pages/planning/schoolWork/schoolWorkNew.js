@@ -6,6 +6,7 @@ import { Terms } from '../../../../api/terms/terms.js';
 import { Weeks } from '../../../../api/weeks/weeks.js';
 
 import {requiredValidation} from '../../../../modules/functions';
+import YTPlayer from 'yt-player';
 import _ from 'lodash'
 import './schoolWorkNew.html';
 
@@ -34,6 +35,14 @@ Template.schoolWorkNew.onCreated( function() {
 
 Template.schoolWorkNew.onRendered( function() {
 	let template = Template.instance();
+
+	const playerOne = new YTPlayer('#playerOne');
+	const playerTwo = new YTPlayer('#playerTwo');
+	const playerThree = new YTPlayer('#playerThree');
+
+	playerOne.load('5n_ZR0e-N58');
+	playerTwo.load('OYT17YvuVoE');
+	playerThree.load('QsAA4AQjLNE');
 
 	// Resources Input Settings
 	LocalResources.remove({});
@@ -331,7 +340,6 @@ Template.schoolWorkNew.events({
 
 		let template = Template.instance();
 		let stepClass = $(event.currentTarget).attr('data-id');
-
 
 		if (stepClass === 'js-step-one') {
 			$('.js-step-circle').removeClass('bg-info');

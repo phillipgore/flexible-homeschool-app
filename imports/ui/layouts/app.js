@@ -111,8 +111,6 @@ Template.app.events({
 		$('.js-info').slideUp('fast');
 
 		if ($(event.currentTarget).hasClass('js-closed')) {
-			
-
 			$(event.currentTarget).removeClass('js-closed').addClass('js-open');
 			$(event.currentTarget).find('.js-show').hide();
 			$(event.currentTarget).find('.js-hide').show();
