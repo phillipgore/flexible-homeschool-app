@@ -33,7 +33,7 @@
 					<input type="text" name="name" id="name" placeholder="Math" autocomplete="off" value="{{selectedSchoolWork.name}}">
 					<label class="error name-errors"></label>
 					<label>General Instructions</label>
-					<div class="editor-container">{{> editor placeholder="Read a chapter a day..." existingContent=selectedSchoolWork.description}}</div>
+					{{> editor placeholder="Read a chapter a day..." existingContent=selectedSchoolWork.description}}
 				</div>
 			</div>
 			<!-- /Information -->
