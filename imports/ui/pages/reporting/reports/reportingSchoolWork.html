@@ -71,7 +71,11 @@
 								<td colspan="2">
 									{{#each resource in work.resources}}
 										{{#if resourceType resource.type 'link'}}
-											<a href="{{resource.link}}" class="inline-icon txt-ellipsis m-tn-tb-3"><i class="{{resourceIcon resource.type}} txt-primary"></i> {{resource.link}}</a>
+											{{#if resource.link.length}}
+												<a href="{{resource.link}}" class="inline-icon txt-ellipsis m-tn-tb-3"><i class="{{resourceIcon resource.type}} txt-primary"></i> {{resource.link}} </a>
+											{{else}}
+												<p class="m-tn-tb-3"><i class="{{resourceIcon resource.type}} txt-primary"></i>{{resource.title}}</p>
+											{{/if}}
 										{{else}}
 											<p class="m-tn-tb-3"><i class="{{resourceIcon resource.type}} txt-primary"></i>{{resource.title}}</p>
 										{{/if}}
