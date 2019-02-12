@@ -108,7 +108,7 @@ table {
     	vertical-align: top;
 
     	&.txt-ellipsis {
-    		max-width: 670px;
+    		max-width: 150px;
 			overflow: hidden;
 			text-overflow: ellipsis;
 			white-space: nowrap;
@@ -123,9 +123,37 @@ table {
 	.cell-tn-w-65 { width: 65%; }
 }
 
+@media only screen and (min-width: 480px) {
+	td.txt-ellipsis {
+    	max-width: 224px;
+    }
+}
+
+@media only screen and (min-width: 640px) {
+	td.txt-ellipsis {
+    	max-width: 150px;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+	td.txt-ellipsis {
+    	max-width: 169px;
+    }
+}
+
 @media only screen and (min-width: 896px) {
 	.cell-lg-w-5 { width: 5%; }
 	.cell-lg-w-10 { width: 10%; }
 	.cell-lg-w-60 { width: 60%; }
 	.cell-lg-w-65 { width: 65%; }
+
+	td.txt-ellipsis {
+    	max-width: 276px;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+	td.txt-ellipsis {
+    	max-width: 376px;
+    }
 }
