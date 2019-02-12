@@ -90,6 +90,13 @@ Template.reportingSchoolWork.helpers({
 		}
 	},
 
+	resourceType: function(resourceType, type) {
+		if (resourceType === type) {
+			return true;
+		}
+		return false;
+	},
+
 	progressMeter: function(progress) {
 		if (progress === 100) {
 			return 'meter-progress-primary';

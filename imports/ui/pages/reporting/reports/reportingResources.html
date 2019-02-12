@@ -32,16 +32,20 @@
 						<tr>
 							{{#if report.resourcesDescriptionVisible}}
 								<td width="50%" colspan="{{colSpan report.resourcesDescriptionVisible report.resourcesSchoolWorkVisible}}">
-									<div class="txt-gray-darkest p-tn-b-6">Description: </div> 
+									<div class="txt-gray-darkest">Description: </div> 
 									{{{resource.description}}}
 								</td>
 							{{/if}}
 							{{#if report.resourcesSchoolWorkVisible}}
 								<td width="50%" colspan="{{colSpan report.resourcesDescriptionVisible report.resourcesSchoolWorkVisible}}">
-									<div class="txt-gray-darkest p-tn-b-6">School Work: </div> 
-									{{#each work in resource.schoolWork}}
-										<p>{{work}}</p>
-									{{/each}}
+									<div class="clearfix">
+										<div class="txt-gray-darkest p-tn-r-6 fl-tn-left">School Work: </div> 
+										<div class="fl-tn-left">
+											{{#each work in resource.schoolWork}}
+												<p>{{work}}</p>
+											{{/each}}
+										</div>
+									</div>
 								</td>
 							{{/if}}
 						</tr>

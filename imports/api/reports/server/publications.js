@@ -86,7 +86,7 @@ Meteor.publish('reportData', function(studentId, schoolYearId, termId, weekId, r
 				}, 
 				{
 					sort: {title: 1}, 
-					fields: {type: 1, title: 1, availability: 1}
+					fields: {type: 1, title: 1, availability: 1, link: 1}
 				}
 			).fetch();
 
