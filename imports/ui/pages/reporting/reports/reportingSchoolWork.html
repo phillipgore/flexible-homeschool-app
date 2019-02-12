@@ -72,9 +72,9 @@
 									{{#each resource in work.resources}}
 										{{#if resourceType resource.type 'link'}}
 											<p class="m-tn-tb-3"><i class="{{resourceIcon resource.type}} txt-primary"></i>
-												{{resource.title}} <a href="{{resource.link}}">(link)</a>
+												{{resource.title}} <a class="print-hide" href="{{resource.link}}">(link)</a>
 											</p>
-											<p class="print-only-block m-tn-tb-3">{{resource.link}}</p>
+											<p class="print-only-block font-size-12 txt-gray-darkest m-tn-l-27 m-tn-tb-3">{{resource.link}}</p>
 										{{else}}
 											<p class="m-tn-tb-3"><i class="{{resourceIcon resource.type}} txt-primary"></i>{{resource.title}}</p>
 										{{/if}}
