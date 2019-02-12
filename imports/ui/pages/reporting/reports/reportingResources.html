@@ -13,8 +13,8 @@
 							</td>
 						{{/if}}
 						{{#if report.resourcesLinkVisible}}
-							<td width="50%" colspan="{{colSpan report.resourcesOriginatorVisible report.resourcesLinkVisible}}">
-								<span class="txt-gray-darkest">Link: </span> <a href="{{resource.link}}">{{resource.link}}</a>
+							<td class="txt-ellipsis" width="50%" colspan="{{colSpan report.resourcesOriginatorVisible report.resourcesLinkVisible}}">
+								<span class="txt-gray-darkest">Link: </span> <a href="{{resource.link}}" target="_blank">{{resource.link}}</a>
 							</td>
 						{{/if}}
 					</tr>
