@@ -50,12 +50,16 @@ Accounts.emailTemplates.verifyEmail = {
 		return 'Please verify email address for ' + Accounts.emailTemplates.siteName + '.';
 	},
 	text(user, url) {
-		url = url.replace('#/verify-email/', 'verify/email/')
-		firstName = user.info.firstName
+		url = url.replace('#/verify-email/', 'verify/email/');
+		firstName = user.info.firstName;
 		return firstName + ',\n\n Welcome to Flexible School Schedule. We need to verify your email address to complete your signup. Please click the verification link below (or copy and paste into your browser).\n\n\t' + url + '\n\nIf you have not signed up for Flexible School Schedule, please ignore this email. \n\nThanks.';
 	},
     html(user, url) {
     	SSR.compileTemplate('verifyEmail', Assets.getText('verifyEmail.html'));
+
+    	url = url.replace('#/verify-email/', 'verify/email/');
+		firstName = user.info.firstName;
+		
     	const html = SSR.render('verifyEmail', { url, user });
 		return html;
     }
