@@ -59,7 +59,7 @@ Accounts.emailTemplates.verifyEmail = {
 
     	url = url.replace('#/verify-email/', 'verify/email/');
 		firstName = user.info.firstName;
-		
+
     	const html = SSR.render('verifyEmail', { url, user });
 		return html;
     }
@@ -95,6 +95,7 @@ Accounts.validateLoginAttempt(function(login) {
 	if (login.user && login.user.emails && !login.user.emails[0].verified ) {
 		throw new Meteor.Error(500, 'unverified');
 	}
+	
 	return true;
 });
 
