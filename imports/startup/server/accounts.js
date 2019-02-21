@@ -30,6 +30,7 @@ Accounts.emailTemplates.resetPassword = {
 	},
 	text(user, url) {
 		url = url.replace('#/reset-password/', 'reset/password/');
+		url = url.replace('https:// https://', 'https://');
 		firstName = user.info.firstName;
 
 		return firstName + ',\n\n Sorry you forgot your password. Click the link below (or copy and paste into your browser) and we’ll help you get a new one.\n\n\t' + url + '\n\nIf you didn\'t request a password reset, please ignore this email. \n\nThanks.';
@@ -37,10 +38,9 @@ Accounts.emailTemplates.resetPassword = {
     html(user, url) {
     	SSR.compileTemplate('resetPasswordEmail', Assets.getText('resetPasswordEmail.html'));
 
-		console.log(url);
 		url = url.replace('#/reset-password/', 'reset/password/');
+		url = url.replace('https:// https://', 'https://');
 		firstName = user.info.firstName;
-		console.log(url);
 
     	const html = SSR.render('resetPasswordEmail', { url, user });
 		return html;
@@ -53,16 +53,16 @@ Accounts.emailTemplates.verifyEmail = {
 	},
 	text(user, url) {
 		url = url.replace('#/verify-email/', 'verify/email/');
+		url = url.replace('https:// https://', 'https://');
 		firstName = user.info.firstName;
 		return firstName + ',\n\n Welcome to Flexible School Schedule. We need to verify your email address to complete your signup. Please click the verification link below (or copy and paste into your browser).\n\n\t' + url + '\n\nIf you have not signed up for Flexible School Schedule, please ignore this email. \n\nThanks.';
 	},
     html(user, url) {
     	SSR.compileTemplate('verifyEmail', Assets.getText('verifyEmail.html'));
 
-		console.log(url);
     	url = url.replace('#/verify-email/', 'verify/email/');
+		url = url.replace('https:// https://', 'https://');
 		firstName = user.info.firstName;
-		console.log(url);
 
     	const html = SSR.render('verifyEmail', { url, user });
 		return html;
