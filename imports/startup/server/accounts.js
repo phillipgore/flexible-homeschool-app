@@ -37,8 +37,10 @@ Accounts.emailTemplates.resetPassword = {
     html(user, url) {
     	SSR.compileTemplate('resetPasswordEmail', Assets.getText('resetPasswordEmail.html'));
 
+		console.log(url);
 		url = url.replace('#/reset-password/', 'reset/password/');
 		firstName = user.info.firstName;
+		console.log(url);
 
     	const html = SSR.render('resetPasswordEmail', { url, user });
 		return html;
@@ -57,8 +59,10 @@ Accounts.emailTemplates.verifyEmail = {
     html(user, url) {
     	SSR.compileTemplate('verifyEmail', Assets.getText('verifyEmail.html'));
 
+		console.log(url);
     	url = url.replace('#/verify-email/', 'verify/email/');
 		firstName = user.info.firstName;
+		console.log(url);
 
     	const html = SSR.render('verifyEmail', { url, user });
 		return html;
@@ -95,7 +99,7 @@ Accounts.validateLoginAttempt(function(login) {
 	if (login.user && login.user.emails && !login.user.emails[0].verified ) {
 		throw new Meteor.Error(500, 'unverified');
 	}
-	
+
 	return true;
 });
 
