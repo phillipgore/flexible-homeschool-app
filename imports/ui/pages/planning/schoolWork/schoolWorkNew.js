@@ -40,9 +40,9 @@ Template.schoolWorkNew.onRendered( function() {
 	const playerTwo = new YTPlayer('#playerTwo');
 	const playerThree = new YTPlayer('#playerThree');
 
-	playerOne.load('5n_ZR0e-N58');
-	playerTwo.load('OYT17YvuVoE');
-	playerThree.load('QsAA4AQjLNE');
+	playerOne.load('JVLHvgwShww');
+	playerTwo.load('lGxPOUiT6nU');
+	playerThree.load('cnG64tjn1sg');
 
 	// Resources Input Settings
 	LocalResources.remove({});
