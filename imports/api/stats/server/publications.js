@@ -62,15 +62,14 @@ Meteor.publish('initialIds', function(currentYear) {
 
 
 		// Initial Terms and Weeks
-		let initialSchoolYear = _.filter(schoolYears, ['_id', ids.schoolYearId])[0];
-		console.log('initialSchoolYear: ' + initialSchoolYear)
-		let schoolWorkItems = SchoolWork.find({ studentId: ids.studentId, schoolYearId: initialSchoolYear._id, deletedOn: { $exists: false }}, {sort: {name: 1}, fields: {_id: 1}}).fetch();
-		console.log('schoolWorkItems: ' + schoolWorkItems)
-
 		if (ids.schoolYearId === 'empty') {
 			ids.termId = 'empty';
 			ids.weekId = 'empty';
 		} else {
+			let initialSchoolYear = _.filter(schoolYears, ['_id', ids.schoolYearId])[0];
+			console.log('initialSchoolYear: ' + initialSchoolYear)
+			let schoolWorkItems = SchoolWork.find({ studentId: ids.studentId, schoolYearId: initialSchoolYear._id, deletedOn: { $exists: false }}, {sort: {name: 1}, fields: {_id: 1}}).fetch();
+			console.log('schoolWorkItems: ' + schoolWorkItems)
 			let schoolWorkIds = schoolWorkItems.map(schoolWork => (schoolWork._id));
 			console.log('schoolWorkIds: ' + schoolWorkIds)
 			let lessons = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, deletedOn: { $exists: false }}, {fields: {completed: 1, assigned: 1, weekId: 1}}).fetch();
@@ -92,6 +91,10 @@ Meteor.publish('initialIds', function(currentYear) {
 		if (ids.schoolYearId === 'empty' || ids.termId === 'empty' || ids.weekId === 'empty') {
 			ids.schoolWorkId = 'empty';
 		} else {
+			let initialSchoolYear = _.filter(schoolYears, ['_id', ids.schoolYearId])[0];
+			console.log('initialSchoolYear: ' + initialSchoolYear)
+			let schoolWorkItems = SchoolWork.find({ studentId: ids.studentId, schoolYearId: initialSchoolYear._id, deletedOn: { $exists: false }}, {sort: {name: 1}, fields: {_id: 1}}).fetch();
+			console.log('schoolWorkItems: ' + schoolWorkItems)
 			if (schoolWorkItems[0]) {ids.schoolWorkId = schoolWorkItems[0]._id} else {ids.schoolWorkId = 'empty'};
 		}
 		console.log('School Work')
