@@ -70,13 +70,18 @@ Meteor.publish('initialIds', function(currentYear) {
 			ids.weekId = 'empty';
 		} else {
 			let schoolWorkIds = schoolWorkItems.map(schoolWork => (schoolWork._id));
+			console.log('schoolWorkIds: ' + schoolWorkIds)
 			let lessons = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, deletedOn: { $exists: false }}, {fields: {completed: 1, assigned: 1, weekId: 1}}).fetch();
+			console.log('lessons: ' + lessons)
 			let schoolYear = studentSchoolYearsStatusAndPaths(ids.studentId, initialSchoolYear, lessons);
+			console.log('schoolYear: ' + schoolYear)
 
 			let valueTerm = schoolYear.firstTermId;
+			console.log('valueTerm: ' + valueTerm)
 			if (valueTerm) {ids.termId = valueTerm} else {ids.termId = 'empty'};
 
 			let valueWeek = schoolYear.firstWeekId;
+			console.log('valueWeek: ' + valueWeek)
 			if (valueWeek) {ids.weekId = valueWeek} else {ids.weekId = 'empty'};
 		}
 		console.log('Terms and Weeks')
