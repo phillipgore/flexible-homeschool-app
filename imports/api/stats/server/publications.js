@@ -23,7 +23,14 @@ Meteor.publish('initialIds', function(currentYear) {
 		let ids = {};
 
 		let userId = Meteor.users.findOne({'info.groupId': groupId, 'emails.0.verified': true, 'status.active': true}, {sort: {'info.lastName': 1, 'info.firstName': 1}})._id;
-		let studentIds = Students.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}}).map((student) => (student._id))
+		let studentIds = Students.find(
+			{groupId: groupId, deletedOn: { $exists: false }}, 
+			{sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}, fields: {_id: 1}}
+		).map((student) => (student._id));
+		let schoolYears = SchoolYears.find(
+			{groupId: groupId, deletedOn: { $exists: false }}, 
+			{sort: {starYear: 1}, fields: {startYear: 1, endYear: 1}}
+		).fetch();
 
 
 		// Intiial Student
@@ -32,13 +39,14 @@ Meteor.publish('initialIds', function(currentYear) {
 
 		// Initial School Year
 		function schoolYearId(currentYear) {
-			if (!SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}).count()) {
+			if (!schoolYears.length) {
 				return 'empty'
 			}
-			if (SchoolYears.findOne({groupId: groupId, startYear: {$gte: currentYear}, deletedOn: { $exists: false }}, {sort: {starYear: 1}})) {
-				return SchoolYears.findOne({groupId: groupId, startYear: {$gte: currentYear}, deletedOn: { $exists: false }}, {sort: {starYear: 1}})._id;
+			let SchoolYearGte = _.find(schoolYears, year => {return year.startYear >= currentYear});
+			if (SchoolYearGte) {
+				return SchoolYearGte._id;
 			}
-			return SchoolYears.findOne({groupId: groupId, startYear: {$lte: currentYear}, deletedOn: { $exists: false }}, {sort: {starYear: 1}})._id;
+			return _.find(schoolYears, year => {return year.startYear <= currentYear})._id;
 
 		};
 		ids.schoolYearId = schoolYearId(currentYear);
@@ -51,17 +59,14 @@ Meteor.publish('initialIds', function(currentYear) {
 
 
 		// Initial Terms and Weeks
+		let initialSchoolYear = _.filter(schoolYears, ['_id', ids.schoolYearId])[0];
+		let schoolWorkItems = SchoolWork.find({ studentId: ids.studentId, schoolYearId: initialSchoolYear._id, deletedOn: { $exists: false }}, {sort: {name: 1}, fields: {_id: 1}}).fetch();
+
 		if (ids.schoolYearId === 'empty') {
 			ids.termId = 'empty';
 			ids.weekId = 'empty';
 		} else {
-			let initialSchoolYear = SchoolYears.findOne({_id: ids.schoolYearId, groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}, fields: {startYear: 1, endYear: 1}});		
-			
-			let schoolWorkIds = SchoolWork.find({ 
-				studentId: ids.studentId, 
-				schoolYearId: initialSchoolYear._id, 
-				deletedOn: { $exists: false }
-			}).map(schoolWork => (schoolWork._id));
+			let schoolWorkIds = schoolWorkItems.map(schoolWork => (schoolWork._id));
 			let lessons = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, deletedOn: { $exists: false }}, {fields: {completed: 1, assigned: 1, weekId: 1}}).fetch();
 			let schoolYear = studentSchoolYearsStatusAndPaths(ids.studentId, initialSchoolYear, lessons);
 
@@ -76,8 +81,7 @@ Meteor.publish('initialIds', function(currentYear) {
 		if (ids.schoolYearId === 'empty' || ids.termId === 'empty' || ids.weekId === 'empty') {
 			ids.schoolWorkId = 'empty';
 		} else {
-			let valueSchoolWork = SchoolWork.findOne({groupId: groupId, schoolYearId: ids.schoolYearId, studentId: ids.studentId, deletedOn: { $exists: false }}, {sort: {name: 1}});
-			if (valueSchoolWork) {ids.schoolWorkId = valueSchoolWork._id} else {ids.schoolWorkId = 'empty'};
+			if (schoolWorkItems[0]) {ids.schoolWorkId = schoolWorkItems[0]._id} else {ids.schoolWorkId = 'empty'};
 		}
 
 
