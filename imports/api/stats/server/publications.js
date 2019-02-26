@@ -63,7 +63,9 @@ Meteor.publish('initialIds', function(currentYear) {
 
 		// Initial Terms and Weeks
 		let initialSchoolYear = _.filter(schoolYears, ['_id', ids.schoolYearId])[0];
+		console.log('initialSchoolYear: ' + initialSchoolYear)
 		let schoolWorkItems = SchoolWork.find({ studentId: ids.studentId, schoolYearId: initialSchoolYear._id, deletedOn: { $exists: false }}, {sort: {name: 1}, fields: {_id: 1}}).fetch();
+		console.log('schoolWorkItems: ' + schoolWorkItems)
 
 		if (ids.schoolYearId === 'empty') {
 			ids.termId = 'empty';
