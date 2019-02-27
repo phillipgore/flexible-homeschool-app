@@ -21,13 +21,16 @@ Meteor.methods({
 		
 		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
 		let students = Students.find({groupId: groupId, deletedOn: { $exists: false }}, {fields: {_id: 1}});
+		let schoolWork = SchoolWork.find({groupId: groupId, schoolYearId: schoolYearId, deletedOn: { $exists: false }}, {fields: {_id: 1, completed: 1, studentId: 1}}).fetch();
+		let termWeeksIds = Weeks.find({termId: termId, deletedOn: { $exists: false }}).map(week => (week._id));
+		let lessons = Lessons.find({schoolWorkId: {$in: schoolWork.map(work => work._id)}, deletedOn: { $exists: false }}).fetch();
 
 		let progressStats = []
 
-		students.forEach((student) => {
+		students.forEach((student, index) => {
 			function rounding(complete, total) {
 				if(complete && total) {
-					let percentComplete = complete.count / total.count * 100
+					let percentComplete = complete / total * 100
 					if (percentComplete > 0 && percentComplete < 1) {
 						return 1;
 					}
@@ -36,51 +39,32 @@ Meteor.methods({
 				return 0;
 			}
 
-			let schoolWorkIds = SchoolWork.find({studentId: student._id, schoolYearId: schoolYearId, deletedOn: { $exists: false }}, {fields: {_id: 1}}).map(schoolWork => (schoolWork._id));
+			let schoolWorkIds = _.filter(schoolWork, ['studentId', student._id]).map(work => work._id);
 
 			// School Year
-			let yearLessonsTotal = Lessons.aggregate(
-				{$match: {schoolWorkId: {$in: schoolWorkIds}, deletedOn: { $exists: false }}},
-				{$group: {_id: '$schoolYearId', count: { $sum: 1 }}}
-			);
+			let yearLessons = _.filter(lessons, lesson => _.includes(schoolWorkIds, lesson.schoolWorkId));
+			let yearLessonsTotal = yearLessons.length
+			let yearLessonsComplete = _.filter(yearLessons, ['completed', true]).length;
 
-			let yearLessonsComplete = Lessons.aggregate(
-				{$match: {schoolWorkId: {$in: schoolWorkIds}, deletedOn: { $exists: false }, completed: true}},
-				{$group: {_id: '$schoolYearId', count: { $sum: 1 }}}
-			);
-
-			let yearPercentComplete = rounding(yearLessonsComplete[0], yearLessonsTotal[0]);
+			let yearPercentComplete = rounding(yearLessonsComplete, yearLessonsTotal);
 
 
 			// Term
-			let termWeeksIds = Weeks.find({termId: termId, deletedOn: { $exists: false }}).map(week => (week._id));
+			let termLessons = _.filter(yearLessons, lesson => _.includes(termWeeksIds, lesson.weekId));
+			let termLessonsTotal = termLessons.length;
+			let termLessonsComplete = _.filter(termLessons, ['completed', true]).length;
 
-			let termLessonsTotal = Lessons.aggregate(
-				{$match: {schoolWorkId: {$in: schoolWorkIds}, weekId: {$in: termWeeksIds}, deletedOn: { $exists: false }}},
-				{$group: {_id: '$termId', count: { $sum: 1 }}}
-			);
-
-			let termLessonsComplete = Lessons.aggregate(
-				{$match: {schoolWorkId: {$in: schoolWorkIds}, weekId: {$in: termWeeksIds}, deletedOn: { $exists: false }, completed: true}},
-				{$group: {_id: '$termId', count: { $sum: 1 }}}
-			);
-
-			let termPercentComplete = rounding(termLessonsComplete[0], termLessonsTotal[0]);
+			let termPercentComplete = rounding(termLessonsComplete, termLessonsTotal);
 
 
 			// Week
-			let weekLessonsTotal = Lessons.aggregate(
-				{$match: {schoolWorkId: {$in: schoolWorkIds}, weekId: weekId, deletedOn: { $exists: false }}},
-				{$group: {_id: '$weekId', count: { $sum: 1 }}}
-			);
+			let weekLessons = _.filter(termLessons, ['weekId', weekId]);
+			let weekLessonsTotal = weekLessons.length;
+			let weekLessonsComplete = _.filter(weekLessons, ['completed', true]).length;
 
-			let weekLessonsComplete = Lessons.aggregate(
-				{$match: {schoolWorkId: {$in: schoolWorkIds}, weekId: weekId, deletedOn: { $exists: false }, completed: true}},
-				{$group: {_id: '$weekId', count: { $sum: 1 }}}
-			);
+			let weekPercentComplete = rounding(weekLessonsComplete, weekLessonsTotal);
 
-			let weekPercentComplete = rounding(weekLessonsComplete[0], weekLessonsTotal[0]);
-
+			//Stats Push
 			progressStats.push({
 				studentId: student._id,
 				yearProgress: yearPercentComplete,
