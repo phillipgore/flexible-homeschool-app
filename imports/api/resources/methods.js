@@ -32,13 +32,13 @@ Meteor.methods({
 				};
 
 				let keyName = _.capitalize(type) + _.capitalize(availability);
-				let valueResource = Resources.findOne(query(type, availability), {sort: {title: 1}});
+				let valueResource = Resources.findOne(query(type, availability), {sort: {title: 1}, fields: {_id: 1}});
 
 				if (valueResource) {ids['resource' + keyName] = valueResource._id} else {ids['resource' + keyName] = 'empty'};
 			})
 		});
 
-		let valueFirstResource = Resources.findOne({groupId: groupId, deletedOn: { $exists: false }}, {sort: {title: 1}});
+		let valueFirstResource = Resources.findOne({groupId: groupId, deletedOn: { $exists: false }}, {sort: {title: 1}, fields: {type: 1}});
 		if (valueFirstResource) {ids['resourceCurrentType'] = valueFirstResource.type} else {ids['resourceCurrentType'] = 'empty'};
 
 		return ids;

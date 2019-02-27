@@ -13,6 +13,7 @@ Template.resourcesList.onCreated( function() {
 	});
 
 	Meteor.call('getInitialResourceIds', function(error, result) {
+		console.log(result)
 		Session.set('initialResourceIds', result);
 
 		let initialResourceIds = Session.get('initialResourceIds')
