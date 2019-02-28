@@ -15,7 +15,6 @@ import './cron.js';
 import '../../api/office/methods.js';
 import '../../api/office/server/publications.js';
 
-import '../../api/stats/methods.js';
 import '../../api/stats/server/publications.js';
 
 import '../../api/groups/groups.js';

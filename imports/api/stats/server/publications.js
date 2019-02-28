@@ -174,3 +174,76 @@ Meteor.publish('resourceStats', function() {
 	Counts.publish(this, 'audioNeedCount', Resources.find({type: 'audio', availability: 'need', groupId: groupId, deletedOn: { $exists: false }}));
 	Counts.publish(this, 'appNeedCount', Resources.find({type: 'app', availability: 'need', groupId: groupId, deletedOn: { $exists: false }}));
 });
+
+Meteor.publish('progressStats', function(schoolYearId, termId, weekId) {
+	this.autorun(function (computation) {
+		if (!this.userId) {
+			return this.ready();
+		}
+
+		let self = this;
+
+		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
+		let students = Students.find({groupId: groupId, deletedOn: { $exists: false }}, {fields: {_id: 1}});
+		let schoolWork = SchoolWork.find({groupId: groupId, schoolYearId: schoolYearId, deletedOn: { $exists: false }}, {fields: {studentId: 1}}).fetch();
+		let termWeeksIds = Weeks.find({termId: termId, deletedOn: { $exists: false }}, {fields: {_id: 1}}).map(week => (week._id));
+		let lessons = Lessons.find({schoolWorkId: {$in: schoolWork.map(work => work._id)}, deletedOn: { $exists: false }}, {fields: {completed: 1, schoolWorkId: 1, weekId: 1}}).fetch();
+
+		let progressStatsArray = [];
+		students.forEach((student, index) => {
+			let progressStatsData = {};
+
+			function rounding(complete, total) {
+				if(complete && total) {
+					let percentComplete = complete / total * 100
+					if (percentComplete > 0 && percentComplete < 1) {
+						return 1;
+					}
+					return Math.floor(percentComplete);
+				}
+				return 0;
+			}
+
+			let schoolWorkIds = _.filter(schoolWork, ['studentId', student._id]).map(work => work._id);
+
+			// School Year
+			let yearLessons = _.filter(lessons, lesson => _.includes(schoolWorkIds, lesson.schoolWorkId));
+			let yearLessonsTotal = yearLessons.length
+			let yearLessonsComplete = _.filter(yearLessons, ['completed', true]).length;
+
+			let yearPercentComplete = rounding(yearLessonsComplete, yearLessonsTotal);
+
+
+			// Term
+			let termLessons = _.filter(yearLessons, lesson => _.includes(termWeeksIds, lesson.weekId));
+			let termLessonsTotal = termLessons.length;
+			let termLessonsComplete = _.filter(termLessons, ['completed', true]).length;
+
+			let termPercentComplete = rounding(termLessonsComplete, termLessonsTotal);
+
+
+			// Week
+			let weekLessons = _.filter(termLessons, ['weekId', weekId]);
+			let weekLessonsTotal = weekLessons.length;
+			let weekLessonsComplete = _.filter(weekLessons, ['completed', true]).length;
+
+			let weekPercentComplete = rounding(weekLessonsComplete, weekLessonsTotal);
+
+			progressStatsData.studentId = student._id;
+			progressStatsData.yearProgress = yearPercentComplete;
+			progressStatsData.termProgress = termPercentComplete;
+			progressStatsData.weekProgress = weekPercentComplete;
+
+			progressStatsArray.push(progressStatsData)
+		});
+
+		progressStatsArray.forEach(stats => {
+			let studentId = stats.studentId;
+			delete stats.studentId;
+			self.added('progressStats', studentId, stats);
+		});
+
+		self.ready();
+	});
+
+});

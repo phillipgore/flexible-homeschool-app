@@ -6,14 +6,13 @@ import './trackingList.html';
 
 import _ from 'lodash'
 
+ProgressStats = new Mongo.Collection('progressStats');
+
 Template.trackingList.onCreated( function() {
 	let template = Template.instance();
 
-	this.trackingData = Meteor.subscribe('trackingListPub', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'), FlowRouter.getParam('selectedWeekId'));
-
-	Meteor.call('getProgressStats', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'), FlowRouter.getParam('selectedWeekId'), function(error, result) {
-		Session.set('progressStats', result);
-	});
+	this.trackingData = Meteor.subscribe('trackingListPub');
+	this.progressData = Meteor.subscribe('progressStats', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'), FlowRouter.getParam('selectedWeekId'));
 });
 
 Template.trackingList.onRendered( function() {
@@ -57,11 +56,11 @@ Template.trackingList.helpers({
 	},
 
 	yearsProgress: function(studentId) {
-		return _.find(Session.get('progressStats'), ['studentId', studentId]) && _.find(Session.get('progressStats'), ['studentId', studentId]).yearProgress;
+		return ProgressStats.findOne({_id: studentId}) && ProgressStats.findOne({_id: studentId}).yearProgress
 	},
 
 	yearsProgressStatus: function(studentId) {
-		let yearProgress = _.find(Session.get('progressStats'), ['studentId', studentId]) && _.find(Session.get('progressStats'), ['studentId', studentId]).yearProgress;
+		let yearProgress = ProgressStats.findOne({_id: studentId}) && ProgressStats.findOne({_id: studentId}).yearProgress;
 		if (yearProgress === 100) {
 			return 'meter-progress-primary';
 		}
@@ -69,11 +68,11 @@ Template.trackingList.helpers({
 	},
 
 	termsProgress: function(studentId) {
-		return _.find(Session.get('progressStats'), ['studentId', studentId]) && _.find(Session.get('progressStats'), ['studentId', studentId]).termProgress;
+		return ProgressStats.findOne({_id: studentId}) && ProgressStats.findOne({_id: studentId}).termProgress;
 	},
 
 	termsProgressStatus: function(studentId) {
-		let termProgress = _.find(Session.get('progressStats'), ['studentId', studentId]) && _.find(Session.get('progressStats'), ['studentId', studentId]).termProgress;
+		let termProgress = ProgressStats.findOne({_id: studentId}) && ProgressStats.findOne({_id: studentId}).termProgress;
 		if (termProgress === 100) {
 			return 'meter-progress-primary';
 		}
@@ -81,11 +80,11 @@ Template.trackingList.helpers({
 	},
 
 	weeksProgress: function(studentId) {
-		return _.find(Session.get('progressStats'), ['studentId', studentId]) && _.find(Session.get('progressStats'), ['studentId', studentId]).weekProgress;
+		return ProgressStats.findOne({_id: studentId}) && ProgressStats.findOne({_id: studentId}).weekProgress;
 	},
 
 	weeksProgressStatus: function(studentId) {
-		let weekProgress = _.find(Session.get('progressStats'), ['studentId', studentId]) && _.find(Session.get('progressStats'), ['studentId', studentId]).weekProgress;
+		let weekProgress = ProgressStats.findOne({_id: studentId}) && ProgressStats.findOne({_id: studentId}).weekProgress;
 		if (weekProgress === 100) {
 			return 'meter-progress-primary';
 		}
@@ -93,7 +92,7 @@ Template.trackingList.helpers({
 	},
 
 	progressStats: function(studentId) {
-		return _.find(Session.get('progressStats'), ['studentId', studentId]);
+		return ProgressStats.findOne({_id: studentId});
 	},
 
 	active: function(id) {
