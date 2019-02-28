@@ -21,9 +21,9 @@ Meteor.methods({
 		
 		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
 		let students = Students.find({groupId: groupId, deletedOn: { $exists: false }}, {fields: {_id: 1}});
-		let schoolWork = SchoolWork.find({groupId: groupId, schoolYearId: schoolYearId, deletedOn: { $exists: false }}, {fields: {_id: 1, completed: 1, studentId: 1}}).fetch();
-		let termWeeksIds = Weeks.find({termId: termId, deletedOn: { $exists: false }}).map(week => (week._id));
-		let lessons = Lessons.find({schoolWorkId: {$in: schoolWork.map(work => work._id)}, deletedOn: { $exists: false }}).fetch();
+		let schoolWork = SchoolWork.find({groupId: groupId, schoolYearId: schoolYearId, deletedOn: { $exists: false }}, {fields: {studentId: 1}}).fetch();
+		let termWeeksIds = Weeks.find({termId: termId, deletedOn: { $exists: false }}, {fields: {_id: 1}}).map(week => (week._id));
+		let lessons = Lessons.find({schoolWorkId: {$in: schoolWork.map(work => work._id)}, deletedOn: { $exists: false }}, {fields: {completed: 1, schoolWorkId: 1, weekId: 1}}).fetch();
 
 		let progressStats = []
 
