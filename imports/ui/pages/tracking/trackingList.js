@@ -28,7 +28,7 @@ Template.trackingList.onRendered( function() {
 
 Template.trackingList.helpers({
 	subscriptionReady: function() {
-		return Template.instance().trackingData.ready();
+		return Template.instance().trackingData.ready() && Template.instance().progressData.ready();
 	},
 
 	students: function() {
