@@ -62,9 +62,9 @@ Template.trackingList.helpers({
 	yearsProgressStatus: function(studentId) {
 		let yearProgress = ProgressStats.findOne({_id: studentId}) && ProgressStats.findOne({_id: studentId}).yearProgress;
 		if (yearProgress === 100) {
-			return 'meter-progress-primary';
+			return 'meter-progress-primary width-' + yearProgress;
 		}
-		return false;
+		return 'width-' + yearProgress;
 	},
 
 	termsProgress: function(studentId) {
@@ -74,9 +74,9 @@ Template.trackingList.helpers({
 	termsProgressStatus: function(studentId) {
 		let termProgress = ProgressStats.findOne({_id: studentId}) && ProgressStats.findOne({_id: studentId}).termProgress;
 		if (termProgress === 100) {
-			return 'meter-progress-primary';
+			return 'meter-progress-primary width-' + termProgress;
 		}
-		return false;
+		return 'width-' + termProgress;
 	},
 
 	weeksProgress: function(studentId) {
@@ -86,9 +86,9 @@ Template.trackingList.helpers({
 	weeksProgressStatus: function(studentId) {
 		let weekProgress = ProgressStats.findOne({_id: studentId}) && ProgressStats.findOne({_id: studentId}).weekProgress;
 		if (weekProgress === 100) {
-			return 'meter-progress-primary';
+			return 'meter-progress-primary width-' + weekProgress;
 		}
-		return false;
+		return 'width-' + weekProgress;
 	},
 
 	progressStats: function(studentId) {
