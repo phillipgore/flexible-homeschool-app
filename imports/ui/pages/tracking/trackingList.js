@@ -10,6 +10,10 @@ Template.trackingList.onCreated( function() {
 	let template = Template.instance();
 
 	this.trackingData = Meteor.subscribe('trackingListPub', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'), FlowRouter.getParam('selectedWeekId'));
+
+	Meteor.call('getProgressStats', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'), FlowRouter.getParam('selectedWeekId'), function(error, result) {
+		Session.set('progressStats', result);
+	});
 });
 
 Template.trackingList.onRendered( function() {

@@ -7,12 +7,6 @@ import moment from 'moment';
 import _ from 'lodash'
 import './trackingSchoolWork.html';
 
-Template.trackingSchoolWork.onCreated( function() {
-	Meteor.call('getProgressStats', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'), FlowRouter.getParam('selectedWeekId'), function(error, result) {
-		Session.set('progressStats', result);
-	});
-});
-
 Template.trackingSchoolWork.helpers({
 	terms: function() {
 		return Terms.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}, {sort: {order: 1}});
@@ -175,12 +169,6 @@ Template.trackingSchoolWork.events({
 			completionTime: event.currentTarget.completionTime.value.trim(),
 			description: $('#' + $(event.currentTarget).find('.editor-content').attr('id')).html(),
 		}
-
-		// if (!lessonPoperties.completed) {
-		// 	delete lessonPoperties.completedOn;
-		// 	var picker = $(event.currentTarget).find('.js-completed-on').pickadate('picker');
-		// 	picker.set('select', new Date());
-		// }
 
 		Meteor.call('updateLesson', lessonPoperties, function(error, result) {
 			if (error) {
