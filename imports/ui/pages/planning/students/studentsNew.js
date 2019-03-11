@@ -37,10 +37,8 @@ Template.studentsNew.onRendered( function() {
 				lastName: template.find("[name='lastName']").value.trim(),
 				nickname: template.find("[name='nickname']").value.trim(),
 				preferredFirstName: template.find("[name='preferredFirstName']:checked").value.trim(),
-				birthday: Date.parse(template.find("[name='birthday']").value.trim()),
+				birthday: moment(template.find("[name='birthday']").value.trim()).toISOString(),
 			}
-			
-			studentProperties.birthday = selectedDate = moment(studentProperties.birthday).add(moment(studentProperties.birthday).utcOffset(), 'm').utc().format();
 
 			if (studentProperties.preferredFirstName === 'firstName') {
 				studentProperties.preferredFirstName = {type: 'firstName', name: studentProperties.firstName};
