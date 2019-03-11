@@ -2,6 +2,8 @@ import {Template} from 'meteor/templating';
 import { Students } from '../../../../api/students/students.js';
 import './studentsEdit.html';
 
+import moment from 'moment';
+
 Template.studentsEdit.onCreated( function() {
 	let template = Template.instance();
 	
@@ -46,6 +48,8 @@ Template.studentsEdit.onRendered( function() {
 				preferredFirstName: template.find("[name='preferredFirstName']:checked").value.trim(),
 				birthday: template.find("[name='birthday']").value.trim(),
 			}
+			
+			studentProperties.birthday = selectedDate = moment(studentProperties.birthday).add(moment(studentProperties.birthday).utcOffset(), 'm').utc().format();
 
 			if (studentProperties.preferredFirstName === 'firstName') {
 				studentProperties.preferredFirstName = {type: 'firstName', name: studentProperties.firstName};
