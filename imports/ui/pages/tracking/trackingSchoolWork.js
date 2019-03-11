@@ -165,7 +165,7 @@ Template.trackingSchoolWork.events({
 			_id: $(event.currentTarget).parent().attr('id'),
 			assigned: event.currentTarget.assigned.value.trim() === 'true',
 			completed: event.currentTarget.completed.value.trim() === 'true',
-			completedOn: event.currentTarget.completedOn.value.trim(),
+			completedOn: moment(event.currentTarget.completedOn.value.trim()).value.trim()).toISOString(),
 			completionTime: event.currentTarget.completionTime.value.trim(),
 			description: $('#' + $(event.currentTarget).find('.editor-content').attr('id')).html(),
 		}
