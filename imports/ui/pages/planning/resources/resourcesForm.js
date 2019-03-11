@@ -1,6 +1,7 @@
 import {Template} from 'meteor/templating';
 import { Resources } from '../../../../api/resources/resources.js';
 
+import moment from 'moment';
 import './resourcesForm.html';
 
 
