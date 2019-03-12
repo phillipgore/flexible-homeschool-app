@@ -64,8 +64,13 @@ Template.resourcesForm.onRendered( function() {
 				resourceProperties.authorLastName = template.find("[name='authorLastName']").value.trim();
 				resourceProperties.availability = template.find("[name='availability']:checked").value.trim();
 				resourceProperties.publisher = template.find("[name='publisher']").value.trim();
-				resourceProperties.publicationDate = moment(template.find("[name='publicationDate']").value.trim()).toISOString();
+				resourceProperties.publicationDate = template.find("[name='publicationDate']").value.trim();
 			}
+
+			if (resourceProperties.publicationDate.length) {
+				resourceProperties.publicationDate = moment(resourceProperties.publicationDate).toISOString();
+			}
+
 			if (Session.get('currentType') === 'link') {
 				resourceProperties.type = 'link';
 				resourceProperties.searchIndex = [];

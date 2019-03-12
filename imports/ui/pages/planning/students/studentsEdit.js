@@ -46,7 +46,11 @@ Template.studentsEdit.onRendered( function() {
 				lastName: template.find("[name='lastName']").value.trim(),
 				nickname: template.find("[name='nickname']").value.trim(),
 				preferredFirstName: template.find("[name='preferredFirstName']:checked").value.trim(),
-				birthday: moment(template.find("[name='birthday']").value.trim()).toISOString(),
+				birthday: template.find("[name='birthday']").value.trim(),
+			}
+
+			if (studentProperties.birthday.length) {
+				studentProperties.birthday = moment(studentProperties.birthday).toISOString();
 			}
 			
 			if (studentProperties.preferredFirstName === 'firstName') {
