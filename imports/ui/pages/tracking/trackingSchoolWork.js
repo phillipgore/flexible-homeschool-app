@@ -161,16 +161,20 @@ Template.trackingSchoolWork.events({
 			$(window).scrollTop(Session.get('lessonScrollTop'));
 		}
 
-		let lessonPoperties = {
+		let lessonProperties = {
 			_id: $(event.currentTarget).parent().attr('id'),
 			assigned: event.currentTarget.assigned.value.trim() === 'true',
 			completed: event.currentTarget.completed.value.trim() === 'true',
-			completedOn: moment(event.currentTarget.completedOn.value.trim()).toISOString(),
+			completedOn: event.currentTarget.completedOn.value.trim(),
 			completionTime: event.currentTarget.completionTime.value.trim(),
 			description: $('#' + $(event.currentTarget).find('.editor-content').attr('id')).html(),
 		}
 
-		Meteor.call('updateLesson', lessonPoperties, function(error, result) {
+		if (lessonProperties.completedOn.length) {
+			lessonProperties.completedOn = moment(lessonProperties.completedOn).toISOString();
+		}
+
+		Meteor.call('updateLesson', lessonProperties, function(error, result) {
 			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',
