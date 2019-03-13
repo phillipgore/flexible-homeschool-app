@@ -13,7 +13,7 @@ import {allSchoolYearsStatusAndPaths} from '../../../modules/server/functions';
 import _ from 'lodash'
 
 Meteor.publish('initialIds', function(currentYear) {
-	this.autorun(function (computation) {
+	// this.autorun(function (computation) {
 		if (!this.userId) {
 			return this.ready();
 		}
@@ -122,8 +122,7 @@ Meteor.publish('initialIds', function(currentYear) {
 
 		self.added('initialIds', Random.id(), ids);
 		self.ready();
-	});
-
+	// });
 });
 
 Meteor.publish('initialStats', function() {
@@ -134,8 +133,8 @@ Meteor.publish('initialStats', function() {
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
 	Counts.publish(this, 'schoolYearCount', SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}));
 	Counts.publish(this, 'studentCount', Students.find({groupId: groupId, deletedOn: { $exists: false }}));
-	Counts.publish(this, 'resourceCount', Resources.find({groupId: groupId, deletedOn: { $exists: false }}));
 	Counts.publish(this, 'schoolWorkCount', SchoolWork.find({groupId: groupId, deletedOn: { $exists: false }}));
+	Counts.publish(this, 'resourceCount', Resources.find({groupId: groupId, deletedOn: { $exists: false }}));
 	Counts.publish(this, 'reportCount', Reports.find({groupId: groupId, deletedOn: { $exists: false }}));	
 	Counts.publish(this, 'userCount', Meteor.users.find({'info.groupId': groupId}));
 });

@@ -30,6 +30,10 @@ Template.subbarReporting.helpers({
 		return Template.instance().weekData.ready();
 	},
 
+	reports: function() {
+		return Reports.find();
+	},
+
 	schoolYears: function() {
 		return SchoolYears.find({}, {sort: {startYear: 1}});
 	},
@@ -128,7 +132,7 @@ Template.subbarReporting.helpers({
 	},
 	
 	reportsAvailable: function() {
-		if (Session.get('selectedSchoolYearId') === 'empty' || Session.get('selectedStudentId') === 'empty') {
+		if (Session.get('selectedSchoolYearId') === 'empty' || Session.get('selectedStudentId') === 'empty' || Session.get('selectedReportId') === 'empty') {
 			return false;
 		}
 		return true;
