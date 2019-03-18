@@ -32,12 +32,12 @@ Template.editor.helpers({
 });
 
 Template.editor.events({
-	'click .js-editor-btn'(event) {
+	'click .js-editor-btn'(event, template) {
 		event.preventDefault();
 
 		let command = $(event.currentTarget).attr('data-command');
 		document.execCommand(command, false, '');
-		$('.editor-content').focus();
+		$('#' + template.editorId.get()).focus();
 	},
 
 	'click .editor-content, keyup .editor-content, click .js-editor-btn'(event, template) {
