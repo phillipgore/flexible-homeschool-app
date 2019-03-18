@@ -170,7 +170,7 @@ Template.trackingSchoolWork.events({
 			description: $('#' + $(event.currentTarget).find('.editor-content').attr('id')).html(),
 		}
 
-		if (lessonProperties.completedOn.length) {
+		if (_.has(lessonProperties, 'completedOn')) {
 			lessonProperties.completedOn = moment(lessonProperties.completedOn).toISOString();
 		}
 

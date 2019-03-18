@@ -2,6 +2,7 @@ import {Template} from 'meteor/templating';
 import { Resources } from '../../../../api/resources/resources.js';
 
 import moment from 'moment';
+import _ from 'lodash';
 import './resourcesForm.html';
 
 
@@ -67,7 +68,7 @@ Template.resourcesForm.onRendered( function() {
 				resourceProperties.publicationDate = template.find("[name='publicationDate']").value.trim();
 			}
 
-			if (resourceProperties.publicationDate.length) {
+			if (_.has(resourceProperties, 'publicationDate')) {
 				resourceProperties.publicationDate = moment(resourceProperties.publicationDate).toISOString();
 			}
 

@@ -3,6 +3,7 @@ import { Students } from '../../../../api/students/students.js';
 import './studentsEdit.html';
 
 import moment from 'moment';
+import _ from 'lodash';
 
 Template.studentsEdit.onCreated( function() {
 	let template = Template.instance();
@@ -49,7 +50,7 @@ Template.studentsEdit.onRendered( function() {
 				birthday: template.find("[name='birthday']").value.trim(),
 			}
 
-			if (studentProperties.birthday.length) {
+			if (_.has(studentProperties, 'birthday')) {
 				studentProperties.birthday = moment(studentProperties.birthday).toISOString();
 			}
 			

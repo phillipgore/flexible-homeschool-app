@@ -2,6 +2,7 @@ import {Template} from 'meteor/templating';
 import './studentsNew.html';
 
 import moment from 'moment';
+import _ from 'lodash';
 
 Template.studentsNew.onRendered( function() {
 	let template = Template.instance();
@@ -40,7 +41,7 @@ Template.studentsNew.onRendered( function() {
 				birthday: template.find("[name='birthday']").value.trim(),
 			}
 
-			if (studentProperties.birthday.length) {
+			if (_.has(studentProperties, 'birthday')) {
 				studentProperties.birthday = moment(studentProperties.birthday).toISOString();
 			}
 
