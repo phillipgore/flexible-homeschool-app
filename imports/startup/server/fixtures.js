@@ -2895,6 +2895,7 @@ Meteor.methods({
 								let lessonProperties = {
 									order: parseFloat((weekIndex + 1) + '.' + (i + 1)),
 									assigned: false,
+									completed: false,
 									schoolWorkId: schoolWorkId,
 									weekId: weekId,
 									groupId: groupId, 
@@ -2903,32 +2904,20 @@ Meteor.methods({
 								};
 
 
-								if (schoolYear.startYear === '2017' && term.order === 1 || schoolYear.startYear === '2018' && term.order === 1) {
+								if (schoolYear.startYear === '2017') {
 									lessonProperties.completed = true
 								}
 
-								if (schoolYear.startYear === '2017' && term.order === 2 || schoolYear.startYear === '2018' && term.order === 2) {
-									if (lessonProperties.order > 3.9 && lessonProperties.order <= parseFloat('5.' + Math.floor(timesPerWeek[i] / 2).toString())) {
-										lessonProperties.completed = true
-									} else {
-										lessonProperties.completed = false
-									}
-
-									if (lessonProperties.order < 4) {
-										lessonProperties.completed = true
-									}
-								}
-
-								if (schoolYear.startYear === '2017' && term.order === 3 || schoolYear.startYear === '2018' && term.order === 3) {
-									lessonProperties.completed = false
-								}
-
-								if (schoolYear.startYear < '2017' || schoolYear.startYear < '2018') {
+								if (schoolYear.startYear === '2018' && term.order === 1) {
 									lessonProperties.completed = true
 								}
 
-								if (schoolYear.startYear > '2017' || schoolYear.startYear > '2018') {
-									lessonProperties.completed = false
+								if (schoolYear.startYear === '2018' && term.order === 2 && lessonProperties.order < 5) {
+									lessonProperties.completed = true
+								}
+
+								if (schoolYear.startYear === '2018' && term.order === 2 && lessonProperties.order >= 5  && lessonProperties.order <= 5.1) {
+									lessonProperties.completed = true
 								}
 
 								fixtureLessons.push(lessonProperties);
