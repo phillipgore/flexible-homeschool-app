@@ -2939,14 +2939,16 @@ Meteor.methods({
 			throw new Meteor.Error('no-role-app', 'You do not have permission to add test data.');
 		}
 
-		Lessons.remove({groupId: groupId});
-		SchoolWork.remove({groupId: groupId});
-		Weeks.remove({groupId: groupId});
-		Terms.remove({groupId: groupId});
-		SchoolYears.remove({groupId: groupId});
-		Students.remove({groupId: groupId});
-		Resources.remove({groupId: groupId});
-		Groups.update(groupId, {$set: {testData: false}});
+		if (Groups.findOne({_id: groupId}).appAdmin) {
+			Lessons.remove({groupId: groupId});
+			SchoolWork.remove({groupId: groupId});
+			Weeks.remove({groupId: groupId});
+			Terms.remove({groupId: groupId});
+			SchoolYears.remove({groupId: groupId});
+			Students.remove({groupId: groupId});
+			Resources.remove({groupId: groupId});
+			Groups.update(groupId, {$set: {testData: false}});
+		}
 	}
 });
 
