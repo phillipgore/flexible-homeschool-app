@@ -15,6 +15,22 @@ Meteor.methods({
 		Accounts.sendVerificationEmail(userId, email);
 		return userId
 	},
+
+	sendThankYouEmail: function(options) {
+		console.log(options)
+		SSR.compileTemplate('thankYouEmail', Assets.getText('thankYouEmail.html'));
+
+		var emailData = {
+			firstName: options.info.firstName,
+		};
+
+		Email.send({
+			to: options.email,
+			from: "Flexible Homeschool App <no-reply@aflexiblehomeschool.com>",
+			subject: "Thank You for subscibing to Flexible Homeschool App",
+			html: SSR.render('thankYouEmail', emailData),
+		});
+	}
 });
 
 Accounts.config({
@@ -90,6 +106,7 @@ Accounts.onCreateUser((options, user) => {
 		lastName: options.info.lastName
 	};
 
+	Meteor.call('sendThankYouEmail', options);
 	Meteor.call('mcSubscription', mcSubscriptionProperties);
 
 	return user;

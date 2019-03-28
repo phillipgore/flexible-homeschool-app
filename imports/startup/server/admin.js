@@ -79,7 +79,6 @@ Meteor.methods({
 						expiration: moment(group.freeTrial.expiration).format('MMMM D, YYYY'),
 					};
 
-					console.log(emailData)
 
 					Email.send({
 						to: user.email,
