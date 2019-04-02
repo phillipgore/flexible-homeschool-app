@@ -13,7 +13,7 @@ import {allSchoolYearsStatusAndPaths} from '../../../modules/server/functions';
 import _ from 'lodash'
 
 Meteor.publish('initialIds', function(currentYear) {
-	this.autorun(function (computation) {
+	// this.autorun(function (computation) {
 		if (!this.userId) {
 			return this.ready();
 		}
@@ -35,7 +35,7 @@ Meteor.publish('initialIds', function(currentYear) {
 
 		// Intiial Student
 		if (studentIds.length) {ids.studentId = studentIds[0]} else {ids.studentId = 'empty'};
-		//console.log('Student')
+		console.log('Student')
 
 
 		// Initial School Year
@@ -51,14 +51,14 @@ Meteor.publish('initialIds', function(currentYear) {
 
 		};
 		ids.schoolYearId = schoolYearId(currentYear);
-		//console.log('School Year')
+		console.log('School Year')
 
 
 		// Initial Resources
 		let valueResource = Resources.findOne({groupId: groupId, deletedOn: { $exists: false }}, {sort: {title: 1}});
 		if (valueResource) {ids.resourceId = valueResource._id} else {ids.resourceId = 'empty'};
 		if (valueResource) {ids.resourceType = valueResource.type} else {ids.resourceType = 'empty'};
-		//console.log('Resources')
+		console.log('Resources')
 
 
 		// Initial Terms and Weeks
@@ -85,7 +85,7 @@ Meteor.publish('initialIds', function(currentYear) {
 			//console.log('valueWeek: ' + valueWeek)
 			if (valueWeek) {ids.weekId = valueWeek} else {ids.weekId = 'empty'};
 		}
-		//console.log('Terms and Weeks')
+		console.log('Terms and Weeks')
 
 		// Initial School Work
 		if (ids.schoolYearId === 'empty' || ids.termId === 'empty' || ids.weekId === 'empty') {
@@ -97,18 +97,18 @@ Meteor.publish('initialIds', function(currentYear) {
 			//console.log('schoolWorkItems: ' + schoolWorkItems)
 			if (schoolWorkItems[0]) {ids.schoolWorkId = schoolWorkItems[0]._id} else {ids.schoolWorkId = 'empty'};
 		}
-		//console.log('School Work')
+		console.log('School Work')
 
 
 		// Initial User
 		if (userId) {ids.userId = userId} else {ids.userId = 'empty'};
-		//console.log('User')
+		console.log('User')
 
 
 		// Initial Report
 		let valueReport = Reports.findOne({groupId: groupId, deletedOn: { $exists: false }}, {sort: {name: 1}});
 		if (valueReport) {ids.reportId = valueReport._id} else {ids.reportId = 'empty'};
-		//console.log('Report')
+		console.log('Report')
 
 
 		// Initial Group
@@ -117,12 +117,12 @@ Meteor.publish('initialIds', function(currentYear) {
 
 			if (initialGroup) {ids.groupId = initialGroup._id} else {ids.groupId = 'empty'};
 		}
-		//console.log('Group')
+		console.log('Group')
 
 
 		self.added('initialIds', Random.id(), ids);
 		self.ready();
-	});
+	// });
 });
 
 Meteor.publish('initialStats', function() {
