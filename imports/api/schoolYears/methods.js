@@ -39,7 +39,6 @@ Meteor.methods({
 	},
 
 	updateSchoolYearTerms: function(schoolYearId, schoolYearProperties, termDeleteIds, termInsertProperties, termUpdateProperties, userId, groupId) {
-
 		let weekDeleteIds = Weeks.find({termId: {$in: termDeleteIds}}).map(week => week._id);
 
 		let weekBulkDelete = [];
@@ -77,8 +76,14 @@ Meteor.methods({
 			} else {
 				// Get Weeks to be deleted from lower Week count in form (last weeks first)
 				let weekMoreDeleteIds = Weeks.find({termId: term._id}, {limit: Math.abs(weeksDif), sort: {order: -1}}).map(week => (week._id));
+				let lessonMoreDeleteIds = Lessons.find({weekId: {$in: weekMoreDeleteIds}}).map(lesson => (lesson._id))
+
 				for (i = 0; i < weekMoreDeleteIds.length; i++) {
 					weekBulkDelete.push({deleteOne: {"filter": {_id: weekMoreDeleteIds[i]}}});
+				}
+
+				for (i = 0; i < lessonMoreDeleteIds.length; i++) {
+					lessonBulkDelete.push({deleteOne: {"filter": {_id: lessonMoreDeleteIds[i]}}});
 				}
 
 				SchoolWork.find().forEach((schoolWork) => {

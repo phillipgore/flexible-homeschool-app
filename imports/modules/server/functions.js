@@ -209,47 +209,47 @@ export function studentSchoolYearsStatusAndPaths(studentId, schoolYear, lessons)
 		// console.log('lessonsAssigned: ' + lessonsAssigned);
 
 		let term = Terms.findOne({schoolYearId: schoolYear._id, deletedOn: { $exists: false }}, {sort: {order: 1}, fields: {_id: 1}})
-		console.log('term: ' + term);
+		// console.log('term: ' + term);
 
 		schoolYear.status = status(lessons.length, lessonsComplete.length, lessonsAssigned.length);
 		// console.log('schoolYear.status: ' + schoolYear.status);
 
 		if (term) {
-			console.log('term')
+			// console.log('term')
 			if (lessons.length) {
-				console.log('lessons')
+				// console.log('lessons')
 				let firstWeekId = getFirstLesson(lessons, lessonsComplete, lessonsIncomplete).weekId;
-				console.log('firstWeekId: ' + firstWeekId);
+				// console.log('firstWeekId: ' + firstWeekId);
 				let firstWeek = Weeks.findOne({_id: firstWeekId, deletedOn: { $exists: false }});
-				console.log('firstWeek: ' + firstWeek);
+				// console.log('firstWeek: ' + firstWeek);
 
 				schoolYear.firstTermId = firstWeek.termId;
 				schoolYear.firstWeekId = firstWeekId;
 			} else {
-				console.log('no lessons')
+				// console.log('no lessons')
 				let firstTerm = term
-				console.log('firstTerm: ' + firstTerm);
+				// console.log('firstTerm: ' + firstTerm);
 				let firstWeek = Weeks.findOne({termId: firstTerm._id, deletedOn: { $exists: false }}, {sort: {order: 1}, fields: {_id: 1}})
-				console.log('firstWeek: ' + firstWeek);
+				// console.log('firstWeek: ' + firstWeek);
 
 				schoolYear.firstTermId = firstTerm._id;
-				console.log('firstTermId: ' + schoolYear.firstTermId);
+				// console.log('firstTermId: ' + schoolYear.firstTermId);
 
 				if (firstWeek) {
 					schoolYear.firstWeekId = firstWeek._id;
 				} else {
 					schoolYear.firstWeekId = 'empty';	
 				}
-				console.log('firstWeekId: ' + schoolYear.firstWeekId);
+				// console.log('firstWeekId: ' + schoolYear.firstWeekId);
 			}	
 		} else {
-			console.log('no term')
+			// console.log('no term')
 			schoolYear.firstTermId = 'empty';
 			schoolYear.firstWeekId = 'empty';
 		}
 	}
 
-	console.log('schoolYear: ' + schoolYear);
+	// console.log('schoolYear: ' + schoolYear);
 	return schoolYear;
 };
 
