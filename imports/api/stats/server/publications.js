@@ -22,6 +22,8 @@ Meteor.publish('initialIds', function(currentYear) {
 		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
 		let ids = {};
 
+		console.log(groupId)
+
 		let userId = Meteor.users.findOne({'info.groupId': groupId, 'emails.0.verified': true, 'status.active': true}, {sort: {'info.lastName': 1, 'info.firstName': 1}})._id;
 		let studentIds = Students.find(
 			{groupId: groupId, deletedOn: { $exists: false }}, 
@@ -67,22 +69,22 @@ Meteor.publish('initialIds', function(currentYear) {
 			ids.weekId = 'empty';
 		} else {
 			let initialSchoolYear = _.filter(schoolYears, ['_id', ids.schoolYearId])[0];
-			//console.log('initialSchoolYear: ' + initialSchoolYear)
+			console.log('initialSchoolYear: ' + initialSchoolYear)
 			let schoolWorkItems = SchoolWork.find({ studentId: ids.studentId, schoolYearId: initialSchoolYear._id, deletedOn: { $exists: false }}, {sort: {name: 1}, fields: {_id: 1}}).fetch();
-			//console.log('schoolWorkItems: ' + schoolWorkItems)
+			console.log('schoolWorkItems: ' + schoolWorkItems)
 			let schoolWorkIds = schoolWorkItems.map(schoolWork => (schoolWork._id));
-			//console.log('schoolWorkIds: ' + schoolWorkIds)
+			console.log('schoolWorkIds: ' + schoolWorkIds)
 			let lessons = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, deletedOn: { $exists: false }}, {fields: {completed: 1, assigned: 1, weekId: 1}}).fetch();
-			//console.log('lessons: ' + lessons)
+			console.log('lessons: ' + lessons)
 			let schoolYear = studentSchoolYearsStatusAndPaths(ids.studentId, initialSchoolYear, lessons);
-			//console.log('schoolYear: ' + schoolYear)
+			console.log('schoolYear: ' + schoolYear)
 
 			let valueTerm = schoolYear.firstTermId;
-			//console.log('valueTerm: ' + valueTerm)
+			console.log('valueTerm: ' + valueTerm)
 			if (valueTerm) {ids.termId = valueTerm} else {ids.termId = 'empty'};
 
 			let valueWeek = schoolYear.firstWeekId;
-			//console.log('valueWeek: ' + valueWeek)
+			console.log('valueWeek: ' + valueWeek)
 			if (valueWeek) {ids.weekId = valueWeek} else {ids.weekId = 'empty'};
 		}
 		console.log('Terms and Weeks')
@@ -92,9 +94,9 @@ Meteor.publish('initialIds', function(currentYear) {
 			ids.schoolWorkId = 'empty';
 		} else {
 			let initialSchoolYear = _.filter(schoolYears, ['_id', ids.schoolYearId])[0];
-			//console.log('initialSchoolYear: ' + initialSchoolYear)
+			console.log('initialSchoolYear: ' + initialSchoolYear)
 			let schoolWorkItems = SchoolWork.find({ studentId: ids.studentId, schoolYearId: initialSchoolYear._id, deletedOn: { $exists: false }}, {sort: {name: 1}, fields: {_id: 1}}).fetch();
-			//console.log('schoolWorkItems: ' + schoolWorkItems)
+			console.log('schoolWorkItems: ' + schoolWorkItems)
 			if (schoolWorkItems[0]) {ids.schoolWorkId = schoolWorkItems[0]._id} else {ids.schoolWorkId = 'empty'};
 		}
 		console.log('School Work')
