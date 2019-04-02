@@ -211,6 +211,9 @@
 }
 
 @media only screen and (min-width: 640px) {
+	.loading-container {
+		bottom: 0px;
+	}
 	.frame-one {
 		.loading-container {
 			width: 50%;

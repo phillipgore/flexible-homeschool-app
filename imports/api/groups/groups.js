@@ -45,6 +45,41 @@ const GroupsSchema = new SimpleSchema({
         type: String,
         label: "Stripe Coupon Code",
     },
+    stripeCurrentCouponCode: {
+        type: Object,
+        label: "Current Coupon Code",
+        optional: true
+    },
+    'stripeCurrentCouponCode.id': {
+        type: String,
+        label: "Current Coupon ID",
+        optional: true
+    },
+    'stripeCurrentCouponCode.startDate': {
+        type: Number,
+        label: "Current Coupon Start Date",
+        optional: true
+    },
+    'stripeCurrentCouponCode.endDate': {
+        type: Number,
+        label: "Current Coupon End Date",
+        optional: true
+    },
+    'stripeCurrentCouponCode.id': {
+        type: String,
+        label: "Current Coupon ID",
+        optional: true
+    },
+    'stripeCurrentCouponCode.amountOff': {
+        type: Number,
+        label: "Current Coupon Amount Off (Pennies)",
+        optional: true
+    },
+    'stripeCurrentCouponCode.percentOff': {
+        type: Number,
+        label: "Current Coupon Percent Off",
+        optional: true
+    },
 	subscriptionStatus: {
 		type: String,
 		label: "Account Status",

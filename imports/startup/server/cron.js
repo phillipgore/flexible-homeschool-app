@@ -1,11 +1,11 @@
 import {Groups} from '../../api/groups/groups.js';
 
 import moment from 'moment';
+import _ from 'lodash'
 
 SyncedCron.add({
-	name: 'Check for expired Free Trials',
+	name: 'Check for Expired Free Trials',
 	schedule: function(parser) {
-		// parser is a later.parse object
 		return parser.text('every 12 hours');
 	},
 	job: function() {
@@ -17,5 +17,15 @@ SyncedCron.add({
 		});
 	}
 });
+
+// SyncedCron.add({
+// 	name: 'Check for Account Status',
+// 	schedule: function(parser) {
+// 		return parser.text('every 1 minute');
+// 	},
+// 	job: function() {
+// 		console.log('one minute');
+// 	}
+// });
 
 SyncedCron.start();
