@@ -195,14 +195,24 @@ export function allSchoolYearsStatusAndPaths(schoolYear, schoolYearId) {
 
 
 export function studentSchoolYearsStatusAndPaths(studentId, schoolYear, lessons) {
+	console.log('studentId: ' + studentId);
+	console.log('schoolYear: ' + schoolYear);
+	console.log('lesson length: ' + lessons.length);
+
 	if (schoolYear) {
 		let lessonsComplete = _.filter(lessons, ['completed', true]);
 		let lessonsIncomplete = _.filter(lessons, ['completed', false]);	
 		let lessonsAssigned = _.filter(lessons, {'completed': false, 'assigned': true});
 
+		console.log('lessonsComplete: ' + lessonsComplete);
+		console.log('lessonsIncomplete: ' + lessonsIncomplete);
+		console.log('lessonsAssigned: ' + lessonsAssigned);
+
 		let term = Terms.findOne({schoolYearId: schoolYear._id, deletedOn: { $exists: false }}, {sort: {order: 1}, fields: {_id: 1}})
+		console.log('term: ' + term);
 
 		schoolYear.status = status(lessons.length, lessonsComplete.length, lessonsAssigned.length);
+		console.log('schoolYear.status: ' + schoolYear.status);
 
 		if (term) {
 			if (lessons.length) {
@@ -229,6 +239,7 @@ export function studentSchoolYearsStatusAndPaths(studentId, schoolYear, lessons)
 		}
 	}
 
+	console.log('schoolYear: ' + schoolYear);
 	return schoolYear;
 };
 
