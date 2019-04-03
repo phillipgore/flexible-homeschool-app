@@ -1,5 +1,4 @@
 <template name="subbarReporting">
-	{{#if reportsAvailable}}
 		<div class="subbar-four-btn">
 			<div class="row">
 
@@ -14,7 +13,7 @@
 								<div class="dropdown-arrow"></div>
 								{{#each student in students}}
 									<li class="dropdown-item">
-										<a id="{{student._id}}" class="js-report-student dropdown-item-link" href="/reporting/view/{{selectedFramePosition}}/{{student._id}}/{{selectedSchoolYear._id}}/{{selectedTerm._id}}/{{selectedWeek._id}}/{{selectedReport._id}}">
+										<a id="{{student._id}}" class="js-report-student dropdown-item-link" href="/reporting/view/{{selectedFramePosition}}/{{student._id}}/{{selectedSchoolYear._id}}/{{selectedTerm._id}}/{{selectedWeek._id}}/{{selectedReportId}}">
 											<div class="dropdown-item-label">{{student.preferredFirstName.name}} {{student.lastName}}</div>
 											{{#if activeListItem selectedStudent._id student._id}}
 												<div class="dropdown-item-icon-right">
@@ -44,7 +43,7 @@
 								<div class="dropdown-arrow"></div>
 								{{#each schoolYear in schoolYears}}
 									<li class="dropdown-item">
-										<a id="{{schoolYear._id}}" class="js-report-school-year dropdown-item-link" href="/reporting/view/{{selectedFramePosition}}/{{selectedStudent._id}}/{{schoolYear._id}}/{{schoolYear.firstTermId}}/{{schoolYear.firstWeekId}}/{{selectedReport._id}}">
+										<a id="{{schoolYear._id}}" class="js-report-school-year dropdown-item-link" href="/reporting/view/{{selectedFramePosition}}/{{selectedStudent._id}}/{{schoolYear._id}}/{{schoolYear.firstTermId}}/{{schoolYear.firstWeekId}}/{{selectedReportId}}">
 											<div class="dropdown-item-icon"><i class="{{yearStatus schoolYear.status}}"></i></div>
 											<div class="dropdown-item-label">{{schoolYear.startYear}}-{{schoolYear.endYear}}</div>
 											{{#if activeListItem selectedSchoolYear._id schoolYear._id}}
@@ -77,7 +76,7 @@
 							{{else}}
 								{{#each term in terms}}
 									<li class="dropdown-item">
-										<a data-school-year-id="{{selectedSchoolYear._id}}" id="{{term._id}}" data-week-id="{{term.firstWeekId}}" class="js-term dropdown-item-link" href="/reporting/view/{{selectedFramePosition}}/{{selectedStudent._id}}/{{selectedSchoolYear._id}}/{{term._id}}/{{term.firstWeekId}}/{{selectedReport._id}}">
+										<a data-school-year-id="{{selectedSchoolYear._id}}" id="{{term._id}}" data-week-id="{{term.firstWeekId}}" class="js-term dropdown-item-link" href="/reporting/view/{{selectedFramePosition}}/{{selectedStudent._id}}/{{selectedSchoolYear._id}}/{{term._id}}/{{term.firstWeekId}}/{{selectedReportId}}">
 											{{#unless selectedFramePositionOne}}
 												<div class="dropdown-item-icon"><i class="{{termStatus term.status}}"></i></div>
 											{{/unless}}
@@ -116,7 +115,7 @@
 								{{else}}
 									{{#each week in weeks}}
 										<li class="dropdown-item">
-											<a data-school-year-id="{{selectedSchoolYear._id}}" data-term-id="{{selectedTerm._id}}" id="{{week._id}}" class="js-week dropdown-item-link" href="/reporting/view/{{selectedFramePosition}}/{{selectedStudent._id}}/{{selectedSchoolYear._id}}/{{selectedTerm._id}}/{{week._id}}/{{selectedReport._id}}">
+											<a data-school-year-id="{{selectedSchoolYear._id}}" data-term-id="{{selectedTerm._id}}" id="{{week._id}}" class="js-week dropdown-item-link" href="/reporting/view/{{selectedFramePosition}}/{{selectedStudent._id}}/{{selectedSchoolYear._id}}/{{selectedTerm._id}}/{{week._id}}/{{selectedReportId}}">
 												{{#unless selectedFramePositionOne}}
 													<div class="dropdown-item-icon"><i class="{{weekStatus week.status}}"></i></div>
 												{{/unless}}
@@ -143,5 +142,4 @@
 				
 			</div>
 		</div>
-	{{/if}}
 </template>

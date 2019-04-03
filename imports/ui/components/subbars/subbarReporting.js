@@ -123,6 +123,10 @@ Template.subbarReporting.helpers({
 	selectedReport: function() {
 		return Reports.findOne({_id: FlowRouter.getParam('selectedReportId')});
 	},
+
+	selectedReportId: function() {
+		return Session.get('selectedReportId');
+	},
 	
 	activeListItem: function(currentItem, item) {
 		if (currentItem === item) {
