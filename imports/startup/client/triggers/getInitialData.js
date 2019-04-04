@@ -140,6 +140,7 @@ FlowRouter.triggers.enter([checkSignIn], {only: [
 ]});
 
 function initialData(context) {
+	let getInitialIds = Meteor.subscribe('initialIds', startYearFunction(year));
 	getInitialData();
 };
 
