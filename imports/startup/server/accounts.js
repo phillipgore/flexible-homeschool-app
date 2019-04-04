@@ -17,8 +17,6 @@ Meteor.methods({
 	},
 
 	sendThankYouEmail: function(user) {
-		console.log(user);
-
 		SSR.compileTemplate('thankYouEmail', Assets.getText('thankYouEmail.html'));
 
 		var emailData = {

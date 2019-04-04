@@ -46,8 +46,6 @@ Migrations.add({
 						updatedGroupProperties.stripeCurrentCouponCode.amountOff = result.discount.coupon.amount_off;
 						updatedGroupProperties.stripeCurrentCouponCode.percentOff = result.discount.coupon.percent_off;
 
-						console.log(updatedGroupProperties)
-
 						Groups.update(group._id, {$set: updatedGroupProperties}, function(error, result) {
 							if (error) {
 								console.log(error);
