@@ -32,19 +32,13 @@ Migrations.add({
 							stripeCardId: group.stripeCardId,
 							stripeCouponCodes: group.stripeCouponCodes,
 							stripeCurrentCouponCode: {
-								startDate: null,
-								endDate: null,
-								id: null,
-								amountOff: null,
-								percentOff: null,
+								startDate: result.discount.start,
+								endDate: result.discount.end,
+								id: result.discount.coupon.id,
+								amountOff: result.discount.coupon.amount_off,
+								percentOff: result.discount.coupon.percent_off,
 							},
 						};
-
-						updatedGroupProperties.stripeCurrentCouponCode.startDate = result.discount.start;
-						updatedGroupProperties.stripeCurrentCouponCode.endDate = result.discount.end;
-						updatedGroupProperties.stripeCurrentCouponCode.id = result.discount.coupon.id;
-						updatedGroupProperties.stripeCurrentCouponCode.amountOff = result.discount.coupon.amount_off;
-						updatedGroupProperties.stripeCurrentCouponCode.percentOff = result.discount.coupon.percent_off;
 
 						Groups.update(group._id, {$set: updatedGroupProperties}, function(error, result) {
 							if (error) {
@@ -63,4 +57,5 @@ Migrations.add({
 Meteor.startup(() => {
 	Migrations.migrateTo('2,rerun');
 });
+
 
