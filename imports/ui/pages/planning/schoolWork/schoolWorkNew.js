@@ -210,7 +210,9 @@ Template.schoolWorkNew.events({
     	if (checkedCount === 0 && $(event.currentTarget).val() === 'true') {
     		$(event.currentTarget).prop('checked', true)
     		$('.student-error').show().css({display: 'block'});
-    		setTimeout(function(){ $('.student-error').slideUp('fast'); }, 2000);
+    		setTimeout(function() { 
+    			$('.student-error').slideUp('fast'); 
+    		}, 2000);
     	} else {
     		$('.student-error').slideUp('fast');
 		    if ($(event.currentTarget).val() === 'true') {

@@ -58,7 +58,9 @@ Meteor.methods({
 		let result = await stripe.subscriptions.update(
 			stripeSubscriptionId, 
 			{coupon: stripeCouponCode.toLowerCase()}
-		).catch((error) => {
+		).then((subscription) => {
+			return subscription;
+		}).catch((error) => {
 			throw new Meteor.Error(500, error.message);
 		});
 

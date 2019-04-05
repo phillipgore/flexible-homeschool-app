@@ -76,7 +76,9 @@ Template.billingError.events({
 		}
 
 		if (cardValidation()) {
-			stripe.createToken(Session.get('cardNumber')).then((result) => {
+			stripe.createToken(
+				Session.get('cardNumber')
+			).then((result) => {
 				if (result.error) {
 					FlowRouter.go('/settings/billing/error/1');
 				} else {
@@ -96,6 +98,15 @@ Template.billingError.events({
 						}
 					});
 				}
+			}).catch((error) => {
+				Alerts.insert({
+					colorClass: 'bg-danger',
+					iconClass: 'icn-danger',
+					message: error.message,
+				});
+					
+				$('.js-updating').hide();
+				$('.js-submit').prop('disabled', false);
 			});
 		}
 	},

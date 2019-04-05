@@ -189,10 +189,12 @@ Template.createAccount.events({
 							$('.js-saving').hide();
 							$('.js-submit').prop('disabled', false);
 						} else { 
-							stripe.createToken(Session.get('cardNumber')).then((result) => {
-								if (result.error) {
-									console.log(result.error);
-								}
+							stripe.createToken(
+								Session.get('cardNumber')
+							).then((result) => {
+								// if (result.error) {
+								// 	console.log(result.error);
+								// }
 								if (result.error) {
 									let groupProperties = {
 										_id: groupId,
@@ -236,6 +238,15 @@ Template.createAccount.events({
 										}
 									});
 								}
+							}).catch((error) => {
+								Alerts.insert({
+									colorClass: 'bg-danger',
+									iconClass: 'icn-danger',
+									message: error.message,
+								});
+		
+								$('.js-saving').hide();
+								$('.js-submit').prop('disabled', false);
 							});
 						}
 					});
