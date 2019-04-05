@@ -6,7 +6,7 @@ import _ from 'lodash'
 SyncedCron.add({
 	name: 'Free Trials And Dollar Trials',
 	schedule: function(parser) {
-		return parser.text('every 1 minute');
+		return parser.text('every 12 hours');
 	},
 	job: function() {
 		let today = moment().unix();
