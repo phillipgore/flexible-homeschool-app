@@ -9,6 +9,7 @@ SyncedCron.add({
 		return parser.text('every 12 hours');
 	},
 	job: function() {
+		console.log('cron job')
 		let today = moment().unix();
 		let groups = Groups.find(
 			{$or: [

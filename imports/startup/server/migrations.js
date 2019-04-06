@@ -19,7 +19,7 @@ Migrations.add({
 	version: 2,
 	name: 'Add Stripe coupon data.',
 	up: function() {
-
+		console.log('migration 2')
 		Groups.find().forEach(group => {
 			let stripeSubscriptionId = group.stripeSubscriptionId;
 			if (!_.isUndefined(stripeSubscriptionId)) {
