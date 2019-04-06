@@ -15,6 +15,7 @@ SyncedCron.add({
 				{
 					subscriptionStatus: 'freeTrial'
 				}, {
+					subscriptionStatus: 'active',
 					'stripeCurrentCouponCode.id': Meteor.settings.private.stripeSignUpDiscount, 
 					'stripeCurrentCouponCode.endDate': {$gt: today}
 				}
