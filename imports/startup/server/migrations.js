@@ -1,5 +1,6 @@
 import {Groups} from '../../api/groups/groups.js';
 import {Lessons} from '../../api/lessons/lessons.js';
+import {Weeks} from '../../api/weeks/weeks.js';
 
 import moment from 'moment';
 import _ from 'lodash'
@@ -54,8 +55,24 @@ Migrations.add({
 	}
 });
 
-Meteor.startup(() => {
-	Migrations.migrateTo(2);
+Migrations.add({
+	version: 3,
+	name: 'Delete lessons that reference missing weeks.',
+	up: function() {
+		let refWeekIds = _.uniq(Lessons.find().map(lesson => lesson.weekId));
+		let weekIds = _.uniq(Weeks.find().map(week => week._id));
+		refWeekIds.forEach(weekId => {
+			if (_.indexOf(weekIds, weekId) < 0) {
+				Lessons.remove({weekId: weekId})
+			}
+		})
+	}
 });
+
+
+Meteor.startup(() => {
+	Migrations.migrateTo(3);
+});
+
 
 
