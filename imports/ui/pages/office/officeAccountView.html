@@ -17,7 +17,7 @@
 
 			<label class="txt-info font-size-12 txt-weight-900">Users:</label>
 			{{#each user in accountUsers}}
-				<div class="m-tn-b-12">{{user.info.firstName}} {{user.info.lastName}} ({{user.info.role}})</div>
+				<div class="m-tn-b-12">{{user.info.firstName}} {{user.info.lastName}} : {{user.info.role}} : {{user.presence.status}}</div>
 			{{/each}}
 
 			<label class="txt-info font-size-12 txt-weight-900">Counts:</label>
