@@ -72,7 +72,7 @@ Migrations.add({
 
 
 Meteor.startup(() => {
-	Migrations.migrateTo('3,rerun');
+	Migrations.migrateTo(3);
 });
 
 
