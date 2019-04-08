@@ -63,6 +63,7 @@ Migrations.add({
 		let weekIds = _.uniq(Weeks.find().map(week => week._id));
 		refWeekIds.forEach(weekId => {
 			if (_.indexOf(weekIds, weekId) < 0) {
+				console.log(weekId);
 				Lessons.remove({weekId: weekId})
 			}
 		})
@@ -71,8 +72,9 @@ Migrations.add({
 
 
 Meteor.startup(() => {
-	Migrations.migrateTo(3);
+	Migrations.migrateTo('3,rerun');
 });
+
 
 
 
