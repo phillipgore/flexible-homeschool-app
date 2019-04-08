@@ -33,6 +33,7 @@
 			<div class="m-tn-b-12">Lessons: {{getPublishedCount 'accountLessonsCount'}}</div>
 			<div class="m-tn-b-12">Reports: {{getPublishedCount 'accountReportsCount'}}</div>
 		{{/if}}
+			<button id="{{accountAdmin._id}}" class="js-impersonate-admin btn-info">Impersonate Admin</button>
 	</main>
 	{{#unless subscriptionReady}}
 		{{> loading}}

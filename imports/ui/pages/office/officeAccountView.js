@@ -36,6 +36,10 @@ Template.officeAccountView.helpers({
     return Session.get('accountStats');
   },
 
+  accountAdmin() {
+    return Meteor.users.findOne({ 'info.groupId': FlowRouter.getParam('selectedGroupId'), 'info.role': 'Administrator' });
+  },
+
   userName(first, last) {
     if (first && last) {
       Session.set({ labelTwo: `${first} ${last}` });
@@ -49,4 +53,21 @@ Template.officeAccountView.helpers({
     }
     return status;
   },
+});
+
+Template.officeAccountView.events({
+  'click .js-impersonate-admin': function(event) {
+    Meteor.call('impersonateAdmin', event.currentTarget.id, function(error) {
+      if (error) {
+        Alerts.insert({
+          colorClass: 'bg-danger',
+          iconClass: 'icn-danger',
+          message: error.reason,
+        });
+      } else {
+        Meteor.connection.setUserId(event.currentTarget.id);
+        FlowRouter.go('/')
+      }
+    });
+  }
 });
