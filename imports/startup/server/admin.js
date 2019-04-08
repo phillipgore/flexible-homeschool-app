@@ -91,6 +91,10 @@ Meteor.methods({
 			return groupId;	
 		}
 	},
+
+	logRoute: function(userId, routeName) {
+		console.log(userId +' '+ routeName)
+	}
 });
 
 

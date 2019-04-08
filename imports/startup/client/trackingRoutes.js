@@ -6,6 +6,9 @@ FlowRouter.route('/tracking/students/view/:selectedFramePosition/:selectedStuden
 			frameOne: 'trackingList',
 			frameTwo: 'trackingView',
 		});
+		if (Meteor.settings.public.routeLoggingOn) {
+			Meteor.call('logRoute', Meteor.userId(), 'trackingView')
+		}
 	},
 });
 

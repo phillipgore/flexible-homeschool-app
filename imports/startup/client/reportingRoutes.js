@@ -8,6 +8,9 @@ FlowRouter.route('/reporting/new/:selectedFramePosition', {
 			frameOne: 'reportingList',
 			frameTwo: 'reportingNew',
 		});
+		if (Meteor.settings.public.routeLoggingOn) {
+			Meteor.call('logRoute', Meteor.userId(), 'reportingNew')
+		}
 	},
 });
 
@@ -30,6 +33,9 @@ FlowRouter.route('/reporting/view/:selectedFramePosition/:selectedStudentId/:sel
 			frameOne: 'reportingList',
 			frameTwo: 'reportingView',
 		});
+		if (Meteor.settings.public.routeLoggingOn) {
+			Meteor.call('logRoute', Meteor.userId(), 'reportingView')
+		}
 	},
 });
 
@@ -41,6 +47,9 @@ FlowRouter.route('/reporting/edit/:selectedFramePosition/:selectedReportId', {
 			frameOne: 'reportingList',
 			frameTwo: 'reportingEdit',
 		});
+		if (Meteor.settings.public.routeLoggingOn) {
+			Meteor.call('logRoute', Meteor.userId(), 'reportingEdit')
+		}
 	},
 });
 
