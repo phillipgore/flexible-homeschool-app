@@ -33,4 +33,16 @@ Template.office.events({
 	'click .js-group'(event) {
 		Session.set('selectedGroupId', $(event.currentTarget).attr('id'));
 	},
+
+
+	// Alerts
+	'click .js-alert-close'(event) {
+		event.preventDefault();
+		const alertId = event.currentTarget.id
+
+		$('#' + alertId).parent().addClass('alert-fade-out');
+		setTimeout(function(){
+			Alerts.remove({_id: alertId});
+		}, 350);
+	},
 });

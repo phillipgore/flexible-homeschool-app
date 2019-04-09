@@ -1,10 +1,10 @@
+import './triggers/checkSignOut';
 import './triggers/getInitialData.js';
 
 import './triggers/checkPaymentError';
 import './triggers/checkRoleAppAdminOrDev';
 import './triggers/checkRoleObserver';
 import './triggers/checkRoleUser.js';
-import './triggers/checkSignOut';
 import './triggers/checkSubscriptionPaused';
 import './triggers/clearAlerts';
 import './triggers/isAppAdmin';
@@ -44,6 +44,10 @@ $(window).resize(function(event) {
 		windowHeight: $(window).height(),
 		windowWidth: $(window).width(),
 	});
+});
+
+Accounts.onLogout(function() {
+	window.location = '/sign-in';
 });
 
 Template.registerHelper('selectedFramePosition', () => {

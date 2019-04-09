@@ -1,3 +1,13 @@
+.impersonation {
+	height: 3px;
+	position: fixed;
+	top: 0px;
+	right: 0px;
+	left: 0px;
+	z-index: 900;
+	background-color: $color-danger;
+}
+
 .toolbar {
 	height: 50px;
 	position: fixed;

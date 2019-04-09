@@ -27,6 +27,17 @@ FlowRouter.route('/office/accounts/view/:selectedFramePosition/:selectedGroupId'
 	},
 });
 
+FlowRouter.route('/office/accounts/reset/view/:selectedFramePosition/:selectedGroupId', {
+	name: 'officeAccountResetView',
+	action(params) {
+		BlazeLayout.reset();
+		BlazeLayout.render('office', {
+			frameOne: 'officeAccountsList',
+			frameTwo: 'officeAccountView',
+		});
+	},
+});
+
 FlowRouter.route('/office/accounts/new/:selectedFramePosition', {
 	name: 'officeAccountsNew',
 	action() {

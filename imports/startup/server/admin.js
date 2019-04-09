@@ -98,12 +98,13 @@ Meteor.methods({
 		if (!Meteor.users.findOne(userId)) {
 			throw new Meteor.Error(404, 'User not found');
 		}
+		console.log(Meteor.user().info.role)
 		if (Meteor.user().info.role != 'Application Administrator') {
 			throw new Meteor.Error(403, 'Permission denied');
 		}
 
 		this.setUserId(userId);
-	}
+	},
 });
 
 

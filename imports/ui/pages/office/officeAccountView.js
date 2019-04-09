@@ -66,6 +66,27 @@ Template.officeAccountView.events({
         });
       } else {
         Meteor.connection.setUserId(event.currentTarget.id);
+        Session.set({
+          isImpersonation: true,
+          appAdminId: Meteor.userId(),
+          selectedFramePosition: '',
+          selectedFrameClass: '',
+          selectedStudentId: '',
+          selectedSchoolYearId: '',
+          selectedResourceType: '',
+          selectedResourceAvailability: '',
+          selectedResourceId: '',
+          selectedResourceCurrentTypeId: '',
+          selectedTermId: '',
+          selectedReportingTermId: '',
+          selectedWeekId: '',
+          selectedReportingWeekId: '',
+          selectedSchoolWorkId: '',
+          selectedReportId: '',
+          selectedUserId: '',
+          planningPathName: '',
+          selectedGroupId: '',
+        })
         FlowRouter.go('/')
       }
     });

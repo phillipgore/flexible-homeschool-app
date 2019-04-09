@@ -42,6 +42,7 @@ Meteor.publish('allAccountTotals', function(groupId) {
 
 	let activeGroupIds = Groups.find({appAdmin: false, subscriptionStatus: 'active', deletedOn: { $exists: false }}).map(group => (group._id));
 	
+	Counts.publish(this, 'allOnlineCount', Groups.find({appAdmin: false, 'presence.status': 'online'}));
 	Counts.publish(this, 'allActiveAccountsCount', Groups.find({appAdmin: false, subscriptionStatus: 'active', deletedOn: { $exists: false }}));
 	Counts.publish(this, 'allPausePendingAccountsCount', Groups.find({subscriptionStatus: 'pausePending', deletedOn: { $exists: false }}));
 	Counts.publish(this, 'allPauseedAccountsCount', Groups.find({subscriptionStatus: 'paused', deletedOn: { $exists: false }}));

@@ -1,5 +1,6 @@
 // Redirection if signed out.
 function checkSignOut(context, redirect) {
+	console.log('checkSignOut')
 	if (!Meteor.userId()) {
 		redirect('/sign-in');
 	} else if (!Meteor.user().status.active) {

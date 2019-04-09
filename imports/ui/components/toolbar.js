@@ -8,6 +8,10 @@ Template.toolbar.helpers({
 	selectedFramePosition: function() {
 		return Session.get('selectedFramePosition');
 	},
+
+	user: function() {
+		return Meteor.users.findOne();
+	},
 	
 	logo: function() {
 		if(Meteor.userId() && Meteor.user().status.active) {
@@ -151,6 +155,17 @@ Template.toolbar.helpers({
 		}
 		return false;
 	},
+
+	isImpersonation: function() {
+		return Session.get('isImpersonation');
+	},
+
+	checkStatus: function(status) {
+		if (status === 'online') {
+			return true;
+		}
+		return false;
+	}
 });
 
 Template.toolbar.events({
@@ -234,4 +249,53 @@ Template.toolbar.events({
 			});
 		}
 	},
+
+	'click .js-return-to-back-office'(event) {
+		event.preventDefault();
+    	let currentGroupId = Meteor.user().info.groupId;
+
+    	Session.set({
+			isImpersonation: false,
+			appAdminId: '',
+			selectedFramePosition: '',
+			selectedFrameClass: '',
+			selectedStudentId: '',
+			selectedSchoolYearId: '',
+			selectedResourceType: '',
+			selectedResourceAvailability: '',
+			selectedResourceId: '',
+			selectedResourceCurrentTypeId: '',
+			selectedTermId: '',
+			selectedReportingTermId: '',
+			selectedWeekId: '',
+			selectedReportingWeekId: '',
+			selectedSchoolWorkId: '',
+			selectedReportId: '',
+			selectedUserId: '',
+			planningPathName: '',
+			selectedGroupId: '',
+		});
+
+		window.location = '/office/accounts/reset/view/2/' + currentGroupId;
+	},
+
+	'click .js-loggout-user'(event) {
+		event.preventDefault();
+		Meteor.logoutOtherClients(function() {
+			Alerts.insert({
+				colorClass: 'bg-info',
+				iconClass: 'icn-info',
+				message: 'This user has been logged out on all devices.',
+			});
+		});
+	},
 });
+
+
+
+
+
+
+
+
+

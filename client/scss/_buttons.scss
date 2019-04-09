@@ -53,6 +53,30 @@ button, .btn {
 		color: $color-info;
 	}
 
+	&.btn-impersonation {
+		background-color: $color-danger;
+		color: $color-white;
+		height: 36px;
+		min-width: 36px;
+		border-radius: 18px;
+		padding: 9px 15px;
+		position: absolute;
+		bottom: 118px;
+		right: 18px;
+	}
+
+	&.btn-back-office {
+		background-color: $color-info;
+		color: $color-white;
+		height: 36px;
+		min-width: 36px;
+		border-radius: 18px;
+		padding: 9px 15px;
+		position: absolute;
+		bottom: 59px;
+		right: 18px;
+	}
+
 	@media print {		
 		&.btn-secondary {
 			box-shadow: inset 0px 0px 0px 100px $color-danger;
