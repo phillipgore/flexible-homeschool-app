@@ -3,8 +3,11 @@ import {Groups} from '../../../api/groups/groups.js';
 import './officeAccountsList.html';
 
 Template.officeAccountsList.onCreated( function() {
-	// Subscriptions
-	this.subscribe('allAccounts');
+	let template = Template.instance();
+
+	template.autorun(() => {
+		this.allAccounts = Meteor.subscribe('allAccounts');
+	});
 });
 
 Template.officeAccountsList.onRendered( function() {
@@ -14,6 +17,13 @@ Template.officeAccountsList.onRendered( function() {
 });
 
 Template.officeAccountsList.helpers({
+	subscriptionReady: function() {
+		if (Template.instance().allAccounts.ready()) {
+			return true;
+		}
+		return false;
+	},
+
 	groups: function() {
 		return Groups.find({appAdmin: false}, {sort: {createdOn: -1}});
 	},
