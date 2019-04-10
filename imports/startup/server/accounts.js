@@ -120,13 +120,6 @@ Accounts.validateLoginAttempt(function(login) {
 	return true;
 });
 
-Meteor.onConnection(function (connection) {
-	if (connection.httpHeaders['x-forwarded-for'] === '70.91.222.130') {
-		connection.close();
-		console.log('70.91.222.130 Hit')
-	}
-})
-
 
 
 
