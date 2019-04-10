@@ -3,6 +3,7 @@ accounts-password@1.5.1
 aldeed:collection2-core@2.1.2
 allow-deny@1.1.0
 amplify@1.0.0
+appcache@1.2.0
 arillo:flow-router-helpers@0.5.2
 autoupdate@1.4.1
 babel-compiler@7.1.1
