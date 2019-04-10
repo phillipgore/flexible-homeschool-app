@@ -10,9 +10,6 @@ FlowRouter.route('/planning/students/new/:selectedFramePosition', {
 			frameTwo: 'studentsList',
 			frameThree: 'studentsNew',
 		});
-		if (Meteor.settings.public.routeLoggingOn) {
-			Meteor.call('logRoute', Meteor.userId(), 'studentsNew')
-		}
 	},
 });
 
@@ -25,9 +22,6 @@ FlowRouter.route('/planning/students/view/:selectedFramePosition/:selectedStuden
 			frameTwo: 'studentsList',
 			frameThree: 'studentsView',
 		});
-		if (Meteor.settings.public.routeLoggingOn) {
-			Meteor.call('logRoute', Meteor.userId(), 'studentsView')
-		}
 	},
 });
 
@@ -40,9 +34,6 @@ FlowRouter.route('/planning/students/edit/:selectedFramePosition/:selectedStuden
 			frameTwo: 'studentsList',
 			frameThree: 'studentsEdit',
 		});
-		if (Meteor.settings.public.routeLoggingOn) {
-			Meteor.call('logRoute', Meteor.userId(), 'studentsEdit')
-		}
 	},
 });
 
@@ -60,9 +51,6 @@ FlowRouter.route('/planning/schoolyears/new/:selectedFramePosition', {
 			frameTwo: 'schoolYearsList',
 			frameThree: 'schoolYearsNew',
 		});
-		if (Meteor.settings.public.routeLoggingOn) {
-			Meteor.call('logRoute', Meteor.userId(), 'schoolYearsNew')
-		}
 	},
 });
 
@@ -75,9 +63,6 @@ FlowRouter.route('/planning/schoolyears/view/:selectedFramePosition/:selectedSch
 			frameTwo: 'schoolYearsList',
 			frameThree: 'schoolYearsView',
 		});
-		if (Meteor.settings.public.routeLoggingOn) {
-			Meteor.call('logRoute', Meteor.userId(), 'schoolYearsView')
-		}
 	},
 });
 
@@ -90,9 +75,6 @@ FlowRouter.route('/planning/schoolyears/edit/:selectedFramePosition/:selectedSch
 			frameTwo: 'schoolYearsList',
 			frameThree: 'schoolYearsEdit',
 		});
-		if (Meteor.settings.public.routeLoggingOn) {
-			Meteor.call('logRoute', Meteor.userId(), 'schoolYearsEdit')
-		}
 	},
 });
 
@@ -109,9 +91,6 @@ FlowRouter.route('/planning/schoolWork/new/:selectedFramePosition/:selectedStude
 			frameTwo: 'schoolWorkNewList',
 			frameThree: 'schoolWorkNew',
 		});
-		if (Meteor.settings.public.routeLoggingOn) {
-			Meteor.call('logRoute', Meteor.userId(), 'schoolWorkNew')
-		}
 	},
 });
 
@@ -124,9 +103,6 @@ FlowRouter.route('/planning/schoolWork/view/:selectedFramePosition/:selectedStud
 			frameTwo: 'schoolWorkList',
 			frameThree: 'schoolWorkView',
 		});
-		if (Meteor.settings.public.routeLoggingOn) {
-			Meteor.call('logRoute', Meteor.userId(), 'schoolWorkView')
-		}
 	},
 });
 
@@ -139,9 +115,6 @@ FlowRouter.route('/planning/schoolWork/edit/:selectedFramePosition/:selectedStud
 			frameTwo: 'schoolWorkList',
 			frameThree: 'schoolWorkEdit',
 		});
-		if (Meteor.settings.public.routeLoggingOn) {
-			Meteor.call('logRoute', Meteor.userId(), 'schoolWorkEdit')
-		}
 	},
 });
 
@@ -158,9 +131,6 @@ FlowRouter.route('/planning/resources/new/:selectedFramePosition/:selectedResour
 			frameTwo: 'resourcesList',
 			frameThree: 'resourcesNew',
 		});
-		if (Meteor.settings.public.routeLoggingOn) {
-			Meteor.call('logRoute', Meteor.userId(), 'resourcesNew')
-		}
 	},
 });
 
@@ -174,9 +144,6 @@ FlowRouter.route('/planning/resources/view/:selectedFramePosition/:selectedResou
 			frameTwo: 'resourcesList',
 			frameThree: 'resourcesView',
 		});
-		if (Meteor.settings.public.routeLoggingOn) {
-			Meteor.call('logRoute', Meteor.userId(), 'resourcesView')
-		}
 	},
 });
 
@@ -189,9 +156,6 @@ FlowRouter.route('/planning/resources/edit/:selectedFramePosition/:selectedResou
 			frameTwo: 'resourcesList',
 			frameThree: 'resourcesEdit',
 		});
-		if (Meteor.settings.public.routeLoggingOn) {
-			Meteor.call('logRoute', Meteor.userId(), 'resourcesEdit')
-		}
 	},
 });
 

@@ -8,9 +8,6 @@ FlowRouter.route('/settings/users/view/:selectedFramePosition/:selectedUserId', 
 			frameTwo: 'usersList',
 			frameThree: 'usersView',
 		});
-		if (Meteor.settings.public.routeLoggingOn) {
-			Meteor.call('logRoute', Meteor.userId(), 'usersView')
-		}
 	},
 });
 
@@ -23,9 +20,6 @@ FlowRouter.route('/settings/users/new/:selectedFramePosition', {
 			frameTwo: 'usersList',
 			frameThree: 'usersNew',
 		});
-		if (Meteor.settings.public.routeLoggingOn) {
-			Meteor.call('logRoute', Meteor.userId(), 'usersNew')
-		}
 	},
 });
 
@@ -38,9 +32,6 @@ FlowRouter.route('/settings/users/verify/resent/:selectedFramePosition/:selected
 			frameTwo: 'usersList',
 			frameThree: 'usersVerifyResent',
 		});
-		if (Meteor.settings.public.routeLoggingOn) {
-			Meteor.call('logRoute', Meteor.userId(), 'usersVerifyResent')
-		}
 	},
 });
 
@@ -53,9 +44,6 @@ FlowRouter.route('/settings/users/edit/:selectedFramePosition/:selectedUserId', 
 			frameTwo: 'usersList',
 			frameThree: 'usersEdit',
 		});
-		if (Meteor.settings.public.routeLoggingOn) {
-			Meteor.call('logRoute', Meteor.userId(), 'usersEdit')
-		}
 	},
 });
 
@@ -67,9 +55,6 @@ FlowRouter.route('/settings/users/restricted/:selectedFramePosition', {
 			frameOne: 'settingsList',
 			frameTwo: 'usersRestricted',
 		});
-		if (Meteor.settings.public.routeLoggingOn) {
-			Meteor.call('logRoute', Meteor.userId(), 'usersRestricted')
-		}
 	},
 });
 
@@ -84,9 +69,6 @@ FlowRouter.route('/settings/billing/error/:selectedFramePosition', {
 			subbar: '',
 			frameOne: 'billingError',
 		});
-		if (Meteor.settings.public.routeLoggingOn) {
-			Meteor.call('logRoute', Meteor.userId(), 'billingError')
-		}
 	},
 });
 
@@ -99,9 +81,6 @@ FlowRouter.route('/settings/billing/invoices/:selectedFramePosition', {
 			frameTwo: 'billingList',
 			frameThree: 'billingInvoices',
 		});
-		if (Meteor.settings.public.routeLoggingOn) {
-			Meteor.call('logRoute', Meteor.userId(), 'billingInvoices')
-		}
 	},
 });
 
@@ -114,9 +93,6 @@ FlowRouter.route('/settings/billing/edit/:selectedFramePosition', {
 			frameTwo: 'billingList',
 			frameThree: 'billingEdit',
 		});
-		if (Meteor.settings.public.routeLoggingOn) {
-			Meteor.call('logRoute', Meteor.userId(), 'billingEdit')
-		}
 	},
 });
 
@@ -129,9 +105,6 @@ FlowRouter.route('/settings/billing/coupons/:selectedFramePosition', {
 			frameTwo: 'billingList',
 			frameThree: 'billingCoupons',
 		});
-		if (Meteor.settings.public.routeLoggingOn) {
-			Meteor.call('logRoute', Meteor.userId(), 'billingCoupons')
-		}
 	},
 });
 
@@ -147,8 +120,5 @@ FlowRouter.route('/settings/support/view/:selectedFramePosition', {
 			frameOne: 'settingsList',
 			frameTwo: 'supportList',
 		});
-		if (Meteor.settings.public.routeLoggingOn) {
-			Meteor.call('logRoute', Meteor.userId(), 'supportList')
-		}
 	},
 });
