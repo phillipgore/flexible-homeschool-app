@@ -80,6 +80,7 @@ neoromantic:pickadate@1.2.0
 npm-bcrypt@0.9.3
 npm-mongo@3.0.11
 observe-sequence@1.0.16
+okgrow:analytics@3.0.5
 ordered-dict@1.1.0
 pascoual:pdfjs@1.1.114
 peerlibrary:assert@0.2.5
