@@ -49,5 +49,4 @@ mikowals:batch-insert
 mdg:meteor-apm-agent
 percolate:synced-cron
 danimal:userpresence
-appcache
 okgrow:analytics
