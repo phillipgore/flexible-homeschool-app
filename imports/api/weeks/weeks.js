@@ -25,7 +25,7 @@ const WeeksSchema = new SimpleSchema({
         type: Number,
         label: "order"
     },
-    SchoolYearId: {
+    schoolYearId: {
         type: String,
         label: "School Year ID"
     },

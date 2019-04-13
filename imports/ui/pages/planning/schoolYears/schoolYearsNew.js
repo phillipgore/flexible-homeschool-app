@@ -91,7 +91,7 @@ Template.schoolYearsNew.onRendered( function() {
 								let weekProperties = []
 								
 								for (i = 0; i < parseInt(weeksPerTerm); i++) { 
-								    weekProperties.push({order: i + 1, termId: termId});
+								    weekProperties.push({order: i + 1, schoolYearId: schoolYearId, termId: termId});
 								}
 
 								Meteor.call('batchInsertWeeks', weekProperties, function(error) {

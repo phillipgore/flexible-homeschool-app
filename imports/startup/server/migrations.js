@@ -78,15 +78,21 @@ Migrations.add({
 
 Migrations.add({
 	version: 4,
-	name: 'Add Initial Ids to Groups.',
+	name: 'Add School Year Id to Weeks.',
 	up: function() {
-		
+		let weeks = Weeks.find({}, {fields: {termId: 1}});
+		let terms = Terms.find({}, {fields: {schoolYearId: 1}}).fetch();
+
+		weeks.forEach(week => {
+			let schoolYearId = _.filter(terms, ['_id', week.termId])[0].schoolYearId;
+			Weeks.update(week._id, {$set: {schoolYearId: schoolYearId}});
+		})
 	}
 });
 
 
 Meteor.startup(() => {
-	Migrations.migrateTo(3);
+	Migrations.migrateTo('4,rerun');
 });
 
 

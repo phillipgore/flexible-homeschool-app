@@ -5,7 +5,7 @@ import {Weeks} from './weeks.js';
 
 Meteor.methods({
 	updateWeek: function(weekId, weekProperties) {
-		Weeks.update(termId, {$set: termProperties});
+		Weeks.update(weekId, {$set: termProperties});
 	},
 
 	deleteWeek: function(weekId) {
