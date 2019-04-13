@@ -1,6 +1,12 @@
 import {Groups} from '../../api/groups/groups.js';
-import {Lessons} from '../../api/lessons/lessons.js';
+import {Student} from '../../api/students/students.js';
+import {SchoolYear} from '../../api/schoolYears/schoolYears.js';
+import {Terms} from '../../api/terms/terms.js';
 import {Weeks} from '../../api/weeks/weeks.js';
+import {SchoolWork} from '../../api/schoolWork/schoolWork.js';
+import {Resource} from '../../api/resources/resources.js';
+import {Lessons} from '../../api/lessons/lessons.js';
+import {Reports} from '../../api/reports/reports.js';
 
 import moment from 'moment';
 import _ from 'lodash'
@@ -67,6 +73,14 @@ Migrations.add({
 				Lessons.remove({weekId: weekId})
 			}
 		})
+	}
+});
+
+Migrations.add({
+	version: 4,
+	name: 'Add Initial Ids to Groups.',
+	up: function() {
+		
 	}
 });
 
