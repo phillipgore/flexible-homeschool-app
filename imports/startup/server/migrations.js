@@ -1,5 +1,5 @@
 import {Groups} from '../../api/groups/groups.js';
-import {Student} from '../../api/students/students.js';
+import {Students} from '../../api/students/students.js';
 import {SchoolYear} from '../../api/schoolYears/schoolYears.js';
 import {Terms} from '../../api/terms/terms.js';
 import {Weeks} from '../../api/weeks/weeks.js';
@@ -78,14 +78,46 @@ Migrations.add({
 
 Migrations.add({
 	version: 4,
-	name: 'Add School Year Id to Weeks.',
+	name: 'Add Foreign Id fields to Weeks and Lessons.',
 	up: function() {
-		let weeks = Weeks.find({}, {fields: {termId: 1}});
+		let weeks = Weeks.find({}, {fields: {termId: 1}}).fetch();
 		let terms = Terms.find({}, {fields: {schoolYearId: 1}}).fetch();
 
 		weeks.forEach(week => {
 			let schoolYearId = _.filter(terms, ['_id', week.termId])[0].schoolYearId;
 			Weeks.update(week._id, {$set: {schoolYearId: schoolYearId}});
+		});
+
+		let lessons = Lessons.find({}, {fields: {_id: 1, schoolWorkId: 1, weekId: 1}});
+		let schoolWork = SchoolWork.find({}, {fields: {studentId: 1, schoolYearId: 1}}).fetch();
+
+		lessons.forEach(lesson => {
+			let schoolWorkProperties = _.filter(schoolWork, ['_id', lesson.schoolWorkId])[0];
+			let termId = _.filter(weeks, ['_id', lesson.weekId])[0].termId;
+
+			let lessonProperties = {
+				studentId: schoolWorkProperties.studentId,
+				schoolYearId: schoolWorkProperties.schoolYearId,
+				termId: termId,
+			}
+
+			Lessons.update(lesson._id, {$set: lessonProperties})
+		});
+	}
+});
+
+Migrations.add({
+	version: 5,
+	name: 'Get Initial Ids.',
+	up: function() {
+		let groups = Groups.find();
+
+		groups.forEach(group => {
+			let student = Students.findOne({groupId: group._id, deletedOn: { $exists: false }}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}, fields: {_id: 1}}).fetch();
+			if (student.length) {
+				let lesson = Lessons.findOne({groupId: group._id, deletedOn: { $exists: false }, studentId: student._id, completed: false}, {sort: {order: 1}}).fetch();
+			}
+
 		})
 	}
 });
@@ -94,6 +126,8 @@ Migrations.add({
 Meteor.startup(() => {
 	Migrations.migrateTo('4,rerun');
 });
+
+
 
 
 

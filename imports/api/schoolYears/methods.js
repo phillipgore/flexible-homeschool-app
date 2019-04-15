@@ -58,7 +58,7 @@ Meteor.methods({
 
 		termUpdateProperties.forEach(term => {
 			let weeksDif = term.weeksPerTerm - term.origWeeksPerTerm;
-			let currentWeekIds = Weeks.find({termId: term._id}).map(week => week._id);
+			let currentWeekIds = Weeks.find({termId: term._id}).fetch();
 
 			// Check to see if the new Week count is lower than the existing Week count
 			if (weeksDif >= 0) {
@@ -66,6 +66,7 @@ Meteor.methods({
 				for (i = 0; i < weeksDif; i++) {
 					weekBulkInsertProperties.push({insertOne: {"document": {
 						_id: Random.id(),
+						schoolYearId: schoolYearId,
 						termId: term._id, 
 						order: term.origWeeksPerTerm + 1 + i, 
 						groupId: groupId, 
@@ -87,17 +88,17 @@ Meteor.methods({
 				}
 
 				SchoolWork.find().forEach((schoolWork) => {
-					let lessonIds = Lessons.find({schoolWorkId: schoolWork._id, weekId: {$in: currentWeekIds}}, {sort: {completedOn: -1, completed: -1, assigned: -1}}).map(lesson => (lesson._id));
+					let lessonIds = Lessons.find({schoolWorkId: schoolWork._id, weekId: {$in: currentWeekIds.map(week => week._id)}}, {sort: {completedOn: -1, completed: -1, assigned: -1}}).map(lesson => (lesson._id));
 					let lessonsPerWeek = Math.ceil(lessonIds.length / currentWeekIds.length);
 					
 					// Redistribute Lessons over Weeks (more per week = fewer weeks with lessons)
-					currentWeekIds.forEach((weekId, index) => {
+					currentWeekIds.forEach((week, index) => {
 						let startSlice = index * lessonsPerWeek;
 						let endSlice = startSlice + lessonsPerWeek;
 						let lesssonSlice = lessonIds.slice(startSlice, endSlice);
 
 						lesssonSlice.forEach((lessonId) => {
-							lessonBulkUpdateProperties.push({updateOne: {"filter": {_id: lessonId}, update: {$set: {weekId: weekId}}}});
+							lessonBulkUpdateProperties.push({updateOne: {"filter": {_id: lessonId}, update: {$set: {schoolYearId: schoolYearId, termId: week.termId, weekId: week._id}}}});
 						});
 					});
 				});

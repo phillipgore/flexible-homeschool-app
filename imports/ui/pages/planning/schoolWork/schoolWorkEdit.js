@@ -72,6 +72,7 @@ Template.schoolWorkEdit.onRendered( function() {
 			$('.js-updating').show();
 			$('.js-submit').prop('disabled', true);
 
+			let schoolYearId = FlowRouter.getParam('selectedSchoolYearId')
 
 			// Get Resources Ids from local collection
 			let resourceIds = [];
@@ -86,7 +87,7 @@ Template.schoolWorkEdit.onRendered( function() {
 				description: $('.js-form-school-work-update .editor-content').html(),
 				resources: resourceIds,
 				studentId: FlowRouter.getParam('selectedStudentId'),
-				schoolYearId: FlowRouter.getParam('selectedSchoolYearId'),
+				schoolYearId: schoolYearId,
 			}
 
 
@@ -95,7 +96,9 @@ Template.schoolWorkEdit.onRendered( function() {
 
 			// Get Lesson Properties from form
 			$("[name='timesPerWeek']").each(function(index) {
-				let weekId = this.dataset.weekId
+				let schoolYearId = schoolYearId;
+				let termId = this.dataset.termId;
+				let weekId = this.dataset.weekId;
 				let weekOrder = this.dataset.weekOrder;
 				let totalLessons =  parseInt(this.dataset.lessonCount);
 				let completeLessons = parseInt(this.dataset.lessonCompleteCount);
@@ -107,6 +110,8 @@ Template.schoolWorkEdit.onRendered( function() {
 					    insertLessonProperties.push({
 					    	order: weekOrder + '.' + (i + 1 + parseInt(totalLessons)),
 					    	schoolWorkId: FlowRouter.getParam('selectedSchoolWorkId'),
+					    	schoolYearId: schoolYearId,
+							termId: this.dataset.termId,
 					    	weekId: this.dataset.weekId
 					    });
 					}

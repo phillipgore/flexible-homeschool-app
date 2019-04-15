@@ -180,6 +180,8 @@ Meteor.methods({
 							assigned: false,
 							completed: false,
 							schoolWorkId: schoolWork._id,
+							schoolYearId: lesson.schoolYearId,
+							termId: lesson.termId,
 							weekId: lesson.weekId,
 							groupId: groupId, 
 							userId: userId, 
