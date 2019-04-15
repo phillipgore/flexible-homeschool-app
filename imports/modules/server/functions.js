@@ -34,16 +34,19 @@ function getFirstLesson(lessons, lessonsComplete, lessonsIncomplete) {
 	});
 
 	if (partialWeeks.length) {
-		return Lessons.findOne({weekId: partialWeeks[0], deletedOn: { $exists: false }}, {fields: {weekId: 1}});
+		return _.filter(lessons, ['weekId', partialWeeks[0]])[0];
+		// return Lessons.findOne({weekId: partialWeeks[0], deletedOn: { $exists: false }}, {fields: {weekId: 1}});
 	}
 
 	if (lessonsIncomplete.length) {
 		let lessonIncompleteIds = lessonsIncomplete.map(lesson => lesson._id);
-		return Lessons.findOne({_id: {$in: lessonIncompleteIds}}, {sort: {order: 1}, fields: {weekId: 1}});
+		return _.orderBy(_.filter(lessons, lesson => _.includes(lessonIncompleteIds, lesson._id)), ['order'], ['asc'])[0];
+		// return Lessons.findOne({_id: {$in: lessonIncompleteIds}}, {sort: {order: 1}, fields: {weekId: 1}});
 	}
 
 	let lessonsCompleteIds = lessonsComplete.map(lesson => lesson._id);
-	return Lessons.findOne({_id: {$in: lessonsCompleteIds}}, {sort: {order: -1}, fields: {weekId: 1}});
+	return _.orderBy(_.filter(lessons, lesson => _.includes(lessonsCompleteIds, lesson._id)), ['order'], ['desc'])[0];
+	// return Lessons.findOne({_id: {$in: lessonsCompleteIds}}, {sort: {order: -1}, fields: {weekId: 1}});
 };
 
 
