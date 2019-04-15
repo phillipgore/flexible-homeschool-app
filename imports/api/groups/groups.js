@@ -120,101 +120,96 @@ const GroupsSchema = new SimpleSchema({
         label: "Test Data",
         defaultValue: false,
     },
-    initialIds: {
-        type: Object,
-        label: "Initial Ids",
-        optional: false
-    },
-    'initialIds.studentId': {
-        type: String,
-        label: "Initial Student Id",
-        optional: false,
-        autoValue: function() {
-            if ( !this.isSet ) {
-                return 'empty';
-            }
-        }
-    },
-    'initialIds.schoolYearId': {
-        type: String,
-        label: "Initial School Year Id",
-        optional: false,
-        autoValue: function() {
-            if ( !this.isSet ) {
-                return 'empty';
-            }
-        }
-    },
-    'initialIds.resourceId': {
-        type: String,
-        label: "Initial Resource Id",
-        optional: false,
-        autoValue: function() {
-            if ( !this.isSet ) {
-                return 'empty';
-            }
-        }
-    },
-    'initialIds.resourceType': {
-        type: String,
-        label: "Initial Resource Type Id",
-        optional: false,
-        autoValue: function() {
-            if ( !this.isSet ) {
-                return 'empty';
-            }
-        }
-    },
-    'initialIds.termId': {
-        type: String,
-        label: "Initial Term Id",
-        optional: false,
-        autoValue: function() {
-            if ( !this.isSet ) {
-                return 'empty';
-            }
-        }
-    },
-    'initialIds.weekId': {
-        type: String,
-        label: "Initial Week Id",
-        optional: false,
-        autoValue: function() {
-            if ( !this.isSet ) {
-                return 'empty';
-            }
-        }
-    },
-    'initialIds.schoolWorkId': {
-        type: String,
-        label: "Initial School Work Id",
-        optional: false,
-        autoValue: function() {
-            if ( !this.isSet ) {
-                return 'empty';
-            }
-        }
-    },
-    'initialIds.userId': {
-        type: String,
-        label: "Initial User Id",
-        optional: false,
-        autoValue: function() {
-            if ( !this.isSet ) {
-                return 'empty';
-            }
-        }
-    },
-    'initialIds.reportId': {
-        type: String,
-        label: "Initial Report Id",
-        optional: false,
-        autoValue: function() {
-            if ( !this.isSet ) {
-                return 'empty';
-            }
-        }
-    },
+    // initialIds: {
+    //     type: Object,
+    //     label: "Initial Ids",
+    // },
+    // 'initialIds.studentId': {
+    //     type: String,
+    //     label: "Initial Student Id",
+    //     autoValue: function() {
+    //         if ( !this.isSet ) {
+    //             return 'empty';
+    //         }
+    //     }
+    // },
+    // 'initialIds.schoolYearId': {
+    //     type: String,
+    //     label: "Initial School Year Id",
+    //     autoValue: function() {
+    //         if ( !this.isSet ) {
+    //             return 'empty';
+    //         }
+    //     }
+    // },
+    // 'initialIds.resourceId': {
+    //     type: String,
+    //     label: "Initial Resource Id",
+    //     autoValue: function() {
+    //         if ( !this.isSet ) {
+    //             return 'empty';
+    //         }
+    //     }
+    // },
+    // 'initialIds.resourceType': {
+    //     type: String,
+    //     label: "Initial Resource Type Id",
+    //     autoValue: function() {
+    //         if ( !this.isSet ) {
+    //             return 'empty';
+    //         }
+    //     }
+    // },
+    // 'initialIds.termId': {
+    //     type: String,
+    //     label: "Initial Term Id",
+    //     autoValue: function() {
+    //         if ( !this.isSet ) {
+    //             return 'empty';
+    //         }
+    //     }
+    // },
+    // 'initialIds.weekId': {
+    //     type: String,
+    //     label: "Initial Week Id",
+    //     autoValue: function() {
+    //         if ( !this.isSet ) {
+    //             return 'empty';
+    //         }
+    //     }
+    // },
+    // 'initialIds.schoolWorkId': {
+    //     type: String,
+    //     label: "Initial School Work Id",
+    //     autoValue: function() {
+    //         if ( !this.isSet ) {
+    //             return 'empty';
+    //         }
+    //     }
+    // },
+    // 'initialIds.userId': {
+    //     type: String,
+    //     label: "Initial User Id",
+    //     autoValue: function() {
+    //         if ( !this.isSet ) {
+    //             return 'empty';
+    //         }
+    //     }
+    // },
+    // 'initialIds.reportId': {
+    //     type: String,
+    //     label: "Initial Report Id",
+    //     autoValue: function() {
+    //         if ( !this.isSet ) {
+    //             return 'empty';
+    //         }
+    //     }
+    // },
+    // 'initialIds.groupId': {
+    //     type: String,
+    //     label: "Initial Group Id",
+    //     optional: true
+    // },
 	createdOn: {
 		type: Date,
 		label: "Created On Date",

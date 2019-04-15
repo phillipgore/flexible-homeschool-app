@@ -1,10 +1,10 @@
 import {Groups} from '../../api/groups/groups.js';
 import {Students} from '../../api/students/students.js';
-import {SchoolYear} from '../../api/schoolYears/schoolYears.js';
+import {SchoolYears} from '../../api/schoolYears/schoolYears.js';
 import {Terms} from '../../api/terms/terms.js';
 import {Weeks} from '../../api/weeks/weeks.js';
 import {SchoolWork} from '../../api/schoolWork/schoolWork.js';
-import {Resource} from '../../api/resources/resources.js';
+import {Resources} from '../../api/resources/resources.js';
 import {Lessons} from '../../api/lessons/lessons.js';
 import {Reports} from '../../api/reports/reports.js';
 
@@ -106,22 +106,98 @@ Migrations.add({
 	}
 });
 
-Migrations.add({
-	version: 5,
-	name: 'Get Initial Ids.',
-	up: function() {
-		let groups = Groups.find();
+// Migrations.add({
+// 	version: 5,
+// 	name: 'Get Initial Ids.',
+// 	up: function() {
+// 		let groups = Groups.find();
 
-		groups.forEach(group => {
-			let student = Students.findOne({groupId: group._id, deletedOn: { $exists: false }}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}, fields: {_id: 1}}).fetch();
-			if (student.length) {
-				let lesson = Lessons.findOne({groupId: group._id, deletedOn: { $exists: false }, studentId: student._id, completed: false}, {sort: {order: 1}}).fetch();
-			}
+// 		groups.forEach(group => {
+// 			initialIdProperties = {};
 
-		})
-	}
-});
+// 			let student = Students.findOne({groupId: group._id, deletedOn: { $exists: false }}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}, fields: {_id: 1}});
 
+// 			if (student) {
+// 				initialIdProperties.studentId = student._id
+
+// 				let lesson = Lessons.findOne({groupId: group._id, deletedOn: { $exists: false }, studentId: student._id, completed: false}, {sort: {order: 1}, fields: {_id: 1}});
+
+// 				if (lesson) {
+// 					console.log('used lesson: ' + lesson._id)
+// 					initialIdProperties.schoolYearId = lesson.schoolYearId;
+// 					initialIdProperties.termId = lesson.termId;
+// 					initialIdProperties.weekId = lesson.weekId;
+// 					initialIdProperties.schoolWorkId = lesson.schoolWorkId;
+// 				} else {
+// 					let schoolYear = SchoolYears.findOne({groupId: group._id, deletedOn: { $exists: false }}, {sort: {starYear: 1}, fields: {_id: 1}});
+// 					if (schoolYear.length) {
+// 						initialIdProperties.schoolYearId = schoolYear._id;
+
+// 						let term = Terms.findOne({schoolYearId: schoolYear._id, deletedOn: { $exists: false }}, {sort: {order: 1}, fields: {_id: 1}});
+
+// 						if (term) {
+// 							initialIdProperties.termId = term._id;
+
+// 							let week = Weeks.findOne({termId: term._id, deletedOn: { $exists: false }}, {sort: {order: 1}, fields: {_id: 1}});
+// 							if (week.length) {initialIdProperties.weekId = week._id;} else {initialIdProperties.weekId = 'empty';}
+// 						} else {
+// 							initialIdProperties.termId = 'empty';
+// 							initialIdProperties.weekId = 'empty';
+// 							initialIdProperties.schoolWorkId = 'empty';
+// 						}
+// 					} else {
+// 						initialIdProperties.schoolYearId = 'empty';
+// 						initialIdProperties.termId = 'empty';
+// 						initialIdProperties.weekId = 'empty';
+// 						initialIdProperties.schoolWorkId = 'empty';
+// 					}
+// 				}
+// 			} else {
+// 				initialIdProperties.studentId = 'empty';
+// 				initialIdProperties.schoolWorkId = 'empty';
+
+// 				let schoolYear = SchoolYears.findOne({groupId: group._id, deletedOn: { $exists: false }}, {sort: {starYear: 1}, fields: {_id: 1}});
+				
+// 				if (schoolYear) {
+// 					initialIdProperties.schoolYearId = schoolYear._id;
+
+// 					let term = Terms.findOne({schoolYearId: schoolYear._id, deletedOn: { $exists: false }}, {sort: {order: 1}, fields: {_id: 1}});
+
+// 					if (term) {
+// 						initialIdProperties.termId = term._id;
+
+// 						let week = Weeks.findOne({termId: term._id, deletedOn: { $exists: false }}, {sort: {order: 1}, fields: {_id: 1}});
+// 						if (week.length) {initialIdProperties.weekId = week._id;} else {initialIdProperties.weekId = 'empty';}
+// 					} else {
+// 						initialIdProperties.termId = 'empty';
+// 					}
+// 				} else {
+// 					initialIdProperties.schoolYearId = 'empty';
+// 					initialIdProperties.termId = 'empty';
+// 					initialIdProperties.weekId = 'empty';
+// 				}
+// 			}
+
+// 			let resource = Resources.findOne({groupId: group._id, deletedOn: { $exists: false }}, {sort: {title: 1}});
+// 			if (resource) {initialIdProperties.resourceId = resource._id} else {initialIdProperties.resourceId = 'empty'};
+// 			if (resource) {initialIdProperties.resourceType = resource.type} else {initialIdProperties.resourceType = 'empty'};
+
+// 			let user = Meteor.users.findOne({'info.groupId': group._id, 'emails.0.verified': true, 'status.active': true}, {sort: {'info.lastName': 1, 'info.firstName': 1}});
+// 			if (user) {initialIdProperties.userId = user._id} else {initialIdProperties.userId = 'empty'};
+
+// 			let report = Reports.findOne({groupId: group._id, deletedOn: { $exists: false }}, {sort: {name: 1}});
+// 			if (report) {initialIdProperties.reportId = report._id} else {initialIdProperties.reportId = 'empty'};
+
+// 			if (group.appAdmin) {
+// 				let firstGroup = Groups.findOne({appAdmin: false}, {fields: {_id: 1}, sort: {createdOn: -1}}); 
+
+// 				if (firstGroup) {initialIdProperties.groupId = firstGroup._id} else {initialIdProperties.groupId = 'empty'};
+// 			}
+
+// 			console.log(initialIdProperties);
+// 		})
+// 	}
+// });
 
 Meteor.startup(() => {
 	Migrations.migrateTo('4,rerun');
