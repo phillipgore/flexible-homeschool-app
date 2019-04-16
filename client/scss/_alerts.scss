@@ -1,8 +1,6 @@
 .alert-container {
 	position: fixed;
 	top: 59px;
-	left: 50%;
-	transform: translateX(-50%);
 	z-index: 900;
 
 	.alert {
@@ -50,6 +48,11 @@
 			width: 460px;
 			margin: 0px auto 9px;
 		}
+	}
+
+	@media only screen and (min-width: 640px) {
+		left: 50%;
+		transform: translateX(-50%);
 	}
 }
 
