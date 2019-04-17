@@ -46,8 +46,8 @@ Meteor.publish('studentTermsPath', function(schoolYearId, studentId, showAllTerm
 		}
 
 		let self = this;
-
 		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
+
 		let terms = Terms.find({schoolYearId: schoolYearId, groupId: groupId, deletedOn: { $exists: false }}, {sort: {order: 1}, fields: {order: 1, schoolYearId: 1}});
 		let termStatus = []
 

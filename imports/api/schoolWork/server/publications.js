@@ -26,7 +26,7 @@ Meteor.publish('trackingViewPub', function(studentId, weekId) {
 		let self = this;
 
 		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-		let lessons = Lessons.find({weekId: weekId, deletedOn: { $exists: false }}, {sort: {order: 1}, fields: {groupId: 0, userId: 0, createdOn: 0, updatedOn: 0}}).fetch()
+		let lessons = Lessons.find({studentId: studentId, weekId: weekId, deletedOn: { $exists: false }}, {sort: {order: 1}, fields: {groupId: 0, userId: 0, createdOn: 0, updatedOn: 0}}).fetch()
 		let schoolWorkIds = lessons.map(lesson => (lesson.schoolWorkId))
 
 		let schoolWork = SchoolWork.find({_id: {$in: schoolWorkIds}, groupId: groupId, studentId: studentId, deletedOn: { $exists: false }}, {sort: {name: 1}, fields: {order: 1, name: 1, studentId: 1, schoolYearId: 1}});

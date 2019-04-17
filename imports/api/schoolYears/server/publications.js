@@ -45,15 +45,10 @@ Meteor.publish('studentSchoolYearsPath', function(studentId) {
 		}
 
 		let self = this;
-
 		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
+
 		let schoolYears = SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}, fields: {startYear: 1, endYear: 1}});
-		
-		let schoolWork = SchoolWork.find({ 
-			studentId: studentId, 
-			schoolYearId: {$in: schoolYears.map(schoolYear => schoolYear._id)}, 
-			deletedOn: { $exists: false }
-		}).fetch();
+		let schoolWork = SchoolWork.find({studentId: studentId, schoolYearId: {$in: schoolYears.map(schoolYear => schoolYear._id)}, deletedOn: { $exists: false }}).fetch();
 		let lessons = Lessons.find({schoolWorkId: {$in: schoolWork.map(schoolWork => (schoolWork._id))}, deletedOn: { $exists: false }}, {fields: {completed: 1, assigned: 1, weekId: 1, schoolWorkId: 1}}).fetch();
 
 		schoolYears.map((schoolYear) => {

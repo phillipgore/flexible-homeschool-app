@@ -20,14 +20,15 @@ Meteor.methods({
 		}
 
 		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-		let students = Students.find({groupId: groupId, deletedOn: { $exists: false }}, {fields: {_id: 1}});
-		let schoolWork = SchoolWork.find({groupId: groupId, schoolYearId: schoolYearId, deletedOn: { $exists: false }}, {fields: {studentId: 1}}).fetch();
-		let termWeeksIds = Weeks.find({termId: termId, deletedOn: { $exists: false }}, {fields: {_id: 1}}).map(week => (week._id));
-		let lessons = Lessons.find({schoolWorkId: {$in: schoolWork.map(work => work._id)}, deletedOn: { $exists: false }}, {fields: {completed: 1, schoolWorkId: 1, weekId: 1}}).fetch();
 
+		let students = Students.find({groupId: groupId, deletedOn: { $exists: false }}, {fields: {_id: 1}});
+		let lessons = Lessons.find({schoolYearId: schoolYearId, deletedOn: { $exists: false }}, {fields: {completed: 1, studentId: 1, termId: 1, weekId: 1}}).fetch();
+		
 		let progressStats = []
 
 		students.forEach((student, index) => {
+
+			// Function for correctly rounding the percentage of completed lessons.
 			function rounding(complete, total) {
 				if(complete && total) {
 					let percentComplete = complete / total * 100
@@ -39,25 +40,24 @@ Meteor.methods({
 				return 0;
 			}
 
-			let schoolWorkIds = _.filter(schoolWork, ['studentId', student._id]).map(work => work._id);
 
-			// School Year
-			let yearLessons = _.filter(lessons, lesson => _.includes(schoolWorkIds, lesson.schoolWorkId));
+			// School Year stats.
+			let yearLessons = _.filter(lessons, ['studentId', student._id]);
 			let yearLessonsTotal = yearLessons.length
 			let yearLessonsComplete = _.filter(yearLessons, ['completed', true]).length;
 
 			let yearPercentComplete = rounding(yearLessonsComplete, yearLessonsTotal);
 
 
-			// Term
-			let termLessons = _.filter(yearLessons, lesson => _.includes(termWeeksIds, lesson.weekId));
+			// Term stats.
+			let termLessons = _.filter(yearLessons, ['termId', termId]);
 			let termLessonsTotal = termLessons.length;
 			let termLessonsComplete = _.filter(termLessons, ['completed', true]).length;
 
 			let termPercentComplete = rounding(termLessonsComplete, termLessonsTotal);
 
 
-			// Week
+			// Week stats.
 			let weekLessons = _.filter(termLessons, ['weekId', weekId]);
 			let weekLessonsTotal = weekLessons.length;
 			let weekLessonsComplete = _.filter(weekLessons, ['completed', true]).length;
