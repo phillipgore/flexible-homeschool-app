@@ -64,21 +64,21 @@ const LessonsSchema = new SimpleSchema({
         type: String,
         label: "School Work ID"
     },
-    studentId: {
+    schoolYearId: {
         type: String,
-        label: "School Work ID"
-    },
-    weekId: {
-        type: String,
-        label: "Week ID"
+        label: "School Year ID"
     },
     termId: {
         type: String,
         label: "Term ID"
     },
-    schoolYearId: {
+    weekId: {
         type: String,
-        label: "School Year ID"
+        label: "Week ID"
+    },
+    studentId: {
+        type: String,
+        label: "School Work ID"
     },
 	groupId: {
 		type: String,

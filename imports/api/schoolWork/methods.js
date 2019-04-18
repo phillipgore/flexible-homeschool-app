@@ -179,6 +179,7 @@ Meteor.methods({
 							order: lesson.order,
 							assigned: false,
 							completed: false,
+							studentId: studentId,
 							schoolWorkId: schoolWork._id,
 							schoolYearId: lesson.schoolYearId,
 							termId: lesson.termId,

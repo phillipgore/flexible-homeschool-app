@@ -90,7 +90,7 @@ Template.schoolWorkNew.onRendered( function() {
 
 			let lessonProperties = []
 			$("[name='timesPerWeek']").each(function(index) {
-				for (i = 0; i < parseInt(this.value); i++) { 
+				for (i = 0; i < parseInt(this.value); i++) {
 				    lessonProperties.push({
 				    	order: parseFloat((index + 1) + '.' + (i + 1)),
 				    	schoolYearId: template.find("[name='schoolYearId']").value.trim(), 

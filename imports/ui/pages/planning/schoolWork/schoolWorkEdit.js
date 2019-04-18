@@ -110,6 +110,7 @@ Template.schoolWorkEdit.onRendered( function() {
 					    insertLessonProperties.push({
 					    	order: weekOrder + '.' + (i + 1 + parseInt(totalLessons)),
 					    	schoolWorkId: FlowRouter.getParam('selectedSchoolWorkId'),
+					    	studentId: FlowRouter.getParam('selectedStudentId'),
 					    	schoolYearId: schoolYearId,
 							termId: this.dataset.termId,
 					    	weekId: this.dataset.weekId
