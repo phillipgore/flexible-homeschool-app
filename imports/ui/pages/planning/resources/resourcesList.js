@@ -137,25 +137,6 @@ Template.resourcesList.events({
 			availability: selectedAvailability,
 		};
 
-		// function newResourceId(currentResourceId) {
-		// 	let sessionResourceIdName = 'selectedResource' + _.capitalize(FlowRouter.getParam('selectedResourceType')) + _.capitalize(FlowRouter.getParam('selectedResourceAvailability')) + 'Id';
-		// 	let resourceIds = Resources.find({}, {sort: {title: 1}}).map(resource => (resource._id));
-		// 	let currentResourcePosition = resourceIds.indexOf(currentResourceId);
-
-		// 	if (currentResourceId != Session.get(sessionResourceIdName)) {
-		// 		return Session.get(sessionResourceIdName);
-		// 	}
-		// 	if (currentResourcePosition === 0 && currentResourcePosition + 1 === resourceIds.length) {
-		// 		return 'empty';
-		// 	}
-		// 	if (currentResourcePosition === 0) {
-		// 		return resourceIds[currentResourcePosition + 1]
-		// 	}
-		// 	return resourceIds[currentResourcePosition - 1]
-		// }
-
-		// let newResource = Resources.findOne({_id: newResourceId(resourceId)});
-
 		Meteor.call('updateResource', resourceId, resourceProperties, function(error) {
 			if (error) {
 				Alerts.insert({

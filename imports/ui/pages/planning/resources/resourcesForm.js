@@ -15,6 +15,21 @@ Template.resourcesForm.onCreated( function() {
 });
 
 Template.resourcesForm.onRendered( function() {
+	if (FlowRouter.getRouteName() === 'resourcesNew') {
+		if (window.screen.availWidth < 640 && FlowRouter.getParam('selectedFramePosition') == 2) {
+			$(window).scrollTop(0);
+		} else {
+			document.getElementsByClassName('frame-two')[0].scrollTop = 0;
+		};
+	} else {
+		if (window.screen.availWidth < 640 && FlowRouter.getParam('selectedFramePosition') == 2) {
+			$(window).scrollTop(Session.get('resourcesScrollTop'));
+		} else {
+			document.getElementsByClassName('frame-two')[0].scrollTop = Session.get('resourcesScrollTop');
+		}
+	}
+
+	
 	let template = Template.instance();
 		
 	if (FlowRouter.getRouteName() === 'resourcesNew' || FlowRouter.getRouteName() === 'schoolWorkNew' || FlowRouter.getRouteName() === 'schoolWorkEdit') {
@@ -295,5 +310,17 @@ Template.resourcesForm.helpers({
 Template.resourcesForm.events({
 	'submit .js-form-new-resource'(event) {
 		event.preventDefault();
+	},
+
+	'click .js-cancel'(event) {
+		event.preventDefault();
+
+		if (window.screen.availWidth < 640) {
+			$(window).scrollTop(Session.get('resourcesScrollTop'));
+		} else {
+			document.getElementsByClassName('frame-two')[0].scrollTop = Session.get('resourcesScrollTop');
+		}
+
+		FlowRouter.go('/planning/resources/view/2/' + Session.get('selectedResourceType') + '/' + Session.get('selectedResourceAvailability') + '/' + Session.get('selectedResourceId') + '/' + Session.get('selectedResourceCurrentTypeId'))
 	},
 });
