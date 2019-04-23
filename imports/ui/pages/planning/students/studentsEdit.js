@@ -100,10 +100,6 @@ Template.studentsEdit.helpers({
 		}
 		return true;
 	},
-
-	cancelPath: function() {
-		return '/planning/students/view/3/' + FlowRouter.getParam('selectedStudentId');
-	},
 });
 
 Template.studentsEdit.events({
@@ -138,12 +134,7 @@ Template.studentsEdit.events({
 	'click .js-cancel'(event) {
 		event.preventDefault();
 
-		let resourcesScrollTop = document.getElementById(FlowRouter.getParam('selectedStudentId')).getBoundingClientRect().top - 130;
-		if (window.screen.availWidth > 640 && FlowRouter.getRouteName() === 'resourcesNew') {
-			document.getElementsByClassName('frame-two')[0].scrollTop = resourcesScrollTop;
-		}
-		
-		FlowRouter.go('/planning/students/view/2/' + FlowRouter.getParam('selectedStudentId'))
+		FlowRouter.go('/planning/students/view/3/' + FlowRouter.getParam('selectedStudentId'))
 	},
 	
 });

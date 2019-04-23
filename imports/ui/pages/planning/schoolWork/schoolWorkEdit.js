@@ -245,10 +245,6 @@ Template.schoolWorkEdit.helpers({
 	localResources() {
 		return LocalResources.find();
 	},
-
-	cancelPath: function() {
-		return '/planning/schoolWork/view/3/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedSchoolWorkId');
-	},
 });
 
 Template.schoolWorkEdit.events({
@@ -459,6 +455,12 @@ Template.schoolWorkEdit.events({
 
 	'submit .js-form-school-work-update'(event) {
 		event.preventDefault();
+	},
+
+	'click .js-cancel'(event) {
+		event.preventDefault();
+
+		FlowRouter.go('/planning/schoolWork/view/3/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedSchoolWorkId'))
 	},
 });
 

@@ -6,6 +6,10 @@ LocalTerms = new Mongo.Collection(null);
 Template.schoolYearsNew.onRendered( function() {
 	let template = Template.instance();
 
+	if (window.screen.availWidth > 640) {
+		document.getElementsByClassName('frame-two')[0].scrollTop = 0;
+	}
+
 	Session.set({
 		toolbarType: 'new',
 		labelThree: 'New School Year',
@@ -106,6 +110,12 @@ Template.schoolYearsNew.onRendered( function() {
 										$('.js-submit').prop('disabled', false);
 									} else {
 										Session.set('selectedSchoolYearId', schoolYearId)
+
+										// let resourcesScrollTop = document.getElementById(schoolYearId).getBoundingClientRect().top - 130;
+										// if (window.screen.availWidth > 640) {
+										// 	document.getElementsByClassName('frame-two')[0].scrollTop = resourcesScrollTop;
+										// }
+										
 										FlowRouter.go('/planning/schoolyears/view/3/' + schoolYearId);
 									}
 								});
@@ -183,5 +193,16 @@ Template.schoolYearsNew.events({
 
 	'submit .js-form-school-year-new'(event) {
 		event.preventDefault();
+	},
+
+	'click .js-cancel'(event) {
+		event.preventDefault();
+
+		let resourcesScrollTop = document.getElementById(Session.get('selectedSchoolYearId')).getBoundingClientRect().top - 130;
+		if (window.screen.availWidth > 640) {
+			document.getElementsByClassName('frame-two')[0].scrollTop = resourcesScrollTop;
+		}
+		
+		FlowRouter.go('/planning/schoolyears/view/3/' + Session.get('selectedSchoolYearId'))
 	},
 });

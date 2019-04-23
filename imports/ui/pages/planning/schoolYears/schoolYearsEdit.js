@@ -54,10 +54,6 @@ Template.schoolYearsEdit.helpers({
 	indexIncrement: function(index) {
 		return index + 1;
 	},
-
-	cancelPath: function() {
-		return '/planning/schoolyears/view/3/' + FlowRouter.getParam('selectedSchoolYearId');
-	},
 });
 
 Template.schoolYearsEdit.events({
@@ -264,7 +260,11 @@ Template.schoolYearsEdit.events({
 		return false;
 	},
 
-
+	'click .js-cancel'(event) {
+		event.preventDefault();
+		
+		FlowRouter.go('/planning/schoolyears/view/3/' + FlowRouter.getParam('selectedSchoolYearId'))
+	},
 });
 
 

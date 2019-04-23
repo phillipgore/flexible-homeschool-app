@@ -116,7 +116,7 @@ Template.resourcesForm.onRendered( function() {
 					} else {
 						Session.set('selectedResourceId', resourceId);
 						if (FlowRouter.getRouteName() === 'resourcesNew') {
-							FlowRouter.go('/planning/resources/view/3/all/all/' + resourceId +'/book');
+							FlowRouter.go('/planning/resources/view/3/all/all/' + resourceId +'/' + Session.get('currentType'));
 						}
 						if (FlowRouter.getRouteName() === 'schoolWorkNew' || FlowRouter.getRouteName() === 'schoolWorkEdit') {
 							LocalResources.insert({id: resourceId, type: resourceProperties.type, title: resourceProperties.title});
@@ -310,6 +310,6 @@ Template.resourcesForm.events({
 			document.getElementsByClassName('frame-two')[0].scrollTop = resourcesScrollTop;
 		}
 
-		FlowRouter.go('/planning/resources/view/2/' + Session.get('selectedResourceType') + '/' + Session.get('selectedResourceAvailability') + '/' + Session.get('selectedResourceId') + '/' + Session.get('selectedResourceCurrentTypeId'))
+		FlowRouter.go('/planning/resources/view/3/' + Session.get('selectedResourceType') + '/' + Session.get('selectedResourceAvailability') + '/' + Session.get('selectedResourceId') + '/' + Session.get('selectedResourceCurrentTypeId'))
 	},
 });

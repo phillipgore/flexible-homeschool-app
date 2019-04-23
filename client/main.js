@@ -56,6 +56,7 @@ import '/imports/ui/pages/planning/planningList.js';
 	import '/imports/ui/pages/planning/schoolYears/schoolYearsNew.js';
 	import '/imports/ui/pages/planning/schoolYears/schoolYearsList.js';
 	import '/imports/ui/pages/planning/schoolYears/schoolYearsView.js';
+	import '/imports/ui/pages/planning/schoolYears/schoolYearsEach.js';
 	import '/imports/ui/pages/planning/schoolYears/schoolYearsEdit.js';
 	// Resources
 	import '/imports/ui/pages/planning/resources/resourcesForm.js';
@@ -69,6 +70,7 @@ import '/imports/ui/pages/planning/planningList.js';
 	import '/imports/ui/pages/planning/schoolWork/schoolWorkNewList.js';
 	import '/imports/ui/pages/planning/schoolWork/schoolWorkList.js';
 	import '/imports/ui/pages/planning/schoolWork/schoolWorkView.js';
+	import '/imports/ui/pages/planning/schoolWork/schoolWorkEach.js';
 	import '/imports/ui/pages/planning/schoolWork/schoolWorkEdit.js';
 	// Students
 	import '/imports/ui/pages/planning/students/studentsNew.js';

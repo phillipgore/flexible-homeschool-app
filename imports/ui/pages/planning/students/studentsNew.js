@@ -69,6 +69,12 @@ Template.studentsNew.onRendered( function() {
 					$('.js-submit').prop('disabled', false);
 				} else {
 					Session.set('selectedStudentId', studentId);
+
+					// let resourcesScrollTop = document.getElementById(studentId).getBoundingClientRect().top - 130;
+					// if (window.screen.availWidth > 640) {
+					// 	document.getElementsByClassName('frame-two')[0].scrollTop = resourcesScrollTop;
+					// }
+					
 					FlowRouter.go('/planning/students/view/3/' + studentId);
 				}
 			});
@@ -121,6 +127,6 @@ Template.studentsNew.events({
 			document.getElementsByClassName('frame-two')[0].scrollTop = resourcesScrollTop;
 		}
 		
-		FlowRouter.go('/planning/students/view/2/' + Session.get('selectedStudentId'))
+		FlowRouter.go('/planning/students/view/3/' + Session.get('selectedStudentId'))
 	},
 });

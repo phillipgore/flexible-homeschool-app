@@ -27,14 +27,7 @@
 									</span>
 								</li>
 							{{/if}}
-							{{#each work in schoolWork}}
-								<li class="list-item">
-									<a id="{{work._id}}" data-schoolWork-student="{{selectedStudentId}}" data-schoolWork-school-year="{{selectedSchoolYearId}}" href="/planning/schoolWork/view/3/{{selectedStudentId}}/{{selectedSchoolYearId}}/{{work._id}}" class="js-schoolWork list-item-link p-tn-rl-9 {{#if active work._id}}active{{/if}}">
-										<div class="list-item-icon"><i class="txt-primary icn-school-work"></i></div> 
-										<div class="list-item-label">{{work.name}}</div>
-									</a>
-								</li>
-							{{/each}}
+							{{> schoolWorkEach schoolWork=schoolWork}}
 						</ul>
 					{{else}}
 						<div class="txt-tn-center m-tn-t-72">

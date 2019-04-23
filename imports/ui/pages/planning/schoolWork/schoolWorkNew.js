@@ -36,6 +36,10 @@ Template.schoolWorkNew.onCreated( function() {
 Template.schoolWorkNew.onRendered( function() {
 	let template = Template.instance();
 
+	if (window.screen.availWidth > 640) {
+		document.getElementsByClassName('frame-two')[0].scrollTop = 0;
+	}
+
 	const playerOne = new YTPlayer('#playerOne');
 	const playerTwo = new YTPlayer('#playerTwo');
 	const playerThree = new YTPlayer('#playerThree');
@@ -389,6 +393,12 @@ Template.schoolWorkNew.events({
 
 	'submit .js-form-school-work-new'(event) {
 		event.preventDefault();
+	},
+
+	'click .js-cancel'(event) {
+		event.preventDefault();
+		
+		FlowRouter.go('/planning/schoolWork/view/3/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedSchoolWorkId'))
 	},
 });
 
