@@ -72,8 +72,6 @@ Template.schoolWorkEdit.onRendered( function() {
 			$('.js-updating').show();
 			$('.js-submit').prop('disabled', true);
 
-			let schoolYearId = FlowRouter.getParam('selectedSchoolYearId')
-
 			// Get Resources Ids from local collection
 			let resourceIds = [];
 			LocalResources.find().forEach(function(resource) {

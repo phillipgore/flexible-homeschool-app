@@ -86,6 +86,7 @@ Meteor.methods({
 					order: lesson.order,
 					assigned: false,
 					completed: false,
+					studentId: lesson.studentId,
 					schoolWorkId: lesson.schoolWorkId,
 					weekId: lesson.weekId,
 					groupId: groupId, 
