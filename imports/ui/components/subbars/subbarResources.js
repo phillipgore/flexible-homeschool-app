@@ -101,6 +101,14 @@ Template.subbarResources.helpers({
 	},
 });
 
+Template.subbarResources.events({
+	'click .js-type, click .js-availability'(event) {
+		if (window.screen.availWidth > 640) {
+			document.getElementsByClassName('frame-two')[0].scrollTop = 0;
+		}
+	}
+});
+
 
 
 

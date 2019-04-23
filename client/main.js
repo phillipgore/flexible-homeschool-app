@@ -74,6 +74,7 @@ import '/imports/ui/pages/planning/planningList.js';
 	import '/imports/ui/pages/planning/students/studentsNew.js';
 	import '/imports/ui/pages/planning/students/studentsList.js';
 	import '/imports/ui/pages/planning/students/studentsView.js';
+	import '/imports/ui/pages/planning/students/studentsEach.js';
 	import '/imports/ui/pages/planning/students/studentsEdit.js';
 
 

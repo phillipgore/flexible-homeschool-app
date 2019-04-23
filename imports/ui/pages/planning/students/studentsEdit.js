@@ -134,6 +134,17 @@ Template.studentsEdit.events({
 	'submit .js-form-students-update'(event) {
 		event.preventDefault();
 	},
+
+	'click .js-cancel'(event) {
+		event.preventDefault();
+
+		let resourcesScrollTop = document.getElementById(FlowRouter.getParam('selectedStudentId')).getBoundingClientRect().top - 130;
+		if (window.screen.availWidth > 640 && FlowRouter.getRouteName() === 'resourcesNew') {
+			document.getElementsByClassName('frame-two')[0].scrollTop = resourcesScrollTop;
+		}
+		
+		FlowRouter.go('/planning/students/view/2/' + FlowRouter.getParam('selectedStudentId'))
+	},
 	
 });
 

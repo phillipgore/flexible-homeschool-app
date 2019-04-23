@@ -7,6 +7,10 @@ import _ from 'lodash';
 Template.studentsNew.onRendered( function() {
 	let template = Template.instance();
 
+	if (window.screen.availWidth > 640) {
+		document.getElementsByClassName('frame-two')[0].scrollTop = 0;
+	}
+
 	Session.set({
 		toolbarType: 'new',
 		labelThree: 'New Student',
@@ -107,5 +111,16 @@ Template.studentsNew.events({
 
 	'submit .js-form-students-new'(event) {
 		event.preventDefault();
+	},
+
+	'click .js-cancel'(event) {
+		event.preventDefault();
+
+		let resourcesScrollTop = document.getElementById(Session.get('selectedStudentId')).getBoundingClientRect().top - 130;
+		if (window.screen.availWidth > 640 && FlowRouter.getRouteName() === 'resourcesNew') {
+			document.getElementsByClassName('frame-two')[0].scrollTop = resourcesScrollTop;
+		}
+		
+		FlowRouter.go('/planning/students/view/2/' + Session.get('selectedStudentId'))
 	},
 });

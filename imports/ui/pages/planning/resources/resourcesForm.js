@@ -15,18 +15,8 @@ Template.resourcesForm.onCreated( function() {
 });
 
 Template.resourcesForm.onRendered( function() {
-	if (FlowRouter.getRouteName() === 'resourcesNew') {
-		if (window.screen.availWidth < 640 && FlowRouter.getParam('selectedFramePosition') == 2) {
-			$(window).scrollTop(0);
-		} else {
-			document.getElementsByClassName('frame-two')[0].scrollTop = 0;
-		};
-	} else {
-		if (window.screen.availWidth < 640 && FlowRouter.getParam('selectedFramePosition') == 2) {
-			$(window).scrollTop(Session.get('resourcesScrollTop'));
-		} else {
-			document.getElementsByClassName('frame-two')[0].scrollTop = Session.get('resourcesScrollTop');
-		}
+	if (window.screen.availWidth > 640 && FlowRouter.getRouteName() === 'resourcesNew') {
+		document.getElementsByClassName('frame-two')[0].scrollTop = 0;
 	}
 
 	
@@ -315,10 +305,9 @@ Template.resourcesForm.events({
 	'click .js-cancel'(event) {
 		event.preventDefault();
 
-		if (window.screen.availWidth < 640) {
-			$(window).scrollTop(Session.get('resourcesScrollTop'));
-		} else {
-			document.getElementsByClassName('frame-two')[0].scrollTop = Session.get('resourcesScrollTop');
+		let resourcesScrollTop = document.getElementById(Session.get('selectedResourceId')).getBoundingClientRect().top - 130;
+		if (window.screen.availWidth > 640 && FlowRouter.getRouteName() === 'resourcesNew') {
+			document.getElementsByClassName('frame-two')[0].scrollTop = resourcesScrollTop;
 		}
 
 		FlowRouter.go('/planning/resources/view/2/' + Session.get('selectedResourceType') + '/' + Session.get('selectedResourceAvailability') + '/' + Session.get('selectedResourceId') + '/' + Session.get('selectedResourceCurrentTypeId'))

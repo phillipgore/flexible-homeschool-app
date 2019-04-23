@@ -72,8 +72,6 @@ Template.schoolWorkEdit.onRendered( function() {
 			$('.js-updating').show();
 			$('.js-submit').prop('disabled', true);
 
-			let schoolYearId = FlowRouter.getParam('selectedSchoolYearId')
-
 			// Get Resources Ids from local collection
 			let resourceIds = [];
 			LocalResources.find().forEach(function(resource) {
@@ -87,7 +85,7 @@ Template.schoolWorkEdit.onRendered( function() {
 				description: $('.js-form-school-work-update .editor-content').html(),
 				resources: resourceIds,
 				studentId: FlowRouter.getParam('selectedStudentId'),
-				schoolYearId: schoolYearId,
+				schoolYearId: FlowRouter.getParam('selectedSchoolYearId'),
 			}
 
 
@@ -96,7 +94,7 @@ Template.schoolWorkEdit.onRendered( function() {
 
 			// Get Lesson Properties from form
 			$("[name='timesPerWeek']").each(function(index) {
-				let schoolYearId = schoolYearId;
+				let schoolYearId = FlowRouter.getParam('selectedSchoolYearId');
 				let termId = this.dataset.termId;
 				let weekId = this.dataset.weekId;
 				let weekOrder = this.dataset.weekOrder;
@@ -111,7 +109,7 @@ Template.schoolWorkEdit.onRendered( function() {
 					    	order: weekOrder + '.' + (i + 1 + parseInt(totalLessons)),
 					    	schoolWorkId: FlowRouter.getParam('selectedSchoolWorkId'),
 					    	studentId: FlowRouter.getParam('selectedStudentId'),
-					    	schoolYearId: schoolYearId,
+					    	schoolYearId: FlowRouter.getParam('selectedSchoolYearId'),
 							termId: this.dataset.termId,
 					    	weekId: this.dataset.weekId
 					    });
@@ -177,7 +175,7 @@ Template.schoolWorkEdit.helpers({
 	},
 
 	terms: function() {
-		return Terms.find({schoolYearId: Session.get('schoolYearId')}, {sort: {order: 1}});
+		return Terms.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}, {sort: {order: 1}});
 	},
 
 	weeks: function(termId) {

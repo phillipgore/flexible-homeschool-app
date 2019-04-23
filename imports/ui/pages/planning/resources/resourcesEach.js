@@ -2,18 +2,11 @@ import {Template} from 'meteor/templating';
 import './resourcesEach.html';
 
 Template.resourcesEach.onRendered( function() {
-	let template = Template.instance();
-	
-	template.autorun(() => {
-		let resourcesScrollTop = document.getElementById(FlowRouter.getParam('selectedResourceId')).getBoundingClientRect().top - 130;
-		if (window.screen.availWidth < 640 && FlowRouter.getParam('selectedFramePosition') == 2) {
-			Session.set('resourcesScrollTop', resourcesScrollTop);
-			$(window).scrollTop(resourcesScrollTop);
-		} else {
-			Session.set('resourcesScrollTop', resourcesScrollTop);
-			document.getElementsByClassName('frame-two')[0].scrollTop = resourcesScrollTop;
-		}
-	});
+	let resourcesScrollTop = document.getElementById(FlowRouter.getParam('selectedResourceId')).getBoundingClientRect().top - 130;
+	if (window.screen.availWidth > 640) {
+		Session.set('resourcesScrollTop', resourcesScrollTop);
+		document.getElementsByClassName('frame-two')[0].scrollTop = resourcesScrollTop;
+	}
 });
 
 Template.resourcesEach.helpers({
