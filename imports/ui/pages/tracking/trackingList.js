@@ -56,37 +56,6 @@ Template.trackingList.helpers({
 		return FlowRouter.getParam('selectedWeekId');
 	},
 
-	yearsProgress: function(studentId) {
-		return _.find(Session.get('progressStats'), ['studentId', studentId]) && _.find(Session.get('progressStats'), ['studentId', studentId]).yearProgress;
-	},
-
-	yearsProgressStatus: function(studentId) {
-		let yearProgress = _.find(Session.get('progressStats'), ['studentId', studentId]) && _.find(Session.get('progressStats'), ['studentId', studentId]).yearProgress;
-		return 'width-' + yearProgress;
-	},
-
-	termsProgress: function(studentId) {
-		return _.find(Session.get('progressStats'), ['studentId', studentId]) && _.find(Session.get('progressStats'), ['studentId', studentId]).termProgress;
-	},
-
-	termsProgressStatus: function(studentId) {
-		let termProgress = _.find(Session.get('progressStats'), ['studentId', studentId]) && _.find(Session.get('progressStats'), ['studentId', studentId]).termProgress;
-		return 'width-' + termProgress;
-	},
-
-	weeksProgress: function(studentId) {
-		return _.find(Session.get('progressStats'), ['studentId', studentId]) && _.find(Session.get('progressStats'), ['studentId', studentId]).weekProgress;
-	},
-
-	weeksProgressStatus: function(studentId) {
-		let weekProgress = _.find(Session.get('progressStats'), ['studentId', studentId]) && _.find(Session.get('progressStats'), ['studentId', studentId]).weekProgress;
-		return 'width-' + weekProgress;
-	},
-
-	progressStats: function(studentId) {
-		return _.find(Session.get('progressStats'), ['studentId', studentId]);
-	},
-
 	active: function(id) {
 		if (FlowRouter.getParam('selectedStudentId') === id) {
 			return true;

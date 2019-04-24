@@ -4,37 +4,7 @@
 		{{#if students.count}}
 			{{#if schoolYears.count}}
 				<ul class="data-list">
-					{{#each student in students}}
-					<li class="list-item">
-						<a id="{{student._id}}" href="/tracking/students/view/2/{{student._id}}/{{selectedSchoolYearId}}/{{selectedTermId}}/{{selectedWeekId}}" class="js-student list-item-link p-tn-rl-9 {{#if active student._id}}active{{/if}}">
-							<div class="clearfix">
-								<div class="list-item-icon"><i class="txt-primary icn-students"></i></div> 
-								<div class="list-item-label">
-									{{student.preferredFirstName.name}} {{student.lastName}} <i class="icn-caret-right"></i>
-								</div>
-							</div>
-
-							<div class="meter m-tn-r-18">
-								<div class="meter-progress {{yearsProgressStatus student._id}}">
-									<div class="meter-label">Year: {{yearsProgress student._id}}%</div>
-								</div>
-								<div class="meter-label">Year: {{yearsProgress student._id}}%</div>
-							</div>
-							<div class="meter m-tn-rl-9">
-								<div class="meter-progress {{termsProgressStatus student._id}}">
-									<div class="meter-label">Term: {{termsProgress student._id}}%</div>
-								</div>
-								<div class="meter-label">Term: {{termsProgress student._id}}%</div>
-							</div>
-							<div class="meter m-tn-l-18">
-								<div class="meter-progress {{weeksProgressStatus student._id}}">
-									<div class="meter-label">Week: {{weeksProgress student._id}}%</div>
-								</div>
-								<div class="meter-label">Week: {{weeksProgress student._id}}%</div>
-							</div>
-						</a>
-					</li>
-					{{/each}}
+					{{> trackingEach students=students}}
 				</ul>
 			{{else}}
 				<div class="txt-tn-center m-tn-t-72">

@@ -1,0 +1,10 @@
+<template name="reportingEach">
+	{{#each report in reports}}
+		<li class="list-item">
+			<a id="{{report._id}}" href="/reporting/view/2/{{selectedStudentId}}/{{selectedSchoolYearId}}/{{selectedReportingTermId}}/{{selectedReportingWeekId}}/{{report._id}}" class="js-report list-item-link p-tn-rl-9 {{#if active report._id}}active{{/if}}">
+				<div class="list-item-icon"><i class="txt-primary icn-reporting"></i></div> 
+				<div class="list-item-label">{{report.name}}</div>
+			</a>
+		</li>
+	{{/each}}
+</template>

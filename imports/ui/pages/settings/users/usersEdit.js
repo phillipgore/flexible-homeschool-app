@@ -113,15 +113,17 @@ Template.usersEdit.helpers({
 		}
 		return true;
 	},
-
-	cancelPath: function() {
-		return '/settings/users/view/3/' + FlowRouter.getParam('selectedUserId');
-	},
 });
 
 Template.usersEdit.events({
 	'submit .js-form-edit-user'(event) {
 		event.preventDefault();
+	},
+
+	'click .js-cancel'(event) {
+		event.preventDefault();
+
+		FlowRouter.go('/settings/users/view/3/' + FlowRouter.getParam('selectedUserId'))
 	},
 });
 

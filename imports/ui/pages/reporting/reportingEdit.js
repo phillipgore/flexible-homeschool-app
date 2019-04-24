@@ -97,10 +97,6 @@ Template.reportingEdit.helpers({
 	selectedStudentId: function() {
 		return Session.get('selectedStudentId');
 	},
-	
-	cancelPath: function() {
-		return '/reporting/view/2/' + Session.get('selectedStudentId') +"/"+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedReportingTermId') +'/'+ Session.get('selectedReportingWeekId') +"/"+ Session.get('selectedReportId');
-	},
 });
 
 Template.reportingEdit.events({
@@ -114,5 +110,11 @@ Template.reportingEdit.events({
 
 	'submit .js-form-report-update'(event) {
 		event.preventDefault();
+	},
+
+	'click .js-cancel'(event) {
+		event.preventDefault();
+
+		FlowRouter.go('/reporting/view/2/' + Session.get('selectedStudentId') +"/"+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedReportingTermId') +'/'+ Session.get('selectedReportingWeekId') +"/"+ FlowRouter.getParam('selectedReportId'))
 	},
 });

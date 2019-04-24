@@ -11,6 +11,10 @@ Template.usersNew.onCreated( function() {
 Template.usersNew.onRendered( function() {	
 	let template = Template.instance();
 
+	if (window.screen.availWidth > 640) {
+		document.getElementsByClassName('frame-two')[0].scrollTop = 0;
+	}
+
 	Session.set({
 		toolbarType: 'new',
 		labelThree: 'New User',
@@ -130,6 +134,11 @@ Template.usersNew.events({
 
 	'click .js-cancel'(event) {
 		event.preventDefault();
+
+		let resourcesScrollTop = document.getElementById(Session.get('selectedUserId')).getBoundingClientRect().top - 130;
+		if (window.screen.availWidth > 640 && FlowRouter.getRouteName() === 'resourcesNew') {
+			document.getElementsByClassName('frame-two')[0].scrollTop = resourcesScrollTop;
+		}
 		
 		FlowRouter.go('/settings/users/view/2/' + Session.get('selectedUserId'));
 	},

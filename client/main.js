@@ -82,6 +82,7 @@ import '/imports/ui/pages/planning/planningList.js';
 
 // Tracking
 import '/imports/ui/pages/tracking/trackingList.js';
+import '/imports/ui/pages/tracking/trackingEach.js';
 import '/imports/ui/pages/tracking/trackingSchoolWork.js';
 import '/imports/ui/pages/tracking/trackingView.js';
 
@@ -90,6 +91,7 @@ import '/imports/ui/pages/tracking/trackingView.js';
 import '/imports/ui/pages/reporting/reportingList.js';
 import '/imports/ui/pages/reporting/reportingNew.js';
 import '/imports/ui/pages/reporting/reportingView.js';
+import '/imports/ui/pages/reporting/reportingEach.js';
 import '/imports/ui/pages/reporting/reportingEdit.js';
 import '/imports/ui/pages/reporting/reports/reportingSchoolYears.js';
 import '/imports/ui/pages/reporting/reports/reportingTerms.js';
@@ -102,6 +104,7 @@ import '/imports/ui/pages/settings/settingsList.js';
 	// Users
 	import '/imports/ui/pages/settings/users/usersList.js';
 	import '/imports/ui/pages/settings/users/usersNew.js';
+	import '/imports/ui/pages/settings/users/usersEach.js';
 	import '/imports/ui/pages/settings/users/usersView.js';
 	import '/imports/ui/pages/settings/users/usersEdit.js';
 	import '/imports/ui/pages/settings/users/usersRestricted.js';

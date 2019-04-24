@@ -2,9 +2,6 @@
 	
 	<main class="app-content app-content-preceeds-toolbar">
 		<ul class="list">
-			{{#if nonActive usersPending.count usersPaused.count}}
-				<li class="list-item-label p-tn-rl-9">Active Users</li>
-			{{/if}}
 			{{#if activeRoute currentRouteName 'usersNew'}}
 				<li class="list-item">
 					<span class="list-item-inner p-tn-rl-9 active">
@@ -14,42 +11,7 @@
 					</span>
 				</li>
 			{{/if}}
-			{{#each user in users}}
-				<li class="list-item">
-					<a id="{{user._id}}" data-verified="{{user.emails.[0].verified}}" data-active="{{user.status.active}}" href="/settings/users/view/3/{{user._id}}" class="js-user list-item-link p-tn-rl-9 {{#if active user._id}}active{{/if}}">
-						<div class="list-item-icon"><i class="txt-primary icn-users"></i></div> 
-						<div class="list-item-label">{{user.info.firstName}} {{user.info.lastName}} 
-							<span class="list-item-sublabel">({{user.info.relationshipToStudents}})</span>
-						</div>
-					</a>
-				</li>
-			{{/each}}
-			{{#if usersPending.count}}
-				<li class="list-item-label p-tn-rl-9">Users Pending Verification</li>
-				{{#each user in usersPending}}
-					<li class="list-item">
-						<a id="{{user._id}}" data-verified="{{user.emails.[0].verified}}" data-active="{{user.status.active}}" href="/settings/users/view/3/{{user._id}}" class="js-user list-item-link p-tn-rl-9 {{#if active user._id}}active{{/if}}">
-							<div class="list-item-icon"><i class="txt-danger icn-users"></i></div> 
-							<div class="list-item-label">{{user.info.firstName}} {{user.info.lastName}} 
-								<span class="list-item-sublabel">({{user.info.relationshipToStudents}})</span>
-							</div>
-						</a>
-					</li>
-				{{/each}}
-			{{/if}}
-			{{#if usersPaused.count}}
-				<li class="list-item-label p-tn-rl-9">Paused Users</li>
-				{{#each user in usersPaused}}
-					<li class="list-item">
-						<a id="{{user._id}}" data-verified="{{user.emails.[0].verified}}" data-active="{{user.status.active}}" href="/settings/users/view/3/{{user._id}}" class="js-user list-item-link p-tn-rl-9 {{#if active user._id}}active{{/if}}">
-							<div class="list-item-icon"><i class="txt-warning icn-users"></i></div> 
-							<div class="list-item-label">{{user.info.firstName}} {{user.info.lastName}} 
-								<span class="list-item-sublabel">({{user.info.relationshipToStudents}})</span>
-							</div>
-						</a>
-					</li>
-				{{/each}}
-			{{/if}}
+			{{> usersEach users=users usersPending=usersPending usersPaused=usersPaused}}
 		</ul>
 	</main>
 	{{#unless Template.subscriptionsReady}}

@@ -9,6 +9,10 @@ Template.reportingNew.onCreated( function() {
 Template.reportingNew.onRendered( function() {
 	let template = Template.instance();
 
+	if (window.screen.availWidth > 640) {
+		document.getElementsByClassName('frame-one')[0].scrollTop = 0;
+	}
+
 	Session.set({
 		toolbarType: 'new',
 		labelTwo: 'New Report',
@@ -93,10 +97,6 @@ Template.reportingNew.helpers({
 	selectedReportId: function() {
 		return Session.get('selectedReportId');
 	},
-	
-	cancelPath: function() {
-		return '/reporting/view/2/' + Session.get('selectedStudentId') +"/"+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedReportingTermId') +'/'+ Session.get('selectedReportingWeekId') +"/"+ Session.get('selectedReportId');
-	},
 });
 
 Template.reportingNew.events({
@@ -110,5 +110,16 @@ Template.reportingNew.events({
 
 	'submit .js-form-reports-new'(event) {
 		event.preventDefault();
+	},
+
+	'click .js-cancel'(event) {
+		event.preventDefault();
+
+		let resourcesScrollTop = document.getElementById(Session.get('selectedReportId')).getBoundingClientRect().top - 130;
+		if (window.screen.availWidth > 640 && FlowRouter.getRouteName() === 'resourcesNew') {
+			document.getElementsByClassName('frame-one')[0].scrollTop = resourcesScrollTop;
+		}
+		
+		FlowRouter.go('/reporting/view/2/' + Session.get('selectedStudentId') +"/"+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedReportingTermId') +'/'+ Session.get('selectedReportingWeekId') +"/"+ Session.get('selectedReportId'))
 	},
 });
