@@ -96,10 +96,12 @@ Template.schoolWorkNew.onRendered( function() {
 			$("[name='timesPerWeek']").each(function(index) {
 				for (i = 0; i < parseInt(this.value); i++) {
 				    lessonProperties.push({
-				    	order: parseFloat((index + 1) + '.' + (i + 1)),
+				    	order: i + 1,
 				    	schoolYearId: template.find("[name='schoolYearId']").value.trim(), 
-				    	termId: this.dataset.termId, 
+				    	termId: this.dataset.termId,
+				    	termOrder: parseInt(this.dataset.termOrder), 
 				    	weekId: this.dataset.weekId,
+				    	weekOrder: parseInt(this.dataset.weekOrder),
 				    });
 				}
 			})

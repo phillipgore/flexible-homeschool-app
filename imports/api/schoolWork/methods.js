@@ -88,7 +88,10 @@ Meteor.methods({
 					completed: false,
 					studentId: lesson.studentId,
 					schoolWorkId: lesson.schoolWorkId,
+					termId: lesson.termId,
+					termOrder: lesson.termOrder,
 					weekId: lesson.weekId,
+					weekOrder: lesson.weekOrder,
 					groupId: groupId, 
 					userId: userId, 
 					createdOn: new Date()
@@ -184,7 +187,9 @@ Meteor.methods({
 							schoolWorkId: schoolWork._id,
 							schoolYearId: lesson.schoolYearId,
 							termId: lesson.termId,
+							termOrder: lesson.termOrder,
 							weekId: lesson.weekId,
+							weekOrder: lesson.weekOrder,
 							groupId: groupId, 
 							userId: userId, 
 							createdOn: new Date()

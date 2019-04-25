@@ -68,6 +68,7 @@ Meteor.methods({
 						_id: Random.id(),
 						schoolYearId: schoolYearId,
 						termId: term._id, 
+						termOrder: parseInt(term.order),
 						order: term.origWeeksPerTerm + 1 + i, 
 						groupId: groupId, 
 						userId: userId, 
@@ -167,6 +168,7 @@ Meteor.methods({
 		if (termInsertProperties.length) {
 			termInsertProperties.forEach(function(term) {
 				const weeksPerTerm = term.weeksPerTerm;
+				const termOrder = parseInt(term.order);
 				delete term.weeksPerTerm;
 
 				Meteor.call('insertTerm', term, function(error, termId) {
@@ -181,6 +183,7 @@ Meteor.methods({
 						    	_id: Random.id(),
 						    	order: i + 1, 
 						    	termId: termId, 
+						    	termOrder: termOrder,
 						    	groupId: groupId, 
 						    	userId: userId, 
 						    	createdOn: new Date()

@@ -33,7 +33,6 @@ const LessonsSchema = new SimpleSchema({
 	order: {
         type: Number,
         label: "Order",
-    	optional: true
     },
     weekOrder: {
         type: Number,

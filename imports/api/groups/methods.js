@@ -9,7 +9,22 @@ Meteor.methods({
 		if (Accounts.findUserByEmail(userEmail)) {
 			throw new Meteor.Error(500, 'Email already exists.');
 		} else {
-			let groupId = Groups.insert({subscriptionStatus: 'pending'});
+			groupProperties = {
+				subscriptionStatus: 'pending', 
+				initialIds: {
+					studentId: 'empty',
+					schoolYearId: 'empty',
+					resourceId: 'empty',
+					resourceType: 'empty',
+					termId: 'empty',
+					weekId: 'empty',
+					schoolWorkId: 'empty',
+					userId: 'empty',
+					reportId: 'empty',
+					groupId: 'empty',
+				}
+			}
+			let groupId = Groups.insert(groupProperties);
 			return groupId;
 		}
 	},

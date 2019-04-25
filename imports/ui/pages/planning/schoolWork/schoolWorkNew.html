@@ -238,7 +238,7 @@
 							{{#each week in weeks term._id}}
 							<div class="col-tn-1of5 p-tn-rl-3">
 								<label>Wk {{week.order}}</label>
-								<input data-term-id="{{term._id}}" data-week-id="{{week._id}}" class="js-times-per-week" type="text" name="timesPerWeek" placeholder="5" autocomplete="off" maxlength="1">
+								<input data-term-id="{{term._id}}" data-term-order="{{term.order}}" data-week-id="{{week._id}}" data-week-order="{{week.order}}" class="js-times-per-week" type="text" name="timesPerWeek" placeholder="5" autocomplete="off" maxlength="1">
 							</div>
 							{{/each}}
 						</div>

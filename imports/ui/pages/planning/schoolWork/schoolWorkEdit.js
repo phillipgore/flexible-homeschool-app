@@ -106,12 +106,14 @@ Template.schoolWorkEdit.onRendered( function() {
 					let addCount =  newLessonsTotal - totalLessons;
 					for (i = 0; i < addCount; i++) { 
 					    insertLessonProperties.push({
-					    	order: weekOrder + '.' + (i + 1 + parseInt(totalLessons)),
+					    	order: i + 1 + parseInt(totalLessons),
 					    	schoolWorkId: FlowRouter.getParam('selectedSchoolWorkId'),
 					    	studentId: FlowRouter.getParam('selectedStudentId'),
 					    	schoolYearId: FlowRouter.getParam('selectedSchoolYearId'),
-							termId: this.dataset.termId,
-					    	weekId: this.dataset.weekId
+					    	termId: this.dataset.termId,
+					    	termOrder: parseInt(this.dataset.termOrder), 
+					    	weekId: this.dataset.weekId,
+					    	weekOrder: parseInt(this.dataset.weekOrder),
 					    });
 					}
 				}

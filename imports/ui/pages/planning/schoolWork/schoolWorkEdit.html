@@ -206,11 +206,11 @@
 					</button>
 					<div class="js-{{term.order}} js-weeks-input row m-tn-rl-neg-3 m-tn-b-neg-6 m-tn-t-9 {{#unless isRandom term._id}}hide{{/unless}}">
 						{{#each week in weeks term._id}}
-						<div class="col-tn-1of5 pos-relative p-tn-rl-3">
-							<label>Wk {{week.order}}</label>
-							<input data-term-id="{{term._id}}" data-week-id="{{week._id}}" data-week-order="{{week.order}}" data-lesson-count="{{lessonCount week._id}}" data-lesson-complete-count="{{lessonCompleteCount week._id}}" data-lesson-incomplete-count="{{lessonIncompleteCount week._id}}" class="js-times-per-week" type="text" name="timesPerWeek" placeholder="5" autocomplete="off" maxlength="2" value="{{lessonCount week._id}}">
-							<label class="work-error js-times-per-week-errors m-tn-b-0"></label>
-						</div>
+							<div class="col-tn-1of5 pos-relative p-tn-rl-3">
+								<label>Wk {{week.order}}</label>
+								<input data-term-id="{{term._id}}" data-term-order="{{term.order}}" data-week-id="{{week._id}}" data-week-order="{{week.order}}" data-lesson-count="{{lessonCount week._id}}" data-lesson-complete-count="{{lessonCompleteCount week._id}}" data-lesson-incomplete-count="{{lessonIncompleteCount week._id}}" class="js-times-per-week" type="text" name="timesPerWeek" placeholder="5" autocomplete="off" maxlength="2" value="{{lessonCount week._id}}">
+								<label class="work-error js-times-per-week-errors m-tn-b-0"></label>
+							</div>
 						{{/each}}
 					</div>
 				</div>

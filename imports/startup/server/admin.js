@@ -43,7 +43,24 @@ if (!Groups.find({appAdmin: true}).count()) {
 		)
 	}
 
-	Groups.insert({subscriptionStatus: 'active', appAdmin: true}, function(error, result) {
+	adminGroupProperties = {
+		subscriptionStatus: 'active', 
+		appAdmin: true,
+		initialIds: {
+			studentId: 'empty',
+			schoolYearId: 'empty',
+			resourceId: 'empty',
+			resourceType: 'empty',
+			termId: 'empty',
+			weekId: 'empty',
+			schoolWorkId: 'empty',
+			userId: 'empty',
+			reportId: 'empty',
+			groupId: 'empty',
+		}
+	}
+
+	Groups.insert(adminGroupProperties, function(error, result) {
 		if (error) {
 			console.log(error.reason);
 		} else {
@@ -98,7 +115,7 @@ Meteor.methods({
 		if (!Meteor.users.findOne(userId)) {
 			throw new Meteor.Error(404, 'User not found');
 		}
-		console.log(Meteor.user().info.role)
+
 		if (Meteor.user().info.role != 'Application Administrator') {
 			throw new Meteor.Error(403, 'Permission denied');
 		}
