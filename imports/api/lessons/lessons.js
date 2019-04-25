@@ -35,6 +35,14 @@ const LessonsSchema = new SimpleSchema({
         label: "Order",
     	optional: true
     },
+    weekOrder: {
+        type: Number,
+        label: "Week Order"
+    },
+    termOrder: {
+        type: Number,
+        label: "Term Order"
+    },
     assigned: {
     	type: Boolean,
 		label: "Assigned",

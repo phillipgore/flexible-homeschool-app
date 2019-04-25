@@ -23,7 +23,11 @@ Weeks.deny({
 const WeeksSchema = new SimpleSchema({
 	order: {
         type: Number,
-        label: "order"
+        label: "Order"
+    },
+    termOrder: {
+        type: Number,
+        label: "Term Order"
     },
     schoolYearId: {
         type: String,
