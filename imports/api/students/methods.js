@@ -2,18 +2,25 @@ import {Mongo} from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
 
 import {Students} from './students.js';
+import {primaryInitialIds} from '../../modules/server/initialIds';
 
 Meteor.methods({
 	insertStudent(studentProperties) {
-		const studentId = Students.insert(studentProperties);
+		const studentId = Students.insert(studentProperties, () => {
+			primaryInitialIds();
+		});
 		return studentId;
 	},
 
 	updateStudent: function(studentId, studentProperties) {
-		Students.update(studentId, {$set: studentProperties});
+		Students.update(studentId, {$set: studentProperties}, () => {
+			primaryInitialIds();
+		});
 	},
 
 	deleteStudent: function(studentId) {
-		Students.update(studentId, {$set: {deletedOn: new Date()}});
+		Students.update(studentId, {$set: {deletedOn: new Date()}}, () => {
+			primaryInitialIds();
+		});
 	},
 })

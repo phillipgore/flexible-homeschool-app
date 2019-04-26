@@ -158,6 +158,7 @@ Migrations.add({
 			if (ids.schoolYearId === 'empty') {
 				ids.termId = 'empty';
 				ids.weekId = 'empty';
+				ids.schoolWorkId = 'empty'
 			} else {
 				let firstIncompleteLesson = Lessons.findOne(
 					{studentId: firstStudent._id, schoolYearId: firstSchoolYear._id, completed: false, deletedOn: { $exists: false }},
@@ -208,16 +209,18 @@ Migrations.add({
 			if (group.appAdmin) {
 				let firstGroup = Groups.findOne({appAdmin: false}, {fields: {_id: 1}, sort: {createdOn: -1}}); 
 				if (firstGroup) {ids.groupId = firstGroup._id} else {ids.groupId = 'empty'};
+			} else {
+				ids.groupId = 'empty'
 			}
 
-			console.log(ids);
+			Groups.update(group._id, {$set: {initialIds: ids}});
 
 		});
 	}
 });
 
 Meteor.startup(() => {
-	Migrations.migrateTo(6);
+	Migrations.migrateTo('6,rerun');
 });
 
 

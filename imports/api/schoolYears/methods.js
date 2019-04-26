@@ -6,6 +6,7 @@ import {SchoolWork} from '../schoolWork/schoolWork.js';
 import {Terms} from '../terms/terms.js';
 import {Weeks} from '../weeks/weeks.js';
 import {Lessons} from '../lessons/lessons.js';
+import {primaryInitialIds} from '../../modules/server/initialIds';
 
 Meteor.methods({
 	insertSchoolYear(schoolYearProperties) {
@@ -14,7 +15,8 @@ Meteor.methods({
 	},
 
 	updateSchoolYear: function(schoolYearId, schoolYearProperties) {
-		SchoolYears.update(schoolYearId, {$set: schoolYearProperties});
+		SchoolYears.update(schoolYearId, {$set: schoolYearProperties});		
+		primaryInitialIds();
 	},
 
 	deleteSchoolYear: function(schoolYearId) {
@@ -200,6 +202,8 @@ Meteor.methods({
 				});
 			});
 		};
+
+		primaryInitialIds();
 
 		return true;
 	},
