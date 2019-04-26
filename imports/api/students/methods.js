@@ -6,21 +6,18 @@ import {primaryInitialIds} from '../../modules/server/initialIds';
 
 Meteor.methods({
 	insertStudent(studentProperties) {
-		const studentId = Students.insert(studentProperties, () => {
-			primaryInitialIds();
-		});
+		const studentId = Students.insert(studentProperties);
+		primaryInitialIds();
 		return studentId;
 	},
 
 	updateStudent: function(studentId, studentProperties) {
-		Students.update(studentId, {$set: studentProperties}, () => {
-			primaryInitialIds();
-		});
+		Students.update(studentId, {$set: studentProperties});
+		primaryInitialIds();
 	},
 
 	deleteStudent: function(studentId) {
-		Students.update(studentId, {$set: {deletedOn: new Date()}}, () => {
-			primaryInitialIds();
-		});
+		Students.update(studentId, {$set: {deletedOn: new Date()}});
+		primaryInitialIds();
 	},
 })

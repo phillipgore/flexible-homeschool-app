@@ -155,28 +155,32 @@ Migrations.add({
 			let firstSchoolYear = SchoolYears.findOne({groupId: group._id, startYear: {$gte: currentYear}, deletedOn: { $exists: false }}, {sort: {starYear: 1}, fields: {_id: 1}});
 			if (firstSchoolYear) {ids.schoolYearId = firstSchoolYear._id} else {ids.schoolYearId = 'empty'};
 
+			if (firstStudent && firstSchoolYear) {
+				let firstSchoolWork = SchoolWork.findOne({groupId: group._id, schoolYearId: firstSchoolYear._id, studentId: firstStudent._id, deletedOn: { $exists: false }}, {sort: {name: 1}, fields: {_id: 1}});	
+				ids.schoolWorkId = firstSchoolWork._id;
+			} else {
+				ids.schoolWorkId = 'empty'
+			};
+
 			if (ids.schoolYearId === 'empty') {
 				ids.termId = 'empty';
 				ids.weekId = 'empty';
-				ids.schoolWorkId = 'empty'
 			} else {
 				let firstIncompleteLesson = Lessons.findOne(
 					{studentId: firstStudent._id, schoolYearId: firstSchoolYear._id, completed: false, deletedOn: { $exists: false }},
-					{sort: {termOrder: 1, weekOrder: 1, order: 1}, fields: {termId: 1, weekId: 1, schoolWorkId: 1}}
+					{sort: {termOrder: 1, weekOrder: 1, order: 1}, fields: {termId: 1, weekId: 1}}
 				);
 				let firstCompletedLesson = Lessons.findOne(
 					{studentId: firstStudent._id, schoolYearId: firstSchoolYear._id, completed: true, deletedOn: { $exists: false }},
-					{sort: {termOrder: 1, weekOrder: 1, order: 1}, fields: {termId: 1, weekId: 1, schoolWorkId: 1}}
+					{sort: {termOrder: 1, weekOrder: 1, order: 1}, fields: {termId: 1, weekId: 1}}
 				);
 
 				if (firstIncompleteLesson) {
 					ids.termId = firstIncompleteLesson.termId;
 					ids.weekId = firstIncompleteLesson.weekId;
-					ids.schoolWorkId = firstIncompleteLesson.schoolWorkId
 				} else if (firstCompletedLesson) {
 					ids.termId = firstCompletedLesson.termId;
 					ids.weekId = firstCompletedLesson.weekId;
-					ids.schoolWorkId = firstCompletedLesson.schoolWorkId
 				} else {
 					let firstTerm = Terms.findOne(
 						{groupId: group._id, schoolYearId: firstSchoolYear._id, deletedOn: { $exists: false }},
@@ -186,13 +190,8 @@ Migrations.add({
 						{groupId: group._id, schoolYearId: firstSchoolYear._id, termId: firstTerm._id, deletedOn: { $exists: false }},
 						{sort: {order: 1}, fields: {_id: 1}}
 					)
-					let firstSchoolWork = SchoolWork.findOne(
-						{groupId: group._id, schoolYearId: firstSchoolYear._id, studentId: firstStudent._id, deletedOn: { $exists: false }},
-						{sort: {order: 1}, fields: {_id: 1}}
-					)
 					if (firstTerm) {ids.termId = firstTerm._id} else {ids.termId = 'empty'};
 					if (firstWeek) {ids.weekId = firstWeek._id} else {ids.weekId = 'empty'};
-					if (firstSchoolWork) {ids.schoolWorkId = firstSchoolWork._id} else {ids.schoolWorkId = 'empty'};
 				}
 			}
 
@@ -220,8 +219,10 @@ Migrations.add({
 });
 
 Meteor.startup(() => {
-	Migrations.migrateTo('6,rerun');
+	Migrations.migrateTo(6);
 });
+
+
 
 
 

@@ -2,6 +2,8 @@ import {Mongo} from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
 
 import {Resources} from './resources.js';
+import {resourcesInitialIds} from '../../modules/server/initialIds';
+
 import _ from 'lodash'
 
 Meteor.methods({
@@ -46,14 +48,17 @@ Meteor.methods({
 
 	insertResource(resourceProperties) {
 		const resourcesView = Resources.insert(resourceProperties);
+		resourcesInitialIds();
 		return resourcesView
 	},
 
 	updateResource: function(resourceId, resourceProperties) {
 		Resources.update(resourceId, {$set: resourceProperties});
+		resourcesInitialIds();
 	},
 
 	deleteResource: function(resourceId) {
 		Resources.update(resourceId, {$set: {deletedOn: new Date()}});
+		resourcesInitialIds();
 	}
 })

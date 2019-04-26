@@ -9,8 +9,9 @@ import {Lessons} from '../lessons/lessons.js';
 import {primaryInitialIds} from '../../modules/server/initialIds';
 
 Meteor.methods({
-	insertSchoolYear(schoolYearProperties) {
-		const schoolYearId = SchoolYears.insert(schoolYearProperties);
+	insertSchoolYear: function(schoolYearProperties) {
+		const schoolYearId = SchoolYears.insert(schoolYearProperties);	
+		primaryInitialIds();
 		return schoolYearId;
 	},
 
@@ -37,7 +38,8 @@ Meteor.methods({
 		});
 		lessonIds.forEach(function(lessonId) {
 			Lessons.update(lessonId, {$set: {deletedOn: new Date()}});
-		});
+		});	
+		primaryInitialIds();
 	},
 
 	updateSchoolYearTerms: function(schoolYearId, schoolYearProperties, termDeleteIds, termInsertProperties, termUpdateProperties, userId, groupId) {

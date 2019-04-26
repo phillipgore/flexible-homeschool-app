@@ -33,11 +33,11 @@ Meteor.methods({
 		Groups.update(groupProperties._id, {$set: groupProperties});
 	},
 
-	pauseGroup: function(groupId) {
-		Groups.update(groupId, {$set: {pause: true}});
-	},
+	// pauseGroup: function(groupId) {
+	// 	Groups.update(groupId, {$set: {pause: true}});
+	// },
 
-	unpauseGroup: function(groupId) {
-		Groups.update(groupId, {$set: {pause: false}});
-	}
+	// unpauseGroup: function(groupId) {
+	// 	Groups.update(groupId, {$set: {pause: false}});
+	// }
 })

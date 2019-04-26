@@ -11,21 +11,12 @@ import {Reports} from '../../api/reports/reports.js';
 import moment from 'moment';
 
 
-// Intial Ids for Student, School Year, Term, Week, School Work.
-export function primaryInitialIds () {
-	console.log('primaryInitialIds function started');
-	let groupId = Meteor.user().info.groupId;
-	
-	let year = moment().year();
-		let month = moment().month();
+/* -------------------- Exported Functions -------------------- */
 
-	function startYearFunction(year) {
-		if (month < 6) {
-			return year = (year - 1).toString();
-		}
-		return year.toString();
-	}
-	let currentYear = startYearFunction(year)
+// Intial Ids for Student, School Year, Term, Week and School Work.
+export function primaryInitialIds () {
+	let groupId = Meteor.user().info.groupId;
+	let currentYear = startYearFunction()
 
 	let ids = {};
 
@@ -35,28 +26,35 @@ export function primaryInitialIds () {
 	let firstSchoolYear = SchoolYears.findOne({groupId: groupId, startYear: {$gte: currentYear}, deletedOn: { $exists: false }}, {sort: {starYear: 1}, fields: {_id: 1}});
 	if (firstSchoolYear) {ids.schoolYearId = firstSchoolYear._id} else {ids.schoolYearId = 'empty'};
 
+	if (firstStudent && firstSchoolYear) {
+		let firstSchoolWork = SchoolWork.findOne(
+			{groupId: groupId, schoolYearId: firstSchoolYear._id, studentId: firstStudent._id, deletedOn: { $exists: false }},
+			{sort: {name: 1}, fields: {_id: 1}}
+		)	
+		ids.schoolWorkId = firstSchoolWork._id;
+	} else {
+		ids.schoolWorkId = 'empty';
+	}
+
 	if (ids.schoolYearId === 'empty') {
 		ids.termId = 'empty';
 		ids.weekId = 'empty';
-		ids.schoolWorkId = 'empty'
 	} else {
 		let firstIncompleteLesson = Lessons.findOne(
 			{studentId: firstStudent._id, schoolYearId: firstSchoolYear._id, completed: false, deletedOn: { $exists: false }},
-			{sort: {termOrder: 1, weekOrder: 1, order: 1}, fields: {termId: 1, weekId: 1, schoolWorkId: 1}}
+			{sort: {termOrder: 1, weekOrder: 1, order: 1}, fields: {termId: 1, weekId: 1}}
 		);
 		let firstCompletedLesson = Lessons.findOne(
 			{studentId: firstStudent._id, schoolYearId: firstSchoolYear._id, completed: true, deletedOn: { $exists: false }},
-			{sort: {termOrder: 1, weekOrder: 1, order: 1}, fields: {termId: 1, weekId: 1, schoolWorkId: 1}}
+			{sort: {termOrder: 1, weekOrder: 1, order: 1}, fields: {termId: 1, weekId: 1}}
 		);
 
 		if (firstIncompleteLesson) {
 			ids.termId = firstIncompleteLesson.termId;
 			ids.weekId = firstIncompleteLesson.weekId;
-			ids.schoolWorkId = firstIncompleteLesson.schoolWorkId
 		} else if (firstCompletedLesson) {
 			ids.termId = firstCompletedLesson.termId;
 			ids.weekId = firstCompletedLesson.weekId;
-			ids.schoolWorkId = firstCompletedLesson.schoolWorkId
 		} else {
 			let firstTerm = Terms.findOne(
 				{groupId: groupId, schoolYearId: firstSchoolYear._id, deletedOn: { $exists: false }},
@@ -66,15 +64,12 @@ export function primaryInitialIds () {
 				{groupId: groupId, schoolYearId: firstSchoolYear._id, termId: firstTerm._id, deletedOn: { $exists: false }},
 				{sort: {order: 1}, fields: {_id: 1}}
 			)
-			let firstSchoolWork = SchoolWork.findOne(
-				{groupId: groupId, schoolYearId: firstSchoolYear._id, studentId: firstStudent._id, deletedOn: { $exists: false }},
-				{sort: {order: 1}, fields: {_id: 1}}
-			)
 			if (firstTerm) {ids.termId = firstTerm._id} else {ids.termId = 'empty'};
 			if (firstWeek) {ids.weekId = firstWeek._id} else {ids.weekId = 'empty'};
-			if (firstSchoolWork) {ids.schoolWorkId = firstSchoolWork._id} else {ids.schoolWorkId = 'empty'};
 		}
 	}
+
+
 
 	Groups.update(groupId, {$set: {
 		'initialIds.studentId': ids.studentId,
@@ -83,53 +78,61 @@ export function primaryInitialIds () {
 		'initialIds.weekId': ids.weekId,
 		'initialIds.schoolWorkId': ids.schoolWorkId,
 	}});
-	console.log('primaryInitialIds function ended');
+	
 	return groupId;
 };
 
 // Intial Ids for Resources.
-export function resourcesInitialIds (groupId) {
-	console.log('resourcesInitialIds function started');
+export function resourcesInitialIds () {
+	let groupId = Meteor.user().info.groupId;
 	let ids = {};
 
 	let firstResource = Resources.findOne({groupId: groupId, deletedOn: { $exists: false }}, {sort: {title: 1}, fields: {type: 1}});
 	if (firstResource) {ids.resourceId = firstResource._id} else {ids.resourceId = 'empty'};
 	if (firstResource) {ids.resourceType = firstResource.type} else {ids.resourceType = 'empty'};
 
-	Groups.update(groupId, {$set: {initialIds: ids}});
-	console.log('resourcesInitialIds function ended');
+	Groups.update(groupId, {$set: {
+		'initialIds.resourceId': ids.resourceId,
+		'initialIds.resourceType': ids.resourceType,
+	}});
+	
 	return groupId;
 };
 
 // Intial Id for Users.
-export function usersInitialId (groupId) {
-	console.log('usersInitialId function started');
+export function usersInitialId () {
+	let groupId = Meteor.user().info.groupId;
 	let ids = {};
 
 	let firstUser = Meteor.users.findOne({'info.groupId': groupId, 'emails.0.verified': true, 'status.active': true}, {sort: {'info.lastName': 1, 'info.firstName': 1}});
 	ids.userId = firstUser._id;
 
-	Groups.update(groupId, {$set: {initialIds: ids}});
-	console.log('usersInitialId function ended');
+	Groups.update(groupId, {$set: {
+		'initialIds.userId': ids.userId,
+	}});
+	
 	return groupId;
 };
 
 // Intial Id for Reports.
-export function reportsInitialId (groupId) {
-	console.log('reportsInitialId function started');
+export function reportsInitialId () {
+	let groupId = Meteor.user().info.groupId;
 	let ids = {};
 
 	let firstReport = Reports.findOne({groupId: groupId, deletedOn: { $exists: false }}, {sort: {name: 1}});
 	if (firstReport) {ids.reportId = firstReport._id} else {ids.reportId = 'empty'};
 
-	Groups.update(groupId, {$set: {initialIds: ids}});
-	console.log('reportsInitialId function ended');
+	Groups.update(groupId, {$set: {
+		'initialIds.reportId': ids.reportId,
+	}});
+	
 	return groupId;
 };
 
 // Intial Id for Groups.
-export function groupsInitialId (group) {
-	console.log('groupsInitialId function started');
+export function groupsInitialId () {
+	let groupId = Meteor.user().info.groupId;
+	let group = Groups.findOne({_id: groupId});
 	let ids = {};
 
 	if (group.appAdmin) {
@@ -139,10 +142,27 @@ export function groupsInitialId (group) {
 		ids.groupId = 'empty'
 	}
 
-	Groups.update(group._id, {$set: {initialIds: ids}});
-	console.log('groupsInitialId function ended');
+	Groups.update(groupId, {$set: {
+		'initialIds.groupId': ids.groupId,
+	}});
+
 	return group._id;
 };
+
+
+
+/* -------------------- Internal Functions -------------------- */
+
+// Return the Start Year
+function startYearFunction() {
+	let year = moment().year();
+	let month = moment().month();
+
+	if (month < 6) {
+		return year = (year - 1).toString();
+	}
+	return year.toString();
+}
 
 
 

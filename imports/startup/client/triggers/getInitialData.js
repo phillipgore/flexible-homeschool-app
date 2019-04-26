@@ -1,24 +1,24 @@
 import { Groups } from '../../../api/groups/groups.js';
 import moment from 'moment';
 
-InitialIds = new Mongo.Collection('initialIds');
+// InitialIds = new Mongo.Collection('initialIds');
 
 
-let year = moment().year();
-let month = moment().month();
+// let year = moment().year();
+// let month = moment().month();
 
-function startYearFunction(year) {
-	if (month < 6) {
-		return year = (year - 1).toString();
-	}
-	return year.toString();
-}
+// function startYearFunction(year) {
+// 	if (month < 6) {
+// 		return year = (year - 1).toString();
+// 	}
+// 	return year.toString();
+// }
 
 
 
 let userData = Meteor.subscribe('userData');
 let groupStatus = Meteor.subscribe('groupStatus');
-let getInitialIds = Meteor.subscribe('initialIds', startYearFunction(year));
+// let getInitialIds = Meteor.subscribe('initialIds', startYearFunction(year));
 let getInitialStats = Meteor.subscribe('initialStats');
 
 
@@ -26,7 +26,7 @@ let getInitialStats = Meteor.subscribe('initialStats');
 FlowRouter.wait();
 
 Tracker.autorun(() => {
-	if (userData.ready() && groupStatus.ready() && getInitialIds.ready() && getInitialStats.ready() && !FlowRouter._initialized) {
+	if (userData.ready() && groupStatus.ready() /*&& getInitialIds.ready()*/ && getInitialStats.ready() && !FlowRouter._initialized) {
 		FlowRouter.initialize()
 	}
 });
@@ -34,7 +34,7 @@ Tracker.autorun(() => {
 
 
 function getInitialData() {
-	let initialIds = InitialIds.findOne();
+	let initialIds = Groups.findOne().initialIds;
 	Session.set('initialIds', initialIds)
 
 	// Initial Frame

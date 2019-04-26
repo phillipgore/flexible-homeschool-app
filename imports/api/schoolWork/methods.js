@@ -6,6 +6,7 @@ import {SchoolYears} from '../schoolYears/schoolYears.js';
 import {Resources} from '../resources/resources.js';
 import {SchoolWork} from './schoolWork.js';
 import {Lessons} from '../lessons/lessons.js';
+import {primaryInitialIds} from '../../modules/server/initialIds';
 
 import _ from 'lodash'
 
@@ -119,6 +120,7 @@ Meteor.methods({
 			return result;
 		}
 
+		primaryInitialIds();
 		return false;
 	},
 
@@ -129,25 +131,10 @@ Meteor.methods({
 		lessonIds.forEach(function(lessonId) {
 			Lessons.update(lessonId, {$set: {deletedOn: new Date()}});
 		});
+		primaryInitialIds();
 	},
 
-	batchInsertSchoolWork(studentIds, schoolWorkProperties, lessonProperties) {
-		newSchoolWork = []
-		studentIds.forEach(function(studentId) { 
-			schoolWorkProperties.studentId = studentId;
-			const schoolWorkId = SchoolWork.insert(schoolWorkProperties);
-			newSchoolWork.push({studentId: studentId, schoolWorkId: schoolWorkId});
-
-			lessonProperties.forEach(function(lesson) {
-				lesson.schoolWorkId = schoolWorkId;
-				Lessons.insert(lesson);
-			});
-		});
-
-		return newSchoolWork;
-	},
-
-	insertSchoolWork(studentIds, schoolWorkProperties, lessonProperties) {
+	insertSchoolWork: function(studentIds, schoolWorkProperties, lessonProperties) {
 		let groupId = Meteor.user().info.groupId;
 		let userId = Meteor.userId();
 
@@ -207,6 +194,7 @@ Meteor.methods({
 			throw new Meteor.Error(500, error);
 		});
 
+		primaryInitialIds();
 		return result;
 	},
 })

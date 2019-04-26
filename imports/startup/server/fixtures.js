@@ -7,6 +7,12 @@ import {Resources} from '../../api/resources/resources.js';
 import {SchoolWork} from '../../api/schoolWork/schoolWork.js';
 import {Lessons} from '../../api/lessons/lessons.js';
 
+import {primaryInitialIds} from '../../modules/server/initialIds';
+import {resourcesInitialIds} from '../../modules/server/initialIds';
+import {usersInitialId} from '../../modules/server/initialIds';
+import {reportsInitialId} from '../../modules/server/initialIds';
+import {groupsInitialId} from '../../modules/server/initialIds';
+
 import moment from 'moment';
 import _ from 'lodash';
 
@@ -2831,16 +2837,16 @@ Meteor.methods({
 		// Insert Weeks
 		Terms.find({groupId: groupId}).forEach(term => {
 			for (i = 0; i < 12; i++) {
-				fixtureWeeks.push(
-					{
-						_id: Random.id(),
-						order: i + 1,
-						termId: term._id,
-						groupId: groupId, 
-						userId: userId, 
-						createdOn: new Date()
-					}
-				)
+				fixtureWeeks.push({
+					_id: Random.id(),
+					order: parseInt(i + 1),
+					termOrder: term.order,
+					schoolYearId: term.schoolYearId,
+					termId: term._id,
+					groupId: groupId,
+					userId: userId,
+					createdOn: new Date()
+				})
 			};
 		});
 		Weeks.batchInsert(fixtureWeeks);
@@ -2861,18 +2867,16 @@ Meteor.methods({
 		SchoolYears.find({groupId: groupId, startYear: {$in: ['2017', '2018']}}).forEach(schoolYear => {
 			Students.find({groupId: groupId}).forEach(student => {
 				sourceSchoolWork.forEach(schoolWork => {
-					fixtureSchoolWork.push(
-						{
-							name: schoolWork.name,
-							description: schoolWork.description,
-							resources: schoolWork.resources,
-							schoolYearId: schoolYear._id,
-							studentId: student._id,
-							groupId: groupId, 
-							userId: userId, 
-							createdOn: new Date()
-						}
-					);
+					fixtureSchoolWork.push({
+						name: schoolWork.name,
+						description: schoolWork.description,
+						resources: schoolWork.resources,
+						schoolYearId: schoolYear._id,
+						studentId: student._id,
+						groupId: groupId, 
+						userId: userId, 
+						createdOn: new Date()
+					});
 				});
 			});
 		});
@@ -2885,24 +2889,28 @@ Meteor.methods({
 				startYear: {$in: ['2017', '2018']}
 			}).forEach(schoolYear => {
 				Terms.find({schoolYearId: schoolYear._id}, {sort: {order: 1}}).forEach(term => {
-					let weekIds = Weeks.find({termId: term._id}, {sort: {order: 1}}).map(week => week._id);
+					let weeks = Weeks.find({termId: term._id}, {sort: {order: 1}});
 					let schoolWorkIds = SchoolWork.find({studentId: student._id, schoolYearId: schoolYear._id}, {sort: {name: 1}}).map(schoolWork => schoolWork._id)
 				
-					weekIds.forEach((weekId, weekIndex) => {
+					weeks.forEach((week, weekIndex) => {
 						schoolWorkIds.forEach((schoolWorkId, schoolWorkIndex) => {
 							for (i = 0; i < timesPerWeek[schoolWorkIndex]; i++) {
 
 								let lessonProperties = {
-									order: parseFloat((weekIndex + 1) + '.' + (i + 1)),
+									order: parseInt(i + 1),
+									weekOrder: week.order,
+									termOrder: week.termOrder,
 									assigned: false,
 									completed: false,
 									schoolWorkId: schoolWorkId,
-									weekId: weekId,
+									schoolYearId: schoolYear._id,
+									termId: term._id,
+									weekId: week._id,
+									studentId: student._id,
 									groupId: groupId, 
 									userId: userId, 
 									createdOn: new Date()
 								};
-
 
 								if (schoolYear.startYear === '2017') {
 									lessonProperties.completed = true
@@ -2912,12 +2920,16 @@ Meteor.methods({
 									lessonProperties.completed = true
 								}
 
-								if (schoolYear.startYear === '2018' && term.order === 2 && lessonProperties.order < 5) {
+								if (schoolYear.startYear === '2018' && term.order === 2 && week.order <= 6) {
 									lessonProperties.completed = true
 								}
 
-								if (schoolYear.startYear === '2018' && term.order === 2 && lessonProperties.order >= 5  && lessonProperties.order <= 5.1) {
+								if (schoolYear.startYear === '2018' && term.order === 2 && week.order > 6 && lessonProperties.order < 3) {
 									lessonProperties.completed = true
+								}
+
+								if (schoolYear.startYear === '2018' && term.order === 2 && week.order > 7) {
+									lessonProperties.completed = false
 								}
 
 								fixtureLessons.push(lessonProperties);
@@ -2930,6 +2942,11 @@ Meteor.methods({
 		Lessons.batchInsert(fixtureLessons);
 
 		Groups.update(groupId, {$set: {testData: true}});
+		primaryInitialIds();
+		resourcesInitialIds();
+		usersInitialId();
+		reportsInitialId();
+		groupsInitialId();
 	},
 
 	removeTestData() {
@@ -2948,6 +2965,13 @@ Meteor.methods({
 			Students.remove({groupId: groupId});
 			Resources.remove({groupId: groupId});
 			Groups.update(groupId, {$set: {testData: false}});
+
+			
+			primaryInitialIds();
+			resourcesInitialIds();
+			usersInitialId();
+			reportsInitialId();
+			groupsInitialId();
 		}
 	}
 });
