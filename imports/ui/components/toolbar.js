@@ -139,18 +139,23 @@ Template.toolbar.helpers({
 	},
 
 	editableDeletable: function() {
-		if (Session.get('toolbarType') === 'schoolWork') {
+		let type = Session.get('toolbarType');
+		if (type === 'tracking') {
+			return false;
+		}
+
+		if (type === 'schoolWork') {
 			if (Counts.get('schoolWorkCount')) {
 				return true;
 			}
 			return false;
-		} else {
-			let initialIds = Groups.findOne().initialIds;
-			if (initialIds[Session.get('toolbarType') + 'Id'] === 'empty') {
-				return false;
-			}
-			return true;
 		}
+
+		let initialIds = Groups.findOne().initialIds;
+		if (initialIds[Session.get('toolbarType') + 'Id'] === 'empty') {
+			return false;
+		}
+		return true;
 	},
 
 	deletable: function() {
