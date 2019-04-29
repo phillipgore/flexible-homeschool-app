@@ -38,6 +38,7 @@ export function primaryInitialIds (submittedGroupId) {
 		if (firstSchoolWork) {ids.schoolWorkId = firstSchoolWork._id} else {ids.schoolWorkId = 'empty'};
 	} else {
 		ids.schoolWorkId = 'empty';
+		ids.schoolYearsExist = false;
 	}
 
 	// Get First Term and Week

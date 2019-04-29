@@ -8,6 +8,7 @@ Template.schoolWorkList.onCreated( function() {
 	let template = Template.instance();
 	
 	template.autorun(() => {
+		this.subscribe('schoolWorkStats');
 		this.subscribe('studentSchoolYearsPath', FlowRouter.getParam('selectedStudentId'));
 		this.subscribe('allStudents');
 		this.schoolWorkData = this.subscribe('schooYearStudentSchoolWork', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));

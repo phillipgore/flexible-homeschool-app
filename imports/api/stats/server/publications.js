@@ -12,119 +12,13 @@ import {allSchoolYearsStatusAndPaths} from '../../../modules/server/functions';
 
 import _ from 'lodash'
 
-Meteor.publish('initialIds', function(currentYear) {
-	this.autorun(function (computation) {
-		if (!this.userId) {
-			return this.ready();
-		}
+Meteor.publish('schoolWorkStats', function() {
+	if (!this.userId) {
+		return this.ready();
+	}
 
-		let self = this;
-		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-		let ids = {};
-
-		// console.log(groupId)
-
-		let userId = Meteor.users.findOne({'info.groupId': groupId, 'emails.0.verified': true, 'status.active': true}, {sort: {'info.lastName': 1, 'info.firstName': 1}})._id;
-		let studentIds = Students.find(
-			{groupId: groupId, deletedOn: { $exists: false }}, 
-			{sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}, fields: {_id: 1}}
-		).map((student) => (student._id));
-		let schoolYears = SchoolYears.find(
-			{groupId: groupId, deletedOn: { $exists: false }}, 
-			{sort: {starYear: 1}, fields: {startYear: 1, endYear: 1}}
-		).fetch();
-
-
-		// Intiial Student
-		if (studentIds.length) {ids.studentId = studentIds[0]} else {ids.studentId = 'empty'};
-		// console.log('Student')
-
-
-		// Initial School Year
-		function schoolYearId(currentYear) {
-			if (!schoolYears.length) {
-				return 'empty'
-			}
-			let SchoolYearGte = _.find(schoolYears, year => {return year.startYear >= currentYear});
-			if (SchoolYearGte) {
-				return SchoolYearGte._id;
-			}
-			return _.find(schoolYears, year => {return year.startYear <= currentYear})._id;
-
-		};
-		ids.schoolYearId = schoolYearId(currentYear);
-		// console.log('School Year')
-
-
-		// Initial Resources
-		let valueResource = Resources.findOne({groupId: groupId, deletedOn: { $exists: false }}, {sort: {title: 1}});
-		if (valueResource) {ids.resourceId = valueResource._id} else {ids.resourceId = 'empty'};
-		if (valueResource) {ids.resourceType = valueResource.type} else {ids.resourceType = 'empty'};
-		// console.log('Resources')
-
-
-		// Initial Terms and Weeks
-		if (ids.schoolYearId === 'empty') {
-			ids.termId = 'empty';
-			ids.weekId = 'empty';
-		} else {
-			let initialSchoolYear = _.filter(schoolYears, ['_id', ids.schoolYearId])[0];
-			// console.log('initialSchoolYear: ' + initialSchoolYear)
-			let schoolWorkItems = SchoolWork.find({ studentId: ids.studentId, schoolYearId: initialSchoolYear._id, deletedOn: { $exists: false }}, {sort: {name: 1}, fields: {_id: 1}}).fetch();
-			// console.log('schoolWorkItems: ' + schoolWorkItems)
-			let schoolWorkIds = schoolWorkItems.map(schoolWork => (schoolWork._id));
-			// console.log('schoolWorkIds: ' + schoolWorkIds)
-			let lessons = Lessons.find({schoolWorkId: {$in: schoolWorkIds}, deletedOn: { $exists: false }}, {fields: {completed: 1, assigned: 1, weekId: 1}}).fetch();
-			// console.log('lessons: ' + lessons)
-			let schoolYear = studentSchoolYearsStatusAndPaths(ids.studentId, initialSchoolYear, lessons);
-			// console.log('schoolYear: ' + schoolYear)
-
-			let valueTerm = schoolYear.firstTermId;
-			// console.log('valueTerm: ' + valueTerm)
-			if (valueTerm) {ids.termId = valueTerm} else {ids.termId = 'empty'};
-
-			let valueWeek = schoolYear.firstWeekId;
-			// console.log('valueWeek: ' + valueWeek)
-			if (valueWeek) {ids.weekId = valueWeek} else {ids.weekId = 'empty'};
-		}
-		// console.log('Terms and Weeks')
-
-		// Initial School Work
-		if (ids.schoolYearId === 'empty' || ids.termId === 'empty' || ids.weekId === 'empty') {
-			ids.schoolWorkId = 'empty';
-		} else {
-			let initialSchoolYear = _.filter(schoolYears, ['_id', ids.schoolYearId])[0];
-			// console.log('initialSchoolYear: ' + initialSchoolYear)
-			let schoolWorkItems = SchoolWork.find({ studentId: ids.studentId, schoolYearId: initialSchoolYear._id, deletedOn: { $exists: false }}, {sort: {name: 1}, fields: {_id: 1}}).fetch();
-			// console.log('schoolWorkItems: ' + schoolWorkItems)
-			if (schoolWorkItems[0]) {ids.schoolWorkId = schoolWorkItems[0]._id} else {ids.schoolWorkId = 'empty'};
-		}
-		// console.log('School Work')
-
-
-		// Initial User
-		if (userId) {ids.userId = userId} else {ids.userId = 'empty'};
-		// console.log('User')
-
-
-		// Initial Report
-		let valueReport = Reports.findOne({groupId: groupId, deletedOn: { $exists: false }}, {sort: {name: 1}});
-		if (valueReport) {ids.reportId = valueReport._id} else {ids.reportId = 'empty'};
-		// console.log('Report')
-
-
-		// Initial Group
-		if (Groups.findOne({_id: groupId}).appAdmin) {
-			let initialGroup = Groups.findOne({appAdmin: false}, {fields: {_id: 1}, sort: {createdOn: -1}}); 
-
-			if (initialGroup) {ids.groupId = initialGroup._id} else {ids.groupId = 'empty'};
-		}
-		// console.log('Group')
-
-
-		self.added('initialIds', Random.id(), ids);
-		self.ready();
-	});
+	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
+	Counts.publish(this, 'schoolWorkCount', SchoolWork.find({groupId: groupId, deletedOn: { $exists: false }}));
 });
 
 Meteor.publish('resourceStats', function() {
