@@ -127,20 +127,6 @@ Meteor.publish('initialIds', function(currentYear) {
 	});
 });
 
-Meteor.publish('initialStats', function() {
-	if (!this.userId) {
-		return this.ready();
-	}
-	
-	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-	Counts.publish(this, 'schoolYearCount', SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}));
-	Counts.publish(this, 'studentCount', Students.find({groupId: groupId, deletedOn: { $exists: false }}));
-	Counts.publish(this, 'schoolWorkCount', SchoolWork.find({groupId: groupId, deletedOn: { $exists: false }}));
-	Counts.publish(this, 'resourceCount', Resources.find({groupId: groupId, deletedOn: { $exists: false }}));
-	Counts.publish(this, 'reportCount', Reports.find({groupId: groupId, deletedOn: { $exists: false }}));	
-	Counts.publish(this, 'userCount', Meteor.users.find({'info.groupId': groupId}));
-});
-
 Meteor.publish('resourceStats', function() {
 	if (!this.userId) {
 		return this.ready();

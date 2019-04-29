@@ -1,10 +1,15 @@
 import {Template} from 'meteor/templating';
+import { Groups } from '../../api/groups/groups.js';
 import { Students } from '../../api/students/students.js';
 import './toolbar.html';
 
 import _ from 'lodash'
 
 Template.toolbar.helpers({
+	test: function() {
+		return Session.get('test');
+	},
+
 	selectedFramePosition: function() {
 		return Session.get('selectedFramePosition');
 	},
@@ -48,7 +53,18 @@ Template.toolbar.helpers({
 	},
 
 	newUrl: function() {
+		if (Session.get('toolbarType') === 'schoolWork') {
+			let initialIds = Groups.findOne().initialIds;
+			if (initialIds.studentId === 'empty' || initialIds.schoolYearId === 'empty') {
+				return '#';
+			}
+			return Session.get('newUrl');
+		}
 		return Session.get('newUrl');
+	},
+
+	type: function() {
+		return Session.get('toolbarType');
 	},
 
 	newable: function() {
@@ -91,7 +107,8 @@ Template.toolbar.helpers({
 	},
 
 	schoolWorkDisabled: function() {
-		if (!Counts.get('studentCount') || !Counts.get('schoolYearCount')) {
+		let initialIds = Groups.findOne().initialIds;
+		if (Session.get('toolbarType') === 'schoolWork' && initialIds.studentId === 'empty' || Session.get('toolbarType') === 'schoolWork' && initialIds.schoolYearId === 'empty') {
 			return true;
 		}
 		return false;
@@ -122,10 +139,11 @@ Template.toolbar.helpers({
 	},
 
 	editableDeletable: function() {
-		if (Counts.get(Session.get('toolbarType') + 'Count')) {
-			return true;
+		let initialIds = Groups.findOne().initialIds;
+		if (initialIds[Session.get('toolbarType') + 'Id'] === 'empty') {
+			return false;
 		}
-		return false;
+		return true;
 	},
 
 	deletable: function() {

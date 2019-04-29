@@ -155,7 +155,11 @@ Template.app.events({
 			} else {
 				Dialogs.remove({_id: dialogId});
 				Session.set('selectedStudentId', newStudentId)
-				FlowRouter.go('/planning/students/view/3/' + newStudentId);
+				if (window.screen.availWidth > 768) {
+					FlowRouter.go('/planning/students/view/3/' + newStudentId);
+				} else {
+					FlowRouter.go('/planning/students/view/2/' + newStudentId);
+				}
 				$('.js-deleting').hide();
 			}
 		});
@@ -189,7 +193,11 @@ Template.app.events({
 			} else {
 				Dialogs.remove({_id: dialogId});
 				Session.set('selectedSchoolYearId', newSchoolYearId)
-				FlowRouter.go('/planning/schoolyears/view/2/' + newSchoolYearId);
+				if (window.screen.availWidth > 768) {
+					FlowRouter.go('/planning/schoolyears/view/3/' + newSchoolYearId);
+				} else {
+					FlowRouter.go('/planning/schoolyears/view/2/' + newSchoolYearId);
+				}
 				$('.js-deleting').hide();
 			}
 		});
@@ -225,7 +233,11 @@ Template.app.events({
 				});
 			} else {
 				Session.set('selectedResourceId', newResource._id);
-				FlowRouter.go('/planning/resources/view/2/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/'+ newResource._id +'/'+ newResource.type);
+				if (window.screen.availWidth > 768) {
+					FlowRouter.go('/planning/resources/view/3/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/'+ newResource._id +'/'+ newResource.type);
+				} else {
+					FlowRouter.go('/planning/resources/view/2/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/'+ newResource._id +'/'+ newResource.type);
+				}
 				$('.js-deleting').hide();
 			}
 		});
@@ -258,7 +270,11 @@ Template.app.events({
 				});
 			} else {
 				Session.set('selectedSchoolWorkId', newSchoolWorkId);
-				FlowRouter.go('/planning/schoolWork/view/3/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ newSchoolWorkId);
+				if (window.screen.availWidth > 768) {
+					FlowRouter.go('/planning/schoolWork/view/3/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ newSchoolWorkId);
+				} else {
+					FlowRouter.go('/planning/schoolWork/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ newSchoolWorkId);
+				}
 				$('.js-deleting').hide();
 			}
 		});
@@ -294,7 +310,11 @@ Template.app.events({
 				});
 			} else {
 				Session.set('selectedReportId', newReportId);
-				FlowRouter.go('/reporting/view/1/' + Session.get('selectedStudentId') +"/"+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedReportingTermId') +'/'+ Session.get('selectedReportingWeekId') +"/"+ newReportId);
+				if (window.screen.availWidth > 768) {
+					FlowRouter.go('/reporting/view/2/' + Session.get('selectedStudentId') +"/"+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedReportingTermId') +'/'+ Session.get('selectedReportingWeekId') +"/"+ newReportId);
+				} else {
+					FlowRouter.go('/reporting/view/1/' + Session.get('selectedStudentId') +"/"+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedReportingTermId') +'/'+ Session.get('selectedReportingWeekId') +"/"+ newReportId);
+				}
 				$('.js-deleting').hide();
 			}
 		});
@@ -318,7 +338,11 @@ Template.app.events({
 			} else {
 				Dialogs.remove({_id: dialogId});
 				Session.set('selectedUserId', nextUserId);
-				FlowRouter.go('/settings/users/view/2/' + nextUserId);
+				if (window.screen.availWidth > 768) {
+					FlowRouter.go('/settings/users/view/3/' + nextUserId);
+				} else {
+					FlowRouter.go('/settings/users/view/2/' + nextUserId);
+				}
 				$('.js-deleting').hide();
 			}
 		});

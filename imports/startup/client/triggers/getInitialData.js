@@ -1,32 +1,14 @@
 import { Groups } from '../../../api/groups/groups.js';
 import moment from 'moment';
 
-// InitialIds = new Mongo.Collection('initialIds');
-
-
-// let year = moment().year();
-// let month = moment().month();
-
-// function startYearFunction(year) {
-// 	if (month < 6) {
-// 		return year = (year - 1).toString();
-// 	}
-// 	return year.toString();
-// }
-
 
 
 let userData = Meteor.subscribe('userData');
 let groupStatus = Meteor.subscribe('groupStatus');
-// let getInitialIds = Meteor.subscribe('initialIds', startYearFunction(year));
-let getInitialStats = Meteor.subscribe('initialStats');
-
-
 
 FlowRouter.wait();
-
 Tracker.autorun(() => {
-	if (userData.ready() && groupStatus.ready() /*&& getInitialIds.ready()*/ && getInitialStats.ready() && !FlowRouter._initialized) {
+	if (userData.ready() && groupStatus.ready() && !FlowRouter._initialized) {
 		FlowRouter.initialize()
 	}
 });
@@ -118,9 +100,10 @@ function getInitialData() {
 function checkSignIn(context, redirect) {
 	if (Meteor.userId()) {
 		getInitialData();
+		let initialIds = Groups.findOne().initialIds;
 		if (Meteor.user().info.role === 'Observer') {
 			redirect('/tracking/students/view/1/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedTermId') +'/'+ Session.get('selectedWeekId'));
-		} else if (Counts.get('studentCount') + Counts.get('schoolYearCount') + Counts.get('schoolWorkCount')) {
+		} else if (initialIds.studentId != 'empty' + initialIds.schoolYearId != 'empty' + initialIds.schoolWorkId != 'empty') {
 			redirect('/tracking/students/view/1/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedTermId') +'/'+ Session.get('selectedWeekId'));
 		} else {
 			redirect('/planning/students/view/1/' + Session.get('selectedStudentId'));

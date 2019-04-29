@@ -1,5 +1,5 @@
 import {Template} from 'meteor/templating';
-import { Counts } from 'meteor/tmeasday:publish-counts';
+import { Groups } from '../../../api/groups/groups.js';
 import { Students } from '../../../api/students/students.js';
 import { SchoolYears } from '../../../api/schoolYears/schoolYears.js';
 import './planningList.html';
@@ -34,12 +34,13 @@ Template.planningList.helpers({
 		return Session.get('selectedSchoolYearId');
 	},
 
-	schoolWorkAvailable: function() {
-		if (Counts.get('schoolYearCount') && Counts.get('studentCount')) {
-			return true;
-		}
-		return false;
-	},
+	// schoolWorkAvailable: function() {
+	// 	let initialIds = Groups.findOne().initialIds;
+	// 	if (initialIds.studentId === 'empty' || initialIds.schoolYearId === 'empty') {
+	// 		return false;
+	// 	}
+	// 	return true;
+	// },
 
 	selectedResourceType: function() {
 		return Session.get('selectedResourceType');
@@ -68,13 +69,10 @@ Template.planningList.helpers({
 		return Session.get('selectedSchoolWorkId');
 	},
 
-	studentSchoolYearSchoolWorkId: function(studentId, schoolYearId) {
+	initialSchoolWorkId: function() {
 		let schoolWorkIds = Session.get('initialSchoolWorkIds');
-		if (schoolWorkIds) {
-			let key = 'schoolWork' + studentId + schoolYearId;
-			return schoolWorkIds[key];
-		}
-		return null;
+		let key = 'schoolWork' + Session.get('selectedStudentId') + Session.get('selectedSchoolYearId');
+		return schoolWorkIds[key];
 	},
 
 	active: function(currentRoute, route) {

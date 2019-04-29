@@ -8,6 +8,12 @@ import {Resources} from '../../api/resources/resources.js';
 import {Lessons} from '../../api/lessons/lessons.js';
 import {Reports} from '../../api/reports/reports.js';
 
+import {primaryInitialIds} from '../../modules/server/initialIds';
+import {resourcesInitialIds} from '../../modules/server/initialIds';
+import {usersInitialId} from '../../modules/server/initialIds';
+import {reportsInitialId} from '../../modules/server/initialIds';
+import {groupsInitialId} from '../../modules/server/initialIds';
+
 import moment from 'moment';
 import _ from 'lodash'
 
@@ -147,72 +153,12 @@ Migrations.add({
 		let currentYear = startYearFunction(year)
 
 		Groups.find({}, {fields: {appAdmin: 1}}).forEach(group => {
-			let ids = {};
-
-			let firstStudent = Students.findOne({groupId: group._id, deletedOn: { $exists: false }}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}, fields: {_id: 1}});
-			if (firstStudent) {ids.studentId = firstStudent._id} else {ids.studentId = 'empty'};
-
-			let firstSchoolYear = SchoolYears.findOne({groupId: group._id, startYear: {$gte: currentYear}, deletedOn: { $exists: false }}, {sort: {starYear: 1}, fields: {_id: 1}});
-			if (firstSchoolYear) {ids.schoolYearId = firstSchoolYear._id} else {ids.schoolYearId = 'empty'};
-
-			if (firstStudent && firstSchoolYear) {
-				let firstSchoolWork = SchoolWork.findOne({groupId: group._id, schoolYearId: firstSchoolYear._id, studentId: firstStudent._id, deletedOn: { $exists: false }}, {sort: {name: 1}, fields: {_id: 1}});	
-				ids.schoolWorkId = firstSchoolWork._id;
-			} else {
-				ids.schoolWorkId = 'empty'
-			};
-
-			if (ids.schoolYearId === 'empty') {
-				ids.termId = 'empty';
-				ids.weekId = 'empty';
-			} else {
-				let firstIncompleteLesson = Lessons.findOne(
-					{studentId: firstStudent._id, schoolYearId: firstSchoolYear._id, completed: false, deletedOn: { $exists: false }},
-					{sort: {termOrder: 1, weekOrder: 1, order: 1}, fields: {termId: 1, weekId: 1}}
-				);
-				let firstCompletedLesson = Lessons.findOne(
-					{studentId: firstStudent._id, schoolYearId: firstSchoolYear._id, completed: true, deletedOn: { $exists: false }},
-					{sort: {termOrder: 1, weekOrder: 1, order: 1}, fields: {termId: 1, weekId: 1}}
-				);
-
-				if (firstIncompleteLesson) {
-					ids.termId = firstIncompleteLesson.termId;
-					ids.weekId = firstIncompleteLesson.weekId;
-				} else if (firstCompletedLesson) {
-					ids.termId = firstCompletedLesson.termId;
-					ids.weekId = firstCompletedLesson.weekId;
-				} else {
-					let firstTerm = Terms.findOne(
-						{groupId: group._id, schoolYearId: firstSchoolYear._id, deletedOn: { $exists: false }},
-						{sort: {order: 1}, fields: {_id: 1}}
-					)
-					let firstWeek = Weeks.findOne(
-						{groupId: group._id, schoolYearId: firstSchoolYear._id, termId: firstTerm._id, deletedOn: { $exists: false }},
-						{sort: {order: 1}, fields: {_id: 1}}
-					)
-					if (firstTerm) {ids.termId = firstTerm._id} else {ids.termId = 'empty'};
-					if (firstWeek) {ids.weekId = firstWeek._id} else {ids.weekId = 'empty'};
-				}
-			}
-
-			let firstResource = Resources.findOne({groupId: group._id, deletedOn: { $exists: false }}, {sort: {title: 1}, fields: {type: 1}});
-			if (firstResource) {ids.resourceId = firstResource._id} else {ids.resourceId = 'empty'};
-			if (firstResource) {ids.resourceType = firstResource.type} else {ids.resourceType = 'empty'};
-
-			let firstUser = Meteor.users.findOne({'info.groupId': group._id, 'emails.0.verified': true, 'status.active': true}, {sort: {'info.lastName': 1, 'info.firstName': 1}});
-			ids.userId = firstUser._id;
-
-			let firstReport = Reports.findOne({groupId: group._id, deletedOn: { $exists: false }}, {sort: {name: 1}});
-			if (firstReport) {ids.reportId = firstReport._id} else {ids.reportId = 'empty'};
-
-			if (group.appAdmin) {
-				let firstGroup = Groups.findOne({appAdmin: false}, {fields: {_id: 1}, sort: {createdOn: -1}}); 
-				if (firstGroup) {ids.groupId = firstGroup._id} else {ids.groupId = 'empty'};
-			} else {
-				ids.groupId = 'empty'
-			}
-
-			Groups.update(group._id, {$set: {initialIds: ids}});
+			
+			primaryInitialIds(group._id);
+			resourcesInitialIds(group._id);
+			usersInitialId(group._id);
+			reportsInitialId(group._id);
+			groupsInitialId(group._id);
 
 		});
 	}

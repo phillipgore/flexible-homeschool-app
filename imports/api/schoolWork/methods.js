@@ -19,8 +19,8 @@ Meteor.methods({
 		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
 		let ids = {};
 
-		let studentIds = Students.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}}).map((student) => (student._id))
-		let schoolYearIds = SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}}).map((schoolYear) => (schoolYear._id))
+		let studentIds = Students.find({groupId: groupId, deletedOn: { $exists: false }}, {fields: {_id: 1}}).map((student) => (student._id))
+		let schoolYearIds = SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}, {fields: {_id: 1}}).map((schoolYear) => (schoolYear._id))
 		
 		// Initial School Work
 		if (studentIds.length && schoolYearIds.length) {
@@ -51,7 +51,7 @@ Meteor.methods({
 		if (!studentIds.length && !schoolYearIds.length) {
 			ids.schoolWorkemptyempty = 'empty';
 		}
-
+		
 		return ids;
 	},
 

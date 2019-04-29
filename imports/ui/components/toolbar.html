@@ -65,7 +65,7 @@
 
 						{{#if newable}}
 							<!-- New Button -->
-							<a class="btn-tool dis-sm-none" href="{{newUrl}}" title="New Student, School Year, School Work or User">
+							<a class="btn-tool dis-sm-none {{#if schoolWorkDisabled}}disabled{{/if}}" href="{{newUrl}}" title="{{#if schoolWorkDisabled}}School Work require Students and School Years.{{else}}New Student, School Year, School Work or User{{/if}}">
 								<i class="icn-new btn-tool-icon"></i>
 							</a>
 						{{/if}}

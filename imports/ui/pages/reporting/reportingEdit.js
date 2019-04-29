@@ -115,6 +115,11 @@ Template.reportingEdit.events({
 	'click .js-cancel'(event) {
 		event.preventDefault();
 
-		FlowRouter.go('/reporting/view/2/' + Session.get('selectedStudentId') +"/"+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedReportingTermId') +'/'+ Session.get('selectedReportingWeekId') +"/"+ FlowRouter.getParam('selectedReportId'))
+		if (window.screen.availWidth > 768) {
+			FlowRouter.go('/reporting/view/2/' + Session.get('selectedStudentId') +"/"+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedReportingTermId') +'/'+ Session.get('selectedReportingWeekId') +"/"+ FlowRouter.getParam('selectedReportId'))
+		} else {
+			FlowRouter.go('/reporting/view/1/' + Session.get('selectedStudentId') +"/"+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedReportingTermId') +'/'+ Session.get('selectedReportingWeekId') +"/"+ FlowRouter.getParam('selectedReportId'))
+		}
+
 	},
 });

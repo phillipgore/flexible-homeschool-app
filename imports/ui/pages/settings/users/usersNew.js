@@ -135,11 +135,16 @@ Template.usersNew.events({
 	'click .js-cancel'(event) {
 		event.preventDefault();
 
-		let resourcesScrollTop = document.getElementById(Session.get('selectedUserId')).getBoundingClientRect().top - 130;
 		if (window.screen.availWidth > 640 && FlowRouter.getRouteName() === 'resourcesNew') {
+			let resourcesScrollTop = document.getElementById(Session.get('selectedUserId')).getBoundingClientRect().top - 130;
 			document.getElementsByClassName('frame-two')[0].scrollTop = resourcesScrollTop;
 		}
+
+		if (window.screen.availWidth > 768) {
+			FlowRouter.go('/settings/users/view/3/' + Session.get('selectedUserId'));
+		} else {
+			FlowRouter.go('/settings/users/view/2/' + Session.get('selectedUserId'));
+		}
 		
-		FlowRouter.go('/settings/users/view/2/' + Session.get('selectedUserId'));
 	},
 });

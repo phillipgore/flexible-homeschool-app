@@ -305,11 +305,16 @@ Template.resourcesForm.events({
 	'click .js-cancel'(event) {
 		event.preventDefault();
 
-		let resourcesScrollTop = document.getElementById(Session.get('selectedResourceId')).getBoundingClientRect().top - 130;
-		if (window.screen.availWidth > 640 && FlowRouter.getRouteName() === 'resourcesNew') {
+		if (window.screen.availWidth > 640 && FlowRouter.getRouteName() === 'resourcesNew' && Session.get('selectedResourceId') != 'empty') {
+			let resourcesScrollTop = document.getElementById(Session.get('selectedResourceId')).getBoundingClientRect().top - 130;
 			document.getElementsByClassName('frame-two')[0].scrollTop = resourcesScrollTop;
 		}
 
-		FlowRouter.go('/planning/resources/view/3/' + Session.get('selectedResourceType') + '/' + Session.get('selectedResourceAvailability') + '/' + Session.get('selectedResourceId') + '/' + Session.get('selectedResourceCurrentTypeId'))
+		if (window.screen.availWidth > 768) {
+			FlowRouter.go('/planning/resources/view/3/' + Session.get('selectedResourceType') + '/' + Session.get('selectedResourceAvailability') + '/' + Session.get('selectedResourceId') + '/' + Session.get('selectedResourceCurrentTypeId'))
+		} else {
+			FlowRouter.go('/planning/resources/view/2/' + Session.get('selectedResourceType') + '/' + Session.get('selectedResourceAvailability') + '/' + Session.get('selectedResourceId') + '/' + Session.get('selectedResourceCurrentTypeId'))
+		}
+
 	},
 });

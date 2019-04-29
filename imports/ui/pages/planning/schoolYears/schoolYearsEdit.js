@@ -262,8 +262,13 @@ Template.schoolYearsEdit.events({
 
 	'click .js-cancel'(event) {
 		event.preventDefault();
+
+		if (window.screen.availWidth > 768) {
+			FlowRouter.go('/planning/schoolyears/view/3/' + FlowRouter.getParam('selectedSchoolYearId'))
+		} else {
+			FlowRouter.go('/planning/schoolyears/view/2/' + FlowRouter.getParam('selectedSchoolYearId'))
+		}
 		
-		FlowRouter.go('/planning/schoolyears/view/3/' + FlowRouter.getParam('selectedSchoolYearId'))
 	},
 });
 

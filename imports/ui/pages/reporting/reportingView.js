@@ -1,4 +1,5 @@
 import { Template } from 'meteor/templating';
+import { Groups } from '../../../api/groups/groups.js';
 import { Reports } from '../../../api/reports/reports.js';
 import { SchoolYears } from '../../../api/schoolYears/schoolYears.js';
 import { Students } from '../../../api/students/students.js';
@@ -80,12 +81,20 @@ Template.reportingView.helpers({
 		return Reports.findOne({_id: FlowRouter.getParam('selectedReportId')})
 	},
 
-	studentCount: function() {
-		return Counts.get('studentCount');
+	studentsExist: function() {
+		let initialIds = Groups.findOne().initialIds;
+		if (initialIds.studentId === 'empty') {
+			return false;
+		}
+		return true;
 	},
 
-	schoolYearCount: function() {
-		return Counts.get('schoolYearCount');
+	schoolYearsExist: function() {
+		let initialIds = Groups.findOne().initialIds;
+		if (initialIds.schoolYearId === 'empty') {
+			return false;
+		}
+		return true;
 	},
 
 	reports: function() {

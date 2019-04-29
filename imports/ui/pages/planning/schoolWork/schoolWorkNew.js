@@ -399,8 +399,13 @@ Template.schoolWorkNew.events({
 
 	'click .js-cancel'(event) {
 		event.preventDefault();
+
+		if (window.screen.availWidth > 768) {
+			FlowRouter.go('/planning/schoolWork/view/3/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedSchoolWorkId'))
+		} else {
+			FlowRouter.go('/planning/schoolWork/view/2/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedSchoolWorkId'))
+		}
 		
-		FlowRouter.go('/planning/schoolWork/view/3/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedSchoolWorkId'))
 	},
 });
 

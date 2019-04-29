@@ -134,7 +134,12 @@ Template.studentsEdit.events({
 	'click .js-cancel'(event) {
 		event.preventDefault();
 
-		FlowRouter.go('/planning/students/view/3/' + FlowRouter.getParam('selectedStudentId'))
+		if (window.screen.availWidth > 768) {
+			FlowRouter.go('/planning/students/view/3/' + FlowRouter.getParam('selectedStudentId'))
+		} else {
+			FlowRouter.go('/planning/students/view/2/' + FlowRouter.getParam('selectedStudentId'))
+		}
+
 	},
 	
 });

@@ -198,11 +198,16 @@ Template.schoolYearsNew.events({
 	'click .js-cancel'(event) {
 		event.preventDefault();
 
-		let resourcesScrollTop = document.getElementById(Session.get('selectedSchoolYearId')).getBoundingClientRect().top - 130;
 		if (window.screen.availWidth > 640) {
+			let resourcesScrollTop = document.getElementById(Session.get('selectedSchoolYearId')).getBoundingClientRect().top - 130;
 			document.getElementsByClassName('frame-two')[0].scrollTop = resourcesScrollTop;
 		}
+
+		if (window.screen.availWidth > 768) {
+			FlowRouter.go('/planning/schoolyears/view/3/' + Session.get('selectedSchoolYearId'))
+		} else {
+			FlowRouter.go('/planning/schoolyears/view/2/' + Session.get('selectedSchoolYearId'))
+		}
 		
-		FlowRouter.go('/planning/schoolyears/view/3/' + Session.get('selectedSchoolYearId'))
 	},
 });

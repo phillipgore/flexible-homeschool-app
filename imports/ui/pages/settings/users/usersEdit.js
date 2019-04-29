@@ -123,7 +123,12 @@ Template.usersEdit.events({
 	'click .js-cancel'(event) {
 		event.preventDefault();
 
-		FlowRouter.go('/settings/users/view/3/' + FlowRouter.getParam('selectedUserId'))
+		if (window.screen.availWidth > 768) {
+			FlowRouter.go('/settings/users/view/3/' + FlowRouter.getParam('selectedUserId'))
+		} else {
+			FlowRouter.go('/settings/users/view/2/' + FlowRouter.getParam('selectedUserId'))
+		}
+
 	},
 });
 

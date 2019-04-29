@@ -122,11 +122,16 @@ Template.studentsNew.events({
 	'click .js-cancel'(event) {
 		event.preventDefault();
 
-		let resourcesScrollTop = document.getElementById(Session.get('selectedStudentId')).getBoundingClientRect().top - 130;
 		if (window.screen.availWidth > 640 && FlowRouter.getRouteName() === 'resourcesNew') {
+			let resourcesScrollTop = document.getElementById(Session.get('selectedStudentId')).getBoundingClientRect().top - 130;
 			document.getElementsByClassName('frame-two')[0].scrollTop = resourcesScrollTop;
 		}
+
+		if (window.screen.availWidth > 768) {
+			FlowRouter.go('/planning/students/view/3/' + Session.get('selectedStudentId'))
+		} else {
+			FlowRouter.go('/planning/students/view/2/' + Session.get('selectedStudentId'))
+		}
 		
-		FlowRouter.go('/planning/students/view/3/' + Session.get('selectedStudentId'))
 	},
 });

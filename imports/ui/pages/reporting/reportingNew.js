@@ -115,11 +115,16 @@ Template.reportingNew.events({
 	'click .js-cancel'(event) {
 		event.preventDefault();
 
-		let resourcesScrollTop = document.getElementById(Session.get('selectedReportId')).getBoundingClientRect().top - 130;
 		if (window.screen.availWidth > 640 && FlowRouter.getRouteName() === 'resourcesNew') {
+			let resourcesScrollTop = document.getElementById(Session.get('selectedReportId')).getBoundingClientRect().top - 130;
 			document.getElementsByClassName('frame-one')[0].scrollTop = resourcesScrollTop;
 		}
+
+		if (window.screen.availWidth > 768) {
+			FlowRouter.go('/reporting/view/2/' + Session.get('selectedStudentId') +"/"+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedReportingTermId') +'/'+ Session.get('selectedReportingWeekId') +"/"+ Session.get('selectedReportId'))
+		} else {
+			FlowRouter.go('/reporting/view/1/' + Session.get('selectedStudentId') +"/"+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedReportingTermId') +'/'+ Session.get('selectedReportingWeekId') +"/"+ Session.get('selectedReportId'))
+		}
 		
-		FlowRouter.go('/reporting/view/2/' + Session.get('selectedStudentId') +"/"+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedReportingTermId') +'/'+ Session.get('selectedReportingWeekId') +"/"+ Session.get('selectedReportId'))
 	},
 });

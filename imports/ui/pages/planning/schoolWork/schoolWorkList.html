@@ -1,14 +1,14 @@
 <template name="schoolWorkList">
 	
 	<main class="app-content app-content-preceeds-toolbar">
-		{{#unless studentCount}}
+		{{#unless studentsExist}}
 			<div class="txt-tn-center m-tn-t-72">
 				<i class="icn-school-work font-size-64 txt-gray m-tn-r-9"></i>
 				<h1 class="m-tn-t-36">Requires Students</h1>
 				<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36 txt-gray-darkest">Click the plus icon above to add your first Student.</p>
 			</div>
 		{{else}}
-			{{#unless schoolYearCount}}
+			{{#unless schoolYearsExist}}
 				<div class="txt-tn-center m-tn-t-72">
 					<i class="icn-school-work font-size-64 txt-gray m-tn-l-9"></i>
 					<h1 class="m-tn-t-36">Requires School Years</h1>

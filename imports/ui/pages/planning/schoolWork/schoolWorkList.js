@@ -1,4 +1,5 @@
 import {Template} from 'meteor/templating';
+import { Groups } from '../../../../api/groups/groups.js';
 import { SchoolWork } from '../../../../api/schoolWork/schoolWork.js';
 import { Students } from '../../../../api/students/students.js';
 import './schoolWorkList.html';
@@ -41,20 +42,24 @@ Template.schoolWorkList.helpers({
 		return FlowRouter.getParam('selectedStudentId');
 	},
 
-	studentCount: function() {
-		return Counts.get('studentCount');
+	studentsExist: function() {
+		let initialIds = Groups.findOne().initialIds;
+		if (initialIds.studentId === 'empty') {
+			return false;
+		}
+		return true;
 	},
 
 	selectedSchoolYearId: function() {
 		return FlowRouter.getParam('selectedSchoolYearId');
 	},
 
-	schoolYearCount: function() {
-		return Counts.get('schoolYearCount');
-	},
-
-	studentPlusSchoolYearCount: function() {
-		return Counts.get('studentCount') + Counts.get('schoolYearCount');
+	schoolYearsExist: function() {
+		let initialIds = Groups.findOne().initialIds;
+		if (initialIds.schoolYearId === 'empty') {
+			return false;
+		}
+		return true;
 	},
 
 	activeRoute: function(currentRoute, route) {
