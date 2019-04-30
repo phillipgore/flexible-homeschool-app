@@ -116,13 +116,14 @@ Migrations.add({
 	version: 5,
 	name: 'Add orders to Weeks and Lessons.',
 	up: function() {
-		let terms = Terms.find({deletedOn: { $exists: false }}, {fields: {order: 1}}).fetch();
-		let weeks = Weeks.find({deletedOn: { $exists: false }}, {fields: {order: 1, termId: 1}}).fetch()
+		let terms = Terms.find({}, {fields: {order: 1}}).fetch();
+		let weeks = Weeks.find({}, {fields: {order: 1, termId: 1}}).fetch()
 
 		weeks.forEach(week => {
 			let termOrder = _.find(terms, ['_id', week.termId]).order
 			Weeks.update(week._id, {$set: {termOrder: termOrder}});
 		});
+
 
 		Lessons.find({deletedOn: { $exists: false }}, {fields: {order: 1, termId: 1, weekId: 1}}).forEach(lesson => {
 			let termOrder = _.find(terms, ['_id', lesson.termId]).order

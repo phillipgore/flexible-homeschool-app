@@ -85,7 +85,7 @@ export function primaryInitialIds (submittedGroupId) {
 					{sort: {order: 1}, fields: {_id: 1}}
 				)
 
-					if (firstTerm) { // First Term: True
+				if (firstTerm) { // First Term: True
 					ids.termId = firstTerm._id
 					let firstWeek = Weeks.findOne(
 						{groupId: groupId, schoolYearId: firstSchoolYear._id, termId: firstTerm._id, deletedOn: { $exists: false }},
