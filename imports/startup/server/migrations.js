@@ -1,3 +1,5 @@
+import {Paths} from '../../api/paths/paths.js';
+import {Stats} from '../../api/stats/stats.js';
 import {Groups} from '../../api/groups/groups.js';
 import {Students} from '../../api/students/students.js';
 import {SchoolYears} from '../../api/schoolYears/schoolYears.js';
@@ -165,9 +167,128 @@ Migrations.add({
 	}
 });
 
-Meteor.startup(() => {
-	Migrations.migrateTo(6);
+Migrations.add({
+	version: 7,
+	name: 'Create Paths Collection.',
+	up: function() {
+		Groups.find({}, {fields: {_id: 1}}).forEach(group => {
+			let groupId = group._id;
+
+			let students = Students.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}, fields: {_id: 1}});
+			let schoolYears = SchoolYears.find(
+				{groupId: groupId, deletedOn: { $exists: false }}, 
+				{sort: {startYear: 1}, fields: {_id: 1}}
+			);
+
+			students.forEach(student => {
+				schoolYears.forEach(schoolYear => {
+					let ids = {}
+					ids.studentId = student._id;
+					ids.schoolYearId = schoolYear._id;
+
+					let firstIncompleteLesson = Lessons.findOne(
+						{studentId: student._id, schoolYearId: schoolYear._id, completed: false, deletedOn: { $exists: false }},
+						{sort: {termOrder: 1, weekOrder: 1, order: 1}, fields: {termId: 1, weekId: 1}}
+					);
+					let firstCompletedLesson = Lessons.findOne(
+						{studentId: student._id, schoolYearId: schoolYear._id, completed: true, deletedOn: { $exists: false }},
+						{sort: {termOrder: 1, weekOrder: 1, order: 1}, fields: {termId: 1, weekId: 1}}
+					);
+
+					if (firstIncompleteLesson) { // First Incomplete Lesson: True
+						ids.firstTermId = firstIncompleteLesson.termId;
+						ids.firstWeekId = firstIncompleteLesson.weekId;
+					} else if (firstCompletedLesson) { // First Incomplete Lesson: false && First Complete Lesson: True
+						ids.firstTermId = firstCompletedLesson.termId;
+						ids.firstWeekId = firstCompletedLesson.weekId;
+					} else { // First Incomplete Lesson: false && First Complete Lesson: False
+						let firstTerm = Terms.findOne(
+							{groupId: groupId, schoolYearId: schoolYear._id, deletedOn: { $exists: false }},
+							{sort: {order: 1}, fields: {_id: 1}}
+						)
+
+						if (firstTerm) { // First Term: True
+							ids.firstTermId = firstTerm._id
+							let firstWeek = Weeks.findOne(
+								{groupId: groupId, schoolYearId: schoolYear._id, termId: firstTerm._id, deletedOn: { $exists: false }},
+								{sort: {order: 1}, fields: {_id: 1}}
+							)
+							if (firstWeek) {ids.firstWeekId = firstWeek._id} else {ids.weekId = 'empty'};
+						} else { // First Term: False
+							ids.firstTermId = 'empty'
+							ids.firstWeekId = 'empty'
+						};
+					}
+
+					Paths.insert({
+						studentId: ids.studentId,
+						schoolYearId: ids.schoolYearId,
+						firstTermId: ids.firstTermId,
+						firstWeekId: ids.firstWeekId,
+					});
+				});
+			});	
+		});
+	}
 });
+
+Migrations.add({
+	version: 8,
+	name: 'Create Stats Collection.',
+	up: function() {
+		let students = Students.find({deletedOn: { $exists: false }}, {fields: {_id: 1}});
+		let lessons = Lessons.find({deletedOn: { $exists: false }}, {fields: {studentId: 1, schoolYearId: 1, termId: 1, weekId: 1, completed: 1}}).fetch();
+
+		students.forEach(student => {
+			let studentLessons = _.filter(lessons, ['studentId', student._id]);
+
+			let schoolYearIds = _.uniq(studentLessons.map(lesson => lesson.schoolYearId));
+			let termIds = _.uniq(studentLessons.map(lesson => lesson.termId));
+			let weekIds = _.uniq(studentLessons.map(lesson => lesson.weekId));
+
+			schoolYearIds.forEach(schoolYearId => {
+				let stats = {};
+
+				stats.studentId = student._id;
+				stats.timeFrameId = schoolYearId;
+				stats.type = 'schoolYear';
+				stats.lessonCount = _.filter(studentLessons, {'schoolYearId': schoolYearId}).length;
+				stats.completedLessonCount = _.filter(studentLessons, {'schoolYearId': schoolYearId, 'completed': true}).length;
+
+				Stats.insert(stats);
+			});
+
+			termIds.forEach(termId => {
+				let stats = {};
+
+				stats.studentId = student._id;
+				stats.timeFrameId = termId;
+				stats.type = 'term';
+				stats.lessonCount = _.filter(studentLessons, {'termId': termId}).length;
+				stats.completedLessonCount = _.filter(studentLessons, {'termId': termId, 'completed': true}).length;
+				
+				Stats.insert(stats);
+			});
+
+			weekIds.forEach(weekId => {
+				let stats = {};
+
+				stats.studentId = student._id;
+				stats.timeFrameId = weekId;
+				stats.type = 'week';
+				stats.lessonCount = _.filter(studentLessons, {'weekId': weekId}).length;
+				stats.completedLessonCount = _.filter(studentLessons, {'weekId': weekId, 'completed': true}).length;
+
+				Stats.insert(stats);
+			});
+		});
+	}
+});
+
+Meteor.startup(() => {
+	Migrations.migrateTo(8);
+});
+
 
 
 

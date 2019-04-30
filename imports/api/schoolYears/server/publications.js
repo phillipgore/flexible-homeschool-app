@@ -7,7 +7,7 @@ import {Resources} from '../../resources/resources.js';
 import {Lessons} from '../../lessons/lessons.js';
 import {allSchoolYearsStatusAndPaths} from '../../../modules/server/functions';
 import {studentSchoolYearsStatusAndPaths} from '../../../modules/server/functions';
-import {studentPath} from '../../../modules/server/paths';
+
 import _ from 'lodash'
 
 Meteor.publish('allSchoolYears', function() {
@@ -44,7 +44,7 @@ Meteor.publish('studentSchoolYearsPath', function(studentId) {
 		if (!this.userId) {
 			return this.ready();
 		}
-		studentPath();
+		
 		let self = this;
 		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
 
