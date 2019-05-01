@@ -27,6 +27,7 @@ FlowRouter.wait();
 
 Tracker.autorun(() => {
 	if (userData.ready() && groupStatus.ready() && getInitialIds.ready() && getInitialStats.ready() && !FlowRouter._initialized) {
+		getInitialData();
 		FlowRouter.initialize()
 	}
 });
@@ -112,12 +113,14 @@ function getInitialData() {
 	if (Meteor.user().info.role === 'Application Administrator' && !Session.get('selectedGroupId')) {
 		Session.set('selectedGroupId', initialIds.groupId);
 	}
+
+	getInitialIds.stop();
 };
 
 // Redirection if signed in.
 function checkSignIn(context, redirect) {
 	if (Meteor.userId()) {
-		getInitialData();
+		// getInitialData();
 		if (Meteor.user().info.role === 'Observer') {
 			redirect('/tracking/students/view/1/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedTermId') +'/'+ Session.get('selectedWeekId'));
 		} else if (Counts.get('studentCount') + Counts.get('schoolYearCount') + Counts.get('schoolWorkCount')) {
@@ -139,22 +142,22 @@ FlowRouter.triggers.enter([checkSignIn], {only: [
 	'resetSuccess'
 ]});
 
-function initialData(context) {
-	getInitialData();
-};
+// function initialData(context) {
+// 	getInitialData();
+// };
 
-FlowRouter.triggers.enter([initialData], {except: [
-	'createAccount',
-	'verifySent',
-	'verifySuccess',
-	'signIn',
-	'reset',
-	'resetSent',
-	'resetPassword',
-	'resetSuccess',
-	'billingError',
-	'pausedUser'
-]});
+// FlowRouter.triggers.enter([initialData], {except: [
+// 	'createAccount',
+// 	'verifySent',
+// 	'verifySuccess',
+// 	'signIn',
+// 	'reset',
+// 	'resetSent',
+// 	'resetPassword',
+// 	'resetSuccess',
+// 	'billingError',
+// 	'pausedUser'
+// ]});
 
 
 
