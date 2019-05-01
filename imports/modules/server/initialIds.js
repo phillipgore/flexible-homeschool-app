@@ -9,7 +9,7 @@ import {Lessons} from '../../api/lessons/lessons.js';
 import {Reports} from '../../api/reports/reports.js';
 
 import moment from 'moment';
-import _ from 'lodash'
+import _ from 'lodash';
 
 
 /* -------------------- Exported Functions -------------------- */

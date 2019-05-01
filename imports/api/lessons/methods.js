@@ -3,6 +3,7 @@ import SimpleSchema from 'simpl-schema';
 
 import {Lessons} from './lessons.js';
 import {primaryInitialIds} from '../../modules/server/initialIds';
+import {updateLessonPath} from '../../modules/server/paths';
 
 
 Meteor.methods({
@@ -18,6 +19,7 @@ Meteor.methods({
 	updateLesson: function(lessonProperties) {
 		Lessons.update(lessonProperties._id, {$set: lessonProperties});
 		primaryInitialIds();
+		updateLessonPath(lessonProperties._id)
 	},
 
 	bulkWriteLessons: function(bulkLessonProperties) {

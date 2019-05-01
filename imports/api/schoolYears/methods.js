@@ -1,23 +1,28 @@
 import {Mongo} from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
 
+import {Paths} from '../../api/paths/paths.js';
 import {SchoolYears} from './schoolYears.js';
 import {SchoolWork} from '../schoolWork/schoolWork.js';
 import {Terms} from '../terms/terms.js';
 import {Weeks} from '../weeks/weeks.js';
 import {Lessons} from '../lessons/lessons.js';
 import {primaryInitialIds} from '../../modules/server/initialIds';
+import {insertYearPath, updateYearPath} from '../../modules/server/paths';
 
 Meteor.methods({
 	insertSchoolYear: function(schoolYearProperties) {
 		const schoolYearId = SchoolYears.insert(schoolYearProperties);	
 		primaryInitialIds();
+		insertYearPath(schoolYearId);
+
 		return schoolYearId;
 	},
 
 	updateSchoolYear: function(schoolYearId, schoolYearProperties) {
 		SchoolYears.update(schoolYearId, {$set: schoolYearProperties});		
 		primaryInitialIds();
+		updateYearPath(schoolYearId);
 	},
 
 	deleteSchoolYear: function(schoolYearId) {
@@ -39,6 +44,8 @@ Meteor.methods({
 		lessonIds.forEach(function(lessonId) {
 			Lessons.update(lessonId, {$set: {deletedOn: new Date()}});
 		});	
+
+		Paths.remove({schoolYearId: schoolYearId});
 		primaryInitialIds();
 	},
 
@@ -206,6 +213,7 @@ Meteor.methods({
 		};
 
 		primaryInitialIds();
+		updateYearPath(schoolYearId);
 
 		return true;
 	},

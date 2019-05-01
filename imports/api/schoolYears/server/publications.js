@@ -1,4 +1,6 @@
 import {SchoolYears} from '../schoolYears.js';
+import {Paths} from '../../paths/paths.js';
+import {Stats} from '../../stats/stats.js';
 import {Students} from '../../students/students.js';
 import {Terms} from '../../terms/terms.js';
 import {Weeks} from '../../weeks/weeks.js';
@@ -48,14 +50,20 @@ Meteor.publish('studentSchoolYearsPath', function(studentId) {
 		let self = this;
 		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
 
+		let stats = Stats.find({groupId: groupId, studentId: studentId, type: 'schoolYear'}, {fields: {timeFrameId: 1, status: 1}}).fetch();
+		let paths = Paths.find({groupId: groupId, studentId: studentId}, {fields: {groupId: 0, createdOn: 0, updatedOn: 0}}).fetch();
 		let schoolYears = SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}, fields: {startYear: 1, endYear: 1}});
-		let schoolWork = SchoolWork.find({studentId: studentId, schoolYearId: {$in: schoolYears.map(schoolYear => schoolYear._id)}, deletedOn: { $exists: false }}).fetch();
-		let lessons = Lessons.find({schoolWorkId: {$in: schoolWork.map(schoolWork => (schoolWork._id))}, deletedOn: { $exists: false }}, {fields: {completed: 1, assigned: 1, weekId: 1, schoolWorkId: 1}}).fetch();
-
+		console.log(schoolYears.count())
+		
 		schoolYears.map((schoolYear) => {
-			schoolWorkIds = _.filter(schoolWork, ['schoolYearId', schoolYear._id]).map(schoolWorkItem => schoolWorkItem._id);
-			yearLessons = _.filter(lessons, lesson => _.includes(schoolWorkIds, lesson.schoolWorkId));
-			schoolYear = studentSchoolYearsStatusAndPaths(studentId, schoolYear, yearLessons);
+			let stat = _.find(stats,  ['timeFrameId', schoolYear._id]);
+			let path = _.find(paths, ['schoolYearId', schoolYear._id]);
+
+			schoolYear.firstTerm = path.firstTermId;
+			schoolYear.firstWeek = path.firstWeekId;
+			schoolYear.status = stat.status;
+
+			console.log(schoolYear)
 			self.added('schoolYears', schoolYear._id, schoolYear);
 		});
 

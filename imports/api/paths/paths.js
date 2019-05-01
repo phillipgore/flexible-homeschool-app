@@ -32,6 +32,35 @@ const PathsSchema = new SimpleSchema({
 		type: String,
 		label: "First Week ID"
 	},
+	
+	groupId: {
+		type: String,
+		label: "Group ID",
+		// autoValue: function() {
+		// 	if ( this.isInsert ) {
+		// 		return Meteor.user().info.groupId;
+		// 	}
+		// }
+	},
+	createdOn: {
+		type: Date,
+		label: "Created On Date",
+		autoValue: function() {
+			if ( this.isInsert ) {
+				return new Date();
+			}
+		}
+	},
+	updatedOn: {
+		type: Date,
+		label: "Updated On Date",
+		optional: true,
+		autoValue: function() {
+			if ( this.isUpdate ) {
+				return new Date();
+			}
+		}
+	},
 });
 
 Paths.attachSchema(PathsSchema);

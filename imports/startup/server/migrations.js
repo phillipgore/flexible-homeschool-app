@@ -225,6 +225,7 @@ Migrations.add({
 						schoolYearId: ids.schoolYearId,
 						firstTermId: ids.firstTermId,
 						firstWeekId: ids.firstWeekId,
+						groupId: groupId,
 					});
 				});
 			});	
@@ -236,8 +237,35 @@ Migrations.add({
 	version: 8,
 	name: 'Create Stats Collection.',
 	up: function() {
-		let students = Students.find({deletedOn: { $exists: false }}, {fields: {_id: 1}});
-		let lessons = Lessons.find({deletedOn: { $exists: false }}, {fields: {studentId: 1, schoolYearId: 1, termId: 1, weekId: 1, completed: 1}}).fetch();
+		function rounding(complete, total) {
+			if(complete && total) {
+				let percentComplete = complete / total * 100
+				if (percentComplete > 0 && percentComplete < 1) {
+					return 1;
+				}
+				return Math.floor(percentComplete);
+			}
+			return 0;
+		};
+
+		function status (lessonsTotal, lessonsCompletedTotal, lessonsAssignedTotal) {
+			if (!lessonsTotal) {
+				return 'empty'
+			}
+			if (!lessonsCompletedTotal && !lessonsAssignedTotal) {
+				return 'pending'
+			} 
+			if (lessonsTotal === lessonsCompletedTotal) {
+				return 'completed'
+			}
+			if (lessonsAssignedTotal) {
+				return 'assigned'
+			} 
+			return 'partial'
+		};
+
+		let students = Students.find({deletedOn: { $exists: false }}, {fields: {groupId: 1}});
+		let lessons = Lessons.find({deletedOn: { $exists: false }}, {fields: {studentId: 1, schoolYearId: 1, termId: 1, weekId: 1, completed: 1, assigned: 1}}).fetch();
 
 		students.forEach(student => {
 			let studentLessons = _.filter(lessons, ['studentId', student._id]);
@@ -254,6 +282,10 @@ Migrations.add({
 				stats.type = 'schoolYear';
 				stats.lessonCount = _.filter(studentLessons, {'schoolYearId': schoolYearId}).length;
 				stats.completedLessonCount = _.filter(studentLessons, {'schoolYearId': schoolYearId, 'completed': true}).length;
+				stats.assignedLessonCount = _.filter(studentLessons, {'schoolYearId': schoolYearId, 'assigned': true}).length;
+				stats.completedLessonPercentage = rounding(stats.completedLessonCount, stats.lessonCount);
+				stats.status = status(stats.lessonCount, stats.completedLessonCount, stats.assignedLessonCount);
+				stats.groupId = student.groupId;
 
 				Stats.insert(stats);
 			});
@@ -266,7 +298,11 @@ Migrations.add({
 				stats.type = 'term';
 				stats.lessonCount = _.filter(studentLessons, {'termId': termId}).length;
 				stats.completedLessonCount = _.filter(studentLessons, {'termId': termId, 'completed': true}).length;
-				
+				stats.assignedLessonCount = _.filter(studentLessons, {'termId': termId, 'assigned': true}).length;
+				stats.completedLessonPercentage = rounding(stats.completedLessonCount, stats.lessonCount);
+				stats.status = status(stats.lessonCount, stats.completedLessonCount, stats.assignedLessonCount);
+				stats.groupId = student.groupId;
+
 				Stats.insert(stats);
 			});
 
@@ -278,6 +314,10 @@ Migrations.add({
 				stats.type = 'week';
 				stats.lessonCount = _.filter(studentLessons, {'weekId': weekId}).length;
 				stats.completedLessonCount = _.filter(studentLessons, {'weekId': weekId, 'completed': true}).length;
+				stats.assignedLessonCount = _.filter(studentLessons, {'weekId': weekId, 'assigned': true}).length;
+				stats.completedLessonPercentage = rounding(stats.completedLessonCount, stats.lessonCount);
+				stats.status = status(stats.lessonCount, stats.completedLessonCount, stats.assignedLessonCount);
+				stats.groupId = student.groupId;
 
 				Stats.insert(stats);
 			});
