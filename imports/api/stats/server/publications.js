@@ -14,6 +14,7 @@ import _ from 'lodash'
 
 Meteor.publish('initialIds', function(currentYear) {
 	// this.autorun(function (computation) {
+		console.log('run')
 		if (!this.userId) {
 			return this.ready();
 		}
