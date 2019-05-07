@@ -1,4 +1,5 @@
 import {Template} from 'meteor/templating';
+import { Stats } from '../../../api/stats/stats.js';
 import './trackingEach.html';
 
 import _ from 'lodash'
@@ -25,35 +26,35 @@ Template.trackingEach.helpers({
 	},
 
 	yearsProgress: function(studentId) {
-		return _.find(Session.get('progressStats'), ['studentId', studentId]) && _.find(Session.get('progressStats'), ['studentId', studentId]).yearProgress;
+		return Stats.findOne({studentId: studentId, type: 'schoolYear'}) && Stats.findOne({studentId: studentId, type: 'schoolYear'}).completedLessonPercentage;
 	},
 
 	yearsProgressStatus: function(studentId) {
-		let yearProgress = _.find(Session.get('progressStats'), ['studentId', studentId]) && _.find(Session.get('progressStats'), ['studentId', studentId]).yearProgress;
+		let yearProgress = Stats.findOne({studentId: studentId, type: 'schoolYear'}) && Stats.findOne({studentId: studentId, type: 'schoolYear'}).completedLessonPercentage;;
 		return 'width-' + yearProgress;
 	},
 
 	termsProgress: function(studentId) {
-		return _.find(Session.get('progressStats'), ['studentId', studentId]) && _.find(Session.get('progressStats'), ['studentId', studentId]).termProgress;
+		return Stats.findOne({studentId: studentId, type: 'term'}) && Stats.findOne({studentId: studentId, type: 'term'}).completedLessonPercentage;
 	},
 
 	termsProgressStatus: function(studentId) {
-		let termProgress = _.find(Session.get('progressStats'), ['studentId', studentId]) && _.find(Session.get('progressStats'), ['studentId', studentId]).termProgress;
+		let termProgress = Stats.findOne({studentId: studentId, type: 'term'}) && Stats.findOne({studentId: studentId, type: 'term'}).completedLessonPercentage;
 		return 'width-' + termProgress;
 	},
 
 	weeksProgress: function(studentId) {
-		return _.find(Session.get('progressStats'), ['studentId', studentId]) && _.find(Session.get('progressStats'), ['studentId', studentId]).weekProgress;
+		return Stats.findOne({studentId: studentId, type: 'week'}) && Stats.findOne({studentId: studentId, type: 'week'}).completedLessonPercentage;
 	},
 
 	weeksProgressStatus: function(studentId) {
-		let weekProgress = _.find(Session.get('progressStats'), ['studentId', studentId]) && _.find(Session.get('progressStats'), ['studentId', studentId]).weekProgress;
+		let weekProgress = Stats.findOne({studentId: studentId, type: 'week'}) && Stats.findOne({studentId: studentId, type: 'week'}).completedLessonPercentage;
 		return 'width-' + weekProgress;
 	},
 
-	progressStats: function(studentId) {
-		return _.find(Session.get('progressStats'), ['studentId', studentId]);
-	},
+	// progressStats: function(studentId) {
+	// 	return _.find(Session.get('progressStats'), ['studentId', studentId]);
+	// },
 
 	active: function(id) {
 		if (FlowRouter.getParam('selectedStudentId') === id) {

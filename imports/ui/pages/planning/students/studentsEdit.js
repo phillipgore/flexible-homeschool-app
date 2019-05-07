@@ -61,8 +61,14 @@ Template.studentsEdit.onRendered( function() {
 			} else {
 				studentProperties.preferredFirstName = {type: 'nickname', name: studentProperties.nickname};
 			}
+
+			let pathProperties = {
+				studentIds: [FlowRouter.getParam('selectedStudentId')],
+				schoolYearIds: [],
+				termIds: [],
+			}
 			
-			Meteor.call('updateStudent', FlowRouter.getParam('selectedStudentId'), studentProperties, function(error, studentId) {
+			Meteor.call('updateStudent', pathProperties, FlowRouter.getParam('selectedStudentId'), studentProperties, function(error, studentId) {
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',

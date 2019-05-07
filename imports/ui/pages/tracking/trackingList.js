@@ -1,4 +1,5 @@
 import {Template} from 'meteor/templating';
+import { Stats } from '../../../api/stats/stats.js';
 import { Students } from '../../../api/students/students.js';
 import { SchoolYears } from '../../../api/schoolYears/schoolYears.js';
 import { Terms } from '../../../api/terms/terms.js';
@@ -10,10 +11,7 @@ Template.trackingList.onCreated( function() {
 	let template = Template.instance();
 
 	this.trackingData = Meteor.subscribe('trackingListPub', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'), FlowRouter.getParam('selectedWeekId'));
-
-	Meteor.call('getProgressStats', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'), FlowRouter.getParam('selectedWeekId'), function(error, result) {
-		Session.set('progressStats', result);
-	});
+    this.trackingStats = Meteor.subscribe('progressStatsPub', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'), FlowRouter.getParam('selectedWeekId'));
 });
 
 Template.trackingList.onRendered( function() {

@@ -11,9 +11,10 @@ Template.subbarReporting.onCreated( function() {
 	let template = Template.instance();
 	
 	template.autorun(() => {
-		this.schoolYearData = Meteor.subscribe('studentSchoolYearsPath', FlowRouter.getParam('selectedStudentId'));
-		this.termData = Meteor.subscribe('studentTermsPath', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'), true);
-		this.weekData = Meteor.subscribe('weeksPath', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'), true);
+		this.subscribe('studentPaths');
+		this.schoolYearData = Meteor.subscribe('schoolYearPaths', FlowRouter.getParam('selectedStudentId'));
+		this.termData = Meteor.subscribe('termPaths', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedSchoolYearId'), true);
+		this.weekData = Meteor.subscribe('weekPaths', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedTermId'), true);
 	});
 });
 

@@ -260,8 +260,14 @@ Template.app.events({
 		let newSchoolWorkId = nextSchoolWorkId(FlowRouter.getParam('selectedSchoolWorkId'));
 		let dialogId = Dialogs.findOne()._id;
 
+		let pathProperties = {
+			studentIds: [FlowRouter.getParam('selectedStudentId')],
+			schoolYearIds: [FlowRouter.getParam('selectedSchoolYearId')],
+			termIds: SchoolWork.findOne({_id: FlowRouter.getParam('selectedSchoolWorkId')}).termStats.map(term => term.termId),
+		}
+
 		Dialogs.remove({_id: dialogId});
-		Meteor.call('deleteSchoolWork', FlowRouter.getParam('selectedSchoolWorkId'), function(error) {
+		Meteor.call('deleteSchoolWork', pathProperties, FlowRouter.getParam('selectedSchoolWorkId'), function(error) {
 			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',

@@ -133,9 +133,15 @@ Template.schoolWorkEdit.onRendered( function() {
 					});
 					return false;
 				}
-			})
+			});
 
-			Meteor.call('updateSchoolWork', updateSchoolWorkProperties, removeLessonIds, insertLessonProperties, function(error, result) {
+			let pathProperties = {
+				studentIds: [FlowRouter.getParam('selectedStudentId')],
+				schoolYearIds: [FlowRouter.getParam('selectedSchoolYearId')],
+				termIds: Array.from(document.getElementsByClassName('js-times-per-week-container')).map(term => term.id),
+			}
+
+			Meteor.call('updateSchoolWork', pathProperties, updateSchoolWorkProperties, removeLessonIds, insertLessonProperties, function(error, result) {
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',

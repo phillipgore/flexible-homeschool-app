@@ -11,101 +11,84 @@ import {Reports} from '../../api/reports/reports.js';
 
 import _ from 'lodash';
 
-export function insertYearPath(schoolYearId) {
+/* -------------------- Exported Functions -------------------- */
+
+// Update Paths: General
+export function updatePaths(pathProperties) {
 	let groupId = Meteor.user().info.groupId;
-	let students = Students.find({groupId: groupId, deletedOn: { $exists: false }}, {fields: {_id: 1}});
 
-	students.forEach(student => {
-		let ids = {}
-		ids.studentId = student._id;
-		ids.schoolYearId = schoolYearId;
+	let studentIds = getStudents(groupId, pathProperties);
+	let schoolYearIds = getSchoolYears(groupId, pathProperties);
+	let termIds = getTerms(groupId, schoolYearIds, pathProperties);
 
-		let firstTerm = Terms.findOne(
-			{schoolYearId: schoolYearId, groupId: groupId, deletedOn: { $exists: false }}, 
-			{sort: {order: 1}, fields: {_id: 1}}
-		)
-
-		if (firstTerm) { // First Term: True
-			ids.firstTermId = firstTerm._id
-			let firstWeek = Weeks.findOne(
-				{termId: firstTermId, groupId: groupId, deletedOn: { $exists: false }}, 
-				{sort: {termOrder: 1, order: 1}, fields: {_id: 1}}
-			)
-			if (firstWeek) {ids.firstWeekId = firstWeek._id} else {ids.weekId = 'empty'};
-		} else { // First Term: False
-			ids.firstTermId = 'empty'
-			ids.firstWeekId = 'empty'
-		};
-
-		Paths.insert({
-			studentId: ids.studentId,
-			schoolYearId: ids.schoolYearId,
-			firstTermId: ids.firstTermId,
-			firstWeekId: ids.firstWeekId,
+	studentIds.forEach(studentId => {
+		schoolYearIds.forEach(schoolYearId => {
+			schoolYearPath(groupId, studentId, schoolYearId)
 		});
-	})
+
+		termIds.forEach(termId => {
+			termYearPath(groupId, studentId, termId)
+		});
+	});
+
+	return true;
 };
 
-export function updateYearPath(schoolYearId) {
-	let groupId = Meteor.user().info.groupId;
-	let students = Students.find({groupId: groupId, deletedOn: { $exists: false }}, {fields: {_id: 1}});
 
-	students.forEach(student => {
-		let ids = {}
-		ids.studentId = student._id;
-		ids.schoolYearId = schoolYearId;
 
-		let firstIncompleteLesson = Lessons.findOne(
-			{studentId: student._id, schoolYearId: schoolYearId, completed: false, deletedOn: { $exists: false }},
-			{sort: {termOrder: 1, weekOrder: 1, order: 1}, fields: {termId: 1, weekId: 1}}
-		);
-		let firstCompletedLesson = Lessons.findOne(
-			{studentId: student._id, schoolYearId: schoolYearId, completed: true, deletedOn: { $exists: false }},
-			{sort: {termOrder: 1, weekOrder: 1, order: 1}, fields: {termId: 1, weekId: 1}}
-		);
+/* -------------------- Internal Functions -------------------- */
 
-		if (firstIncompleteLesson) { // First Incomplete Lesson: True
-			ids.firstTermId = firstIncompleteLesson.termId;
-			ids.firstWeekId = firstIncompleteLesson.weekId;
-		} else if (firstCompletedLesson) { // First Incomplete Lesson: false && First Complete Lesson: True
-			ids.firstTermId = firstCompletedLesson.termId;
-			ids.firstWeekId = firstCompletedLesson.weekId;
-		} else { // First Incomplete Lesson: false && First Complete Lesson: False
-			let firstTerm = Terms.findOne(
-				{groupId: groupId, schoolYearId: schoolYearId, deletedOn: { $exists: false }},
-				{sort: {order: 1}, fields: {_id: 1}}
-			)
+// Return Students
+function getStudents(groupId, pathProperties) {
+	if (pathProperties['studentIds'].length) {
+		return pathProperties['studentIds']
+	}
 
-			if (firstTerm) { // First Term: True
-				ids.firstTermId = firstTerm._id
-				let firstWeek = Weeks.findOne(
-					{groupId: groupId, schoolYearId: schoolYearId, termId: firstTerm._id, deletedOn: { $exists: false }},
-					{sort: {order: 1}, fields: {_id: 1}}
-				)
-				if (firstWeek) {ids.firstWeekId = firstWeek._id} else {ids.weekId = 'empty'};
-			} else { // First Term: False
-				ids.firstTermId = 'empty'
-				ids.firstWeekId = 'empty'
-			};
-		}
+	let studentIds = Students.find({groupId: groupId, deletedOn: { $exists: false }}, {fields: {_id: 1}}).map(student => student._id)
+	if (studentIds.length) {
+		return studentIds;
+	} else {
+		return ['empty'];
+	}
+}
 
-		Paths.insert({studentId: student._id, schoolYearId, schoolYearId}, {
-			studentId: ids.studentId,
-			schoolYearId: ids.schoolYearId,
-			firstTermId: ids.firstTermId,
-			firstWeekId: ids.firstWeekId,
-		});
-	})
-};
+// Return School Years
+function getSchoolYears(groupId, pathProperties) {
+	if (pathProperties['schoolYearIds'].length) {
+		return pathProperties['schoolYearIds']
+	}
 
-export function updateLessonPath(lessonId) {
-	let lesson = Lessons.findOne({_id: lessonid});
-	let studentId = lesson.studentId;
-	let schoolYearId = lesson.schoolYearId;
+	let schoolYearIds = SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}, {fields: {_id: 1}}).map(schoolYear => schoolYear._id)
+	if (schoolYearIds.length) {
+		return schoolYearIds;
+	} else {
+		return ['empty'];
+	}
+}
 
-	let ids = {}
-	ids.studentId = studentId;
-	ids.schoolYearId = schoolYearId;
+
+// Return Terms
+function getTerms(groupId, schoolYearIds, pathProperties) {
+	if (pathProperties['termIds'].length) {
+		return pathProperties['termIds']
+	}
+
+	let termIds = Terms.find({schoolYearId: {$in: schoolYearIds}, groupId: groupId, deletedOn: { $exists: false }}, {fields: {_id: 1}}).map(term => term._id)
+	if (termIds.length) {
+		return termIds;
+	} else {
+		return ['empty'];
+	}
+}
+
+
+// School Year Path Update
+function schoolYearPath(groupId, studentId, schoolYearId) {
+	let path = {}
+	path.studentId = studentId;
+	path.timeFrameId = schoolYearId;
+	path.type = 'schoolYear';
+	path.groupId = groupId;
 
 	let firstIncompleteLesson = Lessons.findOne(
 		{studentId: studentId, schoolYearId: schoolYearId, completed: false, deletedOn: { $exists: false }},
@@ -117,11 +100,11 @@ export function updateLessonPath(lessonId) {
 	);
 
 	if (firstIncompleteLesson) { // First Incomplete Lesson: True
-		ids.firstTermId = firstIncompleteLesson.termId;
-		ids.firstWeekId = firstIncompleteLesson.weekId;
+		path.firstTermId = firstIncompleteLesson.termId;
+		path.firstWeekId = firstIncompleteLesson.weekId;
 	} else if (firstCompletedLesson) { // First Incomplete Lesson: false && First Complete Lesson: True
-		ids.firstTermId = firstCompletedLesson.termId;
-		ids.firstWeekId = firstCompletedLesson.weekId;
+		path.firstTermId = firstCompletedLesson.termId;
+		path.firstWeekId = firstCompletedLesson.weekId;
 	} else { // First Incomplete Lesson: false && First Complete Lesson: False
 		let firstTerm = Terms.findOne(
 			{groupId: groupId, schoolYearId: schoolYearId, deletedOn: { $exists: false }},
@@ -129,24 +112,53 @@ export function updateLessonPath(lessonId) {
 		)
 
 		if (firstTerm) { // First Term: True
-			ids.firstTermId = firstTerm._id
+			path.firstTermId = firstTerm._id
 			let firstWeek = Weeks.findOne(
 				{groupId: groupId, schoolYearId: schoolYearId, termId: firstTerm._id, deletedOn: { $exists: false }},
 				{sort: {order: 1}, fields: {_id: 1}}
 			)
-			if (firstWeek) {ids.firstWeekId = firstWeek._id} else {ids.weekId = 'empty'};
+			if (firstWeek) {path.firstWeekId = firstWeek._id} else {path.weekId = 'empty'};
 		} else { // First Term: False
-			ids.firstTermId = 'empty'
-			ids.firstWeekId = 'empty'
+			path.firstTermId = 'empty'
+			path.firstWeekId = 'empty'
 		};
 	}
 
-	Paths.insert({studentId: studentId, schoolYearId, schoolYearId}, {
-		studentId: ids.studentId,
-		schoolYearId: ids.schoolYearId,
-		firstTermId: ids.firstTermId,
-		firstWeekId: ids.firstWeekId,
-	});
+	let pathId = Paths.update({studentId: studentId, timeFrameId: schoolYearId, type: 'schoolYear'}, {$set: path});
+	console.log('schoolYear: ' + pathId);
+};
+
+// Term Path Update
+function termYearPath(groupId, studentId, termId) {
+	let path = {}
+	path.studentId = studentId;
+	path.timeFrameId = termId;
+	path.type = 'term';
+	path.groupId = groupId;
+
+	let firstIncompleteLesson = Lessons.findOne(
+		{studentId: studentId, termId: termId, completed: false, deletedOn: { $exists: false }},
+		{sort: {termOrder: 1, weekOrder: 1, order: 1}, fields: {termId: 1, weekId: 1}}
+	);
+	let firstCompletedLesson = Lessons.findOne(
+		{studentId: studentId, termId: termId, completed: true, deletedOn: { $exists: false }},
+		{sort: {termOrder: 1, weekOrder: 1, order: 1}, fields: {termId: 1, weekId: 1}}
+	);
+
+	if (firstIncompleteLesson) { // First Incomplete Lesson: True
+		path.firstWeekId = firstIncompleteLesson.weekId;
+	} else if (firstCompletedLesson) { // First Incomplete Lesson: false && First Complete Lesson: True
+		path.firstWeekId = firstCompletedLesson.weekId;
+	} else { // First Incomplete Lesson: false && First Complete Lesson: False
+		let firstWeek = Weeks.findOne(
+			{groupId: groupId, termId: termId, deletedOn: { $exists: false }},
+			{sort: {order: 1}, fields: {_id: 1}}
+		)
+		if (firstWeek) {path.firstWeekId = firstWeek._id} else {path.weekId = 'empty'};
+	}
+
+	let pathId = Paths.update({studentId: studentId, timeFrameId: termId, type: 'term'}, {$set: path});
+	console.log('term: ' + pathId);
 };
 
 

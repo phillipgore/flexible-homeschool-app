@@ -5,10 +5,11 @@ import {Weeks} from './weeks.js';
 import {primaryInitialIds} from '../../modules/server/initialIds';
 
 Meteor.methods({
-	batchInsertWeeks(weekProperties) {
+	batchInsertWeeks(pathProperties, weekProperties) {
 		weekProperties.forEach(function(week) {
 			Weeks.insert(week);
 		});
+		updatePaths(pathProperties);
 		primaryInitialIds();
 	},
 

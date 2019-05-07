@@ -12,9 +12,9 @@ Template.subbarTracking.onCreated( function() {
 	
 	template.autorun(() => {
 		// Subbar Subscriptions
-		this.schoolYearData = Meteor.subscribe('studentSchoolYearsPath', FlowRouter.getParam('selectedStudentId'));
-		this.termData = Meteor.subscribe('studentTermsPath', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
-		this.weekData = Meteor.subscribe('weeksPath', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'));
+		this.schoolYearData = Meteor.subscribe('schoolYearPaths', FlowRouter.getParam('selectedStudentId'));
+		this.termData = Meteor.subscribe('termPaths', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedSchoolYearId'), false);
+		this.weekData = Meteor.subscribe('weekPaths', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedTermId'), false);
 	});
 });
 
@@ -138,26 +138,5 @@ Template.subbarTracking.helpers({
 		}
 		return false;
 	},	
-});
-
-Template.subbarTracking.events({
-	'click .js-school-year'(event) {
-		Meteor.call('getProgressStats', $(event.currentTarget).attr('id'), $(event.currentTarget).attr('data-term-id'), $(event.currentTarget).attr('data-week-id'), function(error, result) {
-			Session.set('progressStats', result);
-		});
-	},
-
-	'click .js-term'(event) {
-		Meteor.call('getProgressStats', $(event.currentTarget).attr('data-school-year-id'), $(event.currentTarget).attr('id'), $(event.currentTarget).attr('data-week-id'), function(error, result) {
-			Session.set('progressStats', result);
-		});
-	},
-	
-	'click .js-week'(event) {
-		Meteor.call('getProgressStats', $(event.currentTarget).attr('data-school-year-id'), $(event.currentTarget).attr('data-term-id'), $(event.currentTarget).attr('id'), function(error, result) {
-			Session.set('progressStats', result);
-		});
-	},
-	
 });
 

@@ -8,24 +8,34 @@ import {Terms} from '../terms/terms.js';
 import {Weeks} from '../weeks/weeks.js';
 import {Lessons} from '../lessons/lessons.js';
 import {primaryInitialIds} from '../../modules/server/initialIds';
-import {insertYearPath, updateYearPath} from '../../modules/server/paths';
+import {updatePaths} from '../../modules/server/paths';
 
 Meteor.methods({
 	insertSchoolYear: function(schoolYearProperties) {
-		const schoolYearId = SchoolYears.insert(schoolYearProperties);	
-		primaryInitialIds();
-		insertYearPath(schoolYearId);
+		const schoolYearId = SchoolYears.insert(schoolYearProperties, function(error, result) {
+			console.log(result);
+
+			let pathProperties = {
+				studentIds: [],
+				schoolYearIds: [result],
+				termIds: [],
+			};
+
+			updatePaths(pathProperties);
+			primaryInitialIds();
+		});	
 
 		return schoolYearId;
 	},
 
-	updateSchoolYear: function(schoolYearId, schoolYearProperties) {
-		SchoolYears.update(schoolYearId, {$set: schoolYearProperties});		
-		primaryInitialIds();
-		updateYearPath(schoolYearId);
+	updateSchoolYear: function(pathProperties, schoolYearId, schoolYearProperties) {
+		SchoolYears.update(schoolYearId, {$set: schoolYearProperties}, function() {
+			updatePaths(pathProperties);		
+			primaryInitialIds();
+		});
 	},
 
-	deleteSchoolYear: function(schoolYearId) {
+	deleteSchoolYear: function(pathProperties, schoolYearId) {
 		let schoolWorkIds = SchoolWork.find({schoolYearId: schoolYearId}).map(schoolWork => (schoolWork._id))
 		let termIds = Terms.find({schoolYearId: schoolYearId}).map(term => (term._id));
 		let weekIds = Weeks.find({termId: {$in: termIds}}).map(week => (week._id));
@@ -49,7 +59,7 @@ Meteor.methods({
 		primaryInitialIds();
 	},
 
-	updateSchoolYearTerms: function(schoolYearId, schoolYearProperties, termDeleteIds, termInsertProperties, termUpdateProperties, userId, groupId) {
+	updateSchoolYearTerms: function(pathProperties, schoolYearId, schoolYearProperties, termDeleteIds, termInsertProperties, termUpdateProperties, userId, groupId) {
 		let weekDeleteIds = Weeks.find({termId: {$in: termDeleteIds}}).map(week => week._id);
 
 		let weekBulkDelete = [];
@@ -212,8 +222,8 @@ Meteor.methods({
 			});
 		};
 
+		updatePaths(pathProperties);
 		primaryInitialIds();
-		updateYearPath(schoolYearId);
 
 		return true;
 	},

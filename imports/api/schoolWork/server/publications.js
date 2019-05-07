@@ -70,7 +70,7 @@ Meteor.publish('schoolWorkView', function(schoolWorkId) {
 			terms.forEach((term) => {
 				let weekIds = Weeks.find({groupId: groupId, deletedOn: { $exists: false }, termId: term._id}).map((week) => (week._id));
 				let lessonCount = Lessons.find({schoolWorkId: schoolWorkId, weekId: {$in: weekIds}}).count();
-				termStats.push({termOrder: term.order, lessonCount: lessonCount});
+				termStats.push({termId: term._id, termOrder: term.order, lessonCount: lessonCount});
 			})
 
 			schoolWork.preferredFirstName = student.preferredFirstName.name;

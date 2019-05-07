@@ -9,6 +9,13 @@ import _ from 'lodash'
 
 
 Template.subbarSchoolWork.onCreated( function() {
+	let template = Template.instance();
+	
+	template.autorun(() => {
+		this.subscribe('studentPaths');
+		this.subscribe('schoolYearPaths', FlowRouter.getParam('selectedStudentId'), false);
+	});
+
 	Meteor.call('getInitialSchoolWorkIds', function(error, result) {
 		Session.set('initialSchoolWorkIds', result);
 	});

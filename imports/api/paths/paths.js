@@ -20,13 +20,19 @@ const PathsSchema = new SimpleSchema({
 		type: String,
 		label: "Student ID"
 	},
-    schoolYearId: {
+	timeFrameId: {
 		type: String,
-		label: "School Year ID"
+		label: "Time Frame ID"
+	},
+	type: {
+		type: String,
+		label: "Type",
+		allowedValues: ['schoolYear', 'term']
 	},
 	firstTermId: {
 		type: String,
-		label: "First Term ID"
+		label: "First Term ID",
+        optional: true
 	},
 	firstWeekId: {
 		type: String,

@@ -1,14 +1,10 @@
 import {SchoolYears} from '../schoolYears.js';
-import {Paths} from '../../paths/paths.js';
-import {Stats} from '../../stats/stats.js';
 import {Students} from '../../students/students.js';
 import {Terms} from '../../terms/terms.js';
 import {Weeks} from '../../weeks/weeks.js';
 import {SchoolWork} from '../../schoolWork/schoolWork.js';
 import {Resources} from '../../resources/resources.js';
 import {Lessons} from '../../lessons/lessons.js';
-import {allSchoolYearsStatusAndPaths} from '../../../modules/server/functions';
-import {studentSchoolYearsStatusAndPaths} from '../../../modules/server/functions';
 
 import _ from 'lodash'
 
@@ -19,56 +15,6 @@ Meteor.publish('allSchoolYears', function() {
 
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
 	return SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}, fields: {startYear: 1, endYear: 1}});
-});
-
-Meteor.publish('allSchoolYearsPath', function() {
-	this.autorun(function (computation) {
-		if (!this.userId) {
-			return this.ready();
-		}
-
-		let self = this;
-
-		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-		let schoolYears = SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}, fields: {startYear: 1, endYear: 1}});
-
-		schoolYears.map((schoolYear) => {
-			schoolYear = allSchoolYearsStatusAndPaths(schoolYear, schoolYear._id);
-			self.added('schoolYears', schoolYear._id, schoolYear);
-		});
-
-		self.ready();
-	});
-});
-
-Meteor.publish('studentSchoolYearsPath', function(studentId) {
-	this.autorun(function (computation) {
-		if (!this.userId) {
-			return this.ready();
-		}
-		
-		let self = this;
-		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-
-		let stats = Stats.find({groupId: groupId, studentId: studentId, type: 'schoolYear'}, {fields: {timeFrameId: 1, status: 1}}).fetch();
-		let paths = Paths.find({groupId: groupId, studentId: studentId}, {fields: {groupId: 0, createdOn: 0, updatedOn: 0}}).fetch();
-		let schoolYears = SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}, fields: {startYear: 1, endYear: 1}});
-		console.log(schoolYears.count())
-		
-		schoolYears.map((schoolYear) => {
-			let stat = _.find(stats,  ['timeFrameId', schoolYear._id]);
-			let path = _.find(paths, ['schoolYearId', schoolYear._id]);
-
-			schoolYear.firstTerm = path.firstTermId;
-			schoolYear.firstWeek = path.firstWeekId;
-			schoolYear.status = stat.status;
-
-			console.log(schoolYear)
-			self.added('schoolYears', schoolYear._id, schoolYear);
-		});
-
-		self.ready();
-	});
 });
 
 Meteor.publish('schoolYearView', function(schoolYearId) {
@@ -99,27 +45,6 @@ Meteor.publish('schoolYearView', function(schoolYearId) {
 
 		self.ready();
 	});
-});
-
-Meteor.publish('schoolYearComplete', function(schoolYearId) {
-	if (!this.userId) {
-		return this.ready();
-	}
-
-	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-	let termIds = Terms.find({groupId: groupId, deletedOn: { $exists: false }, schoolYearId: schoolYearId}).map(term => term._id);
-	let weekIds = Weeks.find({groupId: groupId, deletedOn: { $exists: false }, termId: {$in: termIds}}).map(week => week._id);
-
-	return [
-		SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }, _id: schoolYearId}),
-		Terms.find({groupId: groupId, deletedOn: { $exists: false }, schoolYearId: schoolYearId}, {sort: {order: 1}, fields: {order: 1}}),
-		SchoolWork.find(
-			{groupId: groupId, deletedOn: { $exists: false }, schoolYearId: schoolYearId}, 
-			{sort: {name: 1}, fields: {schoolYearId: 1, name: 1}}
-		),
-		Weeks.find({groupId: groupId, deletedOn: { $exists: false }, termId: {$in: termIds}}, {sort: {order: 1}, fields: {order: 1, termId: 1}}),
-		Lessons.find({groupId: groupId, deletedOn: { $exists: false }, weekId: {$in: weekIds}}, {sort: {order: 1}, fields: {schoolWorkId: 1, weekId: 1, completedOn: 1, completionTime: 1, description: 1}}),
-	];
 });
 
 Meteor.publish('schoolYearEdit', function(schoolYearId) {

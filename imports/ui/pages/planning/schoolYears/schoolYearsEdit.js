@@ -215,6 +215,12 @@ Template.schoolYearsEdit.events({
 			}
 		});
 
+		let pathProperties = {
+			studentIds: [],
+			schoolYearIds: [FlowRouter.getParam('selectedSchoolYearId')],
+			termIds: Array.from(document.getElementsByClassName('js-term-input')).map(term => term.id),
+		}
+
 		if (termDeleteIds.length || termInsertProperties.length || termUpdateProperties.length) {
 			Alerts.insert({
 				colorClass: 'bg-info',
@@ -222,7 +228,7 @@ Template.schoolYearsEdit.events({
 				message: "Please be patient. This could take a bit.",
 			});
 
-			Meteor.call('updateSchoolYearTerms', FlowRouter.getParam('selectedSchoolYearId'), schoolYearProperties, termDeleteIds, termInsertProperties, termUpdateProperties, Meteor.userId(), Meteor.user().info.groupId, function(error) {
+			Meteor.call('updateSchoolYearTerms', pathProperties, FlowRouter.getParam('selectedSchoolYearId'), schoolYearProperties, termDeleteIds, termInsertProperties, termUpdateProperties, Meteor.userId(), Meteor.user().info.groupId, function(error) {
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',
@@ -239,7 +245,7 @@ Template.schoolYearsEdit.events({
 				}
 			});
 		} else {
-			Meteor.call('updateSchoolYear', FlowRouter.getParam('selectedSchoolYearId'), schoolYearProperties, function(error) {
+			Meteor.call('updateSchoolYear', pathProperties, FlowRouter.getParam('selectedSchoolYearId'), schoolYearProperties, function(error) {
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',

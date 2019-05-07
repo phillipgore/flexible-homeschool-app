@@ -1,4 +1,5 @@
 import {Template} from 'meteor/templating';
+import { SchoolYears } from '../../../api/schoolYears/schoolYears.js';
 import { SchoolWork } from '../../../api/schoolWork/schoolWork.js';
 import { Terms } from '../../../api/terms/terms.js';
 import { Weeks } from '../../../api/weeks/weeks.js';
@@ -174,7 +175,17 @@ Template.trackingSchoolWork.events({
 			lessonProperties.completedOn = moment(lessonProperties.completedOn).toISOString();
 		}
 
-		Meteor.call('updateLesson', lessonProperties, function(error, result) {
+		let pathProperties = {
+			studentIds: [FlowRouter.getParam('selectedStudentId')],
+			schoolYearIds: [FlowRouter.getParam('selectedSchoolYearId')],
+			termIds: [FlowRouter.getParam('selectedTermId')],
+		}
+
+		let statProperties = {
+			
+		}
+
+		Meteor.call('updateLesson', pathProperties, lessonProperties, function(error, result) {
 			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',
@@ -185,9 +196,6 @@ Template.trackingSchoolWork.events({
 				$('.js-lesson-updating').hide();
 				Session.set('lessonInfo', null);
 			} else {
-				Meteor.call('getProgressStats', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'), FlowRouter.getParam('selectedWeekId'), function(error, result) {
-					Session.set('progressStats', result);
-				});
 				// $('.js-lesson-updating').hide();
 				Session.set('lessonInfo', null);
 			}

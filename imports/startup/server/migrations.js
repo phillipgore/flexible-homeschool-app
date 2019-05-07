@@ -34,7 +34,6 @@ Migrations.add({
 	version: 2,
 	name: 'Add Stripe coupon data.',
 	up: function() {
-		console.log('migration 2')
 		Groups.find().forEach(group => {
 			let stripeSubscriptionId = group.stripeSubscriptionId;
 			if (!_.isUndefined(stripeSubscriptionId)) {
@@ -77,7 +76,6 @@ Migrations.add({
 		let weekIds = _.uniq(Weeks.find().map(week => week._id));
 		refWeekIds.forEach(weekId => {
 			if (_.indexOf(weekIds, weekId) < 0) {
-				console.log(weekId);
 				Lessons.remove({weekId: weekId})
 			}
 		})
@@ -172,19 +170,20 @@ Migrations.add({
 	name: 'Create Paths Collection.',
 	up: function() {
 		Groups.find({}, {fields: {_id: 1}}).forEach(group => {
+
 			let groupId = group._id;
 
 			let students = Students.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}, fields: {_id: 1}});
-			let schoolYears = SchoolYears.find(
-				{groupId: groupId, deletedOn: { $exists: false }}, 
-				{sort: {startYear: 1}, fields: {_id: 1}}
-			);
+			let schoolYears = SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}, fields: {_id: 1}});
+			let terms = Terms.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {order: 1}, fields: {_id: 1}});
 
 			students.forEach(student => {
 				schoolYears.forEach(schoolYear => {
-					let ids = {}
-					ids.studentId = student._id;
-					ids.schoolYearId = schoolYear._id;
+					let path = {}
+					path.studentId = student._id;
+					path.timeFrameId = schoolYear._id;
+					path.type = 'schoolYear';
+					path.groupId = groupId;
 
 					let firstIncompleteLesson = Lessons.findOne(
 						{studentId: student._id, schoolYearId: schoolYear._id, completed: false, deletedOn: { $exists: false }},
@@ -196,11 +195,11 @@ Migrations.add({
 					);
 
 					if (firstIncompleteLesson) { // First Incomplete Lesson: True
-						ids.firstTermId = firstIncompleteLesson.termId;
-						ids.firstWeekId = firstIncompleteLesson.weekId;
+						path.firstTermId = firstIncompleteLesson.termId;
+						path.firstWeekId = firstIncompleteLesson.weekId;
 					} else if (firstCompletedLesson) { // First Incomplete Lesson: false && First Complete Lesson: True
-						ids.firstTermId = firstCompletedLesson.termId;
-						ids.firstWeekId = firstCompletedLesson.weekId;
+						path.firstTermId = firstCompletedLesson.termId;
+						path.firstWeekId = firstCompletedLesson.weekId;
 					} else { // First Incomplete Lesson: false && First Complete Lesson: False
 						let firstTerm = Terms.findOne(
 							{groupId: groupId, schoolYearId: schoolYear._id, deletedOn: { $exists: false }},
@@ -208,27 +207,53 @@ Migrations.add({
 						)
 
 						if (firstTerm) { // First Term: True
-							ids.firstTermId = firstTerm._id
+							path.firstTermId = firstTerm._id
 							let firstWeek = Weeks.findOne(
 								{groupId: groupId, schoolYearId: schoolYear._id, termId: firstTerm._id, deletedOn: { $exists: false }},
 								{sort: {order: 1}, fields: {_id: 1}}
 							)
-							if (firstWeek) {ids.firstWeekId = firstWeek._id} else {ids.weekId = 'empty'};
+							if (firstWeek) {path.firstWeekId = firstWeek._id} else {path.weekId = 'empty'};
 						} else { // First Term: False
-							ids.firstTermId = 'empty'
-							ids.firstWeekId = 'empty'
+							path.firstTermId = 'empty'
+							path.firstWeekId = 'empty'
 						};
 					}
 
-					Paths.insert({
-						studentId: ids.studentId,
-						schoolYearId: ids.schoolYearId,
-						firstTermId: ids.firstTermId,
-						firstWeekId: ids.firstWeekId,
-						groupId: groupId,
-					});
+					Paths.insert(path);
 				});
-			});	
+
+				terms.forEach(term => {
+					let path = {}
+					path.studentId = student._id;
+					path.timeFrameId = term._id;
+					path.type = 'term';
+					path.groupId = groupId;
+
+					let firstIncompleteLesson = Lessons.findOne(
+						{studentId: student._id, termId: term._id, completed: false, deletedOn: { $exists: false }},
+						{sort: {termOrder: 1, weekOrder: 1, order: 1}, fields: {termId: 1, weekId: 1}}
+					);
+					let firstCompletedLesson = Lessons.findOne(
+						{studentId: student._id, termId: term._id, completed: true, deletedOn: { $exists: false }},
+						{sort: {termOrder: 1, weekOrder: 1, order: 1}, fields: {termId: 1, weekId: 1}}
+					);
+
+					if (firstIncompleteLesson) { // First Incomplete Lesson: True
+						path.firstWeekId = firstIncompleteLesson.weekId;
+					} else if (firstCompletedLesson) { // First Incomplete Lesson: false && First Complete Lesson: True
+						path.firstWeekId = firstCompletedLesson.weekId;
+					} else { // First Incomplete Lesson: false && First Complete Lesson: False
+						let firstWeek = Weeks.findOne(
+							{groupId: groupId, termId: term._id, deletedOn: { $exists: false }},
+							{sort: {order: 1}, fields: {_id: 1}}
+						)
+						if (firstWeek) {path.firstWeekId = firstWeek._id} else {path.weekId = 'empty'};
+					}
+
+					Paths.insert(path);
+
+				});
+			});
 		});
 	}
 });
@@ -265,24 +290,22 @@ Migrations.add({
 		};
 
 		let students = Students.find({deletedOn: { $exists: false }}, {fields: {groupId: 1}});
+		let schoolYears = SchoolYears.find({deletedOn: { $exists: false }}, {fields: {groupId: 1}});
+		let terms = Terms.find({deletedOn: { $exists: false }}, {fields: {groupId: 1}});
+		let weeks = Weeks.find({deletedOn: { $exists: false }}, {fields: {groupId: 1}});
 		let lessons = Lessons.find({deletedOn: { $exists: false }}, {fields: {studentId: 1, schoolYearId: 1, termId: 1, weekId: 1, completed: 1, assigned: 1}}).fetch();
 
 		students.forEach(student => {
-			let studentLessons = _.filter(lessons, ['studentId', student._id]);
-
-			let schoolYearIds = _.uniq(studentLessons.map(lesson => lesson.schoolYearId));
-			let termIds = _.uniq(studentLessons.map(lesson => lesson.termId));
-			let weekIds = _.uniq(studentLessons.map(lesson => lesson.weekId));
-
-			schoolYearIds.forEach(schoolYearId => {
+			schoolYears.forEach(schoolYear => {
+				let schoolYearLessons = _.filter(lessons, {'studentId': student._id, 'schoolYearId': schoolYear._id});
 				let stats = {};
 
 				stats.studentId = student._id;
-				stats.timeFrameId = schoolYearId;
+				stats.timeFrameId = schoolYear._id;
 				stats.type = 'schoolYear';
-				stats.lessonCount = _.filter(studentLessons, {'schoolYearId': schoolYearId}).length;
-				stats.completedLessonCount = _.filter(studentLessons, {'schoolYearId': schoolYearId, 'completed': true}).length;
-				stats.assignedLessonCount = _.filter(studentLessons, {'schoolYearId': schoolYearId, 'assigned': true}).length;
+				stats.lessonCount = schoolYearLessons.length;
+				stats.completedLessonCount = _.filter(schoolYearLessons, {'completed': true}).length;
+				stats.assignedLessonCount = _.filter(schoolYearLessons, {'assigned': true}).length;
 				stats.completedLessonPercentage = rounding(stats.completedLessonCount, stats.lessonCount);
 				stats.status = status(stats.lessonCount, stats.completedLessonCount, stats.assignedLessonCount);
 				stats.groupId = student.groupId;
@@ -290,15 +313,16 @@ Migrations.add({
 				Stats.insert(stats);
 			});
 
-			termIds.forEach(termId => {
+			terms.forEach(term => {
+				let termLessons = _.filter(lessons, {'studentId': student._id, 'termId': term._id});
 				let stats = {};
 
 				stats.studentId = student._id;
-				stats.timeFrameId = termId;
+				stats.timeFrameId = term._id;
 				stats.type = 'term';
-				stats.lessonCount = _.filter(studentLessons, {'termId': termId}).length;
-				stats.completedLessonCount = _.filter(studentLessons, {'termId': termId, 'completed': true}).length;
-				stats.assignedLessonCount = _.filter(studentLessons, {'termId': termId, 'assigned': true}).length;
+				stats.lessonCount = termLessons.length;
+				stats.completedLessonCount = _.filter(termLessons, {'completed': true}).length;
+				stats.assignedLessonCount = _.filter(termLessons, {'assigned': true}).length;
 				stats.completedLessonPercentage = rounding(stats.completedLessonCount, stats.lessonCount);
 				stats.status = status(stats.lessonCount, stats.completedLessonCount, stats.assignedLessonCount);
 				stats.groupId = student.groupId;
@@ -306,15 +330,16 @@ Migrations.add({
 				Stats.insert(stats);
 			});
 
-			weekIds.forEach(weekId => {
+			weeks.forEach(week => {
+				let weekLessons = _.filter(lessons, {'studentId': student._id, 'weekId': week._id});
 				let stats = {};
 
 				stats.studentId = student._id;
-				stats.timeFrameId = weekId;
+				stats.timeFrameId = week._id;
 				stats.type = 'week';
-				stats.lessonCount = _.filter(studentLessons, {'weekId': weekId}).length;
-				stats.completedLessonCount = _.filter(studentLessons, {'weekId': weekId, 'completed': true}).length;
-				stats.assignedLessonCount = _.filter(studentLessons, {'weekId': weekId, 'assigned': true}).length;
+				stats.lessonCount = weekLessons.length;
+				stats.completedLessonCount = _.filter(weekLessons, {'completed': true}).length;
+				stats.assignedLessonCount = _.filter(weekLessons, {'assigned': true}).length;
 				stats.completedLessonPercentage = rounding(stats.completedLessonCount, stats.lessonCount);
 				stats.status = status(stats.lessonCount, stats.completedLessonCount, stats.assignedLessonCount);
 				stats.groupId = student.groupId;
@@ -328,6 +353,7 @@ Migrations.add({
 Meteor.startup(() => {
 	Migrations.migrateTo(8);
 });
+
 
 
 

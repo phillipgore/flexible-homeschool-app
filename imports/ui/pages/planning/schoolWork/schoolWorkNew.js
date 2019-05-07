@@ -85,11 +85,12 @@ Template.schoolWorkNew.onRendered( function() {
 				resourceIds.push(resource.id);
 			});
 
+			let schoolYearId = template.find("[name='schoolYearId']").value.trim();
 			const schoolWorkProperties = {
 				name: template.find("[name='name']").value.trim(),
 				description: $('.js-form-school-work-new .editor-content').html(),
 				resources: resourceIds,
-				schoolYearId: template.find("[name='schoolYearId']").value.trim(),
+				schoolYearId: schoolYearId,
 			};
 
 			let lessonProperties = []
@@ -97,16 +98,22 @@ Template.schoolWorkNew.onRendered( function() {
 				for (i = 0; i < parseInt(this.value); i++) {
 				    lessonProperties.push({
 				    	order: i + 1,
-				    	schoolYearId: template.find("[name='schoolYearId']").value.trim(), 
+				    	schoolYearId: schoolYearId, 
 				    	termId: this.dataset.termId,
 				    	termOrder: parseInt(this.dataset.termOrder), 
 				    	weekId: this.dataset.weekId,
 				    	weekOrder: parseInt(this.dataset.weekOrder),
 				    });
 				}
-			})
+			});
+
+			let pathProperties = {
+				studentIds: studentIds,
+				schoolYearIds: [schoolYearId],
+				termIds: Array.from(document.getElementsByClassName('js-term-container')).map(term => term.id),
+			};
 			
-			Meteor.call('insertSchoolWork', studentIds, schoolWorkProperties, lessonProperties, function(error, newSchoolWork) {
+			Meteor.call('insertSchoolWork', pathProperties, studentIds, schoolWorkProperties, lessonProperties, function(error, newSchoolWork) {
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',

@@ -16,6 +16,7 @@ import _ from 'lodash';
 
 // Intial Ids for Student, School Year, Term, Week and School Work.
 export function primaryInitialIds (submittedGroupId) {	
+	console.log('primaryInitialIds')
 	let groupId = getGroupId(submittedGroupId);
 	let currentYear = startYearFunction();
 
@@ -100,7 +101,6 @@ export function primaryInitialIds (submittedGroupId) {
 		}
 	}
 
-	console.log(groupId + ' primaryInitialIds');
 	Groups.update(groupId, {$set: {
 		'initialIds.studentId': ids.studentId,
 		'initialIds.schoolYearId': ids.schoolYearId,
@@ -121,7 +121,6 @@ export function resourcesInitialIds (submittedGroupId) {
 	if (firstResource) {ids.resourceId = firstResource._id} else {ids.resourceId = 'empty'};
 	if (firstResource) {ids.resourceType = firstResource.type} else {ids.resourceType = 'empty'};
 
-	console.log(groupId + ' resourcesInitialIds');
 	Groups.update(groupId, {$set: {
 		'initialIds.resourceId': ids.resourceId,
 		'initialIds.resourceType': ids.resourceType,
@@ -138,7 +137,6 @@ export function usersInitialId (submittedGroupId) {
 	let firstUser = Meteor.users.findOne({'info.groupId': groupId, 'emails.0.verified': true, 'status.active': true}, {sort: {'info.lastName': 1, 'info.firstName': 1}});
 	ids.userId = firstUser._id;
 
-	console.log(groupId + ' usersInitialId');
 	Groups.update(groupId, {$set: {
 		'initialIds.userId': ids.userId,
 	}});
@@ -154,7 +152,6 @@ export function reportsInitialId (submittedGroupId) {
 	let firstReport = Reports.findOne({groupId: groupId, deletedOn: { $exists: false }}, {sort: {name: 1}});
 	if (firstReport) {ids.reportId = firstReport._id} else {ids.reportId = 'empty'};
 
-	console.log(groupId + ' reportsInitialId');
 	Groups.update(groupId, {$set: {
 		'initialIds.reportId': ids.reportId,
 	}});
@@ -175,7 +172,6 @@ export function groupsInitialId (submittedGroupId) {
 		ids.groupId = 'empty'
 	}
 
-	console.log(groupId + ' groupsInitialId');
 	Groups.update(groupId, {$set: {
 		'initialIds.groupId': ids.groupId,
 	}});
