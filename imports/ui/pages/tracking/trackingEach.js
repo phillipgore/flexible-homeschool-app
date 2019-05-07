@@ -52,10 +52,6 @@ Template.trackingEach.helpers({
 		return 'width-' + weekProgress;
 	},
 
-	// progressStats: function(studentId) {
-	// 	return _.find(Session.get('progressStats'), ['studentId', studentId]);
-	// },
-
 	active: function(id) {
 		if (FlowRouter.getParam('selectedStudentId') === id) {
 			return true;
