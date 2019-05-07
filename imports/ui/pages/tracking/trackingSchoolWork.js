@@ -1,5 +1,6 @@
 import {Template} from 'meteor/templating';
 import { SchoolWork } from '../../../api/schoolWork/schoolWork.js';
+import { Lessons } from '../../../api/lessons/lessons.js';
 import { Terms } from '../../../api/terms/terms.js';
 import { Weeks } from '../../../api/weeks/weeks.js';
 
@@ -22,6 +23,11 @@ Template.trackingSchoolWork.helpers({
 
 	selectedWeek: function() {
 		return Weeks.findOne({_id: FlowRouter.getParam('selectedWeekId')});
+	},
+
+	workLessons: function(schoolWorkId) {
+		console.log(schoolWorkId)
+		return Lessons.find({schoolWorkId: schoolWorkId});
 	},
 
 	lessonCount: function(schoolWorkId) {

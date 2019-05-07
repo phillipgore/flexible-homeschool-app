@@ -51,7 +51,7 @@
 				</span>
 			</div>
 			<div class="row track-btn-container m-tn-h-9">
-				{{#each lesson in work.lessons}}
+				{{#each lesson in workLessons work._id}}
 					<button data-schoolWork-id="{{work._id}}" data-lesson-id="{{lesson._id}}" class="js-lesson-btn col-tn-1of{{lessonCount work._id}} {{lessonStatus lesson work.lessons}}">
 						<div class="js-lesson-updating hide">
 							<div class="loader-icon loader-icon-tn loader-icon-center"></div>
