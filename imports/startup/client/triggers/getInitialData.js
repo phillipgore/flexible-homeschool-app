@@ -117,7 +117,6 @@ function getInitialData() {
 // Redirection if signed in.
 function checkSignIn(context, redirect) {
 	if (Meteor.userId()) {
-		Meteor.subscribe('initialStats');
 		getInitialData();
 		if (Meteor.user().info.role === 'Observer') {
 			redirect('/tracking/students/view/1/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedTermId') +'/'+ Session.get('selectedWeekId'));
@@ -141,7 +140,6 @@ FlowRouter.triggers.enter([checkSignIn], {only: [
 ]});
 
 function initialData(context) {
-	Meteor.subscribe('initialStats');
 	getInitialData();
 };
 

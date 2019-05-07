@@ -13,8 +13,7 @@ import {allSchoolYearsStatusAndPaths} from '../../../modules/server/functions';
 import _ from 'lodash'
 
 Meteor.publish('initialIds', function(currentYear) {
-	// this.autorun(function (computation) {
-		console.log('run')
+	this.autorun(function (computation) {
 		if (!this.userId) {
 			return this.ready();
 		}
@@ -125,7 +124,7 @@ Meteor.publish('initialIds', function(currentYear) {
 
 		self.added('initialIds', Random.id(), ids);
 		self.ready();
-	// });
+	});
 });
 
 Meteor.publish('initialStats', function() {
