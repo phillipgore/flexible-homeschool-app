@@ -1,6 +1,7 @@
 import {Template} from 'meteor/templating';
 import { SchoolYears } from '../../../api/schoolYears/schoolYears.js';
 import { SchoolWork } from '../../../api/schoolWork/schoolWork.js';
+import { Lessons } from '../../../api/lessons/lessons.js';
 import { Terms } from '../../../api/terms/terms.js';
 import { Weeks } from '../../../api/weeks/weeks.js';
 
@@ -25,9 +26,12 @@ Template.trackingSchoolWork.helpers({
 		return Weeks.findOne({_id: FlowRouter.getParam('selectedWeekId')});
 	},
 
+	workLessons: function(schoolWorkId) {
+		return Lessons.find({schoolWorkId: schoolWorkId});
+	},
+
 	lessonCount: function(schoolWorkId) {
-		let lessons = SchoolWork.findOne({_id: schoolWorkId}).lessons;
-		return lessons.length;
+		return Lessons.find({schoolWorkId: schoolWorkId}).count();
 	},
 
 	lessonPosition: function(schoolWorkId, lessonId) {
@@ -43,12 +47,9 @@ Template.trackingSchoolWork.helpers({
 		return Session.get('schoolWorkInfo');
 	},
 
-	lessonInfo: function() {
-		return Session.get('lessonInfo');
-	},
-
-	lessonStatus: function(lesson, lessons) {
+	lessonStatus: function(lesson, schoolWorkId) {
 		$('.js-lesson-updating').hide();
+		let lessons = Lessons.find({schoolWorkId: schoolWorkId}).fetch();
 
 		if (!_.some(lessons, ['completed', false])) {
 			return 'btn-primary';
@@ -101,7 +102,6 @@ Template.trackingSchoolWork.events({
 		$('.js-hide, .js-info').hide();
 		$('.js-show').show();
 		Session.set('schoolWorkInfo', null);
-		Session.set('lessonInfo', null);
 
 		let schoolWorkId = $(event.currentTarget).attr('data-schoolWork-id');
 		let lessonId = $(event.currentTarget).attr('data-lesson-id');
@@ -120,13 +120,6 @@ Template.trackingSchoolWork.events({
 			clear: 'Clear',
 			close: 'Close',
 		});
-
-		Meteor.call('getLesson', lessonId, function(error, result) {
-			Session.set('lessonInfo', result);
-
-			$('.js-loader-' + lessonId).hide();
-			$('.js-info-' + lessonId).show();
-		});
 	},
 
 	'click .js-close'(event) {
@@ -138,7 +131,6 @@ Template.trackingSchoolWork.events({
 		if ($(window).width() < 640) {
 			$(window).scrollTop(Session.get('lessonScrollTop'));
 		}
-		Session.set('lessonInfo', null);
 	},
 
 	'change .js-completed-checkbox, change .js-assigned-checkbox'(event) {
@@ -192,12 +184,9 @@ Template.trackingSchoolWork.events({
 					iconClass: 'icn-danger',
 					message: error.reason,
 				});
-				
 				$('.js-lesson-updating').hide();
-				Session.set('lessonInfo', null);
 			} else {
 				// $('.js-lesson-updating').hide();
-				Session.set('lessonInfo', null);
 			}
 		});
 
