@@ -34,7 +34,7 @@ Template.trackingSchoolWork.helpers({
 	},
 
 	lessonPosition: function(schoolWorkId, lessonId) {
-		let lessonIds = SchoolWork.findOne({_id: schoolWorkId}).lessons.map(lesson => (lesson._id))
+		let lessonIds = Lessons.find({schoolWorkId: schoolWorkId}).map(lesson => (lesson._id))
 		return lessonIds.indexOf(lessonId);
 	},
 
