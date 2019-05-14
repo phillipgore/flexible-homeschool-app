@@ -405,10 +405,9 @@ Template.app.events({
 			editUrl: '/planning/students/edit/3/' + $(event.currentTarget).attr('id'),
 		});
 
-		let termId = Session.get('initialIds')['termId'];
-		let weekId = Session.get('initialIds')['weekId'];
-		Session.set('selectedTermId', termId);
-		Session.set('selectedWeekId', weekId);
+		let initialIds = Groups.findOne().initialIds;
+		Session.set('selectedTermId', initialIds.termId);
+		Session.set('selectedWeekId', initialIds.weekId);
 	},
 
 	'click .js-school-year'(event) {
@@ -427,10 +426,9 @@ Template.app.events({
 			editUrl: '/planning/schoolyears/edit/3/' + $(event.currentTarget).attr('id'),
 		});
 
-		let termId = Session.get('initialIds')['termId'];
-		let weekId = Session.get('initialIds')['weekId'];
-		Session.set('selectedTermId', termId);
-		Session.set('selectedWeekId', weekId);
+		let initialIds = Groups.findOne().initialIds;
+		Session.set('selectedTermId', initialIds.termId);
+		Session.set('selectedWeekId', initialIds.weekId);
 	},
 
 	'click .js-term'(event) {
