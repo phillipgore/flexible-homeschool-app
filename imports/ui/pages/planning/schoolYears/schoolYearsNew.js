@@ -1,8 +1,18 @@
 import {Template} from 'meteor/templating';
 import { Students } from '../../../../api/students/students.js';
+import { Stats } from '../../../../api/stats/stats.js';
+import { Paths } from '../../../../api/paths/paths.js';
 import './schoolYearsNew.html';
 
 LocalTerms = new Mongo.Collection(null);
+
+Template.schoolYearsNew.onCreated( function() {
+	let template = Template.instance();
+
+	template.autorun( () => {
+		this.subscribe('allSchoolYearPaths');
+	});
+});
 
 Template.schoolYearsNew.onRendered( function() {
 	let template = Template.instance();
@@ -66,63 +76,37 @@ Template.schoolYearsNew.onRendered( function() {
 				}
 			});
 
-			Meteor.call('insertSchoolYear', schoolYearProperties, function(error, schoolYearId) {
+			Meteor.call('insertSchoolYear', schoolYearProperties, termProperties, function(error, schoolYearId) {
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',
 						iconClass: 'icn-danger',
 						message: error.reason,
 					});
-					
+
 					$('.js-saving').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
-					termProperties.forEach(function(term) {
-						const weeksPerTerm = term.weeksPerTerm;
-						term.schoolYearId = schoolYearId;
-						delete term.weeksPerTerm;
+					let pathProperties = {
+						studentIds: [],
+						schoolYearIds: [schoolYearId],
+						termIds: [],
+					};
 
-						Meteor.call('insertTerm', term, function(error, termId) {
-							if (error) {
-								Alerts.insert({
-									colorClass: 'bg-danger',
-									iconClass: 'icn-danger',
-									message: error.reason,
-								});
-					
-								$('.js-saving').hide();
-								$('.js-submit').prop('disabled', false);
-							} else {
-								let weekProperties = []
-								
-								for (i = 0; i < parseInt(weeksPerTerm); i++) { 
-								    weekProperties.push({order: i + 1, schoolYearId: schoolYearId, termId: termId, termOrder: term.order});
-								}
+					Meteor.call('runPrimaryInitialIds');
+					Meteor.call('runPathProperties', pathProperties, true, function(error, result) {
+						console.log(result);
 
-								Meteor.call('batchInsertWeeks', weekProperties, function(error) {
-									if (error) {
-										Alerts.insert({
-											colorClass: 'bg-danger',
-											iconClass: 'icn-danger',
-											message: error.reason,
-										});
-					
-										$('.js-saving').hide();
-										$('.js-submit').prop('disabled', false);
-									} else {
-										Session.set('selectedSchoolYearId', schoolYearId)
+						Session.set('selectedSchoolYearId', result.schoolYearId);
+						Session.set('selectedTermId', result.termId);
+						Session.set('selectedWeekId', result.weekId);
 
-										// let resourcesScrollTop = document.getElementById(schoolYearId).getBoundingClientRect().top - 130;
-										// if (window.screen.availWidth > 640) {
-										// 	document.getElementsByClassName('frame-two')[0].scrollTop = resourcesScrollTop;
-										// }
-										
-										FlowRouter.go('/planning/schoolyears/view/3/' + schoolYearId);
-									}
-								});
-							}
-						});
+						// let resourcesScrollTop = document.getElementById(schoolYearId).getBoundingClientRect().top - 130;
+						// if (window.screen.availWidth > 640) {
+						// 	document.getElementsByClassName('frame-two')[0].scrollTop = resourcesScrollTop;
+						// }
 
+						FlowRouter.go('/planning/schoolyears/view/3/' + result.schoolYearId);
 					});
 				}
 			});

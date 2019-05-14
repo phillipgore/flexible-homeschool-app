@@ -79,20 +79,11 @@ Template.reportingView.helpers({
 		return Reports.findOne({_id: FlowRouter.getParam('selectedReportId')})
 	},
 
-	studentsExist: function() {
-		let initialIds = Groups.findOne().initialIds;
-		if (initialIds.studentId === 'empty') {
-			return false;
+	studentsSchoolYearsCount: function() {
+		if (Students.find().count() && SchoolYears.find().count()) {
+			return true;
 		}
-		return true;
-	},
-
-	schoolYearsExist: function() {
-		let initialIds = Groups.findOne().initialIds;
-		if (initialIds.schoolYearId === 'empty') {
-			return false;
-		}
-		return true;
+		return false;
 	},
 
 	reports: function() {

@@ -13,6 +13,7 @@ Template.schoolWorkView.onCreated( function() {
 	
 	template.autorun(() => {
 		this.schoolWorkData = Meteor.subscribe('schoolWorkView', FlowRouter.getParam('selectedSchoolWorkId'));
+		this.weekData = Meteor.subscribe('schoolYearWeeks', FlowRouter.getParam('selectedSchoolYearId'));
 	});
 });
 

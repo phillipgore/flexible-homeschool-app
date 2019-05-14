@@ -27,16 +27,22 @@ const PathsSchema = new SimpleSchema({
 	type: {
 		type: String,
 		label: "Type",
-		allowedValues: ['schoolYear', 'term']
+		allowedValues: ['schoolYear', 'term'],
 	},
 	firstTermId: {
 		type: String,
 		label: "First Term ID",
-        optional: true
+        optional: true,
 	},
 	firstWeekId: {
 		type: String,
-		label: "First Week ID"
+		label: "First Week ID",
+        optional: true,
+	},
+	firstSchoolWorkId: {
+		type: String,
+		label: "First School Work ID",
+        optional: true,
 	},
 	
 	groupId: {
@@ -70,6 +76,8 @@ const PathsSchema = new SimpleSchema({
 });
 
 Paths.attachSchema(PathsSchema);
+
+
 
 
 

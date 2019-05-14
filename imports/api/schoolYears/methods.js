@@ -1,28 +1,42 @@
 import {Mongo} from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
 
-import {Paths} from '../../api/paths/paths.js';
 import {SchoolYears} from './schoolYears.js';
+import {Paths} from '../../api/paths/paths.js';
+import {Stats} from '../../api/stats/stats.js';
 import {SchoolWork} from '../schoolWork/schoolWork.js';
 import {Terms} from '../terms/terms.js';
 import {Weeks} from '../weeks/weeks.js';
 import {Lessons} from '../lessons/lessons.js';
 import {primaryInitialIds} from '../../modules/server/initialIds';
-import {updatePaths} from '../../modules/server/paths';
+import {upsertPaths} from '../../modules/server/paths';
 
 Meteor.methods({
-	insertSchoolYear: function(schoolYearProperties) {
-		const schoolYearId = SchoolYears.insert(schoolYearProperties, function(error, result) {
-			console.log(result);
+	insertSchoolYear: function(schoolYearProperties, termProperties) {
+		const schoolYearId = SchoolYears.insert(schoolYearProperties, function(error, schoolYearId) {
+			if (error) { 
+				throw new Meteor.Error(500, error);
+			} else {
+				termProperties.forEach(function(term) {
+					const weeksPerTerm = term.weeksPerTerm;
+					term.schoolYearId = schoolYearId;
+					delete term.weeksPerTerm;
 
-			let pathProperties = {
-				studentIds: [],
-				schoolYearIds: [result],
-				termIds: [],
-			};
-
-			updatePaths(pathProperties);
-			primaryInitialIds();
+					Terms.insert(term, function(error, termId) {
+						if (error) { 
+							throw new Meteor.Error(500, error);
+						} else {
+							let weekProperties = []
+							for (i = 0; i < parseInt(weeksPerTerm); i++) { 
+							    weekProperties.push({order: i + 1, schoolYearId: schoolYearId, termId: termId, termOrder: term.order});
+							}
+							weekProperties.forEach(function(week) {
+								Weeks.insert(week);
+							});
+						}
+					});
+				})
+			}
 		});	
 
 		return schoolYearId;
@@ -30,32 +44,37 @@ Meteor.methods({
 
 	updateSchoolYear: function(pathProperties, schoolYearId, schoolYearProperties) {
 		SchoolYears.update(schoolYearId, {$set: schoolYearProperties}, function() {
-			updatePaths(pathProperties);		
+			upsertPaths(pathProperties);		
 			primaryInitialIds();
 		});
 	},
 
-	deleteSchoolYear: function(pathProperties, schoolYearId) {
+	deleteSchoolYear: function(schoolYearId) {
 		let schoolWorkIds = SchoolWork.find({schoolYearId: schoolYearId}).map(schoolWork => (schoolWork._id))
 		let termIds = Terms.find({schoolYearId: schoolYearId}).map(term => (term._id));
-		let weekIds = Weeks.find({termId: {$in: termIds}}).map(week => (week._id));
-		let lessonIds = Lessons.find({weekId: {$in: weekIds}}).map(lesson => (lesson._id));
+		let weekIds = Weeks.find({schoolYearId: schoolYearId}).map(week => (week._id));
+		let lessonIds = Lessons.find({schoolYearId: schoolYearId}).map(lesson => (lesson._id));
 
 		SchoolYears.update(schoolYearId, {$set: {deletedOn: new Date()}});
+		Paths.remove({timeFrameId: schoolYearId});
+		Stats.remove({timeFrameId: schoolYearId});
+
 		schoolWorkIds.forEach(function(schoolWorkId) {
 			SchoolWork.update(schoolWorkId, {$set: {deletedOn: new Date()}});
 		});
 		termIds.forEach(function(termId) {
 			Terms.update(termId, {$set: {deletedOn: new Date()}});
+			Paths.remove({timeFrameId: termId});
+			Stats.remove({timeFrameId: termId});
 		});
 		weekIds.forEach(function(weekId) {
 			Weeks.update(weekId, {$set: {deletedOn: new Date()}});
+			Stats.remove({timeFrameId: weekId});
 		});
 		lessonIds.forEach(function(lessonId) {
 			Lessons.update(lessonId, {$set: {deletedOn: new Date()}});
 		});	
 
-		Paths.remove({schoolYearId: schoolYearId});
 		primaryInitialIds();
 	},
 
@@ -222,7 +241,7 @@ Meteor.methods({
 			});
 		};
 
-		updatePaths(pathProperties);
+		upsertPaths(pathProperties);
 		primaryInitialIds();
 
 		return true;

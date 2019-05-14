@@ -55,11 +55,11 @@ Meteor.publish('resourceStats', function() {
 	Counts.publish(this, 'appNeedCount', Resources.find({type: 'app', availability: 'need', groupId: groupId, deletedOn: { $exists: false }}));
 });
 
-Meteor.publish('progressStatsPub', function(schoolYearId, termId, weekId) {
+Meteor.publish('progressStatsPub', function() {
 	if (!this.userId) {
 		return this.ready();
 	}
 
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-	return Stats.find({groupId: groupId, timeFrameId: {$in: [schoolYearId, termId, weekId]}}, {fields: {createdOn: 0, updatedOn: 0}});
+	return Stats.find({groupId: groupId}, {fields: {createdOn: 0, updatedOn: 0}});
 });

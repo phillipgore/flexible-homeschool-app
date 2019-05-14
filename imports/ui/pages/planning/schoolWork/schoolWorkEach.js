@@ -11,11 +11,11 @@ Template.schoolWorkEach.onRendered( function() {
 
 Template.schoolWorkEach.helpers({
 	selectedStudentId: function() {
-		return FlowRouter.getParam('selectedStudentId');
+		return Session.get('selectedStudentId');
 	},
 
 	selectedSchoolYearId: function() {
-		return FlowRouter.getParam('selectedSchoolYearId');
+		return Session.get('selectedSchoolYearId');
 	},
 
 	active: function(id) {

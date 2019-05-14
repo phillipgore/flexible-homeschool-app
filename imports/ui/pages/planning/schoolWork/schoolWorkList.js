@@ -68,14 +68,22 @@ Template.schoolWorkList.helpers({
 		return false;
 	},
 
-	active: function(id) {
-		if (FlowRouter.getParam('selectedSchoolWorkId') === id) {
+	studentsSchoolYearsCount: function() {
+		let initialIds = Groups.findOne().initialIds;
+		if (initialIds.studentId != 'empty' && initialIds.schoolYearId != 'empty') {
 			return true;
 		}
 		return false;
 	},
 });
 
-Template.schoolWorkList.events({
-	
-});
+
+
+
+
+
+
+
+
+
+

@@ -1,4 +1,7 @@
 import {Template} from 'meteor/templating';
+import {Stats} from '../../../api/stats/stats.js';
+import {Paths} from '../../../api/paths/paths.js';
+import {Students} from '../../../api/students/students.js';
 import {SchoolYears} from '../../../api/schoolYears/schoolYears.js';
 import {Terms} from '../../../api/terms/terms.js';
 import {SchoolWork} from '../../../api/schoolWork/schoolWork.js';
@@ -12,13 +15,22 @@ Template.subbarTracking.onCreated( function() {
 	
 	template.autorun(() => {
 		// Subbar Subscriptions
+		this.trackingStats = Meteor.subscribe('progressStatsPub');
+		this.studentData = Meteor.subscribe('studentPaths');
 		this.schoolYearData = Meteor.subscribe('schoolYearPaths', FlowRouter.getParam('selectedStudentId'));
-		this.termData = Meteor.subscribe('termPaths', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedSchoolYearId'), false);
-		this.weekData = Meteor.subscribe('weekPaths', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedTermId'), false);
+		this.termData = Meteor.subscribe('termPaths', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedSchoolYearId'));
+		this.weekData = Meteor.subscribe('weekPaths', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedTermId'));
 	});
 });
 
 Template.subbarTracking.helpers({
+
+	/* -------------------- Subscritpions -------------------- */
+
+	trackingSubReady: function() {
+		return Template.instance().trackingStats.ready();
+	},
+
 	schoolYearSubReady: function() {
 		return Template.instance().schoolYearData.ready();
 	},
@@ -31,98 +43,81 @@ Template.subbarTracking.helpers({
 		return Template.instance().weekData.ready();
 	},
 
+	
+	/* -------------------- Students -------------------- */
+
 	selectedStudentId: function() {
 		return FlowRouter.getParam('selectedStudentId');
 	},
 
+	
+	/* -------------------- SchooYears -------------------- */
+
 	schoolYears: function() {
 		return SchoolYears.find({}, {sort: {startYear: 1}});
-	},
-
-	selectedSchoolYearId: function() {
-		return FlowRouter.getParam('selectedSchoolYearId');
 	},
 
 	selectedSchoolYear: function() {
 		return SchoolYears.findOne({_id: FlowRouter.getParam('selectedSchoolYearId')});
 	},
 
-	yearStatus: function(schoolYearStatus) {
-		if (schoolYearStatus === 'empty') {
-			return 'icn-open-circle txt-gray-darker';
-		}
-		if (schoolYearStatus === 'pending') {
-			return 'icn-circle txt-gray-darker';
-		}
-		if (schoolYearStatus === 'partial') {
-			return 'icn-circle txt-secondary';
-		}
-		if (schoolYearStatus === 'assigned') {
-			return 'icn-circle txt-warning';
-		}
-		if (schoolYearStatus === 'completed') {
-			return 'icn-circle txt-primary';
-		}
+	selectedSchoolYearId: function() {
+		return Session.get('selectedSchoolYearId');
 	},
+
+	
+	/* -------------------- Terms -------------------- */
 
 	terms: function() {
 		return Terms.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}, {sort: {order: 1}});
-	},
-
-	selectedTermId: function() {
-		return FlowRouter.getParam('selectedTermId');
 	},
 
 	selectedTerm: function() {
 		return Terms.findOne({_id: FlowRouter.getParam('selectedTermId')});
 	},
 
-	termStatus: function(termStatus) {
-		if (termStatus === 'empty') {
-			return 'icn-open-circle txt-gray-darker';
-		}
-		if (termStatus === 'pending') {
-			return 'icn-circle txt-gray-darker';
-		}
-		if (termStatus === 'partial') {
-			return 'icn-circle txt-secondary';
-		}
-		if (termStatus === 'assigned') {
-			return 'icn-circle txt-warning';
-		}
-		if (termStatus === 'completed') {
-			return 'icn-circle txt-primary';
-		}
+	selectedTermId: function() {
+		return Session.get('selectedTermId');
 	},
+
+	
+	/* -------------------- Weeks -------------------- */
 
 	weeks: function() {
 		return Weeks.find({}, {sort: {order: 1}});
-	},
-
-	selectedWeekId: function() {
-		return FlowRouter.getParam('selectedWeekId');
 	},
 
 	selectedWeek: function() {
 		return Weeks.findOne({_id: FlowRouter.getParam('selectedWeekId')});
 	},
 
-	weekStatus: function(weekStatus) {
-		if (weekStatus === 'empty') {
-			return 'icn-open-circle txt-gray-darker';
+	selectedWeekId: function() {
+		return Session.get('selectedWeekId');
+	},
+
+	
+	/* -------------------- Joins -------------------- */
+
+	selectedFramePositionOne: function() {
+		if (Session.get('selectedFramePosition') === 1 && Session.get('windowWidth') < 640) {
+			return true;
 		}
-		if (weekStatus === 'pending') {
-			return 'icn-circle txt-gray-darker';
+		return false;
+	},
+
+	firstTermId: function(timeFrameId) {
+		return Paths.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}).firstTermId;
+	},
+
+	firstWeekId: function(timeFrameId) {
+		return Paths.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}).firstWeekId;
+	},
+
+	studentsSchoolYearsCount: function() {
+		if (Students.find().count() && SchoolYears.find().count()) {
+			return true;
 		}
-		if (weekStatus === 'partial') {
-			return 'icn-circle txt-secondary';
-		}
-		if (weekStatus === 'assigned') {
-			return 'icn-circle txt-warning';
-		}
-		if (weekStatus === 'completed') {
-			return 'icn-circle txt-primary';
-		}
+		return false;
 	},
 
 	activeListItem: function(currentItem, item) {
@@ -132,11 +127,25 @@ Template.subbarTracking.helpers({
 		return false;
 	},
 
-	selectedFramePositionOne: function() {
-		if (Session.get('selectedFramePosition') === 1 && Session.get('windowWidth') < 640) {
-			return true;
+	getStatus: function(timeFrameId) {
+		let status = Stats.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}).status;
+		
+		if (status === 'empty') {
+			return 'icn-open-circle txt-gray-darker';
 		}
-		return false;
+		if (status === 'pending') {
+			return 'icn-circle txt-gray-darker';
+		}
+		if (status === 'partial') {
+			return 'icn-circle txt-secondary';
+		}
+		if (status === 'assigned') {
+			return 'icn-circle txt-warning';
+		}
+		if (status === 'completed') {
+			return 'icn-circle txt-primary';
+		}
 	},	
 });
+
 

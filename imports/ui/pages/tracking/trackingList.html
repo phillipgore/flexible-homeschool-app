@@ -1,23 +1,18 @@
 <template name="trackingList">
 	
 	<main class="app-content app-content-preceeds-toolbar">
-		{{#if students.count}}
-			{{#if schoolYears.count}}
-				<ul class="data-list">
-					{{> trackingEach students=students}}
-				</ul>
-			{{else}}
-				<div class="txt-tn-center m-tn-t-72">
-					<i class="icn-tracking font-size-64 txt-gray m-tn-r-9"></i>
-					<h1 class="m-tn-t-36">Requires School Years</h1>
-					<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36 txt-gray-darkest">Go to "Planning" to add your first School Year.</p>
-				</div>
-			{{/if}}
+		{{#if studentsSchoolYearsCount}}
+			<ul class="data-list">
+				{{> trackingEach students=students}}
+			</ul>
 		{{else}}
 			<div class="txt-tn-center m-tn-t-72">
 				<i class="icn-tracking font-size-64 txt-gray m-tn-r-9"></i>
-				<h1 class="m-tn-t-36">Requires Students</h1>
-				<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36 txt-gray-darkest">Go to "Planning" to add your first Student.</p>
+				<h1 class="m-tn-t-36">Requires Students<br>and School Years</h1>
+				<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36 txt-gray-darkest">
+					<span class="dis-sm-none">Go to "Planning" to add your first Student or School Year.</span>
+					<span class="dis-tn-none dis-sm-inline">Click the plus icon above to add Students or School Work.</span>
+				</p>
 			</div>
 		{{/if}}
 	</main>

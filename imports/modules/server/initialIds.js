@@ -16,7 +16,6 @@ import _ from 'lodash';
 
 // Intial Ids for Student, School Year, Term, Week and School Work.
 export function primaryInitialIds (submittedGroupId) {	
-	console.log('primaryInitialIds')
 	let groupId = getGroupId(submittedGroupId);
 	let currentYear = startYearFunction();
 

@@ -1,4 +1,5 @@
 import {Template} from 'meteor/templating';
+import {Paths} from '../../../api/paths/paths.js';
 import {SchoolYears} from '../../../api/schoolYears/schoolYears.js';
 import {Students} from '../../../api/students/students.js';
 import {SchoolWork} from '../../../api/schoolWork/schoolWork.js';
@@ -12,30 +13,73 @@ Template.subbarSchoolWork.onCreated( function() {
 	let template = Template.instance();
 	
 	template.autorun(() => {
-		this.subscribe('studentPaths');
-		this.subscribe('schoolYearPaths', FlowRouter.getParam('selectedStudentId'), false);
-	});
-
-	Meteor.call('getInitialSchoolWorkIds', function(error, result) {
-		Session.set('initialSchoolWorkIds', result);
+		this.studentData = Meteor.subscribe('studentPaths');
+		this.schoolYearPathData = Meteor.subscribe('allSchoolYearPaths');
+		this.schoolYearData = Meteor.subscribe('allSchoolYears');
 	});
 });
 
 Template.subbarSchoolWork.helpers({
-	schoolWorkCount: function() {
-		return SchoolWork.find().count();
+
+	/* -------------------- Subscritpions -------------------- */
+
+	studentSubReady: function() {
+		return Template.instance().studentData.ready();
 	},
+
+	schoolYearSubReady: function() {
+		return Template.instance().schoolYearData.ready();
+	},
+
+	
+	/* -------------------- Students -------------------- */
+
+	students: function() {
+		return Students.find({}, {sort: {birthday: 1, lastName: 1, firstName: 1}});
+	},
+
+	selectedStudent: function() {
+		return Students.findOne({_id: FlowRouter.getParam('selectedStudentId')});
+	},
+
+	selectedStudentId: function() {
+		return Session.get('selectedStudentId');
+	},
+
+	
+	/* -------------------- SchooYears -------------------- */
 
 	schoolYears: function() {
 		return SchoolYears.find({}, {sort: {startYear: 1}});
 	},
 
-	selectedSchoolYearId: function() {
-		return FlowRouter.getParam('selectedSchoolYearId');
-	},
-
 	selectedSchoolYear: function() {
 		return SchoolYears.findOne({_id: FlowRouter.getParam('selectedSchoolYearId')});
+	},
+
+	selectedSchoolYearId: function() {
+		return Session.get('selectedSchoolYearId');
+	},
+
+	
+	/* -------------------- Joins -------------------- */
+
+	studentsSchoolYearsCount: function() {
+		if (Students.find().count() && SchoolYears.find().count()) {
+			return true;
+		}
+		return false;
+	},
+
+	firstSchoolWorkId: function(studentId, timeFrameId) {
+		return Paths.findOne({studentId: studentId, timeFrameId: timeFrameId}).firstSchoolWorkId;
+	},
+	
+	activeListItem: function(currentItem, item) {
+		if (currentItem === item) {
+			return true;
+		}
+		return false;
 	},
 
 	yearStatus: function(schoolYearStatus) {
@@ -48,30 +92,5 @@ Template.subbarSchoolWork.helpers({
 		if (schoolYearStatus === 'completed') {
 			return 'txt-primary';
 		}
-	},
-
-	students: function() {
-		return Students.find({}, {sort: {birthday: 1, lastName: 1, firstName: 1}});
-	},
-
-	selectedStudentId: function() {
-		return FlowRouter.getParam('selectedStudentId');
-	},
-
-	selectedStudent: function() {
-		return Students.findOne({_id: FlowRouter.getParam('selectedStudentId')});
-	},
-
-	studentSchoolYearSchoolWorkId: function(studentId, schoolYearId) {
-		let schoolWorkIds = Session.get('initialSchoolWorkIds');
-		let key = 'schoolWork' + studentId + schoolYearId;
-		return schoolWorkIds[key];
-	},
-	
-	activeListItem: function(currentItem, item) {
-		if (currentItem === item) {
-			return true;
-		}
-		return false;
 	},
 });

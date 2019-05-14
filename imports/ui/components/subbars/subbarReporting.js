@@ -1,9 +1,13 @@
 import {Template} from 'meteor/templating';
+import {Stats} from '../../../api/stats/stats.js';
+import {Paths} from '../../../api/paths/paths.js';
 import {Students} from '../../../api/students/students.js';
 import {SchoolYears} from '../../../api/schoolYears/schoolYears.js';
 import {Terms} from '../../../api/terms/terms.js';
 import {Weeks} from '../../../api/weeks/weeks.js';
 import {Reports} from '../../../api/reports/reports.js';
+
+import _ from 'lodash';
 import moment from 'moment';
 import './subbarReporting.html';
 
@@ -11,14 +15,22 @@ Template.subbarReporting.onCreated( function() {
 	let template = Template.instance();
 	
 	template.autorun(() => {
-		this.subscribe('studentPaths');
+		this.trackingStats = Meteor.subscribe('progressStatsPub');
+		this.studentData = this.subscribe('studentPaths');
 		this.schoolYearData = Meteor.subscribe('schoolYearPaths', FlowRouter.getParam('selectedStudentId'));
-		this.termData = Meteor.subscribe('termPaths', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedSchoolYearId'), true);
-		this.weekData = Meteor.subscribe('weekPaths', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedTermId'), true);
+		this.termData = Meteor.subscribe('termPaths', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedSchoolYearId'));
+		this.weekData = Meteor.subscribe('weekPaths', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedTermId'));
 	});
 });
 
 Template.subbarReporting.helpers({
+
+	/* -------------------- Subscritpions -------------------- */
+
+	studentSubReady: function() {
+		return Template.instance().studentData.ready();
+	},
+
 	schoolYearSubReady: function() {
 		return Template.instance().schoolYearData.ready();
 	},
@@ -31,17 +43,8 @@ Template.subbarReporting.helpers({
 		return Template.instance().weekData.ready();
 	},
 
-	reports: function() {
-		return Reports.find();
-	},
-
-	schoolYears: function() {
-		return SchoolYears.find({}, {sort: {startYear: 1}});
-	},
-
-	selectedSchoolYear: function() {
-		return SchoolYears.findOne({_id: FlowRouter.getParam('selectedSchoolYearId')});
-	},
+	
+	/* -------------------- Students -------------------- */
 
 	students: function() {
 		return Students.find({}, {sort: {birthday: 1, lastName: 1, firstName: 1}});
@@ -51,23 +54,27 @@ Template.subbarReporting.helpers({
 		return Students.findOne({_id: FlowRouter.getParam('selectedStudentId')});
 	},
 
-	yearStatus: function(schoolYearStatus) {
-		if (schoolYearStatus === 'empty') {
-			return 'icn-open-circle txt-gray-darker';
-		}
-		if (schoolYearStatus === 'pending') {
-			return 'icn-circle txt-gray-darker';
-		}
-		if (schoolYearStatus === 'partial') {
-			return 'icn-circle txt-secondary';
-		}
-		if (schoolYearStatus === 'assigned') {
-			return 'icn-circle txt-warning';
-		}
-		if (schoolYearStatus === 'completed') {
-			return 'icn-circle txt-primary';
-		}
+	selectedStudentId: function() {
+		return Session.get('selectedStudentId');
 	},
+
+	
+	/* -------------------- SchooYears -------------------- */
+
+	schoolYears: function() {
+		return SchoolYears.find({}, {sort: {startYear: 1}});
+	},
+
+	selectedSchoolYear: function() {
+		return SchoolYears.findOne({_id: FlowRouter.getParam('selectedSchoolYearId')});
+	},
+
+	selectedSchoolYearId: function() {
+		return Session.get('selectedSchoolYearId');
+	},
+
+	
+	/* -------------------- Terms -------------------- */
 
 	terms: function() {
 		return Terms.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}, {sort: {order: 1}});
@@ -77,23 +84,12 @@ Template.subbarReporting.helpers({
 		return Terms.findOne({_id: FlowRouter.getParam('selectedTermId')});
 	},
 
-	termStatus: function(termStatus) {
-		if (termStatus === 'empty') {
-			return 'icn-open-circle txt-gray-darker';
-		}
-		if (termStatus === 'pending') {
-			return 'icn-circle txt-gray-darker';
-		}
-		if (termStatus === 'partial') {
-			return 'icn-circle txt-secondary';
-		}
-		if (termStatus === 'assigned') {
-			return 'icn-circle txt-warning';
-		}
-		if (termStatus === 'completed') {
-			return 'icn-circle txt-primary';
-		}
+	selectedTermId: function() {
+		return Session.get('selectedTermId');
 	},
+
+	
+	/* -------------------- Weeks -------------------- */
 
 	weeks: function() {
 		return Weeks.find({termId: FlowRouter.getParam('selectedTermId')}, {sort: {order: 1}});
@@ -103,22 +99,15 @@ Template.subbarReporting.helpers({
 		return Weeks.findOne({_id: FlowRouter.getParam('selectedWeekId')});
 	},
 
-	weekStatus: function(weekStatus) {
-		if (weekStatus === 'empty') {
-			return 'icn-open-circle txt-gray-darker';
-		}
-		if (weekStatus === 'pending') {
-			return 'icn-circle txt-gray-darker';
-		}
-		if (weekStatus === 'partial') {
-			return 'icn-circle txt-secondary';
-		}
-		if (weekStatus === 'assigned') {
-			return 'icn-circle txt-warning';
-		}
-		if (weekStatus === 'completed') {
-			return 'icn-circle txt-primary';
-		}
+	selectedWeekId: function() {
+		return Session.get('selectedWeekId');
+	},
+
+	
+	/* -------------------- Reports -------------------- */
+
+	reports: function() {
+		return Reports.find();
 	},
 
 	selectedReport: function() {
@@ -128,12 +117,50 @@ Template.subbarReporting.helpers({
 	selectedReportId: function() {
 		return Session.get('selectedReportId');
 	},
+
+	
+	/* -------------------- Joins -------------------- */
+
+	firstTermId: function(timeFrameId) {
+		return Paths.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}).firstTermId;
+	},
+
+	firstWeekId: function(timeFrameId) {
+		return Paths.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}).firstWeekId;
+	},
+
+	studentsSchoolYearsCount: function() {
+		if (Students.find().count() && SchoolYears.find().count()) {
+			return true;
+		}
+		return false;
+	},
 	
 	activeListItem: function(currentItem, item) {
 		if (currentItem === item) {
 			return true;
 		}
 		return false;
+	},
+
+	getStatus: function(timeFrameId) {
+		let status = Stats.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}).status;
+		
+		if (status === 'empty') {
+			return 'icn-open-circle txt-gray-darker';
+		}
+		if (status === 'pending') {
+			return 'icn-circle txt-gray-darker';
+		}
+		if (status === 'partial') {
+			return 'icn-circle txt-secondary';
+		}
+		if (status === 'assigned') {
+			return 'icn-circle txt-warning';
+		}
+		if (status === 'completed') {
+			return 'icn-circle txt-primary';
+		}
 	},
 	
 	reportsAvailable: function() {

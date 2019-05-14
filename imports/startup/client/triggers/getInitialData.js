@@ -103,7 +103,7 @@ function checkSignIn(context, redirect) {
 		let initialIds = Groups.findOne().initialIds;
 		if (Meteor.user().info.role === 'Observer') {
 			redirect('/tracking/students/view/1/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedTermId') +'/'+ Session.get('selectedWeekId'));
-		} else if (initialIds.studentId != 'empty' + initialIds.schoolYearId != 'empty' + initialIds.schoolWorkId != 'empty') {
+		} else if (initialIds.studentId != 'empty' && initialIds.schoolYearId != 'empty' && initialIds.schoolWorkId != 'empty') {
 			redirect('/tracking/students/view/1/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedTermId') +'/'+ Session.get('selectedWeekId'));
 		} else {
 			redirect('/planning/students/view/1/' + Session.get('selectedStudentId'));

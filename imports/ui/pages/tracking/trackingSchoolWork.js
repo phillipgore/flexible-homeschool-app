@@ -1,4 +1,5 @@
 import {Template} from 'meteor/templating';
+import { Stats } from '../../../api/stats/stats.js';
 import { SchoolYears } from '../../../api/schoolYears/schoolYears.js';
 import { SchoolWork } from '../../../api/schoolWork/schoolWork.js';
 import { Lessons } from '../../../api/lessons/lessons.js';
@@ -35,7 +36,7 @@ Template.trackingSchoolWork.helpers({
 	},
 
 	lessonPosition: function(schoolWorkId, lessonId) {
-		let lessonIds = SchoolWork.findOne({_id: schoolWorkId}).lessons.map(lesson => (lesson._id))
+		let lessonIds = Lessons.find({schoolWorkId: schoolWorkId}).map(lesson => (lesson._id))
 		return lessonIds.indexOf(lessonId);
 	},
 
@@ -173,11 +174,110 @@ Template.trackingSchoolWork.events({
 			termIds: [FlowRouter.getParam('selectedTermId')],
 		}
 
-		let statProperties = {
-			
-		}
+		function statLessonsCompletedInc(lessonProperties) {
+			let lessonCurrentStatus = Lessons.findOne({_id: lessonProperties._id}).completed;
 
-		Meteor.call('updateLesson', pathProperties, lessonProperties, function(error, result) {
+			if (lessonCurrentStatus === lessonProperties.completed) {
+				return 0;
+			}
+			if (!lessonCurrentStatus && lessonProperties.completed) {
+				return 1
+			}
+			if (lessonCurrentStatus && !lessonProperties.completed) {
+				return -1;
+			}
+		};
+
+		function rounding(complete, total) {
+			if(complete && total) {
+				let percentComplete = complete / total * 100
+				if (percentComplete > 0 && percentComplete < 1) {
+					return 1;
+				}
+				return Math.floor(percentComplete);
+			}
+			return 0;
+		};
+
+		function statLessonsAssignedInc(lessonProperties) {
+			let lessonCurrentStatus = Lessons.findOne({_id: lessonProperties._id}).assigned;
+
+			if (lessonCurrentStatus === lessonProperties.assigned) {
+				return 0;
+			}
+			if (!lessonCurrentStatus && lessonProperties.assigned) {
+				return 1
+			}
+			if (lessonCurrentStatus && !lessonProperties.assigned) {
+				return -1;
+			}
+		};
+
+		function status (lessonsTotal, lessonsCompletedTotal, lessonsAssignedTotal) {
+			if (!lessonsTotal) {
+				return 'empty'
+			}
+			if (!lessonsCompletedTotal && !lessonsAssignedTotal) {
+				return 'pending'
+			} 
+			if (lessonsTotal === lessonsCompletedTotal) {
+				return 'completed'
+			}
+			if (lessonsAssignedTotal) {
+				return 'assigned'
+			} 
+			return 'partial'
+		};
+
+		let statLessonsCompleted = statLessonsCompletedInc(lessonProperties);
+		let statLessonsAssigned = statLessonsAssignedInc(lessonProperties);
+
+		let schoolYearStats = Stats.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: FlowRouter.getParam('selectedSchoolYearId'), type: 'schoolYear'});
+		let termStats = Stats.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: FlowRouter.getParam('selectedTermId'), type: 'term'});
+		let weekStats = Stats.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: FlowRouter.getParam('selectedWeekId'), type: 'week'});
+
+		let schoolYearCompletedLessonCount = schoolYearStats.completedLessonCount + statLessonsCompleted;
+		let schoolYearCompletedLessonPercentage = rounding(schoolYearCompletedLessonCount, schoolYearStats.lessonCount);
+		let schoolYearAssignedLessonCount = schoolYearStats.assignedLessonCount + statLessonsAssigned;
+		let schoolYearStatus = status(schoolYearStats.lessonCount, schoolYearCompletedLessonCount, schoolYearAssignedLessonCount);
+
+		let termCompletedLessonCount = termStats.completedLessonCount + statLessonsCompleted;
+		let termCompletedLessonPercentage = rounding(termCompletedLessonCount, termStats.lessonCount);
+		let termAssignedLessonCount = termStats.assignedLessonCount + statLessonsAssigned;
+		let termStatus = status(termStats.lessonCount, termCompletedLessonCount, termAssignedLessonCount);
+
+		let weekCompletedLessonCount = weekStats.completedLessonCount + statLessonsCompleted;
+		let weekCompletedLessonPercentage = rounding(weekCompletedLessonCount, weekStats.lessonCount);
+		let weekAssignedLessonCount = weekStats.assignedLessonCount + statLessonsAssigned;
+		let weekStatus = status(weekStats.lessonCount, weekCompletedLessonCount, weekAssignedLessonCount);
+		
+		let statProperties =  [
+			{
+				_id: schoolYearStats._id,
+				completedLessonCount: schoolYearCompletedLessonCount,
+				completedLessonPercentage: schoolYearCompletedLessonPercentage,
+				assignedLessonCount: schoolYearAssignedLessonCount,
+				status: schoolYearStatus,
+			},
+
+			{
+				_id: termStats._id,
+				completedLessonCount: termCompletedLessonCount,
+				completedLessonPercentage: termCompletedLessonPercentage,
+				assignedLessonCount: termAssignedLessonCount,
+				status: termStats,
+			},
+
+			{
+				_id: weekStats._id,
+				completedLessonCount: weekCompletedLessonCount,
+				completedLessonPercentage: weekCompletedLessonPercentage,
+				assignedLessonCount: weekAssignedLessonCount,
+				status: weekStatus,
+			},
+		];
+
+		Meteor.call('updateLesson', statProperties, pathProperties, lessonProperties, function(error, result) {
 			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',

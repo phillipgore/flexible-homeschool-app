@@ -1,7 +1,7 @@
 Inject.rawBody("loader", Assets.getText('loading.html'));
 
 
-import { ReactiveVar } from 'meteor/reactive-var'
+import { ReactiveVar } from 'meteor/reactive-var';
 import './browser-policy.js';
 import './accounts.js';
 import './admin.js';

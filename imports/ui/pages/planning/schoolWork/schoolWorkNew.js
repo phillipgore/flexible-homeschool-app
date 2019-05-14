@@ -93,7 +93,8 @@ Template.schoolWorkNew.onRendered( function() {
 				schoolYearId: schoolYearId,
 			};
 
-			let lessonProperties = []
+			let lessonProperties = [];
+			let weekIds = [];
 			$("[name='timesPerWeek']").each(function(index) {
 				for (i = 0; i < parseInt(this.value); i++) {
 				    lessonProperties.push({
@@ -104,6 +105,7 @@ Template.schoolWorkNew.onRendered( function() {
 				    	weekId: this.dataset.weekId,
 				    	weekOrder: parseInt(this.dataset.weekOrder),
 				    });
+				    weekIds.push(this.dataset.weekId)
 				}
 			});
 
@@ -112,8 +114,17 @@ Template.schoolWorkNew.onRendered( function() {
 				schoolYearIds: [schoolYearId],
 				termIds: Array.from(document.getElementsByClassName('js-term-container')).map(term => term.id),
 			};
+
+			let statProperties = {
+				studentIds: studentIds,
+				schoolYearIds: [schoolYearId],
+				termIds: Array.from(document.getElementsByClassName('js-term-container')).map(term => term.id),
+				weekIds: _.uniq(weekIds),
+			}
 			
-			Meteor.call('insertSchoolWork', pathProperties, studentIds, schoolWorkProperties, lessonProperties, function(error, newSchoolWork) {
+			return false;
+
+			Meteor.call('insertSchoolWork', statProperties, pathProperties, studentIds, schoolWorkProperties, lessonProperties, function(error, newSchoolWork) {
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',

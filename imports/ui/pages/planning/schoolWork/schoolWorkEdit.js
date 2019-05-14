@@ -91,6 +91,7 @@ Template.schoolWorkEdit.onRendered( function() {
 
 			let insertLessonProperties = [];
 			let removeLessonIds = [];
+			let weekIds = [];
 
 			// Get Lesson Properties from form
 			$("[name='timesPerWeek']").each(function(index) {
@@ -115,6 +116,7 @@ Template.schoolWorkEdit.onRendered( function() {
 					    	weekId: this.dataset.weekId,
 					    	weekOrder: parseInt(this.dataset.weekOrder),
 					    });
+					    weekIds.push(this.dataset.weekId);
 					}
 				}
 				if (newLessonsTotal < totalLessons && newLessonsTotal >= completeLessons) {
@@ -139,6 +141,13 @@ Template.schoolWorkEdit.onRendered( function() {
 				studentIds: [FlowRouter.getParam('selectedStudentId')],
 				schoolYearIds: [FlowRouter.getParam('selectedSchoolYearId')],
 				termIds: Array.from(document.getElementsByClassName('js-times-per-week-container')).map(term => term.id),
+			}
+
+			let statProperties = {
+				studentIds: [FlowRouter.getParam('selectedStudentId')],
+				schoolYearIds: [schoolYearId],
+				termIds: Array.from(document.getElementsByClassName('js-term-container')).map(term => term.id),
+				weekIds: weekIds,
 			}
 
 			Meteor.call('updateSchoolWork', pathProperties, updateSchoolWorkProperties, removeLessonIds, insertLessonProperties, function(error, result) {

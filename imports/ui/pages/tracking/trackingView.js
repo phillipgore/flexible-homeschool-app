@@ -77,6 +77,13 @@ Template.trackingView.helpers({
 		}
 		return false;
 	},
+
+	studentsSchoolYearsCount: function() {
+		if (Students.find().count() && SchoolYears.find().count()) {
+			return true;
+		}
+		return false;
+	},
 });
 
 

@@ -108,7 +108,7 @@ Template.toolbar.helpers({
 
 	schoolWorkDisabled: function() {
 		let initialIds = Groups.findOne().initialIds;
-		if (Session.get('toolbarType') === 'schoolWork' && initialIds.studentId === 'empty' || Session.get('toolbarType') === 'schoolWork' && initialIds.schoolYearId === 'empty') {
+		if (initialIds.studentId == 'empty' || initialIds.schoolYearId == 'empty') {
 			return true;
 		}
 		return false;

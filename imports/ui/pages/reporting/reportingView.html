@@ -1,57 +1,48 @@
 <template name="reportingView">
 	<main class="app-content app-content-preceeds-toolbar app-content-data">
 		{{reportName selectedReport.name}}
-		{{#if reports.count}}
-			{{#unless studentsExist}}
-				<div class="txt-tn-center m-tn-t-72">
-					<i class="icn-reporting font-size-64 txt-gray m-tn-r-9"></i>
-					<h1 class="m-tn-t-36">Requires Students</h1>
-					<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36 txt-gray-darkest">Click the plus icon above to add your first Student.</p>
+
+		{{#if reports.count}}	
+			{{#if studentsSchoolYearsCount}}
+				<div class="report-wrapper">
+					<h1 class="txt-tn-center m-tn-b-3">{{selectedStudent.firstName}} {{selectedStudent.middleName}} {{selectedStudent.lastName}}</h1>
+					<h2 class="txt-tn-center txt-gray-darkest m-tn-b-36">{{selectedSchoolYear.startYear}}-{{selectedSchoolYear.endYear}} : {{termLabel selectedTerm._id selectedTerm.order}} : {{weekLabel selectedWeek._id selectedWeek.order}}</h2>
+					
+					{{#if selectedReport.schoolYearReportVisible}}
+						<div class="report-divider">
+							<div class="report-divider-label">School Year</div>
+						</div> 
+					{{/if}}
+					{{> reportingSchoolYears}}
+					
+					{{#if selectedReport.termsReportVisible}}
+						<div class="report-divider">
+							<div class="report-divider-label">Terms</div>
+						</div> 
+					{{/if}}
+					{{> reportingTerms}}
+
+					{{#if selectedReport.schoolWorkReportVisible}}
+						<div class="report-divider">
+							<div class="report-divider-label">School Work</div>
+						</div> 
+					{{/if}}
+					{{> reportingSchoolWork}}
+					
+					{{#if selectedReport.resourcesReportVisible}}
+						<div class="report-divider">
+							<div class="report-divider-label">Resources</div>
+						</div> 
+					{{/if}}
+					{{> reportingResources}}
 				</div>
 			{{else}}
-				{{#unless schoolYearsExist}}
-					<div class="txt-tn-center m-tn-t-72">
-						<i class="icn-reporting font-size-64 txt-gray m-tn-l-9"></i>
-						<h1 class="m-tn-t-36">Requires School Years</h1>
-						<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36 txt-gray-darkest">Click the plus icon above to add your first School Year.</p>
-					</div>
-				{{else}}
-					{{#if reports.count}}
-						<div class="report-wrapper">
-							<h1 class="txt-tn-center m-tn-b-3">{{selectedStudent.firstName}} {{selectedStudent.middleName}} {{selectedStudent.lastName}}</h1>
-							<h2 class="txt-tn-center txt-gray-darkest m-tn-b-36">{{selectedSchoolYear.startYear}}-{{selectedSchoolYear.endYear}} : {{termLabel selectedTerm._id selectedTerm.order}} : {{weekLabel selectedWeek._id selectedWeek.order}}</h2>
-							
-							{{#if selectedReport.schoolYearReportVisible}}
-								<div class="report-divider">
-									<div class="report-divider-label">School Year</div>
-								</div> 
-							{{/if}}
-							{{> reportingSchoolYears}}
-							
-							{{#if selectedReport.termsReportVisible}}
-								<div class="report-divider">
-									<div class="report-divider-label">Terms</div>
-								</div> 
-							{{/if}}
-							{{> reportingTerms}}
-
-							{{#if selectedReport.schoolWorkReportVisible}}
-								<div class="report-divider">
-									<div class="report-divider-label">School Work</div>
-								</div> 
-							{{/if}}
-							{{> reportingSchoolWork}}
-							
-							{{#if selectedReport.resourcesReportVisible}}
-								<div class="report-divider">
-									<div class="report-divider-label">Resources</div>
-								</div> 
-							{{/if}}
-							{{> reportingResources}}
-						</div>
-					{{/if}}
-				{{/unless}}
-			{{/unless}}
+				<div class="txt-tn-center m-tn-t-72">
+					<i class="icn-reporting font-size-64 txt-gray m-tn-r-9"></i>
+					<h1 class="m-tn-t-36">Requires Students & School Years</h1>
+					<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36 txt-gray-darkest">Click the plus icon above to add your first Student or School Year.</p>
+				</div>
+			{{/if}}
 		{{/if}}
 	</main>
 	{{> deleting}}

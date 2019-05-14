@@ -8,10 +8,11 @@ import './trackingList.html';
 import _ from 'lodash'
 
 Template.trackingList.onCreated( function() {
-	let template = Template.instance();
+	// let template = Template.instance();
 
-	this.trackingData = Meteor.subscribe('trackingListPub', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'), FlowRouter.getParam('selectedWeekId'));
-    this.trackingStats = Meteor.subscribe('progressStatsPub', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'), FlowRouter.getParam('selectedWeekId'));
+	// template.autorun(() => {
+		this.trackingData = Meteor.subscribe('trackingListPub', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'), FlowRouter.getParam('selectedWeekId'));
+	// });
 });
 
 Template.trackingList.onRendered( function() {
@@ -59,7 +60,14 @@ Template.trackingList.helpers({
 			return true;
 		}
 		return false;
-	}
+	},
+
+	studentsSchoolYearsCount: function() {
+		if (Students.find().count() && SchoolYears.find().count()) {
+			return true;
+		}
+		return false;
+	},
 
 });
 

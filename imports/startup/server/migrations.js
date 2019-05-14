@@ -193,6 +193,10 @@ Migrations.add({
 						{studentId: student._id, schoolYearId: schoolYear._id, completed: true, deletedOn: { $exists: false }},
 						{sort: {termOrder: 1, weekOrder: 1, order: 1}, fields: {termId: 1, weekId: 1}}
 					);
+					let firstSchoolWork = SchoolWork.findOne(
+						{groupId: groupId, studentId: student._id, schoolYearId: schoolYear._id, deletedOn: { $exists: false }},
+						{sort: {name: 1}, fields: {_id: 1}}
+					);
 
 					if (firstIncompleteLesson) { // First Incomplete Lesson: True
 						path.firstTermId = firstIncompleteLesson.termId;
@@ -217,6 +221,12 @@ Migrations.add({
 							path.firstTermId = 'empty'
 							path.firstWeekId = 'empty'
 						};
+					}
+
+					if (firstSchoolWork) {
+						path.firstSchoolWorkId = firstSchoolWork._id
+					} else {
+						path.firstSchoolWorkId = 'empty'
 					}
 
 					Paths.insert(path);
@@ -353,7 +363,6 @@ Migrations.add({
 Meteor.startup(() => {
 	Migrations.migrateTo(8);
 });
-
 
 
 
