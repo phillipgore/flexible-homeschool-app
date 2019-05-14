@@ -17,7 +17,6 @@ Tracker.autorun(() => {
 
 function getInitialData() {
 	let initialIds = Groups.findOne().initialIds;
-	Session.set('initialIds', initialIds)
 
 	// Initial Frame
 	if (!Session.get('selectedFramePosition')) {
