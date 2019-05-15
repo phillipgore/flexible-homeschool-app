@@ -122,8 +122,6 @@ Template.schoolWorkNew.onRendered( function() {
 				weekIds: _.uniq(weekIds),
 			}
 			
-			return false;
-
 			Meteor.call('insertSchoolWork', statProperties, pathProperties, studentIds, schoolWorkProperties, lessonProperties, function(error, newSchoolWork) {
 				if (error) {
 					Alerts.insert({

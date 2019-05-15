@@ -20,52 +20,37 @@ import _ from 'lodash';
 
 /* -------------------- Exported Functions -------------------- */
 
-// Insert Stats 
-function insertStats(statProperties) {
+// Upsert Stats
+export function upsertStats(statProperties) {
 	let groupId = Meteor.user().info.groupId;
 
-	let students = getStudents(groupId, statProperties);
-	let schoolYears = getSchoolYears(groupId, statProperties);
-	let terms = getTerms(groupId, statProperties);
-	let weeks = getWeeks(groupId, statProperties);
+	let studentIds = getStudents(groupId, statProperties);
+	let schoolYearIds = getSchoolYears(groupId, statProperties);
+	let termIds = getTerms(groupId, schoolYearIds, statProperties);
+	let weekIds = getWeeks(groupId, termIds, statProperties);
 
-	students.forEach(student => {
-		schoolYears.forEach(schoolYear => {
-			insertSchoolYearStats(student._id, schoolYear._id);
+	if (studentIds.length && schoolYearIds.length) {
+		studentIds.forEach(studentId => {
+			schoolYearIds.forEach(schoolYearId => {
+				upsertSchoolYearStats(groupId, studentId, schoolYearId);
+			});
+
+			if (termIds.length) {
+				termIds.forEach(termId => {
+					upsertTermStats(groupId, studentId, termId);
+				});
+			}
+
+			if (termIds.length) {
+				weekIds.forEach(weekId => {
+					upsertWeekStats(groupId, studentId, weekId);
+				});
+			}
+
 		});
+	}
 
-		terms.forEach(term => {
-			insertTermStats(student._id, term._id);
-		});
-
-		weeks.forEach(week => {
-			insertWeekStats(student._id, week._id);
-		});
-	});
-}
-
-// Update Stats
-function updateStats(statProperties) {
-	let groupId = Meteor.user().info.groupId;
-
-	let students = getStudents(groupId, statProperties);
-	let schoolYears = getSchoolYears(groupId, statProperties);
-	let terms = getTerms(groupId, statProperties);
-	let weeks = getWeeks(groupId, statProperties);
-
-	students.forEach(student => {
-		schoolYears.forEach(schoolYear => {
-			updateSchoolYearStats(student._id, schoolYear._id);
-		});
-
-		terms.forEach(term => {
-			updateTermStats(student._id, term._id);
-		});
-
-		weeks.forEach(week => {
-			updateWeekStats(student._id, week._id);
-		});
-	});
+	return true;
 }
 
 
@@ -74,57 +59,57 @@ function updateStats(statProperties) {
 
 // Return Students
 function getStudents(groupId, statProperties) {
-	if (pathProperties['studentIds'].length) {
-		return pathProperties['studentIds']
+	if (statProperties['studentIds'].length) {
+		return statProperties['studentIds']
 	}
 
 	let studentIds = Students.find({groupId: groupId, deletedOn: { $exists: false }}, {fields: {groupId: 1}}).map(student => student._id)
 	if (studentIds.length) {
 		return studentIds;
 	} else {
-		return ['empty'];
+		return [];
 	}
 }
 
 // Return School Years
 function getSchoolYears(groupId, statProperties) {
-	if (pathProperties['schoolYearIds'].length) {
-		return pathProperties['schoolYearIds']
+	if (statProperties['schoolYearIds'].length) {
+		return statProperties['schoolYearIds']
 	}
 
 	let schoolYearIds = SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}, {fields: {groupId: 1}}).map(schoolYear => schoolYear._id)
 	if (schoolYearIds.length) {
 		return schoolYearIds;
 	} else {
-		return ['empty'];
+		return [];
 	}
 }
 
 // Return Terms
-function getTerms(groupId, statProperties) {
-	if (pathProperties['termIds'].length) {
-		return pathProperties['termIds']
+function getTerms(groupId, schoolYearIds, statProperties) {
+	if (statProperties['termIds'].length) {
+		return statProperties['termIds']
 	}
 
-	let termIds = Terms.find({groupId: groupId, deletedOn: { $exists: false }}, {fields: {groupId: 1}}).map(term => term._id)
+	let termIds = Terms.find({groupId: groupId, schoolYearId: {$in: schoolYearIds}, deletedOn: { $exists: false }}, {fields: {groupId: 1}}).map(term => term._id)
 	if (termIds.length) {
 		return termIds;
 	} else {
-		return ['empty'];
+		return [];
 	}
 }
 
 // Return Weeks
-function getWeeks(groupId, statProperties) {
-	if (pathProperties['weekIds'].length) {
-		return pathProperties['weekIds']
+function getWeeks(groupId, termIds, statProperties) {
+	if (statProperties['weekIds'].length) {
+		return statProperties['weekIds']
 	}
 
-	let weekIds = Weeks.find({groupId: groupId, deletedOn: { $exists: false }}, {fields: {groupId: 1}}).map(week => week._id)
+	let weekIds = Weeks.find({groupId: groupId, termId: {$in: termIds}, deletedOn: { $exists: false }}, {fields: {groupId: 1}}).map(week => week._id)
 	if (weekIds.length) {
 		return weekIds;
 	} else {
-		return ['empty'];
+		return [];
 	}
 }
 
@@ -161,65 +146,9 @@ function status (lessonsTotal, lessonsCompletedTotal, lessonsAssignedTotal) {
 
 
 
-// School Year Stats Insert
-function insertSchoolYearStats(studentId, schoolWorkId) {
-	let schoolYearLessons = Lessons.find({studentId: studentId, schoolYearId: schoolWorkId});
-	let stats = {};
-
-	stats.studentId = studentId;
-	stats.timeFrameId = schoolWorkId;
-	stats.type = 'schoolYear';
-	stats.lessonCount = schoolYearLessons.length;
-	stats.completedLessonCount = _.filter(schoolYearLessons, {'completed': true}).length;
-	stats.assignedLessonCount = _.filter(schoolYearLessons, {'assigned': true}).length;
-	stats.completedLessonPercentage = rounding(stats.completedLessonCount, stats.lessonCount);
-	stats.status = status(stats.lessonCount, stats.completedLessonCount, stats.assignedLessonCount);
-	stats.groupId = student.groupId;
-
-	Stats.insert(stats);
-};
-
-// Terms Stats Insert
-function insertTermStats(studentId, termId) {
-	let termLessons = Lessons.find({studentId: studentId, termId: termId});
-	let stats = {};
-
-	stats.studentId = studentId;
-	stats.timeFrameId = termId;
-	stats.type = 'term';
-	stats.lessonCount = termLessons.length;
-	stats.completedLessonCount = _.filter(termLessons, {'completed': true}).length;
-	stats.assignedLessonCount = _.filter(termLessons, {'assigned': true}).length;
-	stats.completedLessonPercentage = rounding(stats.completedLessonCount, stats.lessonCount);
-	stats.status = status(stats.lessonCount, stats.completedLessonCount, stats.assignedLessonCount);
-	stats.groupId = student.groupId;
-
-	Stats.insert(stats);
-};
-
-// Weeks Stats Insert
-function insertWeekStats(studentId, weekId) {
-	let weekLessons = Lessons.find({studentId: studentId, weekId: weekId});
-	let stats = {};
-
-	stats.studentId = studentId;
-	stats.timeFrameId = weekId;
-	stats.type = 'week';
-	stats.lessonCount = weekLessons.length;
-	stats.completedLessonCount = _.filter(weekLessons, {'completed': true}).length;
-	stats.assignedLessonCount = _.filter(weekLessons, {'assigned': true}).length;
-	stats.completedLessonPercentage = rounding(stats.completedLessonCount, stats.lessonCount);
-	stats.status = status(stats.lessonCount, stats.completedLessonCount, stats.assignedLessonCount);
-	stats.groupId = student.groupId;
-
-	Stats.insert(stats);
-};
-
-
-
-// School Year Stats Update
-function updateSchoolYearStats(studentId, schoolWorkId) {
-	let schoolYearLessons = Lessons.find({studentId: studentId, schoolYearId: schoolWorkId});
+// School Year Stats Upsert
+function upsertSchoolYearStats(groupId, studentId, schoolWorkId) {
+	let schoolYearLessons = Lessons.find({studentId: studentId, schoolYearId: schoolWorkId}, {fields: {completed: 1, assigned: 1}}).fetch();
 	let stats = {};
 
 	stats.lessonCount = schoolYearLessons.length;
@@ -227,39 +156,51 @@ function updateSchoolYearStats(studentId, schoolWorkId) {
 	stats.assignedLessonCount = _.filter(schoolYearLessons, {'assigned': true}).length;
 	stats.completedLessonPercentage = rounding(stats.completedLessonCount, stats.lessonCount);
 	stats.status = status(stats.lessonCount, stats.completedLessonCount, stats.assignedLessonCount);
-	stats.groupId = student.groupId;
+	stats.groupId = groupId;
+	stats.createdOn = new Date();
 
-	Stats.update({studentId: studentId, timeFrameId: schoolWorkId}, {$set: stats});
+	console.log('school year stats')
+	console.log(stats)
+
+	Stats.update({studentId: studentId, timeFrameId: schoolWorkId, type: 'schoolYear'}, {$set: stats}, {upsert: true});
 };
 
-// Terms Stats Update
-function updateTermStats(studentId, termId) {
-	let termLessons = Lessons.find({studentId: studentId, termId: termId});
+// Terms Stats Upsert
+function upsertTermStats(groupId, studentId, termId) {
+	let termLessons = Lessons.find({studentId: studentId, termId: termId}, {fields: {completed: 1, assigned: 1}}).fetch();
 	let stats = {};
-
+	console.log('termLessons: ' + termLessons.length)
 	stats.lessonCount = termLessons.length;
 	stats.completedLessonCount = _.filter(termLessons, {'completed': true}).length;
 	stats.assignedLessonCount = _.filter(termLessons, {'assigned': true}).length;
 	stats.completedLessonPercentage = rounding(stats.completedLessonCount, stats.lessonCount);
 	stats.status = status(stats.lessonCount, stats.completedLessonCount, stats.assignedLessonCount);
-	stats.groupId = student.groupId;
+	stats.groupId = groupId;
+	stats.createdOn = new Date();
 
-	Stats.update({studentId: studentId, timeFrameId: termId});
+	console.log('term stats')
+	console.log(stats)
+
+	Stats.update({studentId: studentId, timeFrameId: termId, type: 'term'}, {$set: stats}, {upsert: true});
 };
 
-// Weeks Stats Update
-function updateWeekStats(studentId, weekId) {
-	let weekLessons = Lessons.find({studentId: studentId, weekId: weekId}, {$set: stats});
+// Weeks Stats Upsert
+function upsertWeekStats(groupId, studentId, weekId) {
+	let weekLessons = Lessons.find({studentId: studentId, weekId: weekId}, {$set: stats}, {fields: {completed: 1, assigned: 1}}).fetch();
 	let stats = {};
-
+	console.log('weekLessons: ' + weekLessons.length)
 	stats.lessonCount = weekLessons.length;
 	stats.completedLessonCount = _.filter(weekLessons, {'completed': true}).length;
 	stats.assignedLessonCount = _.filter(weekLessons, {'assigned': true}).length;
 	stats.completedLessonPercentage = rounding(stats.completedLessonCount, stats.lessonCount);
 	stats.status = status(stats.lessonCount, stats.completedLessonCount, stats.assignedLessonCount);
-	stats.groupId = student.groupId;
+	stats.groupId = groupId;
+	stats.createdOn = new Date();
 
-	Stats.update({studentId: studentId, timeFrameId: weekId}, {$set: stats});
+	console.log('week stats')
+	console.log(stats)
+
+	Stats.update({studentId: studentId, timeFrameId: weekId, type: 'week'}, {$set: stats}, {upsert: true});
 };
 
 

@@ -1,7 +1,7 @@
 <template name="studentsEach">
 	{{#each student in students}}
 		<li class="list-item">
-			<a id="{{student._id}}" href="/planning/students/view/3/{{student._id}}" class="js-student js-planning-student list-item-link p-tn-rl-9 {{#if active student._id}}active{{/if}}">
+			<a id="{{student._id}}" href="/planning/students/view/3/{{student._id}}" class="js-student list-item-link p-tn-rl-9 {{#if active student._id}}active{{/if}}">
 				<div class="list-item-icon"><i class="txt-primary icn-students"></i></div> 
 				<div class="list-item-label">{{student.preferredFirstName.name}} {{student.lastName}}</div>
 			</a>

@@ -1,4 +1,5 @@
 import {Template} from 'meteor/templating';
+import { Paths } from '../../api/paths/paths.js';
 import { Groups } from '../../api/groups/groups.js';
 import { SchoolYears } from '../../api/schoolYears/schoolYears.js';
 import { Students } from '../../api/students/students.js';
@@ -390,53 +391,66 @@ Template.app.events({
 	},
 
 	'click .js-student'(event) {
+		let studentId = $(event.currentTarget).attr('id');
 		Session.set({
-			selectedStudentId: $(event.currentTarget).attr('id'),
-			editUrl: '/planning/students/edit/3/' + $(event.currentTarget).attr('id'),
+			selectedStudentId: studentId,
+			editUrl: '/planning/students/edit/3/' + studentId,
 		});
-
-		// let sessionSchoolWorkIdName = 'selectedSchoolWork' + $(event.currentTarget).attr('id') + Session.get('selectedSchoolYearId') + 'Id';
-		// Session.set('selectedSchoolWorkId', Session.get(sessionSchoolWorkIdName));
-	},
-
-	'click .js-planning-student'(event) {
-		Session.set({
-			selectedStudentId: $(event.currentTarget).attr('id'),
-			editUrl: '/planning/students/edit/3/' + $(event.currentTarget).attr('id'),
-		});
-
-		let initialIds = Groups.findOne().initialIds;
-		Session.set('selectedTermId', initialIds.termId);
-		Session.set('selectedWeekId', initialIds.weekId);
+		let path = Paths.findOne({studentId: studentId, timeFrameId: Session.get('selectedSchoolYearId')});
+		if (path) {
+			Session.set({
+				selectedTermId: path.firstTermId,
+				selectedWeekId: path.firstWeekId,
+				selectedSchoolWorkId: path.firstSchoolWorkId,
+			});
+		} else {
+			Session.set({
+				selectedTermId: 'empty',
+				selectedWeekId: 'empty',
+				selectedSchoolWorkId: 'empty',
+			});
+		}
+		console.log('js-student');
 	},
 
 	'click .js-school-year'(event) {
+		let schoolYearId = $(event.currentTarget).attr('id');
 		Session.set({
-			selectedSchoolYearId: $(event.currentTarget).attr('id'),
-			editUrl: '/planning/schoolyears/edit/3/' + $(event.currentTarget).attr('id'),
+			selectedSchoolYearId: schoolYearId,
+			editUrl: '/planning/schoolyears/edit/3/' + schoolYearId,
 		});
-		// let sessionSchoolWorkIdName = 'selectedSchoolWork' + Session.get('selectedStudentId') + $(event.currentTarget).attr('id') + 'Id';
-		// console.log(sessionSchoolWorkIdName)
-		// Session.set('selectedSchoolWorkId', Session.get(sessionSchoolWorkIdName));
-	},
-
-	'click .js-planning-school-year'(event) {
-		Session.set({
-			selectedSchoolYearId: $(event.currentTarget).attr('id'),
-			editUrl: '/planning/schoolyears/edit/3/' + $(event.currentTarget).attr('id'),
-		});
-
-		let initialIds = Groups.findOne().initialIds;
-		Session.set('selectedTermId', initialIds.termId);
-		Session.set('selectedWeekId', initialIds.weekId);
+		let path = Paths.findOne({studentId: Session.get('selectedStudentId'), timeFrameId: schoolYearId});
+		if (path) {
+			Session.set({
+				selectedTermId: path.firstTermId,
+				selectedWeekId: path.firstWeekId,
+				selectedSchoolWorkId: path.firstSchoolWorkId,
+			});
+		} else {
+			Session.set({
+				selectedTermId: 'empty',
+				selectedWeekId: 'empty',
+				selectedSchoolWorkId: 'empty',
+			});
+		}
+		console.log('js-school-year');
 	},
 
 	'click .js-term'(event) {
 		let termId = $(event.currentTarget).attr('id');
+		let path = Paths.findOne({studentId: Session.get('selectedStudentId'), timeFrameId: termId});
 		if (termId != 'allTerms') {
-			Session.set('selectedTermId', termId);
+			Session.set({
+				selectedTermId: termId,
+				selectedWeekId: path.firstWeekId,
+			});
+		} else {
+			Session.set({
+				selectedReportingTermId: 'allTerms',
+				selectedReportingWeekId: 'allWeeks',
+			});
 		}
-		Session.set('selectedReportingTermId', termId);
+		console.log('js-term');
 	},
 
 	'click .js-week'(event) {

@@ -1,10 +1,11 @@
 import {Template} from 'meteor/templating';
+import { Paths } from '../../../../api/paths/paths.js';
 import { SchoolYears } from '../../../../api/schoolYears/schoolYears.js';
 import './schoolYearsList.html';
 
 Template.schoolYearsList.onCreated( function() {
 	// Subscriptions
-	this.subscribe('allSchoolYears');
+	this.subscribe('schoolYearPaths', Session.get('selectedStudentId'));
 });
 
 Template.schoolYearsList.onRendered( function() {

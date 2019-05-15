@@ -11,9 +11,6 @@ Template.schoolWorkList.onCreated( function() {
 		this.subscribe('schoolWorkStats');
 		this.schoolWorkData = this.subscribe('schooYearStudentSchoolWork', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
 	});
-	
-	Session.set('selectedSchoolYearId', FlowRouter.getParam('selectedSchoolYearId'));
-	Session.set('selectedStudentId', FlowRouter.getParam('selectedStudentId'));
 });
 
 Template.schoolWorkList.onRendered( function() {

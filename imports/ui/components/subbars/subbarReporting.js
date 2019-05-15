@@ -16,7 +16,7 @@ Template.subbarReporting.onCreated( function() {
 	
 	template.autorun(() => {
 		this.trackingStats = Meteor.subscribe('progressStatsPub');
-		this.studentData = this.subscribe('studentPaths');
+		this.studentData = this.subscribe('allStudents');
 		this.schoolYearData = Meteor.subscribe('schoolYearPaths', FlowRouter.getParam('selectedStudentId'));
 		this.termData = Meteor.subscribe('termPaths', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedSchoolYearId'));
 		this.weekData = Meteor.subscribe('weekPaths', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedTermId'));
@@ -122,11 +122,11 @@ Template.subbarReporting.helpers({
 	/* -------------------- Joins -------------------- */
 
 	firstTermId: function(timeFrameId) {
-		return Paths.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}).firstTermId;
+		return Paths.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}) && Paths.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}).firstTermId;
 	},
 
 	firstWeekId: function(timeFrameId) {
-		return Paths.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}).firstWeekId;
+		return Paths.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}) && Paths.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}).firstWeekId;
 	},
 
 	studentsSchoolYearsCount: function() {

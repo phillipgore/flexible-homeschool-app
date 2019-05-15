@@ -13,9 +13,9 @@ Template.subbarSchoolWork.onCreated( function() {
 	let template = Template.instance();
 	
 	template.autorun(() => {
-		this.studentData = Meteor.subscribe('studentPaths');
-		this.schoolYearPathData = Meteor.subscribe('allSchoolYearPaths');
+		this.studentData = Meteor.subscribe('allStudents');
 		this.schoolYearData = Meteor.subscribe('allSchoolYears');
+		this.schoolYearPathData = Meteor.subscribe('allSchoolYearPaths');
 	});
 });
 
@@ -72,7 +72,11 @@ Template.subbarSchoolWork.helpers({
 	},
 
 	firstSchoolWorkId: function(studentId, timeFrameId) {
-		return Paths.findOne({studentId: studentId, timeFrameId: timeFrameId}).firstSchoolWorkId;
+		let firstSchoolWorkId = Paths.findOne({studentId: studentId, timeFrameId: timeFrameId}) && Paths.findOne({studentId: studentId, timeFrameId: timeFrameId}).firstSchoolWorkId;
+		if (firstSchoolWorkId) {
+			return firstSchoolWorkId;
+		}
+		return 'empty';
 	},
 	
 	activeListItem: function(currentItem, item) {

@@ -23,6 +23,15 @@ Meteor.publish('schoolYearWeeks', function(schoolYearId) {
 	return Weeks.find({schoolYearId: schoolYearId, groupId: groupId, deletedOn: { $exists: false }}, {fields: {_id: 1}});
 });
 
+Meteor.publish('termWeeks', function(termId) {
+	if (!this.userId) {
+		return this.ready();
+	}
+
+	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
+	return Weeks.find({termId: termId, groupId: groupId, deletedOn: { $exists: false }}, {sort: {termOrder: 1, order: 1}, fields: {groupId: 0, userId: 0, createdOn: 0, deletedOn: 0}})
+});
+
 
 
 

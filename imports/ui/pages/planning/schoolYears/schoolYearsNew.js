@@ -95,7 +95,6 @@ Template.schoolYearsNew.onRendered( function() {
 
 					Meteor.call('runPrimaryInitialIds');
 					Meteor.call('runPathProperties', pathProperties, true, function(error, result) {
-						console.log(result);
 
 						Session.set('selectedSchoolYearId', result.schoolYearId);
 						Session.set('selectedTermId', result.termId);

@@ -6,6 +6,7 @@ import {SchoolYears} from '../schoolYears/schoolYears.js';
 import {Resources} from '../resources/resources.js';
 import {SchoolWork} from './schoolWork.js';
 import {Lessons} from '../lessons/lessons.js';
+import {upsertStats} from '../../modules/server/stats';
 import {upsertPaths} from '../../modules/server/paths';
 import {upsertSchoolWorkPaths} from '../../modules/server/paths';
 import {primaryInitialIds} from '../../modules/server/initialIds';
@@ -76,11 +77,12 @@ Meteor.methods({
 			});
 		}
 
-		updateStats(statProperties);
 		upsertPaths(pathProperties);
 		upsertSchoolWorkPaths(pathProperties);
-		upsertSchoolWorkPaths(pathProperties);
 		primaryInitialIds();
+		
+		console.log('insert: statProperties');
+		upsertStats(statProperties);
 	},
 
 	deleteSchoolWork: function(statProperties, pathProperties, schoolWorkId) {
@@ -91,10 +93,12 @@ Meteor.methods({
 			Lessons.update(lessonId, {$set: {deletedOn: new Date()}});
 		});
 
-		updateStats(statProperties);
 		upsertPaths(pathProperties);
 		upsertSchoolWorkPaths(pathProperties);
 		primaryInitialIds();
+		
+		console.log('insert: statProperties');
+		upsertStats(statProperties);
 	},
 
 	insertSchoolWork: function(statProperties, pathProperties, studentIds, schoolWorkProperties, lessonProperties) {
@@ -156,11 +160,13 @@ Meteor.methods({
 		}).catch((error) => {
 			throw new Meteor.Error(500, error);
 		});
-
-		insertStats(statProperties);
+		
 		upsertPaths(pathProperties);
 		upsertSchoolWorkPaths(pathProperties);
 		primaryInitialIds();
+
+		console.log('insert: statProperties');
+		upsertStats(statProperties);
 		return result;
 	},
 });

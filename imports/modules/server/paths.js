@@ -79,7 +79,7 @@ function getStudents(groupId, pathProperties) {
 	if (studentIds.length) {
 		return studentIds;
 	} else {
-		return ['empty'];
+		return [];
 	}
 }
 
@@ -93,7 +93,7 @@ function getSchoolYears(groupId, pathProperties) {
 	if (schoolYearIds.length) {
 		return schoolYearIds;
 	} else {
-		return ['empty'];
+		return [];
 	}
 }
 
@@ -108,7 +108,7 @@ function getTerms(groupId, schoolYearIds, pathProperties) {
 	if (termIds.length) {
 		return termIds;
 	} else {
-		return ['empty'];
+		return [];
 	}
 }
 

@@ -16,10 +16,11 @@ Template.subbarTracking.onCreated( function() {
 	template.autorun(() => {
 		// Subbar Subscriptions
 		this.trackingStats = Meteor.subscribe('progressStatsPub');
-		this.studentData = Meteor.subscribe('studentPaths');
-		this.schoolYearData = Meteor.subscribe('schoolYearPaths', FlowRouter.getParam('selectedStudentId'));
-		this.termData = Meteor.subscribe('termPaths', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedSchoolYearId'));
-		this.weekData = Meteor.subscribe('weekPaths', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedTermId'));
+		this.studentData = Meteor.subscribe('allStudents');
+		this.pathData = Meteor.subscribe('allPaths');
+		this.schoolYearData = Meteor.subscribe('allSchoolYears');
+		this.termData = Meteor.subscribe('schoolYearTerms', FlowRouter.getParam('selectedSchoolYearId'));
+		this.weekData = Meteor.subscribe('termWeeks', FlowRouter.getParam('selectedTermId'));
 	});
 });
 
@@ -106,11 +107,11 @@ Template.subbarTracking.helpers({
 	},
 
 	firstTermId: function(timeFrameId) {
-		return Paths.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}).firstTermId;
+		return Paths.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}) && Paths.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}).firstTermId;
 	},
 
 	firstWeekId: function(timeFrameId) {
-		return Paths.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}).firstWeekId;
+		return Paths.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}) && Paths.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}).firstWeekId;
 	},
 
 	studentsSchoolYearsCount: function() {
@@ -128,7 +129,7 @@ Template.subbarTracking.helpers({
 	},
 
 	getStatus: function(timeFrameId) {
-		let status = Stats.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}).status;
+		let status = Stats.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}) && Stats.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}).status;
 		
 		if (status === 'empty') {
 			return 'icn-open-circle txt-gray-darker';
