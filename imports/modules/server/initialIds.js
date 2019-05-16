@@ -9,7 +9,7 @@ import {Lessons} from '../../api/lessons/lessons.js';
 import {Reports} from '../../api/reports/reports.js';
 
 import moment from 'moment';
-import _ from 'lodash'
+import _ from 'lodash';
 
 
 /* -------------------- Exported Functions -------------------- */
@@ -85,7 +85,7 @@ export function primaryInitialIds (submittedGroupId) {
 					{sort: {order: 1}, fields: {_id: 1}}
 				)
 
-					if (firstTerm) { // First Term: True
+				if (firstTerm) { // First Term: True
 					ids.termId = firstTerm._id
 					let firstWeek = Weeks.findOne(
 						{groupId: groupId, schoolYearId: firstSchoolYear._id, termId: firstTerm._id, deletedOn: { $exists: false }},
@@ -100,7 +100,6 @@ export function primaryInitialIds (submittedGroupId) {
 		}
 	}
 
-	console.log(groupId + ' primaryInitialIds');
 	Groups.update(groupId, {$set: {
 		'initialIds.studentId': ids.studentId,
 		'initialIds.schoolYearId': ids.schoolYearId,
@@ -121,7 +120,6 @@ export function resourcesInitialIds (submittedGroupId) {
 	if (firstResource) {ids.resourceId = firstResource._id} else {ids.resourceId = 'empty'};
 	if (firstResource) {ids.resourceType = firstResource.type} else {ids.resourceType = 'empty'};
 
-	console.log(groupId + ' resourcesInitialIds');
 	Groups.update(groupId, {$set: {
 		'initialIds.resourceId': ids.resourceId,
 		'initialIds.resourceType': ids.resourceType,
@@ -138,7 +136,6 @@ export function usersInitialId (submittedGroupId) {
 	let firstUser = Meteor.users.findOne({'info.groupId': groupId, 'emails.0.verified': true, 'status.active': true}, {sort: {'info.lastName': 1, 'info.firstName': 1}});
 	ids.userId = firstUser._id;
 
-	console.log(groupId + ' usersInitialId');
 	Groups.update(groupId, {$set: {
 		'initialIds.userId': ids.userId,
 	}});
@@ -154,7 +151,6 @@ export function reportsInitialId (submittedGroupId) {
 	let firstReport = Reports.findOne({groupId: groupId, deletedOn: { $exists: false }}, {sort: {name: 1}});
 	if (firstReport) {ids.reportId = firstReport._id} else {ids.reportId = 'empty'};
 
-	console.log(groupId + ' reportsInitialId');
 	Groups.update(groupId, {$set: {
 		'initialIds.reportId': ids.reportId,
 	}});
@@ -175,7 +171,6 @@ export function groupsInitialId (submittedGroupId) {
 		ids.groupId = 'empty'
 	}
 
-	console.log(groupId + ' groupsInitialId');
 	Groups.update(groupId, {$set: {
 		'initialIds.groupId': ids.groupId,
 	}});

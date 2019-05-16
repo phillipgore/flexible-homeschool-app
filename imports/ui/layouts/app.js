@@ -1,4 +1,5 @@
 import {Template} from 'meteor/templating';
+import { Paths } from '../../api/paths/paths.js';
 import { Groups } from '../../api/groups/groups.js';
 import { SchoolYears } from '../../api/schoolYears/schoolYears.js';
 import { Students } from '../../api/students/students.js';
@@ -260,8 +261,21 @@ Template.app.events({
 		let newSchoolWorkId = nextSchoolWorkId(FlowRouter.getParam('selectedSchoolWorkId'));
 		let dialogId = Dialogs.findOne()._id;
 
+		let pathProperties = {
+			studentIds: [FlowRouter.getParam('selectedStudentId')],
+			schoolYearIds: [FlowRouter.getParam('selectedSchoolYearId')],
+			termIds: SchoolWork.findOne({_id: FlowRouter.getParam('selectedSchoolWorkId')}).termStats.map(term => term.termId),
+		}
+
+		let statProperties = {
+			studentIds: [FlowRouter.getParam('selectedStudentId')],
+			schoolYearIds: [FlowRouter.getParam('selectedSchoolYearId')],
+			termIds: SchoolWork.findOne({_id: FlowRouter.getParam('selectedSchoolWorkId')}).termStats.map(term => term.termId),
+			weekIds: Weeks.find({}).map(week => week._id),
+		}
+
 		Dialogs.remove({_id: dialogId});
-		Meteor.call('deleteSchoolWork', FlowRouter.getParam('selectedSchoolWorkId'), function(error) {
+		Meteor.call('deleteSchoolWork', statProperties, pathProperties, FlowRouter.getParam('selectedSchoolWorkId'), function(error) {
 			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',
@@ -377,55 +391,66 @@ Template.app.events({
 	},
 
 	'click .js-student'(event) {
+		let studentId = $(event.currentTarget).attr('id');
 		Session.set({
-			selectedStudentId: $(event.currentTarget).attr('id'),
-			editUrl: '/planning/students/edit/3/' + $(event.currentTarget).attr('id'),
+			selectedStudentId: studentId,
+			editUrl: '/planning/students/edit/3/' + studentId,
 		});
-
-		// let sessionSchoolWorkIdName = 'selectedSchoolWork' + $(event.currentTarget).attr('id') + Session.get('selectedSchoolYearId') + 'Id';
-		// Session.set('selectedSchoolWorkId', Session.get(sessionSchoolWorkIdName));
-	},
-
-	'click .js-planning-student'(event) {
-		Session.set({
-			selectedStudentId: $(event.currentTarget).attr('id'),
-			editUrl: '/planning/students/edit/3/' + $(event.currentTarget).attr('id'),
-		});
-
-		let termId = Session.get('initialIds')['termId'];
-		let weekId = Session.get('initialIds')['weekId'];
-		Session.set('selectedTermId', termId);
-		Session.set('selectedWeekId', weekId);
+		let path = Paths.findOne({studentId: studentId, timeFrameId: Session.get('selectedSchoolYearId')});
+		if (path) {
+			Session.set({
+				selectedTermId: path.firstTermId,
+				selectedWeekId: path.firstWeekId,
+				selectedSchoolWorkId: path.firstSchoolWorkId,
+			});
+		} else {
+			Session.set({
+				selectedTermId: 'empty',
+				selectedWeekId: 'empty',
+				selectedSchoolWorkId: 'empty',
+			});
+		}
+		console.log('js-student');
 	},
 
 	'click .js-school-year'(event) {
+		let schoolYearId = $(event.currentTarget).attr('id');
 		Session.set({
-			selectedSchoolYearId: $(event.currentTarget).attr('id'),
-			editUrl: '/planning/schoolyears/edit/3/' + $(event.currentTarget).attr('id'),
+			selectedSchoolYearId: schoolYearId,
+			editUrl: '/planning/schoolyears/edit/3/' + schoolYearId,
 		});
-		// let sessionSchoolWorkIdName = 'selectedSchoolWork' + Session.get('selectedStudentId') + $(event.currentTarget).attr('id') + 'Id';
-		// console.log(sessionSchoolWorkIdName)
-		// Session.set('selectedSchoolWorkId', Session.get(sessionSchoolWorkIdName));
-	},
-
-	'click .js-planning-school-year'(event) {
-		Session.set({
-			selectedSchoolYearId: $(event.currentTarget).attr('id'),
-			editUrl: '/planning/schoolyears/edit/3/' + $(event.currentTarget).attr('id'),
-		});
-
-		let termId = Session.get('initialIds')['termId'];
-		let weekId = Session.get('initialIds')['weekId'];
-		Session.set('selectedTermId', termId);
-		Session.set('selectedWeekId', weekId);
+		let path = Paths.findOne({studentId: Session.get('selectedStudentId'), timeFrameId: schoolYearId});
+		if (path) {
+			Session.set({
+				selectedTermId: path.firstTermId,
+				selectedWeekId: path.firstWeekId,
+				selectedSchoolWorkId: path.firstSchoolWorkId,
+			});
+		} else {
+			Session.set({
+				selectedTermId: 'empty',
+				selectedWeekId: 'empty',
+				selectedSchoolWorkId: 'empty',
+			});
+		}
+		console.log('js-school-year');
 	},
 
 	'click .js-term'(event) {
 		let termId = $(event.currentTarget).attr('id');
+		let path = Paths.findOne({studentId: Session.get('selectedStudentId'), timeFrameId: termId});
 		if (termId != 'allTerms') {
-			Session.set('selectedTermId', termId);
+			Session.set({
+				selectedTermId: termId,
+				selectedWeekId: path.firstWeekId,
+			});
+		} else {
+			Session.set({
+				selectedReportingTermId: 'allTerms',
+				selectedReportingWeekId: 'allWeeks',
+			});
 		}
-		Session.set('selectedReportingTermId', termId);
+		console.log('js-term');
 	},
 
 	'click .js-week'(event) {

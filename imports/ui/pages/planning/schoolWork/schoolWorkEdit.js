@@ -91,13 +91,14 @@ Template.schoolWorkEdit.onRendered( function() {
 
 			let insertLessonProperties = [];
 			let removeLessonIds = [];
+			let weekIds = [];
 
 			// Get Lesson Properties from form
 			$("[name='timesPerWeek']").each(function(index) {
-				let schoolYearId = FlowRouter.getParam('selectedSchoolYearId');
-				let termId = this.dataset.termId;
-				let weekId = this.dataset.weekId;
-				let weekOrder = this.dataset.weekOrder;
+				// let schoolYearId = FlowRouter.getParam('selectedSchoolYearId');
+				// let termId = this.dataset.termId;
+				// let weekId = this.dataset.weekId;
+				// let weekOrder = this.dataset.weekOrder;
 				let totalLessons =  parseInt(this.dataset.lessonCount);
 				let completeLessons = parseInt(this.dataset.lessonCompleteCount);
 				let newLessonsTotal = parseInt(this.value) || 0;
@@ -115,11 +116,12 @@ Template.schoolWorkEdit.onRendered( function() {
 					    	weekId: this.dataset.weekId,
 					    	weekOrder: parseInt(this.dataset.weekOrder),
 					    });
+					    weekIds.push(this.dataset.weekId);
 					}
 				}
 				if (newLessonsTotal < totalLessons && newLessonsTotal >= completeLessons) {
 					let removalCount = totalLessons - newLessonsTotal;
-					let removeableLessonsIds = Lessons.find({weekId: weekId, completed: false, schoolWorkId: FlowRouter.getParam('selectedSchoolWorkId')}, {sort: {order: -1}, limit: removalCount}).map(lesson => (lesson._id));
+					let removeableLessonsIds = Lessons.find({weekId: this.dataset.weekId, completed: false, schoolWorkId: FlowRouter.getParam('selectedSchoolWorkId')}, {sort: {order: -1}, limit: removalCount}).map(lesson => (lesson._id));
 
 					removeableLessonsIds.forEach(lessonId => {
 						removeLessonIds.push(lessonId);
@@ -133,9 +135,22 @@ Template.schoolWorkEdit.onRendered( function() {
 					});
 					return false;
 				}
-			})
+			});
 
-			Meteor.call('updateSchoolWork', updateSchoolWorkProperties, removeLessonIds, insertLessonProperties, function(error, result) {
+			let pathProperties = {
+				studentIds: [FlowRouter.getParam('selectedStudentId')],
+				schoolYearIds: [FlowRouter.getParam('selectedSchoolYearId')],
+				termIds: Array.from(document.getElementsByClassName('js-times-per-week-container')).map(term => term.id),
+			}
+
+			let statProperties = {
+				studentIds: [FlowRouter.getParam('selectedStudentId')],
+				schoolYearIds: [FlowRouter.getParam('selectedSchoolYearId')],
+				termIds: Array.from(document.getElementsByClassName('js-term-container')).map(term => term.id),
+				weekIds: weekIds,
+			}
+
+			Meteor.call('updateSchoolWork', statProperties, pathProperties, updateSchoolWorkProperties, removeLessonIds, insertLessonProperties, function(error, result) {
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',

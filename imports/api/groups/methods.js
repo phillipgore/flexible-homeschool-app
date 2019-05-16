@@ -3,6 +3,7 @@ import SimpleSchema from 'simpl-schema';
 
 import {Groups} from './groups.js';
 import {Lessons} from '../lessons/lessons.js';
+import {primaryInitialIds} from '../../modules/server/initialIds';
 
 Meteor.methods({
 	insertGroup: function(userEmail) {
@@ -32,6 +33,10 @@ Meteor.methods({
 	updateGroup: function(groupProperties) {
 		Groups.update(groupProperties._id, {$set: groupProperties});
 	},
+
+	runPrimaryInitialIds: function() {
+		primaryInitialIds();
+	}
 
 	// pauseGroup: function(groupId) {
 	// 	Groups.update(groupId, {$set: {pause: true}});

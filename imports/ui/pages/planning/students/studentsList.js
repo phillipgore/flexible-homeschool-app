@@ -1,10 +1,12 @@
 import {Template} from 'meteor/templating';
+import { Paths } from '../../../../api/paths/paths.js';
 import { Students } from '../../../../api/students/students.js';
 import './studentsList.html';
 
 Template.studentsList.onCreated( function() {
 	// Subscriptions
 	this.subscribe('allStudents');
+	this.subscribe('allPaths');
 });
 
 Template.studentsList.onRendered( function() {

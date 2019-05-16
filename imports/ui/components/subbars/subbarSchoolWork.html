@@ -1,67 +1,87 @@
 <template name="subbarSchoolWork">
 	<div class="subbar-two-btn">
 		<div class="row">
-			<div class="col-tn-1of2">
-				{{#if students.count}}
-					<div class="btn-sub-dropdown">
-						<a id="{{selectedStudent._id}}" href="#" data-menu="#students" class="js-dropdown btn-sub">
-							<div class="btn-sub-label">{{selectedStudent.preferredFirstName.name}} {{selectedStudent.lastName}}</div>
-						</a>
-						<ul id="students" class="dropdown-menu dropdown-sub m-tn-rl-9 hide">
-							<div class="dropdown-arrow"></div>
-							{{#each student in students}}
-								<li class="dropdown-item">
-									<a id="{{studentSchoolYearSchoolWorkId student._id selectedSchoolYearId}}" 
-										data-schoolWork-student="{{student._id}}" 
-										data-schoolWork-school-year="{{selectedSchoolYearId}}" 
-										class="js-schoolWork dropdown-item-link" 
-										href="/planning/schoolWork/view/{{selectedFramePosition}}/{{student._id}}/{{selectedSchoolYearId}}/{{studentSchoolYearSchoolWorkId student._id selectedSchoolYearId}}"
-									>
-										<div class="dropdown-item-label">{{student.preferredFirstName.name}} {{student.lastName}}</div>
-										{{#if activeListItem selectedStudent._id student._id}}
-											<div class="dropdown-item-icon-right">
-												<i class="icn-planning txt-gray-darker"></i>
-											</div>
-										{{/if}}
-									</a>
-								</li>
-							{{/each}}
-						</ul>
-					</div>
-				{{else}}
-					<span class="js-dropdown btn-sub txt-gray-darkest">
-						No Students
-					</span>
-				{{/if}}
-			</div>
-			<div class="col-tn-1of2">	
-				{{#if schoolYears.count}}
-					<div class="btn-sub-dropdown">
-						<a id="{{selectedSchoolYear._id}}" href="#" data-menu="#years" class="js-dropdown btn-sub last">
-							<div class="btn-sub-label">{{selectedSchoolYear.startYear}}-{{selectedSchoolYear.endYear}}</div>
-						</a>
-						<ul id="years" class="dropdown-menu dropdown-sub m-tn-rl-9 hide">
-							<div class="dropdown-arrow"></div>
-							{{#each schoolYear in schoolYears}}
-								<li class="dropdown-item">
-									<a id="{{studentSchoolYearSchoolWorkId selectedStudentId schoolYear._id}}" data-schoolWork-student="{{selectedStudentId}}" data-schoolWork-school-year="{{schoolYear._id}}" class="js-schoolWork dropdown-item-link" href="/planning/schoolWork/view/{{selectedFramePosition}}/{{selectedStudentId}}/{{schoolYear._id}}/{{studentSchoolYearSchoolWorkId selectedStudentId schoolYear._id}}">
-										<div class="dropdown-item-label">{{schoolYear.startYear}}-{{schoolYear.endYear}}</div>
-										{{#if activeListItem selectedSchoolYearId schoolYear._id}}
-											<div class="dropdown-item-icon-right">
-												<i class="icn-planning txt-gray-darker"></i>
-											</div>
-										{{/if}}
-									</a>
-								</li>
-							{{/each}}
-						</ul>
-					</div>
-				{{else}}
-					<span class="js-dropdown btn-sub txt-gray-darkest">
-						No <span class="dis-tn-none">School </span>Years
-					</span>
-				{{/if}}
-			</div>
+			{{#if studentsSchoolYearsCount}}
+				<!-- Students Dropdown -->
+				<div class="col-tn-1of2">
+					{{#if students.count}}
+						<div class="btn-sub-dropdown">
+							<a id="{{selectedStudent._id}}" href="#" data-menu="#students" class="js-dropdown btn-sub">
+								<div class="btn-sub-label">{{selectedStudent.preferredFirstName.name}} {{selectedStudent.lastName}}</div>
+							</a>
+							<ul id="students" class="dropdown-menu dropdown-sub m-tn-rl-9 hide">
+								<div class="dropdown-arrow"></div>
+								{{#unless studentSubReady}}
+									{{> loadingDropdown}}
+								{{else}}
+									{{#each student in students}}
+										<li class="dropdown-item">
+											<a id="{{firstSchoolWorkId student._id selectedSchoolYearId}}" 
+												data-schoolWork-student="{{student._id}}" 
+												data-schoolWork-school-year="{{selectedSchoolYearId}}" 
+												class="js-schoolWork dropdown-item-link" 
+												href="/planning/schoolWork/view/{{selectedFramePosition}}/{{student._id}}/{{selectedSchoolYearId}}/{{firstSchoolWorkId student._id selectedSchoolYearId}}"
+											>
+												<div class="dropdown-item-label">{{student.preferredFirstName.name}} {{student.lastName}}</div>
+												{{#if activeListItem selectedStudent._id student._id}}
+													<div class="dropdown-item-icon-right">
+														<i class="icn-planning txt-gray-darker"></i>
+													</div>
+												{{/if}}
+											</a>
+										</li>
+									{{/each}}
+								{{/unless}}
+							</ul>
+						</div>
+					{{else}}
+						<span class="js-dropdown btn-sub txt-gray-darkest">
+							No Students
+						</span>
+					{{/if}}
+				</div>
+
+				<!-- School Years Dropdown -->
+				<div class="col-tn-1of2">	
+					{{#if schoolYears.count}}
+						<div class="btn-sub-dropdown">
+							<a id="{{selectedSchoolYear._id}}" href="#" data-menu="#years" class="js-dropdown btn-sub last">
+								<div class="btn-sub-label">{{selectedSchoolYear.startYear}}-{{selectedSchoolYear.endYear}}</div>
+							</a>
+							<ul id="years" class="dropdown-menu dropdown-sub m-tn-rl-9 hide">
+								<div class="dropdown-arrow"></div>
+								{{#unless schoolYearSubReady}}
+									{{> loadingDropdown}}
+								{{else}}
+									{{#each schoolYear in schoolYears}}
+										<li class="dropdown-item">
+											<a id="{{firstSchoolWorkId selectedStudentId schoolYear._id}}" data-schoolWork-student="{{selectedStudentId}}" data-schoolWork-school-year="{{schoolYear._id}}" class="js-schoolWork dropdown-item-link" href="/planning/schoolWork/view/{{selectedFramePosition}}/{{selectedStudentId}}/{{schoolYear._id}}/{{firstSchoolWorkId selectedStudentId schoolYear._id}}">
+												<div class="dropdown-item-label">{{schoolYear.startYear}}-{{schoolYear.endYear}}</div>
+												{{#if activeListItem selectedSchoolYearId schoolYear._id}}
+													<div class="dropdown-item-icon-right">
+														<i class="icn-planning txt-gray-darker"></i>
+													</div>
+												{{/if}}
+											</a>
+										</li>
+									{{/each}}
+								{{/unless}}
+							</ul>
+						</div>
+					{{else}}
+						<span class="js-dropdown btn-sub last txt-gray-darkest">
+							No <span class="dis-tn-none">School </span>Years
+						</span>
+					{{/if}}
+				</div>
+			{{else}}
+				<div class="col-tn-1of2">
+					<span class="btn-sub txt-gray-darkest txt-ellipsis p-tn-rl-9">Students</span>
+				</div>
+				<div class="col-tn-1of2">
+					<span class="btn-sub last txt-gray-darkest txt-ellipsis p-tn-rl-9">School Years</span>
+				</div>
+			{{/if}}
 		</div>
 	</div>
 </template>

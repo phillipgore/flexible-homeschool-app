@@ -9,7 +9,6 @@ Meteor.methods({
 		weekProperties.forEach(function(week) {
 			Weeks.insert(week);
 		});
-		primaryInitialIds();
 	},
 
 	bulkWriteWeeks: function(bulkWeekProperties) {

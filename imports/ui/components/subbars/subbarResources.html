@@ -1,8 +1,8 @@
 <template name="subbarResources">
-	{{#if resourceCount 'all' 'all'}}
-		<div class="subbar-two-btn">
-			<div class="row">
-				<div class="col-tn-1of2">
+	<div class="subbar-two-btn">
+		<div class="row">
+			<div class="col-tn-1of2">
+				{{#if resourceCount 'all' 'all'}}
 					<div class="btn-sub-dropdown">
 						<a id="{{selectedResourceType}}" href="#" data-menu="#types" class="js-dropdown btn-sub">
 							<div class="btn-sub-label">{{typeLabel selectedResourceType}}</div>
@@ -29,8 +29,14 @@
 							{{/each}}
 						</ul>
 					</div>
-				</div>
-				<div class="col-tn-1of2">
+				{{else}}
+					<span class="js-dropdown btn-sub txt-gray-darkest txt-ellipsis p-tn-rl-9">
+						Types
+					</span>
+				{{/if}}
+			</div>
+			<div class="col-tn-1of2">
+				{{#if resourceCount 'all' 'all'}}
 					<div class="btn-sub-dropdown">
 						<a id="{{selectedResourceAvailability}}" href="#" data-menu="#availabilities" class="js-dropdown btn-sub last">
 							<div class="btn-sub-label">{{availabilityLabel selectedResourceAvailability}}</div>
@@ -56,8 +62,12 @@
 							{{/each}}
 						</ul>
 					</div>
-				</div>
+				{{else}}
+					<span class="js-dropdown btn-sub last txt-gray-darkest txt-ellipsis p-tn-rl-9">
+						Availabilities
+					</span>
+				{{/if}}
 			</div>
 		</div>
-	{{/if}}
+	</div>
 </template>

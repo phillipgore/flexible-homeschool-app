@@ -5,8 +5,7 @@ import {Weeks} from '../../weeks/weeks.js';
 import {SchoolWork} from '../../schoolWork/schoolWork.js';
 import {Resources} from '../../resources/resources.js';
 import {Lessons} from '../../lessons/lessons.js';
-import {allSchoolYearsStatusAndPaths} from '../../../modules/server/functions';
-import {studentSchoolYearsStatusAndPaths} from '../../../modules/server/functions';
+
 import _ from 'lodash'
 
 Meteor.publish('allSchoolYears', function() {
@@ -16,50 +15,6 @@ Meteor.publish('allSchoolYears', function() {
 
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
 	return SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}, fields: {startYear: 1, endYear: 1}});
-});
-
-Meteor.publish('allSchoolYearsPath', function() {
-	this.autorun(function (computation) {
-		if (!this.userId) {
-			return this.ready();
-		}
-
-		let self = this;
-
-		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-		let schoolYears = SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}, fields: {startYear: 1, endYear: 1}});
-
-		schoolYears.map((schoolYear) => {
-			schoolYear = allSchoolYearsStatusAndPaths(schoolYear, schoolYear._id);
-			self.added('schoolYears', schoolYear._id, schoolYear);
-		});
-
-		self.ready();
-	});
-});
-
-Meteor.publish('studentSchoolYearsPath', function(studentId) {
-	this.autorun(function (computation) {
-		if (!this.userId) {
-			return this.ready();
-		}
-
-		let self = this;
-		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-
-		let schoolYears = SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}, fields: {startYear: 1, endYear: 1}});
-		let schoolWork = SchoolWork.find({studentId: studentId, schoolYearId: {$in: schoolYears.map(schoolYear => schoolYear._id)}, deletedOn: { $exists: false }}).fetch();
-		let lessons = Lessons.find({schoolWorkId: {$in: schoolWork.map(schoolWork => (schoolWork._id))}, deletedOn: { $exists: false }}, {fields: {completed: 1, assigned: 1, weekId: 1, schoolWorkId: 1}}).fetch();
-
-		schoolYears.map((schoolYear) => {
-			schoolWorkIds = _.filter(schoolWork, ['schoolYearId', schoolYear._id]).map(schoolWorkItem => schoolWorkItem._id);
-			yearLessons = _.filter(lessons, lesson => _.includes(schoolWorkIds, lesson.schoolWorkId));
-			schoolYear = studentSchoolYearsStatusAndPaths(studentId, schoolYear, yearLessons);
-			self.added('schoolYears', schoolYear._id, schoolYear);
-		});
-
-		self.ready();
-	});
 });
 
 Meteor.publish('schoolYearView', function(schoolYearId) {
@@ -90,27 +45,6 @@ Meteor.publish('schoolYearView', function(schoolYearId) {
 
 		self.ready();
 	});
-});
-
-Meteor.publish('schoolYearComplete', function(schoolYearId) {
-	if (!this.userId) {
-		return this.ready();
-	}
-
-	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-	let termIds = Terms.find({groupId: groupId, deletedOn: { $exists: false }, schoolYearId: schoolYearId}).map(term => term._id);
-	let weekIds = Weeks.find({groupId: groupId, deletedOn: { $exists: false }, termId: {$in: termIds}}).map(week => week._id);
-
-	return [
-		SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }, _id: schoolYearId}),
-		Terms.find({groupId: groupId, deletedOn: { $exists: false }, schoolYearId: schoolYearId}, {sort: {order: 1}, fields: {order: 1}}),
-		SchoolWork.find(
-			{groupId: groupId, deletedOn: { $exists: false }, schoolYearId: schoolYearId}, 
-			{sort: {name: 1}, fields: {schoolYearId: 1, name: 1}}
-		),
-		Weeks.find({groupId: groupId, deletedOn: { $exists: false }, termId: {$in: termIds}}, {sort: {order: 1}, fields: {order: 1, termId: 1}}),
-		Lessons.find({groupId: groupId, deletedOn: { $exists: false }, weekId: {$in: weekIds}}, {sort: {order: 1}, fields: {schoolWorkId: 1, weekId: 1, completedOn: 1, completionTime: 1, description: 1}}),
-	];
 });
 
 Meteor.publish('schoolYearEdit', function(schoolYearId) {

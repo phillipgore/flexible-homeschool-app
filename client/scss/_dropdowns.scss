@@ -148,35 +148,35 @@ ul.dropdown-menu {
 			position: absolute;
 			left: -70px;
 			right: -70px;
-			overflow: visible;
+			overflow: auto;
 
 			&.dropdown-sub {
 				top: 39px;
 			}
 
-			.dropdown-arrow {
-				position: absolute;
-				height: 9px;
-				top: -9px;
-				left: 0px;
-				right: 0px;
-				z-index: 400;
+			// .dropdown-arrow {
+			// 	position: absolute;
+			// 	height: 9px;
+			// 	top: -9px;
+			// 	left: 0px;
+			// 	right: 0px;
+			// 	z-index: 400;
 
-				&:after {
-					position: absolute;
-					top: 0px;
-					left: 0px;
-					content: '';
-					width: 0; 
-					height: 0; 
-					border-left: 9px solid transparent;
-					border-right: 9px solid transparent;
-					border-bottom: 9px solid $color-gray;
-					left: 50%;
-					transform: translate(-50%);
-					z-index: 400;
-				}
-			}
+			// 	&:after {
+			// 		position: absolute;
+			// 		top: 0px;
+			// 		left: 0px;
+			// 		content: '';
+			// 		width: 0; 
+			// 		height: 0; 
+			// 		border-left: 9px solid transparent;
+			// 		border-right: 9px solid transparent;
+			// 		border-bottom: 9px solid $color-gray;
+			// 		left: 50%;
+			// 		transform: translate(-50%);
+			// 		z-index: 400;
+			// 	}
+			// }
 		}
 	}
 
@@ -192,29 +192,29 @@ ul.dropdown-menu {
 				top: 59px;
 			}
 
-			.dropdown-arrow {
-				position: absolute;
-				height: 9px;
-				top: -9px;
-				left: 0px;
-				right: 0px;
-				z-index: 400;
+			// .dropdown-arrow {
+			// 	position: absolute;
+			// 	height: 9px;
+			// 	top: -9px;
+			// 	left: 0px;
+			// 	right: 0px;
+			// 	z-index: 400;
 
-				&:after {
-					position: absolute;
-					top: 0px;
-					left: 0px;
-					content: '';
-					width: 0; 
-					height: 0; 
-					border-left: 9px solid transparent;
-					border-right: 9px solid transparent;
-					border-bottom: 9px solid $color-primary;
-					left: 50%;
-					transform: translate(-50%);
-					z-index: 400;
-				}
-			}
+			// 	&:after {
+			// 		position: absolute;
+			// 		top: 0px;
+			// 		left: 0px;
+			// 		content: '';
+			// 		width: 0; 
+			// 		height: 0; 
+			// 		border-left: 9px solid transparent;
+			// 		border-right: 9px solid transparent;
+			// 		border-bottom: 9px solid $color-primary;
+			// 		left: 50%;
+			// 		transform: translate(-50%);
+			// 		z-index: 400;
+			// 	}
+			// }
 		}
 	}
 }

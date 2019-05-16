@@ -1,5 +1,6 @@
 import {Groups} from '../../groups/groups.js';
 import {Counts} from 'meteor/tmeasday:publish-counts';
+import {Stats} from '../../stats/stats.js';
 import {Students} from '../../students/students.js';
 import {SchoolYears} from '../../schoolYears/schoolYears.js';
 import {Resources} from '../../resources/resources.js';
@@ -7,10 +8,8 @@ import {SchoolWork} from '../../schoolWork/schoolWork.js';
 import {Weeks} from '../../weeks/weeks.js';
 import {Lessons} from '../../lessons/lessons.js';
 import {Reports} from '../../reports/reports.js';
-import {studentSchoolYearsStatusAndPaths} from '../../../modules/server/functions';
-import {allSchoolYearsStatusAndPaths} from '../../../modules/server/functions';
 
-import _ from 'lodash'
+import _ from 'lodash';
 
 Meteor.publish('schoolWorkStats', function() {
 	if (!this.userId) {
@@ -54,4 +53,13 @@ Meteor.publish('resourceStats', function() {
 	Counts.publish(this, 'videoNeedCount', Resources.find({type: 'video', availability: 'need', groupId: groupId, deletedOn: { $exists: false }}));
 	Counts.publish(this, 'audioNeedCount', Resources.find({type: 'audio', availability: 'need', groupId: groupId, deletedOn: { $exists: false }}));
 	Counts.publish(this, 'appNeedCount', Resources.find({type: 'app', availability: 'need', groupId: groupId, deletedOn: { $exists: false }}));
+});
+
+Meteor.publish('progressStatsPub', function() {
+	if (!this.userId) {
+		return this.ready();
+	}
+
+	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
+	return Stats.find({groupId: groupId}, {fields: {createdOn: 0, updatedOn: 0}});
 });

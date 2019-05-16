@@ -9,13 +9,8 @@ Template.schoolWorkList.onCreated( function() {
 	
 	template.autorun(() => {
 		this.subscribe('schoolWorkStats');
-		this.subscribe('studentSchoolYearsPath', FlowRouter.getParam('selectedStudentId'));
-		this.subscribe('allStudents');
 		this.schoolWorkData = this.subscribe('schooYearStudentSchoolWork', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
 	});
-	
-	Session.set('selectedSchoolYearId', FlowRouter.getParam('selectedSchoolYearId'));
-	Session.set('selectedStudentId', FlowRouter.getParam('selectedStudentId'));
 });
 
 Template.schoolWorkList.onRendered( function() {
@@ -70,14 +65,22 @@ Template.schoolWorkList.helpers({
 		return false;
 	},
 
-	active: function(id) {
-		if (FlowRouter.getParam('selectedSchoolWorkId') === id) {
+	studentsSchoolYearsCount: function() {
+		let initialIds = Groups.findOne().initialIds;
+		if (initialIds.studentId != 'empty' && initialIds.schoolYearId != 'empty') {
 			return true;
 		}
 		return false;
 	},
 });
 
-Template.schoolWorkList.events({
-	
-});
+
+
+
+
+
+
+
+
+
+

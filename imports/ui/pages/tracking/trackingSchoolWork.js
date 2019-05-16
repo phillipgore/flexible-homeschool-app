@@ -1,5 +1,8 @@
 import {Template} from 'meteor/templating';
+import { Stats } from '../../../api/stats/stats.js';
+import { SchoolYears } from '../../../api/schoolYears/schoolYears.js';
 import { SchoolWork } from '../../../api/schoolWork/schoolWork.js';
+import { Lessons } from '../../../api/lessons/lessons.js';
 import { Terms } from '../../../api/terms/terms.js';
 import { Weeks } from '../../../api/weeks/weeks.js';
 
@@ -24,13 +27,16 @@ Template.trackingSchoolWork.helpers({
 		return Weeks.findOne({_id: FlowRouter.getParam('selectedWeekId')});
 	},
 
+	workLessons: function(schoolWorkId) {
+		return Lessons.find({schoolWorkId: schoolWorkId});
+	},
+
 	lessonCount: function(schoolWorkId) {
-		let lessons = SchoolWork.findOne({_id: schoolWorkId}).lessons;
-		return lessons.length;
+		return Lessons.find({schoolWorkId: schoolWorkId}).count();
 	},
 
 	lessonPosition: function(schoolWorkId, lessonId) {
-		let lessonIds = SchoolWork.findOne({_id: schoolWorkId}).lessons.map(lesson => (lesson._id))
+		let lessonIds = Lessons.find({schoolWorkId: schoolWorkId}).map(lesson => (lesson._id))
 		return lessonIds.indexOf(lessonId);
 	},
 
@@ -42,12 +48,9 @@ Template.trackingSchoolWork.helpers({
 		return Session.get('schoolWorkInfo');
 	},
 
-	lessonInfo: function() {
-		return Session.get('lessonInfo');
-	},
-
-	lessonStatus: function(lesson, lessons) {
+	lessonStatus: function(lesson, schoolWorkId) {
 		$('.js-lesson-updating').hide();
+		let lessons = Lessons.find({schoolWorkId: schoolWorkId}).fetch();
 
 		if (!_.some(lessons, ['completed', false])) {
 			return 'btn-primary';
@@ -100,7 +103,6 @@ Template.trackingSchoolWork.events({
 		$('.js-hide, .js-info').hide();
 		$('.js-show').show();
 		Session.set('schoolWorkInfo', null);
-		Session.set('lessonInfo', null);
 
 		let schoolWorkId = $(event.currentTarget).attr('data-schoolWork-id');
 		let lessonId = $(event.currentTarget).attr('data-lesson-id');
@@ -119,13 +121,6 @@ Template.trackingSchoolWork.events({
 			clear: 'Clear',
 			close: 'Close',
 		});
-
-		Meteor.call('getLesson', lessonId, function(error, result) {
-			Session.set('lessonInfo', result);
-
-			$('.js-loader-' + lessonId).hide();
-			$('.js-info-' + lessonId).show();
-		});
 	},
 
 	'click .js-close'(event) {
@@ -137,7 +132,6 @@ Template.trackingSchoolWork.events({
 		if ($(window).width() < 640) {
 			$(window).scrollTop(Session.get('lessonScrollTop'));
 		}
-		Session.set('lessonInfo', null);
 	},
 
 	'change .js-completed-checkbox, change .js-assigned-checkbox'(event) {
@@ -174,22 +168,125 @@ Template.trackingSchoolWork.events({
 			lessonProperties.completedOn = moment(lessonProperties.completedOn).toISOString();
 		}
 
-		Meteor.call('updateLesson', lessonProperties, function(error, result) {
+		let pathProperties = {
+			studentIds: [FlowRouter.getParam('selectedStudentId')],
+			schoolYearIds: [FlowRouter.getParam('selectedSchoolYearId')],
+			termIds: [FlowRouter.getParam('selectedTermId')],
+		}
+
+		function statLessonsCompletedInc(lessonProperties) {
+			let lessonCurrentStatus = Lessons.findOne({_id: lessonProperties._id}).completed;
+
+			if (lessonCurrentStatus === lessonProperties.completed) {
+				return 0;
+			}
+			if (!lessonCurrentStatus && lessonProperties.completed) {
+				return 1
+			}
+			if (lessonCurrentStatus && !lessonProperties.completed) {
+				return -1;
+			}
+		};
+
+		function rounding(complete, total) {
+			if(complete && total) {
+				let percentComplete = complete / total * 100
+				if (percentComplete > 0 && percentComplete < 1) {
+					return 1;
+				}
+				return Math.floor(percentComplete);
+			}
+			return 0;
+		};
+
+		function statLessonsAssignedInc(lessonProperties) {
+			let lessonCurrentStatus = Lessons.findOne({_id: lessonProperties._id}).assigned;
+
+			if (lessonCurrentStatus === lessonProperties.assigned) {
+				return 0;
+			}
+			if (!lessonCurrentStatus && lessonProperties.assigned) {
+				return 1
+			}
+			if (lessonCurrentStatus && !lessonProperties.assigned) {
+				return -1;
+			}
+		};
+
+		function status (lessonsTotal, lessonsCompletedTotal, lessonsAssignedTotal) {
+			if (!lessonsTotal) {
+				return 'empty'
+			}
+			if (!lessonsCompletedTotal && !lessonsAssignedTotal) {
+				return 'pending'
+			} 
+			if (lessonsTotal === lessonsCompletedTotal) {
+				return 'completed'
+			}
+			if (lessonsAssignedTotal) {
+				return 'assigned'
+			} 
+			return 'partial'
+		};
+
+		let statLessonsCompleted = statLessonsCompletedInc(lessonProperties);
+		let statLessonsAssigned = statLessonsAssignedInc(lessonProperties);
+
+		let schoolYearStats = Stats.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: FlowRouter.getParam('selectedSchoolYearId'), type: 'schoolYear'});
+		let termStats = Stats.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: FlowRouter.getParam('selectedTermId'), type: 'term'});
+		let weekStats = Stats.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: FlowRouter.getParam('selectedWeekId'), type: 'week'});
+
+		let schoolYearCompletedLessonCount = schoolYearStats.completedLessonCount + statLessonsCompleted;
+		let schoolYearCompletedLessonPercentage = rounding(schoolYearCompletedLessonCount, schoolYearStats.lessonCount);
+		let schoolYearAssignedLessonCount = schoolYearStats.assignedLessonCount + statLessonsAssigned;
+		let schoolYearStatus = status(schoolYearStats.lessonCount, schoolYearCompletedLessonCount, schoolYearAssignedLessonCount);
+
+		let termCompletedLessonCount = termStats.completedLessonCount + statLessonsCompleted;
+		let termCompletedLessonPercentage = rounding(termCompletedLessonCount, termStats.lessonCount);
+		let termAssignedLessonCount = termStats.assignedLessonCount + statLessonsAssigned;
+		let termStatus = status(termStats.lessonCount, termCompletedLessonCount, termAssignedLessonCount);
+
+		let weekCompletedLessonCount = weekStats.completedLessonCount + statLessonsCompleted;
+		let weekCompletedLessonPercentage = rounding(weekCompletedLessonCount, weekStats.lessonCount);
+		let weekAssignedLessonCount = weekStats.assignedLessonCount + statLessonsAssigned;
+		let weekStatus = status(weekStats.lessonCount, weekCompletedLessonCount, weekAssignedLessonCount);
+		
+		let statProperties =  [
+			{
+				_id: schoolYearStats._id,
+				completedLessonCount: schoolYearCompletedLessonCount,
+				completedLessonPercentage: schoolYearCompletedLessonPercentage,
+				assignedLessonCount: schoolYearAssignedLessonCount,
+				status: schoolYearStatus,
+			},
+
+			{
+				_id: termStats._id,
+				completedLessonCount: termCompletedLessonCount,
+				completedLessonPercentage: termCompletedLessonPercentage,
+				assignedLessonCount: termAssignedLessonCount,
+				status: termStats,
+			},
+
+			{
+				_id: weekStats._id,
+				completedLessonCount: weekCompletedLessonCount,
+				completedLessonPercentage: weekCompletedLessonPercentage,
+				assignedLessonCount: weekAssignedLessonCount,
+				status: weekStatus,
+			},
+		];
+
+		Meteor.call('updateLesson', statProperties, pathProperties, lessonProperties, function(error, result) {
 			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',
 					iconClass: 'icn-danger',
 					message: error.reason,
 				});
-				
 				$('.js-lesson-updating').hide();
-				Session.set('lessonInfo', null);
 			} else {
-				Meteor.call('getProgressStats', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'), FlowRouter.getParam('selectedWeekId'), function(error, result) {
-					Session.set('progressStats', result);
-				});
 				// $('.js-lesson-updating').hide();
-				Session.set('lessonInfo', null);
 			}
 		});
 

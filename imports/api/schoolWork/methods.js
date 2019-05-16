@@ -6,55 +6,14 @@ import {SchoolYears} from '../schoolYears/schoolYears.js';
 import {Resources} from '../resources/resources.js';
 import {SchoolWork} from './schoolWork.js';
 import {Lessons} from '../lessons/lessons.js';
+import {upsertStats} from '../../modules/server/stats';
+import {upsertPaths} from '../../modules/server/paths';
+import {upsertSchoolWorkPaths} from '../../modules/server/paths';
 import {primaryInitialIds} from '../../modules/server/initialIds';
 
 import _ from 'lodash'
 
 Meteor.methods({
-	getInitialSchoolWorkIds() {
-		if (!this.userId) {
-			return false;
-		}
-
-		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-		let ids = {};
-
-		let studentIds = Students.find({groupId: groupId, deletedOn: { $exists: false }}, {fields: {_id: 1}}).map((student) => (student._id))
-		let schoolYearIds = SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}, {fields: {_id: 1}}).map((schoolYear) => (schoolYear._id))
-		
-		// Initial School Work
-		if (studentIds.length && schoolYearIds.length) {
-			studentIds.forEach((studentId) => {
-				schoolYearIds.forEach((schoolYearId) => {
-					let keyName = 'schoolWork' + studentId + schoolYearId;
-					let valueSchoolWork = SchoolWork.findOne({groupId: groupId, schoolYearId: schoolYearId, studentId: studentId, deletedOn: { $exists: false }}, {sort: {name: 1}});
-
-					if (valueSchoolWork) {ids[keyName] = valueSchoolWork._id} else {ids[keyName] = 'empty'};
-				});
-			});
-		}
-
-		if (studentIds.length && !schoolYearIds.length) {
-			studentIds.forEach((studentId) => {
-				let keyName = 'schoolWork' + studentId + 'empty';
-				ids[keyName] = 'empty'
-			});
-		}
-
-		if (!studentIds.length && schoolYearIds.length) {
-			schoolYearIds.forEach((schoolYearId) => {
-				let keyName = 'schoolWorkempty' + schoolYearId;
-				ids[keyName] = 'empty'
-			});
-		}
-
-		if (!studentIds.length && !schoolYearIds.length) {
-			ids.schoolWorkemptyempty = 'empty';
-		}
-		
-		return ids;
-	},
-
 	getSchoolWorkInfo: function(schoolWorkId) {
 		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
 		let info = {};
@@ -73,7 +32,7 @@ Meteor.methods({
 		return info;
 	},
 
-	updateSchoolWork: function(updateSchoolWorkProperties, removeLessonIds, insertLessonProperties) {
+	updateSchoolWork: function(statProperties, pathProperties, updateSchoolWorkProperties, removeLessonIds, insertLessonProperties) {
 		let groupId = Meteor.user().info.groupId;
 		let userId = Meteor.userId();
 
@@ -116,25 +75,29 @@ Meteor.methods({
 			}).catch((error) => {
 				throw new Meteor.Error(500, error);
 			});
-
-			return result;
 		}
 
+		upsertPaths(pathProperties);
+		upsertSchoolWorkPaths(pathProperties);
 		primaryInitialIds();
-		return false;
+		upsertStats(statProperties);
 	},
 
-	deleteSchoolWork: function(schoolWorkId) {
+	deleteSchoolWork: function(statProperties, pathProperties, schoolWorkId) {
 		let lessonIds = Lessons.find({schoolWorkId: schoolWorkId}).map(lesson => (lesson._id));
 		
 		SchoolWork.update(schoolWorkId, {$set: {deletedOn: new Date()}});
 		lessonIds.forEach(function(lessonId) {
 			Lessons.update(lessonId, {$set: {deletedOn: new Date()}});
 		});
+
+		upsertPaths(pathProperties);
+		upsertSchoolWorkPaths(pathProperties);
 		primaryInitialIds();
+		upsertStats(statProperties);
 	},
 
-	insertSchoolWork: function(studentIds, schoolWorkProperties, lessonProperties) {
+	insertSchoolWork: function(statProperties, pathProperties, studentIds, schoolWorkProperties, lessonProperties) {
 		let groupId = Meteor.user().info.groupId;
 		let userId = Meteor.userId();
 
@@ -193,8 +156,13 @@ Meteor.methods({
 		}).catch((error) => {
 			throw new Meteor.Error(500, error);
 		});
-
+		
+		upsertPaths(pathProperties);
+		upsertSchoolWorkPaths(pathProperties);
 		primaryInitialIds();
+		upsertStats(statProperties);
 		return result;
 	},
-})
+});
+
+

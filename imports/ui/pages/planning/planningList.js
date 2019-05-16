@@ -5,12 +5,6 @@ import { SchoolYears } from '../../../api/schoolYears/schoolYears.js';
 import './planningList.html';
 import _ from 'lodash'
 
-Template.planningList.onCreated( function() {
-	Meteor.call('getInitialSchoolWorkIds', function(error, result) {
-		Session.set('initialSchoolWorkIds', result);
-	});
-});
-
 Template.planningList.onRendered( function() {
 	Session.set({
 		labelOne: 'Planning',
@@ -34,13 +28,9 @@ Template.planningList.helpers({
 		return Session.get('selectedSchoolYearId');
 	},
 
-	// schoolWorkAvailable: function() {
-	// 	let initialIds = Groups.findOne().initialIds;
-	// 	if (initialIds.studentId === 'empty' || initialIds.schoolYearId === 'empty') {
-	// 		return false;
-	// 	}
-	// 	return true;
-	// },
+	selectedSchoolWorkId: function() {
+		return Session.get('selectedSchoolWorkId');
+	},
 
 	selectedResourceType: function() {
 		return Session.get('selectedResourceType');
@@ -63,16 +53,6 @@ Template.planningList.helpers({
 			return true;
 		}
 		return false;
-	},
-
-	selectedSchoolWorkId: function() {
-		return Session.get('selectedSchoolWorkId');
-	},
-
-	initialSchoolWorkId: function() {
-		let schoolWorkIds = Session.get('initialSchoolWorkIds');
-		let key = 'schoolWork' + Session.get('selectedStudentId') + Session.get('selectedSchoolYearId');
-		return schoolWorkIds[key];
 	},
 
 	active: function(currentRoute, route) {

@@ -18,9 +18,7 @@ Template.reportingView.onCreated( function() {
 	
 	template.autorun(() => {
 		this.reportData = Meteor.subscribe('reportData', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'), FlowRouter.getParam('selectedWeekId'), FlowRouter.getParam('selectedReportId'));
-		this.studentsData = Meteor.subscribe('allStudents');
 		this.studentData = Meteor.subscribe('student', FlowRouter.getParam('selectedStudentId'));
-		this.pathData = Meteor.subscribe('studentSchoolYearsPath', FlowRouter.getParam('selectedStudentId'));
 	});
 });
 
@@ -37,7 +35,7 @@ Template.reportingView.onRendered( function() {
 
 Template.reportingView.helpers({
 	subscriptionReady: function() {
-		if (Template.instance().reportData.ready() && Template.instance().studentsData.ready() && Template.instance().studentData.ready() && Template.instance().pathData.ready()) {
+		if (Template.instance().reportData.ready() && Template.instance().studentData.ready()) {
 			return true;
 		}
 		return false;
@@ -81,20 +79,11 @@ Template.reportingView.helpers({
 		return Reports.findOne({_id: FlowRouter.getParam('selectedReportId')})
 	},
 
-	studentsExist: function() {
-		let initialIds = Groups.findOne().initialIds;
-		if (initialIds.studentId === 'empty') {
-			return false;
+	studentsSchoolYearsCount: function() {
+		if (Students.find().count() && SchoolYears.find().count()) {
+			return true;
 		}
-		return true;
-	},
-
-	schoolYearsExist: function() {
-		let initialIds = Groups.findOne().initialIds;
-		if (initialIds.schoolYearId === 'empty') {
-			return false;
-		}
-		return true;
+		return false;
 	},
 
 	reports: function() {
