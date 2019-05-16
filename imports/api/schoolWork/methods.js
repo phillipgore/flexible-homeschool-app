@@ -80,8 +80,6 @@ Meteor.methods({
 		upsertPaths(pathProperties);
 		upsertSchoolWorkPaths(pathProperties);
 		primaryInitialIds();
-		
-		console.log('insert: statProperties');
 		upsertStats(statProperties);
 	},
 
@@ -96,8 +94,6 @@ Meteor.methods({
 		upsertPaths(pathProperties);
 		upsertSchoolWorkPaths(pathProperties);
 		primaryInitialIds();
-		
-		console.log('insert: statProperties');
 		upsertStats(statProperties);
 	},
 
@@ -164,8 +160,6 @@ Meteor.methods({
 		upsertPaths(pathProperties);
 		upsertSchoolWorkPaths(pathProperties);
 		primaryInitialIds();
-
-		console.log('insert: statProperties');
 		upsertStats(statProperties);
 		return result;
 	},

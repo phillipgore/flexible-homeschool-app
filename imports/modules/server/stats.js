@@ -41,7 +41,7 @@ export function upsertStats(statProperties) {
 				});
 			}
 
-			if (termIds.length) {
+			if (weekIds.length) {
 				weekIds.forEach(weekId => {
 					upsertWeekStats(groupId, studentId, weekId);
 				});
@@ -148,7 +148,7 @@ function status (lessonsTotal, lessonsCompletedTotal, lessonsAssignedTotal) {
 
 // School Year Stats Upsert
 function upsertSchoolYearStats(groupId, studentId, schoolWorkId) {
-	let schoolYearLessons = Lessons.find({studentId: studentId, schoolYearId: schoolWorkId}, {fields: {completed: 1, assigned: 1}}).fetch();
+	let schoolYearLessons = Lessons.find({studentId: studentId, schoolYearId: schoolWorkId, groupId: groupId, deletedOn: { $exists: false }}, {fields: {completed: 1, assigned: 1}}).fetch();
 	let stats = {};
 
 	stats.lessonCount = schoolYearLessons.length;
@@ -159,17 +159,14 @@ function upsertSchoolYearStats(groupId, studentId, schoolWorkId) {
 	stats.groupId = groupId;
 	stats.createdOn = new Date();
 
-	console.log('school year stats')
-	console.log(stats)
-
 	Stats.update({studentId: studentId, timeFrameId: schoolWorkId, type: 'schoolYear'}, {$set: stats}, {upsert: true});
 };
 
 // Terms Stats Upsert
 function upsertTermStats(groupId, studentId, termId) {
-	let termLessons = Lessons.find({studentId: studentId, termId: termId}, {fields: {completed: 1, assigned: 1}}).fetch();
+	let termLessons = Lessons.find({studentId: studentId, termId: termId, groupId: groupId, deletedOn: { $exists: false }}, {fields: {completed: 1, assigned: 1}}).fetch();
 	let stats = {};
-	console.log('termLessons: ' + termLessons.length)
+
 	stats.lessonCount = termLessons.length;
 	stats.completedLessonCount = _.filter(termLessons, {'completed': true}).length;
 	stats.assignedLessonCount = _.filter(termLessons, {'assigned': true}).length;
@@ -178,17 +175,14 @@ function upsertTermStats(groupId, studentId, termId) {
 	stats.groupId = groupId;
 	stats.createdOn = new Date();
 
-	console.log('term stats')
-	console.log(stats)
-
 	Stats.update({studentId: studentId, timeFrameId: termId, type: 'term'}, {$set: stats}, {upsert: true});
 };
 
 // Weeks Stats Upsert
 function upsertWeekStats(groupId, studentId, weekId) {
-	let weekLessons = Lessons.find({studentId: studentId, weekId: weekId}, {$set: stats}, {fields: {completed: 1, assigned: 1}}).fetch();
+	let weekLessons = Lessons.find({studentId: studentId, weekId: weekId, groupId: groupId, deletedOn: { $exists: false }}, {fields: {completed: 1, assigned: 1}}).fetch();
 	let stats = {};
-	console.log('weekLessons: ' + weekLessons.length)
+
 	stats.lessonCount = weekLessons.length;
 	stats.completedLessonCount = _.filter(weekLessons, {'completed': true}).length;
 	stats.assignedLessonCount = _.filter(weekLessons, {'assigned': true}).length;
@@ -196,9 +190,6 @@ function upsertWeekStats(groupId, studentId, weekId) {
 	stats.status = status(stats.lessonCount, stats.completedLessonCount, stats.assignedLessonCount);
 	stats.groupId = groupId;
 	stats.createdOn = new Date();
-
-	console.log('week stats')
-	console.log(stats)
 
 	Stats.update({studentId: studentId, timeFrameId: weekId, type: 'week'}, {$set: stats}, {upsert: true});
 };
