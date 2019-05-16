@@ -16,6 +16,8 @@ import {usersInitialId} from '../../modules/server/initialIds';
 import {reportsInitialId} from '../../modules/server/initialIds';
 import {groupsInitialId} from '../../modules/server/initialIds';
 
+import {upsertStats} from '../../modules/server/stats';
+
 import moment from 'moment';
 import _ from 'lodash'
 
@@ -272,90 +274,22 @@ Migrations.add({
 	version: 8,
 	name: 'Create Stats Collection.',
 	up: function() {
-		function rounding(complete, total) {
-			if(complete && total) {
-				let percentComplete = complete / total * 100
-				if (percentComplete > 0 && percentComplete < 1) {
-					return 1;
-				}
-				return Math.floor(percentComplete);
-			}
-			return 0;
-		};
-
-		function status (lessonsTotal, lessonsCompletedTotal, lessonsAssignedTotal) {
-			if (!lessonsTotal) {
-				return 'empty'
-			}
-			if (!lessonsCompletedTotal && !lessonsAssignedTotal) {
-				return 'pending'
-			} 
-			if (lessonsTotal === lessonsCompletedTotal) {
-				return 'completed'
-			}
-			if (lessonsAssignedTotal) {
-				return 'assigned'
-			} 
-			return 'partial'
-		};
-
+		
+		let groups = Groups.find();
 		let students = Students.find({deletedOn: { $exists: false }}, {fields: {groupId: 1}});
 		let schoolYears = SchoolYears.find({deletedOn: { $exists: false }}, {fields: {groupId: 1}});
 		let terms = Terms.find({deletedOn: { $exists: false }}, {fields: {groupId: 1}});
 		let weeks = Weeks.find({deletedOn: { $exists: false }}, {fields: {groupId: 1}});
-		let lessons = Lessons.find({deletedOn: { $exists: false }}, {fields: {studentId: 1, schoolYearId: 1, termId: 1, weekId: 1, completed: 1, assigned: 1}}).fetch();
 
-		students.forEach(student => {
-			schoolYears.forEach(schoolYear => {
-				let schoolYearLessons = _.filter(lessons, {'studentId': student._id, 'schoolYearId': schoolYear._id});
-				let stats = {};
+		groups.forEach(group => {
+			let statProperties = {
+				studentIds: _.filter(students, {groupId: group._id}).map(student => student._id),
+				schoolYearIds: _.filter(schoolYears, {groupId: group._id}).map(schoolYear => schoolYear._id),
+				termIds: _.filter(terms, {groupId: group._id}).map(term => term._id),
+				weekIds: _.filter(weeks, {groupId: group._id}).map(week => week._id),
+			}
 
-				stats.studentId = student._id;
-				stats.timeFrameId = schoolYear._id;
-				stats.type = 'schoolYear';
-				stats.lessonCount = schoolYearLessons.length;
-				stats.completedLessonCount = _.filter(schoolYearLessons, {'completed': true}).length;
-				stats.assignedLessonCount = _.filter(schoolYearLessons, {'assigned': true}).length;
-				stats.completedLessonPercentage = rounding(stats.completedLessonCount, stats.lessonCount);
-				stats.status = status(stats.lessonCount, stats.completedLessonCount, stats.assignedLessonCount);
-				stats.groupId = student.groupId;
-
-				Stats.insert(stats);
-			});
-
-			terms.forEach(term => {
-				let termLessons = _.filter(lessons, {'studentId': student._id, 'termId': term._id});
-				let stats = {};
-
-				stats.studentId = student._id;
-				stats.timeFrameId = term._id;
-				stats.type = 'term';
-				stats.lessonCount = termLessons.length;
-				stats.completedLessonCount = _.filter(termLessons, {'completed': true}).length;
-				stats.assignedLessonCount = _.filter(termLessons, {'assigned': true}).length;
-				stats.completedLessonPercentage = rounding(stats.completedLessonCount, stats.lessonCount);
-				stats.status = status(stats.lessonCount, stats.completedLessonCount, stats.assignedLessonCount);
-				stats.groupId = student.groupId;
-
-				Stats.insert(stats);
-			});
-
-			weeks.forEach(week => {
-				let weekLessons = _.filter(lessons, {'studentId': student._id, 'weekId': week._id});
-				let stats = {};
-
-				stats.studentId = student._id;
-				stats.timeFrameId = week._id;
-				stats.type = 'week';
-				stats.lessonCount = weekLessons.length;
-				stats.completedLessonCount = _.filter(weekLessons, {'completed': true}).length;
-				stats.assignedLessonCount = _.filter(weekLessons, {'assigned': true}).length;
-				stats.completedLessonPercentage = rounding(stats.completedLessonCount, stats.lessonCount);
-				stats.status = status(stats.lessonCount, stats.completedLessonCount, stats.assignedLessonCount);
-				stats.groupId = student.groupId;
-
-				Stats.insert(stats);
-			});
+			upsertStats(statProperties, group._id);
 		});
 	}
 });

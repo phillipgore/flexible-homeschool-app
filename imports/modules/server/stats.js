@@ -21,8 +21,8 @@ import _ from 'lodash';
 /* -------------------- Exported Functions -------------------- */
 
 // Upsert Stats
-export function upsertStats(statProperties) {
-	let groupId = Meteor.user().info.groupId;
+export function upsertStats(statProperties, submittedGroupId) {
+	let groupId = getGroupId(submittedGroupId);
 
 	let studentIds = getStudents(groupId, statProperties);
 	let schoolYearIds = getSchoolYears(groupId, statProperties);
@@ -153,7 +153,7 @@ function upsertSchoolYearStats(groupId, studentId, schoolWorkId) {
 
 	stats.lessonCount = schoolYearLessons.length;
 	stats.completedLessonCount = _.filter(schoolYearLessons, {'completed': true}).length;
-	stats.assignedLessonCount = _.filter(schoolYearLessons, {'assigned': true}).length;
+	stats.assignedLessonCount = _.filter(schoolYearLessons, {'completed': false, 'assigned': true}).length;
 	stats.completedLessonPercentage = rounding(stats.completedLessonCount, stats.lessonCount);
 	stats.status = status(stats.lessonCount, stats.completedLessonCount, stats.assignedLessonCount);
 	stats.groupId = groupId;
@@ -169,7 +169,7 @@ function upsertTermStats(groupId, studentId, termId) {
 
 	stats.lessonCount = termLessons.length;
 	stats.completedLessonCount = _.filter(termLessons, {'completed': true}).length;
-	stats.assignedLessonCount = _.filter(termLessons, {'assigned': true}).length;
+	stats.assignedLessonCount = _.filter(termLessons, {'completed': false, 'assigned': true}).length;
 	stats.completedLessonPercentage = rounding(stats.completedLessonCount, stats.lessonCount);
 	stats.status = status(stats.lessonCount, stats.completedLessonCount, stats.assignedLessonCount);
 	stats.groupId = groupId;
@@ -185,7 +185,7 @@ function upsertWeekStats(groupId, studentId, weekId) {
 
 	stats.lessonCount = weekLessons.length;
 	stats.completedLessonCount = _.filter(weekLessons, {'completed': true}).length;
-	stats.assignedLessonCount = _.filter(weekLessons, {'assigned': true}).length;
+	stats.assignedLessonCount = _.filter(weekLessons, {'completed': false, 'assigned': true}).length;
 	stats.completedLessonPercentage = rounding(stats.completedLessonCount, stats.lessonCount);
 	stats.status = status(stats.lessonCount, stats.completedLessonCount, stats.assignedLessonCount);
 	stats.groupId = groupId;
@@ -193,6 +193,20 @@ function upsertWeekStats(groupId, studentId, weekId) {
 
 	Stats.update({studentId: studentId, timeFrameId: weekId, type: 'week'}, {$set: stats}, {upsert: true});
 };
+
+
+
+/* -------------------- Internal Functions -------------------- */
+
+// Return the Group Id
+function getGroupId(submittedGroupId) {
+	if (_.isUndefined(submittedGroupId)) {
+		return Meteor.user().info.groupId;
+	} else {
+		return submittedGroupId;
+	}
+}
+
 
 
 

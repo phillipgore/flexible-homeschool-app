@@ -4,6 +4,7 @@ import SimpleSchema from 'simpl-schema';
 import {Lessons} from './lessons.js';
 import {Stats} from '../stats/stats.js';
 import {upsertPaths} from '../../modules/server/paths';
+import {upsertStats} from '../../modules/server/stats';
 import {primaryInitialIds} from '../../modules/server/initialIds';
 
 
@@ -19,11 +20,9 @@ Meteor.methods({
 
 	updateLesson: function(statProperties, pathProperties, lessonProperties) {
 		Lessons.update(lessonProperties._id, {$set: lessonProperties});
-		statProperties.forEach(stats => {
-			Stats.update(stats._id, {$set: stats})
-		})
 
 		upsertPaths(pathProperties);
+		upsertStats(statProperties);
 		primaryInitialIds();
 	},
 
@@ -36,4 +35,5 @@ Meteor.methods({
 			Lessons.remove(lessonId);
 		});
 	},
-})
+});
+
