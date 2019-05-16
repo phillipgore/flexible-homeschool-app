@@ -20,8 +20,8 @@ import _ from 'lodash';
 /* -------------------- Exported Functions -------------------- */
 
 // Upsert Paths
-export function upsertPaths(pathProperties, isNew) {
-	let groupId = Meteor.user().info.groupId;
+export function upsertPaths(pathProperties, isNew, submittedGroupId) {
+	let groupId = getGroupId(submittedGroupId);
 
 	let studentIds = getStudents(groupId, pathProperties);
 	let schoolYearIds = getSchoolYears(groupId, pathProperties);
@@ -50,8 +50,8 @@ export function upsertPaths(pathProperties, isNew) {
 };
 
 // Upsert School Work Paths
-export function upsertSchoolWorkPaths(pathProperties) {
-	let groupId = Meteor.user().info.groupId;
+export function upsertSchoolWorkPaths(pathProperties, submittedGroupId) {
+	let groupId = getGroupId(submittedGroupId);
 
 	let studentIds = getStudents(groupId, pathProperties);
 	let schoolYearIds = getSchoolYears(groupId, pathProperties);
@@ -68,6 +68,15 @@ export function upsertSchoolWorkPaths(pathProperties) {
 
 
 /* -------------------- Internal Functions -------------------- */
+
+// Return the Group Id
+function getGroupId(submittedGroupId) {
+	if (_.isUndefined(submittedGroupId)) {
+		return Meteor.user().info.groupId;
+	} else {
+		return submittedGroupId;
+	}
+}
 
 // Return Students
 function getStudents(groupId, pathProperties) {

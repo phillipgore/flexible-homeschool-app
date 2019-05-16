@@ -16,6 +16,9 @@ import {usersInitialId} from '../../modules/server/initialIds';
 import {reportsInitialId} from '../../modules/server/initialIds';
 import {groupsInitialId} from '../../modules/server/initialIds';
 
+import {upsertPaths} from '../../modules/server/paths';
+import {upsertSchoolWorkPaths} from '../../modules/server/paths';
+
 import {upsertStats} from '../../modules/server/stats';
 
 import moment from 'moment';
@@ -179,93 +182,15 @@ Migrations.add({
 			let schoolYears = SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}, fields: {_id: 1}});
 			let terms = Terms.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {order: 1}, fields: {_id: 1}});
 
-			students.forEach(student => {
-				schoolYears.forEach(schoolYear => {
-					let path = {}
-					path.studentId = student._id;
-					path.timeFrameId = schoolYear._id;
-					path.type = 'schoolYear';
-					path.groupId = groupId;
+			let pathProperties = {
+				studentIds: Students.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}, fields: {_id: 1}}).map(student => student._id),
+				schoolYearIds: SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}, fields: {_id: 1}}).map(schoolYear => schoolYear._id),
+				termIds: Terms.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {order: 1}, fields: {_id: 1}}).map(term => term._id),
+			}
 
-					let firstIncompleteLesson = Lessons.findOne(
-						{studentId: student._id, schoolYearId: schoolYear._id, completed: false, deletedOn: { $exists: false }},
-						{sort: {termOrder: 1, weekOrder: 1, order: 1}, fields: {termId: 1, weekId: 1}}
-					);
-					let firstCompletedLesson = Lessons.findOne(
-						{studentId: student._id, schoolYearId: schoolYear._id, completed: true, deletedOn: { $exists: false }},
-						{sort: {termOrder: 1, weekOrder: 1, order: 1}, fields: {termId: 1, weekId: 1}}
-					);
-					let firstSchoolWork = SchoolWork.findOne(
-						{groupId: groupId, studentId: student._id, schoolYearId: schoolYear._id, deletedOn: { $exists: false }},
-						{sort: {name: 1}, fields: {_id: 1}}
-					);
+			upsertPaths(pathProperties, false, groupId);
+			upsertSchoolWorkPaths(pathProperties, groupId);
 
-					if (firstIncompleteLesson) { // First Incomplete Lesson: True
-						path.firstTermId = firstIncompleteLesson.termId;
-						path.firstWeekId = firstIncompleteLesson.weekId;
-					} else if (firstCompletedLesson) { // First Incomplete Lesson: false && First Complete Lesson: True
-						path.firstTermId = firstCompletedLesson.termId;
-						path.firstWeekId = firstCompletedLesson.weekId;
-					} else { // First Incomplete Lesson: false && First Complete Lesson: False
-						let firstTerm = Terms.findOne(
-							{groupId: groupId, schoolYearId: schoolYear._id, deletedOn: { $exists: false }},
-							{sort: {order: 1}, fields: {_id: 1}}
-						)
-
-						if (firstTerm) { // First Term: True
-							path.firstTermId = firstTerm._id
-							let firstWeek = Weeks.findOne(
-								{groupId: groupId, schoolYearId: schoolYear._id, termId: firstTerm._id, deletedOn: { $exists: false }},
-								{sort: {order: 1}, fields: {_id: 1}}
-							)
-							if (firstWeek) {path.firstWeekId = firstWeek._id} else {path.weekId = 'empty'};
-						} else { // First Term: False
-							path.firstTermId = 'empty'
-							path.firstWeekId = 'empty'
-						};
-					}
-
-					if (firstSchoolWork) {
-						path.firstSchoolWorkId = firstSchoolWork._id
-					} else {
-						path.firstSchoolWorkId = 'empty'
-					}
-
-					Paths.insert(path);
-				});
-
-				terms.forEach(term => {
-					let path = {}
-					path.studentId = student._id;
-					path.timeFrameId = term._id;
-					path.type = 'term';
-					path.groupId = groupId;
-
-					let firstIncompleteLesson = Lessons.findOne(
-						{studentId: student._id, termId: term._id, completed: false, deletedOn: { $exists: false }},
-						{sort: {termOrder: 1, weekOrder: 1, order: 1}, fields: {termId: 1, weekId: 1}}
-					);
-					let firstCompletedLesson = Lessons.findOne(
-						{studentId: student._id, termId: term._id, completed: true, deletedOn: { $exists: false }},
-						{sort: {termOrder: 1, weekOrder: 1, order: 1}, fields: {termId: 1, weekId: 1}}
-					);
-
-					if (firstIncompleteLesson) { // First Incomplete Lesson: True
-						path.firstWeekId = firstIncompleteLesson.weekId;
-					} else if (firstCompletedLesson) { // First Incomplete Lesson: false && First Complete Lesson: True
-						path.firstWeekId = firstCompletedLesson.weekId;
-					} else { // First Incomplete Lesson: false && First Complete Lesson: False
-						let firstWeek = Weeks.findOne(
-							{groupId: groupId, termId: term._id, deletedOn: { $exists: false }},
-							{sort: {order: 1}, fields: {_id: 1}}
-						)
-						if (firstWeek) {path.firstWeekId = firstWeek._id} else {path.weekId = 'empty'};
-					}
-
-					Paths.insert(path);
-
-				});
-			});
 		});
 	}
 });
