@@ -7,3 +7,4 @@ git config --global core.excludesfile ~/.gitignore_global
 node_modules/
 settings.json
 settingsDev.json
+settingsStaging.json

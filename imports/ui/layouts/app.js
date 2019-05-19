@@ -425,12 +425,16 @@ Template.app.events({
 				selectedTermId: path.firstTermId,
 				selectedWeekId: path.firstWeekId,
 				selectedSchoolWorkId: path.firstSchoolWorkId,
+				selectedReportingTermId: path.firstTermId,
+				selectedReportingWeekId: path.firstWeekId,
 			});
 		} else {
 			Session.set({
 				selectedTermId: 'empty',
 				selectedWeekId: 'empty',
 				selectedSchoolWorkId: 'empty',
+				selectedReportingTermId: 'empty',
+				selectedReportingWeekId: 'empty',
 			});
 		}
 		console.log('js-school-year');
@@ -439,26 +443,40 @@ Template.app.events({
 	'click .js-term'(event) {
 		let termId = $(event.currentTarget).attr('id');
 		let path = Paths.findOne({studentId: Session.get('selectedStudentId'), timeFrameId: termId});
-		if (termId != 'allTerms') {
-			Session.set({
-				selectedTermId: termId,
-				selectedWeekId: path.firstWeekId,
-			});
-		} else {
+		if (termId === 'allTerms') {
 			Session.set({
 				selectedReportingTermId: 'allTerms',
 				selectedReportingWeekId: 'allWeeks',
 			});
+		} else {
+			if (path) {
+				Session.set({
+					selectedTermId: termId,
+					selectedWeekId: path.firstWeekId,
+					selectedReportingTermId: termId,
+					selectedReportingWeekId: path.firstWeekId,
+				});
+			} else {
+				Session.set({
+					selectedTermId: 'empty',
+					selectedWeekId: 'empty',
+					selectedReportingTermId: 'empty',
+					selectedReportingWeekId: 'empty',
+				});
+			}
 		}
 		console.log('js-term');
 	},
 
 	'click .js-week'(event) {
 		let weekId = $(event.currentTarget).attr('id');
-		if (weekId != 'allWeeks') {
+		if (weekId === 'allWeeks') {
+			Session.set('selectedReportingWeekId', 'allWeeks');
+		} else {
 			Session.set('selectedWeekId', weekId);
+			Session.set('selectedReportingWeekId', weekId);
 		}
-		Session.set('selectedReportingWeekId', weekId);
+		
 	},
 
 	'click .js-resource'(event) {

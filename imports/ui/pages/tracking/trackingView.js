@@ -14,20 +14,15 @@ Template.trackingView.onCreated( function() {
 		// Subscriptions
 		this.trackingData = Meteor.subscribe('trackingViewPub', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedWeekId'));
 	});
-
-	Session.set({
-		selectedStudentId: FlowRouter.getParam('selectedStudentId'),
-		selectedSchoolYearId: FlowRouter.getParam('selectedSchoolYearId'),
-		selectedTermId: FlowRouter.getParam('selectedTermId'),
-		selectedWeekId: FlowRouter.getParam('selectedWeekId'),
-		toolbarType: 'tracking',
-		editUrl: '',
-		newUrl: '',
-	});
 });
 
 Template.trackingView.onRendered( function() {
 	Session.set({
+		selectedReportingTermId: FlowRouter.getParam('selectedTermId'),
+		selectedReportingWeekId: FlowRouter.getParam('selectedWeekId'),
+		toolbarType: 'tracking',
+		editUrl: '',
+		newUrl: '',
 		activeNav: 'trackingList',
 	});
 });
