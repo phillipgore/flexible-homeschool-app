@@ -8,6 +8,7 @@ import {SchoolWork} from '../../../api/schoolWork/schoolWork.js';
 import {Weeks} from '../../../api/weeks/weeks.js';
 import {Lessons} from '../../../api/lessons/lessons.js';
 import moment from 'moment';
+import _ from 'lodash';
 import './subbarTracking.html';
 
 Template.subbarTracking.onCreated( function() {
@@ -130,8 +131,8 @@ Template.subbarTracking.helpers({
 
 	getStatus: function(timeFrameId) {
 		let status = Stats.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}) && Stats.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}).status;
-		
-		if (status === 'empty') {
+
+		if (status === 'empty' || _.isUndefined(status)) {
 			return 'icn-open-circle txt-gray-darker';
 		}
 		if (status === 'pending') {

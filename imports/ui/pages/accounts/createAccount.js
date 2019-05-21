@@ -192,9 +192,6 @@ Template.createAccount.events({
 							stripe.createToken(
 								Session.get('cardNumber')
 							).then((result) => {
-								// if (result.error) {
-								// 	console.log(result.error);
-								// }
 								if (result.error) {
 									let groupProperties = {
 										_id: groupId,

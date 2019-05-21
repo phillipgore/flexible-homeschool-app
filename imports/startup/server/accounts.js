@@ -106,7 +106,23 @@ Accounts.onCreateUser((options, user) => {
 		firstName: options.info.firstName,
 		lastName: options.info.lastName
 	};
-	
+
+	groupProperties = {
+		_id: options.info.groupId, 
+		initialIds: {
+			studentId: 'empty',
+			schoolYearId: 'empty',
+			resourceId: 'empty',
+			resourceType: 'empty',
+			termId: 'empty',
+			weekId: 'empty',
+			schoolWorkId: 'empty',
+			userId: user._id,
+			reportId: 'empty',
+			groupId: 'empty',
+		}
+	}
+	Meteor.call('updateGroup', groupProperties)
 	Meteor.call('mcSubscription', mcSubscriptionProperties);
 
 	return user;

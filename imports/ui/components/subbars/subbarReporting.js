@@ -144,9 +144,9 @@ Template.subbarReporting.helpers({
 	},
 
 	getStatus: function(timeFrameId) {
-		let status = Stats.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}).status;
-		
-		if (status === 'empty') {
+		let status = Stats.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}) && Stats.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}).status;
+
+		if (status === 'empty' || _.isUndefined(status)) {
 			return 'icn-open-circle txt-gray-darker';
 		}
 		if (status === 'pending') {
