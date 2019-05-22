@@ -94,13 +94,15 @@ Template.toolbar.helpers({
 
 	actionable() {
 		let type = Session.get('toolbarType');
+		let position = Session.get('selectedFramePosition');
+
 		if (type === 'new' || type === 'edit') {
 			return false;
 		}
-		if (Session.get('selectedFramePosition') === 2 && Session.get('toolbarType') === 'report') {
+		if (position === 2 && type === 'report' || position === 2 && type === 'tracking') {
 			return true;
 		}
-		if (Session.get('selectedFramePosition') === 3 && Session.get('toolbarType') != 'tracking') {
+		if (position === 3 && type != 'tracking') {
 			return true;
 		}
 		return false;
@@ -139,22 +141,27 @@ Template.toolbar.helpers({
 	},
 
 	editableDeletable: function() {
+		let initialIds = Groups.findOne().initialIds;
 		let type = Session.get('toolbarType');
-		if (type === 'tracking') {
-			return false;
-		}
 
 		if (type === 'schoolWork') {
-			if (Counts.get('schoolWorkCount')) {
-				return true;
+			if (SchoolWork.find()) {
+				return false;
 			}
-			return false;
+			return true;
 		}
 
-		let initialIds = Groups.findOne().initialIds;
+		if (type === 'tracking') {
+			if (initialIds['studentId'] === 'empty' || !SchoolWork.find()) {
+				return false;
+			}
+			return true;
+		}
+
 		if (initialIds[Session.get('toolbarType') + 'Id'] === 'empty') {
 			return false;
 		}
+
 		return true;
 	},
 

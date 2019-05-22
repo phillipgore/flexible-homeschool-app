@@ -85,6 +85,9 @@ import '/imports/ui/pages/tracking/trackingList.js';
 import '/imports/ui/pages/tracking/trackingEach.js';
 import '/imports/ui/pages/tracking/trackingSchoolWork.js';
 import '/imports/ui/pages/tracking/trackingView.js';
+import '/imports/ui/pages/tracking/trackingEditSchoolWork.js';
+import '/imports/ui/pages/tracking/trackingEdit.js';
+
 
 
 // Reporting

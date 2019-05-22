@@ -9,6 +9,17 @@ FlowRouter.route('/tracking/students/view/:selectedFramePosition/:selectedStuden
 	},
 });
 
+FlowRouter.route('/tracking/students/edit/:selectedFramePosition/:selectedStudentId/:selectedSchoolYearId/:selectedTermId/:selectedWeekId', {
+	name: 'trackingView',
+	action(params) {
+		BlazeLayout.render('app', {
+			subbar: 'subbarTracking',
+			frameOne: 'trackingList',
+			frameTwo: 'trackingEdit',
+		});
+	},
+});
+
 
 
 

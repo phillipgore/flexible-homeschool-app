@@ -5,9 +5,9 @@ import { SchoolWork } from '../../../api/schoolWork/schoolWork.js';
 import { Terms } from '../../../api/terms/terms.js';
 import { Weeks } from '../../../api/weeks/weeks.js';
 
-import './trackingView.html';
+import './trackingEdit.html';
 
-Template.trackingView.onCreated( function() {
+Template.trackingEdit.onCreated( function() {
 	let template = Template.instance();
 	
 	template.autorun(() => {
@@ -16,18 +16,18 @@ Template.trackingView.onCreated( function() {
 	});
 });
 
-Template.trackingView.onRendered( function() {
+Template.trackingEdit.onRendered( function() {
 	Session.set({
 		selectedReportingTermId: FlowRouter.getParam('selectedTermId'),
 		selectedReportingWeekId: FlowRouter.getParam('selectedWeekId'),
 		toolbarType: 'tracking',
-		editUrl: '/tracking/students/edit/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'),
+		editUrl: '',
 		newUrl: '',
 		activeNav: 'trackingList',
 	});
 });
 
-Template.trackingView.helpers({
+Template.trackingEdit.helpers({
 	subscriptionReady: function() {
 		return Template.instance().trackingData.ready();
 	},

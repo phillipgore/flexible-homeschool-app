@@ -1,0 +1,30 @@
+<template name="trackingEdit">
+	<main class="js-app-content app-content app-content-preceeds-toolbar app-content-tracking row">
+		<h1 class="txt-tn-center m-tn-b-18">Edit</h1>
+
+		<h1 class="txt-tn-center print-only-block">{{student.preferredFirstName.name}} {{student.lastName}}</h1>
+		<h2 class="txt-tn-center txt-gray-darkest txt-capitalize print-only-block m-tn-b-18">{{selectedSchoolYear.startYear}}-{{selectedSchoolYear.endYear}}, Term {{selectedTerm.order}}, Week {{selectedWeek.order}}</h2>
+
+		{{studentName student.preferredFirstName.name student.lastName}}
+		
+		{{#if studentsSchoolYearsCount}}
+			{{#if schoolWork.count}}
+				<div class="col-lg-1of2">
+					{{> trackingEditSchoolWork schoolWork=schoolWorkOne}}
+				</div>
+				<div class="col-lg-1of2">
+					{{> trackingEditSchoolWork schoolWork=schoolWorkTwo}}
+				</div>
+			{{else}}
+				<div class="txt-tn-center m-tn-t-72">
+					<i class="icn-school-work font-size-64 txt-gray m-tn-r-9"></i>
+					<h1 class="m-tn-t-36">Requires School Work</h1>
+					<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36 txt-gray-darkest">Go to "Planning" to add schoolWork.</p>
+				</div>
+			{{/if}}
+		{{/if}}
+	</main>
+	{{#unless subscriptionReady}}
+		{{> loading}}
+	{{/unless}}
+</template>
