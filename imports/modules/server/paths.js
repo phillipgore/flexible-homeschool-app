@@ -44,7 +44,6 @@ export function upsertPaths(pathProperties, isNew, submittedGroupId) {
 
 	if (isNew) {
 		let weekId = Weeks.findOne({schoolYearId: {$in: schoolYearIds}, termId: {$in: termIds}}, {sort: {termOrder: 1, order: 1}})._id;
-		console.log('upsertPaths end');
 		return {schoolYearId: schoolYearIds[0], termId: termIds[0], weekId: weekId};
 	} else {
 		console.log('upsertPaths end');
