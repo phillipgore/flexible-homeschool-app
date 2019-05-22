@@ -6,7 +6,8 @@ import {upsertSchoolWorkPaths} from '../../modules/server/paths';
 
 Meteor.methods({
 	runUpsertPaths: function(pathProperties, isNew, submittedGroupId) {
-		upsertPaths(pathProperties, isNew, submittedGroupId);
+		let result = upsertPaths(pathProperties, isNew, submittedGroupId);
+		return reslut;
 	},
 
 	runUpsertSchoolWorkPaths: function(pathProperties, submittedGroupId) {
