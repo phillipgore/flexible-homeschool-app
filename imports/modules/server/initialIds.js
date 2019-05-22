@@ -15,7 +15,8 @@ import _ from 'lodash';
 /* -------------------- Exported Functions -------------------- */
 
 // Intial Ids for Student, School Year, Term, Week and School Work.
-export function primaryInitialIds (submittedGroupId) {	
+export function primaryInitialIds (submittedGroupId) {
+	console.log('primaryInitialIds start');	
 	let groupId = getGroupId(submittedGroupId);
 	let currentYear = startYearFunction();
 
@@ -108,6 +109,7 @@ export function primaryInitialIds (submittedGroupId) {
 		'initialIds.schoolWorkId': ids.schoolWorkId,
 	}});
 	
+	console.log('primaryInitialIds end');
 	return groupId;
 };
 
