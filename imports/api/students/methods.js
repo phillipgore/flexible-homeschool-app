@@ -32,8 +32,8 @@ Meteor.methods({
 	deleteStudent: function(studentId) {
 		let deleteDate = new Date();
 		Students.update(studentId, {$set: {deletedOn: deleteDate}}, () => {
-			Stats.remove({timeFrameId: studentId});
-			Paths.remove({timeFrameId: studentId});
+			Stats.remove({studentId: studentId});
+			Paths.remove({studentId: studentId});
 			primaryInitialIds();
 		});
 	},

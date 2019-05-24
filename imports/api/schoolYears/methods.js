@@ -73,9 +73,7 @@ Meteor.methods({
 		});
 		lessonIds.forEach(function(lessonId) {
 			Lessons.update(lessonId, {$set: {deletedOn: new Date()}});
-		});	
-
-		primaryInitialIds();
+		});
 	},
 
 	updateSchoolYearTerms: function(pathProperties, schoolYearId, schoolYearProperties, termDeleteIds, termInsertProperties, termUpdateProperties, userId, groupId) {

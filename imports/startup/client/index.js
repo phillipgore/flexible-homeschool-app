@@ -46,10 +46,6 @@ $(window).resize(function(event) {
 	});
 });
 
-Accounts.onLogout(function() {
-	window.location = '/sign-in';
-});
-
 Template.registerHelper('selectedFramePosition', () => {
   return Session.get('selectedFramePosition')
 });

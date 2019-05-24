@@ -21,6 +21,7 @@ import _ from 'lodash';
 
 // Upsert Paths
 export function upsertPaths(pathProperties, isNew, submittedGroupId) {
+	console.log('upsertPaths start');
 	let groupId = getGroupId(submittedGroupId);
 
 	let studentIds = getStudents(groupId, pathProperties);
@@ -45,12 +46,14 @@ export function upsertPaths(pathProperties, isNew, submittedGroupId) {
 		let weekId = Weeks.findOne({schoolYearId: {$in: schoolYearIds}, termId: {$in: termIds}}, {sort: {termOrder: 1, order: 1}})._id;
 		return {schoolYearId: schoolYearIds[0], termId: termIds[0], weekId: weekId};
 	} else {
+		console.log('upsertPaths end');
 		return true;
 	}
 };
 
 // Upsert School Work Paths
 export function upsertSchoolWorkPaths(pathProperties, submittedGroupId) {
+	console.log('upsertPaths start');
 	let groupId = getGroupId(submittedGroupId);
 
 	let studentIds = getStudents(groupId, pathProperties);
@@ -63,6 +66,9 @@ export function upsertSchoolWorkPaths(pathProperties, submittedGroupId) {
 			});
 		});
 	};
+
+	console.log('upsertPaths end');
+	return true
 };
 
 

@@ -132,17 +132,28 @@ Template.app.events({
 		event.preventDefault();
 		$('.js-deleting').show();
 
-		function nextStudentId(selectedStudentId) {
+		function nextPath(selectedStudentId) {
 			let studentIds = Students.find({}, {sort: {birthday: 1, lastName: 1, firstName: 1}}).map(student => (student._id));
 			let selectedIndex = studentIds.indexOf(selectedStudentId);
+			let newIds = {};
 
 			if (selectedIndex) {
-				return studentIds[selectedIndex - 1]
+				let firstStudentId = studentIds[selectedIndex - 1];
+				newIds.firstStudentId = firstStudentId;
+			} else {
+				let firstStudentId = studentIds[selectedIndex + 1];
+				newIds.firstStudentId = firstStudentId;
 			}
-			return studentIds[selectedIndex + 1]
+
+			if (newIds.firstStudentId.length) {
+				newIds.firstStudentId = newIds.firstStudentId;
+			} else {
+				newIds.firstStudentId = 'empty';
+			}
+			return newIds;
 		};
 
-		let newStudentId = nextStudentId(FlowRouter.getParam('selectedStudentId'));
+		let newPath = nextPath(FlowRouter.getParam('selectedStudentId'));
 		let dialogId = Dialogs.findOne()._id;
 
 		Dialogs.remove({_id: dialogId});
@@ -155,11 +166,13 @@ Template.app.events({
 				});
 			} else {
 				Dialogs.remove({_id: dialogId});
-				Session.set('selectedStudentId', newStudentId)
+				Session.set({
+					'selectedStudentId': newPath.firstStudentId,
+				})
 				if (window.screen.availWidth > 768) {
-					FlowRouter.go('/planning/students/view/3/' + newStudentId);
+					FlowRouter.go('/planning/students/view/3/' + newPath.firstStudentId);
 				} else {
-					FlowRouter.go('/planning/students/view/2/' + newStudentId);
+					FlowRouter.go('/planning/students/view/2/' + newPath.firstStudentId);
 				}
 				$('.js-deleting').hide();
 			}
@@ -170,17 +183,32 @@ Template.app.events({
 		event.preventDefault();
 		$('.js-deleting').show();
 
-		function nextSchoolYearId(selectedSchoolYearId) {
+		function nextPath(selectedSchoolYearId) {
 			let schoolYearIds = SchoolYears.find({}, {sort: {startYear: 1}}).map(schoolYear => (schoolYear._id));
 			let selectedIndex = schoolYearIds.indexOf(selectedSchoolYearId);
+			let newIds = {};
 
 			if (selectedIndex) {
-				return schoolYearIds[selectedIndex - 1]
+				let firstSchoolYearId = schoolYearIds[selectedIndex - 1];
+				newIds.firstSchoolYearId = firstSchoolYearId;
+			} else {
+				let firstSchoolYearId = schoolYearIds[selectedIndex + 1];
+				newIds.firstSchoolYearId = firstSchoolYearId;
 			}
-			return schoolYearIds[selectedIndex + 1]
+				
+			let newPath = Paths.findOne({timeFrameId: newIds.firstSchoolYearId, type: 'schoolYear'});
+
+			if (newPath) {
+				newIds.newTermId = newPath.firstTermId;
+				newIds.newWeekId = newPath.firstWeekId;
+			} else {
+				newIds.newTermId = 'empty';
+				newIds.newWeekId = 'empty';
+			}
+			return newIds;
 		};
 
-		let newSchoolYearId = nextSchoolYearId(FlowRouter.getParam('selectedSchoolYearId'))
+		let newPath = nextPath(FlowRouter.getParam('selectedSchoolYearId'));
 		let dialogId = Dialogs.findOne()._id;
 
 		Dialogs.remove({_id: dialogId});
@@ -192,54 +220,20 @@ Template.app.events({
 					message: error.reason,
 				});
 			} else {
-				Dialogs.remove({_id: dialogId});
-				Session.set('selectedSchoolYearId', newSchoolYearId)
-				if (window.screen.availWidth > 768) {
-					FlowRouter.go('/planning/schoolyears/view/3/' + newSchoolYearId);
-				} else {
-					FlowRouter.go('/planning/schoolyears/view/2/' + newSchoolYearId);
-				}
-				$('.js-deleting').hide();
-			}
-		});
-	},
-
-	'click .js-delete-resource-confirmed'(event) {
-		event.preventDefault();
-		$('.js-deleting').show();
-
-		function nextResourceId(selectedResourceId) {
-			let resourceIds = Resources.find({}, {sort: {title: 1}}).map(resource => (resource._id));
-
-			if (resourceIds.length > 1) {
-				let selectedIndex = resourceIds.indexOf(selectedResourceId);
-				if (selectedIndex) {
-					return Resources.findOne({_id: resourceIds[selectedIndex - 1]});
-				}
-				return Resources.findOne({_id: resourceIds[selectedIndex + 1]});
-			}
-			return {_id: 'empty', type: 'empty'}
-		};
-
-		let newResource = nextResourceId(FlowRouter.getParam('selectedResourceId'))
-		const dialogId = Dialogs.findOne()._id;
-
-		Dialogs.remove({_id: dialogId});
-		Meteor.call('deleteResource', FlowRouter.getParam('selectedResourceId'), function(error) {
-			if (error) {
-				Alerts.insert({
-					colorClass: 'bg-danger',
-					iconClass: 'icn-danger',
-					message: error.reason,
+				Meteor.call('runPrimaryInitialIds', function(error) {
+					Dialogs.remove({_id: dialogId});
+					Session.set({
+						'selectedSchoolYearId': newPath.firstSchoolYearId,
+						'selectedTermId': newPath.firstTermId,
+						'selectedWeekId': newPath.firstWeekId,
+					})
+					if (window.screen.availWidth > 768) {
+						FlowRouter.go('/planning/schoolyears/view/3/' + newPath.firstSchoolYearId);
+					} else {
+						FlowRouter.go('/planning/schoolyears/view/2/' + newPath.firstSchoolYearId);
+					}
+					$('.js-deleting').hide();
 				});
-			} else {
-				Session.set('selectedResourceId', newResource._id);
-				if (window.screen.availWidth > 768) {
-					FlowRouter.go('/planning/resources/view/3/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/'+ newResource._id +'/'+ newResource.type);
-				} else {
-					FlowRouter.go('/planning/resources/view/2/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/'+ newResource._id +'/'+ newResource.type);
-				}
-				$('.js-deleting').hide();
 			}
 		});
 	},
@@ -288,6 +282,49 @@ Template.app.events({
 					FlowRouter.go('/planning/schoolWork/view/3/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ newSchoolWorkId);
 				} else {
 					FlowRouter.go('/planning/schoolWork/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ newSchoolWorkId);
+				}
+				$('.js-deleting').hide();
+			}
+		});
+	},
+
+	'click .js-delete-resource-confirmed'(event) {
+		event.preventDefault();
+		$('.js-deleting').show();
+
+		function nextResourceId(selectedResourceId) {
+			let resourceIds = Resources.find({}, {sort: {title: 1}}).map(resource => (resource._id));
+
+			if (resourceIds.length > 1) {
+				let selectedIndex = resourceIds.indexOf(selectedResourceId);
+				if (selectedIndex) {
+					return Resources.findOne({_id: resourceIds[selectedIndex - 1]});
+				}
+				return Resources.findOne({_id: resourceIds[selectedIndex + 1]});
+			}
+			return {_id: 'empty', type: 'empty'}
+		};
+
+		let newResource = nextResourceId(FlowRouter.getParam('selectedResourceId'))
+		const dialogId = Dialogs.findOne()._id;
+
+		Dialogs.remove({_id: dialogId});
+		Meteor.call('deleteResource', FlowRouter.getParam('selectedResourceId'), function(error) {
+			if (error) {
+				Alerts.insert({
+					colorClass: 'bg-danger',
+					iconClass: 'icn-danger',
+					message: error.reason,
+				});
+			} else {
+				Session.set({
+					'selectedResourceId': newResource._id,
+					'selectedResourceType': newResource.type
+				});
+				if (window.screen.availWidth > 768) {
+					FlowRouter.go('/planning/resources/view/3/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/'+ newResource._id +'/'+ newResource.type);
+				} else {
+					FlowRouter.go('/planning/resources/view/2/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/'+ newResource._id +'/'+ newResource.type);
 				}
 				$('.js-deleting').hide();
 			}
@@ -410,7 +447,6 @@ Template.app.events({
 				selectedSchoolWorkId: 'empty',
 			});
 		}
-		console.log('js-student');
 	},
 
 	'click .js-school-year'(event) {
@@ -437,7 +473,6 @@ Template.app.events({
 				selectedReportingWeekId: 'empty',
 			});
 		}
-		console.log('js-school-year');
 	},
 
 	'click .js-term'(event) {
@@ -465,7 +500,6 @@ Template.app.events({
 				});
 			}
 		}
-		console.log('js-term');
 	},
 
 	'click .js-week'(event) {

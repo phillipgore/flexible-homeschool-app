@@ -1,4 +1,5 @@
 import {Template} from 'meteor/templating';
+import { Groups } from '../../../../api/groups/groups.js';
 import { Students } from '../../../../api/students/students.js';
 import { Stats } from '../../../../api/stats/stats.js';
 import { Paths } from '../../../../api/paths/paths.js';
@@ -92,9 +93,10 @@ Template.schoolYearsNew.onRendered( function() {
 						schoolYearIds: [schoolYearId],
 						termIds: [],
 					};
+					let groupId = Groups.findOne()._id
 
 					Meteor.call('runPrimaryInitialIds');
-					Meteor.call('runPathProperties', pathProperties, true, function(error, result) {
+					Meteor.call('runUpsertPaths', pathProperties, true, function(error, result) {
 
 						Session.set('selectedSchoolYearId', result.schoolYearId);
 						Session.set('selectedTermId', result.termId);
