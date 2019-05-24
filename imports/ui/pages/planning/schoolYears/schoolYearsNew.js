@@ -97,7 +97,7 @@ Template.schoolYearsNew.onRendered( function() {
 
 					Meteor.call('runPrimaryInitialIds');
 					Meteor.call('runUpsertPaths', pathProperties, true, function(error, result) {
-						console.log(result)
+
 						Session.set('selectedSchoolYearId', result.schoolYearId);
 						Session.set('selectedTermId', result.termId);
 						Session.set('selectedWeekId', result.weekId);
