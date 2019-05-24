@@ -145,7 +145,7 @@ Template.app.events({
 				newIds.firstStudentId = firstStudentId;
 			}
 
-			if (newIds.firstStudentId.length) {
+			if (newIds.firstStudentId) {
 				newIds.firstStudentId = newIds.firstStudentId;
 			} else {
 				newIds.firstStudentId = 'empty';
