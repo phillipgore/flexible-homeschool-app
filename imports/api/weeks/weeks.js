@@ -3,11 +3,6 @@ import SimpleSchema from 'simpl-schema';
 
 export const Weeks = new Mongo.Collection('weeks');
 
-if ( Meteor.isServer ) {
-    Weeks.rawCollection().createIndex({ termId: 1, order: 1 }, {name: "weeksIndex"});
-    Weeks.rawCollection().createIndex({groupId: 1, order: 1, deletedOn: 1}, {name: "weeksIndexTwo"});
-}
-
 Weeks.allow({
   insert: () => false,
   update: () => false,

@@ -23,19 +23,11 @@ Meteor.methods({
 		let weekIds = Weeks.find({termId: {$in: termIds}}).map(week => (week._id));
 		let lessonIds = Lessons.find({weekId: {$in: weekIds}}).map(lesson => (lesson._id));
 
-		SchoolYears.update(schoolYearId, {$set: {deletedOn: new Date()}});
-		schoolWorkIds.forEach(function(schoolWorkId) {
-			SchoolWork.update(schoolWorkId, {$set: {deletedOn: new Date()}});
-		});
-		termIds.forEach(function(termId) {
-			Terms.update(termId, {$set: {deletedOn: new Date()}});
-		});
-		weekIds.forEach(function(weekId) {
-			Weeks.update(weekId, {$set: {deletedOn: new Date()}});
-		});
-		lessonIds.forEach(function(lessonId) {
-			Lessons.update(lessonId, {$set: {deletedOn: new Date()}});
-		});
+		SchoolYears.remove({_id: schoolYearId});
+		SchoolWork.remove({_id: {$in: schoolWorkIds}});
+		Terms.remove({_id: {$in: termIds}});
+		Weeks.remove({_id: {$in: weekIds}});
+		Lessons.remove({_id: {$in: lessonIds}});
 	},
 
 	updateSchoolYearTerms: function(schoolYearId, schoolYearProperties, termDeleteIds, termInsertProperties, termUpdateProperties, userId, groupId) {

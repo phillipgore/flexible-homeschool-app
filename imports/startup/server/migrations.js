@@ -1,6 +1,13 @@
 import {Groups} from '../../api/groups/groups.js';
-import {Lessons} from '../../api/lessons/lessons.js';
+
+import {Students} from '../../api/students/students.js';
+import {SchoolYears} from '../../api/schoolYears/schoolYears.js';
+import {Terms} from '../../api/terms/terms.js';
 import {Weeks} from '../../api/weeks/weeks.js';
+import {SchoolWork} from '../../api/schoolWork/schoolWork.js';
+import {Lessons} from '../../api/lessons/lessons.js';
+import {Reports} from '../../api/reports/reports.js';
+import {Resources} from '../../api/resources/resources.js';
 
 import moment from 'moment';
 import _ from 'lodash'
@@ -67,6 +74,25 @@ Migrations.add({
 				Lessons.remove({weekId: weekId})
 			}
 		})
+	}
+});
+
+Migrations.add({
+	version: 4,
+	name: 'Remove Deleted Items.',
+	up: function() {
+		Students.remove({deletedOn: { $exists: false }});
+		SchoolYears.remove({deletedOn: { $exists: false }});
+		Terms.remove({deletedOn: { $exists: false }});
+		Weeks.remove({deletedOn: { $exists: false }});
+		SchoolWork.remove({deletedOn: { $exists: false }});
+		Lessons.remove({deletedOn: { $exists: false }});
+		Reports.remove({deletedOn: { $exists: false }});
+
+		let resourceIds = Resources.find({deletedOn: { $exists: false }}).map(resource => resource._id);
+		SchoolWork.update({}, {$pull: {resources: {$in: resourceIds}}}, {multi: true});
+
+		Resources.remove({deletedOn: { $exists: false }});
 	}
 });
 

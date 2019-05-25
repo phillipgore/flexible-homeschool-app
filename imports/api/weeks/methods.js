@@ -2,6 +2,7 @@ import {Mongo} from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
 
 import {Weeks} from './weeks.js';
+import {Lessons} from '../lessons/lessons.js';
 
 Meteor.methods({
 	updateWeek: function(weekId, weekProperties) {
@@ -11,10 +12,8 @@ Meteor.methods({
 	deleteWeek: function(weekId) {
 		let lessonIds = Lessons.find({weekId: weekId}).map(lesson => (lesson._id));
 
-		Weeks.update(termId, {$set: {deletedOn: new Date()}});
-		lessonIds.forEach(function(lessonId) {
-			Lessons.update(lessonId, {$set: {deletedOn: new Date()}});
-		});
+		Weeks.remove({_id: weekId});
+		Lessons.remove({_id: {$in: lessonIds}});
 	},
 
 	batchInsertWeeks(weekProperties) {

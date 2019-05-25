@@ -3,10 +3,6 @@ import SimpleSchema from 'simpl-schema';
 
 export const Reports = new Mongo.Collection('reports');
 
-if ( Meteor.isServer ) {
-    Reports.rawCollection().createIndex({ name: 1 }, {name: "reportsIndex"});
-}
-
 Reports.allow({
   insert: () => false,
   update: () => false,

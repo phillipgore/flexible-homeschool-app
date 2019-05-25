@@ -2,6 +2,7 @@ import {Mongo} from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
 
 import {Resources} from './resources.js';
+import {SchoolWork} from '../schoolWork/schoolWork.js';
 import _ from 'lodash'
 
 Meteor.methods({
@@ -54,6 +55,7 @@ Meteor.methods({
 	},
 
 	deleteResource: function(resourceId) {
-		Resources.update(resourceId, {$set: {deletedOn: new Date()}});
+		Resources.remove({_id: resourceId});
+		SchoolWork.update({}, {$pull: {resources: resourceId}}, {multi: true});
 	}
 })
