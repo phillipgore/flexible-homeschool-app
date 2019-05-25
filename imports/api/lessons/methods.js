@@ -31,9 +31,7 @@ Meteor.methods({
 	},
 
 	batchRemoveLessons: function(lessonIds) {
-		lessonIds.forEach(function(lessonId, index) {
-			Lessons.remove(lessonId);
-		});
+		Lessons.remove({_id: {$in: lessonIds}});
 	},
 });
 

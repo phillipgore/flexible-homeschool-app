@@ -3,20 +3,6 @@ import SimpleSchema from 'simpl-schema';
 
 export const Lessons = new Mongo.Collection('lessons');
 
-if ( Meteor.isServer ) {
-    Lessons.rawCollection().createIndex({weekId: 1, schoolWorkId: 1, order: 1}, {name: "lessonsIndex"});
-    Lessons.rawCollection().createIndex({completed: 1, assigned: 1, schoolWorkId: 1, deletedOn: 1}, {name: "lessonsIndexTwo"});
-    Lessons.rawCollection().createIndex({completed: 1, schoolWorkId: 1, deletedOn: 1}, {name: "lessonsIndexThree"});
-    Lessons.rawCollection().createIndex({schoolWorkId: 1, deletedOn: 1}, {name: "lessonsIndexFour"});
-    Lessons.rawCollection().createIndex({weekId: 1, completed: 1, schoolWorkId: 1, deletedOn: 1}, {name: "lessonsIndexFive"});
-    Lessons.rawCollection().createIndex({groupId: 1, weekId: 1, schoolWorkId: 1, order: 1, deletedOn: 1}, {name: "lessonsIndexSix"});
-    Lessons.rawCollection().createIndex({groupId: 1, weekId: 1, order: 1, deletedOn: 1}, {name: "lessonsIndexSeven"});
-    Lessons.rawCollection().createIndex({schoolWorkId: 1, weekId: 1, deletedOn: 1}, {name: "lessonsIndexEight"});
-    Lessons.rawCollection().createIndex({completed: 1, schoolWorkId: 1, weekId: 1, deletedOn: 1}, {name: "lessonsIndexNine"});
-    Lessons.rawCollection().createIndex({weekId: 1, schoolWorkId: 1, deletedOn: 1}, {name: "lessonsIndexTen"});
-    Lessons.rawCollection().createIndex({groupId: 1, deletedOn: 1}, {name: "lessonsIndexEleven"});
-}
-
 Lessons.allow({
   insert: () => false,
   update: () => false,

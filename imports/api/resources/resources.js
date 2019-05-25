@@ -3,12 +3,6 @@ import SimpleSchema from 'simpl-schema';
 
 export const Resources = new Mongo.Collection('resources');
 
-if ( Meteor.isServer ) {
-    Resources.rawCollection().createIndex({ title: 1, author: 1, artist: 1, director: 1 }, {name: "resourcesIndex"});
-    Resources.rawCollection().createIndex({type: 1, availability: 1, groupId: 1, title: 1, deletedOn: 1}, {name: "resourcesIndexTwo"});
-    Resources.rawCollection().createIndex({type: 1, groupId: 1, title: 1, deletedOn: 1}, {name: "resourcesIndexThree"});
-}
-
 Resources.allow({
   insert: () => false,
   update: () => false,

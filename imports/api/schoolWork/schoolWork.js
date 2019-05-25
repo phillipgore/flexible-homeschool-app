@@ -3,10 +3,6 @@ import SimpleSchema from 'simpl-schema';
 
 export const SchoolWork = new Mongo.Collection('schoolWork');
 
-if ( Meteor.isServer ) {
-    SchoolWork.rawCollection().createIndex({ studentId: 1, schoolYearId: 1 }, {name: "schoolWorkIndex"});
-}
-
 SchoolWork.allow({
   insert: () => false,
   update: () => false,

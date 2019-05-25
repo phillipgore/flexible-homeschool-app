@@ -17,7 +17,7 @@ Meteor.methods({
 	},
 
 	deleteReport: function(reportId) {
-		Reports.update(reportId, {$set: {deletedOn: new Date()}});
+		Reports.remove({_id: reportId});
 		reportsInitialId();
 	},
 })

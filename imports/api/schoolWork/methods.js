@@ -85,11 +85,9 @@ Meteor.methods({
 
 	deleteSchoolWork: function(statProperties, pathProperties, schoolWorkId) {
 		let lessonIds = Lessons.find({schoolWorkId: schoolWorkId}).map(lesson => (lesson._id));
-		
-		SchoolWork.update(schoolWorkId, {$set: {deletedOn: new Date()}});
-		lessonIds.forEach(function(lessonId) {
-			Lessons.update(lessonId, {$set: {deletedOn: new Date()}});
-		});
+
+		SchoolWork.remove({_id: schoolWorkId});
+		Lessons.remove({_id: {$in: lessonIds}});
 
 		upsertPaths(pathProperties);
 		upsertSchoolWorkPaths(pathProperties);

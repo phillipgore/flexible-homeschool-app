@@ -55,25 +55,25 @@ Meteor.methods({
 		let weekIds = Weeks.find({schoolYearId: schoolYearId}).map(week => (week._id));
 		let lessonIds = Lessons.find({schoolYearId: schoolYearId}).map(lesson => (lesson._id));
 
-		SchoolYears.update(schoolYearId, {$set: {deletedOn: new Date()}});
+		// School Year
+		SchoolYears.remove({_id: schoolYearId});
 		Paths.remove({timeFrameId: schoolYearId});
 		Stats.remove({timeFrameId: schoolYearId});
 
-		schoolWorkIds.forEach(function(schoolWorkId) {
-			SchoolWork.update(schoolWorkId, {$set: {deletedOn: new Date()}});
-		});
-		termIds.forEach(function(termId) {
-			Terms.update(termId, {$set: {deletedOn: new Date()}});
-			Paths.remove({timeFrameId: termId});
-			Stats.remove({timeFrameId: termId});
-		});
-		weekIds.forEach(function(weekId) {
-			Weeks.update(weekId, {$set: {deletedOn: new Date()}});
-			Stats.remove({timeFrameId: weekId});
-		});
-		lessonIds.forEach(function(lessonId) {
-			Lessons.update(lessonId, {$set: {deletedOn: new Date()}});
-		});
+		// School Work
+		SchoolWork.remove({_id: {$in: schoolWorkIds}});
+
+		// Terms
+		Terms.remove({_id: {$in: termIds}});
+		Paths.remove({timeFrameId: {$in: termIds}});
+		Stats.remove({timeFrameId: {$in: termIds}});
+
+		// Weeks
+		Weeks.remove({_id: {$in: weekIds}});
+		Stats.remove({timeFrameId: {$in: weekIds}});
+
+		// Lessons
+		Lessons.remove({_id: {$in: lessonIds}});
 	},
 
 	updateSchoolYearTerms: function(pathProperties, schoolYearId, schoolYearProperties, termDeleteIds, termInsertProperties, termUpdateProperties, userId, groupId) {
