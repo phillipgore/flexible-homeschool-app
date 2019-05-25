@@ -239,8 +239,9 @@ Migrations.add({
 });
 
 // Meteor.startup(() => {
-// 	Migrations.migrateTo(8);
+// 	Migrations.migrateTo(9);
 // });
+
 
 
 

@@ -20,4 +20,4 @@ Meteor.methods({
 		Reports.remove({_id: reportId});
 		reportsInitialId();
 	},
-})
+});

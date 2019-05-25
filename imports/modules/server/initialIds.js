@@ -18,7 +18,6 @@ import _ from 'lodash';
 export function primaryInitialIds (submittedGroupId) {
 	console.log('primaryInitialIds start');	
 	let groupId = getGroupId(submittedGroupId);
-	let currentYear = startYearFunction();
 
 	let ids = {};
 
@@ -27,7 +26,7 @@ export function primaryInitialIds (submittedGroupId) {
 	if (firstStudent) {ids.studentId = firstStudent._id} else {ids.studentId = 'empty'};
 
 	// Get First School Year
-	let firstSchoolYear = SchoolYears.findOne({groupId: groupId, startYear: {$gte: currentYear}, deletedOn: { $exists: false }}, {sort: {startYear: 1}, fields: {_id: 1}});
+	let firstSchoolYear = getFirstSchoolYear(groupId);
 	if (firstSchoolYear) {ids.schoolYearId = firstSchoolYear._id} else {ids.schoolYearId = 'empty'};
 
 	// Get First School Work
@@ -204,6 +203,18 @@ function startYearFunction() {
 
 	return year.toString();
 };
+
+// Return First School Year
+function getFirstSchoolYear(groupId) {
+	let currentYear = startYearFunction();
+	let gteFirstSchoolYear = SchoolYears.findOne({groupId: groupId, startYear: {$gte: currentYear}, deletedOn: { $exists: false }}, {sort: {startYear: 1}, fields: {_id: 1}});
+	let lteFirstSchoolYear = SchoolYears.findOne({groupId: groupId, startYear: {$lte: currentYear}, deletedOn: { $exists: false }}, {sort: {startYear: 1}, fields: {_id: 1}});
+
+	if (gteFirstSchoolYear) {
+		return gteFirstSchoolYear;
+	}
+	return lteFirstSchoolYear;
+}
 
 
 
