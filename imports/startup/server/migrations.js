@@ -81,24 +81,24 @@ Migrations.add({
 	version: 4,
 	name: 'Remove Deleted Items.',
 	up: function() {
-		Students.remove({deletedOn: { $exists: false }});
-		SchoolYears.remove({deletedOn: { $exists: false }});
-		Terms.remove({deletedOn: { $exists: false }});
-		Weeks.remove({deletedOn: { $exists: false }});
-		SchoolWork.remove({deletedOn: { $exists: false }});
-		Lessons.remove({deletedOn: { $exists: false }});
-		Reports.remove({deletedOn: { $exists: false }});
+		Students.remove({deletedOn: { $exists: true }});
+		SchoolYears.remove({deletedOn: { $exists: true }});
+		Terms.remove({deletedOn: { $exists: true }});
+		Weeks.remove({deletedOn: { $exists: true }});
+		SchoolWork.remove({deletedOn: { $exists: true }});
+		Lessons.remove({deletedOn: { $exists: true }});
+		Reports.remove({deletedOn: { $exists: true }});
 
-		let resourceIds = Resources.find({deletedOn: { $exists: false }}).map(resource => resource._id);
+		let resourceIds = Resources.find({deletedOn: { $exists: true }}).map(resource => resource._id);
 		SchoolWork.update({}, {$pull: {resources: {$in: resourceIds}}}, {multi: true});
 
-		Resources.remove({deletedOn: { $exists: false }});
+		Resources.remove({deletedOn: { $exists: true }});
 	}
 });
 
 
 Meteor.startup(() => {
-	Migrations.migrateTo(3);
+	Migrations.migrateTo(4);
 });
 
 
