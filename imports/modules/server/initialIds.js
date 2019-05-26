@@ -26,8 +26,8 @@ export function primaryInitialIds (submittedGroupId) {
 	if (firstStudent) {ids.studentId = firstStudent._id} else {ids.studentId = 'empty'};
 
 	// Get First School Year
-	let firstSchoolYear = getFirstSchoolYear(groupId);
-	if (firstSchoolYear) {ids.schoolYearId = firstSchoolYear._id} else {ids.schoolYearId = 'empty'};
+	let firstSchoolYear = getFirstSchoolYearId(groupId);
+	ids.schoolYearId = firstSchoolYear;
 
 	// Get First School Work
 	if (firstStudent && firstSchoolYear) {
@@ -205,15 +205,25 @@ function startYearFunction() {
 };
 
 // Return First School Year
-function getFirstSchoolYear(groupId) {
+function getFirstSchoolYearId(groupId) {
 	let currentYear = startYearFunction();
-	let gteFirstSchoolYear = SchoolYears.findOne({groupId: groupId, startYear: {$gte: currentYear}, deletedOn: { $exists: false }}, {sort: {startYear: 1}, fields: {_id: 1}});
-	let lteFirstSchoolYear = SchoolYears.findOne({groupId: groupId, startYear: {$lte: currentYear}, deletedOn: { $exists: false }}, {sort: {startYear: 1}, fields: {_id: 1}});
 
+	let schoolYears = SchoolYears.find(
+		{groupId: groupId, deletedOn: { $exists: false }}, 
+		{sort: {starYear: 1}, fields: {startYear: 1, endYear: 1}}
+	).fetch();
+
+	if (!schoolYears.length) {
+		return 'empty'
+	}
+	if (schoolYears.length === 1) {
+		return schoolYears[0]._id;
+	}
+	let gteFirstSchoolYear = _.find(schoolYears, year => {return year.startYear >= currentYear})._id;
 	if (gteFirstSchoolYear) {
 		return gteFirstSchoolYear;
 	}
-	return lteFirstSchoolYear;
+	return _.find(schoolYears, year => {return year.startYear <= currentYear})._id;
 }
 
 
