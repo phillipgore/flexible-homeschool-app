@@ -32,7 +32,7 @@ export function primaryInitialIds (submittedGroupId) {
 	// Get First School Work
 	if (firstStudent && firstSchoolYear) {
 		let firstSchoolWork = SchoolWork.findOne(
-			{groupId: groupId, schoolYearId: firstSchoolYear._id, studentId: firstStudent._id, deletedOn: { $exists: false }},
+			{groupId: groupId, schoolYearId: firstSchoolYear, studentId: firstStudent._id, deletedOn: { $exists: false }},
 			{sort: {name: 1}, fields: {_id: 1}}
 		)	
 		if (firstSchoolWork) {ids.schoolWorkId = firstSchoolWork._id} else {ids.schoolWorkId = 'empty'};
@@ -48,14 +48,14 @@ export function primaryInitialIds (submittedGroupId) {
 	} else {
 		if (ids.studentId === 'empty') { // First Student: False
 			let firstTerm = Terms.findOne(
-				{groupId: groupId, schoolYearId: firstSchoolYear._id, deletedOn: { $exists: false }},
+				{groupId: groupId, schoolYearId: firstSchoolYear, deletedOn: { $exists: false }},
 				{sort: {order: 1}, fields: {_id: 1}}
 			)
 
 			if (firstTerm) { // First Term: True
 				ids.termId = firstTerm._id
 				let firstWeek = Weeks.findOne(
-					{groupId: groupId, schoolYearId: firstSchoolYear._id, termId: firstTerm._id, deletedOn: { $exists: false }},
+					{groupId: groupId, schoolYearId: firstSchoolYear, termId: firstTerm._id, deletedOn: { $exists: false }},
 					{sort: {order: 1}, fields: {_id: 1}}
 				)
 				if (firstWeek) {ids.weekId = firstWeek._id} else {ids.weekId = 'empty'};
@@ -65,11 +65,11 @@ export function primaryInitialIds (submittedGroupId) {
 			};
 		} else { // First Student: True
 			let firstIncompleteLesson = Lessons.findOne(
-				{studentId: firstStudent._id, schoolYearId: firstSchoolYear._id, completed: false, deletedOn: { $exists: false }},
+				{studentId: firstStudent._id, schoolYearId: firstSchoolYear, completed: false, deletedOn: { $exists: false }},
 				{sort: {termOrder: 1, weekOrder: 1, order: 1}, fields: {termId: 1, weekId: 1}}
 			);
 			let firstCompletedLesson = Lessons.findOne(
-				{studentId: firstStudent._id, schoolYearId: firstSchoolYear._id, completed: true, deletedOn: { $exists: false }},
+				{studentId: firstStudent._id, schoolYearId: firstSchoolYear, completed: true, deletedOn: { $exists: false }},
 				{sort: {termOrder: 1, weekOrder: 1, order: 1}, fields: {termId: 1, weekId: 1}}
 			);
 
@@ -81,14 +81,14 @@ export function primaryInitialIds (submittedGroupId) {
 				ids.weekId = firstCompletedLesson.weekId;
 			} else { // First Incomplete Lesson: false && First Complete Lesson: False
 				let firstTerm = Terms.findOne(
-					{groupId: groupId, schoolYearId: firstSchoolYear._id, deletedOn: { $exists: false }},
+					{groupId: groupId, schoolYearId: firstSchoolYear, deletedOn: { $exists: false }},
 					{sort: {order: 1}, fields: {_id: 1}}
 				)
 
 				if (firstTerm) { // First Term: True
 					ids.termId = firstTerm._id
 					let firstWeek = Weeks.findOne(
-						{groupId: groupId, schoolYearId: firstSchoolYear._id, termId: firstTerm._id, deletedOn: { $exists: false }},
+						{groupId: groupId, schoolYearId: firstSchoolYear, termId: firstTerm._id, deletedOn: { $exists: false }},
 						{sort: {order: 1}, fields: {_id: 1}}
 					)
 					if (firstWeek) {ids.weekId = firstWeek._id} else {ids.weekId = 'empty'};
