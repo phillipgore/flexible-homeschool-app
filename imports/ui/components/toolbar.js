@@ -7,7 +7,7 @@ import _ from 'lodash'
 
 Template.toolbar.helpers({
 	test: function() {
-		return Session.get('test');
+		return Session.get('selectedTermId');
 	},
 
 	selectedFramePosition: function() {
