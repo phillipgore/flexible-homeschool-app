@@ -42,11 +42,8 @@ Meteor.methods({
 		return schoolYearId;
 	},
 
-	updateSchoolYear: function(pathProperties, schoolYearId, schoolYearProperties) {
-		SchoolYears.update(schoolYearId, {$set: schoolYearProperties}, function() {
-			upsertPaths(pathProperties);		
-			primaryInitialIds();
-		});
+	updateSchoolYear: function(schoolYearId, schoolYearProperties) {
+		SchoolYears.update(schoolYearId, {$set: schoolYearProperties});
 	},
 
 	deleteSchoolYear: function(schoolYearId) {
@@ -76,7 +73,7 @@ Meteor.methods({
 		Lessons.remove({_id: {$in: lessonIds}});
 	},
 
-	updateSchoolYearTerms: function(pathProperties, schoolYearId, schoolYearProperties, termDeleteIds, termInsertProperties, termUpdateProperties, userId, groupId) {
+	updateSchoolYearTerms: function(schoolYearId, schoolYearProperties, termDeleteIds, termInsertProperties, termUpdateProperties, userId, groupId) {
 		let weekDeleteIds = Weeks.find({termId: {$in: termDeleteIds}}).map(week => week._id);
 
 		let weekBulkDelete = [];
@@ -238,9 +235,6 @@ Meteor.methods({
 				});
 			});
 		};
-
-		upsertPaths(pathProperties);
-		primaryInitialIds();
 
 		return true;
 	},

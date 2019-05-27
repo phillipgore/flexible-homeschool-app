@@ -228,7 +228,7 @@ Template.schoolYearsEdit.events({
 				message: "Please be patient. This could take a bit.",
 			});
 
-			Meteor.call('updateSchoolYearTerms', pathProperties, FlowRouter.getParam('selectedSchoolYearId'), schoolYearProperties, termDeleteIds, termInsertProperties, termUpdateProperties, Meteor.userId(), Meteor.user().info.groupId, function(error) {
+			Meteor.call('updateSchoolYearTerms', FlowRouter.getParam('selectedSchoolYearId'), schoolYearProperties, termDeleteIds, termInsertProperties, termUpdateProperties, Meteor.userId(), Meteor.user().info.groupId, function(error) {
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',
@@ -239,13 +239,21 @@ Template.schoolYearsEdit.events({
 					$('.js-updating').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
-					$('.js-updating').hide();
-					$('.js-submit').prop('disabled', false);
-					FlowRouter.go('/planning/schoolyears/view/3/' + FlowRouter.getParam('selectedSchoolYearId'));
+					Meteor.call('runPrimaryInitialIds');
+					Meteor.call('runUpsertPaths', pathProperties, true, function(error, result) {
+
+						Session.set('selectedSchoolYearId', result.schoolYearId);
+						Session.set('selectedTermId', result.termId);
+						Session.set('selectedWeekId', result.weekId);
+
+						$('.js-updating').hide();
+						$('.js-submit').prop('disabled', false);
+						FlowRouter.go('/planning/schoolyears/view/3/' + FlowRouter.getParam('selectedSchoolYearId'));
+					});
 				}
 			});
 		} else {
-			Meteor.call('updateSchoolYear', pathProperties, FlowRouter.getParam('selectedSchoolYearId'), schoolYearProperties, function(error) {
+			Meteor.call('updateSchoolYear', FlowRouter.getParam('selectedSchoolYearId'), schoolYearProperties, function(error) {
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',
@@ -256,9 +264,17 @@ Template.schoolYearsEdit.events({
 					$('.js-updating').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
-					$('.js-updating').hide();
-					$('.js-submit').prop('disabled', false);
-					FlowRouter.go('/planning/schoolyears/view/3/' + FlowRouter.getParam('selectedSchoolYearId'));
+					Meteor.call('runPrimaryInitialIds');
+					Meteor.call('runUpsertPaths', pathProperties, true, function(error, result) {
+
+						Session.set('selectedSchoolYearId', result.schoolYearId);
+						Session.set('selectedTermId', result.termId);
+						Session.set('selectedWeekId', result.weekId);
+
+						$('.js-updating').hide();
+						$('.js-submit').prop('disabled', false);
+						FlowRouter.go('/planning/schoolyears/view/3/' + FlowRouter.getParam('selectedSchoolYearId'));
+					});
 				}
 			});
 		}

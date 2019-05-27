@@ -20,7 +20,7 @@ import _ from 'lodash';
 /* -------------------- Exported Functions -------------------- */
 
 // Upsert Paths
-export function upsertPaths(pathProperties, isNew, submittedGroupId) {
+export function upsertPaths(pathProperties, returnPath, submittedGroupId) {
 	console.log('upsertPaths start');
 	let groupId = getGroupId(submittedGroupId);
 
@@ -42,7 +42,7 @@ export function upsertPaths(pathProperties, isNew, submittedGroupId) {
 		});
 	}
 
-	if (isNew) {
+	if (returnPath) {
 		let weekId = Weeks.findOne({schoolYearId: {$in: schoolYearIds}, termId: {$in: termIds}}, {sort: {termOrder: 1, order: 1}})._id;
 		return {schoolYearId: schoolYearIds[0], termId: termIds[0], weekId: weekId};
 	} else {
