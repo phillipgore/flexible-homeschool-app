@@ -16,10 +16,11 @@ Template.subbarReporting.onCreated( function() {
 	
 	template.autorun(() => {
 		this.trackingStats = Meteor.subscribe('progressStatsPub');
-		this.studentData = this.subscribe('allStudents');
-		this.schoolYearData = Meteor.subscribe('schoolYearPaths', FlowRouter.getParam('selectedStudentId'));
-		this.termData = Meteor.subscribe('termPaths', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedSchoolYearId'));
-		this.weekData = Meteor.subscribe('weekPaths', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedTermId'));
+		this.studentData = Meteor.subscribe('allStudents');
+		this.pathData = Meteor.subscribe('allPaths');
+		this.schoolYearData = Meteor.subscribe('allSchoolYears');
+		this.termData = Meteor.subscribe('allTerms');
+		this.weekData = Meteor.subscribe('allWeeks');
 	});
 });
 
@@ -32,15 +33,24 @@ Template.subbarReporting.helpers({
 	},
 
 	schoolYearSubReady: function() {
-		return Template.instance().schoolYearData.ready();
+		if (Template.instance().schoolYearData.ready() && Template.instance().pathData.ready()) {
+			return true;
+		}
+		return false;
 	},
 
 	termSubReady: function() {
-		return Template.instance().termData.ready();
+		if (Template.instance().termData.ready() && Template.instance().pathData.ready()) {
+			return true;
+		}
+		return false;
 	},
 
 	weekSubReady: function() {
-		return Template.instance().weekData.ready();
+		if (Template.instance().weekData.ready() && Template.instance().pathData.ready()) {
+			return true;
+		}
+		return false;
 	},
 
 	

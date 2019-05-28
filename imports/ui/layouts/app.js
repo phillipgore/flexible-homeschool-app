@@ -449,11 +449,14 @@ Template.app.events({
 
 	'click .js-student'(event) {
 		let studentId = $(event.currentTarget).attr('id');
+		console.log(studentId)
+		console.log(Session.get('selectedSchoolYearId'))
 		Session.set({
 			selectedStudentId: studentId,
 			editUrl: '/planning/students/edit/3/' + studentId,
 		});
 		let path = Paths.findOne({studentId: studentId, timeFrameId: Session.get('selectedSchoolYearId')});
+		console.log(path)
 		if (path) {
 			Session.set({
 				selectedTermId: path.firstTermId,
