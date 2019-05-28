@@ -12,12 +12,22 @@ Meteor.methods({
 	},
 
 	updateReport: function(reportId, reportProperties) {
-		Reports.update(reportId, {$set: reportProperties});
-		reportsInitialId();
+		Reports.update(reportId, {$set: reportProperties}, function(error, result) {
+			if (error) {
+				console.log(error)
+			} else {
+				reportsInitialId();
+			}
+		});
 	},
 
 	deleteReport: function(reportId) {
-		Reports.remove({_id: reportId});
-		reportsInitialId();
+		Reports.remove({_id: reportId}, function(error, result) {
+			if (error) {
+				console.log(error)
+			} else {
+				reportsInitialId();
+			}
+		});
 	},
 });

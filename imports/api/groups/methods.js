@@ -37,12 +37,4 @@ Meteor.methods({
 	runPrimaryInitialIds: function() {
 		primaryInitialIds();
 	}
-
-	// pauseGroup: function(groupId) {
-	// 	Groups.update(groupId, {$set: {pause: true}});
-	// },
-
-	// unpauseGroup: function(groupId) {
-	// 	Groups.update(groupId, {$set: {pause: false}});
-	// }
 })

@@ -48,19 +48,34 @@ Meteor.methods({
 	},
 
 	insertResource(resourceProperties) {
-		const resourcesView = Resources.insert(resourceProperties);
-		resourcesInitialIds();
+		const resourcesView = Resources.insert(resourceProperties, function(error, result) {
+			if (error) {
+				console.log(error)
+			} else {
+				resourcesInitialIds();
+			}
+		});
 		return resourcesView
 	},
 
 	updateResource: function(resourceId, resourceProperties) {
-		Resources.update(resourceId, {$set: resourceProperties});
-		resourcesInitialIds();
+		Resources.update(resourceId, {$set: resourceProperties}, function(error, result) {
+			if (error) {
+				console.log(error)
+			} else {
+				resourcesInitialIds();
+			}
+		});
 	},
 
 	deleteResource: function(resourceId) {
-		Resources.remove({_id: resourceId});
+		Resources.remove({_id: resourceId}, function(error, result) {
+			if (error) {
+				console.log(error)
+			} else {
+				resourcesInitialIds();
+			}
+		});
 		SchoolWork.update({}, {$pull: {resources: resourceId}}, {multi: true});
-		resourcesInitialIds();
 	}
 })

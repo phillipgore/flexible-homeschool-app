@@ -39,8 +39,8 @@ Meteor.methods({
 		Students.remove({_id: studentId});
 		SchoolWork.remove({_id: {$in: schoolWorkIds}});
 		Lessons.remove({_id: {$in: lessonIds}});
+
 		Stats.remove({studentId: studentId});
 		Paths.remove({studentId: studentId});
-		primaryInitialIds();
 	},
 })

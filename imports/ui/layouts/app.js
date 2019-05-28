@@ -165,16 +165,26 @@ Template.app.events({
 					message: error.reason,
 				});
 			} else {
-				Dialogs.remove({_id: dialogId});
-				Session.set({
-					'selectedStudentId': newPath.firstStudentId,
+				Meteor.call('runPrimaryInitialIds', function(error) {
+					if (error) {
+						Alerts.insert({
+							colorClass: 'bg-danger',
+							iconClass: 'icn-danger',
+							message: error.reason,
+						});
+					} else {
+						Dialogs.remove({_id: dialogId});
+						Session.set({
+							'selectedStudentId': newPath.firstStudentId,
+						})
+						if (window.screen.availWidth > 768) {
+							FlowRouter.go('/planning/students/view/3/' + newPath.firstStudentId);
+						} else {
+							FlowRouter.go('/planning/students/view/2/' + newPath.firstStudentId);
+						}
+						$('.js-deleting').hide();
+					}
 				})
-				if (window.screen.availWidth > 768) {
-					FlowRouter.go('/planning/students/view/3/' + newPath.firstStudentId);
-				} else {
-					FlowRouter.go('/planning/students/view/2/' + newPath.firstStudentId);
-				}
-				$('.js-deleting').hide();
 			}
 		});
 	},
@@ -269,7 +279,7 @@ Template.app.events({
 		}
 
 		Dialogs.remove({_id: dialogId});
-		Meteor.call('deleteSchoolWork', statProperties, pathProperties, FlowRouter.getParam('selectedSchoolWorkId'), function(error) {
+		Meteor.call('deleteSchoolWork', FlowRouter.getParam('selectedSchoolWorkId'), function(error) {
 			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',
@@ -277,13 +287,23 @@ Template.app.events({
 					message: error.reason,
 				});
 			} else {
-				Session.set('selectedSchoolWorkId', newSchoolWorkId);
-				if (window.screen.availWidth > 768) {
-					FlowRouter.go('/planning/schoolWork/view/3/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ newSchoolWorkId);
-				} else {
-					FlowRouter.go('/planning/schoolWork/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ newSchoolWorkId);
-				}
-				$('.js-deleting').hide();
+				Meteor.call('runUpsertSchoolWorkPathsAndStats', pathProperties, statProperties, function(error, result) {
+					if (error) {
+						Alerts.insert({
+							colorClass: 'bg-danger',
+							iconClass: 'icn-danger',
+							message: error.reason,
+						});
+					} else {
+						Session.set('selectedSchoolWorkId', newSchoolWorkId);
+						if (window.screen.availWidth > 768) {
+							FlowRouter.go('/planning/schoolWork/view/3/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ newSchoolWorkId);
+						} else {
+							FlowRouter.go('/planning/schoolWork/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ newSchoolWorkId);
+						}
+						$('.js-deleting').hide();
+					}
+				});
 			}
 		});
 	},

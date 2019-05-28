@@ -29,9 +29,5 @@ Meteor.methods({
 	bulkWriteLessons: function(bulkLessonProperties) {
 		Lessons.rawCollection().bulkWrite(bulkLessonProperties)
 	},
-
-	batchRemoveLessons: function(lessonIds) {
-		Lessons.remove({_id: {$in: lessonIds}});
-	},
 });
 

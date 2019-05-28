@@ -53,7 +53,7 @@ export function upsertPaths(pathProperties, returnPath, submittedGroupId) {
 
 // Upsert School Work Paths
 export function upsertSchoolWorkPaths(pathProperties, submittedGroupId) {
-	console.log('upsertPaths start');
+	console.log('upsertSchoolWorkPaths start');
 	let groupId = getGroupId(submittedGroupId);
 
 	let studentIds = getStudents(groupId, pathProperties);
@@ -67,7 +67,7 @@ export function upsertSchoolWorkPaths(pathProperties, submittedGroupId) {
 		});
 	};
 
-	console.log('upsertPaths end');
+	console.log('upsertSchoolWorkPaths end');
 	return true
 };
 

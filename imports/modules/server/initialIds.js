@@ -40,7 +40,6 @@ export function primaryInitialIds (submittedGroupId) {
 		ids.schoolWorkId = 'empty';
 		ids.schoolYearsExist = false;
 	}
-
 	// Get First Term and Week
 	if (ids.schoolYearId === 'empty') {
 		ids.termId = 'empty';
@@ -146,6 +145,7 @@ export function usersInitialId (submittedGroupId) {
 
 // Intial Id for Reports.
 export function reportsInitialId (submittedGroupId) {
+	console.log('reportsInitialId start')
 	let groupId = getGroupId(submittedGroupId);
 	let ids = {};
 
@@ -156,6 +156,7 @@ export function reportsInitialId (submittedGroupId) {
 		'initialIds.reportId': ids.reportId,
 	}});
 	
+	console.log('reportsInitialId end')
 	return groupId;
 };
 
@@ -216,14 +217,18 @@ function getFirstSchoolYearId(groupId) {
 	if (!schoolYears.length) {
 		return 'empty'
 	}
+	
 	if (schoolYears.length === 1) {
 		return schoolYears[0]._id;
 	}
-	let gteFirstSchoolYear = _.find(schoolYears, year => {return year.startYear >= currentYear})._id;
-	if (gteFirstSchoolYear) {
-		return gteFirstSchoolYear;
+
+	let gteFirstSchoolYear = _.findLast(schoolYears, year => {return year.startYear >= currentYear});
+	if (!_.isUndefined(gteFirstSchoolYear)) {
+		return gteFirstSchoolYear._id;
 	}
-	return _.find(schoolYears, year => {return year.startYear <= currentYear})._id;
+
+	let lteFirstSchoolYear = _.find(schoolYears, year => {return year.startYear <= currentYear});
+	return lteFirstSchoolYear._id;
 }
 
 

@@ -32,7 +32,7 @@ Meteor.methods({
 		return info;
 	},
 
-	updateSchoolWork: function(statProperties, pathProperties, updateSchoolWorkProperties, removeLessonIds, insertLessonProperties) {
+	updateSchoolWork: function(updateSchoolWorkProperties, removeLessonIds, insertLessonProperties) {
 		let groupId = Meteor.user().info.groupId;
 		let userId = Meteor.userId();
 
@@ -76,26 +76,16 @@ Meteor.methods({
 				throw new Meteor.Error(500, error);
 			});
 		}
-
-		upsertPaths(pathProperties);
-		upsertSchoolWorkPaths(pathProperties);
-		primaryInitialIds();
-		upsertStats(statProperties);
 	},
 
-	deleteSchoolWork: function(statProperties, pathProperties, schoolWorkId) {
+	deleteSchoolWork: function(schoolWorkId) {
 		let lessonIds = Lessons.find({schoolWorkId: schoolWorkId}).map(lesson => (lesson._id));
 
 		SchoolWork.remove({_id: schoolWorkId});
 		Lessons.remove({_id: {$in: lessonIds}});
-
-		upsertPaths(pathProperties);
-		upsertSchoolWorkPaths(pathProperties);
-		primaryInitialIds();
-		upsertStats(statProperties);
 	},
 
-	insertSchoolWork: function(statProperties, pathProperties, studentIds, schoolWorkProperties, lessonProperties) {
+	insertSchoolWork: function(studentIds, schoolWorkProperties, lessonProperties) {
 		let groupId = Meteor.user().info.groupId;
 		let userId = Meteor.userId();
 
@@ -154,13 +144,12 @@ Meteor.methods({
 		}).catch((error) => {
 			throw new Meteor.Error(500, error);
 		});
-		
-		upsertPaths(pathProperties);
-		upsertSchoolWorkPaths(pathProperties);
-		primaryInitialIds();
-		upsertStats(statProperties);
+
 		return result;
 	},
 });
+
+
+
 
 

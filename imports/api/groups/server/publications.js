@@ -15,7 +15,7 @@ Meteor.publish('groupStatus', function() {
 		return this.ready();
 	}
 	
-	primaryInitialIds();
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
+	primaryInitialIds(groupId);
 	return Groups.find({_id: groupId}, {fields: {subscriptionStatus: 1, stripePaymentAttempt: 1, initialIds: 1}});
 });

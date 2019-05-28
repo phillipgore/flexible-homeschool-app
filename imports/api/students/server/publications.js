@@ -7,7 +7,7 @@ Meteor.publish('allStudents', function() {
 	}
 
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-	return Students.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}, fields: {birthday: 1, lastName: 1, 'preferredFirstName.type': 1, 'preferredFirstName.name': 1}});
+	return Students.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}, fields: {birthday: 1, lastName: 1, preferredFirstName: 1}});
 });
 
 Meteor.publish('student', function(studentId) {
@@ -16,7 +16,7 @@ Meteor.publish('student', function(studentId) {
 	}
 
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-	return Students.find({groupId: groupId, deletedOn: { $exists: false }, _id: studentId}, {fields: {firstName: 1, middleName: 1, lastName: 1, nickname: 1, 'preferredFirstName.type': 1, 'preferredFirstName.name': 1, birthday: 1}});
+	return Students.find({groupId: groupId, deletedOn: { $exists: false }, _id: studentId}, {fields: {firstName: 1, middleName: 1, lastName: 1, nickname: 1, preferredFirstName: 1, birthday: 1}});
 });
 
 Meteor.publish('trackingListPub', function(studentId) {
@@ -25,7 +25,7 @@ Meteor.publish('trackingListPub', function(studentId) {
 	}
 
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-	return Students.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}, fields: {birthday: 1, firstName: 1, middleName: 1, lastName: 1, 'preferredFirstName.name': 1}});
+	return Students.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}, fields: {birthday: 1, firstName: 1, middleName: 1, lastName: 1, preferredFirstName: 1}});
 });
 
 
