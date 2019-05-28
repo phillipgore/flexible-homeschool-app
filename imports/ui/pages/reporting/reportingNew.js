@@ -74,6 +74,7 @@ Template.reportingNew.onRendered( function() {
 					$('.js-saving').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
+					Session.set('selectedReportId', reportId);
 					FlowRouter.go('/reporting/view/1/' + Session.get('selectedStudentId') +"/"+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedReportingTermId') +'/'+ Session.get('selectedReportingWeekId') +"/"+ reportId);
 				}
 			});

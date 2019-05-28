@@ -588,20 +588,6 @@ Template.app.events({
 			editUrl: '/reporting/edit/2/' + $(event.currentTarget).attr('id'),
 		});
 	},
-
-	'click .js-report-student'(event) {
-		Session.set({
-			selectedStudentId: $(event.currentTarget).attr('id'),
-			editUrl: '/reporting/edit/2/' + Session.get('selectedReportId'),
-		});
-	},
-
-	'click .js-report-school-year'(event) {
-		Session.set({
-			selectedSchoolYearId: $(event.currentTarget).attr('id'),
-			editUrl: '/reporting/edit/2/' + Session.get('selectedReportId'),
-		});
-	},
 });
 
 
