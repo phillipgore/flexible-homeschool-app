@@ -16,7 +16,7 @@
 								{{else}}
 									{{#each student in students}}
 										<li class="dropdown-item">
-											<a id="{{student._id}}" class="js-student dropdown-item-link" href="/reporting/view/{{selectedFramePosition}}/{{student._id}}/{{selectedSchoolYearId}}/{{firstTermId selectedSchoolYearId}}/{{firstWeekId selectedSchoolYearId}}/{{selectedReportId}}">
+											<a id="{{student._id}}" class="js-student dropdown-item-link" href="/reporting/view/{{selectedFramePosition}}/{{student._id}}/{{selectedSchoolYearId}}/{{selectedTermId}}/{{selectedWeekId}}/{{selectedReportId}}">
 												<div class="dropdown-item-label">{{student.preferredFirstName.name}} {{student.lastName}}</div>
 												{{#if activeListItem selectedStudent._id student._id}}
 													<div class="dropdown-item-icon-right">
@@ -40,7 +40,7 @@
 				<div class="col-tn-1of4">
 					{{#if schoolYears.count}}
 						<div class="btn-sub-dropdown">
-							<a id="{{selectedSchoolYear._id}}" href="#" data-menu="#years" class="js-dropdown btn-sub">
+							<a id="{{selectedSchoolYearId}}" href="#" data-menu="#years" class="js-dropdown btn-sub">
 								<div class="btn-sub-label">{{selectedSchoolYear.startYear}}-{{selectedSchoolYear.endYear}}</div>
 							</a>
 							<ul id="years" class="dropdown-menu dropdown-sub m-tn-rl-9 hide">

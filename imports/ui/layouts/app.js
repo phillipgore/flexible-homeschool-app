@@ -459,12 +459,16 @@ Template.app.events({
 				selectedTermId: path.firstTermId,
 				selectedWeekId: path.firstWeekId,
 				selectedSchoolWorkId: path.firstSchoolWorkId,
+				selectedReportingTermId: path.firstTermId,
+				selectedReportingWeekId: path.firstWeekId,
 			});
 		} else {
 			Session.set({
 				selectedTermId: 'empty',
 				selectedWeekId: 'empty',
 				selectedSchoolWorkId: 'empty',
+				selectedReportingTermId: 'empty',
+				selectedReportingWeekId: 'empty',
 			});
 		}
 	},
