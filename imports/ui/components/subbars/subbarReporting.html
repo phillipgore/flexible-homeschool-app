@@ -16,7 +16,7 @@
 								{{else}}
 									{{#each student in students}}
 										<li class="dropdown-item">
-											<a id="{{student._id}}" class="js-student dropdown-item-link" href="/reporting/view/{{selectedFramePosition}}/{{student._id}}/{{selectedSchoolYearId}}/{{selectedTermId}}/{{selectedWeekId}}/{{selectedReportId}}">
+											<a id="{{student._id}}" class="js-student dropdown-item-link" href="/reporting/view/{{selectedFramePosition}}/{{student._id}}/{{selectedSchoolYearId}}/{{firstTermId selectedSchoolYearId}}/{{firstWeekId selectedSchoolYearId}}/{{selectedReportId}}">
 												<div class="dropdown-item-label">{{student.preferredFirstName.name}} {{student.lastName}}</div>
 												{{#if activeListItem selectedStudent._id student._id}}
 													<div class="dropdown-item-icon-right">
