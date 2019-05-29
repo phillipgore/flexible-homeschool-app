@@ -218,7 +218,7 @@ Template.schoolYearsEdit.events({
 		let pathProperties = {
 			studentIds: [],
 			schoolYearIds: [FlowRouter.getParam('selectedSchoolYearId')],
-			termsIds: [],
+			termIds: [],
 		}
 
 		if (termDeleteIds.length || termInsertProperties.length || termUpdateProperties.length) {
