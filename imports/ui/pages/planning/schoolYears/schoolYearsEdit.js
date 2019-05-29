@@ -222,11 +222,11 @@ Template.schoolYearsEdit.events({
 		}
 
 		if (termDeleteIds.length || termInsertProperties.length || termUpdateProperties.length) {
-			Alerts.insert({
-				colorClass: 'bg-info',
-				iconClass: 'icn-info',
-				message: "Please be patient. This could take a bit.",
-			});
+			// Alerts.insert({
+			// 	colorClass: 'bg-info',
+			// 	iconClass: 'icn-info',
+			// 	message: "Please be patient. This could take a bit.",
+			// });
 
 			Meteor.call('updateSchoolYearTerms', FlowRouter.getParam('selectedSchoolYearId'), schoolYearProperties, termDeleteIds, termInsertProperties, termUpdateProperties, Meteor.userId(), Meteor.user().info.groupId, function(error) {
 				if (error) {
