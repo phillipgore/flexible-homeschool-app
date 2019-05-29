@@ -115,6 +115,12 @@ function getSchoolYears(groupId, pathProperties) {
 
 // Return Terms
 function getTerms(groupId, schoolYearIds, pathProperties) {
+	console.log('------------------');
+	console.log(groupId);
+	console.log(schoolYearIds);
+	console.log(pathProperties);
+	console.log('------------------');
+
 	if (pathProperties['termIds'].length) {
 		return pathProperties['termIds']
 	}
