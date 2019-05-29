@@ -8,8 +8,6 @@ import {SchoolWork} from '../schoolWork/schoolWork.js';
 import {Terms} from '../terms/terms.js';
 import {Weeks} from '../weeks/weeks.js';
 import {Lessons} from '../lessons/lessons.js';
-import {primaryInitialIds} from '../../modules/server/initialIds';
-import {upsertPaths} from '../../modules/server/paths';
 
 Meteor.methods({
 	insertSchoolYear: function(schoolYearProperties, termProperties) {

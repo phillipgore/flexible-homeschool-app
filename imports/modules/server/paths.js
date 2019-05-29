@@ -44,6 +44,7 @@ export function upsertPaths(pathProperties, returnPath, submittedGroupId) {
 
 	if (returnPath) {
 		let weekId = Weeks.findOne({schoolYearId: {$in: schoolYearIds}, termId: {$in: termIds}}, {sort: {termOrder: 1, order: 1}})._id;
+		console.log('upsertPaths end');
 		return {schoolYearId: schoolYearIds[0], termId: termIds[0], weekId: weekId};
 	} else {
 		console.log('upsertPaths end');
@@ -136,7 +137,8 @@ function getTerms(groupId, schoolYearIds, pathProperties) {
 
 // School Year Path Upsert
 function schoolYearPath(groupId, studentId, schoolYearId) {
-	let path = {}
+	let path = {};
+
 	path.studentId = studentId;
 	path.timeFrameId = schoolYearId;
 	path.type = 'schoolYear';
@@ -182,7 +184,8 @@ function schoolYearPath(groupId, studentId, schoolYearId) {
 
 // Term Path Upsert
 function termYearPath(groupId, studentId, termId) {
-	let path = {}
+	let path = {};
+
 	path.studentId = studentId;
 	path.timeFrameId = termId;
 	path.type = 'term';
@@ -215,7 +218,8 @@ function termYearPath(groupId, studentId, termId) {
 
 // School Year Path Upsert
 function schoolWorkPath(groupId, studentId, schoolYearId) {
-	let path = {}
+	let path = {};
+	
 	path.studentId = studentId;
 	path.timeFrameId = schoolYearId;
 	path.type = 'schoolYear';
