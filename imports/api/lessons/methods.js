@@ -19,11 +19,11 @@ Meteor.methods({
 	},
 
 	updateLesson: function(statProperties, pathProperties, lessonProperties) {
-		Lessons.update(lessonProperties._id, {$set: lessonProperties});
-
-		upsertPaths(pathProperties);
-		upsertStats(statProperties);
-		primaryInitialIds();
+		Lessons.update(lessonProperties._id, {$set: lessonProperties}, function() {
+			upsertPaths(pathProperties);
+			upsertStats(statProperties);
+			primaryInitialIds();
+		});
 	},
 
 	bulkWriteLessons: function(bulkLessonProperties) {
