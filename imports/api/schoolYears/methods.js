@@ -141,7 +141,7 @@ Meteor.methods({
 
 		// Updates School Year
 		SchoolYears.update(schoolYearId, {$set: schoolYearProperties});
-
+		console.log('Updates School Year');
 		
 		// Removes Lessons
 		if (lessonBulkDelete.length) {
@@ -151,6 +151,7 @@ Meteor.methods({
 				}
 			});
 		}
+		console.log('Removes Lessons');
 
 		// Removes Weeks
 		if (weekBulkDelete.length) {
@@ -160,6 +161,7 @@ Meteor.methods({
 				}
 			});
 		}
+		console.log('Removes Weeks');
 
 		// Removes Terms
 		if (termDeleteIds.length) {
@@ -169,6 +171,7 @@ Meteor.methods({
 				}
 			});
 		}
+		console.log('Removes Terms');
 
 		// Updates Terms
 		if (termUpdateProperties.length) {
@@ -178,6 +181,7 @@ Meteor.methods({
 				}
 			});
 		}
+		console.log('Updates Terms');
 
 		// Updates Lessons
 		if (lessonBulkUpdateProperties.length) {
@@ -187,6 +191,7 @@ Meteor.methods({
 				}
 			});
 		}
+		console.log('Updates Lessons');
 
 		// Inserts Weeks
 		if (weekBulkInsertProperties.length) {
@@ -196,6 +201,7 @@ Meteor.methods({
 				}
 			});
 		}
+		console.log('Inserts Weeks');
 
 		// Inserts Terms
 		if (termInsertProperties.length) {
@@ -233,6 +239,7 @@ Meteor.methods({
 				});
 			});
 		};
+		console.log('Inserts Terms');
 
 		return true;
 	},
