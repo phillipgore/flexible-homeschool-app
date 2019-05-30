@@ -449,31 +449,27 @@ Template.app.events({
 
 	'click .js-student'(event) {
 		let studentId = $(event.currentTarget).attr('id');
-		console.log(studentId)
-		console.log(Session.get('selectedSchoolYearId'))
 		Session.set({
 			selectedStudentId: studentId,
 			editUrl: '/planning/students/edit/3/' + studentId,
 		});
-		let path = Paths.findOne({studentId: studentId, timeFrameId: Session.get('selectedSchoolYearId')});
-		console.log(path)
-		if (path) {
-			Session.set({
-				selectedTermId: path.firstTermId,
-				selectedWeekId: path.firstWeekId,
-				selectedSchoolWorkId: path.firstSchoolWorkId,
-				selectedReportingTermId: path.firstTermId,
-				selectedReportingWeekId: path.firstWeekId,
-			});
-		} else {
-			Session.set({
-				selectedTermId: 'empty',
-				selectedWeekId: 'empty',
-				selectedSchoolWorkId: 'empty',
-				selectedReportingTermId: 'empty',
-				selectedReportingWeekId: 'empty',
-			});
+
+		function selectedItem(item) {
+			if (_.isUndefined(item)) {
+				return 'empty';
+			}
+			return item;
 		}
+
+		let path = Paths.findOne({studentId: studentId, timeFrameId: Session.get('selectedSchoolYearId')});
+
+		Session.set({
+			selectedTermId: selectedItem(path.firstTermId),
+			selectedWeekId: selectedItem(path.firstWeekId),
+			selectedSchoolWorkId: selectedItem(path.firstSchoolWorkId),
+			selectedReportingTermId: selectedItem(path.firstTermId),
+			selectedReportingWeekId: selectedItem(path.firstWeekId),
+		});
 	},
 
 	'click .js-school-year'(event) {
@@ -482,50 +478,49 @@ Template.app.events({
 			selectedSchoolYearId: schoolYearId,
 			editUrl: '/planning/schoolyears/edit/3/' + schoolYearId,
 		});
-		let path = Paths.findOne({studentId: Session.get('selectedStudentId'), timeFrameId: schoolYearId});
-		if (path) {
-			Session.set({
-				selectedTermId: path.firstTermId,
-				selectedWeekId: path.firstWeekId,
-				selectedSchoolWorkId: path.firstSchoolWorkId,
-				selectedReportingTermId: path.firstTermId,
-				selectedReportingWeekId: path.firstWeekId,
-			});
-		} else {
-			Session.set({
-				selectedTermId: 'empty',
-				selectedWeekId: 'empty',
-				selectedSchoolWorkId: 'empty',
-				selectedReportingTermId: 'empty',
-				selectedReportingWeekId: 'empty',
-			});
+
+		function selectedItem(item) {
+			if (_.isUndefined(item)) {
+				return 'empty';
+			}
+			return item;
 		}
+
+		let path = Paths.findOne({studentId: Session.get('selectedStudentId'), timeFrameId: schoolYearId});
+
+		Session.set({
+			selectedTermId: selectedItem(path.firstTermId),
+			selectedWeekId: selectedItem(path.firstWeekId),
+			selectedSchoolWorkId: selectedItem(path.firstSchoolWorkId),
+			selectedReportingTermId: selectedItem(path.firstTermId),
+			selectedReportingWeekId: selectedItem(path.firstWeekId),
+		});
 	},
 
 	'click .js-term'(event) {
 		let termId = $(event.currentTarget).attr('id');
+
+		function selectedItem(item) {
+			if (_.isUndefined(item)) {
+				return 'empty';
+			}
+			return item;
+		}
+
 		let path = Paths.findOne({studentId: Session.get('selectedStudentId'), timeFrameId: termId});
+		
 		if (termId === 'allTerms') {
 			Session.set({
 				selectedReportingTermId: 'allTerms',
 				selectedReportingWeekId: 'allWeeks',
 			});
 		} else {
-			if (path) {
-				Session.set({
-					selectedTermId: termId,
-					selectedWeekId: path.firstWeekId,
-					selectedReportingTermId: termId,
-					selectedReportingWeekId: path.firstWeekId,
-				});
-			} else {
-				Session.set({
-					selectedTermId: 'empty',
-					selectedWeekId: 'empty',
-					selectedReportingTermId: 'empty',
-					selectedReportingWeekId: 'empty',
-				});
-			}
+			Session.set({
+				selectedTermId: termId,
+				selectedWeekId: selectedItem(path.firstWeekId),
+				selectedReportingTermId: termId,
+				selectedReportingWeekId: selectedItem(path.firstWeekId),
+			});
 		}
 	},
 
