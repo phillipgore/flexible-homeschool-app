@@ -43,7 +43,7 @@ Template.subbarSchoolWork.helpers({
 	},
 
 	selectedStudentId: function() {
-		return Session.get('selectedStudentId');
+		return FlowRouter.getParam('selectedStudentId');
 	},
 
 	
@@ -58,7 +58,7 @@ Template.subbarSchoolWork.helpers({
 	},
 
 	selectedSchoolYearId: function() {
-		return Session.get('selectedSchoolYearId');
+		return FlowRouter.getParam('selectedSchoolYearId');
 	},
 
 	

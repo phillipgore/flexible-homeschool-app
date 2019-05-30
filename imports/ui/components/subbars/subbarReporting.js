@@ -65,7 +65,7 @@ Template.subbarReporting.helpers({
 	},
 
 	selectedStudentId: function() {
-		return Session.get('selectedStudentId');
+		return FlowRouter.getParam('selectedStudentId');
 	},
 
 	
@@ -80,7 +80,7 @@ Template.subbarReporting.helpers({
 	},
 
 	selectedSchoolYearId: function() {
-		return Session.get('selectedSchoolYearId');
+		return FlowRouter.getParam('selectedSchoolYearId');
 	},
 
 	
@@ -95,7 +95,7 @@ Template.subbarReporting.helpers({
 	},
 
 	selectedTermId: function() {
-		return Session.get('selectedTermId');
+		return FlowRouter.getParam('selectedTermId');
 	},
 
 	
@@ -110,7 +110,7 @@ Template.subbarReporting.helpers({
 	},
 
 	selectedWeekId: function() {
-		return Session.get('selectedWeekId');
+		return FlowRouter.getParam('selectedWeekId');
 	},
 
 	
@@ -125,7 +125,7 @@ Template.subbarReporting.helpers({
 	},
 
 	selectedReportId: function() {
-		return Session.get('selectedReportId');
+		return FlowRouter.getParam('selectedReportId');
 	},
 
 	
@@ -174,7 +174,7 @@ Template.subbarReporting.helpers({
 	},
 	
 	reportsAvailable: function() {
-		if (Session.get('selectedSchoolYearId') === 'empty' || Session.get('selectedStudentId') === 'empty' || Session.get('selectedReportId') === 'empty') {
+		if (FlowRouter.getParam('selectedSchoolYearId') === 'empty' || FlowRouter.getParam('selectedStudentId') === 'empty' || FlowRouter.getParam('selectedReportId') === 'empty') {
 			return false;
 		}
 		return true;
