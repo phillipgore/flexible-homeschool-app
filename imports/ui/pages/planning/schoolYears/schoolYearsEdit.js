@@ -239,8 +239,8 @@ Template.schoolYearsEdit.events({
 					$('.js-updating').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
-					Meteor.call('runPrimaryInitialIds');
 					Meteor.call('runUpsertPaths', pathProperties, true, function(error, result) {
+						Meteor.call('runPrimaryInitialIds');
 
 						Session.set('selectedSchoolYearId', result.schoolYearId);
 						Session.set('selectedTermId', result.termId);
@@ -264,8 +264,8 @@ Template.schoolYearsEdit.events({
 					$('.js-updating').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
-					Meteor.call('runPrimaryInitialIds');
 					Meteor.call('runUpsertPaths', pathProperties, true, function(error, result) {
+						Meteor.call('runPrimaryInitialIds');
 
 						Session.set('selectedSchoolYearId', result.schoolYearId);
 						Session.set('selectedTermId', result.termId);
