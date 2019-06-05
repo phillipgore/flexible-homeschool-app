@@ -1,4 +1,5 @@
 import {SchoolYears} from '../schoolYears.js';
+import {Stats} from '../../stats/stats.js';
 import {Students} from '../../students/students.js';
 import {Terms} from '../../terms/terms.js';
 import {Weeks} from '../../weeks/weeks.js';
@@ -48,45 +49,20 @@ Meteor.publish('schoolYearView', function(schoolYearId) {
 });
 
 Meteor.publish('schoolYearEdit', function(schoolYearId) {
-	this.autorun(function (computation) {
-		if (!this.userId) {
-			return this.ready();
-		}
+	if (!this.userId) {
+		return this.ready();
+	}
 
-		let self = this;
+	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
 
-		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-		let schoolYears = SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }, _id: schoolYearId}, {fields: {startYear: 1, endYear: 1}});
-		let terms = Terms.find({groupId: groupId, deletedOn: { $exists: false }, schoolYearId: schoolYearId}, {sort: {order: 1}, fields: {order: 1, schoolYearId: 1}});	
-		let schoolWork = SchoolWork.find({groupId: groupId, deletedOn: { $exists: false }, schoolYearId: schoolYearId});	
-		let termIds = Terms.find({groupId: groupId, deletedOn: { $exists: false }, schoolYearId: schoolYearId}).map(term => term._id);
+	let terms = Terms.find({groupId: groupId, schoolYearId: schoolYearId}, {sort: {order: 1}, fields: {order: 1, schoolYearId: 1}});
+	let termIds = terms.map(term => term._id);
+	let weeks = Weeks.find({groupId: groupId, deletedOn: { $exists: false }, termId: {$in: termIds}});
+	let weekIds = weeks.map(week => week._id)
+	let timeFrameIds = termIds.concat(weekIds)
+	let stats = Stats.find({timeFrameId: {$in: timeFrameIds}}, {fields: {timeFrameId: 1, status: 1}});
 
-		schoolYears.map((schoolYear) => {
-			schoolYear.weeksPerYear = Weeks.find({groupId: groupId, deletedOn: { $exists: false }, termId: {$in: termIds}}).count();
-			self.added('schoolYears', schoolYear._id, schoolYear);
-		});
-
-		terms.map((term) => {
-			let weekIds = Weeks.find({groupId: groupId, deletedOn: { $exists: false }, termId: term._id}).map(week => week._id);
-			let lessonCount = Lessons.find({groupId: groupId, deletedOn: { $exists: false }, weekId: {$in: weekIds}}).count();
-			let deletableLessonCount = Lessons.find({groupId: groupId, deletedOn: { $exists: false }, weekId: {$in: weekIds}, $and: [{completed: null, completedOn: null, completionTime: null, description: null}]}).count();
-
-			let schoolWorkLessonCount = [];
-			schoolWork.forEach((work) => {
-				let count = Lessons.find({schoolWorkId: work._id, weekId: {$in: weekIds}}).count()
-				schoolWorkLessonCount.push(count);
-			});
-			
-			term.weeksPerTerm = Weeks.find({groupId: groupId, deletedOn: { $exists: false }, termId: term._id}).count();
-			term.lessonCount = lessonCount;
-			term.minLessonCount = Math.max(...schoolWorkLessonCount);
-			term.isDeletable = lessonCount === deletableLessonCount;
-			term.undeletableLessonCount = lessonCount - deletableLessonCount;
-			self.added('terms', term._id, term);
-		});
-
-		self.ready();
-	});
+	return [terms, weeks, stats]
 });
 
 

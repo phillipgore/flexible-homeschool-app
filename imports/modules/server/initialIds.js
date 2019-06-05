@@ -222,7 +222,7 @@ function getFirstSchoolYearId(groupId) {
 		return schoolYears[0]._id;
 	}
 
-	let gteFirstSchoolYear = _.findLast(schoolYears, year => {return year.startYear >= currentYear});
+	let gteFirstSchoolYear = _.find(schoolYears, year => {return year.startYear >= currentYear});
 	if (!_.isUndefined(gteFirstSchoolYear)) {
 		return gteFirstSchoolYear._id;
 	}

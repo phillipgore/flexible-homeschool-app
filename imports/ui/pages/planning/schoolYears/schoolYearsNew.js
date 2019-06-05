@@ -25,10 +25,9 @@ Template.schoolYearsNew.onRendered( function() {
 	Session.set({
 		toolbarType: 'new',
 		labelThree: 'New School Year',
-		
-		
 		activeNav: 'planningList',
 	});
+	
 	// Term Input Settings
 	LocalTerms.remove({});
 	LocalTerms.insert({term: true});

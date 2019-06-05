@@ -24,6 +24,9 @@ i {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icn-undo:before {
+  content: "\e94a";
+}
 .icn-actions:before {
   content: "\e900";
 }

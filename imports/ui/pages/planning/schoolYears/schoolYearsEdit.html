@@ -15,49 +15,111 @@
 				</div>
 			</div>
 
-			<div class="well bg-gray-lighter m-tn-b-18">
-				<div class="row">
-					<label class="col-tn-3of11">Terms</label>
-					<label class="col-tn-8of11">Total Weeks: <span class="js-total">{{schoolYear.weeksPerYear}}</span></label>
+			<label>Edit Existing New Terms and Weeks</label>
+			<div class="well bg-gray-lighter of-tn-hidden m-tn-b-18 p-tn-rbl-0">
+				<div class="row bottom-border-gray-light p-tn-b-6">
+					<label class="txt-tn-right p-tn-r-9 txt-black">Total Weeks: <span class="js-total-weeks">{{weeksCount}}</span></label>
 				</div>
-				<div class="js-term-inputs m-tn-b-neg-6">
+				<ul class="js-term-list list">
+					{{#each term in terms}}
+						<li id="{{term._id}}" data-term-index="{{@index}}" class="js-term-item js-term-toggle list-item no-last-border bottom-border-gray-light p-tn-l-9">
+							<span class="list-item-inner">
+								<div class="list-item-icon"><i class="{{getStatus term._id}}"></i></div> 
+								<div class="list-item-label font-weight-500 cursor-default">
+									Term {{term.order}} <i class="icn-caret-down m-tn-l-3"></i>
+								</div>
+								<a href="#" class="js-remove-term list-item-btn-lg" title="Delete Term">
+									<div class="btn btn-circle {{getDeletableStatus term._id}}">
+										<i class="icn-close"></i>
+									</div>
+								</a>
+								<a href="#" class="js-restore-term list-item-btn-lg hide" title="Restore Term">
+									<div class="btn btn-circle bg-info">
+										<i class="icn-undo"></i>
+									</div>
+								</a>
+							</span>
+						</li>
+						<ul id="{{@index}}" data-term-id="{{term._id}}" data-term-order="{{term.order}}" class="js-week-list js-term-closed list bg-gray-light hide">
+							{{#each week in termWeeks term._id}}
+								<li id="{{week._id}}" data-term-id="{{term._id}}" data-term-order="{{term.order}}" class="js-week-item js-existing-week-item list-item">
+									<span class="list-item-inner p-tn-l-36">
+										<div class="list-item-icon"><i class="{{getStatus week._id}}"></i></div> 
+										<div class="list-item-label font-weight-normal cursor-default">
+											Week {{week.order}}
+										</div>
+										<a href="#" class="js-remove-week list-item-btn-lg" title="Delete Week">
+											<div class="btn btn-circle bg-danger {{getDeletableStatus week._id}}">
+												<i class="icn-close"></i>
+											</div>
+										</a>
+										<a href="#" class="js-restore-week list-item-btn-lg hide" title="Restore Week">
+											<div class="btn btn-circle bg-info">
+												<i class="icn-undo"></i>
+											</div>
+										</a>
+									</span>
+								</li>
+							{{/each}}
+							{{#each week in localTermWeeks term._id}}
+								<li id="{{week._id}}" data-term-id="{{term._id}}" data-term-order="{{term.order}}" class="js-week-item js-new-week-item list-item">
+									<span class="list-item-inner p-tn-l-36">
+										<div class="list-item-icon"><i class="icn-open-circle txt-primary"></i></div> 
+										<div class="list-item-label font-weight-normal cursor-default">
+											New Week {{localWeeksIndexIncrement @index term._id}}
+										</div>
+										<a href="#" class="js-remove-week list-item-btn-lg" title="Delete Week">
+											<div class="btn btn-circle bg-danger {{getDeletableStatus week._id}}">
+												<i class="icn-close"></i>
+											</div>
+										</a>
+										<a href="#" class="js-restore-week list-item-btn-lg hide" title="Restore Week">
+											<div class="btn btn-circle bg-info">
+												<i class="icn-undo"></i>
+											</div>
+										</a>
+									</span>
+								</li>
+							{{/each}}
+							<li class="list-item">
+								<span class="list-item-inner p-tn-l-36">
+									<div class="list-item-icon"><i class="icn-open-circle txt-primary"></i></div> 
+									<div class="list-item-label font-weight-normal cursor-default">
+										Insert New Week
+									</div>
+									<a data-term-id="{{term._id}}" data-term-order="{{term.order}}" href="#" class="js-insert-week list-item-btn-lg" title="New Week">
+										<div class="btn btn-circle bg-success">
+											<i class="icn-new"></i>
+										</div>
+									</a>
+								</span>
+							</li>
+						</ul>
+					{{/each}}
+				</ul>
+			</div>
+
+			<label>Add New Terms and Weeks</label>
+			<div class="well bg-gray-lighter m-tn-b-18">
+				<div class="js-term-inputs m-tn-t-6 m-tn-b-neg-6">
 					{{#each localTerm in localTerms}}
-						<div id="{{localTerm.id}}" class="js-term-input row">
-							<div class="font-weight-400 col-tn-3of11 p-tn-t-9 p-tn-r-6">
-								Term {{indexIncrement @index}}:
+						<div class="js-term-input row">
+							<div class="font-weight-500 col-tn-4of11 p-tn-t-9 p-tn-r-6">
+								New Term:
 							</div>
-							<div class="col-tn-8of11 pos-relative p-tn-r-36">
-								<input class="js-term-order" type="hidden" name="order" id="js-term-order" value="{{indexIncrement @index}}">
-								<input class="js-weeks-per-term {{#unless localTerm.isNew}}js-existing{{/unless}}" type="text" name="weeksPerTerm{{indexIncrement @index}}" id="weeks-per-term" placeholder="12" autocomplete="off" maxlength="2" min="1" value="{{localTerm.weeksPerTerm}}">
+							<div class="col-tn-7of11 pos-relative p-tn-r-36">
+								<input type="hidden" name="order" id="order" value="{{indexIncrement @index}}">
+								<input class="js-weeks-per-term" type="text" name="weeksPerTerm{{indexIncrement @index}}" id="weeks-per-term" placeholder="12" autocomplete="off" maxlength="2" min="1">
 								<label class="error js-weeks-per-term-errors"></label>
 								<span class="pos-absolute pos-top-right p-tn-t-3">
-									{{#if localTerm.isDeletable}}
-										<a href="#" id="{{localTerm._id}}" class="js-term-delete btn btn-circle btn-secondary fl-tn-right" tabindex="-1">
-											<i class="icn-close"></i>
-										</a>
-									{{else}}
-										<a id="{{localTerm.undeletableLessonCount}}" href="#" class="js-term-delete-disabled btn btn-circle btn-gray-dark fl-tn-right" tabindex="-1">
-											<i class="icn-close"></i>
-										</a>
-									{{/if}}
+									<a href="#" id="{{localTerm._id}}" class="js-new-term-remove btn btn-circle btn-secondary fl-tn-right" tabindex="-1">
+										<i class="icn-close"></i>
+									</a>
 									<div class="font-weight-400 txt-gray-darker fl-tn-right p-tn-t-6 p-tn-r-15">Weeks</div>
 								</span>
 							</div>
 						</div>
 					{{/each}}
-				</div>
-			</div>
-
-			<div class="well bg-info m-tn-b-9 txt-white">
-				<div class="well-icon"><i class="icn-info"></i></div>
-				<div class="well-message">
-					<p>Changing the number of Weeks for an existing Term will cause the School Work times within those Terms to be distributed evenly across the remaining Weeks.</p>
-				</div>
-			</div>
-			<div class="js-new-warning well bg-info m-tn-b-18 txt-white">
-				<div class="well-icon"><i class="icn-info"></i></div>
-				<div class="well-message">
-					<p>Existing School Work times will not be distributed across newly created Weeks.</p>
 				</div>
 			</div>
 
