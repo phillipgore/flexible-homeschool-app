@@ -64,7 +64,7 @@ Template.subbarTracking.helpers({
 	},
 
 	selectedSchoolYearId: function() {
-		return Session.get('selectedSchoolYearId');
+		return FlowRouter.getParam('selectedSchoolYearId');
 	},
 
 	
@@ -79,7 +79,7 @@ Template.subbarTracking.helpers({
 	},
 
 	selectedTermId: function() {
-		return Session.get('selectedTermId');
+		return FlowRouter.getParam('selectedTermId');
 	},
 
 	
@@ -94,14 +94,14 @@ Template.subbarTracking.helpers({
 	},
 
 	selectedWeekId: function() {
-		return Session.get('selectedWeekId');
+		return FlowRouter.getParam('selectedWeekId');
 	},
 
 	
 	/* -------------------- Joins -------------------- */
 
 	selectedFramePositionOne: function() {
-		if (Session.get('selectedFramePosition') === 1 && Session.get('windowWidth') < 640) {
+		if (FlowRouter.getParam('selectedFramePosition') === 1 && Session.get('windowWidth') < 640) {
 			return true;
 		}
 		return false;

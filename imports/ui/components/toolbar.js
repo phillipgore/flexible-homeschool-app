@@ -6,10 +6,6 @@ import './toolbar.html';
 import _ from 'lodash'
 
 Template.toolbar.helpers({
-	test: function() {
-		return Session.get('test');
-	},
-
 	selectedFramePosition: function() {
 		return Session.get('selectedFramePosition');
 	},

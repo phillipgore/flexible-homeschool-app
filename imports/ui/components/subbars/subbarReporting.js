@@ -16,10 +16,11 @@ Template.subbarReporting.onCreated( function() {
 	
 	template.autorun(() => {
 		this.trackingStats = Meteor.subscribe('progressStatsPub');
-		this.studentData = this.subscribe('allStudents');
-		this.schoolYearData = Meteor.subscribe('schoolYearPaths', FlowRouter.getParam('selectedStudentId'));
-		this.termData = Meteor.subscribe('termPaths', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedSchoolYearId'));
-		this.weekData = Meteor.subscribe('weekPaths', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedTermId'));
+		this.studentData = Meteor.subscribe('allStudents');
+		this.pathData = Meteor.subscribe('allPaths');
+		this.schoolYearData = Meteor.subscribe('allSchoolYears');
+		this.termData = Meteor.subscribe('allTerms');
+		this.weekData = Meteor.subscribe('allWeeks');
 	});
 });
 
@@ -32,15 +33,24 @@ Template.subbarReporting.helpers({
 	},
 
 	schoolYearSubReady: function() {
-		return Template.instance().schoolYearData.ready();
+		if (Template.instance().schoolYearData.ready() && Template.instance().pathData.ready()) {
+			return true;
+		}
+		return false;
 	},
 
 	termSubReady: function() {
-		return Template.instance().termData.ready();
+		if (Template.instance().termData.ready() && Template.instance().pathData.ready()) {
+			return true;
+		}
+		return false;
 	},
 
 	weekSubReady: function() {
-		return Template.instance().weekData.ready();
+		if (Template.instance().weekData.ready() && Template.instance().pathData.ready()) {
+			return true;
+		}
+		return false;
 	},
 
 	
@@ -55,7 +65,7 @@ Template.subbarReporting.helpers({
 	},
 
 	selectedStudentId: function() {
-		return Session.get('selectedStudentId');
+		return FlowRouter.getParam('selectedStudentId');
 	},
 
 	
@@ -70,7 +80,7 @@ Template.subbarReporting.helpers({
 	},
 
 	selectedSchoolYearId: function() {
-		return Session.get('selectedSchoolYearId');
+		return FlowRouter.getParam('selectedSchoolYearId');
 	},
 
 	
@@ -85,7 +95,7 @@ Template.subbarReporting.helpers({
 	},
 
 	selectedTermId: function() {
-		return Session.get('selectedTermId');
+		return FlowRouter.getParam('selectedTermId');
 	},
 
 	
@@ -100,7 +110,7 @@ Template.subbarReporting.helpers({
 	},
 
 	selectedWeekId: function() {
-		return Session.get('selectedWeekId');
+		return FlowRouter.getParam('selectedWeekId');
 	},
 
 	
@@ -115,7 +125,7 @@ Template.subbarReporting.helpers({
 	},
 
 	selectedReportId: function() {
-		return Session.get('selectedReportId');
+		return FlowRouter.getParam('selectedReportId');
 	},
 
 	
@@ -164,7 +174,7 @@ Template.subbarReporting.helpers({
 	},
 	
 	reportsAvailable: function() {
-		if (Session.get('selectedSchoolYearId') === 'empty' || Session.get('selectedStudentId') === 'empty' || Session.get('selectedReportId') === 'empty') {
+		if (FlowRouter.getParam('selectedSchoolYearId') === 'empty' || FlowRouter.getParam('selectedStudentId') === 'empty' || FlowRouter.getParam('selectedReportId') === 'empty') {
 			return false;
 		}
 		return true;

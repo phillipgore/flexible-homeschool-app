@@ -18,8 +18,8 @@ import {groupsInitialId} from '../../modules/server/initialIds';
 
 import {upsertPaths} from '../../modules/server/paths';
 import {upsertSchoolWorkPaths} from '../../modules/server/paths';
-
 import {upsertStats} from '../../modules/server/stats';
+
 
 import moment from 'moment';
 import _ from 'lodash'
@@ -89,6 +89,25 @@ Migrations.add({
 
 Migrations.add({
 	version: 4,
+	name: 'Remove Deleted Items.',
+	up: function() {
+		Students.remove({deletedOn: { $exists: true }});
+		SchoolYears.remove({deletedOn: { $exists: true }});
+		Terms.remove({deletedOn: { $exists: true }});
+		Weeks.remove({deletedOn: { $exists: true }});
+		SchoolWork.remove({deletedOn: { $exists: true }});
+		Lessons.remove({deletedOn: { $exists: true }});
+		Reports.remove({deletedOn: { $exists: true }});
+
+		let resourceIds = Resources.find({deletedOn: { $exists: true }}).map(resource => resource._id);
+		SchoolWork.update({}, {$pull: {resources: {$in: resourceIds}}}, {multi: true});
+
+		Resources.remove({deletedOn: { $exists: true }});
+	}
+});
+
+Migrations.add({
+	version: 5,
 	name: 'Add Foreign Id fields to Weeks and Lessons.',
 	up: function() {
 		let weeks = Weeks.find({}, {fields: {termId: 1}}).fetch();
@@ -118,7 +137,7 @@ Migrations.add({
 });
 
 Migrations.add({
-	version: 5,
+	version: 6,
 	name: 'Add orders to Weeks and Lessons.',
 	up: function() {
 		let terms = Terms.find({}, {fields: {order: 1}}).fetch();
@@ -144,7 +163,7 @@ Migrations.add({
 });
 
 Migrations.add({
-	version: 6,
+	version: 7,
 	name: 'Add intial ids to Group collection',
 	up: function() {
 		let year = moment().year();
@@ -171,7 +190,7 @@ Migrations.add({
 });
 
 Migrations.add({
-	version: 7,
+	version: 8,
 	name: 'Create Paths Collection.',
 	up: function() {
 		Groups.find({}, {fields: {_id: 1}}).forEach(group => {
@@ -196,7 +215,7 @@ Migrations.add({
 });
 
 Migrations.add({
-	version: 8,
+	version: 9,
 	name: 'Create Stats Collection.',
 	up: function() {
 		
@@ -220,8 +239,9 @@ Migrations.add({
 });
 
 // Meteor.startup(() => {
-// 	Migrations.migrateTo(8);
+// 	Migrations.migrateTo(9);
 // });
+
 
 
 

@@ -165,13 +165,19 @@ ul.list {
 				}
 			}
 
-			.list-item-btn {
+			.list-item-btn,
+			.list-item-btn-lg {
 				position: absolute;
 				top: 14px;
 				bottom: 0px;
 				right: 9px;
-				width: 28px;
-				text-align: right;
+				width: 22px;
+				text-align: center;
+			}
+
+			.list-item-btn-lg {
+				top: 10px;
+				width: 30px;
 			}
 
 			.list-item-badge {
@@ -221,6 +227,10 @@ ul.list {
 				text-decoration: none;
 			}
 		}
+
+		&.no-last-border:last-of-type {
+			border: none;
+		}
 	}
 
 	li.list-item-label {
@@ -251,6 +261,12 @@ ul.list {
 
 		li.list-item:last-of-type a.list-item-link, li.list-item:last-of-type .list-item-inner {
 			border: none;
+		}
+	}
+
+	.set-to-delete {
+		.list-item-label {
+			color: $color-gray-darker;
 		}
 	}
 }

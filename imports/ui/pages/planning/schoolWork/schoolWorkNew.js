@@ -122,7 +122,7 @@ Template.schoolWorkNew.onRendered( function() {
 				weekIds: _.uniq(weekIds),
 			}
 			
-			Meteor.call('insertSchoolWork', statProperties, pathProperties, studentIds, schoolWorkProperties, lessonProperties, function(error, newSchoolWork) {
+			Meteor.call('insertSchoolWork', studentIds, schoolWorkProperties, lessonProperties, function(error, newSchoolWork) {
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',
@@ -133,18 +133,31 @@ Template.schoolWorkNew.onRendered( function() {
 					$('.js-saving').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
-					Session.set('selectedStudentId', newSchoolWork[0].studentId);
-					Session.set('selectedSchoolWorkId', newSchoolWork[0].schoolWorkId);
-					let studentsCount = newSchoolWork.length
+					Meteor.call('runUpsertSchoolWorkPathsAndStats', pathProperties, statProperties, function(error, result) {
+						if (error) {
+							Alerts.insert({
+								colorClass: 'bg-danger',
+								iconClass: 'icn-danger',
+								message: error.reason,
+							});
+							
+							$('.js-saving').hide();
+							$('.js-submit').prop('disabled', false);
+						} else {
+							Session.set('selectedStudentId', newSchoolWork[0].studentId);
+							Session.set('selectedSchoolWorkId', newSchoolWork[0].schoolWorkId);
+							let studentsCount = newSchoolWork.length
 
-					FlowRouter.go('/planning/schoolWork/view/3/' + newSchoolWork[0].studentId +'/'+ Session.get('selectedSchoolYearId') +'/'+ newSchoolWork[0].schoolWorkId);					
-					if (studentsCount > 1 ) {
-						Alerts.insert({
-							colorClass: 'bg-info',
-							iconClass: 'icn-info',
-							message: 'This School Work has been added to '+ studentsCount +' total students.',
-						});
-					}
+							FlowRouter.go('/planning/schoolWork/view/3/' + newSchoolWork[0].studentId +'/'+ Session.get('selectedSchoolYearId') +'/'+ newSchoolWork[0].schoolWorkId);					
+							if (studentsCount > 1 ) {
+								Alerts.insert({
+									colorClass: 'bg-info',
+									iconClass: 'icn-info',
+									message: 'This School Work has been added to '+ studentsCount +' total students.',
+								});
+							}
+						}
+					});
 				}
 			});
 

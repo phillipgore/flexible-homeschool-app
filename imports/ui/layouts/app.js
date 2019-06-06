@@ -145,7 +145,7 @@ Template.app.events({
 				newIds.firstStudentId = firstStudentId;
 			}
 
-			if (newIds.firstStudentId.length) {
+			if (newIds.firstStudentId) {
 				newIds.firstStudentId = newIds.firstStudentId;
 			} else {
 				newIds.firstStudentId = 'empty';
@@ -165,16 +165,26 @@ Template.app.events({
 					message: error.reason,
 				});
 			} else {
-				Dialogs.remove({_id: dialogId});
-				Session.set({
-					'selectedStudentId': newPath.firstStudentId,
+				Meteor.call('runPrimaryInitialIds', function(error) {
+					if (error) {
+						Alerts.insert({
+							colorClass: 'bg-danger',
+							iconClass: 'icn-danger',
+							message: error.reason,
+						});
+					} else {
+						Dialogs.remove({_id: dialogId});
+						Session.set({
+							'selectedStudentId': newPath.firstStudentId,
+						})
+						if (window.screen.availWidth > 768) {
+							FlowRouter.go('/planning/students/view/3/' + newPath.firstStudentId);
+						} else {
+							FlowRouter.go('/planning/students/view/2/' + newPath.firstStudentId);
+						}
+						$('.js-deleting').hide();
+					}
 				})
-				if (window.screen.availWidth > 768) {
-					FlowRouter.go('/planning/students/view/3/' + newPath.firstStudentId);
-				} else {
-					FlowRouter.go('/planning/students/view/2/' + newPath.firstStudentId);
-				}
-				$('.js-deleting').hide();
 			}
 		});
 	},
@@ -269,7 +279,7 @@ Template.app.events({
 		}
 
 		Dialogs.remove({_id: dialogId});
-		Meteor.call('deleteSchoolWork', statProperties, pathProperties, FlowRouter.getParam('selectedSchoolWorkId'), function(error) {
+		Meteor.call('deleteSchoolWork', FlowRouter.getParam('selectedSchoolWorkId'), function(error) {
 			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',
@@ -277,13 +287,23 @@ Template.app.events({
 					message: error.reason,
 				});
 			} else {
-				Session.set('selectedSchoolWorkId', newSchoolWorkId);
-				if (window.screen.availWidth > 768) {
-					FlowRouter.go('/planning/schoolWork/view/3/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ newSchoolWorkId);
-				} else {
-					FlowRouter.go('/planning/schoolWork/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ newSchoolWorkId);
-				}
-				$('.js-deleting').hide();
+				Meteor.call('runUpsertSchoolWorkPathsAndStats', pathProperties, statProperties, function(error, result) {
+					if (error) {
+						Alerts.insert({
+							colorClass: 'bg-danger',
+							iconClass: 'icn-danger',
+							message: error.reason,
+						});
+					} else {
+						Session.set('selectedSchoolWorkId', newSchoolWorkId);
+						if (window.screen.availWidth > 768) {
+							FlowRouter.go('/planning/schoolWork/view/3/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ newSchoolWorkId);
+						} else {
+							FlowRouter.go('/planning/schoolWork/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ newSchoolWorkId);
+						}
+						$('.js-deleting').hide();
+					}
+				});
 			}
 		});
 	},
@@ -433,20 +453,23 @@ Template.app.events({
 			selectedStudentId: studentId,
 			editUrl: '/planning/students/edit/3/' + studentId,
 		});
-		let path = Paths.findOne({studentId: studentId, timeFrameId: Session.get('selectedSchoolYearId')});
-		if (path) {
-			Session.set({
-				selectedTermId: path.firstTermId,
-				selectedWeekId: path.firstWeekId,
-				selectedSchoolWorkId: path.firstSchoolWorkId,
-			});
-		} else {
-			Session.set({
-				selectedTermId: 'empty',
-				selectedWeekId: 'empty',
-				selectedSchoolWorkId: 'empty',
-			});
+
+		function selectedItem(item) {
+			if (_.isUndefined(item)) {
+				return 'empty';
+			}
+			return item;
 		}
+
+		let path = Paths.findOne({studentId: studentId, timeFrameId: Session.get('selectedSchoolYearId')});
+
+		Session.set({
+			selectedTermId: selectedItem(path.firstTermId),
+			selectedWeekId: selectedItem(path.firstWeekId),
+			selectedSchoolWorkId: selectedItem(path.firstSchoolWorkId),
+			selectedReportingTermId: selectedItem(path.firstTermId),
+			selectedReportingWeekId: selectedItem(path.firstWeekId),
+		});
 	},
 
 	'click .js-school-year'(event) {
@@ -455,50 +478,49 @@ Template.app.events({
 			selectedSchoolYearId: schoolYearId,
 			editUrl: '/planning/schoolyears/edit/3/' + schoolYearId,
 		});
-		let path = Paths.findOne({studentId: Session.get('selectedStudentId'), timeFrameId: schoolYearId});
-		if (path) {
-			Session.set({
-				selectedTermId: path.firstTermId,
-				selectedWeekId: path.firstWeekId,
-				selectedSchoolWorkId: path.firstSchoolWorkId,
-				selectedReportingTermId: path.firstTermId,
-				selectedReportingWeekId: path.firstWeekId,
-			});
-		} else {
-			Session.set({
-				selectedTermId: 'empty',
-				selectedWeekId: 'empty',
-				selectedSchoolWorkId: 'empty',
-				selectedReportingTermId: 'empty',
-				selectedReportingWeekId: 'empty',
-			});
+
+		function selectedItem(item) {
+			if (_.isUndefined(item)) {
+				return 'empty';
+			}
+			return item;
 		}
+
+		let path = Paths.findOne({studentId: Session.get('selectedStudentId'), timeFrameId: schoolYearId});
+
+		Session.set({
+			selectedTermId: selectedItem(path.firstTermId),
+			selectedWeekId: selectedItem(path.firstWeekId),
+			selectedSchoolWorkId: selectedItem(path.firstSchoolWorkId),
+			selectedReportingTermId: selectedItem(path.firstTermId),
+			selectedReportingWeekId: selectedItem(path.firstWeekId),
+		});
 	},
 
 	'click .js-term'(event) {
 		let termId = $(event.currentTarget).attr('id');
+
+		function selectedItem(item) {
+			if (_.isUndefined(item)) {
+				return 'empty';
+			}
+			return item;
+		}
+
 		let path = Paths.findOne({studentId: Session.get('selectedStudentId'), timeFrameId: termId});
+		
 		if (termId === 'allTerms') {
 			Session.set({
 				selectedReportingTermId: 'allTerms',
 				selectedReportingWeekId: 'allWeeks',
 			});
 		} else {
-			if (path) {
-				Session.set({
-					selectedTermId: termId,
-					selectedWeekId: path.firstWeekId,
-					selectedReportingTermId: termId,
-					selectedReportingWeekId: path.firstWeekId,
-				});
-			} else {
-				Session.set({
-					selectedTermId: 'empty',
-					selectedWeekId: 'empty',
-					selectedReportingTermId: 'empty',
-					selectedReportingWeekId: 'empty',
-				});
-			}
+			Session.set({
+				selectedTermId: termId,
+				selectedWeekId: selectedItem(path.firstWeekId),
+				selectedReportingTermId: termId,
+				selectedReportingWeekId: selectedItem(path.firstWeekId),
+			});
 		}
 	},
 
@@ -559,20 +581,6 @@ Template.app.events({
 		Session.set({
 			selectedReportId: $(event.currentTarget).attr('id'),
 			editUrl: '/reporting/edit/2/' + $(event.currentTarget).attr('id'),
-		});
-	},
-
-	'click .js-report-student'(event) {
-		Session.set({
-			selectedStudentId: $(event.currentTarget).attr('id'),
-			editUrl: '/reporting/edit/2/' + Session.get('selectedReportId'),
-		});
-	},
-
-	'click .js-report-school-year'(event) {
-		Session.set({
-			selectedSchoolYearId: $(event.currentTarget).attr('id'),
-			editUrl: '/reporting/edit/2/' + Session.get('selectedReportId'),
 		});
 	},
 });

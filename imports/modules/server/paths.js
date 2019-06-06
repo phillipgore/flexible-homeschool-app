@@ -20,7 +20,7 @@ import _ from 'lodash';
 /* -------------------- Exported Functions -------------------- */
 
 // Upsert Paths
-export function upsertPaths(pathProperties, isNew, submittedGroupId) {
+export function upsertPaths(pathProperties, returnPath, submittedGroupId) {
 	console.log('upsertPaths start');
 	let groupId = getGroupId(submittedGroupId);
 
@@ -42,8 +42,9 @@ export function upsertPaths(pathProperties, isNew, submittedGroupId) {
 		});
 	}
 
-	if (isNew) {
+	if (returnPath) {
 		let weekId = Weeks.findOne({schoolYearId: {$in: schoolYearIds}, termId: {$in: termIds}}, {sort: {termOrder: 1, order: 1}})._id;
+		console.log('upsertPaths end');
 		return {schoolYearId: schoolYearIds[0], termId: termIds[0], weekId: weekId};
 	} else {
 		console.log('upsertPaths end');
@@ -53,7 +54,7 @@ export function upsertPaths(pathProperties, isNew, submittedGroupId) {
 
 // Upsert School Work Paths
 export function upsertSchoolWorkPaths(pathProperties, submittedGroupId) {
-	console.log('upsertPaths start');
+	console.log('upsertSchoolWorkPaths start');
 	let groupId = getGroupId(submittedGroupId);
 
 	let studentIds = getStudents(groupId, pathProperties);
@@ -67,7 +68,7 @@ export function upsertSchoolWorkPaths(pathProperties, submittedGroupId) {
 		});
 	};
 
-	console.log('upsertPaths end');
+	console.log('upsertSchoolWorkPaths end');
 	return true
 };
 
@@ -130,7 +131,8 @@ function getTerms(groupId, schoolYearIds, pathProperties) {
 
 // School Year Path Upsert
 function schoolYearPath(groupId, studentId, schoolYearId) {
-	let path = {}
+	let path = {};
+
 	path.studentId = studentId;
 	path.timeFrameId = schoolYearId;
 	path.type = 'schoolYear';
@@ -176,7 +178,8 @@ function schoolYearPath(groupId, studentId, schoolYearId) {
 
 // Term Path Upsert
 function termYearPath(groupId, studentId, termId) {
-	let path = {}
+	let path = {};
+
 	path.studentId = studentId;
 	path.timeFrameId = termId;
 	path.type = 'term';
@@ -209,7 +212,8 @@ function termYearPath(groupId, studentId, termId) {
 
 // School Year Path Upsert
 function schoolWorkPath(groupId, studentId, schoolYearId) {
-	let path = {}
+	let path = {};
+	
 	path.studentId = studentId;
 	path.timeFrameId = schoolYearId;
 	path.type = 'schoolYear';
