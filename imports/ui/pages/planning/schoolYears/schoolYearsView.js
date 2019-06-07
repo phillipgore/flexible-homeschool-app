@@ -36,7 +36,7 @@ Template.schoolYearsView.helpers({
 	},
 
 	termWeeks: function(termId) {
-		let weekCount = Weeks.find({termId: termId}).fetch().length;
+		let weekCount = Weeks.find({termId: termId}).count();
 		if (weekCount === 1) {
 			return weekCount + ' Week';
 		}

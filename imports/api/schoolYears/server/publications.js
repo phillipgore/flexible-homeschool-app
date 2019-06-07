@@ -19,33 +19,17 @@ Meteor.publish('allSchoolYears', function() {
 });
 
 Meteor.publish('schoolYearView', function(schoolYearId) {
-	// this.autorun(function (computation) {
-		if (!this.userId) {
-			return this.ready();
-		}
+	if (!this.userId) {
+		return this.ready();
+	}
 
-		let self = this;
+	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
+	
+	let schoolYear = SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }, _id: schoolYearId}, {fields: {startYear: 1, endYear: 1}});
+	let terms = Terms.find({groupId: groupId, deletedOn: { $exists: false }, schoolYearId: schoolYearId}, {fields: {order: 1, schoolYearId: 1}});
+	let weeks = Weeks.find({groupId: groupId, deletedOn: { $exists: false }, termId: {$in: terms.map(term => term._id)}}, {fields: {termId: 1}});
 
-		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-		let schoolYear = SchoolYears.findOne({groupId: groupId, deletedOn: { $exists: false }, _id: schoolYearId}, {fields: {startYear: 1, endYear: 1}});
-		let terms = Terms.find({groupId: groupId, deletedOn: { $exists: false }, schoolYearId: schoolYearId});
-
-		termStats = []
-
-		terms.forEach((term) => {
-			let weekCount = Weeks.find({groupId: groupId, deletedOn: { $exists: false }, termId: term._id}).count();
-			if (!_.find(termStats, { 'termOrder': term.order, 'weekCount': weekCount })) {
-				termStats.push({termOrder: term.order, weekCount: weekCount})
-			}	
-		})
-
-		if (schoolYear) {
-			schoolYear.termStats = _.uniq(termStats);
-			self.added('schoolYears', schoolYear._id, schoolYear);
-		}
-
-		self.ready();
-	// });
+	return [schoolYear, terms, weeks];
 });
 
 Meteor.publish('schoolYearEdit', function(schoolYearId) {
