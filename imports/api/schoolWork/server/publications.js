@@ -58,12 +58,12 @@ Meteor.publish('schoolWorkView', function(schoolWorkId) {
 			let student = Students.findOne({groupId: groupId, deletedOn: { $exists: false }, _id: schoolWork.studentId});
 			let schoolYear = SchoolYears.findOne({groupId: groupId, deletedOn: { $exists: false }, _id: schoolWork.schoolYearId});
 			let terms = Terms.find({groupId: groupId, deletedOn: { $exists: false }, schoolYearId: schoolWork.schoolYearId});
+			let lessons = Lessons.find({schoolWorkId: schoolWorkId, termId: {$in: terms.map(term => term._id)}}).fetch();
 			let resources = Resources.find({groupId: groupId, deletedOn: { $exists: false }, _id: {$in: schoolWork.resources}});
 
 			let termStats = []
 			terms.forEach((term) => {
-				let weekIds = Weeks.find({groupId: groupId, deletedOn: { $exists: false }, termId: term._id}).map((week) => (week._id));
-				let lessonCount = Lessons.find({schoolWorkId: schoolWorkId, weekId: {$in: weekIds}}).count();
+				let lessonCount = _.filter(lessons, lesson => _.includes(term._id, lesson.termId)).length
 				termStats.push({termId: term._id, termOrder: term.order, lessonCount: lessonCount});
 			})
 
