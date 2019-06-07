@@ -44,7 +44,7 @@ Meteor.publish('schoolWork', function(schoolWorkId) {
 });
 
 Meteor.publish('schoolWorkView', function(schoolWorkId) {
-	this.autorun(function (computation) {
+	// this.autorun(function (computation) {
 		if (!this.userId) {
 			return this.ready();
 		}
@@ -80,7 +80,7 @@ Meteor.publish('schoolWorkView', function(schoolWorkId) {
 		}
 
 		self.ready();
-	});
+	// });
 });
 
 Meteor.publish('schoolWorkResources', function(schoolWorkId) {	

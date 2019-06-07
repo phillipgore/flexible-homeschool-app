@@ -19,7 +19,7 @@ Meteor.publish('allSchoolYears', function() {
 });
 
 Meteor.publish('schoolYearView', function(schoolYearId) {
-	this.autorun(function (computation) {
+	// this.autorun(function (computation) {
 		if (!this.userId) {
 			return this.ready();
 		}
@@ -45,7 +45,7 @@ Meteor.publish('schoolYearView', function(schoolYearId) {
 		}
 
 		self.ready();
-	});
+	// });
 });
 
 Meteor.publish('schoolYearEdit', function(schoolYearId) {

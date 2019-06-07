@@ -30,7 +30,7 @@ Meteor.publish('report', function(reportId) {
 });
 
 Meteor.publish('reportData', function(studentId, schoolYearId, termId, weekId, reportId) {
-	this.autorun(function (computation) {
+	// this.autorun(function (computation) {
 		if (!this.userId) {
 			return this.ready();
 		}
@@ -402,7 +402,7 @@ Meteor.publish('reportData', function(studentId, schoolYearId, termId, weekId, r
 		}	
 
 		self.ready();
-	});
+	// });
 });
 
 

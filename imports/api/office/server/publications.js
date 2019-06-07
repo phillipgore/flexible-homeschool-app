@@ -13,7 +13,7 @@ import _ from 'lodash';
 
 
 Meteor.publish('allAccounts', function() {
-	this.autorun(function (computation) {
+	// this.autorun(function (computation) {
 		if (!this.userId) {
 			return this.ready();
 		}
@@ -32,7 +32,7 @@ Meteor.publish('allAccounts', function() {
 		});
 
 		self.ready();
-	});
+	// });
 });
 
 Meteor.publish('allAccountTotals', function(groupId) {
@@ -65,7 +65,7 @@ Meteor.publish('account', function(groupId) {
 		return this.ready();
 	}
 
-	this.autorun(function (computation) {
+	// this.autorun(function (computation) {
 		if (!this.userId) {
 			return this.ready();
 		}
@@ -81,7 +81,7 @@ Meteor.publish('account', function(groupId) {
 		
 
 		self.ready();
-	});
+	// });
 });
 
 Meteor.publish('accountTotals', function(groupId) {
