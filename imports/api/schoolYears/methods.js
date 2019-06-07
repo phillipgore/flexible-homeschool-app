@@ -83,11 +83,11 @@ Meteor.methods({
 		// console.log('weekDeletes:');
 		// console.log(weekDeletes);
 
-		console.log('termUpdateProperties:');
-		console.log(termUpdateProperties);
+		// console.log('termUpdateProperties:');
+		// console.log(termUpdateProperties);
 
-		console.log('weekUpdateProperties:');
-		console.log(weekUpdateProperties);
+		// console.log('weekUpdateProperties:');
+		// console.log(weekUpdateProperties);
 
 		// console.log('weekInsertProperties:');
 		// console.log(weekInsertProperties);
@@ -101,7 +101,7 @@ Meteor.methods({
 		// console.log(groupId);
 
 
-		let yearLessons = Lessons.find({schoolYearId: schoolYearId}).fetch();
+		let yearLessons = Lessons.find({schoolYearId: schoolYearId}, {fields: {weekId: 1, termId: 1}}).fetch();
 
 		let termBulkDelete = [];
 		let weekBulkDelete = [];
