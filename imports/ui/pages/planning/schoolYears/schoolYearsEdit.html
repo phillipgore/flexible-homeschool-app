@@ -2,6 +2,8 @@
 	
 	<main class="app-content app-content-preceeds-toolbar app-content-form">
 		<form class="js-form-school-year-edit row" novalidate>
+
+			<!-- Dates -->
 			<div class="row m-tn-b-6">
 				<div class="col-tn-1of2 p-tn-r-3">
 					<label>Start Year</label>
@@ -14,8 +16,11 @@
 					<label class="error js-end-year-errors"></label>
 				</div>
 			</div>
+			<!-- /Dates -->
 
-			<label>Edit Existing New Terms and Weeks</label>
+
+			<!-- Existing Existing Terms and Weeks -->
+			<label>Edit Existing Terms and Weeks</label>
 			<div class="well bg-gray-lighter of-tn-hidden m-tn-b-18 p-tn-rbl-0">
 				<div class="row bottom-border-gray-light p-tn-b-6">
 					<label class="txt-tn-right p-tn-r-9 txt-black">Total Weeks: <span class="js-total-weeks">{{weeksCount}}</span></label>
@@ -28,16 +33,20 @@
 								<div class="list-item-label font-weight-500 cursor-default">
 									Term {{term.order}} <i class="icn-caret-down m-tn-l-3"></i>
 								</div>
-								<a href="#" class="js-remove-term list-item-btn-lg" title="Delete Term">
-									<div class="btn btn-circle {{getDeletableStatus term._id}}">
-										<i class="icn-close"></i>
+
+								<!-- Existing Term: Delete/Undelete Buttons -->
+								<a href="#" class="js-remove-term no-hover list-item-btn-lg" title="Delete Term">
+									<div class="btn extra-small btn-block {{getDeletableStatus term._id}}">
+										Delete
 									</div>
 								</a>
-								<a href="#" class="js-restore-term list-item-btn-lg hide" title="Restore Term">
-									<div class="btn btn-circle bg-info">
-										<i class="icn-undo"></i>
+								<a href="#" class="js-restore-term no-hover list-item-btn-lg hide" title="Undelete Term">
+									<div class="btn extra-small btn-block bg-info">
+										Undelete
 									</div>
 								</a>
+								<!-- /Existing Term: Delete/Undelete Buttons -->
+
 							</span>
 						</li>
 						<ul id="{{@index}}" data-term-id="{{term._id}}" data-term-order="{{term.order}}" class="js-week-list js-term-closed list bg-gray-light hide">
@@ -48,66 +57,81 @@
 										<div class="list-item-label font-weight-normal cursor-default">
 											Week {{week.order}}
 										</div>
-										<a href="#" class="js-remove-week list-item-btn-lg" title="Delete Week">
-											<div class="btn btn-circle bg-danger {{getDeletableStatus week._id}}">
-												<i class="icn-close"></i>
+
+										<!-- Existing Week Delete/Undelete Buttons -->
+										<a href="#" class="js-remove-week no-hover list-item-btn-lg" title="Delete Week">
+											<div class="btn extra-small btn-block bg-danger {{getDeletableStatus week._id}}">
+												Delete
 											</div>
 										</a>
-										<a href="#" class="js-restore-week list-item-btn-lg hide" title="Restore Week">
-											<div class="btn btn-circle bg-info">
-												<i class="icn-undo"></i>
+										<a href="#" class="js-restore-week no-hover list-item-btn-lg hide" title="Undelete Week">
+											<div class="btn extra-small btn-block bg-info">
+												Undelete
 											</div>
 										</a>
+										<!-- /Existing Week Delete/Undelete Buttons -->
+
 									</span>
 								</li>
 							{{/each}}
 							{{#each week in localTermWeeks term._id}}
 								<li id="{{week._id}}" data-term-id="{{term._id}}" data-term-order="{{term.order}}" class="js-week-item js-new-week-item list-item">
 									<span class="list-item-inner p-tn-l-36">
-										<div class="list-item-icon"><i class="icn-open-circle txt-primary"></i></div> 
+										<div class="list-item-icon"><i class="icn-open-circle txt-gray-darker"></i></div> 
 										<div class="list-item-label font-weight-normal cursor-default">
 											New Week {{localWeeksIndexIncrement @index term._id}}
 										</div>
-										<a href="#" class="js-remove-week list-item-btn-lg" title="Delete Week">
-											<div class="btn btn-circle bg-danger {{getDeletableStatus week._id}}">
-												<i class="icn-close"></i>
+
+										<!-- New Week Delete/Undelete -->
+										<a href="#" class="js-remove-week no-hover list-item-btn-lg" title="Delete Week">
+											<div class="btn extra-small btn-block bg-danger {{getDeletableStatus week._id}}">
+												Delete
 											</div>
 										</a>
-										<a href="#" class="js-restore-week list-item-btn-lg hide" title="Restore Week">
-											<div class="btn btn-circle bg-info">
-												<i class="icn-undo"></i>
+										<a href="#" class="js-restore-week no-hover list-item-btn-lg hide" title="Undelete Week">
+											<div class="btn extra-small btn-block bg-info">
+												Undelete
 											</div>
 										</a>
+										<!-- /New Week Delete/Undelete -->
+
 									</span>
 								</li>
 							{{/each}}
 							<li class="list-item">
 								<span class="list-item-inner p-tn-l-36">
-									<div class="list-item-icon"><i class="icn-open-circle txt-primary"></i></div> 
+									<div class="list-item-icon"><i class="icn-open-circle txt-gray-darker"></i></div> 
 									<div class="list-item-label font-weight-normal cursor-default">
-										Insert New Week
+										New Week
 									</div>
-									<a data-term-id="{{term._id}}" data-term-order="{{term.order}}" href="#" class="js-insert-week list-item-btn-lg" title="New Week">
-										<div class="btn btn-circle bg-success">
-											<i class="icn-new"></i>
+
+									<!-- New Week Insert -->
+									<a data-term-id="{{term._id}}" data-term-order="{{term.order}}" href="#" class="js-insert-week no-hover list-item-btn-lg" title="New Week">
+										<div class="btn extra-small btn-block bg-success">
+											Insert
 										</div>
 									</a>
+									<!-- /New Week Insert -->
+
 								</span>
 							</li>
 						</ul>
 					{{/each}}
 				</ul>
 			</div>
+			<!-- /Existing Existing Terms and Weeks -->
 
+
+			<!-- Add New Terms and Weeks -->
 			<label>Add New Terms and Weeks</label>
 			<div class="well bg-gray-lighter m-tn-b-18">
 				<div class="js-term-inputs m-tn-t-6 m-tn-b-neg-6">
 					{{#each localTerm in localTerms}}
 						<div class="js-term-input row">
-							<div class="font-weight-500 col-tn-4of11 p-tn-t-9 p-tn-r-6">
-								New Term:
+							<div class="font-weight-500 col-tn-3of11 p-tn-t-9 p-tn-r-6">
+								Term:
 							</div>
-							<div class="col-tn-7of11 pos-relative p-tn-r-36">
+							<div class="col-tn-8of11 pos-relative p-tn-r-36">
 								<input type="hidden" name="order" id="order" value="{{indexIncrement @index}}">
 								<input class="js-weeks-per-term" type="text" name="weeksPerTerm{{indexIncrement @index}}" id="weeks-per-term" placeholder="12" autocomplete="off" maxlength="2" min="1">
 								<label class="error js-weeks-per-term-errors"></label>
@@ -122,11 +146,16 @@
 					{{/each}}
 				</div>
 			</div>
+			<!-- /Add New Terms and Weeks -->
 
+
+			<!-- Toolbar -->
 			<footer class="toolbar toolbar-bottom toolbar-gray">
 				<a href="#" class="js-cancel btn btn-gray-darker fl-tn-left">Cancel</a>
 				<button type="submit" class="js-submit fl-tn-right">Update</button>
 			</footer>
+			<!-- /Toolbar -->
+
 		</form>
 	</main>
 	{{#unless subscriptionReady}}

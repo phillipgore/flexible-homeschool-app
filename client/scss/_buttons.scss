@@ -123,9 +123,9 @@ button, .btn {
 	}
 
 	&:hover, &:focus, &:active {
-    	outline: none;
-    	border: 0;
-    	text-decoration: none;
+		outline: none;
+		border: 0;
+		text-decoration: none;
 	}
 
 	&:-moz-focusring {
@@ -405,6 +405,14 @@ a.btn-nav {
 				color: $color-info-lighter;
 			}
 		}
+	}
+}
+
+a.no-hover {
+	&:hover, &:focus, &:active {
+		outline: none;
+		border: 0;
+		text-decoration: none;
 	}
 }
 
