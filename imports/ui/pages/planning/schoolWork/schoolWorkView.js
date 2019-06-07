@@ -13,7 +13,6 @@ Template.schoolWorkView.onCreated( function() {
 	
 	template.autorun(() => {
 		this.schoolWorkData = Meteor.subscribe('schoolWorkView', FlowRouter.getParam('selectedSchoolWorkId'));
-		this.weekData = Meteor.subscribe('schoolYearWeeks', FlowRouter.getParam('selectedSchoolYearId'));
 	});
 });
 
@@ -33,6 +32,22 @@ Template.schoolWorkView.helpers({
 
 	schoolWork: function() {
 		return SchoolWork.findOne({_id: FlowRouter.getParam('selectedSchoolWorkId')});
+	},
+
+	schoolYear: function() {
+		return SchoolYears.findOne({_id: FlowRouter.getParam('selectedSchoolYearId')})
+	},
+
+	terms: function() {
+		return Terms.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId')})
+	},
+
+	termLessons: function(termId) {
+		let lessonCount = Lessons.find({termId: termId}).count();
+		if (lessonCount === 1) {
+			return lessonCount + ' Segment';
+		}
+		return lessonCount + ' Segments';
 	},
 
 	resources: function(resourceIds) {

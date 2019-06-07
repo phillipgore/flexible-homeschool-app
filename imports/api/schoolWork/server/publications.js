@@ -44,43 +44,23 @@ Meteor.publish('schoolWork', function(schoolWorkId) {
 });
 
 Meteor.publish('schoolWorkView', function(schoolWorkId) {
-	// this.autorun(function (computation) {
-		if (!this.userId) {
-			return this.ready();
-		}
+	if (!this.userId) {
+		return this.ready();
+	}
 
-		let self = this;
+	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
 
-		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-		let schoolWork = SchoolWork.findOne({groupId: groupId, deletedOn: { $exists: false }, _id: schoolWorkId}, {sort: {name: 1}, fields: {groupId: 0, userId: 0, createdOn: 0, updatedOn: 0, deletedOn: 0}});
+	let schoolWork = SchoolWork.find({_id: schoolWorkId, groupId: groupId, deletedOn: { $exists: false }}, {fields: {groupId: 0, userId: 0, createdOn: 0, updatedOn: 0, deletedOn: 0}});
+	let terms = Terms.find({groupId: groupId, deletedOn: { $exists: false }, schoolYearId: schoolWork.fetch()[0].schoolYearId}, {fields: {order: 1, schoolYearId: 1}});
+	let lessons = Lessons.find({groupId: groupId, deletedOn: { $exists: false }, schoolWorkId: schoolWorkId}, {fields: {termId: 1}});
+	let resources = Resources.find({groupId: groupId, deletedOn: { $exists: false }, _id: {$in: schoolWork.fetch()[0].resources}}, {fields: {link: 1, title: 1, type: 1}});
 
-		if (schoolWork) {
-			let student = Students.findOne({groupId: groupId, deletedOn: { $exists: false }, _id: schoolWork.studentId});
-			let schoolYear = SchoolYears.findOne({groupId: groupId, deletedOn: { $exists: false }, _id: schoolWork.schoolYearId});
-			let terms = Terms.find({groupId: groupId, deletedOn: { $exists: false }, schoolYearId: schoolWork.schoolYearId});
-			let lessons = Lessons.find({schoolWorkId: schoolWorkId, termId: {$in: terms.map(term => term._id)}}).fetch();
-			let resources = Resources.find({groupId: groupId, deletedOn: { $exists: false }, _id: {$in: schoolWork.resources}});
-
-			let termStats = []
-			terms.forEach((term) => {
-				let lessonCount = _.filter(lessons, lesson => _.includes(term._id, lesson.termId)).length
-				termStats.push({termId: term._id, termOrder: term.order, lessonCount: lessonCount});
-			})
-
-			schoolWork.preferredFirstName = student.preferredFirstName.name;
-			schoolWork.lastName = student.lastName;
-			schoolWork.startYear = schoolYear.startYear;
-			schoolWork.endYear = schoolYear.endYear;
-			schoolWork.termStats = termStats;
-
-			self.added('schoolWork', schoolWork._id, schoolWork);
-			resources.map((resource) => {;
-				self.added('resources', resource._id, resource);
-			});
-		}
-
-		self.ready();
-	// });
+	return [
+		schoolWork, 
+		terms, 
+		lessons,
+		resources
+	];
 });
 
 Meteor.publish('schoolWorkResources', function(schoolWorkId) {	

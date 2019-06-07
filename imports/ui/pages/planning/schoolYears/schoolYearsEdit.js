@@ -440,7 +440,6 @@ Template.schoolYearsEdit.events({
 		let termUpdateProperties = []
 		if (termDeleteIds.length) {
 			termIds.forEach((termId, index) => {
-				console.log(index)
 				let newOrder = index + 1;
 				termUpdateProperties.push({_id: termId, order: newOrder})
 			});

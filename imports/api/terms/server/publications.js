@@ -4,7 +4,7 @@ import {Paths} from '../../paths/paths.js';
 import {SchoolYears} from '../../schoolYears/schoolYears.js';
 import {Weeks} from '../../weeks/weeks.js';
 import {Lessons} from '../../lessons/lessons.js';
-import {studentTermStatusAndPaths} from '../../../modules/server/functions';
+
 import _ from 'lodash'
 
 Meteor.publish('allTerms', function() {
