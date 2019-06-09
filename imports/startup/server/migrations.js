@@ -211,16 +211,18 @@ Migrations.add({
 	name: 'Create Stats Collection.',
 	up: function() {
 		
-		let groups = Groups.find();
+		// let groups = Groups.find();
 
 		let studentStatIds = _.uniq(Stats.find({}, {fields: {studentId: 1}}).map(stat => stat.studentId));
 		let students = Students.find({_id: {$nin: studentStatIds}, deletedOn: { $exists: false }}, {fields: {groupId: 1}});
+		let groupIds = students.map(student => student.groupId);
+
 		let schoolYears = SchoolYears.find({deletedOn: { $exists: false }}, {fields: {groupId: 1}});
 		let terms = Terms.find({deletedOn: { $exists: false }}, {fields: {groupId: 1}});
 		let weeks = Weeks.find({deletedOn: { $exists: false }}, {fields: {groupId: 1}});
 		console.log(students.count())
 
-		groups.forEach(group => {
+		groupIds.forEach(group => {
 			let statProperties = {
 				studentIds: _.filter(students, {groupId: group._id}).map(student => student._id),
 				schoolYearIds: _.filter(schoolYears, {groupId: group._id}).map(schoolYear => schoolYear._id),
