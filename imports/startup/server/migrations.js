@@ -220,14 +220,15 @@ Migrations.add({
 		let schoolYears = SchoolYears.find({deletedOn: { $exists: false }}, {fields: {groupId: 1}});
 		let terms = Terms.find({deletedOn: { $exists: false }}, {fields: {groupId: 1}});
 		let weeks = Weeks.find({deletedOn: { $exists: false }}, {fields: {groupId: 1}});
-		console.log(students.count())
+		console.log(groupIds.length)
 
-		groupIds.forEach(group => {
+		groupIds.forEach((groupId, index) => {
+			console.log(index + 1)
 			let statProperties = {
-				studentIds: _.filter(students, {groupId: group._id}).map(student => student._id),
-				schoolYearIds: _.filter(schoolYears, {groupId: group._id}).map(schoolYear => schoolYear._id),
-				termIds: _.filter(terms, {groupId: group._id}).map(term => term._id),
-				weekIds: _.filter(weeks, {groupId: group._id}).map(week => week._id),
+				studentIds: _.filter(students, {groupId: groupId}).map(student => student._id),
+				schoolYearIds: _.filter(schoolYears, {groupId: groupId}).map(schoolYear => schoolYear._id),
+				termIds: _.filter(terms, {groupId: groupId}).map(term => term._id),
+				weekIds: _.filter(weeks, {groupId: groupId}).map(week => week._id),
 			}
 
 			upsertStats(statProperties, group._id);
