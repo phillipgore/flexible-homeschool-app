@@ -225,25 +225,25 @@ function getFirstSchoolYearId(groupId) {
 		{sort: {starYear: 1}, fields: {startYear: 1, endYear: 1}}
 	).fetch();
 
-	if (!schoolYears.length) {
+	if (schoolYears.length) {
+		if (schoolYears.length === 1) {
+			console.log('schoolYear 1')
+			return schoolYears[0]._id;
+		}
+
+		let gteFirstSchoolYear = _.find(schoolYears, year => {return year.startYear >= currentYear});
+		if (!_.isUndefined(gteFirstSchoolYear)) {
+			console.log('schoolYear gte')
+			return gteFirstSchoolYear._id;
+		}
+
+		let lteFirstSchoolYear = _.find(schoolYears, year => {return year.startYear <= currentYear});
+		console.log('schoolYear lte')
+		return lteFirstSchoolYear._id;
+	} else {
 		console.log('schoolYear empty')
 		return 'empty'
 	}
-	
-	if (schoolYears.length === 1) {
-		console.log('schoolYear 1')
-		return schoolYears[0]._id;
-	}
-
-	let gteFirstSchoolYear = _.find(schoolYears, year => {return year.startYear >= currentYear});
-	if (!_.isUndefined(gteFirstSchoolYear)) {
-		console.log('schoolYear gte')
-		return gteFirstSchoolYear._id;
-	}
-
-	let lteFirstSchoolYear = _.find(schoolYears, year => {return year.startYear <= currentYear});
-	console.log('schoolYear lte')
-	return lteFirstSchoolYear._id;
 }
 
 
