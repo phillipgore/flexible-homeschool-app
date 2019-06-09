@@ -50,6 +50,7 @@ export function primaryInitialIds (submittedGroupId) {
 	if (ids.schoolYearId === 'empty') {
 		ids.termId = 'empty';
 		ids.weekId = 'empty';
+		console.log('termId weekId empty');
 	} else {
 		if (ids.studentId === 'empty') { // First Student: False
 			let firstTerm = Terms.findOne(
