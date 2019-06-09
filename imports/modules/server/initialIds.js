@@ -34,9 +34,8 @@ export function primaryInitialIds (submittedGroupId) {
 
 	// Get First School Work
 	if (firstStudent && firstSchoolYear != 'empty') {
-		console.log('firstStudentId: ' + ids.studentId)
 		let firstSchoolWork = SchoolWork.findOne(
-			{groupId: groupId, schoolYearId: firstSchoolYear, studentId: ids.studentId, deletedOn: { $exists: false }},
+			{groupId: groupId, schoolYearId: firstSchoolYear, studentId: firstStudent._id, deletedOn: { $exists: false }},
 			{sort: {name: 1}, fields: {_id: 1}}
 		)	
 		console.log('firstSchoolWork');
@@ -45,6 +44,7 @@ export function primaryInitialIds (submittedGroupId) {
 		console.log('firstSchoolWork 2');
 	} else {
 		ids.schoolWorkId = 'empty';
+		console.log('firstSchoolWork empty');
 	}
 	// Get First Term and Week
 	if (ids.schoolYearId === 'empty') {
@@ -73,13 +73,13 @@ export function primaryInitialIds (submittedGroupId) {
 			};
 		} else { // First Student: True
 			let firstIncompleteLesson = Lessons.findOne(
-				{studentId: ids.studentId, schoolYearId: firstSchoolYear, completed: false, deletedOn: { $exists: false }},
+				{studentId: firstStudent._id, schoolYearId: firstSchoolYear, completed: false, deletedOn: { $exists: false }},
 				{sort: {termOrder: 1, weekOrder: 1, order: 1}, fields: {termId: 1, weekId: 1}}
 			);
 			console.log('firstIncompleteLesson');
 
 			let firstCompletedLesson = Lessons.findOne(
-				{studentId: ids.studentId, schoolYearId: firstSchoolYear, completed: true, deletedOn: { $exists: false }},
+				{studentId: firstStudent._id, schoolYearId: firstSchoolYear, completed: true, deletedOn: { $exists: false }},
 				{sort: {termOrder: 1, weekOrder: 1, order: 1}, fields: {termId: 1, weekId: 1}}
 			);
 			console.log('firstCompletedLesson');
