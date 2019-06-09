@@ -150,8 +150,9 @@ export function usersInitialId (submittedGroupId) {
 	let groupId = getGroupId(submittedGroupId);
 	let ids = {};
 
-	let firstUser = Meteor.users.findOne({'info.groupId': groupId, 'emails.0.verified': true, 'status.active': true}, {sort: {'info.lastName': 1, 'info.firstName': 1}});
+	let firstUser = Meteor.users.findOne({'info.groupId': groupId, 'status.active': true}, {sort: {'info.lastName': 1, 'info.firstName': 1}});
 	ids.userId = firstUser._id;
+	if (firstUser) {ids.userId = firstUser._id} else {ids.userId = 'empty'};
 
 	Groups.update(groupId, {$set: {
 		'initialIds.userId': ids.userId,
