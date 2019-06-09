@@ -167,7 +167,7 @@ Migrations.add({
 	name: 'Add intial ids to Group collection',
 	up: function() {
 		let groupIds = _.uniq(Groups.find({}, {fields: {_id: 1}}).map(group => group._id));
-		console.log(groups.length)
+		console.log(groupIds.length)
 		
 		groupIds.forEach((groupId, index) => {
 			
