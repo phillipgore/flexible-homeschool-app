@@ -226,19 +226,23 @@ function getFirstSchoolYearId(groupId) {
 	).fetch();
 
 	if (!schoolYears.length) {
+		console.log('schoolYear empty')
 		return 'empty'
 	}
 	
 	if (schoolYears.length === 1) {
+		console.log('schoolYear 1')
 		return schoolYears[0]._id;
 	}
 
 	let gteFirstSchoolYear = _.find(schoolYears, year => {return year.startYear >= currentYear});
 	if (!_.isUndefined(gteFirstSchoolYear)) {
+		console.log('schoolYear gte')
 		return gteFirstSchoolYear._id;
 	}
 
 	let lteFirstSchoolYear = _.find(schoolYears, year => {return year.startYear <= currentYear});
+	console.log('schoolYear lte')
 	return lteFirstSchoolYear._id;
 }
 
