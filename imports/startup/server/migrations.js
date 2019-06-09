@@ -211,24 +211,21 @@ Migrations.add({
 	name: 'Create Stats Collection.',
 	up: function() {
 		
-		// let groups = Groups.find();
+		let groups = Groups.find();
+		console.log(groups.count())
 
-		let studentStatIds = _.uniq(Stats.find({}, {fields: {studentId: 1}}).map(stat => stat.studentId));
-		let students = Students.find({_id: {$nin: studentStatIds}, deletedOn: { $exists: false }}, {fields: {groupId: 1}});
-		let groupIds = students.map(student => student.groupId);
-
+		let students = Students.find({deletedOn: { $exists: false }}, {fields: {groupId: 1}});
 		let schoolYears = SchoolYears.find({deletedOn: { $exists: false }}, {fields: {groupId: 1}});
 		let terms = Terms.find({deletedOn: { $exists: false }}, {fields: {groupId: 1}});
 		let weeks = Weeks.find({deletedOn: { $exists: false }}, {fields: {groupId: 1}});
-		console.log(groupIds.length)
 
-		groupIds.forEach((groupId, index) => {
+		groups.forEach((group, index) => {
 			console.log(index + 1)
 			let statProperties = {
-				studentIds: _.filter(students, {groupId: groupId}).map(student => student._id),
-				schoolYearIds: _.filter(schoolYears, {groupId: groupId}).map(schoolYear => schoolYear._id),
-				termIds: _.filter(terms, {groupId: groupId}).map(term => term._id),
-				weekIds: _.filter(weeks, {groupId: groupId}).map(week => week._id),
+				studentIds: _.filter(students, {groupId: group._id}).map(student => student._id),
+				schoolYearIds: _.filter(schoolYears, {groupId: group._id}).map(schoolYear => schoolYear._id),
+				termIds: _.filter(terms, {groupId: group._id}).map(term => term._id),
+				weekIds: _.filter(weeks, {groupId: group._id}).map(week => week._id),
 			}
 
 			upsertStats(statProperties, group._id);
