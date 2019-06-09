@@ -212,7 +212,9 @@ Migrations.add({
 	up: function() {
 		
 		let groups = Groups.find();
-		let students = Students.find({deletedOn: { $exists: false }}, {fields: {groupId: 1}});
+
+		let studentStatIds = _.uniq(Stats.find({}, {fields: {studentId: 1}}).map(stat => stat.studentId));
+		let students = Students.find({_id: {$nin: studentStatIds}, deletedOn: { $exists: false }}, {fields: {groupId: 1}});
 		let schoolYears = SchoolYears.find({deletedOn: { $exists: false }}, {fields: {groupId: 1}});
 		let terms = Terms.find({deletedOn: { $exists: false }}, {fields: {groupId: 1}});
 		let weeks = Weeks.find({deletedOn: { $exists: false }}, {fields: {groupId: 1}});
