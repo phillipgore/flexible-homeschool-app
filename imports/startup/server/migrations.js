@@ -218,6 +218,7 @@ Migrations.add({
 		let schoolYears = SchoolYears.find({deletedOn: { $exists: false }}, {fields: {groupId: 1}});
 		let terms = Terms.find({deletedOn: { $exists: false }}, {fields: {groupId: 1}});
 		let weeks = Weeks.find({deletedOn: { $exists: false }}, {fields: {groupId: 1}});
+		console.log(students.count())
 
 		groups.forEach(group => {
 			let statProperties = {

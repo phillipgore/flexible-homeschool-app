@@ -31,22 +31,20 @@ export function upsertStats(statProperties, submittedGroupId) {
 	let weekIds = getWeeks(groupId, termIds, statProperties);
 
 	if (studentIds.length && schoolYearIds.length) {
-		studentIds.forEach(studentId => {
+		studentIds.forEach((studentId, index) => {
+			console.log(index + 1)
 			schoolYearIds.forEach(schoolYearId => {
-				console.log('studentId: '+ studentId +'schoolYearId: '+ schoolYearId);
 				upsertSchoolYearStats(groupId, studentId, schoolYearId);
 			});
 
 			if (termIds.length) {
 				termIds.forEach(termId => {
-					console.log('studentId: '+ studentId +'termId: '+ termId);
 					upsertTermStats(groupId, studentId, termId);
 				});
 			}
 
 			if (weekIds.length) {
 				weekIds.forEach(weekId => {
-					console.log('studentId: '+ studentId +'termId: '+ weekId);
 					upsertWeekStats(groupId, studentId, weekId);
 				});
 			}
