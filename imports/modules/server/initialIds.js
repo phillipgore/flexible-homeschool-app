@@ -16,14 +16,16 @@ import _ from 'lodash';
 
 // Intial Ids for Student, School Year, Term, Week and School Work.
 export function primaryInitialIds (submittedGroupId) {
-	console.log('primaryInitialIds start');	
+	// console.log('primaryInitialIds start');	
 	let groupId = getGroupId(submittedGroupId);
+	console.log('groupId: ' + groupId);
 
 	let ids = {};
 
 	// Get First Student
 	let firstStudent = Students.findOne({groupId: groupId, deletedOn: { $exists: false }}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}, fields: {_id: 1}});
 	if (firstStudent) {ids.studentId = firstStudent._id} else {ids.studentId = 'empty'};
+	console.log('firstStudent');
 
 	// Get First School Year
 	let firstSchoolYear = getFirstSchoolYearId(groupId);
@@ -35,10 +37,12 @@ export function primaryInitialIds (submittedGroupId) {
 			{groupId: groupId, schoolYearId: firstSchoolYear, studentId: firstStudent._id, deletedOn: { $exists: false }},
 			{sort: {name: 1}, fields: {_id: 1}}
 		)	
-		if (firstSchoolWork) {ids.schoolWorkId = firstSchoolWork._id} else {ids.schoolWorkId = 'empty'};
+		console.log('firstSchoolWork');
+
+		if (firstSchoolWork) {ids.schoolWorkId = firstSchoolWork._id} else {ids.schoolWorkId = 'empty'};			
+		console.log('firstSchoolWork 2');
 	} else {
 		ids.schoolWorkId = 'empty';
-		ids.schoolYearsExist = false;
 	}
 	// Get First Term and Week
 	if (ids.schoolYearId === 'empty') {
@@ -52,12 +56,15 @@ export function primaryInitialIds (submittedGroupId) {
 			)
 
 			if (firstTerm) { // First Term: True
-				ids.termId = firstTerm._id
+				ids.termId = firstTerm._id	
+				console.log('firstTerm');
+
 				let firstWeek = Weeks.findOne(
 					{groupId: groupId, schoolYearId: firstSchoolYear, termId: firstTerm._id, deletedOn: { $exists: false }},
 					{sort: {order: 1}, fields: {_id: 1}}
 				)
 				if (firstWeek) {ids.weekId = firstWeek._id} else {ids.weekId = 'empty'};
+				console.log('firstWeek');
 			} else { // First Term: False
 				ids.termId = 'empty'
 				ids.weekId = 'empty'
@@ -67,10 +74,13 @@ export function primaryInitialIds (submittedGroupId) {
 				{studentId: firstStudent._id, schoolYearId: firstSchoolYear, completed: false, deletedOn: { $exists: false }},
 				{sort: {termOrder: 1, weekOrder: 1, order: 1}, fields: {termId: 1, weekId: 1}}
 			);
+			console.log('firstIncompleteLesson');
+
 			let firstCompletedLesson = Lessons.findOne(
 				{studentId: firstStudent._id, schoolYearId: firstSchoolYear, completed: true, deletedOn: { $exists: false }},
 				{sort: {termOrder: 1, weekOrder: 1, order: 1}, fields: {termId: 1, weekId: 1}}
 			);
+			console.log('firstCompletedLesson');
 
 			if (firstIncompleteLesson) { // First Incomplete Lesson: True
 				ids.termId = firstIncompleteLesson.termId;
@@ -91,6 +101,7 @@ export function primaryInitialIds (submittedGroupId) {
 						{sort: {order: 1}, fields: {_id: 1}}
 					)
 					if (firstWeek) {ids.weekId = firstWeek._id} else {ids.weekId = 'empty'};
+					console.log('firstWeek 2');
 				} else { // First Term: False
 					ids.termId = 'empty'
 					ids.weekId = 'empty'
@@ -107,7 +118,7 @@ export function primaryInitialIds (submittedGroupId) {
 		'initialIds.schoolWorkId': ids.schoolWorkId,
 	}});
 	
-	console.log('primaryInitialIds end');
+	// console.log('primaryInitialIds end');
 	return groupId;
 };
 
