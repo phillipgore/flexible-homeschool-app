@@ -177,7 +177,11 @@ Migrations.add({
 		}
 		let currentYear = startYearFunction(year)
 
-		Groups.find({}, {fields: {appAdmin: 1}}).forEach(group => {
+		let groups = Groups.find({}, {fields: {appAdmin: 1}});
+		console.log(groups.count())
+		
+		groups.forEach((group, index) => {
+			console.log(index);
 			
 			primaryInitialIds(group._id);
 			resourcesInitialIds(group._id);
