@@ -140,7 +140,7 @@ export function resourcesInitialIds (submittedGroupId) {
 		'initialIds.resourceType': ids.resourceType,
 	}});
 	
-	console.log('resourcesInitialIds start');
+	console.log('resourcesInitialIds end');
 	return groupId;
 };
 
@@ -157,7 +157,7 @@ export function usersInitialId (submittedGroupId) {
 		'initialIds.userId': ids.userId,
 	}});
 	
-	console.log('usersInitialId start');
+	console.log('usersInitialId end');
 	return groupId;
 };
 
@@ -196,7 +196,7 @@ export function groupsInitialId (submittedGroupId) {
 		'initialIds.groupId': ids.groupId,
 	}});
 
-	console.log('groupsInitialId start');
+	console.log('groupsInitialId end');
 	return group._id;
 };
 
