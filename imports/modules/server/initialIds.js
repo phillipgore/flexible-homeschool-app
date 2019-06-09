@@ -32,7 +32,7 @@ export function primaryInitialIds (submittedGroupId) {
 	ids.schoolYearId = firstSchoolYear;
 
 	// Get First School Work
-	if (firstStudent && firstSchoolYear) {
+	if (firstStudent && firstSchoolYear != 'empty') {
 		let firstSchoolWork = SchoolWork.findOne(
 			{groupId: groupId, schoolYearId: firstSchoolYear, studentId: firstStudent._id, deletedOn: { $exists: false }},
 			{sort: {name: 1}, fields: {_id: 1}}
