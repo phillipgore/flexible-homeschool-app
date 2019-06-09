@@ -211,7 +211,7 @@ Migrations.add({
 	name: 'Create Stats Collection.',
 	up: function() {
 		
-		let groups = Groups.find({}, {sort: {_id: 1}});
+		let groups = Groups.find({}, {sort: {_id: -1}});
 		console.log(groups.count())
 
 		let students = Students.find({deletedOn: { $exists: false }}, {fields: {groupId: 1}});
