@@ -182,7 +182,7 @@ Migrations.add({
 		
 		groups.forEach((group, index) => {
 			console.log(index);
-			console.log('groupId:' + group._id);
+			console.log('submit groupId:' + group._id);
 
 			primaryInitialIds(group._id);
 			resourcesInitialIds(group._id);

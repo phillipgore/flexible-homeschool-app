@@ -201,10 +201,10 @@ export function groupsInitialId (submittedGroupId) {
 // Return the Group Id
 function getGroupId(submittedGroupId) {
 	if (_.isUndefined(submittedGroupId)) {
-		console.log('groupId not submitted')
+		console.log('groupId not submitted: ' + submittedGroupId)
 		return Meteor.user().info.groupId;
 	} else {
-		console.log('groupId submitted')
+		console.log('groupId submitted: ' + submittedGroupId)
 		return submittedGroupId;
 	}
 }
