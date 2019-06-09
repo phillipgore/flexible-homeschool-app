@@ -30,6 +30,7 @@ export function primaryInitialIds (submittedGroupId) {
 	// Get First School Year
 	let firstSchoolYear = getFirstSchoolYearId(groupId);
 	ids.schoolYearId = firstSchoolYear;
+	console.log('firstSchoolYear');
 
 	// Get First School Work
 	if (firstStudent && firstSchoolYear != 'empty') {
