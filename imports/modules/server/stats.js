@@ -22,7 +22,7 @@ import _ from 'lodash';
 
 // Upsert Stats
 export function upsertStats(statProperties, submittedGroupId) {
-	console.log('upsertStats start');
+	// console.log('upsertStats start');
 	let groupId = getGroupId(submittedGroupId);
 
 	let studentIds = getStudents(groupId, statProperties);
@@ -33,20 +33,17 @@ export function upsertStats(statProperties, submittedGroupId) {
 	if (studentIds.length && schoolYearIds.length) {
 		studentIds.forEach(studentId => {
 			schoolYearIds.forEach(schoolYearId => {
-				console.log('studentId: '+ studentId +'schoolYearId: '+ schoolYearId);
 				upsertSchoolYearStats(groupId, studentId, schoolYearId);
 			});
 
 			if (termIds.length) {
 				termIds.forEach(termId => {
-					console.log('studentId: '+ studentId +'termId: '+ termId);
 					upsertTermStats(groupId, studentId, termId);
 				});
 			}
 
 			if (weekIds.length) {
 				weekIds.forEach(weekId => {
-					console.log('studentId: '+ studentId +'termId: '+ weekId);
 					upsertWeekStats(groupId, studentId, weekId);
 				});
 			}
@@ -54,7 +51,7 @@ export function upsertStats(statProperties, submittedGroupId) {
 		});
 	}
 
-	console.log('upsertStats end');
+	// console.log('upsertStats end');
 	return true;
 }
 
