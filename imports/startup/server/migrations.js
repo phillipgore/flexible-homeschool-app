@@ -166,29 +166,16 @@ Migrations.add({
 	version: 7,
 	name: 'Add intial ids to Group collection',
 	up: function() {
-		let year = moment().year();
-		let month = moment().month();
-
-		function startYearFunction(year) {
-			if (month < 6) {
-				return year = (year - 1).toString();
-			}
-			return year.toString();
-		}
-		let currentYear = startYearFunction(year)
-
-		let groups = Groups.find({}, {fields: {_id: 1}});
-		console.log(groups.count())
+		let groupIds = _.uniq(Groups.find({}, {fields: {_id: 1}}).map(group => group._id));
+		console.log(groups.length)
 		
-		groups.forEach((group, index) => {
-			console.log(index);
-			console.log('submit groupId:' + group._id);
-
-			primaryInitialIds(group._id);
-			resourcesInitialIds(group._id);
-			usersInitialId(group._id);
-			reportsInitialId(group._id);
-			groupsInitialId(group._id);
+		groupIds.forEach((groupId, index) => {
+			
+			primaryInitialIds(groupId);
+			resourcesInitialIds(groupId);
+			usersInitialId(groupId);
+			reportsInitialId(groupId);
+			groupsInitialId(groupId);
 
 		});
 	}

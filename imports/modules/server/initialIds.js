@@ -16,21 +16,21 @@ import _ from 'lodash';
 
 // Intial Ids for Student, School Year, Term, Week and School Work.
 export function primaryInitialIds (submittedGroupId) {
-	// console.log('primaryInitialIds start');	
+	console.log('primaryInitialIds start');	
 	let groupId = getGroupId(submittedGroupId);
-	console.log('groupId: ' + groupId);
+	// console.log('groupId: ' + groupId);
 
 	let ids = {};
 
 	// Get First Student
 	let firstStudent = Students.findOne({groupId: groupId, deletedOn: { $exists: false }}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}, fields: {_id: 1}});
 	if (firstStudent) {ids.studentId = firstStudent._id} else {ids.studentId = 'empty'};
-	console.log('firstStudent');
+	// console.log('firstStudent');
 
 	// Get First School Year
 	let firstSchoolYear = getFirstSchoolYearId(groupId);
 	ids.schoolYearId = firstSchoolYear;
-	console.log('firstSchoolYear');
+	// console.log('firstSchoolYear');
 
 	// Get First School Work
 	if (firstStudent && firstSchoolYear != 'empty') {
@@ -38,19 +38,19 @@ export function primaryInitialIds (submittedGroupId) {
 			{groupId: groupId, schoolYearId: firstSchoolYear, studentId: firstStudent._id, deletedOn: { $exists: false }},
 			{sort: {name: 1}, fields: {_id: 1}}
 		)	
-		console.log('firstSchoolWork');
+		// console.log('firstSchoolWork');
 
 		if (firstSchoolWork) {ids.schoolWorkId = firstSchoolWork._id} else {ids.schoolWorkId = 'empty'};			
-		console.log('firstSchoolWork 2');
+		// console.log('firstSchoolWork 2');
 	} else {
 		ids.schoolWorkId = 'empty';
-		console.log('firstSchoolWork empty');
+		// console.log('firstSchoolWork empty');
 	}
 	// Get First Term and Week
 	if (ids.schoolYearId === 'empty') {
 		ids.termId = 'empty';
 		ids.weekId = 'empty';
-		console.log('termId weekId empty');
+		// console.log('termId weekId empty');
 	} else {
 		if (ids.studentId === 'empty') { // First Student: False
 			let firstTerm = Terms.findOne(
@@ -60,14 +60,14 @@ export function primaryInitialIds (submittedGroupId) {
 
 			if (firstTerm) { // First Term: True
 				ids.termId = firstTerm._id	
-				console.log('firstTerm');
+				// console.log('firstTerm');
 
 				let firstWeek = Weeks.findOne(
 					{groupId: groupId, schoolYearId: firstSchoolYear, termId: firstTerm._id, deletedOn: { $exists: false }},
 					{sort: {order: 1}, fields: {_id: 1}}
 				)
 				if (firstWeek) {ids.weekId = firstWeek._id} else {ids.weekId = 'empty'};
-				console.log('firstWeek');
+				// console.log('firstWeek');
 			} else { // First Term: False
 				ids.termId = 'empty'
 				ids.weekId = 'empty'
@@ -77,13 +77,13 @@ export function primaryInitialIds (submittedGroupId) {
 				{studentId: firstStudent._id, schoolYearId: firstSchoolYear, completed: false, deletedOn: { $exists: false }},
 				{sort: {termOrder: 1, weekOrder: 1, order: 1}, fields: {termId: 1, weekId: 1}}
 			);
-			console.log('firstIncompleteLesson');
+			// console.log('firstIncompleteLesson');
 
 			let firstCompletedLesson = Lessons.findOne(
 				{studentId: firstStudent._id, schoolYearId: firstSchoolYear, completed: true, deletedOn: { $exists: false }},
 				{sort: {termOrder: 1, weekOrder: 1, order: 1}, fields: {termId: 1, weekId: 1}}
 			);
-			console.log('firstCompletedLesson');
+			// console.log('firstCompletedLesson');
 
 			if (firstIncompleteLesson) { // First Incomplete Lesson: True
 				ids.termId = firstIncompleteLesson.termId;
@@ -104,7 +104,7 @@ export function primaryInitialIds (submittedGroupId) {
 						{sort: {order: 1}, fields: {_id: 1}}
 					)
 					if (firstWeek) {ids.weekId = firstWeek._id} else {ids.weekId = 'empty'};
-					console.log('firstWeek 2');
+					// console.log('firstWeek 2');
 				} else { // First Term: False
 					ids.termId = 'empty'
 					ids.weekId = 'empty'
@@ -121,12 +121,13 @@ export function primaryInitialIds (submittedGroupId) {
 		'initialIds.schoolWorkId': ids.schoolWorkId,
 	}});
 	
-	// console.log('primaryInitialIds end');
+	console.log('primaryInitialIds end');
 	return groupId;
 };
 
 // Intial Ids for Resources.
 export function resourcesInitialIds (submittedGroupId) {
+	console.log('resourcesInitialIds start');
 	let groupId = getGroupId(submittedGroupId);
 	let ids = {};
 
@@ -139,11 +140,13 @@ export function resourcesInitialIds (submittedGroupId) {
 		'initialIds.resourceType': ids.resourceType,
 	}});
 	
+	console.log('resourcesInitialIds start');
 	return groupId;
 };
 
 // Intial Id for Users.
 export function usersInitialId (submittedGroupId) {
+	console.log('usersInitialId start');
 	let groupId = getGroupId(submittedGroupId);
 	let ids = {};
 
@@ -154,6 +157,7 @@ export function usersInitialId (submittedGroupId) {
 		'initialIds.userId': ids.userId,
 	}});
 	
+	console.log('usersInitialId start');
 	return groupId;
 };
 
@@ -176,6 +180,7 @@ export function reportsInitialId (submittedGroupId) {
 
 // Intial Id for Groups.
 export function groupsInitialId (submittedGroupId) {
+	console.log('groupsInitialId start');
 	let groupId = getGroupId(submittedGroupId);
 	let group = Groups.findOne({_id: groupId});
 	let ids = {};
@@ -191,6 +196,7 @@ export function groupsInitialId (submittedGroupId) {
 		'initialIds.groupId': ids.groupId,
 	}});
 
+	console.log('groupsInitialId start');
 	return group._id;
 };
 
@@ -201,10 +207,10 @@ export function groupsInitialId (submittedGroupId) {
 // Return the Group Id
 function getGroupId(submittedGroupId) {
 	if (_.isUndefined(submittedGroupId)) {
-		console.log('groupId not submitted: ' + submittedGroupId)
+		// console.log('groupId not submitted: ' + submittedGroupId)
 		return Meteor.user().info.groupId;
 	} else {
-		console.log('groupId submitted: ' + submittedGroupId)
+		// console.log('groupId submitted: ' + submittedGroupId)
 		return submittedGroupId;
 	}
 }
@@ -232,21 +238,21 @@ function getFirstSchoolYearId(groupId) {
 
 	if (schoolYears.length) {
 		if (schoolYears.length === 1) {
-			console.log('schoolYear 1')
+			// console.log('schoolYear 1')
 			return schoolYears[0]._id;
 		}
 
 		let gteFirstSchoolYear = _.find(schoolYears, year => {return year.startYear >= currentYear});
 		if (!_.isUndefined(gteFirstSchoolYear)) {
-			console.log('schoolYear gte')
+			// console.log('schoolYear gte')
 			return gteFirstSchoolYear._id;
 		}
 
 		let lteFirstSchoolYear = _.find(schoolYears, year => {return year.startYear <= currentYear});
-		console.log('schoolYear lte')
+		// console.log('schoolYear lte')
 		return lteFirstSchoolYear._id;
 	} else {
-		console.log('schoolYear empty')
+		// console.log('schoolYear empty')
 		return 'empty'
 	}
 }
