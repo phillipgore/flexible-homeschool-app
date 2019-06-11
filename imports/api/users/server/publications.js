@@ -12,5 +12,5 @@ Meteor.publish('userData', function() {
 		return this.ready();
 	}
 
-	return Meteor.users.find({_id: this.userId}, {fields: {emails: 1, info: 1, status: 1, presence: 1, initialIds: 1}});
+	return Meteor.users.find({_id: this.userId}, {fields: {emails: 1, info: 1, status: 1, presence: 1}});
 });

@@ -41,7 +41,7 @@ Template.schoolWorkList.helpers({
 	},
 
 	studentsExist: function() {
-		let initialIds = Groups.findOne().initialIds;
+		let initialIds = Groups.findOne({_id: Meteor.user().info.groupId}).initialIds;
 		if (initialIds.studentId === 'empty') {
 			return false;
 		}
@@ -53,7 +53,7 @@ Template.schoolWorkList.helpers({
 	},
 
 	schoolYearsExist: function() {
-		let initialIds = Groups.findOne().initialIds;
+		let initialIds = Groups.findOne({_id: Meteor.user().info.groupId}).initialIds;
 		if (initialIds.schoolYearId === 'empty') {
 			return false;
 		}
@@ -68,7 +68,7 @@ Template.schoolWorkList.helpers({
 	},
 
 	studentsSchoolYearsCount: function() {
-		let initialIds = Groups.findOne().initialIds;
+		let initialIds = Groups.findOne({_id: Meteor.user().info.groupId}).initialIds;
 		if (initialIds.studentId != 'empty' && initialIds.schoolYearId != 'empty') {
 			return true;
 		}

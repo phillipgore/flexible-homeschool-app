@@ -47,7 +47,6 @@ Template.officeAccountsList.helpers({
 	},
 
 	online: function(status) {
-		console.log(status)
 		if (status === 'online') {
 			return true;
 		} 

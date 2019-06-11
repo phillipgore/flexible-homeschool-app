@@ -16,7 +16,7 @@ Tracker.autorun(() => {
 
 
 function getInitialData() {
-	let initialIds = Groups.findOne().initialIds;
+	let initialIds = Groups.findOne({_id: Meteor.user().info.groupId}).initialIds;
 
 	// Initial Frame
 	if (!Session.get('selectedFramePosition')) {
@@ -99,7 +99,7 @@ function getInitialData() {
 function checkSignIn(context, redirect) {
 	if (Meteor.userId()) {
 		getInitialData();
-		let initialIds = Groups.findOne().initialIds;
+		let initialIds = Groups.findOne({_id: Meteor.user().info.groupId}).initialIds;
 		if (Meteor.user().info.role === 'Observer') {
 			redirect('/tracking/students/view/1/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedTermId') +'/'+ Session.get('selectedWeekId'));
 		} else if (initialIds.studentId != 'empty' && initialIds.schoolYearId != 'empty' && initialIds.schoolWorkId != 'empty') {

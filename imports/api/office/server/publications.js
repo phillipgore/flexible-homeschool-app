@@ -42,23 +42,10 @@ Meteor.publish('account', function(groupId) {
 		return this.ready();
 	}
 
-	// this.autorun(function (computation) {
-		if (!this.userId) {
-			return this.ready();
-		}
-
-		let self = this;
-
-		let groups = Groups.find({appAdmin: false}, {fields: {subscriptionStatus: 1, appAdmin: 1, createdOn: 1}})
-		let users = Meteor.users.find({'info.groupId': groupId});
-
-		users.map((user) => {
-			self.added('users', user._id, user);
-		})
-		
-
-		self.ready();
-	// });
+	return [
+		Groups.find({groupId: groupId, appAdmin: false}, {fields: {initialIds: 1, subscriptionStatus: 1, appAdmin: 1, freeTrial: 1, createdOn: 1}}),
+		Meteor.users.find({'info.groupId': groupId}),
+	]
 });
 
 Meteor.publish('accountTotals', function(groupId) {

@@ -1,24 +1,24 @@
 <template name="officeAccountView">
 	<main class="app-content app-content-preceeds-toolbar app-content-data">
-		{{#if account}}
-			{{userName account.userFirstName account.userLastName}}
+		{{#if group}}
+			<h1 class="m-tn-b-12">{{admin.info.firstName}} {{admin.info.lastName}}</h1>
 
 			<label class="txt-info font-size-12 txt-weight-900">Id:</label>
-			<div class="m-tn-b-12">{{account._id}}</div>
+			<div class="m-tn-b-12">{{group._id}}</div>
 
 			<label class="txt-info font-size-12 txt-weight-900">Created:</label>
-			<div class="m-tn-b-12">{{dateTimeFormat account.createdOn}}</div>
+			<div class="m-tn-b-12">{{dateTimeFormat group.createdOn}}</div>
 
 			<label class="txt-info font-size-12 txt-weight-900">Subscription Status:</label>
-			<div class="m-tn-b-12 txt-capitalize">{{isPending account.subscriptionStatus}}</div>
+			<div class="m-tn-b-12 txt-capitalize">{{isPending group.subscriptionStatus}}</div>
 
 			<label class="txt-info font-size-12 txt-weight-900">Email:</label>
-			<div class="m-tn-b-12 txt-lowercase">{{account.userEmail}}</div>
+			<div class="m-tn-b-12 txt-lowercase">{{admin.emails.[0].address}}</div>
 
 			<label class="txt-info font-size-12 txt-weight-900">Users:</label>
-			{{#each user in accountUsers}}
+			{{#each user in users }}
 				<div class="m-tn-b-12">{{user.info.firstName}} {{user.info.lastName}}
-					<div class="font-size-12">{{user._id}} : {{user.info.role}} : {{user.presence.status}}</div>
+					<div class="font-size-12 txt-gray-darkest m-tn-t-3">{{user._id}} : {{user.info.role}} : {{user.presence.status}}</div>
 				</div>
 			{{/each}}
 
@@ -42,7 +42,7 @@
 			<label class="txt-info font-size-12 txt-weight-900">Actions:</label>
 			<div class="row p-tn-t-6">
 				<div class="col-xs-1of2 col-sm-2of3 col-md-1of2 col-lg-1of4 p-tn-b-18">
-					<button id="{{accountAdmin._id}}" class="js-impersonate-admin btn-info btn-block m-tn-b-18">Impersonate Admin</button>
+					<button id="{{admin._id}}" class="js-impersonate-admin btn-info btn-block m-tn-b-18">Impersonate Admin</button>
 					<hr class="m-tn-b-18">
 					<button class="btn-info btn-block m-tn-b-18">Correct Initial Ids</button>
 					<button class="btn-info btn-block m-tn-b-18">Correct Paths</button>

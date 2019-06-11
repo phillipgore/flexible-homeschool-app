@@ -24,27 +24,16 @@ Template.officeAccountView.helpers({
     return false;
   },
 
-  account() {
-    return Groups.findOne({ _id: FlowRouter.getParam('selectedGroupId') });
+  group: function() {
+    return Groups.findOne({ _id: FlowRouter.getParam('selectedGroupId')});
   },
 
-  accountUsers() {
-    return Meteor.users.find({ 'info.groupId': FlowRouter.getParam('selectedGroupId') });
+  admin: function() {
+    return Meteor.users.findOne({'info.groupId': FlowRouter.getParam('selectedGroupId'), 'info.role': 'Administrator'}, {sort: {createdAt: 1}});
   },
 
-  accountStats() {
-    return Session.get('accountStats');
-  },
-
-  accountAdmin() {
-    return Meteor.users.findOne({ 'info.groupId': FlowRouter.getParam('selectedGroupId'), 'info.role': 'Administrator' });
-  },
-
-  userName(first, last) {
-    if (first && last) {
-      Session.set({ labelTwo: `${first} ${last}` });
-    }
-    return false;
+  users: function() {
+    return Meteor.users.find({'info.groupId': FlowRouter.getParam('selectedGroupId')}, {sort: {createdAt: 1}});
   },
 
   isPending(status) {
