@@ -11,6 +11,13 @@ Template.officeAccountsList.onCreated( function() {
 });
 
 Template.officeAccountsList.onRendered( function() {
+	let resourcesScrollTop = document.getElementById(FlowRouter.getParam('selectedGroupId')).getBoundingClientRect().top - 130;
+	console.log(resourcesScrollTop)
+	if (window.screen.availWidth > 640) {
+		Session.set('resourcesScrollTop', resourcesScrollTop);
+		document.getElementsByClassName('frame-one')[0].scrollTop = resourcesScrollTop;
+	}
+
 	Session.set({
 		labelOne: 'Accounts',
 	});
@@ -48,7 +55,7 @@ Template.officeAccountsList.helpers({
 
 	userOnline: function(groupId) {
 		let user = Meteor.users.findOne({'info.groupId': groupId}, {sort: {createdAt: 1}}) && Meteor.users.findOne({'info.groupId': groupId}, {sort: {createdAt: 1}});
-		if (user.presence.status === 'online') {
+		if (user.presence.status && user.presence.status === 'online') {
 			return true;
 		} 
 		return false;
