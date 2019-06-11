@@ -14,7 +14,7 @@
 				{{#each group in groups}}
 					<li class="list-item {{#if userIsAppAdmin group._id}}hide{{/if}}">
 						<a id="{{group._id}}" href="/office/accounts/view/2/{{group._id}}" class="js-group list-item-link p-tn-rl-9  {{#if active group._id}}active{{/if}}">
-							<div class="list-item-icon"><i class="icn-users {{subscriptionStatus group._id}}"></i></div> <div class="list-item-label {{#if online user.presence.status}}txt-success font-weight-500{{/if}}">{{userName group._id}} 
+							<div class="list-item-icon"><i class="icn-users {{subscriptionStatus group._id}}"></i></div> <div class="list-item-label {{#if userOnline group._id}}txt-success font-weight-500{{/if}}">{{userName group._id}} 
 								<span class="list-item-sublabel">({{userEmail group._id}})</span>
 							</div>
 						</a>
