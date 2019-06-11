@@ -25,8 +25,7 @@ Template.officeAccountsList.helpers({
 	},
 
 	users: function() {
-		console.log(Meteor.users.find({'info.role': 'Administrator'}, {sort: {createdAt: 1}}).fetch())
-		return Meteor.users.find({'info.role': 'Administrator'}, {sort: {createdAt: 1}});
+		return Meteor.users.find({'info.role': 'Administrator'}, {sort: {createdAt: -1}});
 	},
 
 	online: function(status) {
