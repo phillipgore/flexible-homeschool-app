@@ -24,11 +24,20 @@ Template.officeAccountsList.helpers({
 		return false;
 	},
 
-	groups: function() {
-		return Groups.find({appAdmin: false}, {sort: {createdOn: -1}});
+	users: function() {
+		return Meteor.users.find({'info.role': {$not: 'Application Administrator'}}, {sort: {createdAt: 1}});
 	},
 
-	subscriptionStatus: function (subscriptionStatus) {
+	online: function(status) {
+		console.log(status)
+		if (status === 'online') {
+			return true;
+		} 
+		return false;
+	},
+
+	subscriptionStatus: function (groupId) {
+		let subscriptionStatus = Groups.findOne({_id: groupId}).subscriptionStatus;
 		if (subscriptionStatus === 'pausePending') {
 			return 'txt-warning';
 		}
@@ -47,8 +56,8 @@ Template.officeAccountsList.helpers({
 		return 'txt-info';
 	},
 
-	active: function(id) {
-		if (FlowRouter.getParam('selectedGroupId') === id) {
+	active: function(groupId) {
+		if (FlowRouter.getParam('selectedGroupId') === groupId) {
 			return true;
 		}
 		return false;

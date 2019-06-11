@@ -1,6 +1,6 @@
 <template name="officeAccountsList">
 	<main class="app-content app-content-preceeds-toolbar">
-		{{#if groups.count}}
+		{{#if users.count}}
 			<ul class="list">
 				{{#if activeRoute currentRouteName 'officeAccountsNew'}}
 					<li class="list-item">
@@ -10,13 +10,13 @@
 							</div>
 						</span>
 					</li>
-				{{/if}}
-				{{#each group in groups}}
+				{{/if}}				
+				{{#each user in users}}
 					<li class="list-item">
-						<a id="{{group._id}}" href="/office/accounts/view/2/{{group._id}}" class="js-group list-item-link p-tn-rl-9  {{#if active group._id}}active{{/if}}">
-							<div class="list-item-icon"><i class="icn-users {{subscriptionStatus group.subscriptionStatus}}"></i></div> 
-							<div class="list-item-label">{{group.userFirstName}} {{group.userLastName}} 
-								<span class="list-item-sublabel">({{group.userEmail}})</span>
+						<a id="{{user.info.groupId}}" href="/office/accounts/view/2/{{user.info.groupId}}" class="js-group list-item-link p-tn-rl-9  {{#if active user.info.groupId}}active{{/if}}">
+							<div class="list-item-icon"><i class="icn-users {{subscriptionStatus user.info.groupId}}"></i></div> 
+							<div class="list-item-label {{#if online user.presence.status}}txt-success font-weight-500{{/if}}">{{user.info.firstName}} {{user.info.lastName}} 
+								<span class="list-item-sublabel">({{user.emails.[0].address}})</span>
 							</div>
 						</a>
 					</li>

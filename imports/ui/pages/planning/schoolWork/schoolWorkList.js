@@ -8,8 +8,8 @@ Template.schoolWorkList.onCreated( function() {
 	let template = Template.instance();
 	
 	template.autorun(() => {
-		this.subscribe('schoolWorkStats');
-		this.schoolWorkData = this.subscribe('schooYearStudentSchoolWork', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
+		this.schoolWorkStats = Meteor.subscribe('schoolWorkStats');
+		this.schoolWorkData = Meteor.subscribe('schooYearStudentSchoolWork', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
 	});
 });
 
@@ -23,7 +23,9 @@ Template.schoolWorkList.onRendered( function() {
 
 Template.schoolWorkList.helpers({
 	subscriptionReady: function() {
-		return Template.instance().schoolWorkData.ready();
+		if (Template.instance().schoolWorkStats.ready() && Template.instance().schoolWorkData.ready()) {
+			return true;
+		}
 	},
 
 	schoolWorkCount: function() {

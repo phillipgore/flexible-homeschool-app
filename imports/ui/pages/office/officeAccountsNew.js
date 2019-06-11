@@ -53,6 +53,18 @@ Template.officeAccountsNew.events({
 			freeTrial: { 
 				expiration: event.currentTarget.freeTrialExpiration.value.trim(),
 				initialPassword: event.target.password.value.trim(),
+			},
+			initialIds: {
+				studentId: 'empty',
+				schoolYearId: 'empty',
+				resourceId: 'empty',
+				resourceType: 'empty',
+				termId: 'empty',
+				weekId: 'empty',
+				schoolWorkId: 'empty',
+				userId: 'empty',
+				reportId: 'empty',
+				groupId: 'empty',
 			}
 		}
 

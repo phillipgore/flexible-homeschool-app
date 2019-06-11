@@ -23,17 +23,34 @@
 			{{/each}}
 
 			<label class="txt-info font-size-12 txt-weight-900">Counts:</label>
-			<div class="m-tn-b-12">Users: {{getPublishedCount 'accountUsersCount'}}</div>
-			<div class="m-tn-b-12">Students: {{getPublishedCount 'accountStudentsCount'}}</div>
-			<div class="m-tn-b-12">School Years: {{getPublishedCount 'accountSchoolYearsCount'}}</div>
-			<div class="m-tn-b-12">Terms: {{getPublishedCount 'accountTermsCount'}}</div>
-			<div class="m-tn-b-12">Weeks: {{getPublishedCount 'accountWeeksCount'}}</div>
-			<div class="m-tn-b-12">Resources: {{getPublishedCount 'accountResourcesCount'}}</div>
-			<div class="m-tn-b-12">SchoolWork: {{getPublishedCount 'accountSchoolWorkCount'}}</div>
-			<div class="m-tn-b-12">Lessons: {{getPublishedCount 'accountLessonsCount'}}</div>
-			<div class="m-tn-b-12">Reports: {{getPublishedCount 'accountReportsCount'}}</div>
+			<div class="row">
+				<div class="col-sm-1of2">
+					<div class="m-tn-b-12">Users: {{getPublishedCount 'accountUsersCount'}}</div>
+					<div class="m-tn-b-12">Students: {{getPublishedCount 'accountStudentsCount'}}</div>
+					<div class="m-tn-b-12">School Years: {{getPublishedCount 'accountSchoolYearsCount'}}</div>
+					<div class="m-tn-b-12">Terms: {{getPublishedCount 'accountTermsCount'}}</div>
+					<div class="m-tn-b-12">Weeks: {{getPublishedCount 'accountWeeksCount'}}</div>
+				</div>
+				<div class="col-sm-1of2">
+					<div class="m-tn-b-12">Resources: {{getPublishedCount 'accountResourcesCount'}}</div>
+					<div class="m-tn-b-12">SchoolWork: {{getPublishedCount 'accountSchoolWorkCount'}}</div>
+					<div class="m-tn-b-12">Lessons: {{getPublishedCount 'accountLessonsCount'}}</div>
+					<div class="m-tn-b-12">Reports: {{getPublishedCount 'accountReportsCount'}}</div>
+				</div>
+			</div>
+
+			<label class="txt-info font-size-12 txt-weight-900">Actions:</label>
+			<div class="row p-tn-t-6">
+				<div class="col-xs-1of2 col-sm-2of3 col-md-1of2 col-lg-1of4 p-tn-b-18">
+					<button id="{{accountAdmin._id}}" class="js-impersonate-admin btn-info btn-block m-tn-b-18">Impersonate Admin</button>
+					<hr class="m-tn-b-18">
+					<button class="btn-info btn-block m-tn-b-18">Correct Initial Ids</button>
+					<button class="btn-info btn-block m-tn-b-18">Correct Paths</button>
+					<button class="btn-info btn-block m-tn-b-18">Correct Stats</button>
+				</div>
+			</div>
 		{{/if}}
-			<button id="{{accountAdmin._id}}" class="js-impersonate-admin btn-info">Impersonate Admin</button>
+			
 	</main>
 	{{#unless subscriptionReady}}
 		{{> loading}}

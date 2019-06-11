@@ -44,7 +44,8 @@ Meteor.publish('schoolWork', function(schoolWorkId) {
 });
 
 Meteor.publish('schoolWorkView', function(schoolWorkId) {
-	if (!this.userId) {
+	console.log(schoolWorkId)
+	if (!this.userId || schoolWorkId === 'empty') {
 		return this.ready();
 	}
 

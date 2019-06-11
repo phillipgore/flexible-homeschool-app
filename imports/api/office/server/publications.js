@@ -13,26 +13,14 @@ import _ from 'lodash';
 
 
 Meteor.publish('allAccounts', function() {
-	// this.autorun(function (computation) {
 		if (!this.userId) {
 			return this.ready();
 		}
 
-		let self = this;
-
-		let groups = Groups.find({appAdmin: false}, {fields: {subscriptionStatus: 1, appAdmin: 1, freeTrial: 1, createdOn: 1}})
-		let adminUsers = Meteor.users.find({'info.role': 'Administrator'}, {fields: {'info.groupId': 1, 'info.firstName': 1, 'info.lastName': 1, emails: 1}}).fetch();
-
-		groups.map((group) => {
-			let user = _.filter(adminUsers, ['info.groupId', group._id]);
-			group.userFirstName = user[0].info.firstName;
-			group.userLastName = user[0].info.lastName;
-			group.userEmail = user[0].emails[0].address;
-			self.added('groups', group._id, group);
-		});
-
-		self.ready();
-	// });
+		return [
+			Groups.find({appAdmin: false}, {fields: {subscriptionStatus: 1, appAdmin: 1, freeTrial: 1, createdOn: 1}}),
+			Meteor.users.find({'info.role': 'Administrator'}, {fields: {createdAt: 1, 'info.groupId': 1, 'info.firstName': 1, 'info.lastName': 1, emails: 1, 'presence': 1}}),
+		]
 });
 
 Meteor.publish('allAccountTotals', function(groupId) {
@@ -47,17 +35,6 @@ Meteor.publish('allAccountTotals', function(groupId) {
 	Counts.publish(this, 'allPausePendingAccountsCount', Groups.find({subscriptionStatus: 'pausePending', deletedOn: { $exists: false }}));
 	Counts.publish(this, 'allPauseedAccountsCount', Groups.find({subscriptionStatus: 'paused', deletedOn: { $exists: false }}));
 	Counts.publish(this, 'allErrorAccountsCount', Groups.find({subscriptionStatus: 'error', deletedOn: { $exists: false }}));
-
-	Counts.publish(this, 'allAccountUsersCount', Meteor.users.find({'info.groupId': {$in: activeGroupIds}, 'status.active': true, deletedOn: { $exists: false }}));
-
-	Counts.publish(this, 'allAccountStudentsCount', Students.find({deletedOn: { $exists: false }}));
-	Counts.publish(this, 'allAccountSchoolYearsCount', SchoolYears.find({deletedOn: { $exists: false }}));
-	Counts.publish(this, 'allAccountTermsCount', Terms.find({deletedOn: { $exists: false }}));
-	Counts.publish(this, 'allAccountWeeksCount', Weeks.find({deletedOn: { $exists: false }}));
-	Counts.publish(this, 'allAccountResourcesCount', Resources.find({deletedOn: { $exists: false }}));
-	Counts.publish(this, 'allAccountSchoolWorkCount', SchoolWork.find({deletedOn: { $exists: false }}));
-	Counts.publish(this, 'allAccountLessonsCount', Lessons.find({deletedOn: { $exists: false }}));
-	Counts.publish(this, 'allAccountReportsCount', Reports.find({deletedOn: { $exists: false }}));
 });
 
 Meteor.publish('account', function(groupId) {
