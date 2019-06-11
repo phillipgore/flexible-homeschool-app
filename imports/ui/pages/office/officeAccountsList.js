@@ -24,8 +24,26 @@ Template.officeAccountsList.helpers({
 		return false;
 	},
 
-	users: function() {
-		return Meteor.users.find({'info.role': 'Administrator'}, {sort: {createdAt: -1}});
+	groups: function() {
+		return Groups.find({}, {sort: {createdOn: -1}});
+	},
+
+	userName: function(groupId) {
+		let user = Meteor.users.findOne({'info.groupId': groupId}, {sort: {createdAt: 1}}) && Meteor.users.findOne({'info.groupId': groupId}, {sort: {createdAt: 1}});
+		return user.info.firstName +' '+ user.info.lastName;
+	},
+
+	userEmail: function(groupId) {
+		let user = Meteor.users.findOne({'info.groupId': groupId}, {sort: {createdAt: 1}}) && Meteor.users.findOne({'info.groupId': groupId}, {sort: {createdAt: 1}});
+		return user.emails[0].address;
+	},
+
+	userIsAppAdmin: function(groupId) {
+		let user = Meteor.users.findOne({'info.groupId': groupId}, {sort: {createdAt: 1}}) && Meteor.users.findOne({'info.groupId': groupId}, {sort: {createdAt: 1}});
+		if (user.info.role === 'Application Administrator') {
+			return true;
+		}
+		return false;
 	},
 
 	online: function(status) {
