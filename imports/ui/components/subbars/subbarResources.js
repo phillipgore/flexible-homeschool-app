@@ -51,7 +51,7 @@ Template.subbarResources.helpers({
 	},
 
 	typeAvailabilityResourceId: function(type, availability) {
-		let resourceIds = Session.get('initialResourceIds');
+		let resourceIds = Session.get('initialResourceIds') && Session.get('initialResourceIds');
 		let key = 'resource' + _.capitalize(type) + _.capitalize(availability);
 		return resourceIds[key];
 	},

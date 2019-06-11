@@ -101,9 +101,9 @@ Template.schoolYearsNew.onRendered( function() {
 						Session.set('selectedTermId', result.termId);
 						Session.set('selectedWeekId', result.weekId);
 
-						// let resourcesScrollTop = document.getElementById(schoolYearId).getBoundingClientRect().top - 130;
+						// let newScrollTop = document.getElementById(schoolYearId).getBoundingClientRect().top - 130;
 						// if (window.screen.availWidth > 640) {
-						// 	document.getElementsByClassName('frame-two')[0].scrollTop = resourcesScrollTop;
+						// 	document.getElementsByClassName('frame-two')[0].scrollTop = newScrollTop;
 						// }
 
 						FlowRouter.go('/planning/schoolyears/view/3/' + result.schoolYearId);
@@ -184,8 +184,8 @@ Template.schoolYearsNew.events({
 		event.preventDefault();
 
 		if (window.screen.availWidth > 640) {
-			let resourcesScrollTop = document.getElementById(Session.get('selectedSchoolYearId')).getBoundingClientRect().top - 130;
-			document.getElementsByClassName('frame-two')[0].scrollTop = resourcesScrollTop;
+			let newScrollTop = document.getElementById(Session.get('selectedSchoolYearId')).getBoundingClientRect().top - 130;
+			document.getElementsByClassName('frame-two')[0].scrollTop = newScrollTop;
 		}
 
 		if (window.screen.availWidth > 768) {

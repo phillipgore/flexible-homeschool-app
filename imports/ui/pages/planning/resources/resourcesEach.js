@@ -2,10 +2,9 @@ import {Template} from 'meteor/templating';
 import './resourcesEach.html';
 
 Template.resourcesEach.onRendered( function() {
-	let resourcesScrollTop = document.getElementById(FlowRouter.getParam('selectedResourceId')).getBoundingClientRect().top - 130;
+	let newScrollTop = document.getElementById(FlowRouter.getParam('selectedResourceId')).getBoundingClientRect().top - 130;
 	if (window.screen.availWidth > 640) {
-		Session.set('resourcesScrollTop', resourcesScrollTop);
-		document.getElementsByClassName('frame-two')[0].scrollTop = resourcesScrollTop;
+		document.getElementsByClassName('frame-two')[0].scrollTop = newScrollTop;
 	}
 });
 
@@ -56,3 +55,8 @@ Template.resourcesEach.helpers({
 		return false;
 	},
 });
+
+
+
+
+

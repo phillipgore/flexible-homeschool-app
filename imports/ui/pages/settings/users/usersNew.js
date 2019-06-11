@@ -136,8 +136,8 @@ Template.usersNew.events({
 		event.preventDefault();
 
 		if (window.screen.availWidth > 640 && FlowRouter.getRouteName() === 'resourcesNew') {
-			let resourcesScrollTop = document.getElementById(Session.get('selectedUserId')).getBoundingClientRect().top - 130;
-			document.getElementsByClassName('frame-two')[0].scrollTop = resourcesScrollTop;
+			let newScrollTop = document.getElementById(Session.get('selectedUserId')).getBoundingClientRect().top - 130;
+			document.getElementsByClassName('frame-two')[0].scrollTop = newScrollTop;
 		}
 
 		if (window.screen.availWidth > 768) {

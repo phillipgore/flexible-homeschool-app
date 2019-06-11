@@ -70,9 +70,9 @@ Template.studentsNew.onRendered( function() {
 				} else {
 					Session.set('selectedStudentId', studentId);
 
-					// let resourcesScrollTop = document.getElementById(studentId).getBoundingClientRect().top - 130;
+					// let newScrollTop = document.getElementById(studentId).getBoundingClientRect().top - 130;
 					// if (window.screen.availWidth > 640) {
-					// 	document.getElementsByClassName('frame-two')[0].scrollTop = resourcesScrollTop;
+					// 	document.getElementsByClassName('frame-two')[0].scrollTop = newScrollTop;
 					// }
 					
 					FlowRouter.go('/planning/students/view/3/' + studentId);
@@ -123,8 +123,8 @@ Template.studentsNew.events({
 		event.preventDefault();
 
 		if (window.screen.availWidth > 640 && FlowRouter.getRouteName() === 'resourcesNew') {
-			let resourcesScrollTop = document.getElementById(Session.get('selectedStudentId')).getBoundingClientRect().top - 130;
-			document.getElementsByClassName('frame-two')[0].scrollTop = resourcesScrollTop;
+			let newScrollTop = document.getElementById(Session.get('selectedStudentId')).getBoundingClientRect().top - 130;
+			document.getElementsByClassName('frame-two')[0].scrollTop = newScrollTop;
 		}
 
 		if (window.screen.availWidth > 768) {
