@@ -30,8 +30,8 @@ Template.officeAccountsEach.helpers({
 	},
 
 	userOnline: function(groupId) {
-		let staus = Meteor.users.findOne({'info.groupId': groupId}, {sort: {createdAt: 1}}).status && Meteor.users.findOne({'info.groupId': groupId}, {sort: {createdAt: 1}}).status;
-		if (status === 'online') {
+		let user = Meteor.users.findOne({'info.groupId': groupId}, {sort: {createdAt: 1}}) && Meteor.users.findOne({'info.groupId': groupId}, {sort: {createdAt: 1}});
+		if (user.presence.status.length && user.presence.status === 'online') {
 			return true;
 		} 
 		return false;
