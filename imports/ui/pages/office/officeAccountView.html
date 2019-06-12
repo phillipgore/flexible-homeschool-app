@@ -44,9 +44,9 @@
 				<div class="col-xs-1of2 col-sm-2of3 col-md-1of2 col-lg-1of4 p-tn-b-18">
 					<button id="{{admin._id}}" class="js-impersonate-admin btn-info btn-block m-tn-b-18">Impersonate Admin</button>
 					<hr class="m-tn-b-18">
-					<button class="btn-info btn-block m-tn-b-18">Correct Initial Ids</button>
-					<button class="btn-info btn-block m-tn-b-18">Correct Paths</button>
-					<button class="btn-info btn-block m-tn-b-18">Correct Stats</button>
+					<button data-group-id="{{group._id}}" class="js-correct-ids btn-info btn-block m-tn-b-18">Correct Initial Ids</button>
+					<button data-group-id="{{group._id}}" class="js-correct-paths btn-info btn-block m-tn-b-18">Correct Paths</button>
+					<button data-group-id="{{group._id}}" class="js-correct-stats btn-info btn-block m-tn-b-18">Correct Stats</button>
 				</div>
 			</div>
 		{{/if}}

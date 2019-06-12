@@ -146,7 +146,7 @@ Template.officeAccountsNew.events({
 					$('.js-saving').hide();
 					$('.js-submit').prop('disabled', false);
 				} else { 
-					Meteor.call('runGroupsInitialId');
+					Meteor.call('runAppAdminInitialId');
 					FlowRouter.go('/office/accounts/view/2/' + groupId);
 				}
 			})

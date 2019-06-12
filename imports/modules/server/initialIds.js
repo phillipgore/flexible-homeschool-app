@@ -16,7 +16,7 @@ import _ from 'lodash';
 
 // Intial Ids for Student, School Year, Term, Week and School Work.
 export function primaryInitialIds (submittedGroupId) {
-	console.log('primaryInitialIds start');	
+	// console.log('primaryInitialIds start');	
 	let groupId = getGroupId(submittedGroupId);
 	// console.log('groupId: ' + groupId);
 
@@ -121,13 +121,13 @@ export function primaryInitialIds (submittedGroupId) {
 		'initialIds.schoolWorkId': ids.schoolWorkId,
 	}});
 	
-	console.log('primaryInitialIds end');
+	// console.log('primaryInitialIds end');
 	return groupId;
 };
 
 // Intial Ids for Resources.
 export function resourcesInitialIds (submittedGroupId) {
-	console.log('resourcesInitialIds start');
+	// console.log('resourcesInitialIds start');
 	let groupId = getGroupId(submittedGroupId);
 	let ids = {};
 
@@ -140,13 +140,13 @@ export function resourcesInitialIds (submittedGroupId) {
 		'initialIds.resourceType': ids.resourceType,
 	}});
 	
-	console.log('resourcesInitialIds end');
+	// console.log('resourcesInitialIds end');
 	return groupId;
 };
 
 // Intial Id for Users.
 export function usersInitialId (submittedGroupId) {
-	console.log('usersInitialId start');
+	// console.log('usersInitialId start');
 	let groupId = getGroupId(submittedGroupId);
 	let ids = {};
 
@@ -158,13 +158,13 @@ export function usersInitialId (submittedGroupId) {
 		'initialIds.userId': ids.userId,
 	}});
 	
-	console.log('usersInitialId end');
+	// console.log('usersInitialId end');
 	return groupId;
 };
 
 // Intial Id for Reports.
 export function reportsInitialId (submittedGroupId) {
-	console.log('reportsInitialId start')
+	// console.log('reportsInitialId start')
 	let groupId = getGroupId(submittedGroupId);
 	let ids = {};
 
@@ -175,13 +175,13 @@ export function reportsInitialId (submittedGroupId) {
 		'initialIds.reportId': ids.reportId,
 	}});
 	
-	console.log('reportsInitialId end')
+	// console.log('reportsInitialId end')
 	return groupId;
 };
 
 // Intial Id for Groups.
 export function groupsInitialId (submittedGroupId) {
-	console.log('groupsInitialId start');
+	// console.log('groupsInitialId start');
 	let groupId = getGroupId(submittedGroupId);
 	let group = Groups.findOne({_id: groupId});
 	let ids = {};
@@ -197,7 +197,7 @@ export function groupsInitialId (submittedGroupId) {
 		'initialIds.groupId': ids.groupId,
 	}});
 
-	console.log('groupsInitialId end');
+	// console.log('groupsInitialId end');
 	return group._id;
 };
 

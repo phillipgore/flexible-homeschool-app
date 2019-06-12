@@ -361,6 +361,7 @@ hr {
 	.supportView,
 	.officeAccountsList,
 	.officeAccountView,
+	.officeAccountResetView,
 	.officeAccountsNew {
 		.frame-two {
 			width: calc(100% - 288px);
@@ -407,6 +408,7 @@ hr {
 	.supportView,
 	.officeAccountsList,
 	.officeAccountView,
+	.officeAccountResetView,
 	.officeAccountsNew {
 		.frame-two {
 			border-right: 1px solid $color-gray;
