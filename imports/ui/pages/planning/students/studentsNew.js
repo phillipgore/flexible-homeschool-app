@@ -4,6 +4,10 @@ import './studentsNew.html';
 import moment from 'moment';
 import _ from 'lodash';
 
+Template.studentsNew.onCreated( function() {
+	Session.set('unScrolled', true);
+});
+
 Template.studentsNew.onRendered( function() {
 	let template = Template.instance();
 

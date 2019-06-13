@@ -4,7 +4,7 @@ import './resourcesEach.html';
 
 import _ from 'lodash'
 
-Template.resourcesList.onCreated( function() {
+Template.resourcesEach.onCreated( function() {
 	Session.set('unScrolled', true);
 });
 
@@ -14,7 +14,7 @@ Template.resourcesEach.onRendered( function() {
 
 Template.resourcesEach.helpers({
 	scroll: function() {
-		if (Session.get('unScrolled') && Template.instance().subscriptionsReady && Resources.find({_id: FlowRouter.getParam('selectedResourceId')}).count()) {
+		if (Session.get('unScrolled') && Resources.find({_id: FlowRouter.getParam('selectedResourceId')}).count()) {
 			let newScrollTop = document.getElementById(FlowRouter.getParam('selectedResourceId')).getBoundingClientRect().top - 180;
 			if (window.screen.availWidth > 640) {
 				document.getElementsByClassName('frame-two')[0].scrollTop = newScrollTop;

@@ -31,6 +31,8 @@ Template.schoolWorkNew.onCreated( function() {
 		  }, 500 );
 		});
 	});
+
+	Session.set('unScrolled', true);
 });
 
 Template.schoolWorkNew.onRendered( function() {

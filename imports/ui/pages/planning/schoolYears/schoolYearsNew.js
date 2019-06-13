@@ -13,6 +13,7 @@ Template.schoolYearsNew.onCreated( function() {
 	template.autorun( () => {
 		this.subscribe('allSchoolYearPaths');
 	});
+	Session.set('unScrolled', true);
 });
 
 Template.schoolYearsNew.onRendered( function() {

@@ -12,6 +12,7 @@ Template.resourcesForm.onCreated( function() {
 	};
 
 	Session.set('selectedResourceNewType', FlowRouter.getParam('selectedResourceNewType'));
+	Session.set('unScrolled', true);
 });
 
 Template.resourcesForm.onRendered( function() {
