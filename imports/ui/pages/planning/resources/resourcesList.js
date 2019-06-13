@@ -52,9 +52,9 @@ Template.resourcesList.onRendered( function() {
 });
 
 Template.resourcesList.helpers({
-	subscriptionReady: function() {
-		return Template.instance().resourceData.ready();
-	},
+	// subscriptionReady: function() {
+	// 	return Template.instance().resourceData.ready();
+	// },
 
 	searching() {
 		return Template.instance().searching.get();
