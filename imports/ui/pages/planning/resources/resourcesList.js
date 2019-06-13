@@ -69,37 +69,6 @@ Template.resourcesList.helpers({
 		if (resources) {
 			return resources;
 		}
-		// let type = Session.get('selectedResourceType');
-		// let availability = Session.get('selectedResourceAvailability');
-		// let search = Template.instance().searchQuery.get();
-		// if ( search ) {
-		// 	let regex = new RegExp( search, 'i' );
-		// 	let projection = { limit: 25, sort: { title: 1 }, fields: {title: 1, type: 1, availability: 1} };
-
-		// 	if (type === 'all' && availability === "all") {
-		// 		let query = {$or: [ { title: regex }, { author: regex }, { artist: regex }, { director: regex } ]};
-		// 		return Resources.find( query, projection );
-		// 	} else if (type != 'all' && availability != "all") {
-		// 		let query = {type: type, availability: availability, $or: [ { title: regex }, { author: regex }, { artist: regex }, { director: regex } ]};
-		// 		return Resources.find( query, projection );
-		// 	} else if (type === 'all' && availability != "all") {
-		// 		let query = {type: { $ne: 'link' }, availability: availability, $or: [ { title: regex }, { author: regex }, { artist: regex }, { director: regex } ]};
-		// 		return Resources.find( query, projection );
-		// 	} else if (type != 'all' && availability === "all") {
-		// 		let query = {type: type, $or: [ { title: regex }, { author: regex }, { artist: regex }, { director: regex } ]};
-		// 		return Resources.find( query, projection );
-		// 	}
-		// }
-		
-		// if (type === 'all' && availability === "all") {
-		// 	return Resources.find({}, {sort: {title: 1}, fields: {title: 1, type: 1, availability: 1}});
-		// } else if (type != 'all' && availability != "all") {
-		// 	return Resources.find({type: type, availability: availability}, {sort: {title: 1}, fields: {title: 1, type: 1, availability: 1}});
-		// } else if (type === 'all' && availability != "all") {
-		// 	return Resources.find({type: { $ne: 'link' }, availability: availability}, {sort: {title: 1}, fields: {title: 1, type: 1, availability: 1}});
-		// } else if (type != 'all' && availability === "all") {
-		// 	return Resources.find({type: type}, {sort: {title: 1}, fields: {title: 1, type: 1, availability: 1}});
-		// }
 	},
 
 	selectedResourceType: function() {
