@@ -168,6 +168,8 @@ a {
 		-moz-background-clip: text;
 		background-clip: text;
 	} 
+	
+	color: $color-primary;
 }
 .txt-secondary, .txt-danger { 
 	color: $color-danger; 
@@ -311,6 +313,8 @@ a {
 				$color-royal 0.283662px -0.958924px 0px, 
 				$color-royal 0.96017px -0.279415px 0px;
 	}
+
+	color: $color-royal;
 }
 
 

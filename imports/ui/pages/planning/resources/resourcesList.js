@@ -14,7 +14,7 @@ Template.resourcesList.onCreated( function() {
 		this.resourceStats = this.subscribe('resourceStats');
 		this.resourceData = template.subscribe( 'scopedSearchResources', FlowRouter.getParam('selectedResourceType'), FlowRouter.getParam('selectedResourceAvailability'), template.searchQuery.get(), () => {
 		  setTimeout( () => {
-		    template.searching.set( false );
+			template.searching.set( false );
 		  }, 500 );
 		});
 	});
@@ -52,10 +52,6 @@ Template.resourcesList.onRendered( function() {
 });
 
 Template.resourcesList.helpers({
-	// subscriptionReady: function() {
-	// 	return Template.instance().resourceData.ready();
-	// },
-
 	searching() {
 		return Template.instance().searching.get();
 	},
@@ -200,7 +196,7 @@ Template.resourcesList.events({
 
 		template.searchQuery.set('');
 		template.searching.set(false);
-		
+
 		FlowRouter.go('/planning/resources/view/2/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/'+ Session.get('selectedResourceId') +'/'+ Session.get('selectedResourceCurrentTypeId') );
 	},
 });
