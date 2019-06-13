@@ -3,7 +3,10 @@ import { Resources } from '../../../../api/resources/resources.js';
 import './resourcesEach.html';
 
 Template.resourcesEach.onRendered( function() {
-
+	let newScrollTop = document.getElementById(FlowRouter.getParam('selectedResourceId')).getBoundingClientRect().top - 180;
+	if (window.screen.availWidth > 640) {
+		document.getElementsByClassName('frame-two')[0].scrollTop = newScrollTop;
+	}
 });
 
 Template.resourcesEach.helpers({
