@@ -7,16 +7,6 @@ Template.resourcesEach.onRendered( function() {
 });
 
 Template.resourcesEach.helpers({
-	scroll: function() {
-		if (Template.instance().subscriptionsReady() && Resources.find().count()) {
-			let newScrollTop = document.getElementById(FlowRouter.getParam('selectedResourceId')).getBoundingClientRect().top - 180;
-			if (window.screen.availWidth > 640) {
-				document.getElementsByClassName('frame-two')[0].scrollTop = newScrollTop;
-			}
-			return true;
-		}
-	},
-
 	selectedResourceType: function() {
 		return FlowRouter.getParam('selectedResourceType');
 	},
