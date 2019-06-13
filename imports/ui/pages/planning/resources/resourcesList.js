@@ -197,8 +197,10 @@ Template.resourcesList.events({
 
 		Alerts.remove({type: 'addResource'});
 		$('#search-resources').val('');
+
 		template.searchQuery.set('');
 		template.searching.set(false);
+		
 		FlowRouter.go('/planning/resources/view/2/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/'+ Session.get('selectedResourceId') +'/'+ Session.get('selectedResourceCurrentTypeId') );
 	},
 });
