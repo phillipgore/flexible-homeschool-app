@@ -57,8 +57,6 @@ Template.schoolWorkNew.onRendered( function() {
 	Session.set({
 		toolbarType: 'new',
 		labelThree: 'New School Work',
-		
-		
 		activeNav: 'planningList',
 	});
 

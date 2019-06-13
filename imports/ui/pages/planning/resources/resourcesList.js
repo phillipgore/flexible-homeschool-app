@@ -6,10 +6,17 @@ import _ from 'lodash'
 
 Template.resourcesList.onCreated( function() {
 	let template = Template.instance();
+
+	template.searchQuery = new ReactiveVar();
+	template.searching   = new ReactiveVar( false );
 	
 	template.autorun(() => {
-		this.resourceData = Meteor.subscribe('scopedResources', FlowRouter.getParam('selectedResourceType'), FlowRouter.getParam('selectedResourceAvailability'));
-		this.subscribe('resourceStats');
+		this.resourceStats = this.subscribe('resourceStats');
+		this.resourceData = template.subscribe( 'scopedSearchResources', FlowRouter.getParam('selectedResourceType'), FlowRouter.getParam('selectedResourceAvailability'), template.searchQuery.get(), () => {
+		  setTimeout( () => {
+		    template.searching.set( false );
+		  }, 500 );
+		});
 	});
 
 	Meteor.call('getInitialResourceIds', function(error, result) {
@@ -49,8 +56,50 @@ Template.resourcesList.helpers({
 		return Template.instance().resourceData.ready();
 	},
 
+	searching() {
+		return Template.instance().searching.get();
+	},
+
+	query() {
+		return Template.instance().searchQuery.get();
+	},
+
 	resources: function() {
-		return Resources.find({}, {sort: {title: 1}});
+		let resources = Resources.find({}, {sort: {title: 1}});
+		if (resources) {
+			return resources;
+		}
+		// let type = Session.get('selectedResourceType');
+		// let availability = Session.get('selectedResourceAvailability');
+		// let search = Template.instance().searchQuery.get();
+		// if ( search ) {
+		// 	let regex = new RegExp( search, 'i' );
+		// 	let projection = { limit: 25, sort: { title: 1 }, fields: {title: 1, type: 1, availability: 1} };
+
+		// 	if (type === 'all' && availability === "all") {
+		// 		let query = {$or: [ { title: regex }, { author: regex }, { artist: regex }, { director: regex } ]};
+		// 		return Resources.find( query, projection );
+		// 	} else if (type != 'all' && availability != "all") {
+		// 		let query = {type: type, availability: availability, $or: [ { title: regex }, { author: regex }, { artist: regex }, { director: regex } ]};
+		// 		return Resources.find( query, projection );
+		// 	} else if (type === 'all' && availability != "all") {
+		// 		let query = {type: { $ne: 'link' }, availability: availability, $or: [ { title: regex }, { author: regex }, { artist: regex }, { director: regex } ]};
+		// 		return Resources.find( query, projection );
+		// 	} else if (type != 'all' && availability === "all") {
+		// 		let query = {type: type, $or: [ { title: regex }, { author: regex }, { artist: regex }, { director: regex } ]};
+		// 		return Resources.find( query, projection );
+		// 	}
+		// }
+		
+		// if (type === 'all' && availability === "all") {
+		// 	return Resources.find({}, {sort: {title: 1}, fields: {title: 1, type: 1, availability: 1}});
+		// } else if (type != 'all' && availability != "all") {
+		// 	return Resources.find({type: type, availability: availability}, {sort: {title: 1}, fields: {title: 1, type: 1, availability: 1}});
+		// } else if (type === 'all' && availability != "all") {
+		// 	return Resources.find({type: { $ne: 'link' }, availability: availability}, {sort: {title: 1}, fields: {title: 1, type: 1, availability: 1}});
+		// } else if (type != 'all' && availability === "all") {
+		// 	return Resources.find({type: type}, {sort: {title: 1}, fields: {title: 1, type: 1, availability: 1}});
+		// }
 	},
 
 	selectedResourceType: function() {
@@ -157,5 +206,29 @@ Template.resourcesList.events({
 		});
 
 		return false;
-	}
+	},
+
+	'keyup #search-resources'(event, template) {
+		let value = event.currentTarget.value.trim();
+
+		if ( value !== '' ) {
+			FlowRouter.go('/planning/resources/view/2/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/empty/empty' );
+			template.searchQuery.set( value );
+			template.searching.set( true );
+		}
+
+		if ( value === '' ) {
+			template.searchQuery.set( value );
+			FlowRouter.go('/planning/resources/view/2/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/'+ Session.get('selectedResourceId') +'/'+ Session.get('selectedResourceCurrentTypeId') );
+		}
+	},
+
+	'click .js-clear-search'(event, template) {
+		event.preventDefault();
+
+		Alerts.remove({type: 'addResource'});
+		$('#search-resources').val('');
+		template.searchQuery.set('');
+		template.searching.set(false);
+	},
 });

@@ -1,7 +1,26 @@
 <template name="resourcesList">
-	<main class="app-content app-content-preceeds-toolbar">
+	<main class="app-content app-content-preceeds-toolbar app-content-includes-search">
 		<h1 class="txt-tn-center print-only-block">Resource List</h1>
 		<h2 class="txt-tn-center txt-gray-darkest txt-capitalize print-only-block m-tn-b-18">Type: {{selectedResourceType}} - Availability: {{selectedResourceAvailability}}</h2>
+		<form>
+			<div class="search-bar p-tn-rl-9 p-tn-t-7">
+				<div class="icn-overlay">
+					<input type="text" name="searchResources" id="search-resources" placeholder="Search Resources" autocomplete="off">
+					<div class="icn-left">
+						{{#if searching}}
+						<div class="loader-icon loader-icon-on-white loader-icon-tn"></div>
+						{{else}}
+						<i class="icn-search"></i>
+						{{/if}}
+					</div>
+					<a href="#" class="js-clear-search icn-right">
+						<div class="btn btn-circle bg-danger small">
+							<i class="icn-close"></i>
+						</div>
+					</a>
+				</div>
+			</div>
+		</form>
 		{{#if resourceCount 'all' 'all'}}
 			{{#if resourceCount selectedResourceType selectedResourceAvailability}}
 				<ul class="list">
