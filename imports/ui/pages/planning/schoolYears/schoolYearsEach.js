@@ -13,7 +13,7 @@ Template.schoolYearsEach.onRendered( function() {
 
 Template.schoolYearsEach.helpers({
 	scroll: function() {
-		if (Session.get('unScrolled') && Meteor.users.find({_id: FlowRouter.getParam('selectedSchoolYearId')}).count()) {
+		if (Session.get('unScrolled') && SchoolYears.find({_id: FlowRouter.getParam('selectedSchoolYearId')}).count()) {
 			let newScrollTop = document.getElementById(FlowRouter.getParam('selectedSchoolYearId')).getBoundingClientRect().top - 130;
 			if (window.screen.availWidth > 640) {
 				document.getElementsByClassName('frame-two')[0].scrollTop = newScrollTop;
