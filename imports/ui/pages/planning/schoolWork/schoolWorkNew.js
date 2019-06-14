@@ -13,6 +13,8 @@ import './schoolWorkNew.html';
 LocalResources = new Mongo.Collection(null);
 
 Template.schoolWorkNew.onCreated( function() {
+	Session.setPersistent('unScrolled', true);
+	
 	// Subscriptions
 	this.studentData = this.subscribe('allStudents');
 	this.schoolYearData = this.subscribe('allSchoolYears');
@@ -31,8 +33,6 @@ Template.schoolWorkNew.onCreated( function() {
 		  }, 500 );
 		});
 	});
-
-	Session.setPersistent('unScrolled', true);
 });
 
 Template.schoolWorkNew.onRendered( function() {

@@ -95,10 +95,6 @@ Template.schoolWorkEdit.onRendered( function() {
 
 			// Get Lesson Properties from form
 			$("[name='timesPerWeek']").each(function(index) {
-				// let schoolYearId = FlowRouter.getParam('selectedSchoolYearId');
-				// let termId = this.dataset.termId;
-				// let weekId = this.dataset.weekId;
-				// let weekOrder = this.dataset.weekOrder;
 				let totalLessons =  parseInt(this.dataset.lessonCount);
 				let completeLessons = parseInt(this.dataset.lessonCompleteCount);
 				let newLessonsTotal = parseInt(this.value) || 0;
