@@ -7,15 +7,20 @@ import _ from 'lodash'
 Template.resourcesList.onCreated( function() {
 	let template = Template.instance();
 
+	Session.set('initialLoading', true)
+	Session.set('resourceLimit', 100)
+
 	template.searchQuery = new ReactiveVar();
 	template.searching   = new ReactiveVar( false );
 	
 	template.autorun(() => {
 		this.resourceStats = this.subscribe('resourceStats');
-		this.resourceData = template.subscribe( 'scopedSearchResources', FlowRouter.getParam('selectedResourceType'), FlowRouter.getParam('selectedResourceAvailability'), template.searchQuery.get(), () => {
+		this.resourceData = template.subscribe( 'scopedSearchResources', FlowRouter.getParam('selectedResourceType'), FlowRouter.getParam('selectedResourceAvailability'), template.searchQuery.get(), Session.get('resourceLimit'), () => {
 		  setTimeout( () => {
 			template.searching.set( false );
 		  }, 500 );
+		}, function() {
+			Session.set('initialLoading', false);
 		});
 	});
 
@@ -52,6 +57,10 @@ Template.resourcesList.onRendered( function() {
 });
 
 Template.resourcesList.helpers({
+	initialLoading() {
+		return Session.get('initialLoading');
+	},
+
 	searching() {
 		return Template.instance().searching.get();
 	},
@@ -135,6 +144,13 @@ Template.resourcesList.helpers({
 		}
 		return false;
 	},
+
+	showLoadMore: function() {
+		if (Counts.get('allAllCount') === Resources.find().count()) {
+			return false;
+		}
+		return true;
+	},
 });
 
 Template.resourcesList.events({
@@ -199,4 +215,11 @@ Template.resourcesList.events({
 
 		FlowRouter.go('/planning/resources/view/2/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/'+ Session.get('selectedResourceId') +'/'+ Session.get('selectedResourceCurrentTypeId') );
 	},
+
+	'click .js-load-more'(event) {
+		event.preventDefault();
+
+		let newLimit = Session.get('resourceLimit') + 50;
+		Session.set('resourceLimit', newLimit)
+	}
 });

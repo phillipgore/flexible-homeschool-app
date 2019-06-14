@@ -135,9 +135,15 @@ ul.list {
 				border-top: 1px solid $color-gray-lighter;
 			}
 
+			&.top-border-only-dark {
+				margin-top: -1px;
+				border-top: 1px solid;
+				border-bottom: none;
+				border-color: $color-gray;
+			}
+
 			&.dark-border {
 				border-color: $color-gray;
-
 			}
 
 			&.padding-bottom-none {

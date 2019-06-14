@@ -35,7 +35,20 @@
 					{{/if}}
 					
 					{{> resourcesEach resources=resources}}
-
+					
+					{{#if showLoadMore}}
+						<li class="js-load-more list-item text-tn-center">
+							<span class="list-item-inner bg-gray-lighter top-border-only-dark p-tn-rl-9"> 
+								<div class="font-style-italic font-weight-normal txt-tn-center cursor-default">
+									{{#if  Template.subscriptionsReady}}
+										Click To Load More Resources
+									{{else}}
+										Loading...
+									{{/if}}
+								</div>
+							</span>
+						</li>
+					{{/if}}
 				</ul>
 			{{else}}
 				<div class="txt-tn-center m-tn-t-72">
@@ -52,7 +65,9 @@
 			</div>
 		{{/if}}
 	</main>
-	{{#unless Template.subscriptionsReady}}
-		{{> loading}}
-	{{/unless}}
+	{{#if initialLoading}}
+		{{#unless Template.subscriptionsReady}}
+			{{> loading}}
+		{{/unless}}
+	{{/if}}
 </template>

@@ -29,7 +29,7 @@ Meteor.publish('resource', function(resourceId) {
 	return Resources.find({groupId: groupId, deletedOn: { $exists: false }, _id: resourceId}, {fields: {groupId: 0, userId: 0, createdOn: 0, updatedOn: 0, deletedOn: 0}});
 });
 
-Meteor.publish('scopedSearchResources', function( type, availability, search ) {
+Meteor.publish('scopedSearchResources', function( type, availability, search, limit ) {
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;	
 	if ( search ) {
 		let regex = new RegExp( search, 'i' );
@@ -51,13 +51,13 @@ Meteor.publish('scopedSearchResources', function( type, availability, search ) {
 	}
 	
 	if (type === 'all' && availability === "all") {
-		return Resources.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {title: 1}, fields: {title: 1, type: 1, availability: 1}});
+		return Resources.find({groupId: groupId, deletedOn: { $exists: false }}, {limit: limit, sort: {title: 1}, fields: {title: 1, type: 1, availability: 1}});
 	} else if (type != 'all' && availability != "all") {
-		return Resources.find({groupId: groupId, deletedOn: { $exists: false }, type: type, availability: availability}, {sort: {title: 1}, fields: {title: 1, type: 1, availability: 1}});
+		return Resources.find({groupId: groupId, deletedOn: { $exists: false }, type: type, availability: availability}, {limit: limit, sort: {title: 1}, fields: {title: 1, type: 1, availability: 1}});
 	} else if (type === 'all' && availability != "all") {
-		return Resources.find({groupId: groupId, deletedOn: { $exists: false }, type: { $ne: 'link' }, availability: availability}, {sort: {title: 1}, fields: {title: 1, type: 1, availability: 1}});
+		return Resources.find({groupId: groupId, deletedOn: { $exists: false }, type: { $ne: 'link' }, availability: availability}, {limit: limit, sort: {title: 1}, fields: {title: 1, type: 1, availability: 1}});
 	} else if (type != 'all' && availability === "all") {
-		return Resources.find({groupId: groupId, deletedOn: { $exists: false }, type: type}, {sort: {title: 1}, fields: {title: 1, type: 1, availability: 1}});
+		return Resources.find({groupId: groupId, deletedOn: { $exists: false }, type: type}, {limit: limit, sort: {title: 1}, fields: {title: 1, type: 1, availability: 1}});
 	}
 });
 
