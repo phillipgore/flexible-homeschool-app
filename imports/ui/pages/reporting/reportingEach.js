@@ -3,14 +3,26 @@ import './reportingEach.html';
 
 import _ from 'lodash'
 
+Template.reportingEach.onCreated( function() {
+	Session.setPersistent('unScrolled', true);
+});
+
 Template.reportingEach.onRendered( function() {
-	let newScrollTop = document.getElementById(FlowRouter.getParam('selectedReportId')).getBoundingClientRect().top - 130;
-	if (window.screen.availWidth > 640) {
-		document.getElementsByClassName('frame-one')[0].scrollTop = newScrollTop;
-	}
+
 });
 
 Template.reportingEach.helpers({
+	scroll: function() {
+		if (Session.get('unScrolled') && Resources.find({_id: FlowRouter.getParam('selectedResourceId')}).count()) {
+			let newScrollTop = document.getElementById(FlowRouter.getParam('selectedResourceId')).getBoundingClientRect().top - 130;
+			if (window.screen.availWidth > 640) {
+				document.getElementsByClassName('frame-two')[0].scrollTop = newScrollTop;
+			}
+			Session.setPersistent('unScrolled', false);
+			return false;
+		}
+	},
+	
 	selectedStudentId: function() {
 		return Session.get('selectedStudentId');
 	},

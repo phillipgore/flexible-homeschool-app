@@ -405,8 +405,6 @@ Template.schoolYearsEdit.events({
 			startYear: event.target.startYear.value.trim(),
 			endYear: event.target.endYear.value.trim(),
 		};
-		console.log('schoolYearProperties:');
-		console.log(schoolYearProperties);
 
 
 		/* -------------------- Deletes -------------------- */
@@ -414,16 +412,12 @@ Template.schoolYearsEdit.events({
 		let termDeletes = []
 		document.querySelectorAll('.js-term-item.set-to-delete').forEach(term => {termDeletes.push(term.getAttribute('id'))});
 		let termDeleteIds = termDeletes.filter(week => week != null && week != "");
-		console.log('termDeleteIds:');
-		console.log(termDeleteIds);
 
 
 		// Week Deletes
 		let weekDeletes = []
 		document.querySelectorAll('.js-existing-week-item.set-to-delete').forEach(week => {weekDeletes.push(week.getAttribute('id'))});
 		let weekDeleteIds = weekDeletes.filter(week => week != null && week != "");
-		console.log('weekDeleteIds:');
-		console.log(weekDeleteIds);
 
 
 		/* -------------------- Updates -------------------- */
@@ -444,8 +438,6 @@ Template.schoolYearsEdit.events({
 				termUpdateProperties.push({_id: termId, order: newOrder})
 			});
 		}
-		console.log('termUpdateProperties:');
-		console.log(termUpdateProperties);
 
 
 		// Term & Week Ids
@@ -477,8 +469,6 @@ Template.schoolYearsEdit.events({
 				});
 			})
 		}
-		console.log('weekUpdateProperties:');
-		console.log(weekUpdateProperties);
 
 
 		/* -------------------- Inserts -------------------- */
@@ -493,8 +483,6 @@ Template.schoolYearsEdit.events({
 				})
 			}
 		});
-		console.log('termInsertProperties:');
-		console.log(termInsertProperties);
 
 
 		// New Week Ids
@@ -520,8 +508,6 @@ Template.schoolYearsEdit.events({
 				weekInsertProperties.push(week)
 			})
 		});
-		console.log('weekInsertProperties:');
-		console.log(weekInsertProperties);
 
 
 
@@ -586,80 +572,6 @@ Template.schoolYearsEdit.events({
 		}
 
 		return false
-
-
-
-		// LocalTerms.find().forEach((term) => {
-		// 	if (!term.isNew && term.delete) {
-		// 		termDeleteIds.push(term.id)
-		// 	} else if (term.isNew && term.weeksPerTerm) {
-		// 		termInsertProperties.push({order: term.order, weeksPerTerm: term.weeksPerTerm, schoolYearId: FlowRouter.getParam('selectedSchoolYearId')})
-		// 	} else if (!term.isNew) {
-		// 		if (term.order != term.origOrder || term.weeksPerTerm != term.origWeeksPerTerm) {
-		// 			termUpdateProperties.push({_id: term.id, order: term.order, weeksPerTerm: term.weeksPerTerm, origWeeksPerTerm: term.origWeeksPerTerm})
-		// 		}
-		// 	}
-		// });
-
-		// let pathProperties = {
-		// 	studentIds: [],
-		// 	schoolYearIds: [FlowRouter.getParam('selectedSchoolYearId')],
-		// 	termIds: [],
-		// }
-
-		// if (termDeleteIds.length || termInsertProperties.length || termUpdateProperties.length) {
-		// 	Meteor.call('updateSchoolYearTerms', FlowRouter.getParam('selectedSchoolYearId'), schoolYearProperties, termDeleteIds, termInsertProperties, termUpdateProperties, Meteor.userId(), Meteor.user().info.groupId, function(error) {
-		// 		if (error) {
-		// 			Alerts.insert({
-		// 				colorClass: 'bg-danger',
-		// 				iconClass: 'icn-danger',
-		// 				message: error.reason,
-		// 			});
-					
-		// 			$('.js-updating').hide();
-		// 			$('.js-submit').prop('disabled', false);
-		// 		} else {
-		// 			Meteor.call('runPrimaryInitialIds');
-		// 			Meteor.call('runUpsertPaths', pathProperties, true, function(error, result) {
-
-		// 				Session.set('selectedSchoolYearId', result.schoolYearId);
-		// 				Session.set('selectedTermId', result.termId);
-		// 				Session.set('selectedWeekId', result.weekId);
-
-		// 				$('.js-updating').hide();
-		// 				$('.js-submit').prop('disabled', false);
-		// 				FlowRouter.go('/planning/schoolyears/view/3/' + FlowRouter.getParam('selectedSchoolYearId'));
-		// 			});
-		// 		}
-		// 	});
-		// } else {
-		// 	Meteor.call('updateSchoolYear', FlowRouter.getParam('selectedSchoolYearId'), schoolYearProperties, function(error) {
-		// 		if (error) {
-		// 			Alerts.insert({
-		// 				colorClass: 'bg-danger',
-		// 				iconClass: 'icn-danger',
-		// 				message: error.reason,
-		// 			});
-					
-		// 			$('.js-updating').hide();
-		// 			$('.js-submit').prop('disabled', false);
-		// 		} else {
-		// 			Meteor.call('runPrimaryInitialIds');
-		// 			Meteor.call('runUpsertPaths', pathProperties, true, function(error, result) {
-
-		// 				Session.set('selectedSchoolYearId', result.schoolYearId);
-		// 				Session.set('selectedTermId', result.termId);
-		// 				Session.set('selectedWeekId', result.weekId);
-
-		// 				$('.js-updating').hide();
-		// 				$('.js-submit').prop('disabled', false);
-		// 				FlowRouter.go('/planning/schoolyears/view/3/' + FlowRouter.getParam('selectedSchoolYearId'));
-		// 			});
-		// 		}
-		// 	});
-		// }
-		
-		// return false;
 	},
 
 	'click .js-cancel'(event) {

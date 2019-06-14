@@ -136,11 +136,6 @@ Template.usersNew.events({
 	'click .js-cancel'(event) {
 		event.preventDefault();
 
-		if (window.screen.availWidth > 640 && FlowRouter.getRouteName() === 'resourcesNew') {
-			let newScrollTop = document.getElementById(Session.get('selectedUserId')).getBoundingClientRect().top - 130;
-			document.getElementsByClassName('frame-two')[0].scrollTop = newScrollTop;
-		}
-
 		if (window.screen.availWidth > 768) {
 			FlowRouter.go('/settings/users/view/3/' + Session.get('selectedUserId'));
 		} else {

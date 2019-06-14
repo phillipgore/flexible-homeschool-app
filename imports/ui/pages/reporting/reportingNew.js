@@ -3,7 +3,7 @@ import { Reports } from '../../../api/reports/reports.js';
 import './reportingNew.html';
 
 Template.reportingNew.onCreated( function() {
-	
+	Session.setPersistent('unScrolled', true);
 });
 
 Template.reportingNew.onRendered( function() {
@@ -115,11 +115,6 @@ Template.reportingNew.events({
 
 	'click .js-cancel'(event) {
 		event.preventDefault();
-
-		if (window.screen.availWidth > 640 && FlowRouter.getRouteName() === 'resourcesNew') {
-			let newScrollTop = document.getElementById(Session.get('selectedReportId')).getBoundingClientRect().top - 130;
-			document.getElementsByClassName('frame-one')[0].scrollTop = newScrollTop;
-		}
 
 		if (window.screen.availWidth > 768) {
 			FlowRouter.go('/reporting/view/2/' + Session.get('selectedStudentId') +"/"+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedReportingTermId') +'/'+ Session.get('selectedReportingWeekId') +"/"+ Session.get('selectedReportId'))

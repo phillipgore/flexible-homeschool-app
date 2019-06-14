@@ -73,12 +73,6 @@ Template.studentsNew.onRendered( function() {
 					$('.js-submit').prop('disabled', false);
 				} else {
 					Session.set('selectedStudentId', studentId);
-
-					// let newScrollTop = document.getElementById(studentId).getBoundingClientRect().top - 130;
-					// if (window.screen.availWidth > 640) {
-					// 	document.getElementsByClassName('frame-two')[0].scrollTop = newScrollTop;
-					// }
-					
 					FlowRouter.go('/planning/students/view/3/' + studentId);
 				}
 			});
@@ -125,11 +119,6 @@ Template.studentsNew.events({
 
 	'click .js-cancel'(event) {
 		event.preventDefault();
-
-		if (window.screen.availWidth > 640 && FlowRouter.getRouteName() === 'resourcesNew') {
-			let newScrollTop = document.getElementById(Session.get('selectedStudentId')).getBoundingClientRect().top - 130;
-			document.getElementsByClassName('frame-two')[0].scrollTop = newScrollTop;
-		}
 
 		if (window.screen.availWidth > 768) {
 			FlowRouter.go('/planning/students/view/3/' + Session.get('selectedStudentId'))

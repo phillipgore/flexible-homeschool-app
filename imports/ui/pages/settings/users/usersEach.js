@@ -12,7 +12,7 @@ Template.usersEach.onRendered( function() {
 Template.usersEach.helpers({
 	scroll: function() {
 		if (Session.get('unScrolled') && Meteor.users.find({_id: FlowRouter.getParam('selectedUserId')}).count()) {
-			let newScrollTop = document.getElementById(FlowRouter.getParam('selectedUserId')).getBoundingClientRect().top - 180;
+			let newScrollTop = document.getElementById(FlowRouter.getParam('selectedUserId')).getBoundingClientRect().top - 130;
 			if (window.screen.availWidth > 640) {
 				document.getElementsByClassName('frame-two')[0].scrollTop = newScrollTop;
 			}
