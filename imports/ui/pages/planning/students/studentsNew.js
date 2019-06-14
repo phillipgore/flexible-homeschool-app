@@ -5,7 +5,7 @@ import moment from 'moment';
 import _ from 'lodash';
 
 Template.studentsNew.onCreated( function() {
-	Session.set('unScrolled', true);
+	Session.setPersistent('unScrolled', true);
 });
 
 Template.studentsNew.onRendered( function() {

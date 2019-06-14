@@ -3,7 +3,7 @@ import { Students } from '../../../../api/students/students.js';
 import './studentsEach.html';
 
 Template.studentsEach.onCreated( function() {
-	Session.set('unScrolled', true);
+	Session.setPersistent('unScrolled', true);
 });
 
 Template.studentsEach.onRendered( function() {
@@ -17,7 +17,7 @@ Template.studentsEach.helpers({
 			if (window.screen.availWidth > 640) {
 				document.getElementsByClassName('frame-two')[0].scrollTop = newScrollTop;
 			}
-			Session.set('unScrolled', false);
+			Session.setPersistent('unScrolled', false);
 			return false;
 		}
 	},

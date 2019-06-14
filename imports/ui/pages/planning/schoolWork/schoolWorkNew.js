@@ -32,7 +32,7 @@ Template.schoolWorkNew.onCreated( function() {
 		});
 	});
 
-	Session.set('unScrolled', true);
+	Session.setPersistent('unScrolled', true);
 });
 
 Template.schoolWorkNew.onRendered( function() {

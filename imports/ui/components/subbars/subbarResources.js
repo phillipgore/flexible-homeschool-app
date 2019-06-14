@@ -6,7 +6,6 @@ Template.subbarResources.onCreated( function() {
 	Meteor.call('getInitialResourceIds', function(error, result) {
 		Session.set('initialResourceIds', result);
 	});
-	Session.set('unScrolled', true);
 });
 
 Template.subbarResources.helpers({

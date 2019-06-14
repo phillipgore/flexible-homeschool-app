@@ -4,7 +4,7 @@ import './schoolYearsEach.html';
 
 
 Template.schoolYearsEach.onCreated( function() {
-	Session.set('unScrolled', true);
+	Session.setPersistent('unScrolled', true);
 });
 
 Template.schoolYearsEach.onRendered( function() {
@@ -18,7 +18,7 @@ Template.schoolYearsEach.helpers({
 			if (window.screen.availWidth > 640) {
 				document.getElementsByClassName('frame-two')[0].scrollTop = newScrollTop;
 			}
-			Session.set('unScrolled', false);
+			Session.setPersistent('unScrolled', false);
 			return false;
 		}
 	},

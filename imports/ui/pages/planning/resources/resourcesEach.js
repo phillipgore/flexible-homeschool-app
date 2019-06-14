@@ -5,7 +5,7 @@ import './resourcesEach.html';
 import _ from 'lodash'
 
 Template.resourcesEach.onCreated( function() {
-	Session.set('unScrolled', true);
+	Session.setPersistent('unScrolled', true);
 });
 
 Template.resourcesEach.onRendered( function() {
@@ -19,7 +19,7 @@ Template.resourcesEach.helpers({
 			if (window.screen.availWidth > 640) {
 				document.getElementsByClassName('frame-two')[0].scrollTop = newScrollTop;
 			}
-			Session.set('unScrolled', false);
+			Session.setPersistent('unScrolled', false);
 			return false;
 		}
 	},

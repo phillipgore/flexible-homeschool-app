@@ -12,7 +12,9 @@ Template.resourcesForm.onCreated( function() {
 	};
 
 	Session.set('selectedResourceNewType', FlowRouter.getParam('selectedResourceNewType'));
-	Session.set('unScrolled', true);
+	if (FlowRouter.getRouteName() === 'resourcesNew') {
+		Session.setPersistent('unScrolled', true);
+	}
 });
 
 Template.resourcesForm.onRendered( function() {
@@ -308,11 +310,6 @@ Template.resourcesForm.events({
 
 	'click .js-cancel'(event) {
 		event.preventDefault();
-
-		if (window.screen.availWidth > 640 && FlowRouter.getRouteName() === 'resourcesNew' && Session.get('selectedResourceId') != 'empty') {
-			let newScrollTop = document.getElementById(Session.get('selectedResourceId')).getBoundingClientRect().top - 130;
-			document.getElementsByClassName('frame-two')[0].scrollTop = newScrollTop;
-		}
 
 		if (window.screen.availWidth > 768) {
 			FlowRouter.go('/planning/resources/view/3/' + Session.get('selectedResourceType') + '/' + Session.get('selectedResourceAvailability') + '/' + Session.get('selectedResourceId') + '/' + Session.get('selectedResourceCurrentTypeId'))

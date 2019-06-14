@@ -6,7 +6,7 @@ import md5 from 'md5';
 Template.usersNew.onCreated( function() {
 	// Subscriptions
 	this.subscribe('allUsers');
-	Session.set('unScrolled', true);
+	Session.setPersistent('unScrolled', true);
 });
 
 Template.usersNew.onRendered( function() {	
