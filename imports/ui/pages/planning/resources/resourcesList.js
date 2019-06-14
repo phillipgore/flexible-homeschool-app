@@ -18,9 +18,8 @@ Template.resourcesList.onCreated( function() {
 		this.resourceData = template.subscribe( 'scopedSearchResources', FlowRouter.getParam('selectedResourceType'), FlowRouter.getParam('selectedResourceAvailability'), template.searchQuery.get(), Session.get('resourceLimit'), () => {
 		  setTimeout( () => {
 			template.searching.set( false );
-		  }, 500 );
-		}, function() {
 			Session.set('initialLoading', false);
+		  }, 500 );
 		});
 	});
 
@@ -146,7 +145,7 @@ Template.resourcesList.helpers({
 	},
 
 	showLoadMore: function() {
-		if (Counts.get('allAllCount') === Resources.find().count()) {
+		if (Counts.get('allAllCount') === Resources.find().count() || Template.instance().searchQuery.get()) {
 			return false;
 		}
 		return true;

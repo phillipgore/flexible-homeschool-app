@@ -15,7 +15,7 @@ Meteor.methods({
 		}
 
 		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-		return Lessons.findOne({_id: lessonId, groupId: groupId, deletedOn: { $exists: false }}, {fields: {groupId: 0, userId: 0, createdOn: 0, updatedOn: 0, deletedOn: 0}});
+		return Lessons.findOne({_id: lessonId, groupId: groupId}, {fields: {groupId: 0, userId: 0, createdOn: 0, updatedOn: 0}});
 	},
 
 	updateLesson: function(statProperties, pathProperties, lessonProperties) {

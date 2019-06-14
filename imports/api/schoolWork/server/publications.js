@@ -14,7 +14,7 @@ Meteor.publish('schooYearStudentSchoolWork', function(schoolYearId, studentId) {
 	}
 
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;	
-	return SchoolWork.find({groupId: groupId, schoolYearId: schoolYearId, studentId: studentId, deletedOn: { $exists: false }}, {sort: {name: 1}, fields: {order: 1, name: 1, studentId: 1, schoolYearId: 1}});
+	return SchoolWork.find({groupId: groupId, schoolYearId: schoolYearId, studentId: studentId}, {sort: {name: 1}, fields: {order: 1, name: 1, studentId: 1, schoolYearId: 1}});
 });
 
 Meteor.publish('trackingViewPub', function(studentId, weekId) {
@@ -24,9 +24,9 @@ Meteor.publish('trackingViewPub', function(studentId, weekId) {
 
 
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-	let lessons = Lessons.find({weekId: weekId, deletedOn: { $exists: false }}, {sort: {order: 1}, fields: {order: 1, completed: 1, assigned: 1, completedOn: 1, schoolWorkId: 1}});
+	let lessons = Lessons.find({weekId: weekId}, {sort: {order: 1}, fields: {order: 1, completed: 1, assigned: 1, completedOn: 1, schoolWorkId: 1}});
 	let schoolWorkIds = lessons.map(lesson => (lesson.schoolWorkId))
-	let schoolWork = SchoolWork.find({_id: {$in: schoolWorkIds}, groupId: groupId, studentId: studentId, deletedOn: { $exists: false }}, {sort: {name: 1}, fields: {order: 1, name: 1, studentId: 1, schoolYearId: 1}});
+	let schoolWork = SchoolWork.find({_id: {$in: schoolWorkIds}, groupId: groupId, studentId: studentId}, {sort: {name: 1}, fields: {order: 1, name: 1, studentId: 1, schoolYearId: 1}});
 
 	return [
 		lessons,
@@ -40,7 +40,7 @@ Meteor.publish('schoolWork', function(schoolWorkId) {
 	}
 
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-	return SchoolWork.find({groupId: groupId, deletedOn: { $exists: false }, _id: schoolWorkId}, {sort: {name: 1}, fields: {groupId: 0, userId: 0, createdOn: 0, updatedOn: 0, deletedOn: 0}});
+	return SchoolWork.find({groupId: groupId, _id: schoolWorkId}, {sort: {name: 1}, fields: {groupId: 0, userId: 0, createdOn: 0, updatedOn: 0}});
 });
 
 Meteor.publish('schoolWorkView', function(schoolWorkId) {
@@ -50,10 +50,10 @@ Meteor.publish('schoolWorkView', function(schoolWorkId) {
 
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
 
-	let schoolWork = SchoolWork.find({_id: schoolWorkId, groupId: groupId, deletedOn: { $exists: false }}, {fields: {groupId: 0, userId: 0, createdOn: 0, updatedOn: 0, deletedOn: 0}});
-	let terms = Terms.find({groupId: groupId, deletedOn: { $exists: false }, schoolYearId: schoolWork.fetch()[0].schoolYearId}, {fields: {order: 1, schoolYearId: 1}});
-	let lessons = Lessons.find({groupId: groupId, deletedOn: { $exists: false }, schoolWorkId: schoolWorkId}, {fields: {termId: 1}});
-	let resources = Resources.find({groupId: groupId, deletedOn: { $exists: false }, _id: {$in: schoolWork.fetch()[0].resources}}, {fields: {link: 1, title: 1, type: 1}});
+	let schoolWork = SchoolWork.find({_id: schoolWorkId, groupId: groupId}, {fields: {groupId: 0, userId: 0, createdOn: 0, updatedOn: 0}});
+	let terms = Terms.find({groupId: groupId, schoolYearId: schoolWork.fetch()[0].schoolYearId}, {fields: {order: 1, schoolYearId: 1}});
+	let lessons = Lessons.find({groupId: groupId, schoolWorkId: schoolWorkId}, {fields: {termId: 1}});
+	let resources = Resources.find({groupId: groupId, _id: {$in: schoolWork.fetch()[0].resources}}, {fields: {link: 1, title: 1, type: 1}});
 
 	return [
 		schoolWork, 
@@ -66,8 +66,8 @@ Meteor.publish('schoolWorkView', function(schoolWorkId) {
 Meteor.publish('schoolWorkResources', function(schoolWorkId) {	
 	if ( schoolWorkId ) {
 		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-		let schoolWork = SchoolWork.findOne({groupId: groupId, deletedOn: { $exists: false }, _id: schoolWorkId});
-		let resources = Resources.find({groupId: groupId, deletedOn: { $exists: false }, _id: {$in: schoolWork.resources}});
+		let schoolWork = SchoolWork.findOne({groupId: groupId, _id: schoolWorkId});
+		let resources = Resources.find({groupId: groupId, _id: {$in: schoolWork.resources}});
 
 		return resources
 	}

@@ -65,7 +65,7 @@ function getStudents(groupId, statProperties) {
 		return statProperties['studentIds']
 	}
 
-	let studentIds = Students.find({groupId: groupId, deletedOn: { $exists: false }}, {fields: {groupId: 1}}).map(student => student._id)
+	let studentIds = Students.find({groupId: groupId}, {fields: {groupId: 1}}).map(student => student._id)
 	if (studentIds.length) {
 		return studentIds;
 	} else {
@@ -79,7 +79,7 @@ function getSchoolYears(groupId, statProperties) {
 		return statProperties['schoolYearIds']
 	}
 
-	let schoolYearIds = SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}, {fields: {groupId: 1}}).map(schoolYear => schoolYear._id)
+	let schoolYearIds = SchoolYears.find({groupId: groupId}, {fields: {groupId: 1}}).map(schoolYear => schoolYear._id)
 	if (schoolYearIds.length) {
 		return schoolYearIds;
 	} else {
@@ -93,7 +93,7 @@ function getTerms(groupId, schoolYearIds, statProperties) {
 		return statProperties['termIds']
 	}
 
-	let termIds = Terms.find({groupId: groupId, schoolYearId: {$in: schoolYearIds}, deletedOn: { $exists: false }}, {fields: {groupId: 1}}).map(term => term._id)
+	let termIds = Terms.find({groupId: groupId, schoolYearId: {$in: schoolYearIds}}, {fields: {groupId: 1}}).map(term => term._id)
 	if (termIds.length) {
 		return termIds;
 	} else {
@@ -107,7 +107,7 @@ function getWeeks(groupId, termIds, statProperties) {
 		return statProperties['weekIds']
 	}
 
-	let weekIds = Weeks.find({groupId: groupId, termId: {$in: termIds}, deletedOn: { $exists: false }}, {fields: {groupId: 1}}).map(week => week._id)
+	let weekIds = Weeks.find({groupId: groupId, termId: {$in: termIds}}, {fields: {groupId: 1}}).map(week => week._id)
 	if (weekIds.length) {
 		return weekIds;
 	} else {
@@ -150,7 +150,7 @@ function status (lessonsTotal, lessonsCompletedTotal, lessonsAssignedTotal) {
 
 // School Year Stats Upsert
 function upsertSchoolYearStats(groupId, studentId, schoolWorkId) {
-	let schoolYearLessons = Lessons.find({studentId: studentId, schoolYearId: schoolWorkId, groupId: groupId, deletedOn: { $exists: false }}, {fields: {completed: 1, assigned: 1}}).fetch();
+	let schoolYearLessons = Lessons.find({studentId: studentId, schoolYearId: schoolWorkId, groupId: groupId}, {fields: {completed: 1, assigned: 1}}).fetch();
 	let stats = {};
 
 	stats.lessonCount = schoolYearLessons.length;
@@ -166,7 +166,7 @@ function upsertSchoolYearStats(groupId, studentId, schoolWorkId) {
 
 // Terms Stats Upsert
 function upsertTermStats(groupId, studentId, termId) {
-	let termLessons = Lessons.find({studentId: studentId, termId: termId, groupId: groupId, deletedOn: { $exists: false }}, {fields: {completed: 1, assigned: 1}}).fetch();
+	let termLessons = Lessons.find({studentId: studentId, termId: termId, groupId: groupId}, {fields: {completed: 1, assigned: 1}}).fetch();
 	let stats = {};
 
 	stats.lessonCount = termLessons.length;
@@ -182,7 +182,7 @@ function upsertTermStats(groupId, studentId, termId) {
 
 // Weeks Stats Upsert
 function upsertWeekStats(groupId, studentId, weekId) {
-	let weekLessons = Lessons.find({studentId: studentId, weekId: weekId, groupId: groupId, deletedOn: { $exists: false }}, {fields: {completed: 1, assigned: 1}}).fetch();
+	let weekLessons = Lessons.find({studentId: studentId, weekId: weekId, groupId: groupId}, {fields: {completed: 1, assigned: 1}}).fetch();
 	let stats = {};
 
 	stats.lessonCount = weekLessons.length;

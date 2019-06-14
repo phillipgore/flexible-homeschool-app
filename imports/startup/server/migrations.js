@@ -149,7 +149,7 @@ Migrations.add({
 		});
 
 
-		Lessons.find({deletedOn: { $exists: false }}, {fields: {order: 1, termId: 1, weekId: 1}}).forEach(lesson => {
+		Lessons.find({}, {fields: {order: 1, termId: 1, weekId: 1}}).forEach(lesson => {
 			let termOrder = _.find(terms, ['_id', lesson.termId]).order
 			let weekOrder = _.find(weeks, ['_id', lesson.weekId]).order
 
@@ -189,14 +189,14 @@ Migrations.add({
 
 			let groupId = group._id;
 
-			let students = Students.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}, fields: {_id: 1}});
-			let schoolYears = SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}, fields: {_id: 1}});
-			let terms = Terms.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {order: 1}, fields: {_id: 1}});
+			let students = Students.find({groupId: groupId}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}, fields: {_id: 1}});
+			let schoolYears = SchoolYears.find({groupId: groupId}, {sort: {startYear: 1}, fields: {_id: 1}});
+			let terms = Terms.find({groupId: groupId}, {sort: {order: 1}, fields: {_id: 1}});
 
 			let pathProperties = {
-				studentIds: Students.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}, fields: {_id: 1}}).map(student => student._id),
-				schoolYearIds: SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}, fields: {_id: 1}}).map(schoolYear => schoolYear._id),
-				termIds: Terms.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {order: 1}, fields: {_id: 1}}).map(term => term._id),
+				studentIds: Students.find({groupId: groupId}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}, fields: {_id: 1}}).map(student => student._id),
+				schoolYearIds: SchoolYears.find({groupId: groupId}, {sort: {startYear: 1}, fields: {_id: 1}}).map(schoolYear => schoolYear._id),
+				termIds: Terms.find({groupId: groupId}, {sort: {order: 1}, fields: {_id: 1}}).map(term => term._id),
 			}
 
 			upsertPaths(pathProperties, false, groupId);
@@ -214,10 +214,10 @@ Migrations.add({
 		let groups = Groups.find({}, {sort: {_id: -1}});
 		console.log(groups.count())
 
-		let students = Students.find({deletedOn: { $exists: false }}, {fields: {groupId: 1}});
-		let schoolYears = SchoolYears.find({deletedOn: { $exists: false }}, {fields: {groupId: 1}});
-		let terms = Terms.find({deletedOn: { $exists: false }}, {fields: {groupId: 1}});
-		let weeks = Weeks.find({deletedOn: { $exists: false }}, {fields: {groupId: 1}});
+		let students = Students.find({}, {fields: {groupId: 1}});
+		let schoolYears = SchoolYears.find({}, {fields: {groupId: 1}});
+		let terms = Terms.find({}, {fields: {groupId: 1}});
+		let weeks = Weeks.find({}, {fields: {groupId: 1}});
 
 		groups.forEach((group, index) => {
 			console.log(index + 1)

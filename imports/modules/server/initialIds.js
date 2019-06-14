@@ -23,7 +23,7 @@ export function primaryInitialIds (submittedGroupId) {
 	let ids = {};
 
 	// Get First Student
-	let firstStudent = Students.findOne({groupId: groupId, deletedOn: { $exists: false }}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}, fields: {_id: 1}});
+	let firstStudent = Students.findOne({groupId: groupId}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}, fields: {_id: 1}});
 	if (firstStudent) {ids.studentId = firstStudent._id} else {ids.studentId = 'empty'};
 	// console.log('firstStudent');
 
@@ -35,7 +35,7 @@ export function primaryInitialIds (submittedGroupId) {
 	// Get First School Work
 	if (firstStudent && firstSchoolYear != 'empty') {
 		let firstSchoolWork = SchoolWork.findOne(
-			{groupId: groupId, schoolYearId: firstSchoolYear, studentId: firstStudent._id, deletedOn: { $exists: false }},
+			{groupId: groupId, schoolYearId: firstSchoolYear, studentId: firstStudent._id},
 			{sort: {name: 1}, fields: {_id: 1}}
 		)	
 		// console.log('firstSchoolWork');
@@ -54,7 +54,7 @@ export function primaryInitialIds (submittedGroupId) {
 	} else {
 		if (ids.studentId === 'empty') { // First Student: False
 			let firstTerm = Terms.findOne(
-				{groupId: groupId, schoolYearId: firstSchoolYear, deletedOn: { $exists: false }},
+				{groupId: groupId, schoolYearId: firstSchoolYear},
 				{sort: {order: 1}, fields: {_id: 1}}
 			)
 
@@ -63,7 +63,7 @@ export function primaryInitialIds (submittedGroupId) {
 				// console.log('firstTerm');
 
 				let firstWeek = Weeks.findOne(
-					{groupId: groupId, schoolYearId: firstSchoolYear, termId: firstTerm._id, deletedOn: { $exists: false }},
+					{groupId: groupId, schoolYearId: firstSchoolYear, termId: firstTerm._id},
 					{sort: {order: 1}, fields: {_id: 1}}
 				)
 				if (firstWeek) {ids.weekId = firstWeek._id} else {ids.weekId = 'empty'};
@@ -74,13 +74,13 @@ export function primaryInitialIds (submittedGroupId) {
 			};
 		} else { // First Student: True
 			let firstIncompleteLesson = Lessons.findOne(
-				{studentId: firstStudent._id, schoolYearId: firstSchoolYear, completed: false, deletedOn: { $exists: false }},
+				{studentId: firstStudent._id, schoolYearId: firstSchoolYear, completed: false},
 				{sort: {termOrder: 1, weekOrder: 1, order: 1}, fields: {termId: 1, weekId: 1}}
 			);
 			// console.log('firstIncompleteLesson');
 
 			let firstCompletedLesson = Lessons.findOne(
-				{studentId: firstStudent._id, schoolYearId: firstSchoolYear, completed: true, deletedOn: { $exists: false }},
+				{studentId: firstStudent._id, schoolYearId: firstSchoolYear, completed: true},
 				{sort: {termOrder: 1, weekOrder: 1, order: 1}, fields: {termId: 1, weekId: 1}}
 			);
 			// console.log('firstCompletedLesson');
@@ -93,14 +93,14 @@ export function primaryInitialIds (submittedGroupId) {
 				ids.weekId = firstCompletedLesson.weekId;
 			} else { // First Incomplete Lesson: false && First Complete Lesson: False
 				let firstTerm = Terms.findOne(
-					{groupId: groupId, schoolYearId: firstSchoolYear, deletedOn: { $exists: false }},
+					{groupId: groupId, schoolYearId: firstSchoolYear},
 					{sort: {order: 1}, fields: {_id: 1}}
 				)
 
 				if (firstTerm) { // First Term: True
 					ids.termId = firstTerm._id
 					let firstWeek = Weeks.findOne(
-						{groupId: groupId, schoolYearId: firstSchoolYear, termId: firstTerm._id, deletedOn: { $exists: false }},
+						{groupId: groupId, schoolYearId: firstSchoolYear, termId: firstTerm._id},
 						{sort: {order: 1}, fields: {_id: 1}}
 					)
 					if (firstWeek) {ids.weekId = firstWeek._id} else {ids.weekId = 'empty'};
@@ -131,7 +131,7 @@ export function resourcesInitialIds (submittedGroupId) {
 	let groupId = getGroupId(submittedGroupId);
 	let ids = {};
 
-	let firstResource = Resources.findOne({groupId: groupId, deletedOn: { $exists: false }}, {sort: {title: 1}, fields: {type: 1}});
+	let firstResource = Resources.findOne({groupId: groupId}, {sort: {title: 1}, fields: {type: 1}});
 	if (firstResource) {ids.resourceId = firstResource._id} else {ids.resourceId = 'empty'};
 	if (firstResource) {ids.resourceType = firstResource.type} else {ids.resourceType = 'empty'};
 
@@ -168,7 +168,7 @@ export function reportsInitialId (submittedGroupId) {
 	let groupId = getGroupId(submittedGroupId);
 	let ids = {};
 
-	let firstReport = Reports.findOne({groupId: groupId, deletedOn: { $exists: false }}, {sort: {name: 1}});
+	let firstReport = Reports.findOne({groupId: groupId}, {sort: {name: 1}});
 	if (firstReport) {ids.reportId = firstReport._id} else {ids.reportId = 'empty'};
 
 	Groups.update(groupId, {$set: {
@@ -233,7 +233,7 @@ function getFirstSchoolYearId(groupId) {
 	let currentYear = startYearFunction();
 
 	let schoolYears = SchoolYears.find(
-		{groupId: groupId, deletedOn: { $exists: false }}, 
+		{groupId: groupId}, 
 		{sort: {starYear: 1}, fields: {startYear: 1, endYear: 1}}
 	).fetch();
 

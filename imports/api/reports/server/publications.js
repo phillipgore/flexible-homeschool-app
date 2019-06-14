@@ -17,7 +17,7 @@ Meteor.publish('allReports', function() {
 	}
 
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-	return Reports.find({groupId: groupId, deletedOn: { $exists: false }}, {fields: {name: 1}});
+	return Reports.find({groupId: groupId}, {fields: {name: 1}});
 });
 
 Meteor.publish('report', function(reportId) {
@@ -26,7 +26,7 @@ Meteor.publish('report', function(reportId) {
 	}
 
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-	return Reports.find({_id: reportId, groupId: groupId, deletedOn: { $exists: false }});
+	return Reports.find({_id: reportId, groupId: groupId});
 });
 
 Meteor.publish('reportData', function(studentId, schoolYearId, termId, weekId, reportId) {
@@ -40,12 +40,12 @@ Meteor.publish('reportData', function(studentId, schoolYearId, termId, weekId, r
 		let parameters = [studentId, schoolYearId, termId, weekId, reportId]
 
 		if (!_.includes(parameters, 'empty')) {
-			let report = Reports.findOne({_id: reportId, groupId: groupId, deletedOn: { $exists: false }});
+			let report = Reports.findOne({_id: reportId, groupId: groupId});
 			self.added('reports', report._id, report);
 
 			function getReportTerms(termId) {
 				if (termId === 'allTerms') {
-					return Terms.find({groupId: groupId, schoolYearId: schoolYearId, deletedOn: { $exists: false }}).fetch();
+					return Terms.find({groupId: groupId, schoolYearId: schoolYearId}).fetch();
 				} else {
 					return Terms.find({_id: termId}).fetch();
 				}
@@ -55,7 +55,7 @@ Meteor.publish('reportData', function(studentId, schoolYearId, termId, weekId, r
 
 			function getReportWeeks(weekId) {
 				if (weekId === 'allWeeks') {
-					return Weeks.find({groupId: groupId, termId: {$in: reportTerms.map(term => term._id)}, deletedOn: { $exists: false }}).fetch();
+					return Weeks.find({groupId: groupId, termId: {$in: reportTerms.map(term => term._id)}}).fetch();
 				} else {
 					return Weeks.find({_id: weekId}).fetch();
 				}
@@ -74,15 +74,15 @@ Meteor.publish('reportData', function(studentId, schoolYearId, termId, weekId, r
 
 
 			// School Year Data
-			let yearSchoolYear = SchoolYears.find({_id: schoolYearId, groupId: groupId, deletedOn: { $exists: false }}).fetch();
+			let yearSchoolYear = SchoolYears.find({_id: schoolYearId, groupId: groupId}).fetch();
 			let yearTerms = Terms.find({schoolYearId: schoolYearId}).fetch();
 			let yearWeeks = Weeks.find({termId: {$in: yearTerms.map(term => term._id)}}).fetch();
-			let yearSchoolWork = SchoolWork.find({groupId: groupId, schoolYearId: schoolYearId, studentId: studentId, deletedOn: { $exists: false }}, {sort: {name: 1}}).fetch();
-			let yearLessons = Lessons.find({groupId: groupId, schoolWorkId: {$in: yearSchoolWork.map(schoolWork => schoolWork._id)}, deletedOn: { $exists: false }}, {sort: {order: 1}}).fetch();
+			let yearSchoolWork = SchoolWork.find({groupId: groupId, schoolYearId: schoolYearId, studentId: studentId}, {sort: {name: 1}}).fetch();
+			let yearLessons = Lessons.find({groupId: groupId, schoolWorkId: {$in: yearSchoolWork.map(schoolWork => schoolWork._id)}}, {sort: {order: 1}}).fetch();
 			let yearResources = Resources.find(
 				{
 					_id: {$in: _.flatten(yearSchoolWork.map(schoolWork => schoolWork.resources))}, 
-					groupId: groupId, deletedOn: { $exists: false }
+					groupId: groupId
 				}, 
 				{
 					sort: {title: 1}, 
@@ -131,7 +131,7 @@ Meteor.publish('reportData', function(studentId, schoolYearId, termId, weekId, r
 
 				if (report.schoolYearTimesVisible) {
 					let yearCompletedWeekIds = _.uniq(_.filter(yearLessons, ['completed', true]).map(lesson => (lesson.weekId)));
-					let yearCompletedTermIds = Weeks.find({_id: {$in: yearCompletedWeekIds}, deletedOn: { $exists: false }}).map(week => (week.termId));
+					let yearCompletedTermIds = Weeks.find({_id: {$in: yearCompletedWeekIds}}).map(week => (week.termId));
 					let yearTermsTotal = Terms.find({_id: {$in: yearCompletedTermIds}}).count();			
 					let yearWeeksTotal = yearCompletedWeekIds.length;
 
@@ -355,7 +355,7 @@ Meteor.publish('reportData', function(studentId, schoolYearId, termId, weekId, r
 				let lessons = _.filter(yearLessons, lesson => _.includes(weekIds, lesson.weekId));
 				let schoolWork = _.filter(yearSchoolWork, schoolWork => _.includes(lessons.map(lesson => lesson.schoolWorkId), schoolWork._id))
 				let resourceIds = _.uniq(_.flattenDeep(schoolWork.map(work => work.resources)));
-				let resources = Resources.find({_id: {$in: resourceIds}, groupId: groupId, deletedOn: { $exists: false }}, {sort: {title: 1}});
+				let resources = Resources.find({_id: {$in: resourceIds}, groupId: groupId}, {sort: {title: 1}});
 
 				let resourceStats = [];
 				resources.forEach(resource => {

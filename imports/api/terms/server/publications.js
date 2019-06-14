@@ -13,7 +13,7 @@ Meteor.publish('allTerms', function() {
 	}
 
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-	return Terms.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {order: 1}, fields: {order: 1, schoolYearId: 1}});
+	return Terms.find({groupId: groupId}, {sort: {order: 1}, fields: {order: 1, schoolYearId: 1}});
 });
 
 Meteor.publish('schoolYearTerms', function(schoolYearId) {
@@ -22,7 +22,7 @@ Meteor.publish('schoolYearTerms', function(schoolYearId) {
 	}
 
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-	return Terms.find({schoolYearId: schoolYearId, groupId: groupId, deletedOn: { $exists: false }}, {sort: {order: 1}, fields: {order: 1, schoolYearId: 1}});
+	return Terms.find({schoolYearId: schoolYearId, groupId: groupId}, {sort: {order: 1}, fields: {order: 1, schoolYearId: 1}});
 });
 
 
