@@ -23,7 +23,7 @@ Template.schoolWorkList.onRendered( function() {
 
 Template.schoolWorkList.helpers({
 	subscriptionReady: function() {
-		if (Template.instance().schoolWorkStats.ready() && Template.instance().schoolWorkData.ready()) {
+		if (Template.instance().schoolWorkStats.ready() && Template.instance().schoolWorkData.ready() && !Session.get('unScrolled')) {
 			return true;
 		}
 	},
@@ -41,7 +41,7 @@ Template.schoolWorkList.helpers({
 	},
 
 	studentsExist: function() {
-		let initialIds = Groups.findOne({_id: Meteor.user().info.groupId}).initialIds;
+		let initialIds = Groups.findOne({_id: Meteor.user().info.groupId}).initialIds && Groups.findOne({_id: Meteor.user().info.groupId}).initialIds;
 		if (initialIds.studentId === 'empty') {
 			return false;
 		}
@@ -53,7 +53,7 @@ Template.schoolWorkList.helpers({
 	},
 
 	schoolYearsExist: function() {
-		let initialIds = Groups.findOne({_id: Meteor.user().info.groupId}).initialIds;
+		let initialIds = Groups.findOne({_id: Meteor.user().info.groupId}).initialIds && Groups.findOne({_id: Meteor.user().info.groupId}).initialIds;
 		if (initialIds.schoolYearId === 'empty') {
 			return false;
 		}
@@ -68,7 +68,7 @@ Template.schoolWorkList.helpers({
 	},
 
 	studentsSchoolYearsCount: function() {
-		let initialIds = Groups.findOne({_id: Meteor.user().info.groupId}).initialIds;
+		let initialIds = Groups.findOne({_id: Meteor.user().info.groupId}).initialIds && Groups.findOne({_id: Meteor.user().info.groupId}).initialIds;
 		if (initialIds.studentId != 'empty' && initialIds.schoolYearId != 'empty') {
 			return true;
 		}

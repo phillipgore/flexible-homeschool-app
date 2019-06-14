@@ -15,12 +15,14 @@ Template.resourcesEach.onRendered( function() {
 Template.resourcesEach.helpers({
 	scroll: function() {
 		if (Session.get('unScrolled') && Resources.find({_id: FlowRouter.getParam('selectedResourceId')}).count()) {
-			let newScrollTop = document.getElementById(FlowRouter.getParam('selectedResourceId')).getBoundingClientRect().top - 180;
-			if (window.screen.availWidth > 640) {
-				document.getElementsByClassName('frame-two')[0].scrollTop = newScrollTop;
-			}
-			Session.setPersistent('unScrolled', false);
-			return false;
+			setTimeout(function() {
+				let newScrollTop = document.getElementById(FlowRouter.getParam('selectedResourceId')).getBoundingClientRect().top - 180;
+				if (window.screen.availWidth > 640) {
+					document.getElementsByClassName('frame-two')[0].scrollTop = newScrollTop;
+				}
+				Session.setPersistent('unScrolled', false);
+				return false;
+			}, 100);
 		}
 	},
 
