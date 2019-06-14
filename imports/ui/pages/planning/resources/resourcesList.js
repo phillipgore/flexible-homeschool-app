@@ -219,7 +219,7 @@ Template.resourcesList.events({
 	'click .js-load-more'(event) {
 		event.preventDefault();
 
-		let newLimit = Session.get('resourceLimit') + 50;
+		let newLimit = Session.get('resourceLimit') + 100;
 		Session.set('resourceLimit', newLimit)
 	}
 });
