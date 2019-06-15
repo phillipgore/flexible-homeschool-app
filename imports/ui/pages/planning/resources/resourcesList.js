@@ -193,6 +193,7 @@ Template.resourcesList.events({
 
 		if ( value !== '' ) {
 			FlowRouter.go('/planning/resources/view/2/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/empty/empty' );
+			Session.set('initialLoading', true);
 			template.searchQuery.set( value );
 			template.searching.set( true );
 		}

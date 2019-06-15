@@ -103,7 +103,8 @@ Template.subbarResources.helpers({
 
 Template.subbarResources.events({
 	'click .js-type, click .js-availability'(event) {
-		Session.set('resourceLimit', 100)
+		Session.set('initialLoading', true);
+		Session.set('resourceLimit', 100);
 		if (window.screen.availWidth > 640) {
 			document.getElementsByClassName('frame-two')[0].scrollTop = 0;
 		}
