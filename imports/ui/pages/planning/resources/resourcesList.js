@@ -144,8 +144,10 @@ Template.resourcesList.helpers({
 		return false;
 	},
 
-	showLoadMore: function() {
-		if (Counts.get('allAllCount') === Resources.find().count() || Template.instance().searchQuery.get()) {
+	showLoadMore: function(type, availability) {
+		console.log(type +' '+ availability)
+		console.log(Counts.get(type + _.capitalize(availability) + 'Count') +' '+ Resources.find().count())
+		if (Counts.get(type + _.capitalize(availability) + 'Count') === Resources.find().count() || Template.instance().searchQuery.get()) {
 			return false;
 		}
 		return true;
@@ -219,6 +221,7 @@ Template.resourcesList.events({
 		event.preventDefault();
 
 		let newLimit = Session.get('resourceLimit') + 100;
+		console.log('resourceLimit: ' + newLimit)
 		Session.set('resourceLimit', newLimit)
 	}
 });
