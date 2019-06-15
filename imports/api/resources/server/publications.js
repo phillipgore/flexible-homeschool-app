@@ -55,7 +55,7 @@ Meteor.publish('scopedSearchResources', function( type, availability, search, li
 	} else if (type != 'all' && availability != "all") {
 		return Resources.find({groupId: groupId, type: type, availability: availability}, {limit: limit, sort: {title: 1}, fields: {title: 1, type: 1, availability: 1}});
 	} else if (type === 'all' && availability != "all") {
-		return Resources.find({groupId: groupId, type: { $ne: 'link' }, availability: availability}, {limit: limit, sort: {title: 1}, fields: {title: 1, type: 1, availability: 1}});
+		return Resources.find({groupId: groupId, availability: availability}, {limit: limit, sort: {title: 1}, fields: {title: 1, type: 1, availability: 1}});
 	} else if (type != 'all' && availability === "all") {
 		return Resources.find({groupId: groupId, type: type}, {limit: limit, sort: {title: 1}, fields: {title: 1, type: 1, availability: 1}});
 	}
