@@ -145,8 +145,6 @@ Template.resourcesList.helpers({
 	},
 
 	showLoadMore: function(type, availability) {
-		console.log(type +' '+ availability)
-		console.log(Counts.get(type + _.capitalize(availability) + 'Count') +' '+ Resources.find().count())
 		if (Counts.get(type + _.capitalize(availability) + 'Count') === Resources.find().count() || Template.instance().searchQuery.get()) {
 			return false;
 		}
