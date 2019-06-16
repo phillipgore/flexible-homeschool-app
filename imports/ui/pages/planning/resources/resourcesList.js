@@ -27,6 +27,7 @@ Template.resourcesList.onCreated( function() {
 		Session.set('initialResourceIds', result);
 
 		let initialResourceIds = Session.get('initialResourceIds')
+
 		if (!Session.get('selectedResourceType')) {
 			Session.set('selectedResourceType', 'all');
 		}
@@ -116,6 +117,9 @@ Template.resourcesList.helpers({
 		if (availability === 'need') {
 			return 'txt-warning'
 		}
+		if (availability === 'returned') {
+			return 'txt-danger'
+		}
 	},
 
 	availabilityText: function(availability) {
@@ -127,6 +131,9 @@ Template.resourcesList.helpers({
 		}
 		if (availability === 'need') {
 			return '(Need It)'
+		}
+		if (availability === 'returned') {
+			return '(Returned It)'
 		}
 	},
 
@@ -219,7 +226,6 @@ Template.resourcesList.events({
 		event.preventDefault();
 
 		let newLimit = Session.get('resourceLimit') + 100;
-		console.log('resourceLimit: ' + newLimit)
 		Session.set('resourceLimit', newLimit)
 	}
 });

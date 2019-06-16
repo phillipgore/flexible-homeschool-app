@@ -23,6 +23,7 @@ Template.subbarResources.helpers({
 		{_id: 'own', label: 'I Own It'},
 		{_id: 'borrowed', label: 'I Borrowed It'},
 		{_id: 'need', label: 'I Need It'},
+		{_id: 'returned', label: 'I Returned It'},
 	],
 
 	resourceCount: function(type, availability) {
@@ -68,6 +69,7 @@ Template.subbarResources.helpers({
 		if (type === 'own') { return 'I Own It' };
 		if (type === 'borrowed') { return 'I Borrowed It' };
 		if (type === 'need') { return 'I Need It' };
+		if (type === 'returned') { return 'I Returned It' };
 	},
 
 	availabilityStatus: function(type, availability) {
@@ -82,6 +84,9 @@ Template.subbarResources.helpers({
 		}
 		if (availability === 'need' && Counts.get(type + _.capitalize(availability) +'Count')) {
 			return 'txt-warning'
+		}
+		if (availability === 'returned' && Counts.get(type + _.capitalize(availability) +'Count')) {
+			return 'txt-danger'
 		}
 		return 'txt-gray-darker'
 	},

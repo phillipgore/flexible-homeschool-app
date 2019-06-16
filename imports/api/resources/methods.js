@@ -17,7 +17,7 @@ Meteor.methods({
 		let ids = {};
 
 		let resourceTypes = ['all', 'book', 'link', 'video', 'audio', 'app'];
-		let resourceAvailabilities = ['all', 'own', 'borrowed', 'need'];
+		let resourceAvailabilities = ['all', 'own', 'borrowed', 'need', 'returned'];
 
 		resourceTypes.forEach((type) => {
 			resourceAvailabilities.forEach((availability) => {

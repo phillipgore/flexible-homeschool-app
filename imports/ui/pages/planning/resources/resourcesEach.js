@@ -51,6 +51,9 @@ Template.resourcesEach.helpers({
 		if (availability === 'need') {
 			return 'txt-warning'
 		}
+		if (availability === 'returned') {
+			return 'txt-danger'
+		}
 	},
 
 	availabilityText: function(availability) {
@@ -62,6 +65,9 @@ Template.resourcesEach.helpers({
 		}
 		if (availability === 'need') {
 			return '(Need It)'
+		}
+		if (availability === 'returned') {
+			return '(Returned It)'
 		}
 	},
 

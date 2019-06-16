@@ -66,7 +66,10 @@ Template.resourcesView.helpers({
 		if (availability === 'borrowed') {
 			return 'I borrowed it.'
 		}
-		return 'I need it.'
+		if (availability === 'need') {
+			return 'I need it.'
+		}
+		return 'I returned it.'
 	}
 });
 

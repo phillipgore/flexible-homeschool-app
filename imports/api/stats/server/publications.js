@@ -53,6 +53,13 @@ Meteor.publish('resourceStats', function() {
 	Counts.publish(this, 'videoNeedCount', Resources.find({type: 'video', availability: 'need', groupId: groupId}));
 	Counts.publish(this, 'audioNeedCount', Resources.find({type: 'audio', availability: 'need', groupId: groupId}));
 	Counts.publish(this, 'appNeedCount', Resources.find({type: 'app', availability: 'need', groupId: groupId}));
+
+	Counts.publish(this, 'allReturnedCount', Resources.find({availability: 'returned', groupId: groupId}));
+	Counts.publish(this, 'bookReturnedCount', Resources.find({type: 'book', availability: 'returned', groupId: groupId}));
+	Counts.publish(this, 'linkReturnedCount', Resources.find({type: 'link', availability: 'returned', groupId: groupId}));
+	Counts.publish(this, 'videoReturnedCount', Resources.find({type: 'video', availability: 'returned', groupId: groupId}));
+	Counts.publish(this, 'audioReturnedCount', Resources.find({type: 'audio', availability: 'returned', groupId: groupId}));
+	Counts.publish(this, 'appReturnedCount', Resources.find({type: 'app', availability: 'returned', groupId: groupId}));
 });
 
 Meteor.publish('progressStatsPub', function() {

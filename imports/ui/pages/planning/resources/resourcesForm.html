@@ -66,6 +66,11 @@
 					<input class="js-radio-need" type="radio" name="availability" value="need" checked="{{checkAvailability resource.availability 'need'}}">
 					<div class="radio-icon"></div> 
 					<div class="radio-label">I need it.</div>
+				</label><br>
+				<label class="radio">
+					<input class="js-radio-returned" type="radio" name="availability" value="returned" checked="{{checkAvailability resource.availability 'returned'}}">
+					<div class="radio-icon"></div> 
+					<div class="radio-label">I returned it.</div>
 				</label>
 			</div>
 		{{/unless}}

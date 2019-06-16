@@ -14,7 +14,7 @@ Meteor.publish('scopedResources', function(type, availability) {
 	} else if (type != 'all' && availability != "all") {
 		return Resources.find({groupId: groupId, type: type, availability: availability}, {sort: {title: 1}, fields: {title: 1, type: 1, availability: 1}});
 	} else if (type === 'all' && availability != "all") {
-		return Resources.find({groupId: groupId, type: { $ne: 'link' }, availability: availability}, {sort: {title: 1}, fields: {title: 1, type: 1, availability: 1}});
+		return Resources.find({groupId: groupId, availability: availability}, {sort: {title: 1}, fields: {title: 1, type: 1, availability: 1}});
 	} else if (type != 'all' && availability === "all") {
 		return Resources.find({groupId: groupId, type: type}, {sort: {title: 1}, fields: {title: 1, type: 1, availability: 1}});
 	}
@@ -42,7 +42,7 @@ Meteor.publish('scopedSearchResources', function( type, availability, search, li
 			let query = {groupId: groupId, type: type, availability: availability, $or: [ { title: regex }, { author: regex }, { artist: regex }, { director: regex } ]};
 			return Resources.find( query, projection );
 		} else if (type === 'all' && availability != "all") {
-			let query = {groupId: groupId, type: { $ne: 'link' }, availability: availability, $or: [ { title: regex }, { author: regex }, { artist: regex }, { director: regex } ]};
+			let query = {groupId: groupId, availability: availability, $or: [ { title: regex }, { author: regex }, { artist: regex }, { director: regex } ]};
 			return Resources.find( query, projection );
 		} else if (type != 'all' && availability === "all") {
 			let query = {groupId: groupId, type: type, $or: [ { title: regex }, { author: regex }, { artist: regex }, { director: regex } ]};
