@@ -164,6 +164,7 @@ Template.resourcesList.events({
 		event.preventDefault();
 
 		let resourceId = $(event.currentTarget).attr('data-resource-id');
+		let resourceType = $(event.currentTarget).attr('data-resource-type');
 		let selectedAvailability = $(event.currentTarget).attr('id');
 
 		$('#resource' + resourceId).find('.list-item-dropdown').hide();
@@ -172,6 +173,24 @@ Template.resourcesList.events({
 		const resourceProperties = {
 			availability: selectedAvailability,
 		};
+
+		function nextResourceId(currentResourceAvailability, newResourceId, newResourceType) {
+			if (currentResourceAvailability != 'all' && newResourceId === FlowRouter.getParam('selectedResourceId')) {
+				let resourceIds = Resources.find({}, {sort: {title: 1}}).map(resource => (resource._id));
+
+				if (resourceIds.length > 1) {
+					let selectedIndex = resourceIds.indexOf(newResourceId);
+					if (selectedIndex) {
+						return Resources.findOne({_id: resourceIds[selectedIndex - 1]});
+					}
+					return Resources.findOne({_id: resourceIds[selectedIndex + 1]});
+				}
+				return {_id: 'empty', type: 'empty'}
+			}
+			return {_id: FlowRouter.getParam('selectedResourceId'), type: FlowRouter.getParam('selectedResourceType')};
+		};
+
+		let returnResource = nextResourceId(FlowRouter.getParam('selectedResourceAvailability'), resourceId, resourceType)
 
 		Meteor.call('updateResource', resourceId, resourceProperties, function(error) {
 			if (error) {
@@ -188,7 +207,7 @@ Template.resourcesList.events({
 				$('#resource' + resourceId).find('.list-item-dropdown-loader').hide();
 				$('#resource' + resourceId).find('.list-item-dropdown').show();
 
-				FlowRouter.go('/planning/resources/view/2/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/'+ FlowRouter.getParam('selectedResourceId') +'/'+ FlowRouter.getParam('selectedResourceCurrentTypeId') );
+				FlowRouter.go('/planning/resources/view/2/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/'+ returnResource._id +'/'+ returnResource.type );
 			}
 		});
 
