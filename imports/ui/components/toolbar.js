@@ -104,7 +104,8 @@ Template.toolbar.helpers({
 
 	schoolWorkDisabled: function() {
 		let initialIds = Groups.findOne({_id: Meteor.user().info.groupId}).initialIds;
-		if (initialIds.studentId == 'empty' || initialIds.schoolYearId == 'empty') {
+		let type = Session.get('toolbarType');
+		if (type === 'schoolWork' && initialIds.studentId == 'empty' || type === 'schoolWork' && initialIds.schoolYearId == 'empty') {
 			return true;
 		}
 		return false;

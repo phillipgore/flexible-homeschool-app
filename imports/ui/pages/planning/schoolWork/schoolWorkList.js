@@ -23,7 +23,7 @@ Template.schoolWorkList.onRendered( function() {
 
 Template.schoolWorkList.helpers({
 	subscriptionReady: function() {
-		if (Template.instance().schoolWorkStats.ready() && Template.instance().schoolWorkData.ready() && !Session.get('unScrolled')) {
+		if (Template.instance().schoolWorkStats.ready() && Template.instance().schoolWorkData.ready()) {
 			return true;
 		}
 	},
