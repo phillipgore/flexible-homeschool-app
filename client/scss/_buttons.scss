@@ -48,6 +48,10 @@ button, .btn {
 		background-color: $color-info;
 	}
 
+	&.btn-harvest {
+		background-color: $color-harvest;
+	}
+
 	&.btn-white-info {
 		background-color: lighten($color-info, 28%);
 		color: $color-info;

@@ -207,6 +207,18 @@ a {
 		background-clip: text;
 	} 
 }
+.txt-harvest-darkest { 
+	color: $color-harvest-darkest; 
+
+	@media print {
+		background-color: $color-harvest-darkest;
+		color: transparent;
+		text-shadow: 0px 0px 100px $color-harvest-darkest;
+		-webkit-background-clip: text;
+		-moz-background-clip: text;
+		background-clip: text;
+	} 
+}
 .txt-gray-darkest { 
 	color: $color-gray-darkest; 
 
