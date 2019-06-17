@@ -104,6 +104,9 @@ Template.trackingSchoolWork.events({
 	'click .js-lesson-btn'(event) {
 		event.preventDefault();
 
+		if ($(window).width() < 640) {
+			$('.navbar').hide();
+		}
 		$('.js-hide, .js-info').hide();
 		$('.js-show').show();
 		Session.set('schoolWorkInfo', null);
@@ -138,6 +141,7 @@ Template.trackingSchoolWork.events({
 	'click .js-close'(event) {
 		event.preventDefault();
 
+		$('.navbar').show();
 		$('.js-schoolWork-track').removeClass('active');
 		$('.js-schoolWork-track').removeClass('inactive');
 		$('.js-lesson-input').removeAttr('style');
@@ -161,6 +165,7 @@ Template.trackingSchoolWork.events({
 		let lessonId = $(event.currentTarget).parent().attr('id');
 		$('[data-lesson-id="' + lessonId + '"]').find('.js-lesson-updating').show();
 
+		$('.navbar').show();
 		$('.js-schoolWork-track').removeClass('active');
 		$('.js-schoolWork-track').removeClass('inactive');
 		$('.js-lesson-input').removeAttr('style');
