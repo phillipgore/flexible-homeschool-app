@@ -5,6 +5,8 @@ import {Groups} from '../../api/groups/groups';
 Picker.middleware(bodyParser.json());
 
 Picker.route('/webhooks/stripe', (params, request, response) => {
+	console.log('stripe webhook request');
+	console.log(request);
 	let {body} = request
 
 	if (body.type === 'invoice.payment_failed') {
@@ -20,12 +22,14 @@ Picker.route('/webhooks/stripe', (params, request, response) => {
 	}
 	if (body.type === 'customer.subscription.deleted') {
 		let customerId = body.data.object.customer;
-		let groupStatus = Groups.findOne({stripeCustomerId: customerId}).subscriptionStatus
+		let group = Groups.findOne({stripeCustomerId: customerId})
 
-		if (groupStatus === 'pausePending' || groupStatus === 'paused') {
-			Groups.update({stripeCustomerId: customerId}, {$set: {subscriptionStatus: 'paused'}});
-		} else {
-			Groups.update({stripeCustomerId: customerId}, {$set: {subscriptionStatus: 'error'}});
+		if (group) {
+			if (group.subscriptionStatus === 'pausePending' || group.subscriptionStatus === 'paused') {
+				Groups.update({stripeCustomerId: customerId}, {$set: {subscriptionStatus: 'paused'}});
+			} else {
+				Groups.update({stripeCustomerId: customerId}, {$set: {subscriptionStatus: 'error'}});
+			}
 		}
 	}
 	response.writeHead(200);
