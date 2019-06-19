@@ -26,25 +26,60 @@
 	}
 }
 
-.editor-content {
-	min-height: 186px;
-	width: 100%;
-	padding: 8px 11px;
-	border: 1px solid $color-gray-dark;
-	border-radius: 3px;
-	background-color: #fff;
-	font-family: $font-family-default;
-	font-size: 16px;
-	white-space: pre-wrap;
+.editor-container {
+	position: relative;
 
-	&:focus {
-		outline: none;
-		border-color: $color-primary;
+	.editor-content {
+		min-height: 186px;
+		width: 100%;
+		padding: 8px 11px;
+		border: 1px solid $color-gray-dark;
+		border-radius: 3px;
+		background-color: #fff;
+		font-family: $font-family-default;
+		font-size: 16px;
+		white-space: pre-wrap;
+
+		&:focus {
+			outline: none;
+			border-color: $color-primary;
+		}
+
+		p {
+			line-height: 1.25;
+			margin-bottom: 9px;
+		}
 	}
 
-	p {
-		line-height: 1.25;
-		margin-bottom: 9px;
+	.editor-loading {
+		border-radius: 3px;
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		background-color: lightblue;
+		z-index: 100;
+		border: 1px solid $color-gray-dark;
+		background-color: #fff;
+		text-align: center;
+
+		.loader-icon {
+			background-color: $color-gray-darker;
+
+			&:before {
+				background-color: $color-white;
+			}
+
+			&:after {
+				background-color: $color-white;
+			}
+		}
+
+		.loader-message {
+			font-size: 14px;
+			margin-top: 12px;
+		}
 	}
 }
 
@@ -68,17 +103,44 @@
 		}
 	}
 
-	.editor-content {
-		min-height: 174px;
-		border-right: none;
-		border-bottom: none;
-		border-left: none;
-		border-radius: 0px;
-		background-color: $color-warning-lightest;
-		color: $color-warning-darkest;
+	.editor-container {
+		.editor-content {
+			min-height: 174px;
+			border-right: none;
+			border-bottom: none;
+			border-left: none;
+			border-radius: 0px;
+			background-color: $color-warning-lightest;
+			color: $color-warning-darkest;
 
-		&:focus {
+			&:focus {
+				border-color: $color-gray-dark;
+			}
+		}
+
+		.editor-loading {
+			border-radius: 0px;
+			border-right: none;
+			border-bottom: none;
+			border-left: none;
 			border-color: $color-gray-dark;
+			background-color: $color-warning-lightest;
+
+			.loader-icon {
+				background-color: $color-warning-darkest;
+
+				&:before {
+					background-color: $color-warning-lightest;
+				}
+
+				&:after {
+					background-color: $color-warning-lightest;
+				}
+			}
+
+			.loader-message {
+				color: $color-warning-darkest;
+			}
 		}
 	}
 }

@@ -6,5 +6,19 @@
 		<button class="js-editor-btn js-ul-btn editor-btn" data-command="insertUnorderedList"><i class="icn-list-ul"></i></button>
 		<button class="js-editor-btn js-ol-btn editor-btn" data-command="insertOrderedList"><i class="icn-list-ol"></i></button>
 	</div>
-	<div id="{{editorId}}" class="editor-content {{classes}}" contenteditable="true" placeholder="{{placeholder}}"></div>
+	<div class="editor-container">
+		<div id="{{editorId}}" class="editor-content {{classes}}" contenteditable="true" placeholder="{{placeholder}}"></div>
+		{{#if loader}}
+			{{#unless contentReady}}
+				<div class="editor-loading">
+					<div class="loader-icon-middle ">
+						<div class="loader">
+							<div class="loader-icon loader-icon-xs loader-icon-center"></div>
+						</div>
+						<p class="loader-message">Loading Content</p>
+					</div>
+				</div>
+			{{/unless}}
+		{{/if}}
+	</div>
 </template>

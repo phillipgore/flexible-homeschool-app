@@ -26,7 +26,7 @@
 			<!-- /Print Only -->
 
 			<div data-work-id="{{work._id}}" class="js-notes-{{work._id}} js-notes view-info tracking-view editor-notes m-tn-h-9 m-tn-t-6 m-tn-b-18 hide">
-				{{> editor classes="js-notes-editor" placeholder="This week is a bit different . . ." existingContent=workNote}}
+				{{> editor classes="js-notes-editor" placeholder="This week is a bit different . . ." loader=true contentReady=editorContentReady existingContent=workNote}}
 				<div class="bg-warning-lightest clearfix height-28 p-tn-6">
 					<div class="js-notes-loader-{{work._id}} hide">
 						<div class="font-size-13 txt-warning-darkest fl-tn-right p-tn-l-6 m-tn-t-neg-1">autosaving</div>

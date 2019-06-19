@@ -47,7 +47,6 @@ Template.trackingSchoolWork.helpers({
 	},
 
 	workInfo: function() {
-		console.log(Session.get('schoolWorkInfo'))
 		return Session.get('schoolWorkInfo');
 	},
 
@@ -83,6 +82,10 @@ Template.trackingSchoolWork.helpers({
 	workNote: function() {
 		return Session.get('schoolWorkNote');
 	},
+
+	editorContentReady: function() {
+		return Session.get('editorContentReady');
+	}
 });
 
 Template.trackingSchoolWork.events({
@@ -91,7 +94,10 @@ Template.trackingSchoolWork.events({
 
 		$('.js-info, .js-notes').hide()
 		$('.js-info').removeClass('js-open');
-		Session.set('schoolWorkNote', null);
+		Session.set({
+			'schoolWorkNote': null,
+			'editorContentReady': false,
+		});
 
 		let schoolWorkId = $(event.currentTarget).attr('id');
 
@@ -105,14 +111,25 @@ Template.trackingSchoolWork.events({
 			$('.js-notes-' + schoolWorkId).show().addClass('js-open');
 
 			Meteor.call('getNoteInfo', FlowRouter.getParam('selectedWeekId'), schoolWorkId, function(error, result) {
-				Session.set('schoolWorkNote', result.note);
+				if (_.isUndefined(result)) {
+					Session.set({
+						'editorContentReady': true,
+						'schoolWorkNote': null,
+					});
+				} else {
+					Session.set({
+						'editorContentReady': true,
+						'schoolWorkNote': result.note,
+					});
+				}
 			});
 		}		
 	},
 
 	'keyup .js-notes-editor': function(event) {
 		let instance = Template.instance();
-		let schoolWorkId = $(event.currentTarget).parent().attr('data-work-id');
+		let schoolWorkId = $(event.currentTarget).parentsUntil('.js-notes').parent().attr('data-work-id');
+		console.log(schoolWorkId)
 
 		if (instance.debounce) {
 			Meteor.clearTimeout(instance.debounce);

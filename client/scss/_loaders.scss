@@ -103,7 +103,7 @@
 	}
 
 	&.loader-notes {
-		background-color: darken($color-warning, 35%);
+		background-color: $color-warning-darkest;
 
 		&:before {
 			background-color: $color-warning-lightest;
