@@ -132,7 +132,6 @@ Template.trackingSchoolWork.events({
 	'keyup .js-notes-editor': function(event) {
 		let instance = Template.instance();
 		let schoolWorkId = $(event.currentTarget).parentsUntil('.js-notes').parent().attr('data-work-id');
-		console.log(schoolWorkId)
 
 		if (instance.debounce) {
 			Meteor.clearTimeout(instance.debounce);
