@@ -20,6 +20,10 @@ import '../../api/lessons/lessons.js';
 import '../../api/lessons/methods.js';
 import '../../api/lessons/server/publications.js';
 
+import '../../api/notes/notes.js';
+import '../../api/notes/methods.js';
+import '../../api/notes/server/publications.js';
+
 import '../../api/office/methods.js';
 import '../../api/office/server/publications.js';
 

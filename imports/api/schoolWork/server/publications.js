@@ -4,6 +4,7 @@ import {Students} from '../../students/students.js';
 import {SchoolYears} from '../../schoolYears/schoolYears.js';
 import {Terms} from '../../terms/terms.js';
 import {Weeks} from '../../weeks/weeks.js';
+import {Notes} from '../../notes/notes.js';
 import {Lessons} from '../../lessons/lessons.js';
 
 import _ from 'lodash'
@@ -27,10 +28,11 @@ Meteor.publish('trackingViewPub', function(studentId, weekId) {
 	let lessons = Lessons.find({weekId: weekId}, {sort: {order: 1}, fields: {order: 1, completed: 1, assigned: 1, completedOn: 1, schoolWorkId: 1}});
 	let schoolWorkIds = lessons.map(lesson => (lesson.schoolWorkId))
 	let schoolWork = SchoolWork.find({_id: {$in: schoolWorkIds}, groupId: groupId, studentId: studentId}, {sort: {name: 1}, fields: {order: 1, name: 1, studentId: 1, schoolYearId: 1}});
-
+	let notes = Notes.find({weekId: weekId, schoolWorkId: {$in: schoolWorkIds}}, {fields: {schoolWorkId: 1, note: 1}})
 	return [
 		lessons,
-		schoolWork
+		schoolWork,
+		notes
 	]
 });
 

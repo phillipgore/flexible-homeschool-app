@@ -17,16 +17,16 @@ $color-info-lightest: lighten(#6BA6E0, 30%);
 $color-warning: #E0B56B;
 $color-warning-light: lighten(#E0B56B, 15%);
 $color-warning-lighter: lighten(#E0B56B, 20%);
-$color-warning-lightest: lighten(#E0B56B, 30%);
+$color-warning-lightest: lighten(#E0B56B, 32%);
 
 
-$color-harvest-darkest: darken(#F2D561, 30%);
-$color-harvest-darker: darken(#F2D561, 20%);
-$color-harvest-dark: darken(#F2D561, 15%);
-$color-harvest: #F2D561;
-$color-harvest-light: lighten(#F2D561, 15%);
-$color-harvest-lighter: lighten(#F2D561, 20%);
-$color-harvest-lightest: lighten(#F2D561, 30%);
+$color-harvest-darkest: darken(#dbb312, 30%);
+$color-harvest-darker: darken(#dbb312, 20%);
+$color-harvest-dark: darken(#dbb312, 15%);
+$color-harvest: #dbb312;
+$color-harvest-light: lighten(#dbb312, 5%);
+$color-harvest-lighter: lighten(#dbb312, 20%);
+$color-harvest-lightest: lighten(#dbb312, 30%);
 
 $color-danger: #E06B6B;
 $color-danger-light: lighten(#E06B6B, 15%);

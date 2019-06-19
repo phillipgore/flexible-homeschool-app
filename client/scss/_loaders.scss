@@ -102,6 +102,18 @@
 		}
 	}
 
+	&.loader-notes {
+		background-color: darken($color-warning, 35%);
+
+		&:before {
+			background-color: $color-warning-lightest;
+		}
+
+		&:after {
+			background-color: $color-warning-lightest;
+		}
+	}
+
 	&.loader-icon-sm {
 		height: 26px;
 		width: 26px;

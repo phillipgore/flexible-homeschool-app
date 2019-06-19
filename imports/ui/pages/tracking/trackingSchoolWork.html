@@ -1,18 +1,18 @@
 <template name="trackingSchoolWork">
 	{{#each work in schoolWork}}
-		<div id="js-schoolWork-track-{{work._id}}" class="js-schoolWork-track track p-tn-t-18 | page-break-inside-avoid">
+		<div id="js-schoolWork-track-{{work._id}}" class="js-schoolWork-track track p-tn-t-21 | page-break-inside-avoid">
 			<div class="clearfix m-tn-h-9 m-tn-b-0 print-hide">
-				<div class="col-tn-5of7">
+				<div class="col-tn-5of7 col-xs-7of9 col-sm-5of7 col-xl-7of9 p-tn-r-6">
 					<div class="track-icon"><i class="txt-primary icn-school-work"></i></div>
 					<div class="track-label txt-ellipsis">{{work.name}}</div>
 				</div>
-				<div class="col-tn-1of7 p-tn-r-3">
-					<button id="{{work._id}}" class="js-show-schoolWork-info js-closed btn-block tiny fl-tn-right btn-info">
+				<div class="col-tn-1of7 col-xs-1of9 col-sm-1of7 col-xl-1of9 p-tn-r-3">
+					<button id="{{work._id}}" class="js-show-schoolWork-info js-closed btn-block btn-gray-darker tiny fl-tn-right">
 						Info
 					</button>
 				</div>
-				<div class="col-tn-1of7">
-					<button id="{{work._id}}" class="js-show-schoolWork-notes js-closed btn-block tiny fl-tn-right btn-harvest">
+				<div class="col-tn-1of7 col-xs-1of9 col-sm-1of7 col-xl-1of9">
+					<button id="{{work._id}}" class="js-show-schoolWork-notes js-closed btn-block tiny fl-tn-right {{#if hasNote work._id}}btn-warning{{else}}btn-gray-darker{{/if}}">
 						Notes
 					</button>
 				</div>
@@ -25,11 +25,18 @@
 			</div>
 			<!-- /Print Only -->
 
-			<div class="js-{{work._id}} js-info view-info tracking-view p-tn-18 m-tn-h-9 m-tn-t-6 m-tn-b-18 hide">
-				<span class="js-loader-{{work._id}}">
+			<div data-work-id="{{work._id}}" class="js-notes-{{work._id}} js-notes view-info tracking-view editor-notes m-tn-h-9 m-tn-t-6 m-tn-b-18 hide">
+				{{> editor classes="js-notes-editor" placeholder="This week is a bit different . . ." existingContent=workNote}}
+				<div class="bg-warning-lightest clearfix height-28 p-tn-6">
+					<div class="js-notes-loader-{{work._id}} loader-icon loader-icon-tn loader-notes fl-tn-right hide"></div>
+				</div>
+			</div>
+
+			<div class="js-info-{{work._id}} js-info view-info tracking-view p-tn-18 m-tn-h-9 m-tn-t-6 m-tn-b-18 hide">
+				<span class="js-info-loader-{{work._id}}">
 					{{> viewLoading}}
 				</span>
-				<span class="js-info-{{work._id}} hide">
+				<span class="js-info-data-{{work._id}} hide">
 					{{#if workInfo.description}}
 						<section>
 							<label>General Instructions</label>

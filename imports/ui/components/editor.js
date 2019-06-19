@@ -81,5 +81,16 @@ Template.editor.events({
 		} else {
 			Session.set(template.editorId.get(), '');
 		}
+	},
+
+	'keyup .editor-content'(event, template) {
+		if (!$(event.currentTarget).text().length) {
+			$(event.currentTarget).html('');
+			$('.js-bold-btn').removeClass('active');
+			$('.js-italic-btn').removeClass('active');
+			$('.js-underline-btn').removeClass('active');
+			$('.js-ul-btn').removeClass('active');
+			$('.js-ol-btn').removeClass('active');
+		}
 	}
 });

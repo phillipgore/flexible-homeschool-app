@@ -4,6 +4,7 @@ import { SchoolYears } from '../../../api/schoolYears/schoolYears.js';
 import { SchoolWork } from '../../../api/schoolWork/schoolWork.js';
 import { Terms } from '../../../api/terms/terms.js';
 import { Weeks } from '../../../api/weeks/weeks.js';
+import { Notes } from '../../../api/notes/notes.js';
 
 import './trackingView.html';
 

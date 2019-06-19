@@ -5,9 +5,11 @@ import { SchoolWork } from '../../../api/schoolWork/schoolWork.js';
 import { Lessons } from '../../../api/lessons/lessons.js';
 import { Terms } from '../../../api/terms/terms.js';
 import { Weeks } from '../../../api/weeks/weeks.js';
+import { Notes } from '../../../api/notes/notes.js';
 
 import moment from 'moment';
 import _ from 'lodash'
+
 import './trackingSchoolWork.html';
 
 Template.trackingSchoolWork.helpers({
@@ -68,33 +70,101 @@ Template.trackingSchoolWork.helpers({
 
 		return false;
 	},
+
+	hasNote: function(schoolWorkId) {
+		let note = Notes.findOne({schoolWorkId: schoolWorkId}).note && Notes.findOne({schoolWorkId: schoolWorkId}).note
+		if (note.length) {
+			return true;
+		}
+		return false;
+	},
+
+	workNote: function() {
+		return Session.get('schoolWorkNote');
+	},
 });
 
 Template.trackingSchoolWork.events({
-	'click .js-show-schoolWork-info'(event) {
+	'click .js-show-schoolWork-notes'(event) {
 		event.preventDefault();
 
-		$('.js-show').show();
-		$('.js-hide').hide();
-		$('.js-info').hide();
-		Session.set('schoolWorkInfo', null);
+		$('.js-info, .js-notes').hide()
+		$('.js-show-schoolWork-info').addClass('js-closed');
+		Session.set('schoolWorkNote', null);
 
 		if ($(event.currentTarget).hasClass('js-closed')) {
 			$(event.currentTarget).removeClass('js-closed');
+
 			let schoolWorkId = $(event.currentTarget).attr('id');
 
 			$('.js-schoolWork-track').removeClass('active');
 			$('.js-lesson-input').removeAttr('style');
+			$('.js-notes-' + schoolWorkId).show();
 
-			$('.js-show.js-label-' + schoolWorkId).hide();
-			$('.js-hide.js-label-' + schoolWorkId).show();
-			$('.js-' + schoolWorkId).show();
+			Meteor.call('getNoteInfo', FlowRouter.getParam('selectedWeekId'), schoolWorkId, function(error, result) {
+				Session.set('schoolWorkNote', result.note);
+			});
+		} else {
+			$(event.currentTarget).addClass('js-closed');
+		}		
+	},
+
+	'keyup .js-notes-editor': function(event) {
+		let instance = Template.instance();
+		let schoolWorkId = $(event.currentTarget).parent().attr('data-work-id');
+
+		if (instance.debounce) {
+			Meteor.clearTimeout(instance.debounce);
+		}
+
+		instance.debounce = Meteor.setTimeout(function() {
+			$('.js-notes-loader-' + schoolWorkId).show();
+			let user = Meteor.user();
+			let noteProperties = {
+				userId: user._id,
+				groupId: user.info.groupId,
+				weekId: FlowRouter.getParam('selectedWeekId'),
+				schoolWorkId: schoolWorkId,
+				note: $(event.currentTarget).html().trim(),
+			}
+
+			Meteor.call('upsertNotes', noteProperties, function(error, result) {
+				if (error) {
+					Alerts.insert({
+						colorClass: 'bg-danger',
+						iconClass: 'icn-danger',
+						message: error.reason,
+					});
+				} else {
+					$('.js-notes-loader-' + schoolWorkId).hide();
+				}
+			})
+		}, 500);
+	},
+
+	'click .js-show-schoolWork-info'(event) {
+		event.preventDefault();
+
+		$('.js-info, .js-notes').hide();
+		$('.js-show-schoolWork-notes').addClass('js-closed');
+		Session.set('schoolWorkInfo', null);
+		
+		let schoolWorkId = $(event.currentTarget).attr('id');
+		$('.js-info-data-' + schoolWorkId).hide();
+		$('.js-info-loader-' + schoolWorkId).show();
+
+		if ($(event.currentTarget).hasClass('js-closed')) {
+			$(event.currentTarget).removeClass('js-closed');
+
+			$('.js-schoolWork-track').removeClass('active');
+			$('.js-lesson-input').removeAttr('style');
+			$('.js-info-' + schoolWorkId).show();
 
 			Meteor.call('getSchoolWorkInfo', schoolWorkId, function(error, result) {
 				Session.set('schoolWorkInfo', result);
 
-				$('.js-loader-' + schoolWorkId).hide();
-				$('.js-info-' + schoolWorkId).show();
+				$('.js-info-loader-' + schoolWorkId).hide();
+				$('.js-info-data-' + schoolWorkId).show();
 			})
 		} else {
 			$(event.currentTarget).addClass('js-closed');
@@ -107,8 +177,9 @@ Template.trackingSchoolWork.events({
 		if ($(window).width() < 640) {
 			$('.navbar').hide();
 		}
-		$('.js-hide, .js-info').hide();
-		$('.js-show').show();
+		$('.js-info, .js-notes').hide();
+		$('.js-show-schoolWork-info, .js-show-schoolWork-notes').addClass('js-closed');
+
 		Session.set('schoolWorkInfo', null);
 		Session.set('lessonInfo', null);
 
@@ -152,11 +223,11 @@ Template.trackingSchoolWork.events({
 	},
 
 	'change .js-completed-checkbox, change .js-assigned-checkbox'(event) {
-	    if ($(event.currentTarget).val() === 'true') {
-	    	$(event.currentTarget).val('false');
-	    } else {
-	    	$(event.currentTarget).val('true');
-	    }
+		if ($(event.currentTarget).val() === 'true') {
+			$(event.currentTarget).val('false');
+		} else {
+			$(event.currentTarget).val('true');
+		}
 	},
 
 	'submit .js-form-lessons-update'(event) {

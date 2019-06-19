@@ -27,7 +27,7 @@
 }
 
 .editor-content {
-	min-height: 181px;
+	min-height: 186px;
 	width: 100%;
 	padding: 8px 11px;
 	border: 1px solid $color-gray-dark;
@@ -57,6 +57,38 @@
 
 [contenteditable=true]:focus:empty:before {
 	color: lighten($color-primary, 10%);
+}
+
+.editor-notes {
+	.editor-toolbar {
+		padding: 9px 9px;
+
+		.editor-btn.active {
+			background-color: $color-warning;
+		}
+	}
+
+	.editor-content {
+		min-height: 174px;
+		border-right: none;
+		border-bottom: none;
+		border-left: none;
+		border-radius: 0px;
+		background-color: $color-warning-lightest;
+		color: darken($color-warning, 35%);
+
+		&:focus {
+			border-color: $color-gray-dark;
+		}
+	}
+}
+
+.editor-notes [contenteditable=true]:empty:before {
+	color: $color-warning-light;
+}
+
+.editor-notes [contenteditable=true]:focus:empty:before {
+	color: $color-warning-light;
 }
 
 
