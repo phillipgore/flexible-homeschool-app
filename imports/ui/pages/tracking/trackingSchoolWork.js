@@ -72,8 +72,11 @@ Template.trackingSchoolWork.helpers({
 	},
 
 	hasNote: function(schoolWorkId) {
-		let note = Notes.findOne({schoolWorkId: schoolWorkId}).note && Notes.findOne({schoolWorkId: schoolWorkId}).note
-		if (note.length) {
+		let note = Notes.findOne({schoolWorkId: schoolWorkId}) && Notes.findOne({schoolWorkId: schoolWorkId})
+		if (_.isUndefined(note)) {
+			return false
+		}
+		if (note.note) {
 			return true;
 		}
 		return false;
