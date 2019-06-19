@@ -7,12 +7,12 @@
 					<div class="track-label txt-ellipsis">{{work.name}}</div>
 				</div>
 				<div class="col-tn-1of7 col-xs-1of9 col-sm-1of7 col-xl-1of9 p-tn-r-3">
-					<button id="{{work._id}}" class="js-show-schoolWork-info js-closed btn-block btn-gray-darker tiny fl-tn-right">
+					<button id="{{work._id}}" class="js-show-schoolWork-info btn-block btn-gray-darker tiny fl-tn-right">
 						Info
 					</button>
 				</div>
 				<div class="col-tn-1of7 col-xs-1of9 col-sm-1of7 col-xl-1of9">
-					<button id="{{work._id}}" class="js-show-schoolWork-notes js-closed btn-block tiny fl-tn-right {{#if hasNote work._id}}btn-warning{{else}}btn-gray-darker{{/if}}">
+					<button id="{{work._id}}" class="js-show-schoolWork-notes btn-block tiny fl-tn-right {{#if hasNote work._id}}btn-warning{{else}}btn-gray-darker{{/if}}">
 						Notes
 					</button>
 				</div>
@@ -28,7 +28,10 @@
 			<div data-work-id="{{work._id}}" class="js-notes-{{work._id}} js-notes view-info tracking-view editor-notes m-tn-h-9 m-tn-t-6 m-tn-b-18 hide">
 				{{> editor classes="js-notes-editor" placeholder="This week is a bit different . . ." existingContent=workNote}}
 				<div class="bg-warning-lightest clearfix height-28 p-tn-6">
-					<div class="js-notes-loader-{{work._id}} loader-icon loader-icon-tn loader-notes fl-tn-right hide"></div>
+					<div class="js-notes-loader-{{work._id}} hide">
+						<div class="font-size-13 txt-warning-darkest fl-tn-right p-tn-l-6 m-tn-t-neg-1">autosaving</div>
+						<div class="loader-icon loader-icon-tn loader-notes fl-tn-right"></div>
+					</div>
 				</div>
 			</div>
 
@@ -41,6 +44,11 @@
 						<section>
 							<label>General Instructions</label>
 							{{{workInfo.description}}}
+						</section>
+					{{else}}
+						<section>
+							<label>General Instructions</label>
+							<div class="txt-gray-darker">No Instructions.</div>
 						</section>
 					{{/if}}
 
@@ -58,6 +66,11 @@
 									</li>
 								{{/each}}
 							</ul>
+						</section>
+					{{else}}
+						<section>
+							<label>Resources</label>
+							<div class="txt-gray-darker">No Resources.</div>
 						</section>
 					{{/if}}
 				</span>

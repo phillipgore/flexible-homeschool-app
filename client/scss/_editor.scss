@@ -75,7 +75,7 @@
 		border-left: none;
 		border-radius: 0px;
 		background-color: $color-warning-lightest;
-		color: darken($color-warning, 35%);
+		color: $color-warning-darkest;
 
 		&:focus {
 			border-color: $color-gray-dark;

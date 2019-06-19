@@ -47,6 +47,7 @@ Template.trackingSchoolWork.helpers({
 	},
 
 	workInfo: function() {
+		console.log(Session.get('schoolWorkInfo'))
 		return Session.get('schoolWorkInfo');
 	},
 
@@ -89,23 +90,23 @@ Template.trackingSchoolWork.events({
 		event.preventDefault();
 
 		$('.js-info, .js-notes').hide()
-		$('.js-show-schoolWork-info').addClass('js-closed');
+		$('.js-info').removeClass('js-open');
 		Session.set('schoolWorkNote', null);
 
-		if ($(event.currentTarget).hasClass('js-closed')) {
-			$(event.currentTarget).removeClass('js-closed');
+		let schoolWorkId = $(event.currentTarget).attr('id');
 
-			let schoolWorkId = $(event.currentTarget).attr('id');
+		if ($('.js-notes-' + schoolWorkId).hasClass('js-open')) {
+			$('.js-notes-' + schoolWorkId).removeClass('js-open')
+		} else {
+			$('.js-notes').removeClass('js-open');
 
 			$('.js-schoolWork-track').removeClass('active');
 			$('.js-lesson-input').removeAttr('style');
-			$('.js-notes-' + schoolWorkId).show();
+			$('.js-notes-' + schoolWorkId).show().addClass('js-open');
 
 			Meteor.call('getNoteInfo', FlowRouter.getParam('selectedWeekId'), schoolWorkId, function(error, result) {
 				Session.set('schoolWorkNote', result.note);
 			});
-		} else {
-			$(event.currentTarget).addClass('js-closed');
 		}		
 	},
 
@@ -145,20 +146,22 @@ Template.trackingSchoolWork.events({
 	'click .js-show-schoolWork-info'(event) {
 		event.preventDefault();
 
-		$('.js-info, .js-notes').hide();
-		$('.js-show-schoolWork-notes').addClass('js-closed');
-		Session.set('schoolWorkInfo', null);
+		$('.js-info, .js-notes').hide()
+		$('.js-notes').removeClass('js-open');
+		Session.set('schoolWorkInfo', {description: '', resources: []});
 		
 		let schoolWorkId = $(event.currentTarget).attr('id');
 		$('.js-info-data-' + schoolWorkId).hide();
 		$('.js-info-loader-' + schoolWorkId).show();
 
-		if ($(event.currentTarget).hasClass('js-closed')) {
-			$(event.currentTarget).removeClass('js-closed');
+		if ($('.js-info-' + schoolWorkId).hasClass('js-open')) {
+			$('.js-info-' + schoolWorkId).removeClass('js-open')
+		} else {
+			$('.js-info').removeClass('js-open');
 
 			$('.js-schoolWork-track').removeClass('active');
 			$('.js-lesson-input').removeAttr('style');
-			$('.js-info-' + schoolWorkId).show();
+			$('.js-info-' + schoolWorkId).show().addClass('js-open');
 
 			Meteor.call('getSchoolWorkInfo', schoolWorkId, function(error, result) {
 				Session.set('schoolWorkInfo', result);
@@ -166,8 +169,6 @@ Template.trackingSchoolWork.events({
 				$('.js-info-loader-' + schoolWorkId).hide();
 				$('.js-info-data-' + schoolWorkId).show();
 			})
-		} else {
-			$(event.currentTarget).addClass('js-closed');
 		}		
 	},
 
@@ -180,7 +181,7 @@ Template.trackingSchoolWork.events({
 		$('.js-info, .js-notes').hide();
 		$('.js-show-schoolWork-info, .js-show-schoolWork-notes').addClass('js-closed');
 
-		Session.set('schoolWorkInfo', null);
+		Session.set('schoolWorkInfo', {description: '', resources: []});
 		Session.set('lessonInfo', null);
 
 		let schoolWorkId = $(event.currentTarget).attr('data-schoolWork-id');
