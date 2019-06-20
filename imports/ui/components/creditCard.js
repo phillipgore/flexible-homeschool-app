@@ -2,7 +2,15 @@ import {Template} from 'meteor/templating';
 import './creditCard.html';
 
 import moment from 'moment';
+import _ from 'lodash';
 import Stripe from '../../modules/stripe';
+
+Template.creditCard.onCreated( function() {
+	Session.set('validCoupon', true);
+	Meteor.call('getCouponList', function(error, result) {
+		Session.set('couponList', result.data.map(coupon => coupon.id));
+	});
+});
 
 Template.creditCard.onRendered( function() {
 	Session.set({
@@ -127,5 +135,26 @@ Template.creditCard.helpers({
 });
 
 Template.creditCard.events({
-	
+	'keyup #coupon'(event) {
+		if (Session.get('couponList').indexOf(event.currentTarget.value.trim().toLowerCase()) >= 0 || event.currentTarget.value.trim().length === 0) {
+			$('#coupon').removeClass('error');
+			$('.coupon-errors').text('');
+			Session.set('validCoupon', true);
+		} else {
+			$('#coupon').addClass('error');
+			$('.coupon-errors').text('Invalid Coupon.');
+			Session.set('validCoupon', false);
+		}
+		
+	}
 });
+
+
+
+
+
+
+
+
+
+

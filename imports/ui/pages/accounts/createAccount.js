@@ -6,7 +6,7 @@ import './createAccount.html';
 import moment from 'moment';
 
 Template.createAccount.onCreated( function() {
-	
+
 });
 
 Template.createAccount.onRendered( function() {	
@@ -82,7 +82,7 @@ Template.createAccount.events({
 		}
 
 		if (event.target.coupon.value.trim().length) {
-			subscriptionProperties.subscription.coupon = event.target.coupon.value.trim();
+			subscriptionProperties.subscription.coupon = event.target.coupon.value.trim().toLowerCase();
 		} else {
 			subscriptionProperties.subscription.coupon = Meteor.settings.public.stripeSignUpDiscount;
 		}
@@ -157,8 +157,10 @@ Template.createAccount.events({
 			}
 		}
 
+		if (event.target.retypePassword.value.trim())
+
 		
-		if (cardValidation() && accountForm.indexOf(false) === -1) {
+		if (cardValidation() && accountForm.indexOf(false) === -1 && Session.get('validCoupon')) {
 			$('.js-saving').show();
 			$('.js-submit').prop('disabled', true);
 			Meteor.call('insertGroup', user.email, function(error, groupId) {

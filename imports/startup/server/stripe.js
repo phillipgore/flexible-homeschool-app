@@ -227,6 +227,18 @@ Meteor.methods({
 		return result.brand;
 	},
 
+	getCouponList: async function() {
+		let result = await stripe.coupons.list(
+			
+		).then((couponList) => {
+			return couponList;
+		}).catch((error) => {
+			throw new Meteor.Error(500, error.message);
+		});
+
+		return result;
+	},
+
 	getCoupon: async function(couponId) {
 		let result = await stripe.coupons.retrieve(
 			couponId
