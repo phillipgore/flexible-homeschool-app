@@ -8,6 +8,7 @@ import Stripe from '../../modules/stripe';
 Template.creditCard.onCreated( function() {
 	Session.set('validCoupon', true);
 	Meteor.call('getCouponList', function(error, result) {
+		console.log(result.data.map(coupon => coupon.id))
 		Session.set('couponList', result.data.map(coupon => coupon.id));
 	});
 });
