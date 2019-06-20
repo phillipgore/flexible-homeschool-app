@@ -168,7 +168,6 @@ Meteor.methods({
 				return result;
 			}
 		});
-
 	},
 
 	getSubscription: async function(subscriptionId) {
