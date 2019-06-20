@@ -7,10 +7,6 @@ import Stripe from '../../modules/stripe';
 
 Template.creditCard.onCreated( function() {
 	Session.set('validCoupon', true);
-	Meteor.call('getCouponList', function(error, result) {
-		console.log(result.data.map(coupon => coupon.id))
-		Session.set('couponList', result.data.map(coupon => coupon.id));
-	});
 });
 
 Template.creditCard.onRendered( function() {
@@ -136,17 +132,26 @@ Template.creditCard.helpers({
 });
 
 Template.creditCard.events({
-	'keyup #coupon'(event) {
-		if (Session.get('couponList').indexOf(event.currentTarget.value.trim().toLowerCase()) >= 0 || event.currentTarget.value.trim().length === 0) {
-			$('#coupon').removeClass('error');
-			$('.coupon-errors').text('');
-			Session.set('validCoupon', true);
-		} else {
-			$('#coupon').addClass('error');
-			$('.coupon-errors').text('Invalid Coupon.');
-			Session.set('validCoupon', false);
+	'keyup #coupon, blur #coupon'(event) {
+		let instance = Template.instance();
+
+		if (instance.debounce) {
+			Meteor.clearTimeout(instance.debounce);
 		}
-		
+
+		instance.debounce = Meteor.setTimeout(function() {
+			Meteor.call('getCoupon', event.currentTarget.value.trim().toLowerCase(), function(error, result) {
+				if (error && event.currentTarget.value.trim().length != 0) {
+					$('#coupon').addClass('error');
+					$('.coupon-errors').text('Invalid Coupon.');
+					Session.set('validCoupon', false);
+				} else {
+					$('#coupon').removeClass('error');
+					$('.coupon-errors').text('');
+					Session.set('validCoupon', true);
+				}
+			})
+		}, 500);
 	}
 });
 

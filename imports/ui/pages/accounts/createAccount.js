@@ -6,7 +6,7 @@ import './createAccount.html';
 import moment from 'moment';
 
 Template.createAccount.onCreated( function() {
-
+	Session.set('validCoupon', true);
 });
 
 Template.createAccount.onRendered( function() {	
@@ -157,102 +157,108 @@ Template.createAccount.events({
 			}
 		}
 
-		if (event.target.retypePassword.value.trim())
-
-		
-		if (cardValidation() && accountForm.indexOf(false) === -1 && Session.get('validCoupon')) {
-			$('.js-saving').show();
-			$('.js-submit').prop('disabled', true);
-			Meteor.call('insertGroup', user.email, function(error, groupId) {
-				if (error) {
-					Alerts.insert({
-						colorClass: 'bg-danger',
-						iconClass: 'icn-danger',
-						message: error.reason,
-					});
-					
-					$('.js-saving').hide();
-					$('.js-submit').prop('disabled', false);
-				} else {
-					user.info.groupId = groupId;
-					subscriptionProperties.customer.metadata.groupId = groupId;
-					
-					Accounts.createUser(user, function(error) {
+		Meteor.call('getCoupon', event.target.coupon.value.trim().toLowerCase(), function(error, result) {
+			if (error && event.target.coupon.value.trim().length != 0) {
+				$('#coupon').addClass('error');
+				$('.coupon-errors').text('Invalid Coupon.');
+				Session.set('validCoupon', false);
+			} else {
+				if (cardValidation() && accountForm.indexOf(false) === -1 && Session.get('validCoupon')) {
+					$('.js-saving').show();
+					$('.js-submit').prop('disabled', true);
+					Meteor.call('insertGroup', user.email, function(error, groupId) {
 						if (error) {
-							console.log(error);
-						}
-						if (error && error.reason != 'unverified') {
 							Alerts.insert({
 								colorClass: 'bg-danger',
 								iconClass: 'icn-danger',
 								message: error.reason,
 							});
-					
+							
 							$('.js-saving').hide();
 							$('.js-submit').prop('disabled', false);
-						} else { 
-							stripe.createToken(
-								Session.get('cardNumber')
-							).then((result) => {
-								if (result.error) {
-									let groupProperties = {
-										_id: groupId,
-										subscriptionStatus: 'error',
-										subscriptionErrorMessage: result.error.message,
-									};
-									
-									Meteor.call('updateGroup', groupProperties, function(error) {
-										if (error) {
-											FlowRouter.go('/verify/sent');
-											Alerts.insert({
-												colorClass: 'bg-danger',
-												iconClass: 'icn-danger',
-												message: error,
-											});
-										} else {
-											Meteor.call('sendThankYouEmail', user, function() {
-												FlowRouter.go('/verify/sent');
-											});
-										}
+						} else {
+							user.info.groupId = groupId;
+							subscriptionProperties.customer.metadata.groupId = groupId;
+							
+							Accounts.createUser(user, function(error) {
+								if (error) {
+									console.log(error);
+								}
+								if (error && error.reason != 'unverified') {
+									Alerts.insert({
+										colorClass: 'bg-danger',
+										iconClass: 'icn-danger',
+										message: error.reason,
 									});
-								} else {
-									subscriptionProperties.customer.source = result.token.id;
-									Meteor.call('createSubscription', groupId, result.token.card.id, subscriptionProperties, function(error, updatedGroupProperties) {
-										if (error) {
-											console.log(error);
-										}
-										if (error) {
-											Alerts.insert({
-												colorClass: 'bg-danger',
-												iconClass: 'icn-danger',
-												message: error.reason,
+							
+									$('.js-saving').hide();
+									$('.js-submit').prop('disabled', false);
+								} else { 
+									stripe.createToken(
+										Session.get('cardNumber')
+									).then((result) => {
+										if (result.error) {
+											let groupProperties = {
+												_id: groupId,
+												subscriptionStatus: 'error',
+												subscriptionErrorMessage: result.error.message,
+											};
+											
+											Meteor.call('updateGroup', groupProperties, function(error) {
+												if (error) {
+													FlowRouter.go('/verify/sent');
+													Alerts.insert({
+														colorClass: 'bg-danger',
+														iconClass: 'icn-danger',
+														message: error,
+													});
+												} else {
+													Meteor.call('sendThankYouEmail', user, function() {
+														FlowRouter.go('/verify/sent');
+													});
+												}
 											});
-					
-											$('.js-saving').hide();
-											$('.js-submit').prop('disabled', false);
 										} else {
-											Meteor.call('sendThankYouEmail', user, function() {
-												FlowRouter.go('/verify/sent');
+											subscriptionProperties.customer.source = result.token.id;
+											Meteor.call('createSubscription', groupId, result.token.card.id, subscriptionProperties, function(error, updatedGroupProperties) {
+												if (error) {
+													console.log(error);
+												}
+												if (error) {
+													Alerts.insert({
+														colorClass: 'bg-danger',
+														iconClass: 'icn-danger',
+														message: error.reason,
+													});
+							
+													$('.js-saving').hide();
+													$('.js-submit').prop('disabled', false);
+												} else {
+													Meteor.call('sendThankYouEmail', user, function() {
+														FlowRouter.go('/verify/sent');
+													});
+												}
 											});
 										}
+									}).catch((error) => {
+										Alerts.insert({
+											colorClass: 'bg-danger',
+											iconClass: 'icn-danger',
+											message: error.message,
+										});
+				
+										$('.js-saving').hide();
+										$('.js-submit').prop('disabled', false);
 									});
 								}
-							}).catch((error) => {
-								Alerts.insert({
-									colorClass: 'bg-danger',
-									iconClass: 'icn-danger',
-									message: error.message,
-								});
-		
-								$('.js-saving').hide();
-								$('.js-submit').prop('disabled', false);
 							});
 						}
 					});
-				}
-			});
 
-			return false;
-		}
+					return false;
+				}
+			}
+		})
+
 	},
 });

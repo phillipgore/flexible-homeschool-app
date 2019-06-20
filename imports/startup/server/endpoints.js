@@ -5,8 +5,6 @@ import {Groups} from '../../api/groups/groups';
 Picker.middleware(bodyParser.json());
 
 Picker.route('/webhooks/stripe', (params, request, response) => {
-	console.log('stripe webhook request');
-	console.log(request);
 	let {body} = request
 
 	if (body.type === 'invoice.payment_failed') {

@@ -33,16 +33,19 @@ Meteor.methods({
 			updatedGroupProperties.subscriptionStatus = 'active';
 			updatedGroupProperties.stripeSubscriptionId = subscription.id;
 			updatedGroupProperties.subscriptionErrorMessage = null;
-			updatedGroupProperties.stripeCurrentCouponCode.startDate = subscription.discount.start;
-			updatedGroupProperties.stripeCurrentCouponCode.endDate = subscription.discount.end;
-			updatedGroupProperties.stripeCurrentCouponCode.id = subscription.discount.coupon.id;
-			updatedGroupProperties.stripeCurrentCouponCode.amountOff = subscription.discount.coupon.amount_off;
-			updatedGroupProperties.stripeCurrentCouponCode.percentOff = subscription.discount.coupon.percent_off;
+
+			if (subscription.discount) {
+				updatedGroupProperties.stripeCurrentCouponCode.startDate = subscription.discount.start;
+				updatedGroupProperties.stripeCurrentCouponCode.endDate = subscription.discount.end;
+				updatedGroupProperties.stripeCurrentCouponCode.id = subscription.discount.coupon.id;
+				updatedGroupProperties.stripeCurrentCouponCode.amountOff = subscription.discount.coupon.amount_off;
+				updatedGroupProperties.stripeCurrentCouponCode.percentOff = subscription.discount.coupon.percent_off;
+			}
 
 			return subscription;
 		}).catch((error) => {
 			updatedGroupProperties.subscriptionStatus = 'error';
-			updatedGroupProperties.subscriptionErrorMessage = error.raw.message;
+			updatedGroupProperties.subscriptionErrorMessage = error.message;
 		});
 
 		Groups.update(groupId, {$set: updatedGroupProperties}, function(error, result) {
@@ -256,7 +259,7 @@ Meteor.methods({
 		let customerId = Groups.findOne({_id: groupId}).stripeCustomerId;
 
 		let result = await stripe.invoices.list({
-			customer: customerId, limit: 10
+			customer: customerId, limit: 24
 		}).then((invoices) => {
 			return invoices;
 		}).catch((error) => {
