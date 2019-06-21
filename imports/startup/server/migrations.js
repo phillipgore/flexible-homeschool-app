@@ -233,9 +233,19 @@ Migrations.add({
 	}
 });
 
-// Meteor.startup(() => {
-// 	Migrations.migrateTo(9);
-// });
+Migrations.add({
+	version: 10,
+	name: 'Create MailChimp tags in MailChimp.',
+	up: function() {
+		Groups.find().forEach(group => {
+			Meteor.call('mcTags', group._id)
+		})
+	}
+});
+
+Meteor.startup(() => {
+	Migrations.migrateTo(10);
+});
 
 
 
