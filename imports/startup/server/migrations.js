@@ -243,9 +243,9 @@ Migrations.add({
 	}
 });
 
-Meteor.startup(() => {
-	Migrations.migrateTo(10);
-});
+// Meteor.startup(() => {
+// 	Migrations.migrateTo(10);
+// });
 
 
 

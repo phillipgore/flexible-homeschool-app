@@ -45,15 +45,11 @@ Meteor.methods({
 		];
 		let tagName = Groups.findOne({_id: groupId}).subscriptionStatus;
 		let tagUpdateIndex = tagProperties.findIndex((tag => tag.name === tagName));
-		console.log(tagUpdateIndex)
 		tagProperties[tagUpdateIndex].status = "active";
 
 		Meteor.users.find({'info.groupId': groupId}).forEach(user => {
 			let email = user.emails[0].address;
 			let emailHash = md5(email);
-
-			console.log('user: ' + user.info.firstName +' '+ user.info.lastName +': '+ email)
-			console.log(tagProperties)
 
 			mailchimp.post('/lists/' + Meteor.settings.private.mailchimpListId + '/members/' + emailHash + '/tags', {
 				"tags": tagProperties
