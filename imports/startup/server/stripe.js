@@ -125,7 +125,8 @@ Meteor.methods({
 
 	},
 
-	unpauseSubscription: async function() {
+	unpauseSubscription: async function(couponCode) {
+		console.log('one: ' + couponCode)
 		let groupId = Meteor.user().info.groupId;
 		let customerId = Groups.findOne({_id: groupId}).stripeCustomerId;
 		let subscriptionId = Groups.findOne({_id: groupId}).stripeSubscriptionId;
@@ -136,24 +137,37 @@ Meteor.methods({
 		let result = stripe.subscriptions.retrieve(
 			subscriptionId
 		).then((subscription) => {
+			console.log(subscription)
 			if (subscription.status === 'canceled') {
-				let result = stripe.subscriptions.create({
+				let subscriptionProperties = {
 					customer: customerId,
 					items: [{plan: Meteor.settings.public.stripePlanId}]
-				}).then((subscription) => {
-					groupProperties.stripeSubscriptionId = result.id;
+				}
+				if (couponCode.length) {
+					subscriptionProperties.coupon = couponCode;
+				}
+				let result = stripe.subscriptions.create(
+					subscriptionProperties
+				).then((subscription) => {
+					groupProperties.stripeSubscriptionId = subscription.id;
+					if (subscription.discount) {
+						groupProperties.stripeCurrentCouponCode.startDate = subscription.discount.start;
+						groupProperties.stripeCurrentCouponCode.endDate = subscription.discount.end;
+						groupProperties.stripeCurrentCouponCode.id = subscription.discount.coupon.id;
+						groupProperties.stripeCurrentCouponCode.amountOff = subscription.discount.coupon.amount_off;
+						groupProperties.stripeCurrentCouponCode.percentOff = subscription.discount.coupon.percent_off;
+					}
 				}).catch((error) => {
 					throw new Meteor.Error(500, error.message);
 				});
-			}
-			if (subscription.status === 'paused' && subscription.cancel_at_period_end === true) {
+			} else if (subscription.cancel_at_period_end === true) {
 				let result = stripe.subscriptions.update(subscription.id, {
 					items: [{
 						id: subscription.items.data[0].id,
 						plan: Meteor.settings.public.stripePlanId,
 					}]
 				}).then((subscription) => {
-					groupProperties.stripeSubscriptionId = result.id
+					groupProperties.stripeSubscriptionId = subscription.id
 				}).catch((error) => {
 					throw new Meteor.Error(500, error.message);
 				});

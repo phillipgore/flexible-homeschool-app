@@ -5,6 +5,7 @@ import './billingList.html';
 
 Template.billingList.onCreated( function() {
 	// Subscriptions
+	Session.set('validCoupon', true);
 	let template = Template.instance();
 	
 	template.autorun(() => {
@@ -160,23 +161,62 @@ Template.billingList.events({
 		$('.list-item-loading').show();
 
 		let groupId = $('.js-unpause-account').attr('id');
+		let couponCode = $('#coupon').val().trim().toLowerCase();
 
-		Meteor.call('unpauseSubscription', function(error, result) {
-			if (error) {
-				Alerts.insert({
-					colorClass: 'bg-danger',
-					iconClass: 'icn-danger',
-					message: error.reason,
-				});
-				$('.list-item-loading').hide();
+		Meteor.call('getCoupon', couponCode, function(error, result) {
+			if (error && event.target.coupon.value.trim().length != 0) {
+				$('#coupon').addClass('error');
+				$('.coupon-errors').text('Invalid Coupon.');
+				Session.set('validCoupon', false);
 			} else {
-				$('.list-item-loading').hide();
-				Alerts.insert({
-					colorClass: 'bg-info',
-					iconClass: 'icn-info',
-					message: 'Your account has been unpaused. Welcome back.',
+				Meteor.call('unpauseSubscription', couponCode, function(error, result) {
+					if (error) {
+						Alerts.insert({
+							colorClass: 'bg-danger',
+							iconClass: 'icn-danger',
+							message: error.reason,
+						});
+						$('.list-item-loading').hide();
+					} else {
+						$('.list-item-loading').hide();
+						Alerts.insert({
+							colorClass: 'bg-info',
+							iconClass: 'icn-info',
+							message: 'Your account has been unpaused. Welcome back.',
+						});
+					}
 				});
 			}
-		})
+		});
 	},
+
+	'click .js-paused '(event) {
+		Alerts.insert({
+			colorClass: 'bg-info',
+			iconClass: 'icn-info',
+			message: 'Your account is paused. You are not being billed nor do you have acces to your data. You may unpause your account at any time.',
+		});
+	},
+
+	'keyup #coupon, blur #coupon'(event) {
+		let instance = Template.instance();
+
+		if (instance.debounce) {
+			Meteor.clearTimeout(instance.debounce);
+		}
+
+		instance.debounce = Meteor.setTimeout(function() {
+			Meteor.call('getCoupon', event.currentTarget.value.trim().toLowerCase(), function(error, result) {
+				if (error && event.currentTarget.value.trim().length != 0) {
+					$('#coupon').addClass('error');
+					$('.coupon-errors').text('Invalid Coupon.');
+					Session.set('validCoupon', false);
+				} else {
+					$('#coupon').removeClass('error');
+					$('.coupon-errors').text('');
+					Session.set('validCoupon', true);
+				}
+			})
+		}, 500);
+	}
 });
