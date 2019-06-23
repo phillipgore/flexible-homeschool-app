@@ -162,19 +162,19 @@ Template.billingList.events({
 
 		let groupId = $('.js-unpause-account').attr('id');
 		function getCouponCode() {
-			if ($('#coupon')) {
-				return $('#coupon').val();
+			if ($('#coupon').length) {
+				return $('#coupon').val().trim().toLowerCase()
 			}
-			return ''; 
+			return '';
 		}
 
 		Meteor.call('getCoupon', getCouponCode(), function(error, result) {
-			if (error && event.target.coupon.value.trim().length != 0) {
+			if (error && getCouponCode().length != 0) {
 				$('#coupon').addClass('error');
 				$('.coupon-errors').text('Invalid Coupon.');
 				Session.set('validCoupon', false);
 			} else {
-				Meteor.call('unpauseSubscription', couponCode, function(error, result) {
+				Meteor.call('unpauseSubscription', getCouponCode(), function(error, result) {
 					if (error) {
 						Alerts.insert({
 							colorClass: 'bg-danger',

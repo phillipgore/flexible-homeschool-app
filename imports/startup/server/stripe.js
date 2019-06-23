@@ -126,7 +126,6 @@ Meteor.methods({
 	},
 
 	unpauseSubscription: async function(couponCode) {
-		console.log('one: ' + couponCode)
 		let groupId = Meteor.user().info.groupId;
 		let customerId = Groups.findOne({_id: groupId}).stripeCustomerId;
 		let subscriptionId = Groups.findOne({_id: groupId}).stripeSubscriptionId;
@@ -137,7 +136,6 @@ Meteor.methods({
 		let result = stripe.subscriptions.retrieve(
 			subscriptionId
 		).then((subscription) => {
-			console.log(subscription)
 			if (subscription.status === 'canceled') {
 				let subscriptionProperties = {
 					customer: customerId,
@@ -162,6 +160,7 @@ Meteor.methods({
 				});
 			} else if (subscription.cancel_at_period_end === true) {
 				let result = stripe.subscriptions.update(subscription.id, {
+					cancel_at_period_end: false,
 					items: [{
 						id: subscription.items.data[0].id,
 						plan: Meteor.settings.public.stripePlanId,
