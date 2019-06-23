@@ -161,9 +161,14 @@ Template.billingList.events({
 		$('.list-item-loading').show();
 
 		let groupId = $('.js-unpause-account').attr('id');
-		let couponCode = $('#coupon').val();
+		function getCouponCode() {
+			if ($('#coupon')) {
+				return $('#coupon').val();
+			}
+			return ''; 
+		}
 
-		Meteor.call('getCoupon', couponCode, function(error, result) {
+		Meteor.call('getCoupon', getCouponCode(), function(error, result) {
 			if (error && event.target.coupon.value.trim().length != 0) {
 				$('#coupon').addClass('error');
 				$('.coupon-errors').text('Invalid Coupon.');
