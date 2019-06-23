@@ -144,7 +144,7 @@ Meteor.methods({
 					items: [{plan: Meteor.settings.public.stripePlanId}]
 				}
 				if (couponCode.length) {
-					subscriptionProperties.coupon = couponCode;
+					subscriptionProperties.coupon = couponCode.trim().toLowerCase();
 				}
 				let result = stripe.subscriptions.create(
 					subscriptionProperties

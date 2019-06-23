@@ -161,7 +161,7 @@ Template.billingList.events({
 		$('.list-item-loading').show();
 
 		let groupId = $('.js-unpause-account').attr('id');
-		let couponCode = $('#coupon').val().trim().toLowerCase();
+		let couponCode = $('#coupon').val();
 
 		Meteor.call('getCoupon', couponCode, function(error, result) {
 			if (error && event.target.coupon.value.trim().length != 0) {
