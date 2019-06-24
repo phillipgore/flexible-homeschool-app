@@ -158,6 +158,34 @@ Template.billingList.events({
 
 	'click .js-unpause-account'(event) {
 		event.preventDefault();
+		console.log('unpauseSubscription');
+
+		$('.list-item-loading').show();
+		let groupId = $('.js-unpause-account').attr('id');
+
+		Meteor.call('unpauseSubscription', function(error, result) {
+			if (error) {
+				Alerts.insert({
+					colorClass: 'bg-danger',
+					iconClass: 'icn-danger',
+					message: error.reason,
+				});
+				$('.list-item-loading').hide();
+			} else {
+				$('.list-item-loading').hide();
+				Alerts.insert({
+					colorClass: 'bg-info',
+					iconClass: 'icn-info',
+					message: 'Your account has been unpaused. Welcome back.',
+				});
+			}
+		});
+	},
+
+	'click .js-unpause-canceled-account'(event) {
+		event.preventDefault();
+		console.log('unpauseCanceledSubscription');
+		
 		$('.list-item-loading').show();
 
 		let groupId = $('.js-unpause-account').attr('id');
@@ -174,7 +202,7 @@ Template.billingList.events({
 				$('.coupon-errors').text('Invalid Coupon.');
 				Session.set('validCoupon', false);
 			} else {
-				Meteor.call('unpauseSubscription', getCouponCode(), function(error, result) {
+				Meteor.call('unpauseCanceledSubscription', getCouponCode(), function(error, result) {
 					if (error) {
 						Alerts.insert({
 							colorClass: 'bg-danger',
