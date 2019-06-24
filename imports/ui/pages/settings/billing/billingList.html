@@ -61,6 +61,9 @@
 						<input class="" type="text" name="coupon" id="coupon" placeholder="Coupon Code" autocomplete="off">
 						<label class="error coupon-errors p-tn-t-9 m-tn-b-neg-4"></label>
 						<a href="#" id="{{group._id}}" class="js-unpause-canceled-account btn btn-block txt-tn-center m-tn-t-neg-6"><i class="icn-play-circle"></i> Unpause Account</a>
+						<div class="form-loading">
+							<div class="loader-icon loader-icon-on-white loader-icon-sm loader-icon-middle loader-icon-center"></div>
+						</div>
 					</form>
 				</li>
 				{{else}}
@@ -68,7 +71,9 @@
 					<a href="#" id="{{group._id}}" class="js-unpause-account list-item-link bg-white p-tn-rl-9">
 						<div class="list-item-icon"><i class="txt-primary icn-play-circle"></i></div> 
 						<div class="list-item-label">Unpause Account</div>
-						<div class="list-item-loading"></div> 
+						<div class="list-item-loading">
+							<div class="loader-icon loader-icon-on-white loader-icon-xs"></div>
+						</div>
 					</a>
 				</li>
 				{{/if}}
@@ -77,7 +82,9 @@
 					<a href="#" id="{{group._id}}" class="js-pause-account list-item-link bg-white p-tn-rl-9">
 						<div class="list-item-icon"><i class="txt-primary icn-pause-circle"></i></div> 
 						<div class="list-item-label">Pause Account</div>
-						<div class="list-item-loading"></div>
+						<div class="list-item-loading">
+							<div class="loader-icon loader-icon-on-white loader-icon-xs"></div>
+						</div>
 					</a>
 				</li>
 				<p class="txt-gray-darker txt-tn-center font-size-12 m-tn-9">Pausing effectively cancels your account.</p>

@@ -198,7 +198,7 @@ Template.billingList.events({
 		
 		if (!$(event.currentTarget).is(':disabled')) {
 			$(event.currentTarget).prop('disabled', true);
-			$('.list-item-loading').show();
+			$('.form-loading').show();
 
 			let groupId = $('.js-unpause-account').attr('id');
 			function getCouponCode() {
@@ -222,10 +222,10 @@ Template.billingList.events({
 								message: error.reason,
 							});
 							$(event.currentTarget).prop('disabled', false);
-							$('.list-item-loading').hide();
+							$('.form-loading').hide();
 						} else {
 							$(event.currentTarget).prop('disabled', false);
-							$('.list-item-loading').hide();
+							$('.form-loading').hide();
 							Alerts.insert({
 								colorClass: 'bg-info',
 								iconClass: 'icn-info',

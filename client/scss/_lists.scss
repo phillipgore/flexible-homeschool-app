@@ -206,14 +206,13 @@ ul.list {
 
 			.list-item-loading {
 				position: absolute;
-				top: 15px;
+				bottom: 15px;
 				right: 9px;
 				z-index: 300;
 				font-size: 16px;
 				text-align: center;
 				height: 18px;
 				width: 18px;
-				color: $color-gray-darkest;
 				display: none;
 			}
 
@@ -242,6 +241,7 @@ ul.list {
 		}
 
 		form {
+			position: relative;
 			display: block;
 			margin: 0px;
 			padding-top: 16px;
@@ -251,6 +251,18 @@ ul.list {
 			input {
 				font-size: 15px;
 				margin: 0px;
+			}
+
+			.form-loading {
+				position: absolute;
+				top: 0;
+				right: 0;
+				bottom: 0;
+				left: 0;
+				z-index: 300;
+				text-align: center;
+				background-color: $color-white;
+				display: none;
 			}
 		}
 	}
