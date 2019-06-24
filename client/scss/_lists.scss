@@ -231,6 +231,10 @@ ul.list {
 				color: $color-black;
 				text-decoration: none;
 			}
+
+			&.hide {
+				display: none;
+			}
 		}
 
 		&.no-last-border:last-of-type {

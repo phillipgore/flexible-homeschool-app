@@ -134,101 +134,108 @@ Template.billingList.events({
 	'click .js-pause-account'(event) {
 		event.preventDefault();
 
-		$(event.currentTarget).prop('disabled', true);
-		$('.list-item-loading').show();
+		if (!$(event.currentTarget).is(':disabled')) {
+			$(event.currentTarget).prop('disabled', true);
+			$('.list-item-loading').show();
 
-		let groupId = $('.js-pause-account').attr('id');
+			let groupId = $('.js-pause-account').attr('id');
 
-		Meteor.call('pauseSubscription', function(error, result) {
-			if (error) {
-				Alerts.insert({
-					colorClass: 'bg-danger',
-					iconClass: 'icn-danger',
-					message: error.reason,
-				});
-				$(event.currentTarget).prop('disabled', false);
-				$('.list-item-loading').hide();
-			} else {
-				$(event.currentTarget).prop('disabled', false);
-				$('.list-item-loading').hide();
-				Alerts.insert({
-					colorClass: 'bg-info',
-					iconClass: 'icn-info',
-					message: 'Your account has been paused. You may unpause it at anytime.',
-				});
-			}
-		})
+			Meteor.call('pauseSubscription', function(error, result) {
+				if (error) {
+					Alerts.insert({
+						colorClass: 'bg-danger',
+						iconClass: 'icn-danger',
+						message: error.reason,
+					});
+					$(event.currentTarget).prop('disabled', false);
+					$('.list-item-loading').hide();
+				} else {
+					$(event.currentTarget).prop('disabled', false);
+					$('.list-item-loading').hide();
+					Alerts.insert({
+						colorClass: 'bg-info',
+						iconClass: 'icn-info',
+						message: 'Your account has been paused. You may unpause it at anytime.',
+					});
+				}
+			})
+		}
 	},
 
 	'click .js-unpause-account'(event) {
 		event.preventDefault();
-		console.log('unpauseSubscription');
 
-		$(event.currentTarget).prop('disabled', true);
-		$('.list-item-loading').show();
+		if (!$(event.currentTarget).is(':disabled')) {
+			$(event.currentTarget).prop('disabled', true);
+			$('.list-item-loading').show();
 
-		let groupId = $('.js-unpause-account').attr('id');
+			let groupId = $('.js-unpause-account').attr('id');
 
-		Meteor.call('unpauseSubscription', function(error, result) {
-			if (error) {
-				Alerts.insert({
-					colorClass: 'bg-danger',
-					iconClass: 'icn-danger',
-					message: error.reason,
-				});
-				$(event.currentTarget).prop('disabled', false);
-				$('.list-item-loading').hide();
-			} else {
-				$(event.currentTarget).prop('disabled', false);
-				$('.list-item-loading').hide();
-				Alerts.insert({
-					colorClass: 'bg-info',
-					iconClass: 'icn-info',
-					message: 'Your account has been unpaused. Welcome back.',
-				});
-			}
-		});
+			Meteor.call('unpauseSubscription', function(error, result) {
+				if (error) {
+					Alerts.insert({
+						colorClass: 'bg-danger',
+						iconClass: 'icn-danger',
+						message: error.reason,
+					});
+					$(event.currentTarget).prop('disabled', false);
+					$('.list-item-loading').hide();
+				} else {
+					$(event.currentTarget).prop('disabled', false);
+					$('.list-item-loading').hide();
+					Alerts.insert({
+						colorClass: 'bg-info',
+						iconClass: 'icn-info',
+						message: 'Your account has been unpaused. Welcome back.',
+					});
+				}
+			});
+		}
 	},
 
 	'click .js-unpause-canceled-account'(event) {
 		event.preventDefault();
-		console.log('unpauseCanceledSubscription');
 		
-		$('.list-item-loading').show();
+		if (!$(event.currentTarget).is(':disabled')) {
+			$(event.currentTarget).prop('disabled', true);
+			$('.list-item-loading').show();
 
-		let groupId = $('.js-unpause-account').attr('id');
-		function getCouponCode() {
-			if ($('#coupon').length) {
-				return $('#coupon').val().trim().toLowerCase()
+			let groupId = $('.js-unpause-account').attr('id');
+			function getCouponCode() {
+				if ($('#coupon').length) {
+					return $('#coupon').val().trim().toLowerCase()
+				}
+				return '';
 			}
-			return '';
+
+			Meteor.call('getCoupon', getCouponCode(), function(error, result) {
+				if (error && getCouponCode().length != 0) {
+					$('#coupon').addClass('error');
+					$('.coupon-errors').text('Invalid Coupon.');
+					Session.set('validCoupon', false);
+				} else {
+					Meteor.call('unpauseCanceledSubscription', getCouponCode(), function(error, result) {
+						if (error) {
+							Alerts.insert({
+								colorClass: 'bg-danger',
+								iconClass: 'icn-danger',
+								message: error.reason,
+							});
+							$(event.currentTarget).prop('disabled', false);
+							$('.list-item-loading').hide();
+						} else {
+							$(event.currentTarget).prop('disabled', false);
+							$('.list-item-loading').hide();
+							Alerts.insert({
+								colorClass: 'bg-info',
+								iconClass: 'icn-info',
+								message: 'Your account has been unpaused. Welcome back.',
+							});
+						}
+					});
+				}
+			});
 		}
-
-		Meteor.call('getCoupon', getCouponCode(), function(error, result) {
-			if (error && getCouponCode().length != 0) {
-				$('#coupon').addClass('error');
-				$('.coupon-errors').text('Invalid Coupon.');
-				Session.set('validCoupon', false);
-			} else {
-				Meteor.call('unpauseCanceledSubscription', getCouponCode(), function(error, result) {
-					if (error) {
-						Alerts.insert({
-							colorClass: 'bg-danger',
-							iconClass: 'icn-danger',
-							message: error.reason,
-						});
-						$('.list-item-loading').hide();
-					} else {
-						$('.list-item-loading').hide();
-						Alerts.insert({
-							colorClass: 'bg-info',
-							iconClass: 'icn-info',
-							message: 'Your account has been unpaused. Welcome back.',
-						});
-					}
-				});
-			}
-		});
 	},
 
 	'click .js-paused '(event) {
