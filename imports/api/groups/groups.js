@@ -65,11 +65,6 @@ const GroupsSchema = new SimpleSchema({
         label: "Current Coupon End Date",
         optional: true
     },
-    'stripeCurrentCouponCode.id': {
-        type: String,
-        label: "Current Coupon ID",
-        optional: true
-    },
     'stripeCurrentCouponCode.amountOff': {
         type: Number,
         label: "Current Coupon Amount Off (Pennies)",

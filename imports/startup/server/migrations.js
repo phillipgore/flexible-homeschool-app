@@ -243,9 +243,21 @@ Migrations.add({
 	}
 });
 
-// Meteor.startup(() => {
-// 	Migrations.migrateTo(10);
-// });
+Migrations.add({
+	version: 11,
+	name: 'Verify and corret Stripe data.',
+	up: function() {
+		Groups.find().forEach(group => {
+			if (group.stripeCustomerId) {
+				Meteor.call('updateCustomer', group.stripeCustomerId)
+			}
+		})
+	}
+});
+
+Meteor.startup(() => {
+	Migrations.migrateTo(11);
+});
 
 
 

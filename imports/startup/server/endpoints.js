@@ -25,13 +25,27 @@ Picker.route('/webhooks/stripe', (params, request, response) => {
 		let customerId = body.data.object.customer;
 		let group = Groups.findOne({stripeCustomerId: customerId})
 
+		let updatedGroupProperties = {
+			subscriptionStatus: 'paused',
+			stripeSubscriptionId: null,
+			stripeCurrentCouponCode: {
+				startDate: null,
+				endDate: null,
+				id: null,
+				amountOff: null,
+				percentOff: null,
+			},
+		};
+
 		if (group) {
 			if (group.subscriptionStatus === 'pausePending' || group.subscriptionStatus === 'paused') {
-				Groups.update({stripeCustomerId: customerId}, {$set: {subscriptionStatus: 'paused'}}, function() {
+				
+				Groups.update({stripeCustomerId: customerId}, {$set: updatedGroupProperties}, function() {
 					Meteor.call('mcTags', group._id);
 				});
 			} else {
-				Groups.update({stripeCustomerId: customerId}, {$set: {subscriptionStatus: 'error'}}, function() {
+				updatedGroupProperties.subscriptionStatus = 'error';
+				Groups.update({stripeCustomerId: customerId}, {$set: updatedGroupProperties}, function() {
 					Meteor.call('mcTags', group._id);
 				});
 			}

@@ -1,7 +1,7 @@
 import {Groups} from '../../api/groups/groups';
 import stripePackage from 'stripe';
 const stripe = stripePackage(Meteor.settings.private.stripe);
-
+import _ from 'lodash';
 
 
 Meteor.methods({
@@ -367,10 +367,62 @@ Meteor.methods({
 			}
 		});
 	},
+
+	updateCustomer: async function(customerId) {
+		let group = Groups.findOne({stripeCustomerId: customerId});
+		
+		let updatedGroupProperties = {
+			subscriptionStatus: group.subscriptionStatus,
+			stripeCustomerId: group.stripeCustomerId,
+			stripeCardId: group.stripeCardId,
+			stripeSubscriptionId: null,
+			stripeCouponCodes: group.stripeCouponCodes,
+			stripeCurrentCouponCode: {
+				startDate: null,
+				endDate: null,
+				id: null,
+				amountOff: null,
+				percentOff: null,
+			},
+		};
+
+		let result = await stripe.customers.retrieve(
+			customerId
+		).then((customer) => {
+			let stripeCouponCodes = group.stripeCouponCodes;
+
+			updatedGroupProperties.stripeCustomerId = customer.id;
+			updatedGroupProperties.stripeCardId = customer.default_source;
+			if (customer.subscriptions.data.length) {
+				updatedGroupProperties.stripeSubscriptionId = customer.subscriptions.data[0].id;
+				if (customer.subscriptions.data[0].discount) {
+					updatedGroupProperties.stripeCurrentCouponCode.startDate = customer.subscriptions.data[0].discount.start;
+					updatedGroupProperties.stripeCurrentCouponCode.endDate = customer.subscriptions.data[0].discount.end;
+					updatedGroupProperties.stripeCurrentCouponCode.id = customer.subscriptions.data[0].discount.coupon.id;
+					updatedGroupProperties.stripeCurrentCouponCode.amountOff = customer.subscriptions.data[0].discount.coupon.amount_off;
+					updatedGroupProperties.stripeCurrentCouponCode.percentOff = customer.subscriptions.data[0].discount.coupon.percent_off;
+
+					stripeCouponCodes.push(customer.subscriptions.data[0].discount.coupon.id);
+				}
+			}
+
+			updatedGroupProperties.stripeCouponCodes = _.uniq(stripeCouponCodes);
+		}).catch((error) => {
+			throw new Meteor.Error(500, error.message);
+		});
+
+		console.log('------------------------------')
+		console.log(updatedGroupProperties)
+
+		Groups.update({stripeCustomerId: customerId}, {$set: updatedGroupProperties}, function(error, result) {
+			if (error) {
+				console.log(error);
+			} else {
+				return result;
+			}
+		});
+	}
 });
-
-
-
 
 
 
