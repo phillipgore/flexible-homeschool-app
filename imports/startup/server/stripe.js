@@ -148,6 +148,7 @@ Meteor.methods({
 					subscriptionProperties
 				).then((subscription) => {
 					groupProperties.stripeSubscriptionId = subscription.id;
+					updatedGroupProperties.subscriptionErrorMessage = null;
 					if (subscription.discount) {
 						groupProperties.stripeCurrentCouponCode.startDate = subscription.discount.start;
 						groupProperties.stripeCurrentCouponCode.endDate = subscription.discount.end;
