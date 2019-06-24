@@ -133,6 +133,8 @@ Template.billingList.helpers({
 Template.billingList.events({
 	'click .js-pause-account'(event) {
 		event.preventDefault();
+
+		$(event.currentTarget).prop('disabled', true);
 		$('.list-item-loading').show();
 
 		let groupId = $('.js-pause-account').attr('id');
@@ -144,8 +146,10 @@ Template.billingList.events({
 					iconClass: 'icn-danger',
 					message: error.reason,
 				});
+				$(event.currentTarget).prop('disabled', false);
 				$('.list-item-loading').hide();
 			} else {
+				$(event.currentTarget).prop('disabled', false);
 				$('.list-item-loading').hide();
 				Alerts.insert({
 					colorClass: 'bg-info',
@@ -160,7 +164,9 @@ Template.billingList.events({
 		event.preventDefault();
 		console.log('unpauseSubscription');
 
+		$(event.currentTarget).prop('disabled', true);
 		$('.list-item-loading').show();
+
 		let groupId = $('.js-unpause-account').attr('id');
 
 		Meteor.call('unpauseSubscription', function(error, result) {
@@ -170,8 +176,10 @@ Template.billingList.events({
 					iconClass: 'icn-danger',
 					message: error.reason,
 				});
+				$(event.currentTarget).prop('disabled', false);
 				$('.list-item-loading').hide();
 			} else {
+				$(event.currentTarget).prop('disabled', false);
 				$('.list-item-loading').hide();
 				Alerts.insert({
 					colorClass: 'bg-info',
