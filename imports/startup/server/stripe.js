@@ -416,7 +416,7 @@ Meteor.methods({
 
 		Groups.update({stripeCustomerId: customerId}, {$set: updatedGroupProperties}, function(error, result) {
 			if (error) {
-				console.log(error);
+				throw new Meteor.Error(500, error);
 			} else {
 				return result;
 			}

@@ -54,7 +54,7 @@ Meteor.methods({
 			mailchimp.post('/lists/' + Meteor.settings.private.mailchimpListId + '/members/' + emailHash + '/tags', {
 				"tags": tagProperties
 			}).catch(function (error) {
-				console.log(error);
+				throw new Meteor.Error(500, error.detail);
 			})
 		})
 	}

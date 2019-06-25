@@ -18,7 +18,7 @@ Meteor.publish('allAccounts', function() {
 		}
 
 		return [
-			Groups.find({appAdmin: false}, {fields: {subscriptionStatus: 1, appAdmin: 1, freeTrial: 1, createdOn: 1}}),
+			Groups.find({appAdmin: false}, {fields: {subscriptionStatus: 1, stripeCustomerId: 1, appAdmin: 1, freeTrial: 1, createdOn: 1}}),
 			Meteor.users.find({'info.role': 'Administrator'}, {fields: {createdAt: 1, 'info.groupId': 1, 'info.firstName': 1, 'info.lastName': 1, 'info.role': 1, emails: 1, 'presence': 1}}),
 		]
 });

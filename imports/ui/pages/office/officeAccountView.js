@@ -86,7 +86,7 @@ Template.officeAccountView.events({
 		let groupId = $(event.currentTarget).attr('data-group-id');
 
 		Meteor.call('runGroupInitialIds', groupId, function(error) {
-			if (error && error.reason != 'unverified') {
+			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',
 					iconClass: 'icn-danger',
@@ -109,7 +109,7 @@ Template.officeAccountView.events({
 		let groupId = $(event.currentTarget).attr('data-group-id');
 
 		Meteor.call('runGroupPaths', groupId, function(error) {
-			if (error && error.reason != 'unverified') {
+			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',
 					iconClass: 'icn-danger',
@@ -132,7 +132,7 @@ Template.officeAccountView.events({
 		let groupId = $(event.currentTarget).attr('data-group-id');
 
 		Meteor.call('runGroupStats', groupId, function(error) {
-			if (error && error.reason != 'unverified') {
+			if (error) {
 				Alerts.insert({
 					colorClass: 'bg-danger',
 					iconClass: 'icn-danger',
@@ -148,5 +148,51 @@ Template.officeAccountView.events({
 				$(event.currentTarget).text('Correct Stats');
 			}
 		})
-	}
+	},
+
+	'click .js-update-mailchimp-tags': function(event) {
+		$(event.currentTarget).text('Updating Tags...')
+		let groupId = $(event.currentTarget).attr('id');
+
+		Meteor.call('mcTags', groupId, function(error) {
+			if (error) {
+				Alerts.insert({
+					colorClass: 'bg-danger',
+					iconClass: 'icn-danger',
+					message: error,
+				});
+				$(event.currentTarget).text('Update MC Tags');
+			} else { 
+				Alerts.insert({
+					colorClass: 'bg-success',
+					iconClass: 'icn-planning',
+					message: 'Tags have been updated.',
+				});
+				$(event.currentTarget).text('Update MC Tags');
+			}
+		});
+	},
+
+	'click .js-update-stripe-info': function(event) {
+		$(event.currentTarget).text('Updating Stripe...')
+		let stripeCustomerId = $(event.currentTarget).attr('id');
+
+		Meteor.call('updateCustomer', stripeCustomerId, function(error) {
+			if (error) {
+				Alerts.insert({
+					colorClass: 'bg-danger',
+					iconClass: 'icn-danger',
+					message: error,
+				});
+				$(event.currentTarget).text('Update Stripe Info');
+			} else { 
+				Alerts.insert({
+					colorClass: 'bg-success',
+					iconClass: 'icn-planning',
+					message: 'Stripe data has been updated.',
+				});
+				$(event.currentTarget).text('Update Stripe Info');
+			}
+		})
+	},
 });
