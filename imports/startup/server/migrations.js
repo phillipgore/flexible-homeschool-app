@@ -167,7 +167,6 @@ Migrations.add({
 	name: 'Add intial ids to Group collection',
 	up: function() {
 		let groupIds = _.uniq(Groups.find({}, {fields: {_id: 1}}).map(group => group._id));
-		console.log(groupIds.length)
 		
 		groupIds.forEach((groupId, index) => {
 			
@@ -212,7 +211,6 @@ Migrations.add({
 	up: function() {
 		
 		let groups = Groups.find({}, {sort: {_id: -1}});
-		console.log(groups.count())
 
 		let students = Students.find({}, {fields: {groupId: 1}});
 		let schoolYears = SchoolYears.find({}, {fields: {groupId: 1}});
@@ -220,7 +218,6 @@ Migrations.add({
 		let weeks = Weeks.find({}, {fields: {groupId: 1}});
 
 		groups.forEach((group, index) => {
-			console.log(index + 1)
 			let statProperties = {
 				studentIds: _.filter(students, {groupId: group._id}).map(student => student._id),
 				schoolYearIds: _.filter(schoolYears, {groupId: group._id}).map(schoolYear => schoolYear._id),
@@ -258,8 +255,6 @@ Migrations.add({
 // Meteor.startup(() => {
 // 	Migrations.migrateTo(11);
 // });
-
-
 
 
 
