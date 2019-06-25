@@ -43,7 +43,7 @@ Meteor.methods({
 			{"name": "freeTrialExpired", "status": "inactive"},
 			{"name": "error", "status": "inactive"},
 		];
-		let tagName = Groups.findOne({_id: groupId}).subscriptionStatus;
+		let tagName = Groups.findOne({_id: groupId}).subscriptionStatus.trim();
 		let tagUpdateIndex = tagProperties.findIndex((tag => tag.name === tagName));
 		tagProperties[tagUpdateIndex].status = "active";
 
