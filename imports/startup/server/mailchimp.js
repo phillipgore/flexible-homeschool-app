@@ -50,10 +50,10 @@ Meteor.methods({
 		console.log(tagUpdateIndex)
 		tagProperties[tagUpdateIndex].status = "active";
 		let users = Meteor.users.find({'info.groupId': groupId});
-		console.log(users.emails[0].address)
 
 		users.forEach(user => {
 			let email = user.emails[0].address;
+			console.log(email)
 			let emailHash = md5(email);
 
 			mailchimp.post('/lists/' + Meteor.settings.private.mailchimpListId + '/members/' + emailHash + '/tags', {
