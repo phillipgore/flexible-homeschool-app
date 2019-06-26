@@ -34,6 +34,7 @@ Meteor.methods({
 	},
 
 	mcTags: function(groupId) {
+		console.log(groupId)
 		let tagProperties = [
 			{"name": "pending", "status": "inactive"},
 			{"name": "active", "status": "inactive"},
@@ -44,10 +45,14 @@ Meteor.methods({
 			{"name": "error", "status": "inactive"},
 		];
 		let tagName = Groups.findOne({_id: groupId}).subscriptionStatus.trim();
+		console.log(tagName)
 		let tagUpdateIndex = tagProperties.findIndex((tag => tag.name === tagName));
+		console.log(tagUpdateIndex)
 		tagProperties[tagUpdateIndex].status = "active";
+		let users = Meteor.users.find({'info.groupId': groupId});
+		console.log(users.emails[0].address)
 
-		Meteor.users.find({'info.groupId': groupId}).forEach(user => {
+		users.forEach(user => {
 			let email = user.emails[0].address;
 			let emailHash = md5(email);
 
