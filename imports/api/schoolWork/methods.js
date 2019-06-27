@@ -19,10 +19,10 @@ Meteor.methods({
 		let info = {};
 		let resourceInfo = [];
 
-		info.description = SchoolWork.findOne({_id: schoolWorkId, groupId: groupId, deletedOn: { $exists: false }}).description;
+		info.description = SchoolWork.findOne({_id: schoolWorkId, groupId: groupId}).description;
 
-		let resourceIds = _.flattenDeep(SchoolWork.find({_id: schoolWorkId, groupId: groupId, deletedOn: { $exists: false }}).map(schoolWork => schoolWork.resources));
-		let resources = Resources.find({groupId: groupId, deletedOn: { $exists: false }, _id: {$in: resourceIds}}, {sort: {title: 1}, fields: {title: 1, type: 1, link: 1}});
+		let resourceIds = _.flattenDeep(SchoolWork.find({_id: schoolWorkId, groupId: groupId}).map(schoolWork => schoolWork.resources));
+		let resources = Resources.find({groupId: groupId, _id: {$in: resourceIds}}, {sort: {title: 1}, fields: {title: 1, type: 1, link: 1}});
 		resources.forEach(resource => {
 			resourceInfo.push({_id: resource._id, title: resource.title, type: resource.type, link: resource.link})
 		})

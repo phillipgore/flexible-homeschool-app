@@ -16,16 +16,39 @@ Picker.route('/webhooks/stripe', (params, request, response) => {
 	if (body.type === 'invoice.payment_succeeded') {
 		let customerId = body.data.object.customer;
 
-		Groups.update({stripeCustomerId: customerId}, {$set: {stripePaymentAttempt: 0, subscriptionStatus: 'active'}});
+		Groups.update({stripeCustomerId: customerId}, {$set: {stripePaymentAttempt: 0, subscriptionStatus: 'active'}}, function() {
+			let group = Groups.findOne({stripeCustomerId: customerId});
+			Meteor.call('mcTags', group._id);
+		});
 	}
 	if (body.type === 'customer.subscription.deleted') {
 		let customerId = body.data.object.customer;
-		let groupStatus = Groups.findOne({stripeCustomerId: customerId}).subscriptionStatus
+		let group = Groups.findOne({stripeCustomerId: customerId})
 
-		if (groupStatus === 'pausePending' || groupStatus === 'paused') {
-			Groups.update({stripeCustomerId: customerId}, {$set: {subscriptionStatus: 'paused'}});
-		} else {
-			Groups.update({stripeCustomerId: customerId}, {$set: {subscriptionStatus: 'error'}});
+		let updatedGroupProperties = {
+			subscriptionStatus: 'paused',
+			stripeSubscriptionId: null,
+			stripeCurrentCouponCode: {
+				startDate: null,
+				endDate: null,
+				id: null,
+				amountOff: null,
+				percentOff: null,
+			},
+		};
+
+		if (group) {
+			if (group.subscriptionStatus === 'pausePending' || group.subscriptionStatus === 'paused') {
+				
+				Groups.update({stripeCustomerId: customerId}, {$set: updatedGroupProperties}, function() {
+					Meteor.call('mcTags', group._id);
+				});
+			} else {
+				updatedGroupProperties.subscriptionStatus = 'error';
+				Groups.update({stripeCustomerId: customerId}, {$set: updatedGroupProperties}, function() {
+					Meteor.call('mcTags', group._id);
+				});
+			}
 		}
 	}
 	response.writeHead(200);

@@ -25,33 +25,7 @@ Template.officeAccountsList.helpers({
 	},
 
 	groups: function() {
-		return Groups.find({appAdmin: false}, {sort: {createdOn: -1}});
-	},
-
-	subscriptionStatus: function (subscriptionStatus) {
-		if (subscriptionStatus === 'pausePending') {
-			return 'txt-warning';
-		}
-		if (subscriptionStatus === 'paused') {
-			return 'txt-gray-darker';
-		}
-		if (subscriptionStatus === 'error') {
-			return 'txt-danger';
-		}
-		if (subscriptionStatus === 'freeTrial') {
-			return 'txt-royal';
-		}
-		if (subscriptionStatus === 'freeTrialExpired') {
-			return 'txt-royal expired';
-		}
-		return 'txt-info';
-	},
-
-	active: function(id) {
-		if (FlowRouter.getParam('selectedGroupId') === id) {
-			return true;
-		}
-		return false;
+		return Groups.find({}, {sort: {createdOn: -1}});
 	},
 
 	activeRoute: function(currentRoute, route) {

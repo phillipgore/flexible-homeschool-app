@@ -68,24 +68,23 @@ ul.list {
 			position: absolute;
 			top: 0px;
 			right: 0px;
-			bottom: 0px;
 			left: 0px;
-			// background-color: lightgreen;
+			z-index: 10;
 
 			.list-item-dropdown-options {
 				background-color: $color-gray;
-				height: 31px;
-				// max-width: 320px;
-				margin: 9px 36px 9px 9px;
+				margin: 16px 36px 9px 9px;
 				padding: 7px 9px 0px;
-				border-radius: 16px;
+				border-radius: 3px;
 				font-size: 14px;
-				float: right;
+				// float: right;
 
 				a {
 					color: $color-black;
 					text-decoration: none;
 					margin-right: 36px;
+					display: block;
+					padding: 3px 0px;
 
 					&:last-of-type {
 						margin-right: 3px;
@@ -99,17 +98,17 @@ ul.list {
 						display: inline-block;
 						float: left;
 						font-size: 16px;
-						margin-right: 3px;
+						margin-right: 6px;
 						text-align: center;
 					}
 
-					@media only screen and (min-width: 768px) {
-						margin-right: 18px;
+					// @media only screen and (min-width: 768px) {
+					// 	margin-right: 18px;
 
-						&:last-of-type {
-							margin-right: 7px;
-						}
-					}
+					// 	&:last-of-type {
+					// 		margin-right: 7px;
+					// 	}
+					// }
 				}
 			}
 		}
@@ -135,9 +134,15 @@ ul.list {
 				border-top: 1px solid $color-gray-lighter;
 			}
 
+			&.top-border-only-dark {
+				margin-top: -1px;
+				border-top: 1px solid;
+				border-bottom: none;
+				border-color: $color-gray;
+			}
+
 			&.dark-border {
 				border-color: $color-gray;
-
 			}
 
 			&.padding-bottom-none {
@@ -176,8 +181,8 @@ ul.list {
 			}
 
 			.list-item-btn-lg {
-				top: 10px;
-				width: 30px;
+				top: 12px;
+				width: 76px;
 			}
 
 			.list-item-badge {
@@ -201,14 +206,13 @@ ul.list {
 
 			.list-item-loading {
 				position: absolute;
-				top: 15px;
+				bottom: 15px;
 				right: 9px;
 				z-index: 300;
 				font-size: 16px;
 				text-align: center;
 				height: 18px;
 				width: 18px;
-				color: $color-gray-darkest;
 				display: none;
 			}
 
@@ -226,10 +230,40 @@ ul.list {
 				color: $color-black;
 				text-decoration: none;
 			}
+
+			&.hide {
+				display: none;
+			}
 		}
 
 		&.no-last-border:last-of-type {
 			border: none;
+		}
+
+		form {
+			position: relative;
+			display: block;
+			margin: 0px;
+			padding-top: 16px;
+			padding-bottom: 16px;
+			border-bottom: 1px solid $color-gray-lighter;
+
+			input {
+				font-size: 15px;
+				margin: 0px;
+			}
+
+			.form-loading {
+				position: absolute;
+				top: 0;
+				right: 0;
+				bottom: 0;
+				left: 0;
+				z-index: 300;
+				text-align: center;
+				background-color: $color-white;
+				display: none;
+			}
 		}
 	}
 

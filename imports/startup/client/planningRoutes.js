@@ -147,6 +147,7 @@ FlowRouter.route('/planning/resources/view/:selectedFramePosition/:selectedResou
 	},
 });
 
+
 FlowRouter.route('/planning/resources/edit/:selectedFramePosition/:selectedResourceType/:selectedResourceAvailability/:selectedResourceId/:selectedResourceCurrentTypeId', {
 	name: 'resourcesEdit',
 	action: function(params, queryParams) {

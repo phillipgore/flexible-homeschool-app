@@ -2,7 +2,7 @@ import {Weeks} from '../weeks.js';
 import {SchoolYears} from '../../schoolYears/schoolYears.js';
 import {Terms} from '../../terms/terms.js';
 import {Lessons} from '../../lessons/lessons.js';
-import {weekStatus} from '../../../modules/server/functions';
+
 import _ from 'lodash'
 
 Meteor.publish('allWeeks', function() {
@@ -11,7 +11,7 @@ Meteor.publish('allWeeks', function() {
 	}
 
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-	return Weeks.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {order: 1}, fields: {order: 1, termId: 1}});
+	return Weeks.find({groupId: groupId}, {sort: {order: 1}, fields: {order: 1, termId: 1}});
 });
 
 Meteor.publish('schoolYearWeeks', function(schoolYearId) {
@@ -20,7 +20,7 @@ Meteor.publish('schoolYearWeeks', function(schoolYearId) {
 	}
 
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-	return Weeks.find({schoolYearId: schoolYearId, groupId: groupId, deletedOn: { $exists: false }}, {fields: {_id: 1}});
+	return Weeks.find({schoolYearId: schoolYearId, groupId: groupId}, {fields: {_id: 1}});
 });
 
 Meteor.publish('termWeeks', function(termId) {
@@ -29,7 +29,7 @@ Meteor.publish('termWeeks', function(termId) {
 	}
 
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-	return Weeks.find({termId: termId, groupId: groupId, deletedOn: { $exists: false }}, {sort: {termOrder: 1, order: 1}, fields: {groupId: 0, userId: 0, createdOn: 0, deletedOn: 0}})
+	return Weeks.find({termId: termId, groupId: groupId}, {sort: {termOrder: 1, order: 1}, fields: {groupId: 0, userId: 0, createdOn: 0}})
 });
 
 

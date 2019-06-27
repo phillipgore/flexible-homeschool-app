@@ -35,7 +35,7 @@ Meteor.publish('schoolYearPaths', function(studentId) {
 
 	return [
 		Paths.find({groupId: groupId, studentId: studentId, type: 'schoolYear'}, {fields: {groupId: 0, createdOn: 0, updatedOn: 0}}),
-		SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}, fields: {startYear: 1, endYear: 1}}),
+		SchoolYears.find({groupId: groupId}, {sort: {startYear: 1}, fields: {startYear: 1, endYear: 1}}),
 	];
 });
 
@@ -48,7 +48,7 @@ Meteor.publish('termPaths', function(studentId, schoolYearId) {
 
 	return [
 		Paths.find({groupId: groupId, studentId: studentId, type: 'term'}, {fields: {groupId: 0, createdOn: 0, updatedOn: 0}}),
-		Terms.find({schoolYearId: schoolYearId, groupId: groupId, deletedOn: { $exists: false }}, {sort: {order: 1}, fields: {order: 1, schoolYearId: 1}}),
+		Terms.find({schoolYearId: schoolYearId, groupId: groupId}, {sort: {order: 1}, fields: {order: 1, schoolYearId: 1}}),
 	];
 });
 
@@ -59,7 +59,7 @@ Meteor.publish('weekPaths', function(studentId, termId) {
 
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
 
-	return Weeks.find({termId: termId, groupId: groupId, deletedOn: { $exists: false }}, {sort: {termOrder: 1, order: 1}, fields: {groupId: 0, userId: 0, createdOn: 0, deletedOn: 0}});
+	return Weeks.find({termId: termId, groupId: groupId}, {sort: {termOrder: 1, order: 1}, fields: {groupId: 0, userId: 0, createdOn: 0}});
 });
 
 

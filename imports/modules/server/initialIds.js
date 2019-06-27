@@ -16,61 +16,74 @@ import _ from 'lodash';
 
 // Intial Ids for Student, School Year, Term, Week and School Work.
 export function primaryInitialIds (submittedGroupId) {
-	console.log('primaryInitialIds start');	
+	// console.log('primaryInitialIds start');	
 	let groupId = getGroupId(submittedGroupId);
+	// console.log('groupId: ' + groupId);
 
 	let ids = {};
 
 	// Get First Student
-	let firstStudent = Students.findOne({groupId: groupId, deletedOn: { $exists: false }}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}, fields: {_id: 1}});
+	let firstStudent = Students.findOne({groupId: groupId}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}, fields: {_id: 1}});
 	if (firstStudent) {ids.studentId = firstStudent._id} else {ids.studentId = 'empty'};
+	// console.log('firstStudent');
 
 	// Get First School Year
 	let firstSchoolYear = getFirstSchoolYearId(groupId);
 	ids.schoolYearId = firstSchoolYear;
+	// console.log('firstSchoolYear');
 
 	// Get First School Work
-	if (firstStudent && firstSchoolYear) {
+	if (firstStudent && firstSchoolYear != 'empty') {
 		let firstSchoolWork = SchoolWork.findOne(
-			{groupId: groupId, schoolYearId: firstSchoolYear, studentId: firstStudent._id, deletedOn: { $exists: false }},
+			{groupId: groupId, schoolYearId: firstSchoolYear, studentId: firstStudent._id},
 			{sort: {name: 1}, fields: {_id: 1}}
 		)	
-		if (firstSchoolWork) {ids.schoolWorkId = firstSchoolWork._id} else {ids.schoolWorkId = 'empty'};
+		// console.log('firstSchoolWork');
+
+		if (firstSchoolWork) {ids.schoolWorkId = firstSchoolWork._id} else {ids.schoolWorkId = 'empty'};			
+		// console.log('firstSchoolWork 2');
 	} else {
 		ids.schoolWorkId = 'empty';
-		ids.schoolYearsExist = false;
+		// console.log('firstSchoolWork empty');
 	}
 	// Get First Term and Week
 	if (ids.schoolYearId === 'empty') {
 		ids.termId = 'empty';
 		ids.weekId = 'empty';
+		// console.log('termId weekId empty');
 	} else {
 		if (ids.studentId === 'empty') { // First Student: False
 			let firstTerm = Terms.findOne(
-				{groupId: groupId, schoolYearId: firstSchoolYear, deletedOn: { $exists: false }},
+				{groupId: groupId, schoolYearId: firstSchoolYear},
 				{sort: {order: 1}, fields: {_id: 1}}
 			)
 
 			if (firstTerm) { // First Term: True
-				ids.termId = firstTerm._id
+				ids.termId = firstTerm._id	
+				// console.log('firstTerm');
+
 				let firstWeek = Weeks.findOne(
-					{groupId: groupId, schoolYearId: firstSchoolYear, termId: firstTerm._id, deletedOn: { $exists: false }},
+					{groupId: groupId, schoolYearId: firstSchoolYear, termId: firstTerm._id},
 					{sort: {order: 1}, fields: {_id: 1}}
 				)
 				if (firstWeek) {ids.weekId = firstWeek._id} else {ids.weekId = 'empty'};
+				// console.log('firstWeek');
 			} else { // First Term: False
 				ids.termId = 'empty'
 				ids.weekId = 'empty'
 			};
 		} else { // First Student: True
 			let firstIncompleteLesson = Lessons.findOne(
-				{studentId: firstStudent._id, schoolYearId: firstSchoolYear, completed: false, deletedOn: { $exists: false }},
+				{studentId: firstStudent._id, schoolYearId: firstSchoolYear, completed: false},
 				{sort: {termOrder: 1, weekOrder: 1, order: 1}, fields: {termId: 1, weekId: 1}}
 			);
+			// console.log('firstIncompleteLesson');
+
 			let firstCompletedLesson = Lessons.findOne(
-				{studentId: firstStudent._id, schoolYearId: firstSchoolYear, completed: true, deletedOn: { $exists: false }},
+				{studentId: firstStudent._id, schoolYearId: firstSchoolYear, completed: true},
 				{sort: {termOrder: 1, weekOrder: 1, order: 1}, fields: {termId: 1, weekId: 1}}
 			);
+			// console.log('firstCompletedLesson');
 
 			if (firstIncompleteLesson) { // First Incomplete Lesson: True
 				ids.termId = firstIncompleteLesson.termId;
@@ -80,17 +93,18 @@ export function primaryInitialIds (submittedGroupId) {
 				ids.weekId = firstCompletedLesson.weekId;
 			} else { // First Incomplete Lesson: false && First Complete Lesson: False
 				let firstTerm = Terms.findOne(
-					{groupId: groupId, schoolYearId: firstSchoolYear, deletedOn: { $exists: false }},
+					{groupId: groupId, schoolYearId: firstSchoolYear},
 					{sort: {order: 1}, fields: {_id: 1}}
 				)
 
 				if (firstTerm) { // First Term: True
 					ids.termId = firstTerm._id
 					let firstWeek = Weeks.findOne(
-						{groupId: groupId, schoolYearId: firstSchoolYear, termId: firstTerm._id, deletedOn: { $exists: false }},
+						{groupId: groupId, schoolYearId: firstSchoolYear, termId: firstTerm._id},
 						{sort: {order: 1}, fields: {_id: 1}}
 					)
 					if (firstWeek) {ids.weekId = firstWeek._id} else {ids.weekId = 'empty'};
+					// console.log('firstWeek 2');
 				} else { // First Term: False
 					ids.termId = 'empty'
 					ids.weekId = 'empty'
@@ -107,16 +121,17 @@ export function primaryInitialIds (submittedGroupId) {
 		'initialIds.schoolWorkId': ids.schoolWorkId,
 	}});
 	
-	console.log('primaryInitialIds end');
+	// console.log('primaryInitialIds end');
 	return groupId;
 };
 
 // Intial Ids for Resources.
 export function resourcesInitialIds (submittedGroupId) {
+	// console.log('resourcesInitialIds start');
 	let groupId = getGroupId(submittedGroupId);
 	let ids = {};
 
-	let firstResource = Resources.findOne({groupId: groupId, deletedOn: { $exists: false }}, {sort: {title: 1}, fields: {type: 1}});
+	let firstResource = Resources.findOne({groupId: groupId}, {sort: {title: 1}, fields: {type: 1}});
 	if (firstResource) {ids.resourceId = firstResource._id} else {ids.resourceId = 'empty'};
 	if (firstResource) {ids.resourceType = firstResource.type} else {ids.resourceType = 'empty'};
 
@@ -125,43 +140,48 @@ export function resourcesInitialIds (submittedGroupId) {
 		'initialIds.resourceType': ids.resourceType,
 	}});
 	
+	// console.log('resourcesInitialIds end');
 	return groupId;
 };
 
 // Intial Id for Users.
 export function usersInitialId (submittedGroupId) {
+	// console.log('usersInitialId start');
 	let groupId = getGroupId(submittedGroupId);
 	let ids = {};
 
-	let firstUser = Meteor.users.findOne({'info.groupId': groupId, 'emails.0.verified': true, 'status.active': true}, {sort: {'info.lastName': 1, 'info.firstName': 1}});
+	let firstUser = Meteor.users.findOne({'info.groupId': groupId, 'status.active': true}, {sort: {'info.lastName': 1, 'info.firstName': 1}});
 	ids.userId = firstUser._id;
+	if (firstUser) {ids.userId = firstUser._id} else {ids.userId = 'empty'};
 
 	Groups.update(groupId, {$set: {
 		'initialIds.userId': ids.userId,
 	}});
 	
+	// console.log('usersInitialId end');
 	return groupId;
 };
 
 // Intial Id for Reports.
 export function reportsInitialId (submittedGroupId) {
-	console.log('reportsInitialId start')
+	// console.log('reportsInitialId start')
 	let groupId = getGroupId(submittedGroupId);
 	let ids = {};
 
-	let firstReport = Reports.findOne({groupId: groupId, deletedOn: { $exists: false }}, {sort: {name: 1}});
+	let firstReport = Reports.findOne({groupId: groupId}, {sort: {name: 1}});
 	if (firstReport) {ids.reportId = firstReport._id} else {ids.reportId = 'empty'};
 
 	Groups.update(groupId, {$set: {
 		'initialIds.reportId': ids.reportId,
 	}});
 	
-	console.log('reportsInitialId end')
+	// console.log('reportsInitialId end')
 	return groupId;
 };
 
 // Intial Id for Groups.
 export function groupsInitialId (submittedGroupId) {
+	// console.log('groupsInitialId start');
 	let groupId = getGroupId(submittedGroupId);
 	let group = Groups.findOne({_id: groupId});
 	let ids = {};
@@ -177,6 +197,7 @@ export function groupsInitialId (submittedGroupId) {
 		'initialIds.groupId': ids.groupId,
 	}});
 
+	// console.log('groupsInitialId end');
 	return group._id;
 };
 
@@ -187,8 +208,10 @@ export function groupsInitialId (submittedGroupId) {
 // Return the Group Id
 function getGroupId(submittedGroupId) {
 	if (_.isUndefined(submittedGroupId)) {
+		// console.log('groupId not submitted: ' + submittedGroupId)
 		return Meteor.user().info.groupId;
 	} else {
+		// console.log('groupId submitted: ' + submittedGroupId)
 		return submittedGroupId;
 	}
 }
@@ -210,25 +233,29 @@ function getFirstSchoolYearId(groupId) {
 	let currentYear = startYearFunction();
 
 	let schoolYears = SchoolYears.find(
-		{groupId: groupId, deletedOn: { $exists: false }}, 
+		{groupId: groupId}, 
 		{sort: {starYear: 1}, fields: {startYear: 1, endYear: 1}}
 	).fetch();
 
-	if (!schoolYears.length) {
+	if (schoolYears.length) {
+		if (schoolYears.length === 1) {
+			// console.log('schoolYear 1')
+			return schoolYears[0]._id;
+		}
+
+		let gteFirstSchoolYear = _.find(schoolYears, year => {return year.startYear >= currentYear});
+		if (!_.isUndefined(gteFirstSchoolYear)) {
+			// console.log('schoolYear gte')
+			return gteFirstSchoolYear._id;
+		}
+
+		let lteFirstSchoolYear = _.find(schoolYears, year => {return year.startYear <= currentYear});
+		// console.log('schoolYear lte')
+		return lteFirstSchoolYear._id;
+	} else {
+		// console.log('schoolYear empty')
 		return 'empty'
 	}
-	
-	if (schoolYears.length === 1) {
-		return schoolYears[0]._id;
-	}
-
-	let gteFirstSchoolYear = _.find(schoolYears, year => {return year.startYear >= currentYear});
-	if (!_.isUndefined(gteFirstSchoolYear)) {
-		return gteFirstSchoolYear._id;
-	}
-
-	let lteFirstSchoolYear = _.find(schoolYears, year => {return year.startYear <= currentYear});
-	return lteFirstSchoolYear._id;
 }
 
 

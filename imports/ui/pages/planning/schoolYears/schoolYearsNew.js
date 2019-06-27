@@ -13,6 +13,8 @@ Template.schoolYearsNew.onCreated( function() {
 	template.autorun( () => {
 		this.subscribe('allSchoolYearPaths');
 	});
+
+	Session.setPersistent('unScrolled', true);
 });
 
 Template.schoolYearsNew.onRendered( function() {
@@ -101,11 +103,6 @@ Template.schoolYearsNew.onRendered( function() {
 						Session.set('selectedTermId', result.termId);
 						Session.set('selectedWeekId', result.weekId);
 
-						// let resourcesScrollTop = document.getElementById(schoolYearId).getBoundingClientRect().top - 130;
-						// if (window.screen.availWidth > 640) {
-						// 	document.getElementsByClassName('frame-two')[0].scrollTop = resourcesScrollTop;
-						// }
-
 						FlowRouter.go('/planning/schoolyears/view/3/' + result.schoolYearId);
 					});
 				}
@@ -182,11 +179,6 @@ Template.schoolYearsNew.events({
 
 	'click .js-cancel'(event) {
 		event.preventDefault();
-
-		if (window.screen.availWidth > 640) {
-			let resourcesScrollTop = document.getElementById(Session.get('selectedSchoolYearId')).getBoundingClientRect().top - 130;
-			document.getElementsByClassName('frame-two')[0].scrollTop = resourcesScrollTop;
-		}
 
 		if (window.screen.availWidth > 768) {
 			FlowRouter.go('/planning/schoolyears/view/3/' + Session.get('selectedSchoolYearId'))

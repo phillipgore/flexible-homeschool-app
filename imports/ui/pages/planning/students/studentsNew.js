@@ -4,6 +4,10 @@ import './studentsNew.html';
 import moment from 'moment';
 import _ from 'lodash';
 
+Template.studentsNew.onCreated( function() {
+	Session.setPersistent('unScrolled', true);
+});
+
 Template.studentsNew.onRendered( function() {
 	let template = Template.instance();
 
@@ -69,12 +73,6 @@ Template.studentsNew.onRendered( function() {
 					$('.js-submit').prop('disabled', false);
 				} else {
 					Session.set('selectedStudentId', studentId);
-
-					// let resourcesScrollTop = document.getElementById(studentId).getBoundingClientRect().top - 130;
-					// if (window.screen.availWidth > 640) {
-					// 	document.getElementsByClassName('frame-two')[0].scrollTop = resourcesScrollTop;
-					// }
-					
 					FlowRouter.go('/planning/students/view/3/' + studentId);
 				}
 			});
@@ -121,11 +119,6 @@ Template.studentsNew.events({
 
 	'click .js-cancel'(event) {
 		event.preventDefault();
-
-		if (window.screen.availWidth > 640 && FlowRouter.getRouteName() === 'resourcesNew') {
-			let resourcesScrollTop = document.getElementById(Session.get('selectedStudentId')).getBoundingClientRect().top - 130;
-			document.getElementsByClassName('frame-two')[0].scrollTop = resourcesScrollTop;
-		}
 
 		if (window.screen.availWidth > 768) {
 			FlowRouter.go('/planning/students/view/3/' + Session.get('selectedStudentId'))

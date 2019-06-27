@@ -122,8 +122,9 @@ Accounts.onCreateUser((options, user) => {
 			groupId: 'empty',
 		}
 	}
-	Meteor.call('updateGroup', groupProperties)
+	Meteor.call('updateGroup', groupProperties);
 	Meteor.call('mcSubscription', mcSubscriptionProperties);
+	Meteor.call('runAppAdminInitialId');
 
 	return user;
 });

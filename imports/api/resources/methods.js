@@ -17,21 +17,21 @@ Meteor.methods({
 		let ids = {};
 
 		let resourceTypes = ['all', 'book', 'link', 'video', 'audio', 'app'];
-		let resourceAvailabilities = ['all', 'own', 'borrowed', 'need'];
+		let resourceAvailabilities = ['all', 'own', 'borrowed', 'need', 'returned'];
 
 		resourceTypes.forEach((type) => {
 			resourceAvailabilities.forEach((availability) => {
 				function query (type, availability) {
 					if (type === 'all' && availability === 'all') {
-						return {groupId: groupId, deletedOn: { $exists: false }};
+						return {groupId: groupId};
 					}
 					if (type === 'all' && availability != 'all') {
-						return {availability: availability, groupId: groupId, deletedOn: { $exists: false }};
+						return {availability: availability, groupId: groupId};
 					}
 					if (type != 'all' && availability === 'all') {
-						return {type: type, groupId: groupId, deletedOn: { $exists: false }};
+						return {type: type, groupId: groupId};
 					}
-					return {type: type, availability: availability, groupId: groupId, deletedOn: { $exists: false }};
+					return {type: type, availability: availability, groupId: groupId};
 				};
 
 				let keyName = _.capitalize(type) + _.capitalize(availability);
@@ -41,7 +41,7 @@ Meteor.methods({
 			})
 		});
 
-		let valueFirstResource = Resources.findOne({groupId: groupId, deletedOn: { $exists: false }}, {sort: {title: 1}, fields: {type: 1}});
+		let valueFirstResource = Resources.findOne({groupId: groupId}, {sort: {title: 1}, fields: {type: 1}});
 		if (valueFirstResource) {ids['resourceCurrentType'] = valueFirstResource.type} else {ids['resourceCurrentType'] = 'empty'};
 
 		return ids;

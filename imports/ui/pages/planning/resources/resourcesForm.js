@@ -12,6 +12,9 @@ Template.resourcesForm.onCreated( function() {
 	};
 
 	Session.set('selectedResourceNewType', FlowRouter.getParam('selectedResourceNewType'));
+	if (FlowRouter.getRouteName() === 'resourcesNew') {
+		Session.setPersistent('unScrolled', true);
+	}
 });
 
 Template.resourcesForm.onRendered( function() {
@@ -82,6 +85,7 @@ Template.resourcesForm.onRendered( function() {
 				resourceProperties.searchIndex = [];
 				resourceProperties.availability = 'own';
 			}
+
 			if (Session.get('currentType') === 'video') {
 				resourceProperties.type = 'video';
 				resourceProperties.searchIndex = ['Movies', 'UnboxVideo'];
@@ -89,6 +93,7 @@ Template.resourcesForm.onRendered( function() {
 				resourceProperties.directorLastName = template.find("[name='directorLastName']").value.trim();
 				resourceProperties.availability = template.find("[name='availability']:checked").value.trim();
 			}
+
 			if (Session.get('currentType') === 'audio') {
 				resourceProperties.type = 'audio';
 				resourceProperties.searchIndex = ['Music', 'MP3Downloads'];
@@ -96,6 +101,7 @@ Template.resourcesForm.onRendered( function() {
 				resourceProperties.artistLastName = template.find("[name='artistLastName']").value.trim();
 				resourceProperties.availability = template.find("[name='availability']:checked").value.trim();
 			}
+			
 			if (Session.get('currentType') === 'app') {
 				resourceProperties.type = 'app';
 				resourceProperties.searchIndex = ['Software', 'MobileApps'];
@@ -304,11 +310,6 @@ Template.resourcesForm.events({
 
 	'click .js-cancel'(event) {
 		event.preventDefault();
-
-		if (window.screen.availWidth > 640 && FlowRouter.getRouteName() === 'resourcesNew' && Session.get('selectedResourceId') != 'empty') {
-			let resourcesScrollTop = document.getElementById(Session.get('selectedResourceId')).getBoundingClientRect().top - 130;
-			document.getElementsByClassName('frame-two')[0].scrollTop = resourcesScrollTop;
-		}
 
 		if (window.screen.availWidth > 768) {
 			FlowRouter.go('/planning/resources/view/3/' + Session.get('selectedResourceType') + '/' + Session.get('selectedResourceAvailability') + '/' + Session.get('selectedResourceId') + '/' + Session.get('selectedResourceCurrentTypeId'))

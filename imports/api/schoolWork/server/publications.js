@@ -4,6 +4,7 @@ import {Students} from '../../students/students.js';
 import {SchoolYears} from '../../schoolYears/schoolYears.js';
 import {Terms} from '../../terms/terms.js';
 import {Weeks} from '../../weeks/weeks.js';
+import {Notes} from '../../notes/notes.js';
 import {Lessons} from '../../lessons/lessons.js';
 
 import _ from 'lodash'
@@ -14,7 +15,7 @@ Meteor.publish('schooYearStudentSchoolWork', function(schoolYearId, studentId) {
 	}
 
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;	
-	return SchoolWork.find({groupId: groupId, schoolYearId: schoolYearId, studentId: studentId, deletedOn: { $exists: false }}, {sort: {name: 1}, fields: {order: 1, name: 1, studentId: 1, schoolYearId: 1}});
+	return SchoolWork.find({groupId: groupId, schoolYearId: schoolYearId, studentId: studentId}, {sort: {name: 1}, fields: {order: 1, name: 1, studentId: 1, schoolYearId: 1}});
 });
 
 Meteor.publish('trackingViewPub', function(studentId, weekId) {
@@ -24,13 +25,14 @@ Meteor.publish('trackingViewPub', function(studentId, weekId) {
 
 
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-	let lessons = Lessons.find({weekId: weekId, deletedOn: { $exists: false }}, {sort: {order: 1}, fields: {groupId: 0, userId: 0, createdOn: 0, updatedOn: 0}});
+	let lessons = Lessons.find({weekId: weekId}, {sort: {order: 1}, fields: {order: 1, completed: 1, assigned: 1, completedOn: 1, schoolWorkId: 1, weekId: 1}});
 	let schoolWorkIds = lessons.map(lesson => (lesson.schoolWorkId))
-	let schoolWork = SchoolWork.find({_id: {$in: schoolWorkIds}, groupId: groupId, studentId: studentId, deletedOn: { $exists: false }}, {sort: {name: 1}, fields: {order: 1, name: 1, studentId: 1, schoolYearId: 1}});
-
+	let schoolWork = SchoolWork.find({_id: {$in: schoolWorkIds}, groupId: groupId, studentId: studentId}, {sort: {name: 1}, fields: {order: 1, name: 1, studentId: 1, schoolYearId: 1}});
+	let notes = Notes.find({weekId: weekId, schoolWorkId: {$in: schoolWorkIds}}, {fields: {schoolWorkId: 1, weekId: 1, note: 1}})
 	return [
 		lessons,
-		schoolWork
+		schoolWork,
+		notes
 	]
 });
 
@@ -40,54 +42,34 @@ Meteor.publish('schoolWork', function(schoolWorkId) {
 	}
 
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-	return SchoolWork.find({groupId: groupId, deletedOn: { $exists: false }, _id: schoolWorkId}, {sort: {name: 1}, fields: {groupId: 0, userId: 0, createdOn: 0, updatedOn: 0, deletedOn: 0}});
+	return SchoolWork.find({groupId: groupId, _id: schoolWorkId}, {sort: {name: 1}, fields: {groupId: 0, userId: 0, createdOn: 0, updatedOn: 0}});
 });
 
 Meteor.publish('schoolWorkView', function(schoolWorkId) {
-	this.autorun(function (computation) {
-		if (!this.userId) {
-			return this.ready();
-		}
+	if (!this.userId || schoolWorkId === 'empty') {
+		return this.ready();
+	}
 
-		let self = this;
+	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
 
-		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-		let schoolWork = SchoolWork.findOne({groupId: groupId, deletedOn: { $exists: false }, _id: schoolWorkId}, {sort: {name: 1}, fields: {groupId: 0, userId: 0, createdOn: 0, updatedOn: 0, deletedOn: 0}});
+	let schoolWork = SchoolWork.find({_id: schoolWorkId, groupId: groupId}, {fields: {groupId: 0, userId: 0, createdOn: 0, updatedOn: 0}});
+	let terms = Terms.find({groupId: groupId, schoolYearId: schoolWork.fetch()[0].schoolYearId}, {fields: {order: 1, schoolYearId: 1}});
+	let lessons = Lessons.find({groupId: groupId, schoolWorkId: schoolWorkId}, {fields: {termId: 1}});
+	let resources = Resources.find({groupId: groupId, _id: {$in: schoolWork.fetch()[0].resources}}, {fields: {link: 1, title: 1, type: 1}});
 
-		if (schoolWork) {
-			let student = Students.findOne({groupId: groupId, deletedOn: { $exists: false }, _id: schoolWork.studentId});
-			let schoolYear = SchoolYears.findOne({groupId: groupId, deletedOn: { $exists: false }, _id: schoolWork.schoolYearId});
-			let terms = Terms.find({groupId: groupId, deletedOn: { $exists: false }, schoolYearId: schoolWork.schoolYearId});
-			let resources = Resources.find({groupId: groupId, deletedOn: { $exists: false }, _id: {$in: schoolWork.resources}});
-
-			let termStats = []
-			terms.forEach((term) => {
-				let weekIds = Weeks.find({groupId: groupId, deletedOn: { $exists: false }, termId: term._id}).map((week) => (week._id));
-				let lessonCount = Lessons.find({schoolWorkId: schoolWorkId, weekId: {$in: weekIds}}).count();
-				termStats.push({termId: term._id, termOrder: term.order, lessonCount: lessonCount});
-			})
-
-			schoolWork.preferredFirstName = student.preferredFirstName.name;
-			schoolWork.lastName = student.lastName;
-			schoolWork.startYear = schoolYear.startYear;
-			schoolWork.endYear = schoolYear.endYear;
-			schoolWork.termStats = termStats;
-
-			self.added('schoolWork', schoolWork._id, schoolWork);
-			resources.map((resource) => {;
-				self.added('resources', resource._id, resource);
-			});
-		}
-
-		self.ready();
-	});
+	return [
+		schoolWork, 
+		terms, 
+		lessons,
+		resources
+	];
 });
 
 Meteor.publish('schoolWorkResources', function(schoolWorkId) {	
 	if ( schoolWorkId ) {
 		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-		let schoolWork = SchoolWork.findOne({groupId: groupId, deletedOn: { $exists: false }, _id: schoolWorkId});
-		let resources = Resources.find({groupId: groupId, deletedOn: { $exists: false }, _id: {$in: schoolWork.resources}});
+		let schoolWork = SchoolWork.findOne({groupId: groupId, _id: schoolWorkId});
+		let resources = Resources.find({groupId: groupId, _id: {$in: schoolWork.resources}});
 
 		return resources
 	}

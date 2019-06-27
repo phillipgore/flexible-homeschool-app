@@ -13,26 +13,14 @@ import _ from 'lodash';
 
 
 Meteor.publish('allAccounts', function() {
-	this.autorun(function (computation) {
 		if (!this.userId) {
 			return this.ready();
 		}
 
-		let self = this;
-
-		let groups = Groups.find({appAdmin: false}, {fields: {subscriptionStatus: 1, appAdmin: 1, freeTrial: 1, createdOn: 1}})
-		let adminUsers = Meteor.users.find({'info.role': 'Administrator'}, {fields: {'info.groupId': 1, 'info.firstName': 1, 'info.lastName': 1, emails: 1}}).fetch();
-
-		groups.map((group) => {
-			let user = _.filter(adminUsers, ['info.groupId', group._id]);
-			group.userFirstName = user[0].info.firstName;
-			group.userLastName = user[0].info.lastName;
-			group.userEmail = user[0].emails[0].address;
-			self.added('groups', group._id, group);
-		});
-
-		self.ready();
-	});
+		return [
+			Groups.find({appAdmin: false}, {fields: {subscriptionStatus: 1, stripeCustomerId: 1, appAdmin: 1, freeTrial: 1, createdOn: 1}}),
+			Meteor.users.find({'info.role': 'Administrator'}, {fields: {createdAt: 1, 'info.groupId': 1, 'info.firstName': 1, 'info.lastName': 1, 'info.role': 1, emails: 1, 'presence': 1}}),
+		]
 });
 
 Meteor.publish('allAccountTotals', function(groupId) {
@@ -40,24 +28,13 @@ Meteor.publish('allAccountTotals', function(groupId) {
 		return this.ready();
 	}
 
-	let activeGroupIds = Groups.find({appAdmin: false, subscriptionStatus: 'active', deletedOn: { $exists: false }}).map(group => (group._id));
+	let activeGroupIds = Groups.find({appAdmin: false, subscriptionStatus: 'active'}).map(group => (group._id));
 	
-	Counts.publish(this, 'allOnlineCount', Meteor.users.find({'info.groupId': {$in: activeGroupIds}, 'status.active': true, deletedOn: { $exists: false }, 'presence.status': 'online'}));
-	Counts.publish(this, 'allActiveAccountsCount', Groups.find({appAdmin: false, subscriptionStatus: 'active', deletedOn: { $exists: false }}));
-	Counts.publish(this, 'allPausePendingAccountsCount', Groups.find({subscriptionStatus: 'pausePending', deletedOn: { $exists: false }}));
-	Counts.publish(this, 'allPauseedAccountsCount', Groups.find({subscriptionStatus: 'paused', deletedOn: { $exists: false }}));
-	Counts.publish(this, 'allErrorAccountsCount', Groups.find({subscriptionStatus: 'error', deletedOn: { $exists: false }}));
-
-	Counts.publish(this, 'allAccountUsersCount', Meteor.users.find({'info.groupId': {$in: activeGroupIds}, 'status.active': true, deletedOn: { $exists: false }}));
-
-	Counts.publish(this, 'allAccountStudentsCount', Students.find({deletedOn: { $exists: false }}));
-	Counts.publish(this, 'allAccountSchoolYearsCount', SchoolYears.find({deletedOn: { $exists: false }}));
-	Counts.publish(this, 'allAccountTermsCount', Terms.find({deletedOn: { $exists: false }}));
-	Counts.publish(this, 'allAccountWeeksCount', Weeks.find({deletedOn: { $exists: false }}));
-	Counts.publish(this, 'allAccountResourcesCount', Resources.find({deletedOn: { $exists: false }}));
-	Counts.publish(this, 'allAccountSchoolWorkCount', SchoolWork.find({deletedOn: { $exists: false }}));
-	Counts.publish(this, 'allAccountLessonsCount', Lessons.find({deletedOn: { $exists: false }}));
-	Counts.publish(this, 'allAccountReportsCount', Reports.find({deletedOn: { $exists: false }}));
+	Counts.publish(this, 'allOnlineCount', Meteor.users.find({'info.groupId': {$in: activeGroupIds}, 'status.active': true, 'presence.status': 'online'}));
+	Counts.publish(this, 'allActiveAccountsCount', Groups.find({appAdmin: false, subscriptionStatus: 'active'}));
+	Counts.publish(this, 'allPausePendingAccountsCount', Groups.find({subscriptionStatus: 'pausePending'}));
+	Counts.publish(this, 'allPauseedAccountsCount', Groups.find({subscriptionStatus: 'paused'}));
+	Counts.publish(this, 'allErrorAccountsCount', Groups.find({subscriptionStatus: 'error'}));
 });
 
 Meteor.publish('account', function(groupId) {
@@ -65,23 +42,10 @@ Meteor.publish('account', function(groupId) {
 		return this.ready();
 	}
 
-	this.autorun(function (computation) {
-		if (!this.userId) {
-			return this.ready();
-		}
-
-		let self = this;
-
-		let groups = Groups.find({appAdmin: false}, {fields: {subscriptionStatus: 1, appAdmin: 1, createdOn: 1}})
-		let users = Meteor.users.find({'info.groupId': groupId});
-
-		users.map((user) => {
-			self.added('users', user._id, user);
-		})
-		
-
-		self.ready();
-	});
+	return [
+		Groups.find({groupId: groupId, appAdmin: false}, {fields: {initialIds: 1, subscriptionStatus: 1, appAdmin: 1, freeTrial: 1, createdOn: 1}}),
+		Meteor.users.find({'info.groupId': groupId}),
+	]
 });
 
 Meteor.publish('accountTotals', function(groupId) {
@@ -89,15 +53,15 @@ Meteor.publish('accountTotals', function(groupId) {
 		return this.ready();
 	}
 	
-	Counts.publish(this, 'accountUsersCount', Meteor.users.find({'info.groupId': groupId, deletedOn: { $exists: false }}));
-	Counts.publish(this, 'accountStudentsCount', Students.find({groupId: groupId, deletedOn: { $exists: false }}));
-	Counts.publish(this, 'accountSchoolYearsCount', SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}));
-	Counts.publish(this, 'accountTermsCount', Terms.find({groupId: groupId, deletedOn: { $exists: false }}));
-	Counts.publish(this, 'accountWeeksCount', Weeks.find({groupId: groupId, deletedOn: { $exists: false }}));
-	Counts.publish(this, 'accountResourcesCount', Resources.find({groupId: groupId, deletedOn: { $exists: false }}));
-	Counts.publish(this, 'accountSchoolWorkCount', SchoolWork.find({groupId: groupId, deletedOn: { $exists: false }}));
-	Counts.publish(this, 'accountLessonsCount', Lessons.find({groupId: groupId, deletedOn: { $exists: false }}));
-	Counts.publish(this, 'accountReportsCount', Reports.find({groupId: groupId, deletedOn: { $exists: false }}));
+	Counts.publish(this, 'accountUsersCount', Meteor.users.find({'info.groupId': groupId}));
+	Counts.publish(this, 'accountStudentsCount', Students.find({groupId: groupId}));
+	Counts.publish(this, 'accountSchoolYearsCount', SchoolYears.find({groupId: groupId}));
+	Counts.publish(this, 'accountTermsCount', Terms.find({groupId: groupId}));
+	Counts.publish(this, 'accountWeeksCount', Weeks.find({groupId: groupId}));
+	Counts.publish(this, 'accountResourcesCount', Resources.find({groupId: groupId}));
+	Counts.publish(this, 'accountSchoolWorkCount', SchoolWork.find({groupId: groupId}));
+	Counts.publish(this, 'accountLessonsCount', Lessons.find({groupId: groupId}));
+	Counts.publish(this, 'accountReportsCount', Reports.find({groupId: groupId}));
 });
 
 

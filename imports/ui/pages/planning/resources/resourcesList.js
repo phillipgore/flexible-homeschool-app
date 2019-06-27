@@ -6,16 +6,28 @@ import _ from 'lodash'
 
 Template.resourcesList.onCreated( function() {
 	let template = Template.instance();
+
+	Session.set('initialLoading', true)
+	Session.set('resourceLimit', 100)
+
+	template.searchQuery = new ReactiveVar();
+	template.searching   = new ReactiveVar( false );
 	
 	template.autorun(() => {
-		this.resourceData = Meteor.subscribe('scopedResources', FlowRouter.getParam('selectedResourceType'), FlowRouter.getParam('selectedResourceAvailability'));
-		this.subscribe('resourceStats');
+		this.resourceStats = this.subscribe('resourceStats');
+		this.resourceData = template.subscribe( 'scopedSearchResources', FlowRouter.getParam('selectedResourceType'), FlowRouter.getParam('selectedResourceAvailability'), template.searchQuery.get(), Session.get('resourceLimit'), () => {
+		  setTimeout( () => {
+			template.searching.set( false );
+			Session.set('initialLoading', false);
+		  }, 500 );
+		});
 	});
 
 	Meteor.call('getInitialResourceIds', function(error, result) {
 		Session.set('initialResourceIds', result);
 
 		let initialResourceIds = Session.get('initialResourceIds')
+
 		if (!Session.get('selectedResourceType')) {
 			Session.set('selectedResourceType', 'all');
 		}
@@ -45,12 +57,23 @@ Template.resourcesList.onRendered( function() {
 });
 
 Template.resourcesList.helpers({
-	subscriptionReady: function() {
-		return Template.instance().resourceData.ready();
+	initialLoading() {
+		return Session.get('initialLoading');
+	},
+
+	searching() {
+		return Template.instance().searching.get();
+	},
+
+	query() {
+		return Template.instance().searchQuery.get();
 	},
 
 	resources: function() {
-		return Resources.find({}, {sort: {title: 1}});
+		let resources = Resources.find({}, {sort: {title: 1}});
+		if (resources) {
+			return resources;
+		}
 	},
 
 	selectedResourceType: function() {
@@ -94,6 +117,9 @@ Template.resourcesList.helpers({
 		if (availability === 'need') {
 			return 'txt-warning'
 		}
+		if (availability === 'returned') {
+			return 'txt-danger'
+		}
 	},
 
 	availabilityText: function(availability) {
@@ -105,6 +131,9 @@ Template.resourcesList.helpers({
 		}
 		if (availability === 'need') {
 			return '(Need It)'
+		}
+		if (availability === 'returned') {
+			return '(Returned It)'
 		}
 	},
 
@@ -121,6 +150,13 @@ Template.resourcesList.helpers({
 		}
 		return false;
 	},
+
+	showLoadMore: function(type, availability) {
+		if (Counts.get(type + _.capitalize(availability) + 'Count') === Resources.find().count() || Template.instance().searchQuery.get()) {
+			return false;
+		}
+		return true;
+	},
 });
 
 Template.resourcesList.events({
@@ -128,6 +164,7 @@ Template.resourcesList.events({
 		event.preventDefault();
 
 		let resourceId = $(event.currentTarget).attr('data-resource-id');
+		let resourceType = $(event.currentTarget).attr('data-resource-type');
 		let selectedAvailability = $(event.currentTarget).attr('id');
 
 		$('#resource' + resourceId).find('.list-item-dropdown').hide();
@@ -136,6 +173,24 @@ Template.resourcesList.events({
 		const resourceProperties = {
 			availability: selectedAvailability,
 		};
+
+		function nextResourceId(currentResourceAvailability, newResourceId, newResourceType) {
+			if (currentResourceAvailability != 'all' && newResourceId === FlowRouter.getParam('selectedResourceId')) {
+				let resourceIds = Resources.find({}, {sort: {title: 1}}).map(resource => (resource._id));
+
+				if (resourceIds.length > 1) {
+					let selectedIndex = resourceIds.indexOf(newResourceId);
+					if (selectedIndex) {
+						return Resources.findOne({_id: resourceIds[selectedIndex - 1]});
+					}
+					return Resources.findOne({_id: resourceIds[selectedIndex + 1]});
+				}
+				return {_id: 'empty', type: 'empty'}
+			}
+			return {_id: FlowRouter.getParam('selectedResourceId'), type: FlowRouter.getParam('selectedResourceType')};
+		};
+
+		let returnResource = nextResourceId(FlowRouter.getParam('selectedResourceAvailability'), resourceId, resourceType)
 
 		Meteor.call('updateResource', resourceId, resourceProperties, function(error) {
 			if (error) {
@@ -152,10 +207,44 @@ Template.resourcesList.events({
 				$('#resource' + resourceId).find('.list-item-dropdown-loader').hide();
 				$('#resource' + resourceId).find('.list-item-dropdown').show();
 
-				FlowRouter.go('/planning/resources/view/2/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/'+ FlowRouter.getParam('selectedResourceId') +'/'+ FlowRouter.getParam('selectedResourceCurrentTypeId') );
+				FlowRouter.go('/planning/resources/view/2/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/'+ returnResource._id +'/'+ returnResource.type );
 			}
 		});
 
 		return false;
+	},
+
+	'keyup #search-resources'(event, template) {
+		let value = event.currentTarget.value.trim();
+
+		if ( value !== '' ) {
+			FlowRouter.go('/planning/resources/view/2/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/empty/empty' );
+			template.searchQuery.set( value );
+			template.searching.set( true );
+		}
+
+		if ( value === '' ) {
+			template.searchQuery.set( value );
+			FlowRouter.go('/planning/resources/view/2/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/'+ Session.get('selectedResourceId') +'/'+ Session.get('selectedResourceCurrentTypeId') );
+		}
+	},
+
+	'click .js-clear-search'(event, template) {
+		event.preventDefault();
+
+		Alerts.remove({type: 'addResource'});
+		$('#search-resources').val('');
+
+		template.searchQuery.set('');
+		template.searching.set(false);
+
+		FlowRouter.go('/planning/resources/view/2/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/'+ Session.get('selectedResourceId') +'/'+ Session.get('selectedResourceCurrentTypeId') );
+	},
+
+	'click .js-load-more'(event) {
+		event.preventDefault();
+
+		let newLimit = Session.get('resourceLimit') + 100;
+		Session.set('resourceLimit', newLimit)
 	}
 });

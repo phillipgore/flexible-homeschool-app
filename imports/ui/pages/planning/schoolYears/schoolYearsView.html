@@ -14,10 +14,10 @@
 			</div>
 			
 			<div class="view-info p-tn-18">
-				{{#each term in schoolYear.termStats}}
+				{{#each term in terms}}
 					<section>
-						<label>Term {{term.termOrder}}</label>
-						<p>{{term.weekCount}} Week{{sPlural term.weekCountl}}</p>
+						<label>Term {{term.order}}</label>
+						<p>{{termWeeks term._id}}</p>
 					</section>
 				{{/each}}
 			</div>

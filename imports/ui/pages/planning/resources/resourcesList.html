@@ -1,8 +1,28 @@
 <template name="resourcesList">
-	<main class="app-content app-content-preceeds-toolbar">
+	<main class="app-content app-content-preceeds-toolbar app-content-includes-search">
 		<h1 class="txt-tn-center print-only-block">Resource List</h1>
-		<h2 class="txt-tn-center txt-gray-darkest txt-capitalize print-only-block m-tn-b-18">Type: {{selectedResourceType}} - Availability: {{selectedResourceAvailability}}</h2>
+		<h2 class="txt-tn-center txt-gray-darkest txt-capitalize print-only-block p-tn-b-18">Type: {{selectedResourceType}} - Availability: {{selectedResourceAvailability}}</h2>
+		
 		{{#if resourceCount 'all' 'all'}}
+			<form class="print-hide">
+				<div class="search-bar p-tn-rl-9 p-tn-tb-7">
+					<div class="icn-overlay">
+						<input type="text" name="searchResources" id="search-resources" placeholder="Search Resources" autocomplete="off">
+						<div class="icn-left">
+							{{#if searching}}
+							<div class="loader-icon loader-icon-on-white loader-icon-tn"></div>
+							{{else}}
+							<i class="icn-search"></i>
+							{{/if}}
+						</div>
+						<a href="#" class="js-clear-search icn-right">
+							<div class="btn btn-circle bg-danger small">
+								<i class="icn-close"></i>
+							</div>
+						</a>
+					</div>
+				</div>
+			</form>
 			{{#if resourceCount selectedResourceType selectedResourceAvailability}}
 				<ul class="list">
 					{{#if activeRoute currentRouteName 'resourcesNew'}}
@@ -16,7 +36,20 @@
 					{{/if}}
 					
 					{{> resourcesEach resources=resources}}
-
+					
+					{{#if showLoadMore selectedResourceType selectedResourceAvailability}}
+						<li class="js-load-more list-item text-tn-center">
+							<a href="#" class="list-item-inner bg-gray-lighter top-border-only-dark p-tn-rl-9"> 
+								<div class="font-style-italic font-weight-normal txt-tn-center">
+									{{#if  Template.subscriptionsReady}}
+										Click To Load More Resources
+									{{else}}
+										Loading...
+									{{/if}}
+								</div>
+							</a>
+						</li>
+					{{/if}}
 				</ul>
 			{{else}}
 				<div class="txt-tn-center m-tn-t-72">
@@ -33,7 +66,9 @@
 			</div>
 		{{/if}}
 	</main>
-	{{#unless subscriptionReady}}
-		{{> loading}}
-	{{/unless}}
+	{{#if initialLoading}}
+		{{#unless Template.subscriptionsReady}}
+			{{> loading}}
+		{{/unless}}
+	{{/if}}
 </template>

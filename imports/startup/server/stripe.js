@@ -1,12 +1,11 @@
 import {Groups} from '../../api/groups/groups';
 import stripePackage from 'stripe';
 const stripe = stripePackage(Meteor.settings.private.stripe);
-
+import _ from 'lodash';
 
 
 Meteor.methods({
 	createSubscription: async function(groupId, cardId, subscriptionProperties) {
-
 		let updatedGroupProperties = {
 			subscriptionStatus: 'pending',
 			stripeCardId: cardId,
@@ -33,22 +32,26 @@ Meteor.methods({
 			updatedGroupProperties.subscriptionStatus = 'active';
 			updatedGroupProperties.stripeSubscriptionId = subscription.id;
 			updatedGroupProperties.subscriptionErrorMessage = null;
-			updatedGroupProperties.stripeCurrentCouponCode.startDate = subscription.discount.start;
-			updatedGroupProperties.stripeCurrentCouponCode.endDate = subscription.discount.end;
-			updatedGroupProperties.stripeCurrentCouponCode.id = subscription.discount.coupon.id;
-			updatedGroupProperties.stripeCurrentCouponCode.amountOff = subscription.discount.coupon.amount_off;
-			updatedGroupProperties.stripeCurrentCouponCode.percentOff = subscription.discount.coupon.percent_off;
+
+			if (subscription.discount) {
+				updatedGroupProperties.stripeCurrentCouponCode.startDate = subscription.discount.start;
+				updatedGroupProperties.stripeCurrentCouponCode.endDate = subscription.discount.end;
+				updatedGroupProperties.stripeCurrentCouponCode.id = subscription.discount.coupon.id;
+				updatedGroupProperties.stripeCurrentCouponCode.amountOff = subscription.discount.coupon.amount_off;
+				updatedGroupProperties.stripeCurrentCouponCode.percentOff = subscription.discount.coupon.percent_off;
+			}
 
 			return subscription;
 		}).catch((error) => {
 			updatedGroupProperties.subscriptionStatus = 'error';
-			updatedGroupProperties.subscriptionErrorMessage = error.raw.message;
+			updatedGroupProperties.subscriptionErrorMessage = error.message;
 		});
 
 		Groups.update(groupId, {$set: updatedGroupProperties}, function(error, result) {
 			if (error) {
 				throw new Meteor.Error(500, error);
 			} else {
+				Meteor.call('mcTags', groupId);
 				return result;
 			}
 		});
@@ -91,7 +94,6 @@ Meteor.methods({
 				return result;
 			}
 		});
-
 	},
 
 	pauseSubscription: async function() {
@@ -114,58 +116,119 @@ Meteor.methods({
 			if (error) {
 				throw new Meteor.Error(500, error);
 			} else {
+				Meteor.call('mcTags', groupId);
 				return result;
 			}
 		});
-
 	},
 
 	unpauseSubscription: async function() {
 		let groupId = Meteor.user().info.groupId;
-		let customerId = Groups.findOne({_id: groupId}).stripeCustomerId;
-		let subscriptionId = Groups.findOne({_id: groupId}).stripeSubscriptionId;
-		let groupProperties = {
-			subscriptionStatus: 'active',
+		let group = Groups.findOne({_id: groupId});
+
+		let updatedGroupProperties = {
+			subscriptionStatus: group.subscriptionStatus,
+			stripeSubscriptionId: group.stripeSubscriptionId,
+			subscriptionErrorMessage: group.subscriptionErrorMessage,
+			stripeCurrentCouponCode: {
+				startDate: group.startDate,
+				endDate: group.endDate,
+				id: group.id,
+				amountOff: group.amountOff,
+				percentOff: group.percentOff,
+			},
 		}
 
-		let result = stripe.subscriptions.retrieve(
-			subscriptionId
+		let result = await stripe.subscriptions.retrieve(
+			group.stripeSubscriptionId
 		).then((subscription) => {
-			if (subscription.status === 'canceled') {
-				let result = stripe.subscriptions.create({
-					customer: customerId,
-					items: [{plan: Meteor.settings.public.stripePlanId}]
-				}).then((subscription) => {
-					groupProperties.stripeSubscriptionId = result.id;
-				}).catch((error) => {
-					throw new Meteor.Error(500, error.message);
-				});
-			}
-			if (subscription.status === 'paused' && subscription.cancel_at_period_end === true) {
-				let result = stripe.subscriptions.update(subscription.id, {
-					items: [{
-						id: subscription.items.data[0].id,
-						plan: Meteor.settings.public.stripePlanId,
-					}]
-				}).then((subscription) => {
-					groupProperties.stripeSubscriptionId = result.id
-				}).catch((error) => {
-					throw new Meteor.Error(500, error.message);
-				});
+			return stripe.subscriptions.update(subscription.id, {
+				cancel_at_period_end: false,
+				items: [{
+					id: subscription.items.data[0].id,
+					plan: Meteor.settings.public.stripePlanId,
+				}]
+			});
+		}).then((subscription) => {
+			updatedGroupProperties.subscriptionStatus = 'active';
+			updatedGroupProperties.stripeSubscriptionId = subscription.id;
+			updatedGroupProperties.subscriptionErrorMessage = null;
+
+			if (subscription.discount) {
+				updatedGroupProperties.stripeCurrentCouponCode.startDate = subscription.discount.start;
+				updatedGroupProperties.stripeCurrentCouponCode.endDate = subscription.discount.end;
+				updatedGroupProperties.stripeCurrentCouponCode.id = subscription.discount.coupon.id;
+				updatedGroupProperties.stripeCurrentCouponCode.amountOff = subscription.discount.coupon.amount_off;
+				updatedGroupProperties.stripeCurrentCouponCode.percentOff = subscription.discount.coupon.percent_off;
 			}
 			return subscription;
 		}).catch((error) => {
 			throw new Meteor.Error(500, error.message);
 		});
 
-		Groups.update(groupId, {$set: groupProperties}, function(error, result) {
+		Groups.update(groupId, {$set: updatedGroupProperties}, function(error, result) {
 			if (error) {
 				throw new Meteor.Error(500, error);
 			} else {
+				Meteor.call('mcTags', groupId);
 				return result;
 			}
 		});
+	},
 
+	unpauseCanceledSubscription: async function(couponCode) {
+		let groupId = Meteor.user().info.groupId;
+		let group = Groups.findOne({_id: groupId});
+
+		let updatedGroupProperties = {
+			subscriptionStatus: group.subscriptionStatus,
+			stripeSubscriptionId: group.stripeSubscriptionId,
+			subscriptionErrorMessage: group.subscriptionErrorMessage,
+			stripeCurrentCouponCode: {
+				startDate: group.startDate,
+				endDate: group.endDate,
+				id: group.id,
+				amountOff: group.amountOff,
+				percentOff: group.percentOff,
+			},
+		}
+
+		let subscriptionProperties = {
+			customer: group.stripeCustomerId,
+			items: [{plan: Meteor.settings.public.stripePlanId}]
+		}
+
+		if (couponCode.length) {
+			subscriptionProperties.coupon = couponCode.trim().toLowerCase();
+		}
+
+		let result = await stripe.subscriptions.create(
+			subscriptionProperties
+		).then((subscription) => {
+			updatedGroupProperties.subscriptionStatus = 'active';
+			updatedGroupProperties.stripeSubscriptionId = subscription.id;
+			updatedGroupProperties.subscriptionErrorMessage = null;
+
+			if (subscription.discount) {
+				updatedGroupProperties.stripeCurrentCouponCode.startDate = subscription.discount.start;
+				updatedGroupProperties.stripeCurrentCouponCode.endDate = subscription.discount.end;
+				updatedGroupProperties.stripeCurrentCouponCode.id = subscription.discount.coupon.id;
+				updatedGroupProperties.stripeCurrentCouponCode.amountOff = subscription.discount.coupon.amount_off;
+				updatedGroupProperties.stripeCurrentCouponCode.percentOff = subscription.discount.coupon.percent_off;
+			}
+			return subscription;
+		}).catch((error) => {
+			throw new Meteor.Error(500, error.message);
+		});
+
+		Groups.update(groupId, {$set: updatedGroupProperties}, function(error, result) {
+			if (error) {
+				throw new Meteor.Error(500, error);
+			} else {
+				Meteor.call('mcTags', groupId);
+				return result;
+			}
+		});
 	},
 
 	getSubscription: async function(subscriptionId) {
@@ -227,6 +290,18 @@ Meteor.methods({
 		return result.brand;
 	},
 
+	getCouponList: async function() {
+		let result = await stripe.coupons.list(
+			
+		).then((couponList) => {
+			return couponList;
+		}).catch((error) => {
+			throw new Meteor.Error(500, error.message);
+		});
+
+		return result;
+	},
+
 	getCoupon: async function(couponId) {
 		let result = await stripe.coupons.retrieve(
 			couponId
@@ -244,7 +319,7 @@ Meteor.methods({
 		let customerId = Groups.findOne({_id: groupId}).stripeCustomerId;
 
 		let result = await stripe.invoices.list({
-			customer: customerId, limit: 10
+			customer: customerId, limit: 24
 		}).then((invoices) => {
 			return invoices;
 		}).catch((error) => {
@@ -292,10 +367,62 @@ Meteor.methods({
 			}
 		});
 	},
+
+	updateCustomer: async function(customerId) {
+		let group = Groups.findOne({stripeCustomerId: customerId});
+		
+		let updatedGroupProperties = {
+			subscriptionStatus: group.subscriptionStatus,
+			stripeCustomerId: group.stripeCustomerId,
+			stripeCardId: group.stripeCardId,
+			stripeSubscriptionId: null,
+			stripeCouponCodes: group.stripeCouponCodes,
+			stripeCurrentCouponCode: {
+				startDate: null,
+				endDate: null,
+				id: null,
+				amountOff: null,
+				percentOff: null,
+			},
+		};
+
+		let result = await stripe.customers.retrieve(
+			customerId
+		).then((customer) => {
+			let stripeCouponCodes = group.stripeCouponCodes;
+
+			updatedGroupProperties.stripeCustomerId = customer.id;
+			updatedGroupProperties.stripeCardId = customer.default_source;
+			if (customer.subscriptions.data.length) {
+				updatedGroupProperties.stripeSubscriptionId = customer.subscriptions.data[0].id;
+				if (customer.subscriptions.data[0].discount) {
+					updatedGroupProperties.stripeCurrentCouponCode.startDate = customer.subscriptions.data[0].discount.start;
+					updatedGroupProperties.stripeCurrentCouponCode.endDate = customer.subscriptions.data[0].discount.end;
+					updatedGroupProperties.stripeCurrentCouponCode.id = customer.subscriptions.data[0].discount.coupon.id;
+					updatedGroupProperties.stripeCurrentCouponCode.amountOff = customer.subscriptions.data[0].discount.coupon.amount_off;
+					updatedGroupProperties.stripeCurrentCouponCode.percentOff = customer.subscriptions.data[0].discount.coupon.percent_off;
+
+					stripeCouponCodes.push(customer.subscriptions.data[0].discount.coupon.id);
+				}
+			}
+
+			updatedGroupProperties.stripeCouponCodes = _.uniq(stripeCouponCodes);
+		}).catch((error) => {
+			throw new Meteor.Error(500, error.message);
+		});
+
+		console.log('------------------------------')
+		console.log(updatedGroupProperties)
+
+		Groups.update({stripeCustomerId: customerId}, {$set: updatedGroupProperties}, function(error, result) {
+			if (error) {
+				throw new Meteor.Error(500, error);
+			} else {
+				return result;
+			}
+		});
+	}
 });
-
-
-
 
 
 

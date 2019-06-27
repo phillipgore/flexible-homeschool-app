@@ -109,8 +109,9 @@ form {
 		color: $color-gray-darker;
 
 		input {
-			padding-left: 36px;
-			padding-right: 36px;
+			height: 36px;
+			margin: 0px;
+			padding: 0px 36px;
 		}
 
 		.icn-left {

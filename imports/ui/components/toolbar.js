@@ -50,7 +50,7 @@ Template.toolbar.helpers({
 
 	newUrl: function() {
 		if (Session.get('toolbarType') === 'schoolWork') {
-			let initialIds = Groups.findOne().initialIds;
+			let initialIds = Groups.findOne({_id: Meteor.user().info.groupId}).initialIds;
 			if (initialIds.studentId === 'empty' || initialIds.schoolYearId === 'empty') {
 				return '#';
 			}
@@ -105,8 +105,9 @@ Template.toolbar.helpers({
 	},
 
 	schoolWorkDisabled: function() {
-		let initialIds = Groups.findOne().initialIds;
-		if (initialIds.studentId == 'empty' || initialIds.schoolYearId == 'empty') {
+		let initialIds = Groups.findOne({_id: Meteor.user().info.groupId}).initialIds;
+		let type = Session.get('toolbarType');
+		if (type === 'schoolWork' && initialIds.studentId == 'empty' || type === 'schoolWork' && initialIds.schoolYearId == 'empty') {
 			return true;
 		}
 		return false;
@@ -137,7 +138,6 @@ Template.toolbar.helpers({
 	},
 
 	editableDeletable: function() {
-		let initialIds = Groups.findOne().initialIds;
 		let type = Session.get('toolbarType');
 
 		if (type === 'schoolWork') {
@@ -154,6 +154,7 @@ Template.toolbar.helpers({
 			return true;
 		}
 
+		let initialIds = Groups.findOne({_id: Meteor.user().info.groupId}).initialIds;
 		if (initialIds[Session.get('toolbarType') + 'Id'] === 'empty') {
 			return false;
 		}

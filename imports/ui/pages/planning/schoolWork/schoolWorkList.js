@@ -8,8 +8,8 @@ Template.schoolWorkList.onCreated( function() {
 	let template = Template.instance();
 	
 	template.autorun(() => {
-		this.subscribe('schoolWorkStats');
-		this.schoolWorkData = this.subscribe('schooYearStudentSchoolWork', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
+		this.schoolWorkStats = Meteor.subscribe('schoolWorkStats');
+		this.schoolWorkData = Meteor.subscribe('schooYearStudentSchoolWork', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
 	});
 });
 
@@ -23,7 +23,9 @@ Template.schoolWorkList.onRendered( function() {
 
 Template.schoolWorkList.helpers({
 	subscriptionReady: function() {
-		return Template.instance().schoolWorkData.ready();
+		if (Template.instance().schoolWorkStats.ready() && Template.instance().schoolWorkData.ready()) {
+			return true;
+		}
 	},
 
 	schoolWorkCount: function() {
@@ -39,7 +41,7 @@ Template.schoolWorkList.helpers({
 	},
 
 	studentsExist: function() {
-		let initialIds = Groups.findOne().initialIds;
+		let initialIds = Groups.findOne({_id: Meteor.user().info.groupId}).initialIds && Groups.findOne({_id: Meteor.user().info.groupId}).initialIds;
 		if (initialIds.studentId === 'empty') {
 			return false;
 		}
@@ -51,7 +53,7 @@ Template.schoolWorkList.helpers({
 	},
 
 	schoolYearsExist: function() {
-		let initialIds = Groups.findOne().initialIds;
+		let initialIds = Groups.findOne({_id: Meteor.user().info.groupId}).initialIds && Groups.findOne({_id: Meteor.user().info.groupId}).initialIds;
 		if (initialIds.schoolYearId === 'empty') {
 			return false;
 		}
@@ -66,7 +68,7 @@ Template.schoolWorkList.helpers({
 	},
 
 	studentsSchoolYearsCount: function() {
-		let initialIds = Groups.findOne().initialIds;
+		let initialIds = Groups.findOne({_id: Meteor.user().info.groupId}).initialIds && Groups.findOne({_id: Meteor.user().info.groupId}).initialIds;
 		if (initialIds.studentId != 'empty' && initialIds.schoolYearId != 'empty') {
 			return true;
 		}

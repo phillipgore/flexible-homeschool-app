@@ -54,6 +54,14 @@ hr {
 		&.app-content-preceeds-toolbar {
 			padding-bottom: 51px;
 		}
+
+		&.app-content-includes-search {
+			padding-top: 80px;
+
+			ul {
+				margin-top: 50px;
+			}
+		}
 	}
 
 	.office-content {
@@ -142,6 +150,10 @@ hr {
 		width: 320px;
 		z-index: 850;
 		display: none;
+	}
+
+	.tracking-spacer {
+		height: 252px;
 	}
 }
 
@@ -260,6 +272,10 @@ hr {
 			display: none;
 		}
 	}
+
+	.tracking-spacer {
+		height: 500px;
+	}
 }
 
 @media only screen and (min-width: 768px) {
@@ -357,6 +373,7 @@ hr {
 	.supportView,
 	.officeAccountsList,
 	.officeAccountView,
+	.officeAccountResetView,
 	.officeAccountsNew {
 		.frame-two {
 			width: calc(100% - 288px);
@@ -403,6 +420,7 @@ hr {
 	.supportView,
 	.officeAccountsList,
 	.officeAccountView,
+	.officeAccountResetView,
 	.officeAccountsNew {
 		.frame-two {
 			border-right: 1px solid $color-gray;

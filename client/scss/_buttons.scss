@@ -13,7 +13,14 @@ button, .btn {
 	&.small {
 		text-align: center;
 		height: 31px;
-		padding: 7px 13px;
+		padding: 7px 7px;
+		font-size: 14px;
+	}
+
+	&.editor-small {
+		text-align: center;
+		height: auto;
+		padding: 6px 6px;
 		font-size: 14px;
 	}
 
@@ -46,6 +53,14 @@ button, .btn {
 
 	&.btn-info {
 		background-color: $color-info;
+	}
+
+	&.btn-harvest {
+		background-color: $color-harvest-lighter;
+	}
+
+	&.btn-warning {
+		background-color: $color-warning;
 	}
 
 	&.btn-white-info {
@@ -123,9 +138,9 @@ button, .btn {
 	}
 
 	&:hover, &:focus, &:active {
-    	outline: none;
-    	border: 0;
-    	text-decoration: none;
+		outline: none;
+		border: 0;
+		text-decoration: none;
 	}
 
 	&:-moz-focusring {
@@ -405,6 +420,14 @@ a.btn-nav {
 				color: $color-info-lighter;
 			}
 		}
+	}
+}
+
+a.no-hover {
+	&:hover, &:focus, &:active {
+		outline: none;
+		border: 0;
+		text-decoration: none;
 	}
 }
 

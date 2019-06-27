@@ -149,7 +149,7 @@ Migrations.add({
 		});
 
 
-		Lessons.find({deletedOn: { $exists: false }}, {fields: {order: 1, termId: 1, weekId: 1}}).forEach(lesson => {
+		Lessons.find({}, {fields: {order: 1, termId: 1, weekId: 1}}).forEach(lesson => {
 			let termOrder = _.find(terms, ['_id', lesson.termId]).order
 			let weekOrder = _.find(weeks, ['_id', lesson.weekId]).order
 
@@ -166,24 +166,15 @@ Migrations.add({
 	version: 7,
 	name: 'Add intial ids to Group collection',
 	up: function() {
-		let year = moment().year();
-		let month = moment().month();
-
-		function startYearFunction(year) {
-			if (month < 6) {
-				return year = (year - 1).toString();
-			}
-			return year.toString();
-		}
-		let currentYear = startYearFunction(year)
-
-		Groups.find({}, {fields: {appAdmin: 1}}).forEach(group => {
+		let groupIds = _.uniq(Groups.find({}, {fields: {_id: 1}}).map(group => group._id));
+		
+		groupIds.forEach((groupId, index) => {
 			
-			primaryInitialIds(group._id);
-			resourcesInitialIds(group._id);
-			usersInitialId(group._id);
-			reportsInitialId(group._id);
-			groupsInitialId(group._id);
+			primaryInitialIds(groupId);
+			resourcesInitialIds(groupId);
+			usersInitialId(groupId);
+			reportsInitialId(groupId);
+			groupsInitialId(groupId);
 
 		});
 	}
@@ -197,14 +188,14 @@ Migrations.add({
 
 			let groupId = group._id;
 
-			let students = Students.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}, fields: {_id: 1}});
-			let schoolYears = SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}, fields: {_id: 1}});
-			let terms = Terms.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {order: 1}, fields: {_id: 1}});
+			let students = Students.find({groupId: groupId}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}, fields: {_id: 1}});
+			let schoolYears = SchoolYears.find({groupId: groupId}, {sort: {startYear: 1}, fields: {_id: 1}});
+			let terms = Terms.find({groupId: groupId}, {sort: {order: 1}, fields: {_id: 1}});
 
 			let pathProperties = {
-				studentIds: Students.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}, fields: {_id: 1}}).map(student => student._id),
-				schoolYearIds: SchoolYears.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {startYear: 1}, fields: {_id: 1}}).map(schoolYear => schoolYear._id),
-				termIds: Terms.find({groupId: groupId, deletedOn: { $exists: false }}, {sort: {order: 1}, fields: {_id: 1}}).map(term => term._id),
+				studentIds: Students.find({groupId: groupId}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}, fields: {_id: 1}}).map(student => student._id),
+				schoolYearIds: SchoolYears.find({groupId: groupId}, {sort: {startYear: 1}, fields: {_id: 1}}).map(schoolYear => schoolYear._id),
+				termIds: Terms.find({groupId: groupId}, {sort: {order: 1}, fields: {_id: 1}}).map(term => term._id),
 			}
 
 			upsertPaths(pathProperties, false, groupId);
@@ -219,13 +210,14 @@ Migrations.add({
 	name: 'Create Stats Collection.',
 	up: function() {
 		
-		let groups = Groups.find();
-		let students = Students.find({deletedOn: { $exists: false }}, {fields: {groupId: 1}});
-		let schoolYears = SchoolYears.find({deletedOn: { $exists: false }}, {fields: {groupId: 1}});
-		let terms = Terms.find({deletedOn: { $exists: false }}, {fields: {groupId: 1}});
-		let weeks = Weeks.find({deletedOn: { $exists: false }}, {fields: {groupId: 1}});
+		let groups = Groups.find({}, {sort: {_id: -1}});
 
-		groups.forEach(group => {
+		let students = Students.find({}, {fields: {groupId: 1}});
+		let schoolYears = SchoolYears.find({}, {fields: {groupId: 1}});
+		let terms = Terms.find({}, {fields: {groupId: 1}});
+		let weeks = Weeks.find({}, {fields: {groupId: 1}});
+
+		groups.forEach((group, index) => {
 			let statProperties = {
 				studentIds: _.filter(students, {groupId: group._id}).map(student => student._id),
 				schoolYearIds: _.filter(schoolYears, {groupId: group._id}).map(schoolYear => schoolYear._id),
@@ -238,13 +230,31 @@ Migrations.add({
 	}
 });
 
+Migrations.add({
+	version: 10,
+	name: 'Create MailChimp tags in MailChimp.',
+	up: function() {
+		Groups.find().forEach(group => {
+			Meteor.call('mcTags', group._id)
+		})
+	}
+});
+
+Migrations.add({
+	version: 11,
+	name: 'Verify and corret Stripe data.',
+	up: function() {
+		Groups.find().forEach(group => {
+			if (group.stripeCustomerId) {
+				Meteor.call('updateCustomer', group.stripeCustomerId)
+			}
+		})
+	}
+});
+
 // Meteor.startup(() => {
-// 	Migrations.migrateTo(9);
+// 	Migrations.migrateTo(11);
 // });
-
-
-
-
 
 
 

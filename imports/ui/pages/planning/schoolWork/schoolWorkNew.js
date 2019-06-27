@@ -13,6 +13,8 @@ import './schoolWorkNew.html';
 LocalResources = new Mongo.Collection(null);
 
 Template.schoolWorkNew.onCreated( function() {
+	Session.setPersistent('unScrolled', true);
+	
 	// Subscriptions
 	this.studentData = this.subscribe('allStudents');
 	this.schoolYearData = this.subscribe('allSchoolYears');
@@ -57,8 +59,6 @@ Template.schoolWorkNew.onRendered( function() {
 	Session.set({
 		toolbarType: 'new',
 		labelThree: 'New School Work',
-		
-		
 		activeNav: 'planningList',
 	});
 

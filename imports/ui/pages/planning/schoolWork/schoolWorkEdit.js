@@ -15,14 +15,14 @@ LocalResources = new Mongo.Collection(null);
 
 Template.schoolWorkEdit.onCreated( function() {
 	// Subscriptions
-	this.schoolWorkData = this.subscribe('schoolWork', FlowRouter.getParam('selectedSchoolWorkId'), function() {
+	this.schoolWorkData = Meteor.subscribe('schoolWork', FlowRouter.getParam('selectedSchoolWorkId'), function() {
 		Session.set('schoolYearId', SchoolWork.findOne({_id: FlowRouter.getParam('selectedSchoolWorkId')}).schoolYearId)
 	});
-	this.studentData = this.subscribe('allStudents');
-	this.schoolYearData = this.subscribe('allSchoolYears');
-	this.termData = this.subscribe('allTerms');
-	this.weekData = this.subscribe('allWeeks');
-	this.lessonData = this.subscribe('schoolWorkLessons', FlowRouter.getParam('selectedSchoolWorkId'));
+	this.studentData = Meteor.subscribe('allStudents');
+	this.schoolYearData = Meteor.subscribe('allSchoolYears');
+	this.termData = Meteor.subscribe('allTerms');
+	this.weekData = Meteor.subscribe('allWeeks');
+	this.lessonData = Meteor.subscribe('schoolWorkLessons', FlowRouter.getParam('selectedSchoolWorkId'));
 
 	let template = Template.instance();
 
@@ -95,10 +95,6 @@ Template.schoolWorkEdit.onRendered( function() {
 
 			// Get Lesson Properties from form
 			$("[name='timesPerWeek']").each(function(index) {
-				// let schoolYearId = FlowRouter.getParam('selectedSchoolYearId');
-				// let termId = this.dataset.termId;
-				// let weekId = this.dataset.weekId;
-				// let weekOrder = this.dataset.weekOrder;
 				let totalLessons =  parseInt(this.dataset.lessonCount);
 				let completeLessons = parseInt(this.dataset.lessonCompleteCount);
 				let newLessonsTotal = parseInt(this.value) || 0;

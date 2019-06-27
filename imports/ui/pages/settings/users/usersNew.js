@@ -6,6 +6,7 @@ import md5 from 'md5';
 Template.usersNew.onCreated( function() {
 	// Subscriptions
 	this.subscribe('allUsers');
+	Session.setPersistent('unScrolled', true);
 });
 
 Template.usersNew.onRendered( function() {	
@@ -134,11 +135,6 @@ Template.usersNew.events({
 
 	'click .js-cancel'(event) {
 		event.preventDefault();
-
-		if (window.screen.availWidth > 640 && FlowRouter.getRouteName() === 'resourcesNew') {
-			let resourcesScrollTop = document.getElementById(Session.get('selectedUserId')).getBoundingClientRect().top - 130;
-			document.getElementsByClassName('frame-two')[0].scrollTop = resourcesScrollTop;
-		}
 
 		if (window.screen.availWidth > 768) {
 			FlowRouter.go('/settings/users/view/3/' + Session.get('selectedUserId'));

@@ -1,39 +1,59 @@
 <template name="officeAccountView">
 	<main class="app-content app-content-preceeds-toolbar app-content-data">
-		{{#if account}}
-			{{userName account.userFirstName account.userLastName}}
+		{{#if group}}
+			<h1 class="m-tn-b-12">{{admin.info.firstName}} {{admin.info.lastName}}</h1>
 
 			<label class="txt-info font-size-12 txt-weight-900">Id:</label>
-			<div class="m-tn-b-12">{{account._id}}</div>
+			<div class="m-tn-b-12">{{group._id}}</div>
 
 			<label class="txt-info font-size-12 txt-weight-900">Created:</label>
-			<div class="m-tn-b-12">{{dateTimeFormat account.createdOn}}</div>
+			<div class="m-tn-b-12">{{dateTimeFormat group.createdOn}}</div>
 
 			<label class="txt-info font-size-12 txt-weight-900">Subscription Status:</label>
-			<div class="m-tn-b-12 txt-capitalize">{{isPending account.subscriptionStatus}}</div>
+			<div class="m-tn-b-12 txt-capitalize">{{isPending group.subscriptionStatus}}</div>
 
 			<label class="txt-info font-size-12 txt-weight-900">Email:</label>
-			<div class="m-tn-b-12 txt-lowercase">{{account.userEmail}}</div>
+			<div class="m-tn-b-12 txt-lowercase">{{admin.emails.[0].address}}</div>
 
 			<label class="txt-info font-size-12 txt-weight-900">Users:</label>
-			{{#each user in accountUsers}}
+			{{#each user in users }}
 				<div class="m-tn-b-12">{{user.info.firstName}} {{user.info.lastName}}
-					<div class="font-size-12">{{user._id}} : {{user.info.role}} : {{user.presence.status}}</div>
+					<div class="font-size-12 txt-gray-darkest m-tn-t-3">{{user._id}} : {{user.info.role}} : {{user.presence.status}}</div>
 				</div>
 			{{/each}}
 
 			<label class="txt-info font-size-12 txt-weight-900">Counts:</label>
-			<div class="m-tn-b-12">Users: {{getPublishedCount 'accountUsersCount'}}</div>
-			<div class="m-tn-b-12">Students: {{getPublishedCount 'accountStudentsCount'}}</div>
-			<div class="m-tn-b-12">School Years: {{getPublishedCount 'accountSchoolYearsCount'}}</div>
-			<div class="m-tn-b-12">Terms: {{getPublishedCount 'accountTermsCount'}}</div>
-			<div class="m-tn-b-12">Weeks: {{getPublishedCount 'accountWeeksCount'}}</div>
-			<div class="m-tn-b-12">Resources: {{getPublishedCount 'accountResourcesCount'}}</div>
-			<div class="m-tn-b-12">SchoolWork: {{getPublishedCount 'accountSchoolWorkCount'}}</div>
-			<div class="m-tn-b-12">Lessons: {{getPublishedCount 'accountLessonsCount'}}</div>
-			<div class="m-tn-b-12">Reports: {{getPublishedCount 'accountReportsCount'}}</div>
+			<div class="row">
+				<div class="col-sm-1of2">
+					<div class="m-tn-b-12">Users: {{getPublishedCount 'accountUsersCount'}}</div>
+					<div class="m-tn-b-12">Students: {{getPublishedCount 'accountStudentsCount'}}</div>
+					<div class="m-tn-b-12">School Years: {{getPublishedCount 'accountSchoolYearsCount'}}</div>
+					<div class="m-tn-b-12">Terms: {{getPublishedCount 'accountTermsCount'}}</div>
+					<div class="m-tn-b-12">Weeks: {{getPublishedCount 'accountWeeksCount'}}</div>
+				</div>
+				<div class="col-sm-1of2">
+					<div class="m-tn-b-12">Resources: {{getPublishedCount 'accountResourcesCount'}}</div>
+					<div class="m-tn-b-12">SchoolWork: {{getPublishedCount 'accountSchoolWorkCount'}}</div>
+					<div class="m-tn-b-12">Lessons: {{getPublishedCount 'accountLessonsCount'}}</div>
+					<div class="m-tn-b-12">Reports: {{getPublishedCount 'accountReportsCount'}}</div>
+				</div>
+			</div>
+
+			<label class="txt-info font-size-12 txt-weight-900">Actions:</label>
+			<div class="row p-tn-t-6">
+				<div class="col-xs-1of2 col-sm-2of3 col-md-1of2 col-lg-1of4 p-tn-b-18">
+					<button id="{{admin._id}}" class="js-impersonate-admin btn-info btn-block m-tn-b-18">Impersonate Admin</button>
+					<hr class="m-tn-b-18">
+					<button data-group-id="{{group._id}}" class="js-correct-ids btn-info btn-block m-tn-b-18">Correct Initial Ids</button>
+					<button data-group-id="{{group._id}}" class="js-correct-paths btn-info btn-block m-tn-b-18">Correct Paths</button>
+					<button data-group-id="{{group._id}}" class="js-correct-stats btn-info btn-block m-tn-b-18">Correct Stats</button>
+					<hr class="m-tn-b-18">
+					<button id="{{group._id}}" class="js-update-mailchimp-tags btn-info btn-block m-tn-b-18">Update MC Tags</button>
+					<button id="{{group.stripeCustomerId}}" class="js-update-stripe-info btn-info btn-block m-tn-b-18">Update Stripe Info</button>
+				</div>
+			</div>
 		{{/if}}
-			<button id="{{accountAdmin._id}}" class="js-impersonate-admin btn-info">Impersonate Admin</button>
+			
 	</main>
 	{{#unless subscriptionReady}}
 		{{> loading}}

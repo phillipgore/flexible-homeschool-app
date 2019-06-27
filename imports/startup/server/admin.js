@@ -68,6 +68,7 @@ if (!Groups.find({appAdmin: true}).count()) {
 				user.info.groupId = result;
 				let userId = Accounts.createUser(user);
 				Meteor.users.update(userId, {$set: {"emails.0.verified" :true}});
+				Meteor.call('mcTags', result);
 			});
 		}
 	});
@@ -85,6 +86,7 @@ Meteor.methods({
 					user.info.groupId = result;
 					let userId = Accounts.createUser(user);
 					Meteor.users.update(userId, {$set: {"emails.0.verified" :true}});
+					Meteor.call('mcTags', result);
 
 
 					SSR.compileTemplate('freeTrialEmail', Assets.getText('freeTrialEmail.html'));

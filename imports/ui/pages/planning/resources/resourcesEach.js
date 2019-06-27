@@ -1,15 +1,31 @@
 import {Template} from 'meteor/templating';
+import { Resources } from '../../../../api/resources/resources.js';
 import './resourcesEach.html';
 
+import _ from 'lodash'
+
+Template.resourcesEach.onCreated( function() {
+	Session.setPersistent('unScrolled', true);
+});
+
 Template.resourcesEach.onRendered( function() {
-	let resourcesScrollTop = document.getElementById(FlowRouter.getParam('selectedResourceId')).getBoundingClientRect().top - 130;
-	if (window.screen.availWidth > 640) {
-		Session.set('resourcesScrollTop', resourcesScrollTop);
-		document.getElementsByClassName('frame-two')[0].scrollTop = resourcesScrollTop;
-	}
+	
 });
 
 Template.resourcesEach.helpers({
+	scroll: function() {
+		if (Session.get('unScrolled') && Resources.find({_id: FlowRouter.getParam('selectedResourceId')}).count()) {
+			setTimeout(function() {
+				let newScrollTop = document.getElementById(FlowRouter.getParam('selectedResourceId')).getBoundingClientRect().top - 180;
+				if (window.screen.availWidth > 640) {
+					document.getElementsByClassName('frame-two')[0].scrollTop = newScrollTop;
+				}
+				Session.setPersistent('unScrolled', false);
+				return false;
+			}, 100);
+		}
+	},
+
 	selectedResourceType: function() {
 		return FlowRouter.getParam('selectedResourceType');
 	},
@@ -35,6 +51,9 @@ Template.resourcesEach.helpers({
 		if (availability === 'need') {
 			return 'txt-warning'
 		}
+		if (availability === 'returned') {
+			return 'txt-danger'
+		}
 	},
 
 	availabilityText: function(availability) {
@@ -47,6 +66,9 @@ Template.resourcesEach.helpers({
 		if (availability === 'need') {
 			return '(Need It)'
 		}
+		if (availability === 'returned') {
+			return '(Returned It)'
+		}
 	},
 
 	active: function(id) {
@@ -56,3 +78,8 @@ Template.resourcesEach.helpers({
 		return false;
 	},
 });
+
+
+
+
+

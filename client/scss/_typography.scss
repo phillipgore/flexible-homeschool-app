@@ -168,6 +168,8 @@ a {
 		-moz-background-clip: text;
 		background-clip: text;
 	} 
+	
+	color: $color-primary;
 }
 .txt-secondary, .txt-danger { 
 	color: $color-danger; 
@@ -200,6 +202,18 @@ a {
 		background-color: $color-info;
 		color: transparent;
 		text-shadow: 0px 0px 100px $color-info;
+		-webkit-background-clip: text;
+		-moz-background-clip: text;
+		background-clip: text;
+	} 
+}
+.txt-warning-darkest { 
+	color: $color-warning-darkest; 
+
+	@media print {
+		background-color: $color-warning-darkest;
+		color: transparent;
+		text-shadow: 0px 0px 100px $color-warning-darkest;
 		-webkit-background-clip: text;
 		-moz-background-clip: text;
 		background-clip: text;
@@ -311,6 +325,8 @@ a {
 				$color-royal 0.283662px -0.958924px 0px, 
 				$color-royal 0.96017px -0.279415px 0px;
 	}
+
+	color: $color-royal;
 }
 
 
@@ -332,6 +348,8 @@ a {
 
 .font-size-10 { font-size: 10px; }
 .font-size-12 { font-size: 12px; }
+.font-size-13 { font-size: 13px; }
+.font-size-14 { font-size: 14px; }
 .font-size-16 { font-size: 16px; }
 .font-size-21 { font-size: 20px; }
 .font-size-22 { font-size: 22px; }

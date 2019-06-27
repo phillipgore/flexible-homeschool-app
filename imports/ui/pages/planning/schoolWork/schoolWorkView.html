@@ -41,13 +41,13 @@
 
 				<section>
 					<label>School Year</label>
-					<p>{{schoolWork.startYear}} - {{schoolWork.endYear}}</p>
+					<p>{{schoolYear.startYear}} - {{schoolYear.endYear}}</p>
 				</section>
 				
-				{{#each term in schoolWork.termStats}}
+				{{#each term in terms}}
 					<section class="sub-section">
-						<label>Term {{term.termOrder}}</label>
-						<p>{{term.lessonCount}} Segment{{sPlural term.lessonCount}}</p>
+						<label>Term {{term.order}}</label>
+						<p>{{termLessons term._id}}</p>
 					</section>
 				{{/each}}
 			</div>

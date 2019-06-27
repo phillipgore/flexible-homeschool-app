@@ -5,9 +5,11 @@ import { SchoolWork } from '../../../api/schoolWork/schoolWork.js';
 import { Lessons } from '../../../api/lessons/lessons.js';
 import { Terms } from '../../../api/terms/terms.js';
 import { Weeks } from '../../../api/weeks/weeks.js';
+import { Notes } from '../../../api/notes/notes.js';
 
 import moment from 'moment';
 import _ from 'lodash'
+
 import './trackingSchoolWork.html';
 
 Template.trackingSchoolWork.helpers({
@@ -28,15 +30,15 @@ Template.trackingSchoolWork.helpers({
 	},
 
 	workLessons: function(schoolWorkId) {
-		return Lessons.find({schoolWorkId: schoolWorkId});
+		return Lessons.find({schoolWorkId: schoolWorkId, weekId: FlowRouter.getParam('selectedWeekId')}, {sort: {order: 1}});
 	},
 
 	lessonCount: function(schoolWorkId) {
-		return Lessons.find({schoolWorkId: schoolWorkId}).count();
+		return Lessons.find({schoolWorkId: schoolWorkId, weekId: FlowRouter.getParam('selectedWeekId')}).count();
 	},
 
 	lessonPosition: function(schoolWorkId, lessonId) {
-		let lessonIds = Lessons.find({schoolWorkId: schoolWorkId}).map(lesson => (lesson._id))
+		let lessonIds = Lessons.find({schoolWorkId: schoolWorkId, weekId: FlowRouter.getParam('selectedWeekId')}).map(lesson => (lesson._id))
 		return lessonIds.indexOf(lessonId);
 	},
 
@@ -48,9 +50,13 @@ Template.trackingSchoolWork.helpers({
 		return Session.get('schoolWorkInfo');
 	},
 
+	lessonInfo: function() {
+		return Session.get('lessonInfo');
+	},
+
 	lessonStatus: function(lesson, schoolWorkId) {
 		$('.js-lesson-updating').hide();
-		let lessons = Lessons.find({schoolWorkId: schoolWorkId}).fetch();
+		let lessons = Lessons.find({schoolWorkId: schoolWorkId, weekId: FlowRouter.getParam('selectedWeekId')}).fetch();
 
 		if (!_.some(lessons, ['completed', false])) {
 			return 'btn-primary';
@@ -64,45 +70,138 @@ Template.trackingSchoolWork.helpers({
 
 		return false;
 	},
+
+	hasNote: function(schoolWorkId) {
+		let note = Notes.findOne({schoolWorkId: schoolWorkId, weekId: FlowRouter.getParam('selectedWeekId')}) && Notes.findOne({schoolWorkId: schoolWorkId, weekId: FlowRouter.getParam('selectedWeekId')})
+		if (_.isUndefined(note)) {
+			return false
+		}
+		if (note.note) {
+			return true;
+		}
+		return false;
+	},
+
+	workNote: function() {
+		return Session.get('schoolWorkNote');
+	},
+
+	editorContentReady: function() {
+		return Session.get('editorContentReady');
+	}
 });
 
 Template.trackingSchoolWork.events({
-	'click .js-show-schoolWork-info'(event) {
+	'click .js-show-schoolWork-notes'(event) {
 		event.preventDefault();
 
-		$('.js-show').show();
-		$('.js-hide').hide();
-		$('.js-info').hide();
-		Session.set('schoolWorkInfo', null);
+		$('.js-info, .js-notes').hide()
+		$('.js-info').removeClass('js-open');
+		Session.set({
+			'schoolWorkNote': null,
+			'editorContentReady': false,
+		});
 
-		if ($(event.currentTarget).hasClass('js-closed')) {
-			$(event.currentTarget).removeClass('js-closed');
-			let schoolWorkId = $(event.currentTarget).attr('id');
+		let schoolWorkId = $(event.currentTarget).attr('id');
+
+		if ($('.js-notes-' + schoolWorkId).hasClass('js-open')) {
+			$('.js-notes-' + schoolWorkId).removeClass('js-open')
+		} else {
+			$('.js-notes').removeClass('js-open');
 
 			$('.js-schoolWork-track').removeClass('active');
 			$('.js-lesson-input').removeAttr('style');
+			$('.js-notes-' + schoolWorkId).show().addClass('js-open');
 
-			$('.js-show.js-label-' + schoolWorkId).hide();
-			$('.js-hide.js-label-' + schoolWorkId).show();
-			$('.js-' + schoolWorkId).show();
+			Meteor.call('getNoteInfo', FlowRouter.getParam('selectedWeekId'), schoolWorkId, function(error, result) {
+				if (_.isUndefined(result)) {
+					Session.set({
+						'editorContentReady': true,
+						'schoolWorkNote': null,
+					});
+				} else {
+					Session.set({
+						'editorContentReady': true,
+						'schoolWorkNote': result.note,
+					});
+				}
+			});
+		}		
+	},
+
+	'keyup .js-notes-editor': function(event) {
+		let instance = Template.instance();
+		let schoolWorkId = $(event.currentTarget).parentsUntil('.js-notes').parent().attr('data-work-id');
+
+		if (instance.debounce) {
+			Meteor.clearTimeout(instance.debounce);
+		}
+
+		instance.debounce = Meteor.setTimeout(function() {
+			$('.js-notes-loader-' + schoolWorkId).show();
+			let user = Meteor.user();
+			let noteProperties = {
+				userId: user._id,
+				groupId: user.info.groupId,
+				weekId: FlowRouter.getParam('selectedWeekId'),
+				schoolWorkId: schoolWorkId,
+				note: $(event.currentTarget).html().trim(),
+			}
+
+			Meteor.call('upsertNotes', noteProperties, function(error, result) {
+				if (error) {
+					Alerts.insert({
+						colorClass: 'bg-danger',
+						iconClass: 'icn-danger',
+						message: error.reason,
+					});
+				} else {
+					$('.js-notes-loader-' + schoolWorkId).hide();
+				}
+			})
+		}, 500);
+	},
+
+	'click .js-show-schoolWork-info'(event) {
+		event.preventDefault();
+
+		$('.js-info, .js-notes').hide()
+		$('.js-notes').removeClass('js-open');
+		Session.set('schoolWorkInfo', {description: '', resources: []});
+		
+		let schoolWorkId = $(event.currentTarget).attr('id');
+		$('.js-info-data-' + schoolWorkId).hide();
+		$('.js-info-loader-' + schoolWorkId).show();
+
+		if ($('.js-info-' + schoolWorkId).hasClass('js-open')) {
+			$('.js-info-' + schoolWorkId).removeClass('js-open')
+		} else {
+			$('.js-info').removeClass('js-open');
+
+			$('.js-schoolWork-track').removeClass('active');
+			$('.js-lesson-input').removeAttr('style');
+			$('.js-info-' + schoolWorkId).show().addClass('js-open');
 
 			Meteor.call('getSchoolWorkInfo', schoolWorkId, function(error, result) {
 				Session.set('schoolWorkInfo', result);
 
-				$('.js-loader-' + schoolWorkId).hide();
-				$('.js-info-' + schoolWorkId).show();
+				$('.js-info-loader-' + schoolWorkId).hide();
+				$('.js-info-data-' + schoolWorkId).show();
 			})
-		} else {
-			$(event.currentTarget).addClass('js-closed');
 		}		
 	},
 
 	'click .js-lesson-btn'(event) {
 		event.preventDefault();
 
-		$('.js-hide, .js-info').hide();
-		$('.js-show').show();
-		Session.set('schoolWorkInfo', null);
+		if ($(window).width() < 640) {
+			$('.navbar').hide();
+		}
+		$('.js-info, .js-notes').hide();
+		$('.js-show-schoolWork-info, .js-show-schoolWork-notes').addClass('js-closed');
+
+		Session.set('schoolWorkInfo', {description: '', resources: []});
+		Session.set('lessonInfo', null);
 
 		let schoolWorkId = $(event.currentTarget).attr('data-schoolWork-id');
 		let lessonId = $(event.currentTarget).attr('data-lesson-id');
@@ -121,25 +220,34 @@ Template.trackingSchoolWork.events({
 			clear: 'Clear',
 			close: 'Close',
 		});
+
+		Meteor.call('getLesson', lessonId, function(error, result) {
+			Session.set('lessonInfo', result);
+
+			$('.js-loader-' + lessonId).hide();
+			$('.js-info-' + lessonId).show();
+		});
 	},
 
 	'click .js-close'(event) {
 		event.preventDefault();
 
+		$('.navbar').show();
 		$('.js-schoolWork-track').removeClass('active');
 		$('.js-schoolWork-track').removeClass('inactive');
 		$('.js-lesson-input').removeAttr('style');
 		if ($(window).width() < 640) {
 			$(window).scrollTop(Session.get('lessonScrollTop'));
 		}
+		Session.set('lessonInfo', null);
 	},
 
 	'change .js-completed-checkbox, change .js-assigned-checkbox'(event) {
-	    if ($(event.currentTarget).val() === 'true') {
-	    	$(event.currentTarget).val('false');
-	    } else {
-	    	$(event.currentTarget).val('true');
-	    }
+		if ($(event.currentTarget).val() === 'true') {
+			$(event.currentTarget).val('false');
+		} else {
+			$(event.currentTarget).val('true');
+		}
 	},
 
 	'submit .js-form-lessons-update'(event) {
@@ -148,6 +256,7 @@ Template.trackingSchoolWork.events({
 		let lessonId = $(event.currentTarget).parent().attr('id');
 		$('[data-lesson-id="' + lessonId + '"]').find('.js-lesson-updating').show();
 
+		$('.navbar').show();
 		$('.js-schoolWork-track').removeClass('active');
 		$('.js-schoolWork-track').removeClass('inactive');
 		$('.js-lesson-input').removeAttr('style');
@@ -190,7 +299,7 @@ Template.trackingSchoolWork.events({
 				});
 				$('.js-lesson-updating').hide();
 			} else {
-				// $('.js-lesson-updating').hide();
+				$('.js-lesson-updating').hide();
 			}
 		});
 
