@@ -449,10 +449,6 @@ Template.app.events({
 
 	'click .js-student'(event) {
 		let studentId = $(event.currentTarget).attr('id');
-		Session.set({
-			selectedStudentId: studentId,
-			editUrl: '/planning/students/edit/3/' + studentId,
-		});
 
 		function selectedItem(item) {
 			if (_.isUndefined(item)) {
@@ -462,8 +458,15 @@ Template.app.events({
 		}
 
 		let path = Paths.findOne({studentId: studentId, timeFrameId: Session.get('selectedSchoolYearId')});
+		
+		if (FlowRouter.current().route.name === 'schoolWorkView') {
+			Session.set('editUrl', '/planning/schoolWork/edit/3/' + studentId +'/'+ Session.get('selectedSchoolYearId') +'/'+ selectedItem(path.firstSchoolWorkId));
+		} else {
+			Session.set('editUrl', '/planning/students/edit/3/' + studentId);
+		}
 
 		Session.set({
+			selectedStudentId: studentId,
 			selectedTermId: selectedItem(path.firstTermId),
 			selectedWeekId: selectedItem(path.firstWeekId),
 			selectedSchoolWorkId: selectedItem(path.firstSchoolWorkId),
@@ -474,10 +477,6 @@ Template.app.events({
 
 	'click .js-school-year'(event) {
 		let schoolYearId = $(event.currentTarget).attr('id');
-		Session.set({
-			selectedSchoolYearId: schoolYearId,
-			editUrl: '/planning/schoolyears/edit/3/' + schoolYearId,
-		});
 
 		function selectedItem(item) {
 			if (_.isUndefined(item)) {
@@ -488,7 +487,14 @@ Template.app.events({
 
 		let path = Paths.findOne({studentId: Session.get('selectedStudentId'), timeFrameId: schoolYearId});
 
+		if (FlowRouter.current().route.name === 'schoolWorkView') {
+			Session.set('editUrl', '/planning/schoolWork/edit/3/' + Session.get('selectedStudentId') +'/'+ schoolYearId +'/'+ selectedItem(path.firstSchoolWorkId));
+		} else {
+			Session.set('editUrl', '/planning/schoolyears/edit/3/' + schoolYearId);
+		}
+
 		Session.set({
+			selectedSchoolYearId: schoolYearId,
 			selectedTermId: selectedItem(path.firstTermId),
 			selectedWeekId: selectedItem(path.firstWeekId),
 			selectedSchoolWorkId: selectedItem(path.firstSchoolWorkId),
