@@ -130,7 +130,7 @@ Migrations.add({
 				schoolYearId: schoolWorkProperties.schoolYearId,
 				termId: termId,
 			}
-
+			
 			Lessons.update(lesson._id, {$set: lessonProperties})
 		});
 	}
