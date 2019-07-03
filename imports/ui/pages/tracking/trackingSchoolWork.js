@@ -33,6 +33,14 @@ Template.trackingSchoolWork.helpers({
 		return Lessons.find({schoolWorkId: schoolWorkId, weekId: FlowRouter.getParam('selectedWeekId')}, {sort: {order: 1}});
 	},
 
+	workLessonsExist: function(schoolWorkId) {
+		let lessonsCount = Lessons.find({schoolWorkId: schoolWorkId, weekId: FlowRouter.getParam('selectedWeekId')}).count();
+		if (lessonsCount) {
+			return true;
+		}
+		return false;
+	},
+
 	lessonCount: function(schoolWorkId) {
 		return Lessons.find({schoolWorkId: schoolWorkId, weekId: FlowRouter.getParam('selectedWeekId')}).count();
 	},

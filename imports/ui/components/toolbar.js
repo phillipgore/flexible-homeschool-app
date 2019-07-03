@@ -140,15 +140,19 @@ Template.toolbar.helpers({
 	editableDeletable: function() {
 		let type = Session.get('toolbarType');
 
+		if (type === 'edit') {
+			return false;
+		}
+
 		if (type === 'schoolWork') {
-			if (SchoolWork.find()) {
+			if (FlowRouter.getParam('selectedSchoolWorkId') === 'empty') {
 				return false;
 			}
 			return true;
 		}
 
 		if (type === 'tracking') {
-			if (initialIds['studentId'] === 'empty' || !SchoolWork.find()) {
+			if (FlowRouter.getParam('selectedStudentId') === 'empty' || FlowRouter.getParam('selectedSchoolWorkId') === 'empty') {
 				return false;
 			}
 			return true;

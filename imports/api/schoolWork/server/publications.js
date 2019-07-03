@@ -36,6 +36,26 @@ Meteor.publish('trackingViewPub', function(studentId, weekId) {
 	]
 });
 
+Meteor.publish('trackingEditPub', function(studentId, schoolYearId, weekId) {
+	if (!this.userId) {
+		return this.ready();
+	}
+
+
+	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
+	let weeks = Weeks.find({schoolYearId: schoolYearId}, {sort: {order: 1}, fields: {order: 1, termId: 1}});
+	let lessons = Lessons.find({weekId: weekId}, {sort: {order: 1}, fields: {order: 1, completed: 1, assigned: 1, completedOn: 1, schoolWorkId: 1, weekId: 1}});
+	let schoolWorkIds = lessons.map(lesson => (lesson.schoolWorkId))
+	let schoolWork = SchoolWork.find({_id: {$in: schoolWorkIds}, groupId: groupId, studentId: studentId}, {sort: {name: 1}, fields: {order: 1, name: 1, studentId: 1, schoolYearId: 1}});
+	let notes = Notes.find({weekId: weekId, schoolWorkId: {$in: schoolWorkIds}}, {fields: {schoolWorkId: 1, weekId: 1, note: 1}})
+	return [
+		weeks,
+		lessons,
+		schoolWork,
+		notes
+	]
+});
+
 Meteor.publish('schoolWork', function(schoolWorkId) {
 	if (!this.userId) {
 		return this.ready();

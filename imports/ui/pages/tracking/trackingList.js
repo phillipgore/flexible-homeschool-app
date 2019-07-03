@@ -21,7 +21,6 @@ Template.trackingList.onRendered( function() {
 		activeNav: 'trackingList',
 		selectedStudentId: FlowRouter.getParam('selectedStudentId'),
 		toolbarType: 'tracking',
-		editUrl: '',
 		newUrl: '',
 	});
 });

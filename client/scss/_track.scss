@@ -4,7 +4,6 @@
 	dsiplay: block;
 
 	.track-label {
-		color: $color-black;
 		font-size: 14px;
 		font-weight: 600;
 	}
@@ -21,7 +20,7 @@
 	.track-btn-container {
 		margin-top: 6px;
 
-		button {
+		button, .btn {
 			border-radius: 0px;
 			border-right: 1px solid $color-white;
 			background-color: $color-gray-light;
@@ -37,6 +36,11 @@
 					box-shadow: inset 0px 0px 0px 100px $color-gray-darker;
 				}
 
+				&.btn-gray-dark-outline {
+					box-shadow: inset 0 0 0 1px $color-gray-dark;
+					background-color: transparent;
+				}
+
 				&.btn-gray-dark {
 					box-shadow: inset 0px 0px 0px 100px $color-gray-dark;
 				}
@@ -47,6 +51,25 @@
 
 				&.btn-white-info {
 					box-shadow: inset 0px 0px 0px 100px lighten($color-info, 28%);
+				}
+			}
+
+			.track-checkbox {
+				display: block;
+				height: auto;
+				position: absolute;
+				top: 0px;
+				right: 0px;
+				bottom: -11px;
+				left: 0px;
+				padding: 8px 0px;
+				user-select: none;
+
+				.checkbox-icon {
+					display: inline-block;
+					float: none;
+					margin: 0px auto;
+					user-select: none;
 				}
 			}
 
@@ -78,6 +101,22 @@
 				}
 			}
 
+			&.btn-primary-light {
+				background-color: $color-primary-light;
+
+				.loader-icon {
+					background-color: $color-white;
+
+					&:before {
+						background-color: $color-primary-light;
+					}
+
+					&:after {
+						background-color: $color-primary-light;
+					}
+				}
+			}
+
 			&.btn-secondary {
 				background-color: $color-danger;
 
@@ -90,6 +129,22 @@
 
 					&:after {
 						background-color: $color-danger;
+					}
+				}
+			}
+
+			&.btn-secondary-light {
+				background-color: $color-danger-light;
+
+				.loader-icon {
+					background-color: $color-white;
+
+					&:before {
+						background-color: $color-danger-light;
+					}
+
+					&:after {
+						background-color: $color-danger-light;
 					}
 				}
 			}
@@ -108,6 +163,59 @@
 						background-color: $color-warning;
 					}
 				}
+			}
+
+			&.btn-warning-light {
+				background-color: $color-warning-light;
+
+				.loader-icon {
+					background-color: $color-white;
+
+					&:before {
+						background-color: $color-warning-light;
+					}
+
+					&:after {
+						background-color: $color-warning-light;
+					}
+				}
+			}
+
+			&.btn-gray {
+				background-color: $color-gray;
+
+				.loader-icon {
+					background-color: $color-white;
+
+					&:before {
+						background-color: $color-gray;
+					}
+
+					&:after {
+						background-color: $color-gray;
+					}
+				}
+			}
+
+			&.btn-gray-dark {
+				background-color: $color-gray-dark;
+
+				.loader-icon {
+					background-color: $color-white;
+
+					&:before {
+						background-color: $color-gray-dark;
+					}
+
+					&:after {
+						background-color: $color-gray-dark;
+					}
+				}
+			}
+
+			&.btn-gray-dark-outline {
+				box-shadow: inset 0 0 0 1px $color-gray-darker;
+				background-color: transparent;
 			}
 
 			&:first-of-type {

@@ -8,6 +8,7 @@ import { SchoolWork } from '../../api/schoolWork/schoolWork.js';
 import { Reports } from '../../api/reports/reports.js';
 import { Terms } from '../../api/terms/terms.js';
 import { Weeks } from '../../api/weeks/weeks.js';
+import { Notes } from '../../api/notes/notes.js';
 import './app.html';
 import moment from 'moment';
 import _ from 'lodash'
@@ -347,6 +348,123 @@ Template.app.events({
 					FlowRouter.go('/planning/resources/view/2/' + FlowRouter.getParam('selectedResourceType') +'/'+ FlowRouter.getParam('selectedResourceAvailability') +'/'+ newResource._id +'/'+ newResource.type);
 				}
 				$('.js-deleting').hide();
+			}
+		});
+	},
+
+	'click .js-delete-segment-confirmed'(event) {
+		event.preventDefault();
+		$('.js-deleting').show();
+
+		// Set Stat Properties
+		let statProperties = {
+			studentIds: [FlowRouter.getParam('selectedStudentId')],
+			schoolYearIds: [FlowRouter.getParam('selectedSchoolYearId')],
+			termIds:[FlowRouter.getParam('selectedTermId')],
+			weekIds:[FlowRouter.getParam('selectedWeekId')],
+		}
+
+		// Set Path Properties
+		let pathProperties = {
+			studentIds: [FlowRouter.getParam('selectedStudentId')],
+			schoolYearIds: [FlowRouter.getParam('selectedSchoolYearId')],
+			termIds: [FlowRouter.getParam('selectedTermId')],
+		}
+
+		// Get Checked Lessons
+		let batchCheckedLessonProperties = [];
+		let deleteLessonIds = []
+
+		$('.js-segment-checkbox').each(function() {
+			if ($(this).val().trim() === 'true') {
+				batchCheckedLessonProperties.push({ 
+					_id: $(this).attr('data-lesson-id'),
+					schoolWorkId: $(this).attr('data-schoolWork-id')
+				});
+				deleteLessonIds.push($(this).attr('data-lesson-id'))
+			}
+		});
+
+		// Get Unchecked Lessons from School Work with Checked Lesson
+		let schoolWorkIds = _.uniq(batchCheckedLessonProperties.map(lesson => lesson.schoolWorkId));
+		let batchUncheckedLessonProperties = [];
+
+		schoolWorkIds.forEach(workId => {
+			$('#js-schoolWork-track-' + workId).find('.js-segment-checkbox').each(function() {
+				if ($(this).val().trim() != 'true') {
+					batchUncheckedLessonProperties.push({ 
+						_id: $(this).attr('data-lesson-id'),
+						schoolWorkId: $(this).attr('data-schoolWork-id')
+					})
+				}
+			})
+		})
+
+		// Get Notes to be Edited
+		let deleteNoteIds = [];
+
+		schoolWorkIds.forEach(workId => {
+			let unchecked = $('#js-schoolWork-track-' + workId).find('.js-segment-checkbox').not(':checked').length;
+			if (unchecked === 0) {
+				deleteNoteIds.push(Notes.findOne({schoolWorkId: workId, weekId: FlowRouter.getParam('selectedWeekId')})._id);
+			}
+		});
+
+
+		// Reorder Unchecked Lessons
+		schoolWorkIds.forEach(workId => {
+			let lessons = _.filter(batchUncheckedLessonProperties, {'schoolWorkId': workId});
+			lessons.forEach((lesson, index) => {
+				lesson.order = index + 1
+			});
+		});
+
+		// console.log('deleteLessonIds')
+		// console.log(deleteLessonIds)
+		// console.log('schoolWorkIds')
+		// console.log(schoolWorkIds)
+		// console.log('batchUncheckedLessonProperties')
+		// console.log(batchUncheckedLessonProperties)
+		// console.log('deleteNoteIds')
+		// console.log(_.uniq(deleteNoteIds))
+
+		let dialogId = Dialogs.findOne()._id;
+		Dialogs.remove({_id: dialogId});
+		Meteor.call('deleteLessons', deleteLessonIds, _.uniq(deleteNoteIds), function(error, result) {
+			if (error) {
+				Alerts.insert({
+					colorClass: 'bg-danger',
+					iconClass: 'icn-danger',
+					message: error.reason,
+				});
+				$('.js-deleting').hide();
+				$('.js-submit').prop('disabled', false);
+			} else {
+				Meteor.call('batchUpdateLessons', batchUncheckedLessonProperties, function(error, result) {
+					if (error) {
+						Alerts.insert({
+							colorClass: 'bg-danger',
+							iconClass: 'icn-danger',
+							message: error.reason,
+						});
+						$('.js-deleting').hide();
+						$('.js-submit').prop('disabled', false);
+					} else {
+						Meteor.call('runUpsertSchoolWorkPathsAndStats', pathProperties, statProperties, function() {
+							if (error) {
+								Alerts.insert({
+									colorClass: 'bg-danger',
+									iconClass: 'icn-danger',
+									message: error.reason,
+								});
+								$('.js-deleting').hide();
+								$('.js-submit').prop('disabled', false);
+							} else {
+								FlowRouter.go('/tracking/students/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'))
+							}
+						})
+					}
+				});
 			}
 		});
 	},

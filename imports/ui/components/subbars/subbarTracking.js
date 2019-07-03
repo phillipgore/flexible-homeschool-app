@@ -86,7 +86,7 @@ Template.subbarTracking.helpers({
 	/* -------------------- Weeks -------------------- */
 
 	weeks: function() {
-		return Weeks.find({}, {sort: {order: 1}});
+		return Weeks.find({termId: FlowRouter.getParam('selectedTermId')}, {sort: {order: 1}});
 	},
 
 	selectedWeek: function() {

@@ -2,9 +2,17 @@ import {Mongo} from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
 
 import {Weeks} from './weeks.js';
+import {Lessons} from '../lessons/lessons.js';
 import {primaryInitialIds} from '../../modules/server/initialIds';
 
+import _ from 'lodash';
+
 Meteor.methods({
+	insertWeeks(weekProperties) {
+		let weekId = Weeks.insert(weekProperties);
+		return weekId;
+	},
+
 	batchInsertWeeks(weekProperties) {
 		weekProperties.forEach(function(week) {
 			Weeks.insert(week);
@@ -14,4 +22,16 @@ Meteor.methods({
 	bulkWriteWeeks: function(bulkWeekProperties) {
 		Weeks.rawCollection().bulkWrite(bulkWeekProperties);
 	},
+
+	checkSpecificWeek(weekId, lessonStats) {
+		let schoolWorkIds = lessonStats.map(lesson => lesson.schoolWorkId);
+		let lessons = Lessons.find({weekId: weekId, schoolWorkId: {$in: schoolWorkIds}}).fetch();
+		let newLessonStats = []
+		lessonStats.forEach(lessonStat => {
+			let newWeekLessonCount = _.filter(lessons, ['schoolWorkId', lessonStat.schoolWorkId]).length
+			let newLessonCount = newWeekLessonCount + lessonStat.lessonCount;
+			newLessonStats.push({schoolWorkId: lessonStat.schoolWorkId, lessonCount: newLessonCount, newWeekLessonCount: newWeekLessonCount})
+		})
+		return newLessonStats;
+	}
 })

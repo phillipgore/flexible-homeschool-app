@@ -5,47 +5,40 @@ import { SchoolWork } from '../../../api/schoolWork/schoolWork.js';
 import { Lessons } from '../../../api/lessons/lessons.js';
 import { Terms } from '../../../api/terms/terms.js';
 import { Weeks } from '../../../api/weeks/weeks.js';
+import { Notes } from '../../../api/notes/notes.js';
 
 import moment from 'moment';
 import _ from 'lodash'
 import './trackingEditSchoolWork.html';
 
 Template.trackingEditSchoolWork.helpers({
-	terms: function() {
-		return Terms.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}, {sort: {order: 1}});
-	},
-
-	selectedTerm: function() {
-		return Terms.findOne({_id: FlowRouter.getParam('selectedTermId')});
-	},
-
-	weeks: function() {
-		return Weeks.find({termId: FlowRouter.getParam('selectedTermId')}, {sort: {order: 1}});
-	},
-
-	selectedWeek: function() {
-		return Weeks.findOne({_id: FlowRouter.getParam('selectedWeekId')});
-	},
-
 	workLessons: function(schoolWorkId) {
 		return Lessons.find({schoolWorkId: schoolWorkId});
 	},
 
+	workLessonsExist: function(schoolWorkId) {
+		let lessonsCount = Lessons.find({schoolWorkId: schoolWorkId, weekId: FlowRouter.getParam('selectedWeekId')}).count();
+		if (lessonsCount) {
+			return true;
+		}
+		return false;
+	},
+
+	workLocalLessons: function(schoolWorkId) {
+		return LocalLessons.find({schoolWorkId: schoolWorkId});
+	},
+
 	lessonCount: function(schoolWorkId) {
-		return Lessons.find({schoolWorkId: schoolWorkId}).count();
+		return Lessons.find({schoolWorkId: schoolWorkId}).count() + LocalLessons.find({schoolWorkId: schoolWorkId}).count();
 	},
 
-	lessonPosition: function(schoolWorkId, lessonId) {
-		let lessonIds = Lessons.find({schoolWorkId: schoolWorkId}).map(lesson => (lesson._id))
-		return lessonIds.indexOf(lessonId);
-	},
+	lessonLimitReached: function(schoolWorkId) {
+		let lessonCount = Lessons.find({schoolWorkId: schoolWorkId}).count() + LocalLessons.find({schoolWorkId: schoolWorkId}).count();
 
-	todaysDate: function() {
-		return moment();
-	},
-
-	workInfo: function() {
-		return Session.get('schoolWorkInfo');
+		if (lessonCount < 7) {
+			return false;
+		}
+		return true;
 	},
 
 	lessonStatus: function(lesson, schoolWorkId) {
@@ -53,147 +46,57 @@ Template.trackingEditSchoolWork.helpers({
 		let lessons = Lessons.find({schoolWorkId: schoolWorkId}).fetch();
 
 		if (!_.some(lessons, ['completed', false])) {
-			return 'btn-primary';
+			return 'btn-primary-light';
 		}
 		if (lesson.completed) {
-			return 'btn-secondary';
+			return 'btn-secondary-light';
 		}
 		if (lesson.assigned) {
-			return 'btn-warning';
+			return 'btn-warning-light';
 		}
 
+		return 'btn-gray-dark';
+	},
+
+	hasNote: function(schoolWorkId) {
+		let note = Notes.findOne({schoolWorkId: schoolWorkId, weekId: FlowRouter.getParam('selectedWeekId')}) && Notes.findOne({schoolWorkId: schoolWorkId, weekId: FlowRouter.getParam('selectedWeekId')})
+		if (_.isUndefined(note)) {
+			return false
+		}
+		if (note.note) {
+			return true;
+		}
+		return false;
+	},
+
+	isEdit: function() {
+		let action = Session.get('action')
+		if (action === 'choose' || action === 'insert' ) {
+			return false;
+		}
+		return true;
+	},
+
+	isInsert: function() {
+		let action = Session.get('action')
+		if (action === 'insert' ) {
+			return true;
+		}
 		return false;
 	},
 });
 
 Template.trackingEditSchoolWork.events({
-	'click .js-show-schoolWork-info'(event) {
-		event.preventDefault();
-
-		$('.js-show').show();
-		$('.js-hide').hide();
-		$('.js-info').hide();
-		Session.set('schoolWorkInfo', null);
-
-		if ($(event.currentTarget).hasClass('js-closed')) {
-			$(event.currentTarget).removeClass('js-closed');
-			let schoolWorkId = $(event.currentTarget).attr('id');
-
-			$('.js-schoolWork-track').removeClass('active');
-			$('.js-lesson-input').removeAttr('style');
-
-			$('.js-show.js-label-' + schoolWorkId).hide();
-			$('.js-hide.js-label-' + schoolWorkId).show();
-			$('.js-' + schoolWorkId).show();
-
-			Meteor.call('getSchoolWorkInfo', schoolWorkId, function(error, result) {
-				Session.set('schoolWorkInfo', result);
-
-				$('.js-loader-' + schoolWorkId).hide();
-				$('.js-info-' + schoolWorkId).show();
-			})
-		} else {
-			$(event.currentTarget).addClass('js-closed');
-		}		
-	},
-
-	'click .js-lesson-btn'(event) {
-		event.preventDefault();
-
-		$('.js-hide, .js-info').hide();
-		$('.js-show').show();
-		Session.set('schoolWorkInfo', null);
-
-		let schoolWorkId = $(event.currentTarget).attr('data-schoolWork-id');
-		let lessonId = $(event.currentTarget).attr('data-lesson-id');
-		Session.set('lessonScrollTop', $('#js-schoolWork-track-' + schoolWorkId).offset().top - 80);
-
-		$('.js-lesson-input').removeAttr('style');
-		$('#js-schoolWork-track-' + schoolWorkId).addClass('active');
-		$('.js-schoolWork-track').not('.active').addClass('inactive');
-
-		$('#' + lessonId).show();
-		$(window).scrollTop(0);
-
-		$('#completed-on-' + lessonId).pickadate({
-			format: 'mmmm d, yyyy',
-			today: 'Today',
-			clear: 'Clear',
-			close: 'Close',
-		});
-	},
-
-	'click .js-close'(event) {
-		event.preventDefault();
-
-		$('.js-schoolWork-track').removeClass('active');
-		$('.js-schoolWork-track').removeClass('inactive');
-		$('.js-lesson-input').removeAttr('style');
-		if ($(window).width() < 640) {
-			$(window).scrollTop(Session.get('lessonScrollTop'));
-		}
-	},
-
-	'change .js-completed-checkbox, change .js-assigned-checkbox'(event) {
+	'change .js-checkbox'(event) {
 	    if ($(event.currentTarget).val() === 'true') {
 	    	$(event.currentTarget).val('false');
 	    } else {
 	    	$(event.currentTarget).val('true');
 	    }
 	},
-
-	'submit .js-form-lessons-update'(event) {
-		event.preventDefault();
-
-		let lessonId = $(event.currentTarget).parent().attr('id');
-		$('[data-lesson-id="' + lessonId + '"]').find('.js-lesson-updating').show();
-
-		$('.js-schoolWork-track').removeClass('active');
-		$('.js-schoolWork-track').removeClass('inactive');
-		$('.js-lesson-input').removeAttr('style');
-		if ($(window).width() < 640) {
-			$(window).scrollTop(Session.get('lessonScrollTop'));
-		}
-
-		let lessonProperties = {
-			_id: $(event.currentTarget).parent().attr('id'),
-			assigned: event.currentTarget.assigned.value.trim() === 'true',
-			completed: event.currentTarget.completed.value.trim() === 'true',
-			completedOn: event.currentTarget.completedOn.value.trim(),
-			completionTime: event.currentTarget.completionTime.value.trim(),
-			description: $('#' + $(event.currentTarget).find('.editor-content').attr('id')).html(),
-		}
-
-		if (_.has(lessonProperties, 'completedOn')) {
-			lessonProperties.completedOn = moment(lessonProperties.completedOn).toISOString();
-		}
-
-		let pathProperties = {
-			studentIds: [FlowRouter.getParam('selectedStudentId')],
-			schoolYearIds: [FlowRouter.getParam('selectedSchoolYearId')],
-			termIds: [FlowRouter.getParam('selectedTermId')],
-		}
-
-		let statProperties = {
-			studentIds: [FlowRouter.getParam('selectedStudentId')],
-			schoolYearIds: [FlowRouter.getParam('selectedSchoolYearId')],
-			termIds:[FlowRouter.getParam('selectedTermId')],
-			weekIds:[FlowRouter.getParam('selectedWeekId')],
-		}
-
-		Meteor.call('updateLesson', statProperties, pathProperties, lessonProperties, function(error, result) {
-			if (error) {
-				Alerts.insert({
-					colorClass: 'bg-danger',
-					iconClass: 'icn-danger',
-					message: error.reason,
-				});
-				$('.js-lesson-updating').hide();
-			} else {
-				// $('.js-lesson-updating').hide();
-			}
-		});
-
-		return false;
-	},
 });
+
+
+
+
+

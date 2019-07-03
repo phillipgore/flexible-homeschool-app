@@ -1,30 +1,144 @@
 <template name="trackingEdit">
-	<main class="js-app-content app-content app-content-preceeds-toolbar app-content-tracking row">
-		<h1 class="txt-tn-center m-tn-b-18">Edit</h1>
+	<main class="js-app-content app-content app-content-preceeds-toolbar app-content-tracking">
 
 		<h1 class="txt-tn-center print-only-block">{{student.preferredFirstName.name}} {{student.lastName}}</h1>
 		<h2 class="txt-tn-center txt-gray-darkest txt-capitalize print-only-block m-tn-b-18">{{selectedSchoolYear.startYear}}-{{selectedSchoolYear.endYear}}, Term {{selectedTerm.order}}, Week {{selectedWeek.order}}</h2>
 
 		{{studentName student.preferredFirstName.name student.lastName}}
 		
-		{{#if studentsSchoolYearsCount}}
-			{{#if schoolWork.count}}
-				<div class="col-lg-1of2">
-					{{> trackingEditSchoolWork schoolWork=schoolWorkOne}}
-				</div>
-				<div class="col-lg-1of2">
-					{{> trackingEditSchoolWork schoolWork=schoolWorkTwo}}
-				</div>
-			{{else}}
-				<div class="txt-tn-center m-tn-t-72">
-					<i class="icn-school-work font-size-64 txt-gray m-tn-r-9"></i>
-					<h1 class="m-tn-t-36">Requires School Work</h1>
-					<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36 txt-gray-darkest">Go to "Planning" to add schoolWork.</p>
+			
+		<form class="js-tracking-update m-tn-rl-9 m-tn-tb-18 m-lg-18">
+			{{#if weekLessonsExist}}
+				<label>Action</label>
+				<div class="row well bg-gray-lighter p-tn-9 m-tn-b-18">
+					<div class="col-lg-4of10 col-xl-2of7">
+						<div class="icn-select no-margin">
+							<select class="js-action" name="action" id="action">
+								<option disabled selected value="choose">Choose An Action</option>
+								<optgroup label="Assign">
+									<option value="assigned">Mark "Do Next"</option>
+									<option value="unassigned">Unmark "Do Next"</option>
+								</optgroup>
+								<optgroup label="Complete">
+									<option value="complete">Mark "Complete"</option>
+									<option value="incomplete">Unmark "Complete"</option>
+								</optgroup>
+								<optgroup label="Reschedule">
+									<option value="existing">Move To Existing Week</option>
+									<option value="new">Move To New Week</option>
+								</optgroup>
+								<optgroup label="Add Or Remove">
+									<option value="insert">Insert Segments</option>
+									<option value="delete">Delete Segments</option>
+								</optgroup>
+							</select>
+						</div>
+					</div>
+					<div class="js-action-data js-complete fl-lg-left txt-gray-darkest txt-tn-center line-height-1-5 txt-lg-left p-tn-trl-9 p-lg-6 hide">
+						This action will mark every checked segment as "Completed".
+					</div>
+					<div class="js-action-data js-incomplete fl-lg-left txt-gray-darkest txt-tn-center line-height-1-5 txt-lg-left p-tn-trl-9 p-lg-6 hide">
+						This action will unmark every checked segment from being "Completed".
+					</div>
+					<div class="js-action-data js-assigned fl-lg-left txt-gray-darkest txt-tn-center line-height-1-5 txt-lg-left p-tn-trl-9 p-lg-6 hide">
+						This action will mark every checked segment as "Do Next".
+					</div>
+					<div class="js-action-data js-unassigned fl-lg-left txt-gray-darkest txt-tn-center line-height-1-5 txt-lg-left p-tn-trl-9 p-lg-6 hide">
+						This action will unmark every checked segment from being "Do Next".
+					</div>
+
+					<div class="js-action-data js-existing fl-lg-left txt-tn-center p-lg-3 hide">&nbsp;</div>
+					<div class="js-action-data js-existing col-lg-1of6 col-xl-1of8 hide">
+						<div class="icn-select no-margin">
+							<select class="js-existing-term" name="existingTerm" id="existing-term">
+								{{#each term in terms}}
+									<option value="{{term._id}}" selected="{{activeSelectItem selectedTermId term._id}}">Term {{term.order}}</option>
+								{{/each}}
+							</select>
+						</div>
+					</div>
+					<div class="js-action-data js-existing fl-lg-left txt-tn-center p-lg-3 hide">&nbsp;</div>
+					<div class="js-action-data js-existing col-lg-1of6 col-xl-1of8 hide">
+						<div class="icn-select no-margin">
+							<select class="js-existing-week" name="existingWeek" id="existing-week">
+								{{#each week in existingWeeks existingTerm}}
+									<option value="{{week._id}}" disabled="{{activeSelectItem selectedWeekId week._id}}">Week {{week.order}}</option>
+								{{/each}}
+							</select>
+						</div>
+					</div>
+					<div class="js-action-data js-existing fl-lg-left p-tn-t-18 p-tn-b-neg-6 p-lg-trl-9 hide">
+						<label class="checkbox no-margin">
+							<input class="js-checkbox js-checkbox-existing-append-notes" type="checkbox" name="" value="false">
+							<div class="checkbox-icon"></div> 
+							<div class="checkbox-label">Append notes.</div>
+						</label>
+					</div>
+
+					<div class="js-action-data js-new fl-lg-left txt-tn-center p-tn-9 hide">
+						at the end of
+					</div>
+					<div class="js-action-data js-new col-lg-1of6 col-xl-1of8 hide">
+						<div class="icn-select no-margin">
+							<select class="js-move-term" name="moveToTerm" id="move-to-term">
+								{{#each term in terms}}
+									<option value="{{term._id}}" selected="{{activeSelectItem selectedTermId term._id}}">Term {{term.order}}</option>
+								{{/each}}
+							</select>
+						</div>
+					</div>
+					<div class="js-action-data js-new fl-lg-left p-tn-t-18 p-tn-b-neg-6 p-lg-trl-9 hide">
+						<label class="checkbox no-margin">
+							<input class="js-checkbox js-checkbox-new-append-notes" type="checkbox" name="" value="false">
+							<div class="checkbox-icon"></div> 
+							<div class="checkbox-label">Append notes.</div>
+						</label>
+					</div>
+
+					<div class="js-action-data js-insert fl-lg-left txt-gray-darkest txt-tn-center line-height-1-5 txt-lg-left p-tn-trl-9 p-lg-6 hide">
+						This action allows you to add segments to School Work.
+					</div>
+					<div class="js-action-data js-delete fl-lg-left txt-gray-darkest txt-tn-center line-height-1-5 txt-lg-left p-tn-trl-9 p-lg-6 hide">
+						This action will permanently delete every checked segment.
+					</div>
 				</div>
 			{{/if}}
-		{{/if}}
+
+			<label>Segments</label>
+			<div class="well bg-gray-lighter p-tn-t-5 p-tn-rl-0 p-tn-b-12">
+				{{#if weekLessonsExist}}
+					{{#if isEdit}}
+						<div class="clearfix p-tn-trl-9 p-tn-b-12">
+							<label class="checkbox no-margin fl-tn-right">
+								<input class="js-check-all" type="checkbox" name="" value="">
+								<div class="checkbox-icon"></div> 
+								<div class="checkbox-label bold">All</div>
+							</label>
+						</div>
+					{{/if}}
+					<div class="row m-tn-t-neg-12 m-lg-t-0">
+						<div class="col-lg-1of2 m-lg-t-neg-12">
+							{{> trackingEditSchoolWork schoolWork=schoolWorkOne}}
+						</div>
+						<div class="col-lg-1of2 m-lg-t-neg-12">
+							{{> trackingEditSchoolWork schoolWork=schoolWorkTwo}}
+						</div>
+					</div>
+				{{else}}
+					<h1 class="txt-gray-darkest p-tn-trl-9">Nothing to edit.</h1>
+				{{/if}}
+			</div>
+			<footer class="toolbar toolbar-bottom toolbar-gray m-tn-t-27">
+				<a href="#" class="js-cancel btn btn-gray-darker fl-tn-left">Cancel</a>
+				{{#if weekLessonsExist}}
+					<button type="submit" class="js-submit fl-tn-right">Update</button>
+				{{/if}}
+			</footer>
+		</form>
 	</main>
 	{{#unless subscriptionReady}}
 		{{> loading}}
 	{{/unless}}
+	{{> deleting}}
+	{{> updating}}
 </template>

@@ -6,7 +6,7 @@
 		{{studentName student.preferredFirstName.name student.lastName}}
 		
 		{{#if studentsSchoolYearsCount}}
-			{{#if schoolWork.count}}
+			{{#if weekLessonsExist}}
 				<div class="col-lg-1of2">
 					{{> trackingSchoolWork schoolWork=schoolWorkOne}}
 				</div>

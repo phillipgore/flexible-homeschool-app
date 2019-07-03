@@ -5,6 +5,7 @@ import { SchoolWork } from '../../../api/schoolWork/schoolWork.js';
 import { Terms } from '../../../api/terms/terms.js';
 import { Weeks } from '../../../api/weeks/weeks.js';
 import { Notes } from '../../../api/notes/notes.js';
+import { Lessons } from '../../../api/lessons/lessons.js';
 
 import './trackingView.html';
 
@@ -14,15 +15,17 @@ Template.trackingView.onCreated( function() {
 	template.autorun(() => {
 		// Subscriptions
 		this.trackingData = Meteor.subscribe('trackingViewPub', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedWeekId'));
+		Session.set({editUrl: '/tracking/students/edit/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId')})
 	});
 });
 
 Template.trackingView.onRendered( function() {
+	document.getElementsByClassName('frame-two')[0].scrollTop = 0;
 	Session.set({
 		selectedReportingTermId: FlowRouter.getParam('selectedTermId'),
 		selectedReportingWeekId: FlowRouter.getParam('selectedWeekId'),
 		toolbarType: 'tracking',
-		editUrl: '/tracking/students/edit/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'),
+		// editUrl: '/tracking/students/edit/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'),
 		newUrl: '',
 		activeNav: 'trackingList',
 	});
@@ -55,6 +58,13 @@ Template.trackingView.helpers({
 
 	schoolWork: function() {
 		return SchoolWork.find({studentId: FlowRouter.getParam('selectedStudentId'), schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}, {sort: {name: 1}});
+	},
+
+	weekLessonsExist: function() {
+		if (Lessons.find({weekId: FlowRouter.getParam('selectedWeekId')}).count()) {
+			return true;
+		}
+		return false;
 	},
 
 	schoolWorkOne: function(schoolWorkCount) {

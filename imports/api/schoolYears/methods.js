@@ -74,33 +74,6 @@ Meteor.methods({
 	},
 
 	updateSchoolYearTerms: function(schoolYearId, schoolYearProperties, termDeleteIds, weekDeleteIds, termUpdateProperties, weekUpdateProperties, termInsertProperties, weekInsertProperties, userId, groupId) {
-		// console.log('schoolYearId:');
-		// console.log(schoolYearId);
-		// console.log('schoolYearProperties:');
-		// console.log(schoolYearProperties);
-		// console.log('termDeleteIds:');
-		// console.log(termDeleteIds);
-		// console.log('weekDeletes:');
-		// console.log(weekDeletes);
-
-		// console.log('termUpdateProperties:');
-		// console.log(termUpdateProperties);
-
-		// console.log('weekUpdateProperties:');
-		// console.log(weekUpdateProperties);
-
-		// console.log('weekInsertProperties:');
-		// console.log(weekInsertProperties);
-
-		// console.log('termInsertProperties:');
-		// console.log(termInsertProperties);
-
-		// console.log('userId:');
-		// console.log(userId);
-		// console.log('groupId:');
-		// console.log(groupId);
-
-
 		let yearLessons = Lessons.find({schoolYearId: schoolYearId}, {fields: {weekId: 1, termId: 1}}).fetch();
 
 		let termBulkDelete = [];
@@ -185,9 +158,29 @@ Meteor.methods({
 		let weeksBulk = weekBulkDelete.concat(weekBulkUpdate, weekBulkInsert);
 		let lessonsBulk = lessonBulkDelete.concat(lessonBulkUpdate);
 
-		Terms.rawCollection().bulkWrite(termsBulk);
-		Weeks.rawCollection().bulkWrite(weeksBulk);
-		Lessons.rawCollection().bulkWrite(lessonsBulk);
+		if (termsBulk.length) {
+			Terms.rawCollection().bulkWrite(
+				termsBulk
+			).catch((error) => {
+				throw new Meteor.Error(500, error.message);
+			});
+		}
+
+		if (weeksBulk.length) {
+			Weeks.rawCollection().bulkWrite(
+				weeksBulk
+			).catch((error) => {
+				throw new Meteor.Error(500, error.message);
+			});
+		}
+		
+		if (lessonsBulk.length) {	
+			Lessons.rawCollection().bulkWrite(
+				lessonsBulk
+			).catch((error) => {
+				throw new Meteor.Error(500, error.message);
+			});
+		}
 
 		return true;
 	},
