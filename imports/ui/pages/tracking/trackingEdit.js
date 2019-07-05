@@ -253,10 +253,17 @@ Template.trackingEdit.events({
 			})
 		});
 
+		console.log('batchCheckedLessonProperties');
+		console.log(batchCheckedLessonProperties);
+		console.log('batchUncheckedLessonProperties');
+		console.log(batchUncheckedLessonProperties);
+
 		let action = $('.js-action').val();
 
 		// No Choice ----------------------------------------------------------------------
 		if (action === 'choose') {
+			console.log('choose');
+
 			Alerts.insert({
 				colorClass: 'bg-info',
 				iconClass: 'icn-info',
@@ -268,6 +275,8 @@ Template.trackingEdit.events({
 
 		// Insert ----------------------------------------------------------------------
 		if (action === 'insert') {
+			console.log('insert');
+
 			if (!LocalLessons.find().count()) {
 				Alerts.insert({
 					colorClass: 'bg-info',
@@ -308,6 +317,8 @@ Template.trackingEdit.events({
 
 			// Complete ----------------------------------------------------------------------
 			if (action === 'complete') {
+				console.log('complete');
+
 				$('.js-updating').show();
 				$('.js-submit').prop('disabled', true);
 
@@ -320,42 +331,47 @@ Template.trackingEdit.events({
 
 			// Incomplete ----------------------------------------------------------------------
 			if (action === 'incomplete') {
+				console.log('incomplete');
+
 				$('.js-updating').show();
 				$('.js-submit').prop('disabled', true);
 
 				batchCheckedLessonProperties.forEach(lesson => {
 					lesson.completed = false;
 				})
-				// console.log('incomplete');
 			}
 
 
 			// Assigned ----------------------------------------------------------------------
 			if (action === 'assigned') {
+				console.log('assigned');
+
 				$('.js-updating').show();
 				$('.js-submit').prop('disabled', true);
 				
 				batchCheckedLessonProperties.forEach(lesson => {
 					lesson.assigned = true;
 				})
-				// console.log('next');
 			}
 
 
 			// Unassigned ----------------------------------------------------------------------
 			if (action === 'unassigned') {
+				console.log('unassigned');
+
 				$('.js-updating').show();
 				$('.js-submit').prop('disabled', true);
 				
 				batchCheckedLessonProperties.forEach(lesson => {
 					lesson.assigned = false;
 				})
-				// console.log('not next');
 			}
 
 
 			// Existing Week ----------------------------------------------------------------------
 			if (action === 'existing') {
+				console.log('existing');
+
 				$('.js-updating').show();
 				$('.js-submit').prop('disabled', true);
 
@@ -400,7 +416,9 @@ Template.trackingEdit.events({
 							message: error.reason,
 						});
 					} else {
-						// console.log(newLessonStats)
+						console.log('newLessonStats');
+						console.log(newLessonStats);
+
 						const error = [];
 						newLessonStats.forEach(lessonStat => {
 							if (lessonStat.lessonCount >= 8) {
@@ -422,7 +440,6 @@ Template.trackingEdit.events({
 							statProperties.weekIds.push(weekId);
 							pathProperties.termIds.push(term._id);
 
-							// console.log(newLessonStats)
 							batchCheckedLessonProperties.forEach((lesson, index) => {
 								lesson.order = _.find(newLessonStats, ['schoolWorkId', lesson.schoolWorkId]).newWeekLessonCount + index + 1;
 								lesson.weekOrder = week.order;
@@ -431,19 +448,21 @@ Template.trackingEdit.events({
 								lesson.weekId = weekId;
 							});
 
-							// console.log(batchUncheckedLessonProperties)
 							schoolWorkIds.forEach(workId => {
 								let lessons = _.filter(batchUncheckedLessonProperties, {'schoolWorkId': workId});
 								lessons.forEach((lesson, index) => {
 									lesson.order = index + 1
 								});
 							});
-							// console.log(batchUncheckedLessonProperties)
 
-							
-							// console.log(batchCheckedLessonProperties);
-							// console.log(batchUncheckedLessonProperties);
-							// console.log(lessonProperties)
+							console.log('batchCheckedLessonProperties');
+							console.log(batchCheckedLessonProperties);
+							console.log('batchUncheckedLessonProperties');
+							console.log(batchUncheckedLessonProperties);
+							console.log('notProperties')
+							console.log(getNoteProperties())
+							console.log('notePlacement')
+							console.log(notePlacement())
 
 							Meteor.call('batchMoveLessonsToExistingWeek', batchCheckedLessonProperties, batchUncheckedLessonProperties, getNoteProperties(), notePlacement(), function(error, result) {
 								if (error) {
@@ -481,6 +500,8 @@ Template.trackingEdit.events({
 
 			// New Week ----------------------------------------------------------------------
 			if (action === 'new') {
+				console.log('new');
+
 				$('.js-updating').show();
 				$('.js-submit').prop('disabled', true);
 				
@@ -536,7 +557,15 @@ Template.trackingEdit.events({
 							}
 							return [];
 						}
-						console.log(getNoteProperties())
+						
+						console.log('batchCheckedLessonProperties');
+						console.log(batchCheckedLessonProperties);
+						console.log('batchUncheckedLessonProperties');
+						console.log(batchUncheckedLessonProperties);
+						console.log('lessonProperties');
+						console.log(lessonProperties);
+						console.log('notProperties');
+						console.log(getNoteProperties());
 
 						Meteor.call('batchUpdateLessons', lessonProperties, getNoteProperties(), function(error, result) {
 							if (error) {
@@ -601,9 +630,7 @@ Template.trackingEdit.events({
 			return false;
 		}
 
-		// console.log(batchCheckedLessonProperties)
-		// console.log(statProperties)
-		// console.log(pathProperties)
+		console.log(batchCheckedLessonProperties)
 
 		// Batch Update Lessons
 		Meteor.call('batchUpdateLessons', batchCheckedLessonProperties, [], function(error, result) {

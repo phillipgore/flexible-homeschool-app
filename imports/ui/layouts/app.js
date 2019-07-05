@@ -354,6 +354,8 @@ Template.app.events({
 
 	'click .js-delete-segment-confirmed'(event) {
 		event.preventDefault();
+		console.log('delete');
+		
 		$('.js-deleting').show();
 
 		// Set Stat Properties
@@ -419,14 +421,14 @@ Template.app.events({
 			});
 		});
 
-		// console.log('deleteLessonIds')
-		// console.log(deleteLessonIds)
-		// console.log('schoolWorkIds')
-		// console.log(schoolWorkIds)
-		// console.log('batchUncheckedLessonProperties')
-		// console.log(batchUncheckedLessonProperties)
-		// console.log('deleteNoteIds')
-		// console.log(_.uniq(deleteNoteIds))
+		console.log('deleteLessonIds')
+		console.log(deleteLessonIds)
+		console.log('schoolWorkIds')
+		console.log(schoolWorkIds)
+		console.log('batchUncheckedLessonProperties')
+		console.log(batchUncheckedLessonProperties)
+		console.log('deleteNoteIds')
+		console.log(_.uniq(deleteNoteIds))
 
 		let dialogId = Dialogs.findOne()._id;
 		Dialogs.remove({_id: dialogId});
