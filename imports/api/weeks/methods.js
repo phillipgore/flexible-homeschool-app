@@ -8,12 +8,12 @@ import {primaryInitialIds} from '../../modules/server/initialIds';
 import _ from 'lodash';
 
 Meteor.methods({
-	insertWeeks(weekProperties) {
+	insertWeeks: function(weekProperties) {
 		let weekId = Weeks.insert(weekProperties);
 		return weekId;
 	},
 
-	batchInsertWeeks(weekProperties) {
+	batchInsertWeeks: function(weekProperties) {
 		weekProperties.forEach(function(week) {
 			Weeks.insert(week);
 		});
@@ -23,7 +23,7 @@ Meteor.methods({
 		Weeks.rawCollection().bulkWrite(bulkWeekProperties);
 	},
 
-	checkSpecificWeek(weekId, lessonStats) {
+	checkSpecificWeek: function(weekId, lessonStats) {
 		let schoolWorkIds = lessonStats.map(lesson => lesson.schoolWorkId);
 		let lessons = Lessons.find({weekId: weekId, schoolWorkId: {$in: schoolWorkIds}}).fetch();
 		let newLessonStats = []
@@ -33,5 +33,5 @@ Meteor.methods({
 			newLessonStats.push({schoolWorkId: lessonStat.schoolWorkId, lessonCount: newLessonCount, newWeekLessonCount: newWeekLessonCount})
 		})
 		return newLessonStats;
-	}
+	},
 })
