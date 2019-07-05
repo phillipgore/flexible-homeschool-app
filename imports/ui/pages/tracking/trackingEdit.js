@@ -419,7 +419,7 @@ Template.trackingEdit.events({
 						console.log('newLessonStats');
 						console.log(newLessonStats);
 
-						const error = [];
+						let error = [];
 						newLessonStats.forEach(lessonStat => {
 							if (lessonStat.lessonCount >= 8) {
 								error.push('error');

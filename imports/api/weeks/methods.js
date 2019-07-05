@@ -26,7 +26,7 @@ Meteor.methods({
 	checkSpecificWeek: function(weekId, lessonStats) {
 		let schoolWorkIds = lessonStats.map(lesson => lesson.schoolWorkId);
 		let lessons = Lessons.find({weekId: weekId, schoolWorkId: {$in: schoolWorkIds}}).fetch();
-		let newLessonStats = []
+		let newLessonStats = [];
 		lessonStats.forEach(lessonStat => {
 			let newWeekLessonCount = _.filter(lessons, ['schoolWorkId', lessonStat.schoolWorkId]).length
 			let newLessonCount = newWeekLessonCount + lessonStat.lessonCount;
