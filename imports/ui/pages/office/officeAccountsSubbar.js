@@ -21,6 +21,7 @@ Template.officeAccountsSubbar.onCreated( function() {
 		Meteor.call('getInitialGroupIds', function(error, result) {
 			Session.set('initialGroupIds', result)
 		});
+		this.accountData = Meteor.subscribe('allAccountTotals');
 	});
 });
 
@@ -39,6 +40,10 @@ Template.officeAccountsSubbar.helpers({
 
 	selectedStatusLabel: function(_id) {
 		return _.find(statusOptionProperties, ['_id', _id]).label;
+	},
+
+	statusCount: function(status) {
+		return Counts.get(status + 'AccountsCount')
 	},
 
 	selectedGroupId: function() {

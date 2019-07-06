@@ -4,7 +4,7 @@
 			<!-- Status Dropdown -->
 			<div class="btn-sub-dropdown">
 				<a id="{{selectedStatus}}" href="#" data-menu="#status-options" class="js-dropdown btn-sub last">
-					<div class="btn-sub-label">{{selectedStatusLabel selectedStatusId}}</div>
+					<div class="btn-sub-label">{{selectedStatusLabel selectedStatusId}} ({{statusCount selectedStatusId}})</div>
 				</a>
 				<ul id="status-options" class="dropdown-menu dropdown-sub m-tn-rl-9 hide">
 					<div class="dropdown-arrow"></div>
@@ -21,7 +21,7 @@
 										<i class="icn-circle {{status.colorClass}}"></i>
 									{{/if}}
 								</div>
-								<div class="dropdown-item-label">{{status.label}}</div>
+								<div class="dropdown-item-label">{{status.label}} ({{statusCount status._id}})</div>
 								{{#if activeListItem selectedStatusId status._id}}
 									<div class="dropdown-item-icon-right">
 										<i class="icn-planning txt-gray-darker"></i>
