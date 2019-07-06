@@ -159,6 +159,38 @@ const GroupsSchema = new SimpleSchema({
         type: String,
         label: "Initial Group Id",
     },
+    initialGroupIds: {
+        type: Object,
+        label: "Initial Group Ids",
+    },
+    'initialGroupIds.all': {
+        type: String,
+        label: "Initial Group Id",
+    },
+    'initialGroupIds.active': {
+        type: String,
+        label: "Initial Active Group Id",
+    },
+    'initialGroupIds.pausePending': {
+        type: String,
+        label: "Initial Pause Pending Group Id",
+    },
+    'initialGroupIds.paused': {
+        type: String,
+        label: "Initial Pause Group Id",
+    },
+    'initialGroupIds.error': {
+        type: String,
+        label: "Initial Error Group Id",
+    },
+    'initialGroupIds.freeTrail': {
+        type: String,
+        label: "Initial Free Trial Group Id",
+    },
+    'initialGroupIds.freeTrialExpired': {
+        type: String,
+        label: "Initial Free Trial Expired Group Id",
+    },
 	createdOn: {
 		type: Date,
 		label: "Created On Date",
