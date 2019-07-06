@@ -5,8 +5,8 @@ import _ from 'lodash';
 
 let statusOptionProperties = [
 	{_id: 'all', label: 'All Status', colorClass: 'txt-success all'},
-	{_id: 'online', label: 'Online', colorClass: 'txt-harvest-light'},
-	{_id: 'active', label: 'Active', colorClass: 'txt-success'},
+	{_id: 'online', label: 'Online', colorClass: 'txt-success'},
+	{_id: 'active', label: 'Active', colorClass: 'txt-info'},
 	{_id: 'pausePending', label: 'Pause Pending', colorClass: 'txt-warning-dark'},
 	{_id: 'paused', label: 'Paused', colorClass: 'txt-gray-darker'},
 	{_id: 'error', label: 'Error', colorClass: 'txt-danger'},
