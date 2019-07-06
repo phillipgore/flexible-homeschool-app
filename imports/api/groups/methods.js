@@ -7,42 +7,64 @@ import {primaryInitialIds} from '../../modules/server/initialIds';
 
 Meteor.methods({
 	getInitialGroupIds: function() {
-		if (!this.userId) {
-			return [];
-		}
-
-		let group = Meteor.users.findOne({_id: this.userId});
+		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
+		let group = Groups.findOne({_id: groupId});
 
 		if (group.appAdmin) {
 			let groups = Groups.find({appAdmin: false}, {fields: {_id: 1}, sort: {createdOn: -1}}).fetch();
-			let onlineUsersGroupIds = Meteor.find({'presence.status': 'online'}).map(user => user.info.groupId)
-			
-			_.filter(yearLessons, lesson => _.includes(termWeekIds, lesson.weekId)).map(lesson => lesson.schoolWorkId)
+			console.log(groups)
+			let onlineUsersGroupIds = Meteor.users.find({'presence.status': 'online'}).map(user => user.info.groupId)
+			console.log(onlineUsersGroupIds)
+			let initialGroupIds = {
+				all: 'empty',
+				online: 'empty',
+				active: 'empty',
+				pausePending: 'empty',
+				paused: 'empty',
+				error: 'empty',
+				freeTrial: 'empty',
+				freeTrialExpired: 'empty',
+			}
 
-			// let all = groups[0];
-			// let online = _.orderBy(_.filter(groups, group => _.includes(onlineUsersGroupIds, group._id)), ['createdOn'], ['desc'])[0]._id;
-			// let active = _.find(groups, ['subscriptionStatus', 'active'])._id;
-			// let pausePending = _.find(groups, ['subscriptionStatus', 'pausePending'])._id;
-			// let paused = _.find(groups, ['subscriptionStatus', 'paused'])._id;
-			// let error = _.find(groups, ['subscriptionStatus', 'error'])._id;
-			// let freeTrial = _.find(groups, ['subscriptionStatus', 'freeTrial'])._id;
-			// let freeTrialExpired = _.find(groups, ['subscriptionStatus', 'freeTrialExpired'])._id;
+			console.log(initialGroupIds)
 
-			let initialGroupIds = [{
-				'all': groups[0],
-				'online': _.orderBy(_.filter(groups, group => _.includes(onlineUsersGroupIds, group._id)), ['createdOn'], ['desc'])[0]._id,
-				'active': _.find(groups, ['subscriptionStatus', 'active'])._id,
-				'pausePending': _.find(groups, ['subscriptionStatus', 'pausePending'])._id,
-				'paused': _.find(groups, ['subscriptionStatus', 'paused'])._id,
-				'error': _.find(groups, ['subscriptionStatus', 'error'])._id,
-				'freeTrial': _.find(groups, ['subscriptionStatus', 'freeTrial'])._id,
-				'freeTrialExpired': _.find(groups, ['subscriptionStatus', 'freeTrialExpired'])._id,
-			}];
+			let all = groups[0];
+			console.log(!_.isUndefined(all));
+			if (!_.isUndefined(all)) {initialGroupIds.all = all._id}
 
+			let online = _.filter(groups, group => _.includes(onlineUsersGroupIds, group._id));
+			console.log(online.length);
+			if (online.length) {initialGroupIds.online = _.orderBy(online[0]._id, ['createdOn'], ['desc'])};
+
+			let active = _.find(groups, ['subscriptionStatus', 'active']);
+			console.log(!_.isUndefined(active));
+			if (!_.isUndefined(active)) {initialGroupIds.active = active._id};
+
+			let pausePending = _.find(groups, ['subscriptionStatus', 'pausePending']);
+			console.log(!_.isUndefined(pausePending));
+			if (!_.isUndefined(pausePending)) {initialGroupIds.pausePending = pausePending._id};
+
+			let paused = _.find(groups, ['subscriptionStatus', 'paused']);
+			console.log(!_.isUndefined(paused));
+			if (!_.isUndefined(paused)) {initialGroupIds.paused = paused._id};
+
+			let error = _.find(groups, ['subscriptionStatus', 'error']);
+			console.log(!_.isUndefined(error));
+			if (!_.isUndefined(error)) {initialGroupIds.error = error._id};
+
+			let freeTrial = _.find(groups, ['subscriptionStatus', 'freeTrial']);
+			console.log(!_.isUndefined(freeTrial));
+			if (!_.isUndefined(freeTrial)) {initialGroupIds.freeTrial = freeTrial._id};
+
+			let freeTrialExpired = _.find(groups, ['subscriptionStatus', 'freeTrialExpired']);
+			console.log(!_.isUndefined(freeTrialExpired));
+			if (!_.isUndefined(freeTrialExpired)) {initialGroupIds.freeTrialExpired = freeTrialExpired._id};
+
+			console.log(initialGroupIds)
 			return initialGroupIds;
 		}
 			
-		return [];
+		return false;
 	},
 
 	insertGroup: function(userEmail) {

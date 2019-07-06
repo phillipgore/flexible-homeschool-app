@@ -17,15 +17,14 @@ let statusOptionProperties = [
 Template.officeAccountsSubbar.onCreated( function() {
 	let template = Template.instance();
 
-	template.autorun(() => {
-		Meteor.call('getInitialGroupIds', function(error, result) {
-			Session.set('initialGroupIds', result)
-		})
-	});
+	Meteor.call('getInitialGroupIds', function(error, result) {
+		Session.set('initialGroupIds', result)
+	})
 });
 
 Template.officeAccountsSubbar.helpers({
 	getInitialGroupId: function(status) {
+		console.log(Session.get('initialGroupIds'))
 		return Session.get('initialGroupIds')[status];
 	},
 

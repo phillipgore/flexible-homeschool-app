@@ -21,7 +21,7 @@
 										<i class="icn-circle {{status.colorClass}}"></i>
 									{{/if}}
 								</div>
-								<div class="dropdown-item-label">{{status.label}}</div>
+								<div class="dropdown-item-label">{{status.label}} {{getInitialGroupId status._id}}</div>
 								{{#if activeListItem selectedStatusId status._id}}
 									<div class="dropdown-item-icon-right">
 										<i class="icn-planning txt-gray-darker"></i>
