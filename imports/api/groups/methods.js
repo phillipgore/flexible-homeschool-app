@@ -12,9 +12,8 @@ Meteor.methods({
 
 		if (group.appAdmin) {
 			let groups = Groups.find({appAdmin: false}, {fields: {_id: 1}, sort: {createdOn: -1}}).fetch();
-			console.log(groups)
 			let onlineUsersGroupIds = Meteor.users.find({'presence.status': 'online'}).map(user => user.info.groupId)
-			console.log(onlineUsersGroupIds)
+			
 			let initialGroupIds = {
 				all: 'empty',
 				online: 'empty',
@@ -25,8 +24,6 @@ Meteor.methods({
 				freeTrial: 'empty',
 				freeTrialExpired: 'empty',
 			}
-
-			console.log(initialGroupIds)
 
 			let all = groups[0];
 			console.log(!_.isUndefined(all));
