@@ -5,63 +5,53 @@ import {Groups} from './groups.js';
 import {Lessons} from '../lessons/lessons.js';
 import {primaryInitialIds} from '../../modules/server/initialIds';
 
+import _ from 'lodash';
+
 Meteor.methods({
 	getInitialGroupIds: function() {
 		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
 		let group = Groups.findOne({_id: groupId});
 
+		let initialGroupIds = {
+			all: 'empty',
+			online: 'empty',
+			active: 'empty',
+			pausePending: 'empty',
+			paused: 'empty',
+			error: 'empty',
+			freeTrial: 'empty',
+			freeTrialExpired: 'empty',
+		}
+
 		if (group.appAdmin) {
-			let groups = Groups.find({appAdmin: false}, {fields: {_id: 1}, sort: {createdOn: -1}}).fetch();
-			let onlineUsersGroupIds = Meteor.users.find({'presence.status': 'online'}).map(user => user.info.groupId)
+			let groups = Groups.find({appAdmin: false}, {fields: {createdOn: 1, subscriptionStatus: 1}, sort: {createdOn: -1}}).fetch();
+			let onlineGroupIds = Meteor.users.find({'presence.status': 'online', 'info.groupId': {$ne: groupId}}).map(user => user.info.groupId);
 			
-			let initialGroupIds = {
-				all: 'empty',
-				online: 'empty',
-				active: 'empty',
-				pausePending: 'empty',
-				paused: 'empty',
-				error: 'empty',
-				freeTrial: 'empty',
-				freeTrialExpired: 'empty',
-			}
+			if (groups.length) {initialGroupIds.all = groups[0]._id};
 
-			let all = groups[0];
-			console.log(!_.isUndefined(all));
-			if (!_.isUndefined(all)) {initialGroupIds.all = all._id}
-
-			let online = _.filter(groups, group => _.includes(onlineUsersGroupIds, group._id));
-			console.log(online.length);
-			if (online.length) {initialGroupIds.online = _.orderBy(online[0]._id, ['createdOn'], ['desc'])};
+			let online = _.filter(groups, group => _.includes(onlineGroupIds, group._id));
+			if (online.length) {initialGroupIds.online = _.orderBy(online, ['createdOn'], ['desc'])[0]._id};
 
 			let active = _.find(groups, ['subscriptionStatus', 'active']);
-			console.log(!_.isUndefined(active));
-			if (!_.isUndefined(active)) {initialGroupIds.active = active._id};
+			if (active) {initialGroupIds.active = active._id};
 
 			let pausePending = _.find(groups, ['subscriptionStatus', 'pausePending']);
-			console.log(!_.isUndefined(pausePending));
-			if (!_.isUndefined(pausePending)) {initialGroupIds.pausePending = pausePending._id};
+			if (pausePending) {initialGroupIds.pausePending = pausePending._id};
 
 			let paused = _.find(groups, ['subscriptionStatus', 'paused']);
-			console.log(!_.isUndefined(paused));
-			if (!_.isUndefined(paused)) {initialGroupIds.paused = paused._id};
+			if (paused) {initialGroupIds.paused = paused._id};
 
 			let error = _.find(groups, ['subscriptionStatus', 'error']);
-			console.log(!_.isUndefined(error));
-			if (!_.isUndefined(error)) {initialGroupIds.error = error._id};
+			if (error) {initialGroupIds.error = error._id};
 
 			let freeTrial = _.find(groups, ['subscriptionStatus', 'freeTrial']);
-			console.log(!_.isUndefined(freeTrial));
-			if (!_.isUndefined(freeTrial)) {initialGroupIds.freeTrial = freeTrial._id};
+			if (freeTrial) {initialGroupIds.freeTrial = freeTrial._id};
 
 			let freeTrialExpired = _.find(groups, ['subscriptionStatus', 'freeTrialExpired']);
-			console.log(!_.isUndefined(freeTrialExpired));
-			if (!_.isUndefined(freeTrialExpired)) {initialGroupIds.freeTrialExpired = freeTrialExpired._id};
-
-			console.log(initialGroupIds)
-			return initialGroupIds;
+			if (freeTrialExpired) {initialGroupIds.freeTrialExpired = freeTrialExpired._id};
 		}
-			
-		return false;
+
+		return initialGroupIds;
 	},
 
 	insertGroup: function(userEmail) {

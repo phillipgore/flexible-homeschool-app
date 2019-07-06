@@ -16,24 +16,27 @@ Meteor.publish('allAccounts', function(status) {
 			return this.ready();
 		}
 
-		function getGroupQuery(users) {
-			if (status = 'all') {
-				return {appAdmin: false};
-			} 
-
-			if (status = 'online') {
-				let groupIds = _.filter(users, ['presence.status', 'online']).map(user => 'user.info.groupId')
-				return {appAdmin: false, _id: {$in: groupIds}};
-			} 
-
-			return {appAdmin: false, subscriptionStatus: status};
-		}
-
 		let users = Meteor.users.find({'info.role': 'Administrator'}, {fields: {createdAt: 1, 'info.groupId': 1, 'info.firstName': 1, 'info.lastName': 1, 'info.role': 1, emails: 1, 'presence': 1}});
+
+		if (status === 'all') {
+			return [
+				Groups.find({appAdmin: false}, {fields: {subscriptionStatus: 1, stripeCustomerId: 1, appAdmin: 1, freeTrial: 1, createdOn: 1}}),
+				users
+			]
+		} 
+
+		if (status === 'online') {
+			let groupIds = _.filter(users.fetch(), ['presence.status', 'online']).map(user => user.info.groupId);
+			return [
+				Groups.find({appAdmin: false, _id: {$in: groupIds}}, {fields: {subscriptionStatus: 1, stripeCustomerId: 1, appAdmin: 1, freeTrial: 1, createdOn: 1}}),
+				users
+			]
+		} 
 		return [
-			Groups.find(getGroupQuery(users.fetch()), {fields: {subscriptionStatus: 1, stripeCustomerId: 1, appAdmin: 1, freeTrial: 1, createdOn: 1}}),
-			users,	
+			Groups.find({appAdmin: false, subscriptionStatus: status}, {fields: {subscriptionStatus: 1, stripeCustomerId: 1, appAdmin: 1, freeTrial: 1, createdOn: 1}}),
+			users
 		]
+
 });
 
 Meteor.publish('allAccountTotals', function(groupId) {

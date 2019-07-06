@@ -29,14 +29,6 @@ Template.officeAccountsEach.helpers({
 		return false;
 	},
 
-	userOnline: function(groupId) {
-		let user = Meteor.users.findOne({'info.groupId': groupId}, {sort: {createdAt: 1}}) && Meteor.users.findOne({'info.groupId': groupId}, {sort: {createdAt: 1}});
-		if (user.presence.status.length && user.presence.status === 'online') {
-			return true;
-		} 
-		return false;
-	},
-
 	subscriptionStatus: function (groupId) {
 		let subscriptionStatus = Groups.findOne({_id: groupId}).subscriptionStatus;
 		if (subscriptionStatus === 'pausePending') {

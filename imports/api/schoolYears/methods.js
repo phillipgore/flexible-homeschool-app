@@ -74,33 +74,6 @@ Meteor.methods({
 	},
 
 	updateSchoolYearTerms: function(schoolYearId, schoolYearProperties, termDeleteIds, weekDeleteIds, termUpdateProperties, weekUpdateProperties, termInsertProperties, weekInsertProperties, userId, groupId) {
-		// console.log('schoolYearId:');
-		// console.log(schoolYearId);
-		// console.log('schoolYearProperties:');
-		// console.log(schoolYearProperties);
-		// console.log('termDeleteIds:');
-		// console.log(termDeleteIds);
-		// console.log('weekDeletes:');
-		// console.log(weekDeletes);
-
-		// console.log('termUpdateProperties:');
-		// console.log(termUpdateProperties);
-
-		// console.log('weekUpdateProperties:');
-		// console.log(weekUpdateProperties);
-
-		// console.log('weekInsertProperties:');
-		// console.log(weekInsertProperties);
-
-		// console.log('termInsertProperties:');
-		// console.log(termInsertProperties);
-
-		// console.log('userId:');
-		// console.log(userId);
-		// console.log('groupId:');
-		// console.log(groupId);
-
-
 		let yearLessons = Lessons.find({schoolYearId: schoolYearId}, {fields: {weekId: 1, termId: 1}}).fetch();
 
 		let termBulkDelete = [];
