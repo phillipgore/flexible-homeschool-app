@@ -50,7 +50,7 @@ Meteor.publish('allAccountTotals', function(groupId) {
 	Counts.publish(this, 'onlineAccountsCount', Meteor.users.find({'info.groupId': {$in: activeGroupIds}, 'presence.status': 'online'}));
 	Counts.publish(this, 'activeAccountsCount', Groups.find({appAdmin: false, subscriptionStatus: 'active'}));
 	Counts.publish(this, 'pausePendingAccountsCount', Groups.find({subscriptionStatus: 'pausePending'}));
-	Counts.publish(this, 'pauseedAccountsCount', Groups.find({subscriptionStatus: 'paused'}));
+	Counts.publish(this, 'pausedAccountsCount', Groups.find({subscriptionStatus: 'paused'}));
 	Counts.publish(this, 'errorAccountsCount', Groups.find({subscriptionStatus: 'error'}));
 	Counts.publish(this, 'freeTrialAccountsCount', Groups.find({subscriptionStatus: 'freeTrial'}));
 	Counts.publish(this, 'freeTrialExpiredAccountsCount', Groups.find({subscriptionStatus: 'freeTrialExpired'}));
