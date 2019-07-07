@@ -24,9 +24,12 @@ Meteor.methods({
 	bulkInsertLessons: function(bulkLessonProperties) {
 		let result = Lessons.rawCollection().bulkWrite(
 			bulkLessonProperties
-		).catch((error) => {
+		).then((result) => {
+			return result;
+		}).catch((error) => {
 			throw new Meteor.Error(500, error);
 		});
+		return result;
 	},
 
 	updateLesson: function(statProperties, pathProperties, lessonProperties) {
@@ -38,9 +41,11 @@ Meteor.methods({
 	},
 
 	batchUpdateLessons: function(batchLessonProperties, notesProperties) {
-		batchLessonProperties.forEach((lessonProperties) => {
-			Lessons.update(lessonProperties._id, {$set: lessonProperties});
-		});
+		if (batchLessonProperties.length) {
+			batchLessonProperties.forEach((lessonProperties) => {
+				Lessons.update(lessonProperties._id, {$set: lessonProperties});
+			});
+		}
 
 		if (notesProperties.length) {
 			notesProperties.forEach(note => {
@@ -56,8 +61,10 @@ Meteor.methods({
 	deleteLessons: function(lessonIds, noteIds) {
 		console.log(lessonIds)
 		Lessons.remove({_id: {$in: lessonIds}});
-		console.log(noteIds)
-		Notes.remove({_id: {$in: noteIds}});
+		if (noteIds.length) {
+			console.log(noteIds)
+			Notes.remove({_id: {$in: noteIds}});
+		}
 	},
 
 	runUpsertLessonPathsAndStats: function(statProperties, pathProperties) {

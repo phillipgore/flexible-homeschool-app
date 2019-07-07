@@ -94,6 +94,11 @@ Template.trackingEditSchoolWork.events({
 	    	$(event.currentTarget).val('true');
 	    }
 	},
+
+	'click .js-has-notes'(event) {
+		event.preventDefault();
+		return false;
+	}
 });
 
 

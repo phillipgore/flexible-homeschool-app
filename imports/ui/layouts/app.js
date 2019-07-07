@@ -442,7 +442,7 @@ Template.app.events({
 				$('.js-deleting').hide();
 				$('.js-submit').prop('disabled', false);
 			} else {
-				Meteor.call('batchUpdateLessons', batchUncheckedLessonProperties, function(error, result) {
+				Meteor.call('batchUpdateLessons', batchUncheckedLessonProperties, [], function(error, result) {
 					if (error) {
 						Alerts.insert({
 							colorClass: 'bg-danger',
