@@ -11,16 +11,32 @@ import {Reports} from '../../reports/reports.js';
 
 import _ from 'lodash';
 
-
-Meteor.publish('allAccounts', function() {
+Meteor.publish('allAccounts', function(status) {
 		if (!this.userId) {
 			return this.ready();
 		}
 
+		let users = Meteor.users.find({'info.role': 'Administrator'}, {fields: {createdAt: 1, 'info.groupId': 1, 'info.firstName': 1, 'info.lastName': 1, 'info.role': 1, emails: 1, 'presence': 1}});
+
+		if (status === 'all') {
+			return [
+				Groups.find({appAdmin: false}, {fields: {subscriptionStatus: 1, stripeCustomerId: 1, appAdmin: 1, freeTrial: 1, createdOn: 1}}),
+				users
+			]
+		} 
+
+		if (status === 'online') {
+			let groupIds = _.filter(users.fetch(), ['presence.status', 'online']).map(user => user.info.groupId);
+			return [
+				Groups.find({appAdmin: false, _id: {$in: groupIds}}, {fields: {subscriptionStatus: 1, stripeCustomerId: 1, appAdmin: 1, freeTrial: 1, createdOn: 1}}),
+				users
+			]
+		} 
 		return [
-			Groups.find({appAdmin: false}, {fields: {subscriptionStatus: 1, stripeCustomerId: 1, appAdmin: 1, freeTrial: 1, createdOn: 1}}),
-			Meteor.users.find({'info.role': 'Administrator'}, {fields: {createdAt: 1, 'info.groupId': 1, 'info.firstName': 1, 'info.lastName': 1, 'info.role': 1, emails: 1, 'presence': 1}}),
+			Groups.find({appAdmin: false, subscriptionStatus: status}, {fields: {subscriptionStatus: 1, stripeCustomerId: 1, appAdmin: 1, freeTrial: 1, createdOn: 1}}),
+			users
 		]
+
 });
 
 Meteor.publish('allAccountTotals', function(groupId) {
@@ -28,13 +44,16 @@ Meteor.publish('allAccountTotals', function(groupId) {
 		return this.ready();
 	}
 
-	let activeGroupIds = Groups.find({appAdmin: false, subscriptionStatus: 'active'}).map(group => (group._id));
+	let activeGroupIds = Groups.find({appAdmin: false}).map(group => (group._id));
 	
-	Counts.publish(this, 'allOnlineCount', Meteor.users.find({'info.groupId': {$in: activeGroupIds}, 'status.active': true, 'presence.status': 'online'}));
-	Counts.publish(this, 'allActiveAccountsCount', Groups.find({appAdmin: false, subscriptionStatus: 'active'}));
-	Counts.publish(this, 'allPausePendingAccountsCount', Groups.find({subscriptionStatus: 'pausePending'}));
-	Counts.publish(this, 'allPauseedAccountsCount', Groups.find({subscriptionStatus: 'paused'}));
-	Counts.publish(this, 'allErrorAccountsCount', Groups.find({subscriptionStatus: 'error'}));
+	Counts.publish(this, 'allAccountsCount', Meteor.users.find({'info.groupId': {$in: activeGroupIds}}));
+	Counts.publish(this, 'onlineAccountsCount', Meteor.users.find({'info.groupId': {$in: activeGroupIds}, 'presence.status': 'online'}));
+	Counts.publish(this, 'activeAccountsCount', Groups.find({appAdmin: false, subscriptionStatus: 'active'}));
+	Counts.publish(this, 'pausePendingAccountsCount', Groups.find({subscriptionStatus: 'pausePending'}));
+	Counts.publish(this, 'pausedAccountsCount', Groups.find({subscriptionStatus: 'paused'}));
+	Counts.publish(this, 'errorAccountsCount', Groups.find({subscriptionStatus: 'error'}));
+	Counts.publish(this, 'freeTrialAccountsCount', Groups.find({subscriptionStatus: 'freeTrial'}));
+	Counts.publish(this, 'freeTrialExpiredAccountsCount', Groups.find({subscriptionStatus: 'freeTrialExpired'}));
 });
 
 Meteor.publish('account', function(groupId) {

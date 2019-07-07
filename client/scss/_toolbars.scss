@@ -131,6 +131,13 @@
 	background-color: $color-gray;
 
 	@media only screen and (min-width: 640px) {
+		.subbar-one-btn {
+			width: 180px;
+			margin: 0px auto;
+			border-right: 1px solid $color-white;
+			border-left: 1px solid $color-white;
+		}
+
 		.subbar-two-btn {
 			width: 360px;
 			margin: 0px auto;

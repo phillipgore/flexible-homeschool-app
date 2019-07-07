@@ -7,36 +7,39 @@ FlowRouter.route('/office/dashboard/:selectedFramePosition', {
 	},
 });
 
-FlowRouter.route('/office/accounts/:selectedFramePosition', {
-	name: 'officeAccountsList',
-	action() {
-		BlazeLayout.render('office', {
-			frameOne: 'officeAccountsList',
-			frameTwo: 'officeAccountView',
-		});
-	},
-});
+// FlowRouter.route('/office/accounts/:selectedFramePosition', {
+// 	name: 'officeAccountsList',
+// 	action() {
+// 		BlazeLayout.render('office', {
+// 			subbar: 'officeAccountsSubbar',
+// 			frameOne: 'officeAccountsList',
+// 			frameTwo: 'officeAccountView',
+// 		});
+// 	},
+// });
 
-FlowRouter.route('/office/accounts/view/:selectedFramePosition/:selectedGroupId', {
+FlowRouter.route('/office/accounts/view/:selectedFramePosition/:selectedStatusId/:selectedGroupId', {
 	name: 'officeAccountView',
 	action(params) {
 		BlazeLayout.render('office', {
+			subbar: 'officeAccountsSubbar',
 			frameOne: 'officeAccountsList',
 			frameTwo: 'officeAccountView',
 		});
 	},
 });
 
-FlowRouter.route('/office/accounts/reset/view/:selectedFramePosition/:selectedGroupId', {
-	name: 'officeAccountResetView',
-	action(params) {
-		BlazeLayout.reset();
-		BlazeLayout.render('office', {
-			frameOne: 'officeAccountsList',
-			frameTwo: 'officeAccountView',
-		});
-	},
-});
+// FlowRouter.route('/office/accounts/reset/view/:selectedFramePosition/:selectedGroupId', {
+// 	name: 'officeAccountResetView',
+// 	action(params) {
+// 		BlazeLayout.reset();
+// 		BlazeLayout.render('office', {
+// 			subbar: 'officeAccountsSubbar',
+// 			frameOne: 'officeAccountsList',
+// 			frameTwo: 'officeAccountView',
+// 		});
+// 	},
+// });
 
 FlowRouter.route('/office/accounts/new/:selectedFramePosition', {
 	name: 'officeAccountsNew',

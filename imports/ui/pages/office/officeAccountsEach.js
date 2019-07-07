@@ -10,6 +10,9 @@ Template.officeAccountsEach.onRendered( function() {
 });
 
 Template.officeAccountsEach.helpers({
+	selectedStatusId: function() {
+		return FlowRouter.getParam('selectedStatusId');
+	},
 
 	userName: function(groupId) {
 		let user = Meteor.users.findOne({'info.groupId': groupId}, {sort: {createdAt: 1}}) && Meteor.users.findOne({'info.groupId': groupId}, {sort: {createdAt: 1}});
@@ -26,14 +29,6 @@ Template.officeAccountsEach.helpers({
 		if (user.info.role === 'Application Administrator') {
 			return true;
 		}
-		return false;
-	},
-
-	userOnline: function(groupId) {
-		let user = Meteor.users.findOne({'info.groupId': groupId}, {sort: {createdAt: 1}}) && Meteor.users.findOne({'info.groupId': groupId}, {sort: {createdAt: 1}});
-		if (user.presence.status.length && user.presence.status === 'online') {
-			return true;
-		} 
 		return false;
 	},
 

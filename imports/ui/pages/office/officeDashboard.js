@@ -5,6 +5,9 @@ Template.officeDashboard.onCreated(function()  {
 	const template = Template.instance();
 
 	template.autorun(() => {
+		Meteor.call('getInitialGroupIds', function(error, result) {
+			Session.set('initialGroupIds', result)
+		});
 		this.accountData = Meteor.subscribe('allAccountTotals');
 	});
 });
@@ -16,6 +19,10 @@ Template.officeDashboard.onRendered(() => {
 });
 
 Template.officeDashboard.helpers({
+	getInitialGroupId: function(status) {
+		return Session.get('initialGroupIds')[status] && Session.get('initialGroupIds')[status];
+	},
+	
 	subscriptionReady() {
 		return Template.instance().accountData.ready();
 	},

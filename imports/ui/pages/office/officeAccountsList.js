@@ -6,7 +6,7 @@ Template.officeAccountsList.onCreated( function() {
 	let template = Template.instance();
 
 	template.autorun(() => {
-		this.allAccounts = Meteor.subscribe('allAccounts');
+		this.allAccounts = Meteor.subscribe('allAccounts', FlowRouter.getParam('selectedStatusId'));
 	});
 });
 

@@ -16,7 +16,7 @@ Groups.deny({
 });
 
 const GroupsSchema = new SimpleSchema({
-	stripeCustomerId: {
+    stripeCustomerId: {
         type: String,
         label: "Stripe Customer ID",
         optional: true
@@ -75,17 +75,17 @@ const GroupsSchema = new SimpleSchema({
         label: "Current Coupon Percent Off",
         optional: true
     },
-	subscriptionStatus: {
-		type: String,
-		label: "Account Status",
+    subscriptionStatus: {
+        type: String,
+        label: "Account Status",
         optional: true
-	},
+    },
     subscriptionPausedOn: {
         type: Date,
         label: "Account Paused On Date",
         optional: true
     },
-	subscriptionErrorMessage: {
+    subscriptionErrorMessage: {
         type: String,
         label: "Subscription Error Message",
         optional: true
@@ -159,25 +159,25 @@ const GroupsSchema = new SimpleSchema({
         type: String,
         label: "Initial Group Id",
     },
-	createdOn: {
-		type: Date,
-		label: "Created On Date",
-		autoValue: function() {
-			if ( this.isInsert ) {
-				return new Date();
-			}
-		}
-	},
-	updatedOn: {
-		type: Date,
-		label: "Updated On Date",
-		optional: true,
-		autoValue: function() {
-			if ( this.isUpdate ) {
-				return new Date();
-			}
-		}
-	}
+    createdOn: {
+        type: Date,
+        label: "Created On Date",
+        autoValue: function() {
+            if ( this.isInsert ) {
+                return new Date();
+            }
+        }
+    },
+    updatedOn: {
+        type: Date,
+        label: "Updated On Date",
+        optional: true,
+        autoValue: function() {
+            if ( this.isUpdate ) {
+                return new Date();
+            }
+        }
+    }
 });
 
 Groups.attachSchema(GroupsSchema);

@@ -25,7 +25,9 @@
 	{{/if}}
 
 	{{> officeToolbar}}
-	<aside class="subbar"></aside>
+	<aside class="subbar">
+		{{> Template.dynamic template=subbar}}
+	</aside>
 
 	<div class="frame-container-outer {{currentRouteName}}">
 		<div class="frame-contaner-inner {{selectedFrameClass}}">
