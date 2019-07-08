@@ -30,7 +30,7 @@ Template.trackingSchoolWork.helpers({
 	},
 
 	workLessons: function(schoolWorkId) {
-		return Lessons.find({schoolWorkId: schoolWorkId, weekId: FlowRouter.getParam('selectedWeekId')}, {sort: {order: 1}});
+		return Lessons.find({studentId: FlowRouter.getParam('selectedStudentId'), schoolWorkId: schoolWorkId, weekId: FlowRouter.getParam('selectedWeekId')}, {sort: {order: 1}});
 	},
 
 	workLessonsExist: function(schoolWorkId) {
@@ -42,11 +42,11 @@ Template.trackingSchoolWork.helpers({
 	},
 
 	lessonCount: function(schoolWorkId) {
-		return Lessons.find({schoolWorkId: schoolWorkId, weekId: FlowRouter.getParam('selectedWeekId')}).count();
+		return Lessons.find({studentId: FlowRouter.getParam('selectedStudentId'), schoolWorkId: schoolWorkId, weekId: FlowRouter.getParam('selectedWeekId')}).count();
 	},
 
 	lessonPosition: function(schoolWorkId, lessonId) {
-		let lessonIds = Lessons.find({schoolWorkId: schoolWorkId, weekId: FlowRouter.getParam('selectedWeekId')}).map(lesson => (lesson._id))
+		let lessonIds = Lessons.find({studentId: FlowRouter.getParam('selectedStudentId'), schoolWorkId: schoolWorkId, weekId: FlowRouter.getParam('selectedWeekId')}).map(lesson => (lesson._id))
 		return lessonIds.indexOf(lessonId);
 	},
 
@@ -64,7 +64,7 @@ Template.trackingSchoolWork.helpers({
 
 	lessonStatus: function(lesson, schoolWorkId) {
 		$('.js-lesson-updating').hide();
-		let lessons = Lessons.find({schoolWorkId: schoolWorkId, weekId: FlowRouter.getParam('selectedWeekId')}).fetch();
+		let lessons = Lessons.find({studentId: FlowRouter.getParam('selectedStudentId'), schoolWorkId: schoolWorkId, weekId: FlowRouter.getParam('selectedWeekId')}).fetch();
 
 		if (!_.some(lessons, ['completed', false])) {
 			return 'btn-primary';
