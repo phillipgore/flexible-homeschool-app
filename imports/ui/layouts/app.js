@@ -408,7 +408,10 @@ Template.app.events({
 		schoolWorkIds.forEach(workId => {
 			let unchecked = $('#js-schoolWork-track-' + workId).find('.js-segment-checkbox').not(':checked').length;
 			if (unchecked === 0) {
-				deleteNoteIds.push(Notes.findOne({schoolWorkId: workId, weekId: FlowRouter.getParam('selectedWeekId')})._id);
+				let note = Notes.findOne({schoolWorkId: workId, weekId: FlowRouter.getParam('selectedWeekId')});
+				if (note) {
+					deleteNoteIds.push(note._id);
+				}
 			}
 		});
 
