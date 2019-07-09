@@ -35,7 +35,7 @@
 				<div class="row track-btn-container m-tn-h-9">
 					{{#each lesson in workLessons work._id}}
 						<div class="js-lesson-btn js-lesson-btn-existing btn pos-relative txt-tn-center col-tn-1of{{lessonCount work._id}} {{lessonStatus lesson work._id}}">
-							<div class="txt-tn-left txt-black m-tn-l-neg-9 pos-absolute">{{lesson.order}}</div>
+							<!-- <div class="txt-tn-left txt-black m-tn-l-neg-9 pos-absolute">{{lesson.order}}</div> -->
 							{{#if isEdit}}
 								<label class="checkbox track-checkbox">
 									<input data-schoolWork-id="{{work._id}}" data-lesson-id="{{lesson._id}}" data-completed="{{lesson.completed}}" class="js-checkbox js-segment-checkbox" type="checkbox" name="" value="false">
@@ -47,7 +47,7 @@
 					{{#if isInsert}}
 						{{#each lesson in workLocalLessons work._id}}	
 							<div data-schoolWork-id="{{work._id}}" id="{{lesson._id}}" class="js-lesson-btn js-inserted-lesson btn pos-relative txt-tn-center col-tn-1of{{lessonCount work._id}} btn-gray-dark-outline">
-								<div class="txt-tn-left txt-black m-tn-l-neg-9 pos-absolute">{{lesson.order}}</div>
+								<!-- <div class="txt-tn-left txt-black m-tn-l-neg-9 pos-absolute">{{lesson.order}}</div> -->
 								<i class="icn-close txt-danger font-size-18"></i>
 							</div>
 						{{/each}}
