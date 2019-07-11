@@ -29,17 +29,17 @@ FlowRouter.route('/office/accounts/view/:selectedFramePosition/:selectedStatusId
 	},
 });
 
-// FlowRouter.route('/office/accounts/reset/view/:selectedFramePosition/:selectedGroupId', {
-// 	name: 'officeAccountResetView',
-// 	action(params) {
-// 		BlazeLayout.reset();
-// 		BlazeLayout.render('office', {
-// 			subbar: 'officeAccountsSubbar',
-// 			frameOne: 'officeAccountsList',
-// 			frameTwo: 'officeAccountView',
-// 		});
-// 	},
-// });
+FlowRouter.route('/office/accounts/reset/view/:selectedFramePosition/:selectedStatusId/:selectedGroupId', {
+	name: 'officeAccountResetView',
+	action(params) {
+		BlazeLayout.reset();
+		BlazeLayout.render('office', {
+			subbar: 'officeAccountsSubbar',
+			frameOne: 'officeAccountsList',
+			frameTwo: 'officeAccountView',
+		});
+	},
+});
 
 FlowRouter.route('/office/accounts/new/:selectedFramePosition', {
 	name: 'officeAccountsNew',
