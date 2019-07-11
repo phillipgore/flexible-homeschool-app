@@ -25,7 +25,7 @@ Template.trackingView.onRendered( function() {
 		selectedReportingTermId: FlowRouter.getParam('selectedTermId'),
 		selectedReportingWeekId: FlowRouter.getParam('selectedWeekId'),
 		toolbarType: 'tracking',
-		// editUrl: '/tracking/students/edit/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'),
+		editUrl: '/tracking/students/edit/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'),
 		newUrl: '',
 		activeNav: 'trackingList',
 	});

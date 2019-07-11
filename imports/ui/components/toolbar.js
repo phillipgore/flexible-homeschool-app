@@ -197,13 +197,6 @@ Template.toolbar.helpers({
 	isImpersonation: function() {
 		return Session.get('isImpersonation');
 	},
-
-	checkStatus: function(status) {
-		if (status === 'online') {
-			return true;
-		}
-		return false;
-	}
 });
 
 Template.toolbar.events({
@@ -314,7 +307,7 @@ Template.toolbar.events({
 			selectedGroupId: '',
 		});
 
-		window.location = '/office/accounts/reset/view/2/' + currentGroupId;
+		window.location = '/office/accounts/reset/view/2/' + Session.get('selectedStatusId') +'/'+ currentGroupId;
 	},
 
 	'click .js-loggout-user'(event) {

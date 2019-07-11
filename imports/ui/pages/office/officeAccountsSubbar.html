@@ -10,7 +10,7 @@
 					<div class="dropdown-arrow"></div>
 					{{#each status in statusOptions}}
 						<li class="dropdown-item">
-							<a href="/office/accounts/view/1/{{status._id}}/{{getInitialGroupId status._id}}" class="js-status dropdown-item-link">
+							<a id="{{status._id}}" href="/office/accounts/view/1/{{status._id}}/{{getInitialGroupId status._id}}" class="js-status dropdown-item-link">
 								<div class="dropdown-item-icon">
 									{{#if activeListItem 'all' status._id}}
 										<i class="icn-circle txt-danger icn-text-shadow"></i>

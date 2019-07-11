@@ -57,3 +57,9 @@ Template.officeAccountsSubbar.helpers({
 		return false;
 	},
 });
+
+Template.officeAccountsSubbar.events({
+	'click .js-status'(event) {
+		Session.set('selectedStatusId', event.currentTarget.id)
+	}
+});

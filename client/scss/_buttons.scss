@@ -111,6 +111,7 @@ button, .btn {
 		position: absolute;
 		bottom: 118px;
 		right: 18px;
+		z-index: 10000000;
 	}
 
 	&.btn-back-office {
@@ -123,6 +124,7 @@ button, .btn {
 		position: absolute;
 		bottom: 59px;
 		right: 18px;
+		z-index: 10000000;
 	}
 
 	@media print {		

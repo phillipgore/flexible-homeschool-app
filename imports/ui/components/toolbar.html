@@ -1,12 +1,10 @@
 <template name="toolbar">
 	{{#if isImpersonation}}
 		<div class="impersonation"></div>
-		{{#if checkStatus user.presence.status}}
-			<button class="js-loggout-user btn-impersonation">
-				<i class="icn-signout"></i>
-				{{user.info.firstName}} {{user.info.lastName}}
-			</button>
-		{{/if}}
+		<button class="js-loggout-user btn-impersonation">
+			<i class="icn-signout"></i>
+			{{user.info.firstName}} {{user.info.lastName}}
+		</button>
 		<button class="js-return-to-back-office btn-back-office">
 			<i class="icn-back"></i>
 			Back Office

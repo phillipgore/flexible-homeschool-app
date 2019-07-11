@@ -9,6 +9,7 @@ Template.officeNavbar.onCreated( function() {
 			Session.set('initialGroupIds', result)
 		});
 	});
+	Session.set('selectedStatusId', 'online')
 });
 
 Template.officeNavbar.helpers({
