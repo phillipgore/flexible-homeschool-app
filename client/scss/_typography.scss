@@ -160,16 +160,6 @@ a {
 
 .txt-primary, .txt-success { 
 	color: $color-primary;
-
-	@media print {
-		background-color: $color-primary;
-		color: transparent;
-		text-shadow: 0px 0px 100px $color-primary;
-		-webkit-background-clip: text;
-		-moz-background-clip: text;
-		background-clip: text;
-	} 
-
 	&.all {
 		color: lighten($color-primary, 30%);; 
 		text-shadow: $color-primary 1px 0px 0px, 
@@ -179,180 +169,28 @@ a {
 				$color-primary -0.653644px -0.756802px 0px, 
 				$color-primary 0.283662px -0.958924px 0px, 
 				$color-primary 0.96017px -0.279415px 0px;
-	}
-	
+	}	
 	color: $color-primary;
 }
-.txt-secondary, .txt-danger { 
-	color: $color-danger; 
 
-	@media print {
-		background-color: $color-danger;
-		color: transparent;
-		text-shadow: 0px 0px 100px $color-danger;
-		-webkit-background-clip: text;
-		-moz-background-clip: text;
-		background-clip: text;
-	} 
-}
-.txt-secondary-dark, .txt-danger-dark { 
-	color: $color-danger-dark; 
+.txt-secondary, .txt-danger { color: $color-danger; }
+.txt-secondary-dark, .txt-danger-dark { color: $color-danger-dark; }
+.txt-warning { color: $color-warning;}
+.txt-warning-dark { color: $color-warning-dark; }
+.txt-warning-darkest { color: $color-warning-darkest; }
+.txt-info { color: $color-info; }
+.txt-gray-darkest { color: $color-gray-darkest; }
+.txt-gray-darker { color: $color-gray-darker; }
+.txt-gray-dark { color: $color-gray-dark; }
+.txt-gray { color: $color-gray; }
+.txt-gray-light { color: $color-gray-light; }
+.txt-black { color: $color-black; }
+.txt-white { color: $color-white; }
 
-	@media print {
-		background-color: $color-danger-dark;
-		color: transparent;
-		text-shadow: 0px 0px 100px $color-danger-dark;
-		-webkit-background-clip: text;
-		-moz-background-clip: text;
-		background-clip: text;
-	} 
-}
-.txt-warning { 
-	color: $color-warning;
-
-	@media print {
-		background-color: $color-warning;
-		color: transparent;
-		text-shadow: 0px 0px 100px $color-warning;
-		-webkit-background-clip: text;
-		-moz-background-clip: text;
-		background-clip: text;
-	}  
-}
-.txt-warning-dark { 
-	color: $color-warning-dark; 
-
-	@media print {
-		background-color: $color-warning-dark;
-		color: transparent;
-		text-shadow: 0px 0px 100px $color-warning-dark;
-		-webkit-background-clip: text;
-		-moz-background-clip: text;
-		background-clip: text;
-	} 
-}
-.txt-warning-darkest { 
-	color: $color-warning-darkest; 
-
-	@media print {
-		background-color: $color-warning-darkest;
-		color: transparent;
-		text-shadow: 0px 0px 100px $color-warning-darkest;
-		-webkit-background-clip: text;
-		-moz-background-clip: text;
-		background-clip: text;
-	} 
-}
-.txt-info { 
-	color: $color-info; 
-
-	@media print {
-		background-color: $color-info;
-		color: transparent;
-		text-shadow: 0px 0px 100px $color-info;
-		-webkit-background-clip: text;
-		-moz-background-clip: text;
-		background-clip: text;
-	} 
-}
-.txt-gray-darkest { 
-	color: $color-gray-darkest; 
-
-	@media print {
-		background-color: $color-gray-darkest;
-		color: transparent;
-		text-shadow: 0px 0px 100px $color-gray-darkest;
-		-webkit-background-clip: text;
-		-moz-background-clip: text;
-		background-clip: text;
-	} 
-}
-.txt-gray-darker { 
-	color: $color-gray-darker; 
-
-	@media print {
-		background-color: $color-gray-darker;
-		color: transparent;
-		text-shadow: 0px 0px 100px $color-gray-darker;
-		-webkit-background-clip: text;
-		-moz-background-clip: text;
-		background-clip: text;
-	} 
-}
-.txt-gray-dark { 
-	color: $color-gray-dark; 
-
-	@media print {
-		background-color: $color-gray-dark;
-		color: transparent;
-		text-shadow: 0px 0px 100px $color-gray-dark;
-		-webkit-background-clip: text;
-		-moz-background-clip: text;
-		background-clip: text;
-	} 
-}
-.txt-gray { 
-	color: $color-gray; 
-
-	@media print {
-		background-color: $color-gray;
-		color: transparent;
-		text-shadow: 0px 0px 100px $color-gray;
-		-webkit-background-clip: text;
-		-moz-background-clip: text;
-		background-clip: text;
-	} 
-}
-.txt-gray-light { 
-	color: $color-gray-light; 
-
-	@media print {
-		background-color: $color-gray-light;
-		color: transparent;
-		text-shadow: 0px 0px 100px $color-gray-light;
-		-webkit-background-clip: text;
-		-moz-background-clip: text;
-		background-clip: text;
-	} 
-}
-.txt-black { 
-	color: $color-black;
-
-	@media print {
-		background-color: $color-black;
-		color: transparent;
-		text-shadow: 0px 0px 100px $color-black;
-		-webkit-background-clip: text;
-		-moz-background-clip: text;
-		background-clip: text;
-	}  
-}
-.txt-white { 
-	color: $color-white; 
-
-	@media print {
-		background-color: $color-white;
-		color: transparent;
-		text-shadow: 0px 0px 100px $color-white;
-		-webkit-background-clip: text;
-		-moz-background-clip: text;
-		background-clip: text;
-	} 
-}
 .txt-royal { 
 	color: $color-royal; 
-
-	@media print {
-		background-color: $color-royal;
-		color: transparent;
-		text-shadow: 0px 0px 100px $color-royal;
-		-webkit-background-clip: text;
-		-moz-background-clip: text;
-		background-clip: text;
-	} 
-
 	&.expired {
-		color: lighten($color-royal, 30%);; 
+		color: lighten($color-royal, 30%);
 		text-shadow: $color-royal 1px 0px 0px, 
 				$color-royal 0.540302px 0.841471px 0px, 
 				$color-royal -0.416147px 0.909297px 0px, 
@@ -361,21 +199,9 @@ a {
 				$color-royal 0.283662px -0.958924px 0px, 
 				$color-royal 0.96017px -0.279415px 0px;
 	}
-
 	color: $color-royal;
 }
-.txt-harvest-light { 
-	color: $color-harvest-light; 
-
-	@media print {
-		background-color: $color-harvest-light;
-		color: transparent;
-		text-shadow: 0px 0px 100px $color-harvest-light;
-		-webkit-background-clip: text;
-		-moz-background-clip: text;
-		background-clip: text;
-	} 
-}
+.txt-harvest-light { color: $color-harvest-light; }
 
 
 .font-weight-normal { font-weight: normal; }
