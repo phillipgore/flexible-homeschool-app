@@ -45,9 +45,7 @@ Meteor.methods({
 			{"name": "error", "status": "inactive"},
 		];
 		let tagName = Groups.findOne({_id: groupId}).subscriptionStatus.trim();
-		console.log(tagName)
 		let tagUpdateIndex = tagProperties.findIndex((tag => tag.name === tagName));
-		console.log(tagUpdateIndex)
 		tagProperties[tagUpdateIndex].status = "active";
 		let users = Meteor.users.find({'info.groupId': groupId});
 
@@ -58,6 +56,12 @@ Meteor.methods({
 
 			mailchimp.post('/lists/' + Meteor.settings.private.mailchimpListId + '/members/' + emailHash + '/tags', {
 				"tags": tagProperties
+			}).catch(function (error) {
+				throw new Meteor.Error(500, error.detail);
+			})
+
+			mailchimp.post('/lists/' + Meteor.settings.private.mailchimpInterestListId + '/members/' + emailHash + '/tags', {
+				"tags": [{"name": "user", "status": "active"}]
 			}).catch(function (error) {
 				throw new Meteor.Error(500, error.detail);
 			})
