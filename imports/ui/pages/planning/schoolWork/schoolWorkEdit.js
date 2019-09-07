@@ -401,23 +401,6 @@ Template.schoolWorkEdit.events({
 		document.getElementsByClassName('js-resource-popover')[0].classList.remove('hide');
 	},
 
-	'click .js-close-resource-popover'(event) {
-		event.preventDefault();
-
-		document.getElementsByClassName('js-form-new-resource')[0].reset();
-		document.getElementsByClassName('js-form-new-resource')[0].getElementsByClassName('editor-content')[0].innerHTML = '';
-		if (Session.get('currentType') != 'link') {
-			document.getElementsByClassName('js-form-new-resource')[0].getElementsByClassName('js-radio-own')[0].checked = true;
-		}
-		document.getElementsByClassName('popover-content')[0].scrollTop = 0;
-		document.getElementsByClassName('js-resource-popover')[0].classList.add('hide');
-	},
-
-	'click .js-create-attach'(event) {
-		event.preventDefault();
-		$('.js-form-new-resource').submit();
-	},
-
 	'click .js-step-circle, click .js-step-btn'(event) {
 		event.preventDefault();
 
