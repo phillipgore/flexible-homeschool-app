@@ -24,6 +24,27 @@
 		</div>
 	{{/if}}
 
+	<div class="js-resource-popover popover frame-ignore hide">
+		<div class="popover-well">
+			<div class="popover-header row">
+				<div class="col-tn-3of4">
+					<h1>New <span class="js-resource-type txt-capitalize"></span></h1>
+				</div>
+				<div class="col-tn-1of4">
+					<a href="#" class="js-close-resource-popover btn btn-circle small fl-tn-right">
+						<i class="icn-close"></i>
+					</a>
+				</div>
+			</div>
+			<div class="popover-content"> 
+				{{> resourcesForm}}
+			</div>
+			<footer class="popover-buttonbar">
+				<button type="submit" class="js-create-attach btn-block">Attach <span class="js-resource-type txt-capitalize"></span></button>
+			</footer>
+		</div>
+	</div>
+
 	{{> toolbar}}
 	<aside class="subbar">
 		<span class="{{#unless showSubbar}}hide{{/unless}}">{{> Template.dynamic template=subbar}}</span>
