@@ -28,7 +28,7 @@ Template.resourcesForm.onRendered( function() {
 	if (FlowRouter.getRouteName() === 'resourcesNew' || FlowRouter.getRouteName() === 'schoolWorkNew' || FlowRouter.getRouteName() === 'schoolWorkEdit') {
 		Session.set({
 			toolbarType: 'new',
-			labelThree: 'New ' + Session.get('selectedResourceNewType') + 'Resource',
+			labelThree: 'New ' + _.capitalize(FlowRouter.getParam('selectedResourceNewType')) + ' Resource',
 			activeNav: 'planningList',
 			currentType: Session.get('selectedResourceNewType'),
 		});
@@ -37,7 +37,7 @@ Template.resourcesForm.onRendered( function() {
 	if (FlowRouter.getRouteName() === 'resourcesEdit') {
 		Session.set({
 			toolbarType: 'edit',
-			labelThree: 'Edit ' + FlowRouter.getParam('selectedResourceCurrentTypeId') + 'Resource',
+			labelThree: 'Edit ' + _.capitalize(FlowRouter.getParam('selectedResourceCurrentTypeId')) + ' Resource',
 			activeNav: 'planningList',
 			currentType: FlowRouter.getParam('selectedResourceCurrentTypeId'),
 		});		
@@ -307,6 +307,11 @@ Template.resourcesForm.events({
 	'submit .js-form-new-resource'(event) {
 		event.preventDefault();
 	},
+
+	// 'click .js-create-edit'(event) {
+	// 	event.preventDefault();
+	// 	$('.js-form-new-resource').submit();
+	// },
 
 	'click .js-cancel'(event) {
 		event.preventDefault();

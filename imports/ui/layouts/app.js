@@ -53,6 +53,13 @@ Template.app.helpers({
 		}
 		return false;
 	},
+
+	resourcePopUp: function() {
+		if (FlowRouter.getRouteName() === 'schoolWorkNew' || FlowRouter.getRouteName() === 'schoolWorkEdit') {
+			return true;
+		}
+		return false;
+	}
 });
 
 Template.app.events({
