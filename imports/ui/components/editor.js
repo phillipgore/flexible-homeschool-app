@@ -36,14 +36,24 @@ Template.editor.events({
 		event.preventDefault();
 
 		let command = $(event.currentTarget).attr('data-command');
-		document.execCommand(command, false, '');
-		$('#' + template.editorId.get()).focus();
+		if ($(event.currentTarget).hasClass('js-link-btn')) {
+			var url = prompt("Enter the URL");
+			document.execCommand(command, false, url);
+			$('#' + template.editorId.get() + ' a[href="' + url + '"').attr('target', '_blank');
+			$('#' + template.editorId.get()).focus();
+			const href = window.getSelection().anchorNode.parentElement.href
+			$('.js-btn-go-to').attr('href', href).show();
+		} else {
+			document.execCommand(command, false, '');
+			$('#' + template.editorId.get()).focus();
+		}
 	},
 
 	'click .editor-content, keyup .editor-content, click .js-editor-btn'(event, template) {
 		if (document.getElementById(template.editorId.get()).firstChild && document.getElementById(template.editorId.get()).firstChild.nodeType === 3) {
 			document.execCommand('formatBlock', false, '<p>')
 		}
+
 
 		if (document.queryCommandState('bold')) {
 			$('.js-bold-btn').addClass('active');
@@ -61,6 +71,18 @@ Template.editor.events({
 			$('.js-underline-btn').addClass('active');
 		} else {
 			$('.js-underline-btn').removeClass('active');
+		}
+
+		if (window.getSelection().anchorNode.parentElement.tagName.toLowerCase() === 'a') {
+			const href = window.getSelection().anchorNode.parentElement.href
+			$('.js-btn-go-to').attr('href', href).show();
+			$('.js-link-btn').addClass('active');
+			$('.js-unlink-btn').addClass('active');
+			$('.js-underline-btn').removeClass('active');
+		} else {
+			$('.js-btn-go-to').hide();
+			$('.js-link-btn').removeClass('active');
+			$('.js-unlink-btn').removeClass('active');
 		}
 
 		if (document.queryCommandState('insertUnorderedList')) {
@@ -89,6 +111,7 @@ Template.editor.events({
 			$('.js-bold-btn').removeClass('active');
 			$('.js-italic-btn').removeClass('active');
 			$('.js-underline-btn').removeClass('active');
+			$('.js-link-btn').removeClass('active');
 			$('.js-ul-btn').removeClass('active');
 			$('.js-ol-btn').removeClass('active');
 		}

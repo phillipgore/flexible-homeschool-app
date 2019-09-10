@@ -103,8 +103,9 @@ Template.trackingSchoolWork.events({
 	'click .js-show-schoolWork-notes'(event) {
 		event.preventDefault();
 
-		$('.js-info, .js-notes').hide()
+		$('.js-info, .js-notes, .js-btn-go-to').hide()
 		$('.js-info').removeClass('js-open');
+		$('.js-editor-btn').removeClass('active')
 		Session.set({
 			'schoolWorkNote': null,
 			'editorContentReady': false,
@@ -137,7 +138,7 @@ Template.trackingSchoolWork.events({
 		}		
 	},
 
-	'keyup .js-notes-editor': function(event) {
+	'keyup .js-notes-editor, click .js-editor-btn': function(event) {
 		let instance = Template.instance();
 		let schoolWorkId = $(event.currentTarget).parentsUntil('.js-notes').parent().attr('data-work-id');
 
@@ -153,7 +154,7 @@ Template.trackingSchoolWork.events({
 				groupId: user.info.groupId,
 				weekId: FlowRouter.getParam('selectedWeekId'),
 				schoolWorkId: schoolWorkId,
-				note: $(event.currentTarget).html().trim(),
+				note: $('.js-notes-' + schoolWorkId).find('.editor-content').html().trim(),
 			}
 
 			Meteor.call('upsertNotes', noteProperties, function(error, result) {

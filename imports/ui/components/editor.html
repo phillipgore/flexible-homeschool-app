@@ -1,13 +1,34 @@
 <template name="editor">
 	<div class="editor-toolbar clearfix">
-		<button class="js-editor-btn js-bold-btn editor-btn" data-command="bold"><i class="icn-bold"></i></button>
-		<button class="js-editor-btn js-italic-btn editor-btn" data-command="italic"><i class="icn-italic"></i></button>
-		<button class="js-editor-btn js-underline-btn editor-btn" data-command="underline"><i class="icn-underline"></i></button>
-		<button class="js-editor-btn js-ul-btn editor-btn" data-command="insertUnorderedList"><i class="icn-list-ul"></i></button>
-		<button class="js-editor-btn js-ol-btn editor-btn" data-command="insertOrderedList"><i class="icn-list-ol"></i></button>
+		<button class="js-editor-btn js-bold-btn editor-btn" data-command="bold" title="Bold">
+			<i class="icn-bold"></i>
+		</button>
+		<button class="js-editor-btn js-italic-btn editor-btn" data-command="italic" title="Italic">
+			<i class="icn-italic"></i>
+		</button>
+		<button class="js-editor-btn js-underline-btn editor-btn" data-command="underline" title="Underline">
+			<i class="icn-underline"></i>
+		</button>
+
+		<div class="editor-btn-spacer"></div>
+		
+		<button class="js-editor-btn js-link-btn editor-btn" data-command="createLink" title="Link">
+			<i class="icn-link"></i>
+		</button>
+		<button class="js-editor-btn js-unlink-btn editor-btn" data-command="unlink" title="Unlink">
+			<i class="icn-unlink"></i>
+		</button>
+
+		<button class="js-editor-btn js-ul-btn editor-btn" data-command="insertUnorderedList" title="Oredered List">
+			<i class="icn-list-ul"></i>
+		</button>
+		<button class="js-editor-btn js-ol-btn editor-btn" data-command="insertOrderedList" title="Unordered List">
+			<i class="icn-list-ol"></i>
+		</button>
 	</div>
 	
 	<div class="editor-container">
+		<a href="#" class="js-btn-go-to btn btn-go-to extra-small hide" target="_blank">Go To Selected Link</a>
 		<div id="{{editorId}}" class="editor-content {{classes}}" contenteditable="true" placeholder="{{placeholder}}"></div>
 		{{#if loader}}
 			{{#unless contentReady}}
