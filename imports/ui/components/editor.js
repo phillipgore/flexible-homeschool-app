@@ -37,7 +37,7 @@ Template.editor.events({
 
 		let command = $(event.currentTarget).attr('data-command');
 		if ($(event.currentTarget).hasClass('js-link-btn')) {
-			var url = prompt("Enter the URL");
+			var url = prompt("Enter the URL", window.getSelection().anchorNode.parentElement.href);
 			document.execCommand(command, false, url);
 			$('#' + template.editorId.get() + ' a[href="' + url + '"').attr('target', '_blank');
 			$('#' + template.editorId.get()).focus();
