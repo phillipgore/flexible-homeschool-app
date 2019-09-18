@@ -37,12 +37,18 @@ Template.editor.events({
 
 		let command = $(event.currentTarget).attr('data-command');
 		if ($(event.currentTarget).hasClass('js-link-btn')) {
-			var url = prompt("Enter the URL", window.getSelection().anchorNode.parentElement.href);
-			document.execCommand(command, false, url);
-			$('#' + template.editorId.get() + ' a[href="' + url + '"').attr('target', '_blank');
-			$('#' + template.editorId.get()).focus();
-			const href = window.getSelection().anchorNode.parentElement.href
-			$('.js-btn-go-to').attr('href', href).show();
+			let href = document.getSelection().anchorNode.parentElement.href
+			const url = prompt("Enter the URL", href);
+			if (url != null && url.length >= 1) {
+				document.execCommand(command, false, url);
+				$('#' + template.editorId.get() + ' a[href="' + url + '"').attr('target', '_blank');
+				$('#' + template.editorId.get()).focus();
+				let newHref = document.getSelection().anchorNode.parentElement.href
+				$('.js-btn-go-to').attr('href', newHref).show();
+			} else if (url != null && url.length <= 0) {
+				document.execCommand('unlink', false, '');
+				$('#' + template.editorId.get()).focus();
+			}
 		} else {
 			document.execCommand(command, false, '');
 			$('#' + template.editorId.get()).focus();
@@ -50,10 +56,11 @@ Template.editor.events({
 	},
 
 	'click .editor-content, keyup .editor-content, click .js-editor-btn'(event, template) {
+		event.preventDefault();
+
 		if (document.getElementById(template.editorId.get()).firstChild && document.getElementById(template.editorId.get()).firstChild.nodeType === 3) {
 			document.execCommand('formatBlock', false, '<p>')
 		}
-
 
 		if (document.queryCommandState('bold')) {
 			$('.js-bold-btn').addClass('active');
