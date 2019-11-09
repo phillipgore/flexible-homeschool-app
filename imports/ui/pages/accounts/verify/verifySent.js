@@ -3,5 +3,5 @@ import './verifySent.html';
 
 
 Template.verifySent.onRendered( function() {
-	analytics.page();
+	analytics.page(FlowRouter.getRouteName());
 });
