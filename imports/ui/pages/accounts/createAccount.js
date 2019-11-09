@@ -10,6 +10,7 @@ Template.createAccount.onCreated( function() {
 });
 
 Template.createAccount.onRendered( function() {	
+	analytics.page();
 	Session.set('hideCoupon', false);
 });
 

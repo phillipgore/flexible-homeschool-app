@@ -2,7 +2,8 @@ import {Template} from 'meteor/templating';
 import './signIn.html';
 
 Template.signIn.onRendered( function() {
-	let template = Template.instance()
+	let template = Template.instance();
+	analytics.page();
 
 	$('.js-form-sign-in').validate({
 		rules: {
