@@ -3,7 +3,6 @@ import './signIn.html';
 
 Template.signIn.onRendered( function() {
 	let template = Template.instance();
-	analytics.page(FlowRouter.getRouteName());
 
 	$('.js-form-sign-in').validate({
 		rules: {

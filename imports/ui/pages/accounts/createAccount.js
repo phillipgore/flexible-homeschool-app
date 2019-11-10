@@ -10,7 +10,6 @@ Template.createAccount.onCreated( function() {
 });
 
 Template.createAccount.onRendered( function() {	
-	analytics.page(FlowRouter.getRouteName());
 	Session.set('hideCoupon', false);
 });
 

@@ -1,5 +1,10 @@
+FlowRouter.globals.push({
+	title: 'Flexible Homeschool App'
+});
+
 FlowRouter.route('/', {
 	name: 'createAccount',
+	title: 'Create Account',
 	action() {
 		BlazeLayout.render('app', {
 			subbar: 'subbarAccounts',
@@ -12,6 +17,7 @@ FlowRouter.route('/', {
 
 FlowRouter.route('/verify/sent', {
 	name: 'verifySent',
+	title: 'Verify Sent',
 	action() {
 		BlazeLayout.render('app', {
 			subbar: 'subbarAccounts',
@@ -24,6 +30,7 @@ FlowRouter.route('/verify/sent', {
 
 FlowRouter.route('/verify/email/:token', {
 	name: 'verifySent',
+	title: 'Verify Sent',
 	action: function(params, queryParams) {
         Accounts.verifyEmail(params.token, function(error) {
 			if (error) {
@@ -37,6 +44,7 @@ FlowRouter.route('/verify/email/:token', {
 
 FlowRouter.route('/verify/success', {
 	name: 'verifySuccess',
+	title: 'Verify Success',
 	action() {
 		BlazeLayout.render('app', {
 			subbar: 'subbarAccounts',
@@ -49,6 +57,7 @@ FlowRouter.route('/verify/success', {
 
 FlowRouter.route('/sign-in', {
 	name: 'signIn',
+	title: 'Sign In',
 	action() {
 		BlazeLayout.render('app', {
 			subbar: 'subbarAccounts',
@@ -61,6 +70,7 @@ FlowRouter.route('/sign-in', {
 
 FlowRouter.route('/sign-out', {
 	name: 'signOut',
+	title: 'Sign Out',
 	action() {
 		Accounts.logout(function(error) {
 			if (error) {
@@ -78,6 +88,7 @@ FlowRouter.route('/sign-out', {
 
 FlowRouter.route('/reset', {
 	name: 'reset',
+	title: 'Reset',
 	action() {
 		BlazeLayout.render('app', {
 			subbar: 'subbarAccounts',
@@ -90,6 +101,7 @@ FlowRouter.route('/reset', {
 
 FlowRouter.route('/reset/sent', {
 	name: 'resetSent',
+	title: 'Reset Sent',
 	action() {
 		BlazeLayout.render('app', {
 			subbar: 'subbarAccounts',
@@ -102,6 +114,7 @@ FlowRouter.route('/reset/sent', {
 
 FlowRouter.route('/reset/password/:token', {
 	name: 'resetPassword',
+	title: 'Reset Password',
 	action: function(params, queryParams) {
         BlazeLayout.render('app', {
 			subbar: 'subbarAccounts',
@@ -114,6 +127,7 @@ FlowRouter.route('/reset/password/:token', {
 
 FlowRouter.route('/reset/success', {
 	name: 'resetSuccess',
+	title: 'Reset Success',
 	action() {
 		BlazeLayout.render('app', {
 			subbar: 'subbarAccounts',
@@ -126,6 +140,7 @@ FlowRouter.route('/reset/success', {
 
 FlowRouter.route('/paused/user', {
 	name: 'pausedUser',
+	title: 'Paused User',
 	action() {
 		BlazeLayout.render('app', {
 			subbar: '',

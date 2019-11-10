@@ -1,4 +1,21 @@
 Inject.rawBody("loader", Assets.getText('loading.html'));
+console.log('Mode: ' + Meteor.settings.public.mode)
+
+let gaInit = '';
+if (Meteor.settings.public.mode === 'prod') {
+	gaInit = `
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=${Meteor.settings.public.googleAnalytics.trackingId}"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', '${Meteor.settings.public.googleAnalytics.trackingId}');
+	</script>`;
+}
+
+Inject.rawHead('GoogleAnalytics', gaInit);
 
 
 import { ReactiveVar } from 'meteor/reactive-var';

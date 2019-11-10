@@ -81,8 +81,8 @@ neoromantic:pickadate@1.2.0
 npm-bcrypt@0.9.3
 npm-mongo@3.1.2
 observe-sequence@1.0.16
-okgrow:analytics@3.0.5
 ordered-dict@1.1.0
+ostrio:flow-router-title@3.2.0
 pascoual:pdfjs@1.1.114
 peerlibrary:assert@0.2.5
 peerlibrary:fiber-utils@0.6.0

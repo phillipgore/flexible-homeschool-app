@@ -12,12 +12,16 @@ import './triggers/resetSessions';
 import './triggers/scrollReset';
 import './triggers/setFramePosition';
 
-import './accountRoutes.js';
-import './planningRoutes.js';
-import './trackingRoutes.js';
-import './reportingRoutes.js';
-import './settingsRoutes.js';
-import './officeRoutes.js';
+import { FlowRouterTitle } from 'meteor/ostrio:flow-router-title';
+
+	import './accountRoutes.js';
+	import './planningRoutes.js';
+	import './trackingRoutes.js';
+	import './reportingRoutes.js';
+	import './settingsRoutes.js';
+	import './officeRoutes.js';
+	
+new FlowRouterTitle(FlowRouter);
 
 FlowRouter.notFound = {
     name: 'notFound',

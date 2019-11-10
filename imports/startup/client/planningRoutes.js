@@ -3,6 +3,7 @@ import _ from 'lodash'
 // Students
 FlowRouter.route('/planning/students/new/:selectedFramePosition', {
 	name: 'studentsNew',
+	title: 'Student: New',
 	action(params) {
 		BlazeLayout.render('app', {
 			subbar: '',
@@ -15,6 +16,7 @@ FlowRouter.route('/planning/students/new/:selectedFramePosition', {
 
 FlowRouter.route('/planning/students/view/:selectedFramePosition/:selectedStudentId', {
 	name: 'studentsView',
+	title: 'Student: View',
 	action(params) {
 		BlazeLayout.render('app', {
 			subbar: '',
@@ -27,6 +29,7 @@ FlowRouter.route('/planning/students/view/:selectedFramePosition/:selectedStuden
 
 FlowRouter.route('/planning/students/edit/:selectedFramePosition/:selectedStudentId', {
 	name: 'studentsEdit',
+	title: 'Student: Edit',
 	action(params) {
 		BlazeLayout.render('app', {
 			subbar: '',
@@ -43,6 +46,7 @@ FlowRouter.route('/planning/students/edit/:selectedFramePosition/:selectedStuden
 // School Years
 FlowRouter.route('/planning/schoolyears/new/:selectedFramePosition', {
 	name: 'schoolYearsNew',
+	title: 'School Year: New',
 	action(params) {
 		LocalTerms.remove();
 		BlazeLayout.render('app', {
@@ -56,6 +60,7 @@ FlowRouter.route('/planning/schoolyears/new/:selectedFramePosition', {
 
 FlowRouter.route('/planning/schoolyears/view/:selectedFramePosition/:selectedSchoolYearId', {
 	name: 'schoolYearsView',
+	title: 'School Year: View',
 	action(params) {
 		BlazeLayout.render('app', {
 			subbar: '',
@@ -68,6 +73,7 @@ FlowRouter.route('/planning/schoolyears/view/:selectedFramePosition/:selectedSch
 
 FlowRouter.route('/planning/schoolyears/edit/:selectedFramePosition/:selectedSchoolYearId', {
 	name: 'schoolYearsEdit',
+	title: 'School Year: Edit',
 	action(params) {
 		BlazeLayout.render('app', {
 			subbar: '',
@@ -84,6 +90,7 @@ FlowRouter.route('/planning/schoolyears/edit/:selectedFramePosition/:selectedSch
 // School Work
 FlowRouter.route('/planning/schoolWork/new/:selectedFramePosition/:selectedStudentId/:selectedSchoolYearId', {
 	name: 'schoolWorkNew',
+	title: 'School Work: New',
 	action(params) {
 		BlazeLayout.render('app', {
 			subbar: '',
@@ -96,6 +103,7 @@ FlowRouter.route('/planning/schoolWork/new/:selectedFramePosition/:selectedStude
 
 FlowRouter.route('/planning/schoolWork/view/:selectedFramePosition/:selectedStudentId/:selectedSchoolYearId/:selectedSchoolWorkId', {
 	name: 'schoolWorkView',
+	title: 'School Work: View',
 	action(params) {
 		BlazeLayout.render('app', {
 			subbar: 'subbarSchoolWork',
@@ -108,6 +116,7 @@ FlowRouter.route('/planning/schoolWork/view/:selectedFramePosition/:selectedStud
 
 FlowRouter.route('/planning/schoolWork/edit/:selectedFramePosition/:selectedStudentId/:selectedSchoolYearId/:selectedSchoolWorkId', {
 	name: 'schoolWorkEdit',
+	title: 'School Work: Edit',
 	action(params) {
 		BlazeLayout.render('app', {
 			subbar: '',
@@ -124,6 +133,7 @@ FlowRouter.route('/planning/schoolWork/edit/:selectedFramePosition/:selectedStud
 // Resources
 FlowRouter.route('/planning/resources/new/:selectedFramePosition/:selectedResourceType/:selectedResourceAvailability/:selectedResourceNewType', {
 	name: 'resourcesNew',
+	title: 'Resource: New',
 	action: function(params) {
 		BlazeLayout.render('app', {
 			subbar: 'subbarResources',
@@ -137,6 +147,7 @@ FlowRouter.route('/planning/resources/new/:selectedFramePosition/:selectedResour
 
 FlowRouter.route('/planning/resources/view/:selectedFramePosition/:selectedResourceType/:selectedResourceAvailability/:selectedResourceId/:selectedResourceCurrentTypeId', {
 	name: 'resourcesView',
+	title: 'Resource: View',
 	action(params) {
 		BlazeLayout.render('app', {
 			subbar: 'subbarResources',
@@ -150,6 +161,7 @@ FlowRouter.route('/planning/resources/view/:selectedFramePosition/:selectedResou
 
 FlowRouter.route('/planning/resources/edit/:selectedFramePosition/:selectedResourceType/:selectedResourceAvailability/:selectedResourceId/:selectedResourceCurrentTypeId', {
 	name: 'resourcesEdit',
+	title: 'Resource: Edit',
 	action: function(params, queryParams) {
 		BlazeLayout.render('app', {
 			subbar: 'subbarResources',
