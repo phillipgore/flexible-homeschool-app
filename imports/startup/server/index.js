@@ -5,12 +5,11 @@ let gaInit = '';
 if (Meteor.settings.public.mode === 'prod') {
 	gaInit = `
 	<!-- Global site tag (gtag.js) - Google Analytics -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=${Meteor.settings.public.googleAnalytics.trackingId}"></script>
+	<script async="" src="https://www.googletagmanager.com/gtag/js?id=${Meteor.settings.public.googleAnalytics.trackingId}"></script>
 	<script>
 		window.dataLayer = window.dataLayer || [];
-		function gtag(){dataLayer.push(arguments);}
+		function gtag(){dataLayer.push(arguments)};
 		gtag('js', new Date());
-
 		gtag('config', '${Meteor.settings.public.googleAnalytics.trackingId}');
 	</script>`;
 }
