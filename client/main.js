@@ -49,7 +49,7 @@ import '/imports/ui/pages/office/officeDashboard.js';
 import '/imports/ui/pages/office/officeAccountsSubbar.js';
 import '/imports/ui/pages/office/officeAccountsList.js';
 import '/imports/ui/pages/office/officeAccountsEach.js';
-import '/imports/ui/pages/office/officeAccountView.js';
+import '/imports/ui/pages/office/officeAccountsView.js';
 import '/imports/ui/pages/office/officeAccountsNew.js';
 
 
