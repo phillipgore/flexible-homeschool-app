@@ -1,7 +1,7 @@
 Inject.rawBody("loader", Assets.getText('loading.html'));
 
 let gaInit = '';
-let gaEvent = '';
+
 if (Meteor.settings.public.mode === 'prod') {
 	gaInit = `
 	<!-- Global site tag (gtag.js) - Google Analytics -->
@@ -21,7 +21,17 @@ Picker.route('/verify/sent', (params, req, res, next) => {
 		console.log(req);
 		console.log(res);
 		console.log(next);
-		gaEvent = `
+		gaInit = `
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async="" src="https://www.googletagmanager.com/gtag/js?id=${Meteor.settings.public.googleAnalytics.trackingId}"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments)};
+			gtag('js', new Date());
+			gtag('config', '${Meteor.settings.public.googleAnalytics.trackingId}');
+			gtag('config', 'AW-1070645351');
+		</script>
+
 		<!-- Event snippet for Completed Sign Up Process conversion page -->
 		<script>
 			gtag('event', 'conversion', {
@@ -33,7 +43,6 @@ Picker.route('/verify/sent', (params, req, res, next) => {
 });
 
 Inject.rawHead('GoogleAnalytics', gaInit);
-Inject.rawHead('GoogleEvent', gaEvent);
 
 
 import { ReactiveVar } from 'meteor/reactive-var';

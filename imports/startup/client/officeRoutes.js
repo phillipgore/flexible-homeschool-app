@@ -8,17 +8,6 @@ FlowRouter.route('/office/dashboard/:selectedFramePosition', {
 	},
 });
 
-// FlowRouter.route('/office/accounts/:selectedFramePosition', {
-// 	name: 'officeAccountsList',
-// 	action() {
-// 		BlazeLayout.render('office', {
-// 			subbar: 'officeAccountsSubbar',
-// 			frameOne: 'officeAccountsList',
-// 			frameTwo: 'officeAccountsView',
-// 		});
-// 	},
-// });
-
 FlowRouter.route('/office/accounts/view/:selectedFramePosition/:selectedStatusId/:selectedGroupId', {
 	name: 'officeAccountsView',
 	title: 'Office Account: View',
