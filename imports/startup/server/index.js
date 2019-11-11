@@ -15,32 +15,32 @@ if (Meteor.settings.public.mode === 'prod') {
 	</script>`;
 }
 
-Picker.route('/verify/sent', (params, req, res, next) => {
-	if (Meteor.settings.public.mode === 'prod') {
-		console.log(params);
-		console.log(req);
-		console.log(res);
-		console.log(next);
-		gaInit = `
-		<!-- Global site tag (gtag.js) - Google Analytics -->
-		<script async="" src="https://www.googletagmanager.com/gtag/js?id=${Meteor.settings.public.googleAnalytics.trackingId}"></script>
-		<script>
-			window.dataLayer = window.dataLayer || [];
-			function gtag(){dataLayer.push(arguments)};
-			gtag('js', new Date());
-			gtag('config', '${Meteor.settings.public.googleAnalytics.trackingId}');
-			gtag('config', 'AW-1070645351');
-		</script>
+// Picker.route('/verify/sent', (params, req, res, next) => {
+// 	// console.log(params);
+// 	console.log(req);
+// 	// console.log(res);
+// 	// console.log(next);
+// 	if (Meteor.settings.public.mode === 'prod') {
+// 		gaInit = `
+// 		<!-- Global site tag (gtag.js) - Google Analytics -->
+// 		<script async="" src="https://www.googletagmanager.com/gtag/js?id=${Meteor.settings.public.googleAnalytics.trackingId}"></script>
+// 		<script>
+// 			window.dataLayer = window.dataLayer || [];
+// 			function gtag(){dataLayer.push(arguments)};
+// 			gtag('js', new Date());
+// 			gtag('config', '${Meteor.settings.public.googleAnalytics.trackingId}');
+// 			gtag('config', 'AW-1070645351');
+// 		</script>
 
-		<!-- Event snippet for Completed Sign Up Process conversion page -->
-		<script>
-			gtag('event', 'conversion', {
-				'send_to': 'AW-1070645351/pYf5CMDbz7MBEOeAw_4D',
-				'transaction_id': ''
-			});
-		</script>`;
-	}
-});
+// 		<!-- Event snippet for Completed Sign Up Process conversion page -->
+// 		<script>
+// 			gtag('event', 'conversion', {
+// 				'send_to': 'AW-1070645351/pYf5CMDbz7MBEOeAw_4D',
+// 				'transaction_id': ''
+// 			});
+// 		</script>`;
+// 	}
+// });
 
 Inject.rawHead('GoogleAnalytics', gaInit);
 
