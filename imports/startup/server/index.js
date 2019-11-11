@@ -1,6 +1,7 @@
 Inject.rawBody("loader", Assets.getText('loading.html'));
 
 let gaInit = '';
+let gaEvent = '';
 if (Meteor.settings.public.mode === 'prod') {
 	gaInit = `
 	<!-- Global site tag (gtag.js) - Google Analytics -->
@@ -10,10 +11,23 @@ if (Meteor.settings.public.mode === 'prod') {
 		function gtag(){dataLayer.push(arguments)};
 		gtag('js', new Date());
 		gtag('config', '${Meteor.settings.public.googleAnalytics.trackingId}');
+		gtag('config', 'AW-1070645351');
+	</script>`;
+}
+
+if (Meteor.settings.public.mode === 'prod' && FlowRouter.current().route.name === 'verifySentToken') {
+	gaEvent = `
+	<!-- Event snippet for Completed Sign Up Process conversion page -->
+	<script>
+		gtag('event', 'conversion', {
+			'send_to': 'AW-1070645351/pYf5CMDbz7MBEOeAw_4D',
+			'transaction_id': ''
+		});
 	</script>`;
 }
 
 Inject.rawHead('GoogleAnalytics', gaInit);
+Inject.rawHead('GoogleEvent', gaEvent);
 
 
 import { ReactiveVar } from 'meteor/reactive-var';
