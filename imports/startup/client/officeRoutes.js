@@ -14,7 +14,7 @@ FlowRouter.route('/office/dashboard/:selectedFramePosition', {
 // 		BlazeLayout.render('office', {
 // 			subbar: 'officeAccountsSubbar',
 // 			frameOne: 'officeAccountsList',
-// 			frameTwo: 'officeAccountView',
+// 			frameTwo: 'officeAccountsView',
 // 		});
 // 	},
 // });
@@ -26,7 +26,7 @@ FlowRouter.route('/office/accounts/view/:selectedFramePosition/:selectedStatusId
 		BlazeLayout.render('office', {
 			subbar: 'officeAccountsSubbar',
 			frameOne: 'officeAccountsList',
-			frameTwo: 'officeAccountView',
+			frameTwo: 'officeAccountsView',
 		});
 	},
 });
@@ -39,7 +39,7 @@ FlowRouter.route('/office/accounts/reset/view/:selectedFramePosition/:selectedSt
 		BlazeLayout.render('office', {
 			subbar: 'officeAccountsSubbar',
 			frameOne: 'officeAccountsList',
-			frameTwo: 'officeAccountView',
+			frameTwo: 'officeAccountsView',
 		});
 	},
 });

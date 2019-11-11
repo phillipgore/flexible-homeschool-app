@@ -1,8 +1,8 @@
 import { Template } from 'meteor/templating';
 import { Groups } from '../../../api/groups/groups.js';
-import './officeAccountView.html';
+import './officeAccountsView.html';
 
-Template.officeAccountView.onCreated( function() {
+Template.officeAccountsView.onCreated( function() {
 	let template = Template.instance();
 
 	template.autorun(() => {
@@ -12,11 +12,11 @@ Template.officeAccountView.onCreated( function() {
 
 });
 
-Template.officeAccountView.onRendered(function()  {
+Template.officeAccountsView.onRendered(function()  {
 
 });
 
-Template.officeAccountView.helpers({
+Template.officeAccountsView.helpers({
 	subscriptionReady: function() {
 		if (Template.instance().accountData.ready() && Template.instance().accountTotals.ready()) {
 			return true;
@@ -44,7 +44,7 @@ Template.officeAccountView.helpers({
 	},
 });
 
-Template.officeAccountView.events({
+Template.officeAccountsView.events({
 	'click .js-impersonate-admin': function(event) {
 		Meteor.call('impersonateAdmin', event.currentTarget.id, function(error) {
 			if (error) {
