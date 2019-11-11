@@ -7,6 +7,8 @@ BrowserPolicy.content.allowOriginForAll('*.ytimg.com',);
 BrowserPolicy.content.allowOriginForAll('*.google-analytics.com',);
 BrowserPolicy.content.allowOriginForAll('*.googletagmanager.com',);
 BrowserPolicy.content.allowOriginForAll('*.googleadservices.com',);
+BrowserPolicy.content.allowOriginForAll('*.googleads.g.doubleclick.net',);
+
 
 
 
