@@ -29,8 +29,8 @@ FlowRouter.route('/verify/sent', {
 });
 
 FlowRouter.route('/verify/email/:token', {
-	name: 'verifySentToken',
-	title: 'Verify Sent: Token',
+	name: 'verifyEmail',
+	title: 'Verify Email',
 	action: function(params, queryParams) {
         Accounts.verifyEmail(params.token, function(error) {
 			if (error) {

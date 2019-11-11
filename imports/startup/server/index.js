@@ -15,16 +15,22 @@ if (Meteor.settings.public.mode === 'prod') {
 	</script>`;
 }
 
-if (Meteor.settings.public.mode === 'prod' && FlowRouter.current().route.name === 'verifySent') {
-	gaEvent = `
-	<!-- Event snippet for Completed Sign Up Process conversion page -->
-	<script>
-		gtag('event', 'conversion', {
-			'send_to': 'AW-1070645351/pYf5CMDbz7MBEOeAw_4D',
-			'transaction_id': ''
-		});
-	</script>`;
-}
+Picker.route('/verify/sent', (params, req, res, next) => {
+	if (Meteor.settings.public.mode === 'prod') {
+		console.log(params);
+		console.log(req);
+		console.log(res);
+		console.log(next);
+		gaEvent = `
+		<!-- Event snippet for Completed Sign Up Process conversion page -->
+		<script>
+			gtag('event', 'conversion', {
+				'send_to': 'AW-1070645351/pYf5CMDbz7MBEOeAw_4D',
+				'transaction_id': ''
+			});
+		</script>`;
+	}
+});
 
 Inject.rawHead('GoogleAnalytics', gaInit);
 Inject.rawHead('GoogleEvent', gaEvent);
