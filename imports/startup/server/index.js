@@ -15,7 +15,7 @@ if (Meteor.settings.public.mode === 'prod') {
 	</script>`;
 }
 
-if (Meteor.settings.public.mode === 'prod' && FlowRouter.current().route.name === 'verifySentToken') {
+if (Meteor.settings.public.mode === 'prod' && FlowRouter.current().route.name === 'verifySent') {
 	gaEvent = `
 	<!-- Event snippet for Completed Sign Up Process conversion page -->
 	<script>
