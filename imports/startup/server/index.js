@@ -30,7 +30,7 @@ Picker.route('/verify/sent', (params, req, res, next) => {
 			});
 		</script>`;
 
-		Inject.rawHead('GoogleAnalytics', gaEvent);
+		Inject.rawHead('GoogleAnalytics', gaEvent, res);
 	}
 	next();
 });
