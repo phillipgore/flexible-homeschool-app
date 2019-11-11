@@ -2,7 +2,7 @@ Inject.rawBody("loader", Assets.getText('loading.html'));
 
 let gaInit = '';
 let gaEvent = '';
-if (Meteor.settings.public.mode === 'prod') {
+if (Meteor.settings.public.mode === 'dev') {
 	gaInit = `
 	<!-- Global site tag (gtag.js) - Google Analytics -->
 	<script async="" src="https://www.googletagmanager.com/gtag/js?id=${Meteor.settings.public.googleAnalytics.trackingId}"></script>
@@ -16,11 +16,7 @@ if (Meteor.settings.public.mode === 'prod') {
 }
 
 Picker.route('/verify/sent', (params, req, res, next) => {
-	if (Meteor.settings.public.mode === 'prod') {
-		console.log(params);
-		console.log(req);
-		console.log(res);
-		console.log(next);
+	if (Meteor.settings.public.mode === 'dev') {
 		gaEvent = `
 		<!-- Event snippet for Completed Sign Up Process conversion page -->
 		<script>
@@ -30,7 +26,7 @@ Picker.route('/verify/sent', (params, req, res, next) => {
 			});
 		</script>`;
 
-		Inject.rawHead('GoogleAnalytics', gaEvent, res);
+		Inject.rawHead('GoogleAnalytics', gaEvent);
 	}
 	next();
 });
