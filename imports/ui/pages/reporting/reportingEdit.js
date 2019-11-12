@@ -3,6 +3,8 @@ import { Reports } from '../../../api/reports/reports.js';
 import './reportingEdit.html';
 
 Template.reportingEdit.onCreated( function() {
+	DocHead.setTitle('Reporting: Report: Edit');
+	
 	// Subscriptions
 	this.subscribe('report', FlowRouter.getParam('selectedReportId'));
 });

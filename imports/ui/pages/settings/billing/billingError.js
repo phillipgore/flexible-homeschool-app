@@ -5,6 +5,8 @@ import {cardValidation} from '../../../../modules/functions';
 import './billingError.html';
 
 Template.billingError.onCreated( function() {
+	DocHead.setTitle('Settings: Billing: Error');
+
 	// Subscriptions
 	this.subscribe('group');
 	Session.set('validCoupon', true);

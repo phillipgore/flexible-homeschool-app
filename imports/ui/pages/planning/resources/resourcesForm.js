@@ -7,6 +7,12 @@ import './resourcesForm.html';
 
 
 Template.resourcesForm.onCreated( function() {
+	if (FlowRouter.getRouteName() === 'resourcesNew') {
+		DocHead.setTitle('Planning: Resources: New');
+	} else {
+		DocHead.setTitle('Planning: Resources: Edit');
+	}
+
 	if (FlowRouter.getParam('selectedResourceId')) {
 		this.subscribe('resource', FlowRouter.getParam('selectedResourceId'));
 	};

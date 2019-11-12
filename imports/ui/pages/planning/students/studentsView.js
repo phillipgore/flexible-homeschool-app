@@ -3,6 +3,8 @@ import { Students } from '../../../../api/students/students.js';
 import './studentsView.html';
 
 Template.studentsView.onCreated( function() {
+	DocHead.setTitle('Planning: Students: View');
+	
 	let template = Template.instance();
 	
 	template.autorun(() => {

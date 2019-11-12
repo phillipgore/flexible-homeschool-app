@@ -5,6 +5,7 @@ import './resourcesList.html';
 import _ from 'lodash'
 
 Template.resourcesList.onCreated( function() {
+	DocHead.setTitle('Planning: Resources: View');
 	let template = Template.instance();
 
 	Session.set('initialLoading', true)

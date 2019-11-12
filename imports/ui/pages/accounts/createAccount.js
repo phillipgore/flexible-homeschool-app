@@ -6,6 +6,7 @@ import './createAccount.html';
 import moment from 'moment';
 
 Template.createAccount.onCreated( function() {
+	DocHead.setTitle('Create Account');
 	Session.set('validCoupon', true);
 });
 

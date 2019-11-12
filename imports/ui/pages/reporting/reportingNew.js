@@ -3,6 +3,8 @@ import { Reports } from '../../../api/reports/reports.js';
 import './reportingNew.html';
 
 Template.reportingNew.onCreated( function() {
+	DocHead.setTitle('Reporting: Report: New');
+	
 	Session.setPersistent('unScrolled', true);
 });
 

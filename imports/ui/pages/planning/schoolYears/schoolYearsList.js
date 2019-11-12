@@ -4,6 +4,7 @@ import { SchoolYears } from '../../../../api/schoolYears/schoolYears.js';
 import './schoolYearsList.html';
 
 Template.schoolYearsList.onCreated( function() {
+	DocHead.setTitle('Planning: School Year: View');
 	// Subscriptions
 	this.subscribe('schoolYearPaths', Session.get('selectedStudentId'));
 });

@@ -4,6 +4,8 @@ import './usersEdit.html';
 import md5 from 'md5';
 
 Template.usersEdit.onCreated( function() {
+	DocHead.setTitle('Settings: Users: Edit');
+
 	// Subscriptions
 	this.subscribe('allUsers');
 });

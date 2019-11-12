@@ -2,6 +2,8 @@ import {Template} from 'meteor/templating';
 import './usersView.html';
 
 Template.usersView.onRendered( function() {
+	DocHead.setTitle('Settings: Users: View');
+
 	// ToolbarView Settings
 	Session.set({
 		toolbarType: 'user',

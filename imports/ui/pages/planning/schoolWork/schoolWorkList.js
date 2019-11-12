@@ -5,6 +5,7 @@ import { Students } from '../../../../api/students/students.js';
 import './schoolWorkList.html';
 
 Template.schoolWorkList.onCreated( function() {
+	DocHead.setTitle('Planning: School Work: View');
 	let template = Template.instance();
 	
 	template.autorun(() => {

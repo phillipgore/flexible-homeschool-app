@@ -14,6 +14,8 @@ import './schoolWorkEdit.html';
 LocalResources = new Mongo.Collection(null);
 
 Template.schoolWorkEdit.onCreated( function() {
+	DocHead.setTitle('Planning: School Work: Edit');
+	
 	// Subscriptions
 	this.schoolWorkData = Meteor.subscribe('schoolWork', FlowRouter.getParam('selectedSchoolWorkId'), function() {
 		Session.set('schoolYearId', SchoolWork.findOne({_id: FlowRouter.getParam('selectedSchoolWorkId')}).schoolYearId)

@@ -1,6 +1,6 @@
 import {Template} from 'meteor/templating';
 import './verifySent.html';
 
-Template.verifySent.onRendered( function() {
-	
+Template.verifySent.onCreated( function() {
+	DocHead.setTitle('Verify Sent');
 });

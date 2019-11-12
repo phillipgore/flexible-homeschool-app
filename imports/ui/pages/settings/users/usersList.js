@@ -2,6 +2,8 @@ import {Template} from 'meteor/templating';
 import './usersList.html';
 
 Template.usersList.onCreated( function() {
+	DocHead.setTitle('Settings: Users: View');
+	
 	// Subscriptions
 	this.subscribe('allUsers');
 	Session.set('selectedUserId', FlowRouter.getParam('selectedUserId'));

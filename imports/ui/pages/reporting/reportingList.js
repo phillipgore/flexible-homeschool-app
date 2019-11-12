@@ -3,6 +3,8 @@ import { Reports } from '../../../api/reports/reports.js';
 import './reportingList.html';
 
 Template.reportingList.onCreated( function() {
+	DocHead.setTitle('Reporting: Report: View');
+	
 	this.subscribe('allReports');
 });
 

@@ -1,6 +1,10 @@
 import {Template} from 'meteor/templating';
 import './pausedUser.html';
 
+Template.pausedUser.onCreated( function() {
+	DocHead.setTitle('Paused User');
+});
+
 
 Template.pausedUser.events({
 	'click .js-sign-out'(event) {

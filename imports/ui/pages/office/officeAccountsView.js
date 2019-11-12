@@ -3,6 +3,7 @@ import { Groups } from '../../../api/groups/groups.js';
 import './officeAccountsView.html';
 
 Template.officeAccountsView.onCreated( function() {
+	DocHead.setTitle('Office: Accounts View');
 	let template = Template.instance();
 
 	template.autorun(() => {

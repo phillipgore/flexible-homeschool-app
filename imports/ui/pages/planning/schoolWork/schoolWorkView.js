@@ -9,6 +9,8 @@ import { Lessons } from '../../../../api/lessons/lessons.js';
 import './schoolWorkView.html';
 
 Template.schoolWorkView.onCreated( function() {
+	DocHead.setTitle('Planning: School Work: View');
+	
 	let template = Template.instance();
 	
 	template.autorun(() => {

@@ -1,6 +1,10 @@
 import {Template} from 'meteor/templating';
 import './reset.html';
 
+Template.reset.onCreated( function() {
+	DocHead.setTitle('Reset');
+});
+
 Template.reset.onRendered( function() {
 	let template = Template.instance();
 	

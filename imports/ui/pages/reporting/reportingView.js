@@ -14,6 +14,8 @@ import _ from 'lodash'
 import './reportingView.html';
 
 Template.reportingView.onCreated( function() {
+	DocHead.setTitle('Reporting: Report: View');
+	
 	let template = Template.instance();
 	
 	template.autorun(() => {

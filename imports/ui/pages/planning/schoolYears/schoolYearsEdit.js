@@ -14,6 +14,8 @@ LocalWeeks = new Mongo.Collection(null);
 import _ from 'lodash'
 
 Template.schoolYearsEdit.onCreated( function() {
+	DocHead.setTitle('Planning: School Year: Edit');
+
 	let template = Template.instance();
 
 	template.autorun( () => {

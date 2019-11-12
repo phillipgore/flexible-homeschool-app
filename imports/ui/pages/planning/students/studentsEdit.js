@@ -6,6 +6,8 @@ import moment from 'moment';
 import _ from 'lodash';
 
 Template.studentsEdit.onCreated( function() {
+	DocHead.setTitle('Planning: Students: Edit');
+	
 	let template = Template.instance();
 	
 	template.autorun(() => {

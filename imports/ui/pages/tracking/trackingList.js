@@ -8,6 +8,7 @@ import './trackingList.html';
 import _ from 'lodash'
 
 Template.trackingList.onCreated( function() {
+	DocHead.setTitle('Tracking: View');
 	// let template = Template.instance();
 
 	// template.autorun(() => {

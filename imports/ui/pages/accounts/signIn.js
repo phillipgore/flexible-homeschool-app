@@ -1,6 +1,10 @@
 import {Template} from 'meteor/templating';
 import './signIn.html';
 
+Template.signIn.onCreated( function() {
+	DocHead.setTitle('Sign In');
+});
+
 Template.signIn.onRendered( function() {
 	let template = Template.instance();
 
