@@ -1,7 +1,6 @@
 Inject.rawBody("loader", Assets.getText('loading.html'));
 
 let gaInit = '';
-let gaEvent = '';
 if (Meteor.settings.public.mode === 'prod') {
 	gaInit = `
 	<!-- Global site tag (gtag.js) - Google Analytics -->
