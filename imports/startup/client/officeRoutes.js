@@ -1,6 +1,6 @@
 FlowRouter.route('/office/dashboard/:selectedFramePosition', {
 	name: 'officeDashboard',
-	// title: 'Office Dashboard',
+	title:  'Office: Dashboard',
 	action() {
 		BlazeLayout.render('office', {
 			frameOne: 'officeDashboard',
@@ -10,7 +10,7 @@ FlowRouter.route('/office/dashboard/:selectedFramePosition', {
 
 FlowRouter.route('/office/accounts/view/:selectedFramePosition/:selectedStatusId/:selectedGroupId', {
 	name: 'officeAccountsView',
-	// title: 'Office Account: View',
+	title:  'Office: Accounts: View',
 	action(params) {
 		BlazeLayout.render('office', {
 			subbar: 'officeAccountsSubbar',
@@ -22,7 +22,7 @@ FlowRouter.route('/office/accounts/view/:selectedFramePosition/:selectedStatusId
 
 FlowRouter.route('/office/accounts/reset/view/:selectedFramePosition/:selectedStatusId/:selectedGroupId', {
 	name: 'officeAccountsResetView',
-	// title: 'Office Account: Reset View',
+	title:  'Office: Accounts: Reset: View',
 	action(params) {
 		BlazeLayout.reset();
 		BlazeLayout.render('office', {
@@ -35,7 +35,7 @@ FlowRouter.route('/office/accounts/reset/view/:selectedFramePosition/:selectedSt
 
 FlowRouter.route('/office/accounts/new/:selectedFramePosition', {
 	name: 'officeAccountsNew',
-	// title: 'Office Account: New',
+	title:  'Office: Accounts: New',
 	action() {
 		BlazeLayout.render('office', {
 			frameOne: 'officeAccountsList',

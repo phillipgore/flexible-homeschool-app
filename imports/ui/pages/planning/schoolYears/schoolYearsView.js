@@ -5,8 +5,6 @@ import { Weeks } from '../../../../api/weeks/weeks.js';
 import './schoolYearsView.html';
 
 Template.schoolYearsView.onCreated( function() {
-	DocHead.setTitle('Planning: School Year: View');
-
 	// Subscriptions
 	let template = Template.instance();
 	

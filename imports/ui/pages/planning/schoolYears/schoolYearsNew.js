@@ -8,8 +8,6 @@ import './schoolYearsNew.html';
 LocalTerms = new Mongo.Collection(null);
 
 Template.schoolYearsNew.onCreated( function() {
-	DocHead.setTitle('Planning: School Year: New');
-
 	let template = Template.instance();
 
 	template.autorun( () => {

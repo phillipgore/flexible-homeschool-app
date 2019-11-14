@@ -8,9 +8,7 @@ import { Weeks } from '../../../../api/weeks/weeks.js';
 import { Lessons } from '../../../../api/lessons/lessons.js';
 import './schoolWorkView.html';
 
-Template.schoolWorkView.onCreated( function() {
-	DocHead.setTitle('Planning: School Work: View');
-	
+Template.schoolWorkView.onCreated( function() {	
 	let template = Template.instance();
 	
 	template.autorun(() => {

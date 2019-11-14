@@ -4,9 +4,7 @@ import './studentsNew.html';
 import moment from 'moment';
 import _ from 'lodash';
 
-Template.studentsNew.onCreated( function() {
-	DocHead.setTitle('Planning: Students: New');
-	
+Template.studentsNew.onCreated( function() {	
 	Session.setPersistent('unScrolled', true);
 });
 

@@ -2,9 +2,7 @@ import { Template } from 'meteor/templating';
 import { Reports } from '../../../api/reports/reports.js';
 import './reportingEdit.html';
 
-Template.reportingEdit.onCreated( function() {
-	DocHead.setTitle('Reporting: Report: Edit');
-	
+Template.reportingEdit.onCreated( function() {	
 	// Subscriptions
 	this.subscribe('report', FlowRouter.getParam('selectedReportId'));
 });

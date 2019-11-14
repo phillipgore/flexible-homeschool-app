@@ -4,8 +4,6 @@ import './usersNew.html';
 import md5 from 'md5';
 
 Template.usersNew.onCreated( function() {
-	DocHead.setTitle('Settings: Users: New');
-
 	// Subscriptions
 	this.subscribe('allUsers');
 	Session.setPersistent('unScrolled', true);

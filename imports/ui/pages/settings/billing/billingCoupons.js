@@ -6,8 +6,6 @@ import './billingCoupons.html';
 import moment from 'moment';
 
 Template.billingCoupons.onCreated( function() {
-	DocHead.setTitle('Settings: Billing: Coupons');
-
 	// Subscriptions
 	let template = Template.instance();
 	

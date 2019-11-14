@@ -10,8 +10,6 @@ import { Lessons } from '../../../api/lessons/lessons.js';
 import './trackingView.html';
 
 Template.trackingView.onCreated( function() {
-	DocHead.setTitle('Tracking: View');
-
 	let template = Template.instance();
 	
 	template.autorun(() => {

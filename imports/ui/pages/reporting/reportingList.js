@@ -2,9 +2,7 @@ import { Template } from 'meteor/templating';
 import { Reports } from '../../../api/reports/reports.js';
 import './reportingList.html';
 
-Template.reportingList.onCreated( function() {
-	DocHead.setTitle('Reporting: Report: View');
-	
+Template.reportingList.onCreated( function() {	
 	this.subscribe('allReports');
 });
 

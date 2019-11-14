@@ -5,8 +5,6 @@ import './billingInvoices.html';
 import moment from 'moment';
 
 Template.billingInvoices.onCreated( function() {
-	DocHead.setTitle('Settings: Billing: Invoices');
-
 	// Subscriptions
 	let template = Template.instance();
 	Session.set('upcomingInvoicesReady', false)

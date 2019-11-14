@@ -2,9 +2,7 @@ import { Template } from 'meteor/templating';
 import { Reports } from '../../../api/reports/reports.js';
 import './reportingNew.html';
 
-Template.reportingNew.onCreated( function() {
-	DocHead.setTitle('Reporting: Report: New');
-	
+Template.reportingNew.onCreated( function() {	
 	Session.setPersistent('unScrolled', true);
 });
 

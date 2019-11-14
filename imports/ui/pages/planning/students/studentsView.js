@@ -2,9 +2,7 @@ import {Template} from 'meteor/templating';
 import { Students } from '../../../../api/students/students.js';
 import './studentsView.html';
 
-Template.studentsView.onCreated( function() {
-	DocHead.setTitle('Planning: Students: View');
-	
+Template.studentsView.onCreated( function() {	
 	let template = Template.instance();
 	
 	template.autorun(() => {

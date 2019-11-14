@@ -5,8 +5,6 @@ import {cardValidation} from '../../../../modules/functions';
 import './billingEdit.html';
 
 Template.billingEdit.onCreated( function() {
-	DocHead.setTitle('Settings: Billing: Edit');
-
 	// Subscriptions
 	let template = Template.instance();
 	

@@ -13,9 +13,7 @@ import {minutesConvert} from '../../../modules/functions';
 import _ from 'lodash'
 import './reportingView.html';
 
-Template.reportingView.onCreated( function() {
-	DocHead.setTitle('Reporting: Report: View');
-	
+Template.reportingView.onCreated( function() {	
 	let template = Template.instance();
 	
 	template.autorun(() => {

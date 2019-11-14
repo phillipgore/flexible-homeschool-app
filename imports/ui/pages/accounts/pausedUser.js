@@ -2,7 +2,7 @@ import {Template} from 'meteor/templating';
 import './pausedUser.html';
 
 Template.pausedUser.onCreated( function() {
-	DocHead.setTitle('Paused User');
+
 });
 
 

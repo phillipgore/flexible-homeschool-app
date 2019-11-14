@@ -2,7 +2,7 @@ import {Template} from 'meteor/templating';
 import './resetPassword.html';
 
 Template.resetPassword.onCreated( function() {
-	DocHead.setTitle('Reset Password');
+
 });
 
 Template.resetPassword.onRendered( function() {

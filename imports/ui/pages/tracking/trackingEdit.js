@@ -13,8 +13,6 @@ import _ from 'lodash';
 LocalLessons = new Mongo.Collection(null);
 
 Template.trackingEdit.onCreated( function() {
-	DocHead.setTitle('Tracking: Edit');
-
 	let template = Template.instance();
 	
 	template.autorun(() => {

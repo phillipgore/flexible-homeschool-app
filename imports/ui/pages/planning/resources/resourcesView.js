@@ -3,7 +3,6 @@ import { Resources } from '../../../../api/resources/resources.js';
 import './resourcesView.html';
 
 Template.resourcesView.onCreated( function() {
-	DocHead.setTitle('Planning: Resources: View');
 	let template = Template.instance();
 	
 	template.autorun(() => {

@@ -12,9 +12,7 @@ import './schoolWorkNew.html';
 
 LocalResources = new Mongo.Collection(null);
 
-Template.schoolWorkNew.onCreated( function() {
-	DocHead.setTitle('Planning: School Work: New');
-	
+Template.schoolWorkNew.onCreated( function() {	
 	Session.setPersistent('unScrolled', true);
 	
 	// Subscriptions

@@ -8,7 +8,7 @@ import gpw from 'generate-random-password';
 import './officeAccountsNew.html';
 
 Template.officeAccountsNew.onCreated( function() {
-	DocHead.setTitle('Office: Accounts New');
+
 });
 
 Template.officeAccountsNew.onRendered( function() {	

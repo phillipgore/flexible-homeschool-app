@@ -2,7 +2,7 @@ import _ from 'lodash'
 
 FlowRouter.route('/reporting/new/:selectedFramePosition', {
 	name: 'reportingNew',
-	// title: 'Reporting: New',
+	title:  'Reporting: Reports: New',
 	action(params) {
 		BlazeLayout.render('app', {
 			subbar: '',
@@ -14,7 +14,7 @@ FlowRouter.route('/reporting/new/:selectedFramePosition', {
 
 FlowRouter.route('/reporting/view/:selectedFramePosition/:selectedStudentId/:selectedSchoolYearId/:selectedTermId/:selectedWeekId/:selectedReportId', {
 	name: 'reportingView',
-	// title: 'Reporting: View',
+	title:  'Reporting: Reports: View',
 	action(params) {
 		BlazeLayout.render('app', {
 			subbar: 'subbarReporting',
@@ -26,7 +26,7 @@ FlowRouter.route('/reporting/view/:selectedFramePosition/:selectedStudentId/:sel
 
 FlowRouter.route('/reporting/edit/:selectedFramePosition/:selectedReportId', {
 	name: 'reportingEdit',
-	// title: 'Reporting: Edit',
+	title:  'Reporting: Reports: Edit',
 	action(params) {
 		BlazeLayout.render('app', {
 			subbar: '',

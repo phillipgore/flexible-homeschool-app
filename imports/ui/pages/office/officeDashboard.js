@@ -2,8 +2,6 @@ import { Template } from "meteor/templating";
 import "./officeDashboard.html";
 
 Template.officeDashboard.onCreated(function()  {
-	DocHead.setTitle('Office: Dashbaord');
-
 	const template = Template.instance();
 
 	template.autorun(() => {

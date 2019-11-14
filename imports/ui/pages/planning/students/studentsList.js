@@ -4,7 +4,6 @@ import { Students } from '../../../../api/students/students.js';
 import './studentsList.html';
 
 Template.studentsList.onCreated( function() {
-	DocHead.setTitle('Planning: Students: View');
 	// Subscriptions
 	this.subscribe('allStudents');
 	this.subscribe('allPaths');
