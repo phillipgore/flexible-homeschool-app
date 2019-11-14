@@ -1,20 +1,29 @@
 Inject.rawBody("loader", Assets.getText('loading.html'));
 
-let gaInit = '';
-if (Meteor.settings.public.mode === 'prod') {
-	gaInit = `
-	<!-- Global site tag (gtag.js) - Google Analytics -->
-	<script async="" src="https://www.googletagmanager.com/gtag/js?id=${Meteor.settings.public.googleAnalytics.trackingId}"></script>
-	<script>
-		window.dataLayer = window.dataLayer || [];
-		function gtag(){dataLayer.push(arguments)};
-		gtag('js', new Date());
-		gtag('config', '${Meteor.settings.public.googleAnalytics.trackingId}');
-		gtag('config', 'AW-1070645351');
-	</script>`;
+let googleTagHead = '';
+let googleTagBody = '';
+
+if (Meteor.settings.public.mode === 'dev') {
+	googleTagHead = `
+	<!-- Google Tag Manager -->
+	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+	})(window,document,'script','dataLayer','GTM-PRN8WFN');</script>
+	<!-- End Google Tag Manager -->`;
 }
 
-Inject.rawHead('GoogleAnalytics', gaInit);
+if (Meteor.settings.public.mode === 'dev') {
+	googleTagBody = `
+	<!-- Google Tag Manager (noscript) -->
+	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PRN8WFN"
+	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+	<!-- End Google Tag Manager (noscript) -->`;
+}
+
+Inject.rawHead('GoogleTagHead', googleTagHead);
+Inject.rawBody('GoogleTagBody', googleTagBody);
 
 
 import { ReactiveVar } from 'meteor/reactive-var';
