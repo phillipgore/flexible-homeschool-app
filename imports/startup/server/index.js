@@ -3,7 +3,7 @@ Inject.rawBody("loader", Assets.getText('loading.html'));
 let googleTagHead = '';
 let googleTagBody = '';
 
-if (Meteor.settings.public.mode === 'dev') {
+if (Meteor.settings.public.mode === 'prod') {
 	googleTagHead = `
 	<!-- Google Tag Manager -->
 	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -14,7 +14,7 @@ if (Meteor.settings.public.mode === 'dev') {
 	<!-- End Google Tag Manager -->`;
 }
 
-if (Meteor.settings.public.mode === 'dev') {
+if (Meteor.settings.public.mode === 'prod') {
 	googleTagBody = `
 	<!-- Google Tag Manager (noscript) -->
 	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PRN8WFN"
