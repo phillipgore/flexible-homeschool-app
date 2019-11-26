@@ -252,9 +252,9 @@ Migrations.add({
 	}
 });
 
-// Meteor.startup(() => {
-// 	Migrations.migrateTo(11);
-// });
+Meteor.startup(() => {
+	Migrations.migrateTo(11);
+});
 
 
 
