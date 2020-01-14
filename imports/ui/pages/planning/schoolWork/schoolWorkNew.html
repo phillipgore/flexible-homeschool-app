@@ -8,6 +8,8 @@
 				<div data-id="js-step-two" class="js-step-circle js-circle-two step-circle">2</div>
 				<div class="step-line"></div>
 				<div data-id="js-step-three" class="js-step-circle js-circle-three step-circle">3</div>
+				<div class="step-line"></div>
+				<div data-id="js-step-four" class="js-step-circle js-circle-four step-circle">4</div>
 			</div>
 
 			
@@ -233,21 +235,83 @@
 						<span class="js-label-{{term.order}}">Show</span><span class="js-label-{{term.order}} hide">Hide</span> Individual Weeks
 					</button>
 
-					<div class="js-times-per-week-container m-tn-rl-neg-3 m-tn-b-neg-6 m-tn-t-9">
+					<div class="js-times-per-week-container m-tn-rl-neg-3 m-tn-b-neg-6 m-tn-t-9 clearfix">
 						<div class="js-{{term.order}} row hide">
 							{{#each week in weeks term._id}}
-							<div class="col-tn-1of5 p-tn-rl-3">
+							<div class="col-tn-1of5 pos-relative p-tn-rl-3">
 								<label>Wk {{week.order}}</label>
 								<input data-term-id="{{term._id}}" data-term-order="{{term.order}}" data-week-id="{{week._id}}" data-week-order="{{week.order}}" class="js-times-per-week" type="text" name="timesPerWeek" placeholder="5" autocomplete="off" maxlength="1">
+								<label class="js-times-per-week-errors work-error txt-tn-center m-tn-b-0"></label>
 							</div>
 							{{/each}}
 						</div>
 					</div>
+
 				</div>
 				{{/each}}
 
 			</div>
 			<!-- /Schedule -->
+
+
+			
+			<!-- Weekday Labels -->
+			<div class="js-step-four js-step hide">
+				<div class="row m-tn-b-9">
+					<h2 class="m-tn-b-3">Step 4: Weekday Labels</h2>
+					<p class="m-tn-b-12 txt-gray-darkest font-size-12">Leave the form blank if you do not want Weekday Labels or make all of the required selections.</p>
+					<div class="js-day-labels well bg-gray-lighter m-tn-b-9">
+						{{#if uniqeTimesPerWeek.length}}
+							{{#each uniqeTime in uniqeTimesPerWeek}}
+							<div id="day-labels-{{uniqeTime}}" data-segment-count="{{uniqeTime}}" class="js-day-labels-section row {{#if @index}}m-tn-t-9{{/if}}">
+								<label class="col-tn-1of1 m-tm-b-6">When scheduled for {{uniqeTime}} Segement{{sPlural uniqeTime}} per week:</label>
+								<label class="checkbox col-tn-1of4">
+									<input class="js-day-labels-checkbox" type="checkbox" name="scheduledDays" value="1" checked="{{#if isSeven uniqeTime}}true{{/if}}" disabled="{{#if isZero uniqeTime}}true{{/if}}">
+									<div class="checkbox-icon"></div> 
+									<div class="checkbox-label">{{weekDays 1}}</div>
+								</label>
+								<label class="checkbox col-tn-1of4">
+									<input class="js-day-labels-checkbox" type="checkbox" name="scheduledDays" value="2" checked="{{#if isSeven uniqeTime}}true{{/if}}" disabled="{{#if isZero uniqeTime}}true{{/if}}">
+									<div class="checkbox-icon"></div> 
+									<div class="checkbox-label">{{weekDays 2}}</div>
+								</label>
+								<label class="checkbox col-tn-1of4">
+									<input class="js-day-labels-checkbox" type="checkbox" name="scheduledDays" value="3" checked="{{#if isSeven uniqeTime}}true{{/if}}" disabled="{{#if isZero uniqeTime}}true{{/if}}">
+									<div class="checkbox-icon"></div> 
+									<div class="checkbox-label">{{weekDays 3}}</div>
+								</label>
+								<label class="checkbox col-tn-1of4">
+									<input class="js-day-labels-checkbox" type="checkbox" name="scheduledDays" value="4" checked="{{#if isSeven uniqeTime}}true{{/if}}" disabled="{{#if isZero uniqeTime}}true{{/if}}">
+									<div class="checkbox-icon"></div> 
+									<div class="checkbox-label">{{weekDays 4}}</div>
+								</label>
+								<label class="checkbox col-tn-1of4">
+									<input class="js-day-labels-checkbox" type="checkbox" name="scheduledDays" value="5" checked="{{#if isSeven uniqeTime}}true{{/if}}" disabled="{{#if isZero uniqeTime}}true{{/if}}">
+									<div class="checkbox-icon"></div> 
+									<div class="checkbox-label">{{weekDays 5}}</div>
+								</label>
+								<label class="checkbox col-tn-1of4">
+									<input class="js-day-labels-checkbox" type="checkbox" name="scheduledDays" value="6" checked="{{#if isSeven uniqeTime}}true{{/if}}" disabled="{{#if isZero uniqeTime}}true{{/if}}">
+									<div class="checkbox-icon"></div> 
+									<div class="checkbox-label">{{weekDays 6}}</div>
+								</label>
+								<label class="checkbox col-tn-1of4">
+									<input class="js-day-labels-checkbox" type="checkbox" name="scheduledDays" value="7" checked="{{#if isSeven uniqeTime}}true{{/if}}" disabled="{{#if isZero uniqeTime}}true{{/if}}">
+									<div class="checkbox-icon"></div> 
+									<div class="checkbox-label">{{weekDays 7}}</div>
+								</label>
+								<label class="js-day-label-errors label-error col-tn-1of1 txt-tn-center"></label>
+							</div>
+							{{/each}}
+						{{else}}
+							<div class="txt-tn-center p-tn-tb-18 font-size-16 font-weight-400">
+								No Scheduled Segments (Step 3)
+							</div>
+						{{/if}}
+					</div>
+				</div>
+			</div>
+			<!-- /Weekday Labels -->
 
 
 
@@ -263,8 +327,13 @@
 			</footer>
 			<footer class="js-step-three js-step toolbar toolbar-bottom toolbar-gray m-tn-t-27 hide">
 				<a href="#" class="js-cancel btn btn-gray-darker fl-tn-left">Cancel</a>
-				<button type="submit" class="js-submit fl-tn-right">Save</button>
+				<button data-id="js-step-four" class="js-step-btn fl-tn-right">Next <i class="icn-forward"></i></button>
 				<button data-id="js-step-two" class="js-step-btn fl-tn-right m-tn-r-6"><i class="icn-back"></i> Prev</button>
+			</footer>
+			<footer class="js-step-four js-step toolbar toolbar-bottom toolbar-gray m-tn-t-27 hide">
+				<a href="#" class="js-cancel btn btn-gray-darker fl-tn-left">Cancel</a>
+				<button type="submit" class="js-submit fl-tn-right">Save</button>
+				<button data-id="js-step-three" class="js-step-btn fl-tn-right m-tn-r-6"><i class="icn-back"></i> Prev</button>
 			</footer>
 			<!-- /Footer -->
 

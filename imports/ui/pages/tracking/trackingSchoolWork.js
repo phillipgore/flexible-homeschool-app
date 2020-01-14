@@ -64,6 +64,7 @@ Template.trackingSchoolWork.helpers({
 
 	lessonStatus: function(lesson, schoolWorkId) {
 		$('.js-lesson-updating').hide();
+		$('.js-lesson-weekday-label').show();
 		let lessons = Lessons.find({studentId: FlowRouter.getParam('selectedStudentId'), schoolWorkId: schoolWorkId, weekId: FlowRouter.getParam('selectedWeekId')}).fetch();
 
 		if (!_.some(lessons, ['completed', false])) {
@@ -76,7 +77,7 @@ Template.trackingSchoolWork.helpers({
 			return 'btn-warning';
 		}
 
-		return false;
+		return 'txt-gray-darkest';
 	},
 
 	hasNote: function(schoolWorkId) {
@@ -264,6 +265,7 @@ Template.trackingSchoolWork.events({
 
 		let lessonId = $(event.currentTarget).parent().attr('id');
 		$('[data-lesson-id="' + lessonId + '"]').find('.js-lesson-updating').show();
+		$('[data-lesson-id="' + lessonId + '"]').find('.js-lesson-weekday-label').hide();
 
 		$('.navbar').show();
 		$('.js-schoolWork-track').removeClass('active');
@@ -307,8 +309,10 @@ Template.trackingSchoolWork.events({
 					message: error.reason,
 				});
 				$('.js-lesson-updating').hide();
+				$('.js-lesson-weekday-label').show();
 			} else {
 				$('.js-lesson-updating').hide();
+				$('.js-lesson-weekday-label').show();
 			}
 		});
 

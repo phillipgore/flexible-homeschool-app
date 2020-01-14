@@ -25,6 +25,7 @@ Template.schoolWorkNew.onCreated( function() {
 
 	template.searchQuery = new ReactiveVar();
 	template.searching   = new ReactiveVar( false );
+	template.timesPerWeek = new ReactiveVar();
 
 	template.autorun( () => {
 		template.subscribe( 'searchResources', template.searchQuery.get(), () => {
@@ -60,109 +61,6 @@ Template.schoolWorkNew.onRendered( function() {
 		toolbarType: 'new',
 		labelThree: 'New School Work',
 		activeNav: 'planningList',
-	});
-
-	// Form Validation and Submission
-	$('.js-form-school-work-new').validate({
-		rules: {
-			timesPerWeek: { number: true, max: 7 },
-		},
-		messages: {
-			timesPerWeek: { number: "Number Required.", max: 'Limit 7.' },
-		},
-
-		submitHandler() {
-			$('.js-saving').show();
-			$('.js-submit').prop('disabled', true);
-
-			let studentIds = []
-			$("[name='studentId']:checked").each(function() {
-				studentIds.push(this.id)
-			})
-
-			let resourceIds = [];
-			LocalResources.find().forEach(function(resource) {
-				resourceIds.push(resource.id);
-			});
-
-			let schoolYearId = template.find("[name='schoolYearId']").value.trim();
-			const schoolWorkProperties = {
-				name: template.find("[name='name']").value.trim(),
-				description: $('.js-form-school-work-new .editor-content').html(),
-				resources: resourceIds,
-				schoolYearId: schoolYearId,
-			};
-
-			let lessonProperties = [];
-			let weekIds = [];
-			$("[name='timesPerWeek']").each(function(index) {
-				for (i = 0; i < parseInt(this.value); i++) {
-				    lessonProperties.push({
-				    	order: i + 1,
-				    	schoolYearId: schoolYearId, 
-				    	termId: this.dataset.termId,
-				    	termOrder: parseInt(this.dataset.termOrder), 
-				    	weekId: this.dataset.weekId,
-				    	weekOrder: parseInt(this.dataset.weekOrder),
-				    });
-				    weekIds.push(this.dataset.weekId)
-				}
-			});
-
-			let pathProperties = {
-				studentIds: studentIds,
-				schoolYearIds: [schoolYearId],
-				termIds: Array.from(document.getElementsByClassName('js-term-container')).map(term => term.id),
-			};
-
-			let statProperties = {
-				studentIds: studentIds,
-				schoolYearIds: [schoolYearId],
-				termIds: Array.from(document.getElementsByClassName('js-term-container')).map(term => term.id),
-				weekIds: _.uniq(weekIds),
-			}
-			
-			Meteor.call('insertSchoolWork', studentIds, schoolWorkProperties, lessonProperties, function(error, newSchoolWork) {
-				if (error) {
-					Alerts.insert({
-						colorClass: 'bg-danger',
-						iconClass: 'icn-danger',
-						message: error.reason,
-					});
-					
-					$('.js-saving').hide();
-					$('.js-submit').prop('disabled', false);
-				} else {
-					Meteor.call('runUpsertSchoolWorkPathsAndStats', pathProperties, statProperties, function(error, result) {
-						if (error) {
-							Alerts.insert({
-								colorClass: 'bg-danger',
-								iconClass: 'icn-danger',
-								message: error.reason,
-							});
-							
-							$('.js-saving').hide();
-							$('.js-submit').prop('disabled', false);
-						} else {
-							Session.set('selectedStudentId', newSchoolWork[0].studentId);
-							Session.set('selectedSchoolWorkId', newSchoolWork[0].schoolWorkId);
-							let studentsCount = newSchoolWork.length
-
-							FlowRouter.go('/planning/schoolWork/view/3/' + newSchoolWork[0].studentId +'/'+ Session.get('selectedSchoolYearId') +'/'+ newSchoolWork[0].schoolWorkId);					
-							if (studentsCount > 1 ) {
-								Alerts.insert({
-									colorClass: 'bg-info',
-									iconClass: 'icn-info',
-									message: 'This School Work has been added to '+ studentsCount +' total students.',
-								});
-							}
-						}
-					});
-				}
-			});
-
-			return false;
-		}
 	});
 });
 
@@ -241,6 +139,24 @@ Template.schoolWorkNew.helpers({
 	selectedSchoolWorkId: function() {
 		return Session.get('selectedSchoolWorkId');
 	},
+
+	uniqeTimesPerWeek: function() {
+		return Template.instance().timesPerWeek.get();
+	},
+
+	isSeven: function(times) {
+		if (times === 7) {
+			return true;
+		}
+		return false;
+	},
+
+	isZero: function(times) {
+		if (times === 0) {
+			return true;
+		}
+		return false;
+	}
 });
 
 Template.schoolWorkNew.events({
@@ -277,6 +193,15 @@ Template.schoolWorkNew.events({
 		$('#' + event.currentTarget.dataset.termId).find('.js-times-per-week').val(event.currentTarget.value);
 	},
 
+	'keypress .js-times-per-week'(event) {
+		let allowedKeys = [49, 50, 51, 52, 53, 54, 55, 56, 57];
+		let keyCode = event.which || event.keyCode;
+		
+		if (allowedKeys.indexOf(keyCode) < 0) {
+			event.preventDefault();
+		}
+	},
+
 	'keyup .js-times-per-week'(event) {
 		let uniqValues = _.uniq(_.map(document.getElementById(event.currentTarget.dataset.termId).getElementsByClassName('js-times-per-week'), 'value'))
 		let randomOption = document.getElementById(event.currentTarget.dataset.termId).getElementsByClassName('js-option-random').length
@@ -292,6 +217,33 @@ Template.schoolWorkNew.events({
 				$('#' + event.currentTarget.dataset.termId + ' .js-times-per-week-preset option[value='+ uniqValues[0] +']').prop('selected', true);
 			}
 		}
+	},
+
+	'change .js-times-per-week-preset, keyup .js-times-per-week'(event, template) {
+		event.preventDefault();
+		let timesPerWeek = [];
+
+		$("[name='timesPerWeek']").each(function(index) {
+			if (this.value && isNaN(parseInt(this.value))) {
+				$(this).addClass('error');
+				$(this).parent().find('.js-times-per-week-errors').text('Number');
+			} else {
+				$(this).removeClass('error');
+				if (this.value && parseInt(this.value) > 7) {
+					$(this).addClass('error');
+					$(this).parent().find('.js-times-per-week-errors').text('Limit 7');
+				} else {
+					$(this).removeClass('error');
+					$(this).parent().find('.js-times-per-week-errors').text('');
+				}
+			}
+
+			if (Number.isInteger(parseInt(this.value)) && parseInt(this.value) <= 7) {
+				timesPerWeek.push(parseInt(this.value));
+			}
+		});
+
+		template.timesPerWeek.set(_.uniq(timesPerWeek).sort());
 	},
 
 	'click .js-show-individual-weeks'(event) {
@@ -403,10 +355,175 @@ Template.schoolWorkNew.events({
 				$('.name-errors').text('Required.');
 			}
 		}
+		if (stepClass === 'js-step-four') {
+			if ( requiredValidation($("[name='name']").val().trim()) ) {
+				$('#name').removeClass('error');
+				$('.name-errors').text('');
+
+				$('.js-step-circle').removeClass('bg-info');
+				$('.js-circle-four').addClass('bg-info');
+
+				$('.js-step').hide();
+				$('.' + stepClass).show();
+			} else {
+				$('#name').addClass('error');
+				$('.name-errors').text('Required.');
+			}
+		}
 	},
 
-	'submit .js-form-school-work-new'(event) {
+	'change .js-day-labels-checkbox'(event) {
 		event.preventDefault();
+		let parent = $(event.currentTarget).parentsUntil('.js-day-labels-section').parent();
+		let segmentCount = parseInt(parent.attr('data-segment-count'));
+		let checkedCount = $(parent).find('input:checked').length;
+		let unchecked = $(parent).find('input:checkbox:not(:checked)');
+
+		if (segmentCount === checkedCount) {
+			$('#day-labels-' + segmentCount).find('.js-day-label-errors').text('');
+			$(unchecked).each(function() {
+				$(this).prop('disabled', true);
+			})
+		} else {
+			$(unchecked).each(function() {
+				$(this).prop('disabled', false);
+			})
+		}
+	},
+
+	'submit .js-form-school-work-new'(event, template) {
+		event.preventDefault();
+
+		let dayLabelCheck = () => {
+			let checkedCount = $('.js-day-labels').find('input:checked').length;
+			if (checkedCount) {
+				let inError = []
+				$('.js-day-label-errors').text('');
+				template.timesPerWeek.get().forEach(times => {
+					let id = '#day-labels-' + times;
+					let checkedCount = $(id).find('input:checked').length
+					let pluralize = (times) => {if (times > 1) {return 's'} else {return ''}}
+
+					if (checkedCount != times) {
+						inError.push('error')
+						$(id).find('.js-day-label-errors').text(`You must select ${times} day${pluralize(times)}.`);
+					}
+				});
+				if (inError.length) {
+					return false;
+				}
+				return true;
+			}
+			return true;
+		}
+
+		if (dayLabelCheck()) {
+			$('.js-saving').show();
+			$('.js-submit').prop('disabled', true);
+
+			let studentIds = []
+			$("[name='studentId']:checked").each(function() {
+				studentIds.push(this.id)
+			})
+
+			let resourceIds = [];
+			LocalResources.find().forEach(function(resource) {
+				resourceIds.push(resource.id);
+			});
+
+			let scheduledDays = [];
+			$('.js-day-labels-section').each(function() {
+				let segmentCount = parseInt($(this).attr('data-segment-count'))
+				if (segmentCount) {
+					let days = []
+					$(this).find("[name='scheduledDays']:checked").each(function() {
+						days.push($(this).val())
+					});
+					scheduledDays.push({'segmentCount': segmentCount, 'days': days})
+				}
+			});
+
+			let schoolYearId = template.find("[name='schoolYearId']").value.trim();
+			const schoolWorkProperties = {
+				name: template.find("[name='name']").value.trim(),
+				description: $('.js-form-school-work-new .editor-content').html(),
+				resources: resourceIds,
+				schoolYearId: schoolYearId,
+				scheduledDays: scheduledDays,
+			};
+			
+			let lessonProperties = [];
+			let weekIds = [];
+			$("[name='timesPerWeek']").each(function(index) {
+				let weekDayLabels = scheduledDays.find(dayLabel => dayLabel.segmentCount == this.value);
+				for (i = 0; i < parseInt(this.value); i++) {
+				    lessonProperties.push({
+				    	order: i + 1,
+				    	schoolYearId: schoolYearId, 
+				    	termId: this.dataset.termId,
+				    	termOrder: parseInt(this.dataset.termOrder), 
+				    	weekId: this.dataset.weekId,
+				    	weekOrder: parseInt(this.dataset.weekOrder),
+				    	weekDay: weekDayLabels.days[i]
+				    });
+				    weekIds.push(this.dataset.weekId)
+				}
+			});
+
+			let pathProperties = {
+				studentIds: studentIds,
+				schoolYearIds: [schoolYearId],
+				termIds: Array.from(document.getElementsByClassName('js-term-container')).map(term => term.id),
+			};
+
+			let statProperties = {
+				studentIds: studentIds,
+				schoolYearIds: [schoolYearId],
+				termIds: Array.from(document.getElementsByClassName('js-term-container')).map(term => term.id),
+				weekIds: _.uniq(weekIds),
+			}
+			
+			Meteor.call('insertSchoolWork', studentIds, schoolWorkProperties, lessonProperties, function(error, newSchoolWork) {
+				if (error) {
+					Alerts.insert({
+						colorClass: 'bg-danger',
+						iconClass: 'icn-danger',
+						message: error.reason,
+					});
+					
+					$('.js-saving').hide();
+					$('.js-submit').prop('disabled', false);
+				} else {
+					Meteor.call('runUpsertSchoolWorkPathsAndStats', pathProperties, statProperties, function(error, result) {
+						if (error) {
+							Alerts.insert({
+								colorClass: 'bg-danger',
+								iconClass: 'icn-danger',
+								message: error.reason,
+							});
+							
+							$('.js-saving').hide();
+							$('.js-submit').prop('disabled', false);
+						} else {
+							Session.set('selectedStudentId', newSchoolWork[0].studentId);
+							Session.set('selectedSchoolWorkId', newSchoolWork[0].schoolWorkId);
+							let studentsCount = newSchoolWork.length
+
+							FlowRouter.go('/planning/schoolWork/view/3/' + newSchoolWork[0].studentId +'/'+ Session.get('selectedSchoolYearId') +'/'+ newSchoolWork[0].schoolWorkId);					
+							if (studentsCount > 1 ) {
+								Alerts.insert({
+									colorClass: 'bg-info',
+									iconClass: 'icn-info',
+									message: 'This School Work has been added to '+ studentsCount +' total students.',
+								});
+							}
+						}
+					});
+				}
+			});
+
+			return false;
+		}
 	},
 
 	'click .js-cancel'(event) {

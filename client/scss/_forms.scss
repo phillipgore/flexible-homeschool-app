@@ -14,7 +14,8 @@ form {
 		&.error, 
 		&.cc-error, 
 		&.student-error,
-		&.track-error  {
+		&.track-error,
+		&.label-error  {
 			color: $color-danger;
 			margin-top: -8px;
 			margin-bottom: 12px;
@@ -296,8 +297,12 @@ form {
 				background: url('/img/checkbox-btn-checked.svg') left center no-repeat;
 			}
 
+			&:disabled + .checkbox-icon {
+				background: url('/img/checkbox-btn-disabled.svg') left center no-repeat;
+			}
+
 			&:disabled + .checkbox-icon + .checkbox-label {
-				color: $color-gray-dark;
+				color: $color-gray-darkest;
 
 				.checkbox-option-not-available {
 					display: inline;

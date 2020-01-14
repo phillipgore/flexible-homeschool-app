@@ -29,6 +29,9 @@ Template.schoolWorkEdit.onCreated( function() {
 	template.schoolWorkId = new ReactiveVar(FlowRouter.getParam('selectedSchoolWorkId'))
 	template.searchQuery = new ReactiveVar();
 	template.searching   = new ReactiveVar( false );
+	template.timesPerWeek = new ReactiveVar();
+	template.existingScheduledDays = new ReactiveVar();
+	template.scheduledDays = new ReactiveVar();
 
 	template.autorun( () => {
 		template.subscribe('schoolWorkResources', template.schoolWorkId.get(), () => {
@@ -57,133 +60,34 @@ Template.schoolWorkEdit.onRendered( function() {
 		labelThree: 'Edit School Work',
 		activeNav: 'planningList',
 	});
-
-	// Form Validation and Submission
-	$('.js-form-school-work-update').validate({
-		rules: {
-			timesPerWeek: { number: true, max: 7 },
-		},
-		
-		messages: {
-			timesPerWeek: { number: "Number Required.", max: 'Limit 7.' },
-		},
-
-		submitHandler() {
-			$('.js-updating').show();
-			$('.js-submit').prop('disabled', true);
-
-			// Get Resources Ids from local collection
-			let resourceIds = [];
-			LocalResources.find().forEach(function(resource) {
-				resourceIds.push(resource.id);
-			});
-
-			// Get School Work Properties from form
-			let updateSchoolWorkProperties = {
-				_id: FlowRouter.getParam('selectedSchoolWorkId'),
-				name: template.find("[name='name']").value.trim(),
-				description: $('.js-form-school-work-update .editor-content').html(),
-				resources: resourceIds,
-				studentId: FlowRouter.getParam('selectedStudentId'),
-				schoolYearId: FlowRouter.getParam('selectedSchoolYearId'),
-			}
-
-
-			let insertLessonProperties = [];
-			let removeLessonIds = [];
-			let weekIds = [];
-
-			// Get Lesson Properties from form
-			$("[name='timesPerWeek']").each(function(index) {
-				let totalLessons =  parseInt(this.dataset.lessonCount);
-				let completeLessons = parseInt(this.dataset.lessonCompleteCount);
-				let newLessonsTotal = parseInt(this.value) || 0;
-
-				if (newLessonsTotal > totalLessons) {
-					let addCount =  newLessonsTotal - totalLessons;
-					for (i = 0; i < addCount; i++) { 
-					    insertLessonProperties.push({
-					    	order: i + 1 + parseInt(totalLessons),
-					    	schoolWorkId: FlowRouter.getParam('selectedSchoolWorkId'),
-					    	studentId: FlowRouter.getParam('selectedStudentId'),
-					    	schoolYearId: FlowRouter.getParam('selectedSchoolYearId'),
-					    	termId: this.dataset.termId,
-					    	termOrder: parseInt(this.dataset.termOrder), 
-					    	weekId: this.dataset.weekId,
-					    	weekOrder: parseInt(this.dataset.weekOrder),
-					    });
-					    weekIds.push(this.dataset.weekId);
-					}
-				}
-				if (newLessonsTotal < totalLessons && newLessonsTotal >= completeLessons) {
-					let removalCount = totalLessons - newLessonsTotal;
-					let removeableLessonsIds = Lessons.find({weekId: this.dataset.weekId, completed: false, schoolWorkId: FlowRouter.getParam('selectedSchoolWorkId')}, {sort: {order: -1}, limit: removalCount}).map(lesson => (lesson._id));
-
-					removeableLessonsIds.forEach(lessonId => {
-						removeLessonIds.push(lessonId);
-					});
-				}
-				if (newLessonsTotal < completeLessons) {
-					Alerts.insert({
-						colorClass: 'bg-danger',
-						iconClass: 'icn-danger',
-						message: "These changes would delete lessons you have already worked on.",
-					});
-					return false;
-				}
-			});
-
-			let pathProperties = {
-				studentIds: [FlowRouter.getParam('selectedStudentId')],
-				schoolYearIds: [FlowRouter.getParam('selectedSchoolYearId')],
-				termIds: Array.from(document.getElementsByClassName('js-times-per-week-container')).map(term => term.id),
-			}
-
-			let statProperties = {
-				studentIds: [FlowRouter.getParam('selectedStudentId')],
-				schoolYearIds: [FlowRouter.getParam('selectedSchoolYearId')],
-				termIds: Array.from(document.getElementsByClassName('js-term-container')).map(term => term.id),
-				weekIds: weekIds,
-			}
-
-			Meteor.call('updateSchoolWork', updateSchoolWorkProperties, removeLessonIds, insertLessonProperties, function(error, result) {
-				if (error) {
-					Alerts.insert({
-						colorClass: 'bg-danger',
-						iconClass: 'icn-danger',
-						message: error.reason.message,
-					});
-					
-					$('.js-updating').hide();
-					$('.js-submit').prop('disabled', false);
-				} else {
-					Meteor.call('runUpsertSchoolWorkPathsAndStats', pathProperties, statProperties, function(error, result) {
-						if (error) {
-							Alerts.insert({
-								colorClass: 'bg-danger',
-								iconClass: 'icn-danger',
-								message: error.reason.message,
-							});
-							
-							$('.js-updating').hide();
-							$('.js-submit').prop('disabled', false);
-						} else {
-							$('.js-updating').hide();
-							$('.js-submit').prop('disabled', false);
-							FlowRouter.go('/planning/schoolWork/view/3/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedSchoolWorkId'));
-						}
-					});
-				}
-			});
-
-			return false;
-		}
-	});
 })
 
 Template.schoolWorkEdit.helpers({
 	subscriptionReady: function() {
 		if (Template.instance().schoolWorkData.ready() && Template.instance().studentData.ready() && Template.instance().schoolYearData.ready() && Template.instance().termData.ready() && Template.instance().weekData.ready() && Template.instance().lessonData.ready()) {
+			let getScheduledDays = () => {
+				let schoolWork = SchoolWork.findOne({_id: FlowRouter.getParam('selectedSchoolWorkId')});
+				if (schoolWork.scheduledDays) {
+					return schoolWork.scheduledDays;
+				}
+				// let terms = Terms.find({schoolYearId: schoolWork.schoolYearId})
+				let scheduledDays = []; 
+				let weekLessonCounts = []
+				Weeks.find().forEach(function(week) {
+					weekLessonCounts.push(Lessons.find({weekId: week._id, schoolWorkId: FlowRouter.getParam('selectedSchoolWorkId')}).count());
+				})
+				_.uniq(weekLessonCounts).forEach(function(count) {
+					if (count) {
+						scheduledDays.push({segmentCount: count, days: []})
+					}
+				})
+				return scheduledDays
+			}
+			
+			let scheduledDays = getScheduledDays()
+			Template.instance().timesPerWeek.set(scheduledDays.map(scheduled => scheduled.segmentCount));
+			Template.instance().existingScheduledDays.set(scheduledDays)
+			Template.instance().scheduledDays.set(scheduledDays);
 			return true;
 		}
 	},
@@ -271,6 +175,31 @@ Template.schoolWorkEdit.helpers({
 	localResources() {
 		return LocalResources.find();
 	},
+
+	scheduledDays: function() {
+		return Template.instance().scheduledDays.get();
+	},
+
+	isSeven: function(times) {
+		if (times === 7) {
+			return true;
+		}
+		return false;
+	},
+
+	isDisabled: function(scheduleDays, day) {
+		if (scheduleDays.days.length && scheduleDays.segmentCount === 0 || scheduleDays.days.length && scheduleDays.days.indexOf(parseInt(day)) < 0) {
+			return true;
+		}
+		return false;
+	},
+
+	isChecked: function(days, day) {
+		if (days.indexOf(parseInt(day)) >= 0) {
+			return true;
+		}
+		return false;
+	}
 });
 
 Template.schoolWorkEdit.events({
@@ -278,7 +207,7 @@ Template.schoolWorkEdit.events({
 		Session.set({schoolYearId: event.currentTarget.value})
 	},
 
-	'change .js-times-per-week-preset'(event) {
+	'change .js-times-per-week-preset'(event, template) {
 		$(event.currentTarget).parentsUntil('.js-times-per-week-container').parent().find('.js-times-per-week').each(function() {
 			let completeLessons = $(this).attr('data-lesson-complete-count');
 			let newLessons = event.currentTarget.value;
@@ -298,6 +227,16 @@ Template.schoolWorkEdit.events({
 			}
 		})
 		$('#' + event.currentTarget.dataset.termId).find('.js-times-per-week').val(event.currentTarget.value);
+		setScheduledDays(template);
+	},
+
+	'keypress .js-times-per-week'(event) {
+		let allowedKeys = [49, 50, 51, 52, 53, 54, 55, 56, 57];
+		let keyCode = event.which || event.keyCode;
+		
+		if (allowedKeys.indexOf(keyCode) < 0) {
+			event.preventDefault();
+		}
 	},
 
 	'change .js-times-per-week'(event) {
@@ -305,7 +244,7 @@ Template.schoolWorkEdit.events({
 		$('#' + event.currentTarget.dataset.termId + ' .js-times-per-week-preset option:disabled').prop('selected', true);
 	},
 
-	'keyup .js-times-per-week'(event) {
+	'keyup .js-times-per-week'(event, template) {
 		let completeLessons = event.currentTarget.dataset.lessonCompleteCount;
 		let newLessons = $(event.currentTarget).val();
 
@@ -333,6 +272,7 @@ Template.schoolWorkEdit.events({
 				$('#' + event.currentTarget.dataset.termId + ' .js-times-per-week-preset option[value='+ uniqValues[0] +']').prop('selected', true);
 			}
 		}
+		setScheduledDays(template);
 	},
 
 	'click .js-show-individual-weeks'(event) {
@@ -407,7 +347,6 @@ Template.schoolWorkEdit.events({
 		let template = Template.instance();
 		let stepClass = $(event.currentTarget).attr('data-id');
 
-
 		if (stepClass === 'js-step-one') {
 			$('.js-step-circle').removeClass('bg-info');
 			$('.js-circle-one').addClass('bg-info');
@@ -419,6 +358,7 @@ Template.schoolWorkEdit.events({
 
 			$('.js-step').addClass('offpage');
 			$('.' + stepClass).removeClass('offpage');
+			$('.js-day-label-errors').text('');
 		}
 		if (stepClass === 'js-step-two') {
 			if ( requiredValidation($("[name='name']").val().trim()) ) {
@@ -439,6 +379,7 @@ Template.schoolWorkEdit.events({
 				$('#name').addClass('error');
 				$('.name-errors').text('Required.');
 			}
+			$('.js-day-label-errors').text('');
 		}
 		if (stepClass === 'js-step-three') {
 			if ( requiredValidation($("[name='name']").val().trim()) ) {
@@ -459,11 +400,258 @@ Template.schoolWorkEdit.events({
 				$('#name').addClass('error');
 				$('.name-errors').text('Required.');
 			}
+			$('.js-day-label-errors').text('');
+		}
+		if (stepClass === 'js-step-four') {
+			if ( requiredValidation($("[name='name']").val().trim()) ) {
+				$('#name').removeClass('error');
+				$('.name-errors').text('');
+
+				$('.js-step-circle').removeClass('bg-info');
+				$('.js-circle-four').addClass('bg-info');
+
+				$('.js-show').show();
+				$('.js-hide').hide();
+				$('.js-info').slideUp('fast');
+				$('.js-show-help').removeClass('js-open').addClass('js-closed');
+
+				$('.js-step').addClass('offpage');
+				$('.' + stepClass).removeClass('offpage');
+			} else {
+				$('#name').addClass('error');
+				$('.name-errors').text('Required.');
+			}
 		}
 	},
 
-	'submit .js-form-school-work-update'(event) {
+	'change .js-day-labels-checkbox'(event) {
 		event.preventDefault();
+		let parent = $(event.currentTarget).parentsUntil('.js-day-labels-section').parent();
+		let segmentCount = parseInt(parent.attr('data-segment-count'));
+		let checkedCount = $(parent).find('input:checked').length;
+		let unchecked = $(parent).find('input:checkbox:not(:checked)');
+
+		if (segmentCount === checkedCount) {
+			$('#day-labels-' + segmentCount).find('.js-day-label-errors').text('');
+			$(unchecked).each(function() {
+				$(this).prop('disabled', true);
+			})
+		} else {
+			$(unchecked).each(function() {
+				$(this).prop('disabled', false);
+			})
+		}
+	},
+
+	'click .js-day-labels-uncheck-all'(event) {
+		event.preventDefault();
+		let parent = $(event.currentTarget).parentsUntil('.js-day-labels-section').parent();
+		$(parent).find('.js-day-labels-checkbox').prop({'checked': false, 'disabled': false});
+	},
+
+	'submit .js-form-school-work-update'(event, template) {
+		event.preventDefault();
+
+		let dayLabelCheck = () => {
+			let checkedCount = $('.js-day-labels').find('input:checked').length;
+			if (checkedCount) {
+				let inError = []
+				$('.js-day-label-errors').text('');
+				template.timesPerWeek.get().forEach(times => {
+					let id = '#day-labels-' + times;
+					let checkedCount = $(id).find('input:checked').length
+					let pluralize = (times) => {if (times > 1) {return 's'} else {return ''}}
+
+					if (checkedCount != times) {
+						inError.push('error')
+						$(id).find('.js-day-label-errors').text(`You must select ${times} day${pluralize(times)}.`);
+					}
+				});
+				if (inError.length) {
+					return false;
+				}
+				return true;
+			}
+			return true;
+		}
+
+		if (dayLabelCheck()) {
+			$('.js-updating').show();
+			$('.js-submit').prop('disabled', true);
+
+			let checkedCount = $('.js-day-labels').find('input:checked').length;
+
+			// Get Resources Ids from local collection
+			let resourceIds = [];
+			LocalResources.find().forEach(function(resource) {
+				resourceIds.push(resource.id);
+			});
+
+			// Get Scheduled Days
+			let updateScheduleDays = [];
+			$('.js-day-labels-section').each(function() {
+				let segmentCount = parseInt($(this).attr('data-segment-count'))
+				if (segmentCount) {
+					let days = []
+					if (checkedCount) {
+						$(this).find("[name='scheduledDays']:checked").each(function() {
+							days.push($(this).val())
+						});
+					} 
+					updateScheduleDays.push({'segmentCount': segmentCount, 'days': days})
+				}
+			});
+
+			let scheduledDays = template.scheduledDays.get();
+			scheduledDays.forEach(existingSchedule => {
+				let updateSchedule = updateScheduleDays.find(updateSchedule => updateSchedule.segmentCount === existingSchedule.segmentCount);
+				if (JSON.stringify(existingSchedule.days) != JSON.stringify(updateSchedule.days)) {
+					existingSchedule.new = true;
+				} else if (existingSchedule.new != true) {
+					existingSchedule.new = false;
+				}
+			})
+
+			// Get School Work Properties from form
+			let updateSchoolWorkProperties = {
+				_id: FlowRouter.getParam('selectedSchoolWorkId'),
+				name: template.find("[name='name']").value.trim(),
+				description: $('.js-form-school-work-update .editor-content').html(),
+				resources: resourceIds,
+				studentId: FlowRouter.getParam('selectedStudentId'),
+				schoolYearId: FlowRouter.getParam('selectedSchoolYearId'),
+				scheduledDays: updateScheduleDays,
+			}
+
+			let upsertLessonProperties = [];
+			let removeLessonIds = [];
+			let weekIds = [];
+
+			let groupId = Meteor.user().info.groupId;
+			let userId = Meteor.userId();
+
+			// Get Lesson Properties from form
+			$("[name='timesPerWeek']").each(function(index) {
+				let totalLessons =  parseInt(this.dataset.lessonCount);
+				let completeLessons = parseInt(this.dataset.lessonCompleteCount);
+				let newLessonsTotal = parseInt(this.value) || 0;
+
+				if (newLessonsTotal > totalLessons) {
+					let addCount =  newLessonsTotal - totalLessons;
+					for (i = 0; i < addCount; i++) { 
+					    upsertLessonProperties.push({
+					    	_id: Random.id(),
+					    	order: i + 1 + parseInt(totalLessons),
+							assigned: false,
+							completed: false,
+					    	schoolWorkId: FlowRouter.getParam('selectedSchoolWorkId'),
+					    	studentId: FlowRouter.getParam('selectedStudentId'),
+					    	schoolYearId: FlowRouter.getParam('selectedSchoolYearId'),
+					    	termId: this.dataset.termId,
+					    	termOrder: parseInt(this.dataset.termOrder), 
+					    	weekId: this.dataset.weekId,
+					    	weekOrder: parseInt(this.dataset.weekOrder),
+							groupId: groupId, 
+							userId: userId, 
+							createdOn: new Date()
+					    });
+					    weekIds.push(this.dataset.weekId);
+					}
+				}
+
+				if (newLessonsTotal < totalLessons && newLessonsTotal >= completeLessons) {
+					let removalCount = totalLessons - newLessonsTotal;
+					let removeableLessonsIds = Lessons.find({weekId: this.dataset.weekId, completed: false, schoolWorkId: FlowRouter.getParam('selectedSchoolWorkId')}, {sort: {order: -1}, limit: removalCount}).map(lesson => (lesson._id));
+
+					removeableLessonsIds.forEach(lessonId => {
+						removeLessonIds.push(lessonId);
+					});
+				}
+
+				if (newLessonsTotal < completeLessons) {
+					Alerts.insert({
+						colorClass: 'bg-danger',
+						iconClass: 'icn-danger',
+						message: "These changes would delete lessons you have already worked on.",
+					});
+					return false;
+				}
+			});
+
+			// Add weekDay to Lesson properties
+			let hasNewScheduledDays = scheduledDays.map(schedule => schedule.new).indexOf(true) >= 0;
+			if (hasNewScheduledDays) {
+				let existingLessons = Lessons.find({_id: {$nin: removeLessonIds}, schoolWorkId: FlowRouter.getParam('selectedSchoolWorkId')}, {fields: {_id: 1, order: 1, weekId: 1, schoolWorkId: 1}}).fetch();
+				upsertLessonProperties = existingLessons.concat(upsertLessonProperties);
+
+				Terms.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}).forEach(term => {
+					Weeks.find({termId: term._id}).forEach(week => {
+						let weeksLessons = _.filter(upsertLessonProperties, { 'weekId': week._id });
+						let segmentCount = weeksLessons.length;
+
+						if (segmentCount) {
+							let weekDayLabels = updateScheduleDays.find(dayLabel => parseInt(dayLabel.segmentCount) === segmentCount).days || 0;
+
+							weeksLessons.forEach((lesson, i) => {
+								let weekDay = (weekDayLabels) => {
+									if (weekDayLabels.length) {
+										return parseInt(weekDayLabels[i]);
+									}
+									return 0;
+								}
+								lesson.weekDay = parseInt(weekDayLabels[i]);
+							});
+						}
+
+					});
+				});
+			};
+
+			let pathProperties = {
+				studentIds: [FlowRouter.getParam('selectedStudentId')],
+				schoolYearIds: [FlowRouter.getParam('selectedSchoolYearId')],
+				termIds: Array.from(document.getElementsByClassName('js-times-per-week-container')).map(term => term.id),
+			}
+
+			let statProperties = {
+				studentIds: [FlowRouter.getParam('selectedStudentId')],
+				schoolYearIds: [FlowRouter.getParam('selectedSchoolYearId')],
+				termIds: Array.from(document.getElementsByClassName('js-term-container')).map(term => term.id),
+				weekIds: weekIds,
+			}
+
+			Meteor.call('updateSchoolWork', updateSchoolWorkProperties, removeLessonIds, upsertLessonProperties, function(error, result) {
+				if (error) {
+					Alerts.insert({
+						colorClass: 'bg-danger',
+						iconClass: 'icn-danger',
+						message: error.reason.message,
+					});
+					
+					$('.js-updating').hide();
+					$('.js-submit').prop('disabled', false);
+				} else {
+					Meteor.call('runUpsertSchoolWorkPathsAndStats', pathProperties, statProperties, function(error, result) {
+						if (error) {
+							Alerts.insert({
+								colorClass: 'bg-danger',
+								iconClass: 'icn-danger',
+								message: error.reason.message,
+							});
+							
+							$('.js-updating').hide();
+							$('.js-submit').prop('disabled', false);
+						} else {
+							$('.js-updating').hide();
+							$('.js-submit').prop('disabled', false);
+							FlowRouter.go('/planning/schoolWork/view/3/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedSchoolWorkId'));
+						}
+					});
+				}
+			});
+
+			return false;
+		}
 	},
 
 	'click .js-cancel'(event) {
@@ -474,12 +662,56 @@ Template.schoolWorkEdit.events({
 		} else {
 			FlowRouter.go('/planning/schoolWork/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedSchoolWorkId'))
 		}
-
 	},
 });
 
 
+let setScheduledDays = template => {
+	let timesPerWeek = [];
 
+	$("[name='timesPerWeek']").each(function(index) {
+		if (this.value && isNaN(parseInt(this.value))) {
+			$(this).addClass('error');
+			$(this).parent().find('.js-times-per-week-errors').text('Number');
+		} else {
+			$(this).removeClass('error');
+			if (this.value && parseInt(this.value) > 7) {
+				$(this).addClass('error');
+				$(this).parent().find('.js-times-per-week-errors').text('Limit 7');
+			} else {
+				$(this).removeClass('error');
+				$(this).parent().find('.js-times-per-week-errors').text('');
+			}
+		}
+
+		if (Number.isInteger(parseInt(this.value)) && parseInt(this.value) <= 7) {
+			timesPerWeek.push(parseInt(this.value));
+		}
+	});
+
+	timesPerWeek = (_.uniq(timesPerWeek).sort());
+	let newScheduledDays = [];
+
+	timesPerWeek.forEach(time => {
+		let existingScheduledDays = template.existingScheduledDays.get();
+		let scheduledDays = template.scheduledDays.get();
+
+		if (existingScheduledDays.filter(scheduled => scheduled.segmentCount === time).length) {
+			let newSchedule = existingScheduledDays.find(scheduled => scheduled.segmentCount === time)
+			newSchedule.new = false; 
+			newScheduledDays.push(newSchedule)
+		} else {
+			newScheduledDays.push({
+				segmentCount: time, 
+				days: [], 
+				new: true,
+			});
+		}
+	});
+
+	template.timesPerWeek.set(_.uniq(timesPerWeek).sort());
+	template.scheduledDays.set(newScheduledDays);
+}
 
 
 

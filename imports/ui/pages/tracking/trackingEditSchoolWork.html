@@ -53,6 +53,11 @@
 						{{/each}}
 					{{/if}}
 				</div>
+				<div class="row m-tn-h-9 p-tn-tb-3">
+					{{#each lesson in workLessons work._id}}
+						<div class="js-lesson-weekday-label-lower col-tn-1of{{lessonCount work._id}} txt-tn-center font-size-12 txt-gray-darkest">{{weekDays lesson.weekDay}}</div>
+					{{/each}}
+				</div>
 				<label class="error track-error"></label>
 			</div>
 		{{/if}}

@@ -74,7 +74,8 @@ Meteor.methods({
 	},
 
 	updateSchoolYearTerms: function(schoolYearId, schoolYearProperties, termDeleteIds, weekDeleteIds, termUpdateProperties, weekUpdateProperties, termInsertProperties, weekInsertProperties, userId, groupId) {
-		let yearLessons = Lessons.find({schoolYearId: schoolYearId}, {fields: {weekId: 1, termId: 1}}).fetch();
+		let undeletedYearLessons = Lessons.find({schoolYearId: schoolYearId}, {sort: {schoolWorkId: 1, termOrder: 1, weekOrder: 1, order: 1}, fields: {weekId: 1, termId: 1}}).fetch();
+		let lessonDeleteIds = [];
 
 		let termBulkDelete = [];
 		let weekBulkDelete = [];
@@ -82,39 +83,127 @@ Meteor.methods({
 
 		let termBulkUpdate = [];
 		let weekBulkUpdate = [];
+		let schoolWorkBulkUpdate = [];
 		let lessonBulkUpdate = [];
 
 		let termBulkInsert = [];
 		let weekBulkInsert = [];
+		// console.log(1);
 
 
-		// Delete Terms, Weeks & Lessons
+		// Delete Terms
 		termDeleteIds.forEach(termId => {
 			termBulkDelete.push({deleteOne: {"filter": {_id: termId}}});
 		});
 
+		// Delete Weeks
 		weekDeleteIds.forEach(weekId => {
 			weekBulkDelete.push({deleteOne: {"filter": {_id: weekId}}});
 		});
 
-		_.filter(yearLessons, lesson => _.includes(weekDeleteIds, lesson.weekId)).forEach(lesson => {
+		// Delete Lessons
+		_.filter(undeletedYearLessons, lesson => _.includes(weekDeleteIds, lesson.weekId)).forEach(lesson => {
+			lessonDeleteIds.push(lesson._id);
 			lessonBulkDelete.push({deleteOne: {"filter": {_id: lesson._id}}})
 		});
 
+
+
+		let yearLessons = Lessons.find({_id: {$nin: lessonDeleteIds}, schoolYearId: schoolYearId}, {sort: {schoolWorkId: 1, termOrder: 1, weekOrder: 1, order: 1}, fields: {weekId: 1, termId: 1, schoolWorkId: 1}}).fetch();
+
+		// Update Terms
 		termUpdateProperties.forEach(term => {
 			termBulkUpdate.push({updateOne: {"filter": {_id: term._id}, update: {$set: {order: term.order}}}});
+			
+			// Update Lessons Term Order
 			_.filter(yearLessons, ['termId', term._id]).forEach(lesson => {
-				lessonBulkUpdate.push({updateOne: {"filter": {_id: lesson._id}, update: {$set: {termOrder: term.order}}}});
+				lesson.termOrder = term.order;
 			});
 		});
 
+		// Update Weeks
 		weekUpdateProperties.forEach(week => {
 			weekBulkUpdate.push({updateOne: {"filter": {_id: week._id}, update: {$set: {order: week.order}}}});
+			
+			// Update Lessons Week Order
 			_.filter(yearLessons, ['weekId', week._id]).forEach(lesson => {
-				lessonBulkUpdate.push({updateOne: {"filter": {_id: lesson._id}, update: {$set: {weekOrder: week.order}}}});
+				lesson.weekOrder = week.order;
 			});
-		});	
+		});
+		// console.log(2);
 
+
+
+		let yearSchoolWork = SchoolWork.find({_id: {$in: yearLessons.map(lesson => lesson.schoolWorkId)}}).fetch();
+		let yearWeekIds = _.uniq(yearLessons.map(lesson => lesson.weekId));
+
+		// Update School Work
+		yearSchoolWork.forEach(schoolWork => {
+			if (_.isUndefined(schoolWork.scheduledDays)) {
+				let scheduledDays = []; 
+				let weekLessonCounts = [];
+				yearWeekIds.forEach(function(weekId) {
+					weekLessonCounts.push(_.filter(yearLessons, {'schoolWorkId': schoolWork._id, 'weekId': weekId}).length);
+				});
+				_.uniq(weekLessonCounts).forEach(function(count) {
+					if (count) {
+						scheduledDays.push({segmentCount: count, days: []})
+					}
+				})
+
+				schoolWork.scheduledDays = scheduledDays;
+				schoolWorkBulkUpdate.push({updateOne: {"filter": {_id: schoolWork._id}, update: {$set: {scheduledDays: scheduledDays}}}})
+			}
+		});
+		// console.log(3);
+
+
+
+		let yearTerms = Terms.find({schoolYearId: schoolYearId});
+
+		// Update Lessons
+		yearSchoolWork.forEach(schoolWork => {
+			let schoolWorkLessons = _.filter(yearLessons, { 'schoolWorkId': schoolWork._id });
+
+			yearTerms.forEach(term => {
+				// console.log(3.1);
+				Weeks.find({termId: term._id}).forEach(week => {
+					// console.log(3.2);
+					let weeksLessons = _.filter(schoolWorkLessons, { 'weekId': week._id });
+					// console.log(3.3);
+					let segmentCount = weeksLessons.length;
+					// console.log(3.4);
+					if (segmentCount) {
+						let weekDayLabels = schoolWork.scheduledDays.find(dayLabel => parseInt(dayLabel.segmentCount) === segmentCount).days;
+						// console.log(3.5);
+
+						weeksLessons.forEach((lesson, i) => {
+							// console.log(3.6);
+							let weekDay = (weekDayLabels) => {
+								// console.log(3.7);
+								if (weekDayLabels.length) {
+									// console.log(3.8);
+									return parseInt(weekDayLabels[i]);
+								}
+								// console.log(3.9);
+								return 0;
+							}
+							// console.log(3.10);
+							lesson.weekDay = weekDay(weekDayLabels);
+						});
+					}
+				})
+			})
+		});
+
+		yearLessons.forEach(lesson => {
+			lessonBulkUpdate.push({updateOne: {"filter": {_id: lesson._id}, update: {$set: {weekOrder: lesson.weekOrder, termOrder: lesson.termOrder, weekDay: lesson.weekDay}}}});
+		});
+		// console.log(4);
+
+
+
+		// Insert Weeks
 		weekInsertProperties.forEach(week => {
 			weekBulkInsert.push({insertOne: {"document": {
 				_id: Random.id(),
@@ -128,6 +217,7 @@ Meteor.methods({
 			}}})
 		})
 		
+		// Insert Terms
 		termInsertProperties.forEach(term => {
 			let termId = Random.id();
 			termBulkInsert.push({insertOne: {"document": {
@@ -139,6 +229,7 @@ Meteor.methods({
 				createdOn: new Date()
 			}}})
 
+			// Insert Weeks
 			for (i = 0; i < parseInt(term.weeksPerTerm); i++) {
 				weekBulkInsert.push({insertOne: {"document": {
 					_id: Random.id(),
@@ -152,11 +243,17 @@ Meteor.methods({
 				}}})
 			}
 		})
+		// console.log(5);
 
 		
 		let termsBulk = termBulkDelete.concat(termBulkUpdate, termBulkInsert);
 		let weeksBulk = weekBulkDelete.concat(weekBulkUpdate, weekBulkInsert);
 		let lessonsBulk = lessonBulkDelete.concat(lessonBulkUpdate);
+
+		// console.log('termsBulk' + termsBulk.length)
+		// console.log('weeksBulk' + weeksBulk.length)
+		// console.log('schoolWorkBulkUpdate' + schoolWorkBulkUpdate.length)
+		// console.log('lessonsBulk' + lessonsBulk.length)
 
 		if (termsBulk.length) {
 			Terms.rawCollection().bulkWrite(
@@ -169,6 +266,14 @@ Meteor.methods({
 		if (weeksBulk.length) {
 			Weeks.rawCollection().bulkWrite(
 				weeksBulk
+			).catch((error) => {
+				throw new Meteor.Error(500, error.message);
+			});
+		}
+
+		if (schoolWorkBulkUpdate.length) {
+			SchoolWork.rawCollection().bulkWrite(
+				schoolWorkBulkUpdate
 			).catch((error) => {
 				throw new Meteor.Error(500, error.message);
 			});

@@ -32,32 +32,36 @@ Meteor.methods({
 		return info;
 	},
 
-	updateSchoolWork: function(updateSchoolWorkProperties, removeLessonIds, insertLessonProperties) {
-		let groupId = Meteor.user().info.groupId;
-		let userId = Meteor.userId();
-
-		let schoolWorkId = SchoolWork.update(updateSchoolWorkProperties._id, {$set: updateSchoolWorkProperties});
+	updateSchoolWork: function(updateSchoolWorkProperties, removeLessonIds, upsertLessonProperties) {
+		let schoolWorkId = SchoolWork.update(updateSchoolWorkProperties._id, {$set: updateSchoolWorkProperties});		
 		let bulkLessons = []
 
-		if (insertLessonProperties.length) {
-			insertLessonProperties.forEach(lesson => {
-				bulkLessons.push({insertOne: {"document": {
-					_id: Random.id(),
-					order: lesson.order,
-					assigned: false,
-					completed: false,
-					studentId: lesson.studentId,
-					schoolYearId: lesson.schoolYearId,
-					schoolWorkId: lesson.schoolWorkId,
-					termId: lesson.termId,
-					termOrder: lesson.termOrder,
-					weekId: lesson.weekId,
-					weekOrder: lesson.weekOrder,
-					groupId: groupId, 
-					userId: userId, 
-					createdOn: new Date()
-				}}});
-			})
+		if (upsertLessonProperties.length) {
+			upsertLessonProperties.forEach(lesson => {
+				bulkLessons.push({updateOne: 
+					{ 
+						filter: {_id: lesson._id}, 
+						update: {$set: {
+							_id: lesson._id,
+							order: lesson.order,
+							weekDay: lesson.weekDay,
+							weekOrder: lesson.weekOrder,
+							termId: lesson.termId,
+							assigned: lesson.assigned,
+							completed: lesson.completed,
+							schoolWorkId: lesson.schoolWorkId,
+							schoolYearId: lesson.schoolYearId,
+							termOrder: lesson.termOrder,
+							weekId: lesson.weekId,
+							studentId: lesson.studentId,
+							groupId: lesson.groupId, 
+							userId: lesson.userId, 
+							createdOn: lesson.createdOn
+						}}, 
+						upsert:true 
+					} 
+				});
+			});
 		}
 
 		if (removeLessonIds.length) {
@@ -65,7 +69,7 @@ Meteor.methods({
 				bulkLessons.push({deleteOne: {"filter": {
 					_id: lessonId
 				}}});
-			})
+			});
 		}
 
 		if (bulkLessons.length) {
@@ -102,6 +106,7 @@ Meteor.methods({
 				resources: schoolWorkProperties.resources,
 				studentId: studentId,
 				schoolYearId: schoolWorkProperties.schoolYearId,
+				scheduledDays: schoolWorkProperties.scheduledDays,
 				groupId: groupId, 
 				userId: userId, 
 				createdOn: new Date()
@@ -129,6 +134,7 @@ Meteor.methods({
 							schoolWorkId: schoolWork._id,
 							termOrder: lesson.termOrder,
 							weekOrder: lesson.weekOrder,
+							weekDay: lesson.weekDay,
 							groupId: groupId, 
 							userId: userId, 
 							createdOn: new Date()

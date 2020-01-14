@@ -53,6 +53,10 @@ Template.schoolWorkView.helpers({
 	resources: function(resourceIds) {
 		return Resources.find({_id: {$in: resourceIds}});
 	},
+
+	showCommas: function(length, index) {
+		if (length != parseInt(index) + 1) return ','
+	}
 });
 
 Template.schoolWorkView.events({

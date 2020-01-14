@@ -47,6 +47,26 @@ const SchoolWorkSchema = new SimpleSchema({
         type: String,
         label: "School Year ID"
     },
+    scheduledDays: {
+    	type: Array,
+    	label: "Scheduled Days of the Week"
+    },
+    'scheduledDays.$': {
+    	type: Object,
+    	label: "Scheduled Days of the Week"
+    },
+    'scheduledDays.$.segmentCount': {
+    	type: Number,
+    	label: "Number of Segments"
+    },
+    'scheduledDays.$.days': {
+    	type: Array,
+    	label: "Scheduled Days of the Week"
+    },
+    'scheduledDays.$.days.$': {
+    	type: Number,
+    	label: "Scheduled Days of the Week"
+    },
 	groupId: {
 		type: String,
 		label: "Group ID",

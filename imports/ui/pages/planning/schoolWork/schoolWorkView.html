@@ -44,12 +44,40 @@
 					<p>{{schoolYear.startYear}} - {{schoolYear.endYear}}</p>
 				</section>
 				
-				{{#each term in terms}}
-					<section class="sub-section">
-						<label>Term {{term.order}}</label>
-						<p>{{termLessons term._id}}</p>
-					</section>
-				{{/each}}
+				<div class="row">
+					<div class="col-xs-1of3 col-sm-1of1 col-xl-2of7">
+						{{#each term in terms}}
+							<section class="sub-section">
+								<label>Term {{term.order}}</label>
+								<p>{{termLessons term._id}}</p>
+							</section>
+						{{/each}}
+					</div>
+					<div class="col-xs-2of3 col-sm-1of1 col-xl-5of7">
+						{{#if schoolWork.scheduledDays.length}}
+							{{#each schedule in schoolWork.scheduledDays}}
+								{{#if schedule.days.length}}
+									<section class="sub-section">
+										<label>{{schedule.segmentCount}} Segment{{sPlural schedule.segmentCount}}: Day Label{{sPlural schedule.segmentCount}}</label>
+										<p>{{#each schedule.days}}
+											{{weekDays this}}{{showCommas schedule.segmentCount @index}}
+										{{/each}}</p>
+									</section>
+								{{else}}
+									<section class="sub-section">
+										<label>Day Labels</label>
+										<p class="txt-gray-darkest">No Day Labels</p>
+									</section>
+								{{/if}}
+							{{/each}}
+						{{else}}
+							<section class="sub-section">
+								<label>Scheduled Days</label>
+								<p class="txt-gray-darkest">No Day Labels</p>
+							</section>
+						{{/if}}
+					</div>
+				</div>
 			</div>
 		{{/if}}
 	</main>
