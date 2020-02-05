@@ -121,52 +121,6 @@ Template.settingsList.events({
 		});
 	},
 
-	'click .js-add-test-data'(event) {
-		event.preventDefault();
-		$('.list-item-loading').show();
-
-		Meteor.call('addTestData', function(error, result) {
-			if (error) {
-				Alerts.insert({
-					colorClass: 'bg-danger',
-					iconClass: 'icn-danger',
-					message: error.reason,
-				});
-				$('.list-item-loading').hide();
-			} else {
-				$('.list-item-loading').hide();
-				Alerts.insert({
-					colorClass: 'bg-info',
-					iconClass: 'icn-info',
-					message: 'Test data has been added. You may remove it at anytime.',
-				});
-			}
-		});
-	},
-
-	'click .js-remove-test-data'(event) {
-		event.preventDefault();
-		$('.list-item-loading').show();
-
-		Meteor.call('removeTestData', function(error, result) {
-			if (error) {
-				Alerts.insert({
-					colorClass: 'bg-danger',
-					iconClass: 'icn-danger',
-					message: error.reason,
-				});
-				$('.list-item-loading').hide();
-			} else {
-				$('.list-item-loading').hide();
-				Alerts.insert({
-					colorClass: 'bg-info',
-					iconClass: 'icn-info',
-					message: 'All test data has been removed. You may add it back at anytime.',
-				});
-			}
-		})
-	},
-
 	'click .js-sign-out'(event) {
 		event.preventDefault();
 		$('.js-signing-out').show();

@@ -243,13 +243,13 @@ function getFirstSchoolYearId(groupId) {
 			return schoolYears[0]._id;
 		}
 
-		let gteFirstSchoolYear = _.find(schoolYears, year => {return year.startYear >= currentYear});
+		let gteFirstSchoolYear = _.find(_.orderBy(schoolYears, ['startYear'], ['asc']), year => {return year.startYear >= currentYear});
 		if (!_.isUndefined(gteFirstSchoolYear)) {
 			// console.log('schoolYear gte')
 			return gteFirstSchoolYear._id;
 		}
 
-		let lteFirstSchoolYear = _.find(schoolYears, year => {return year.startYear <= currentYear});
+		let lteFirstSchoolYear = _.find(_.orderBy(schoolYears, ['startYear'], ['desc']), year => {return year.startYear <= currentYear});
 		// console.log('schoolYear lte')
 		return lteFirstSchoolYear._id;
 	} else {

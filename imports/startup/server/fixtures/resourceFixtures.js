@@ -1,113 +1,22 @@
-import {Groups} from '../../api/groups/groups.js';
-import {Students} from '../../api/students/students.js';
-import {SchoolYears} from '../../api/schoolYears/schoolYears.js';
-import {Terms} from '../../api/terms/terms.js';
-import {Weeks} from '../../api/weeks/weeks.js';
-import {Resources} from '../../api/resources/resources.js';
-import {SchoolWork} from '../../api/schoolWork/schoolWork.js';
-import {Lessons} from '../../api/lessons/lessons.js';
+import {Groups} from '../../../api/groups/groups.js';
+import {Resources} from '../../../api/resources/resources.js';
+import {Students} from '../../../api/students/students.js';
+import {SchoolYears} from '../../../api/schoolYears/schoolYears.js';
+import {Terms} from '../../../api/terms/terms.js';
+import {Weeks} from '../../../api/weeks/weeks.js';
 
-import {primaryInitialIds} from '../../modules/server/initialIds';
-import {resourcesInitialIds} from '../../modules/server/initialIds';
-import {usersInitialId} from '../../modules/server/initialIds';
-import {reportsInitialId} from '../../modules/server/initialIds';
-import {groupsInitialId} from '../../modules/server/initialIds';
-
-import moment from 'moment';
-import _ from 'lodash';
-
+import {primaryInitialIds, resourcesInitialIds, usersInitialId, reportsInitialId, groupsInitialId} from '../../../modules/server/initialIds';
+import {upsertPaths, upsertSchoolWorkPaths} from '../../../modules/server/paths';
+import {upsertStats} from '../../../modules/server/stats';
 
 Meteor.methods({
-	addTestData() {
+	addResourceFixtures() {
 		let groupId = Meteor.user().info.groupId;
 		let userId = Meteor.userId();
 
-		let fixtureStudents = [
-			{
-				firstName: 'Lanaya',
-				middleName: 'Elizabeth',
-				lastName: 'Gore',
-				nickname: 'Liz',
-				preferredFirstName: {
-					type: 'middleName',
-					name: 'Elizabeth',
-				},
-				birthday: new Date(2001, 12, 3),
-				groupId: groupId, 
-				userId: userId, 
-				createdOn: new Date()
-			},
-			{
-				firstName: 'Jonathan',
-				middleName: 'Ashford',
-				lastName: 'Gore',
-				nickname: 'Jon',
-				preferredFirstName: {
-					type: 'firstName',
-					name: 'Jonathan',
-				},
-				birthday: new Date(2004, 8, 2),
-				groupId: groupId, 
-				userId: userId, 
-				createdOn: new Date()
-			},
-			{
-				firstName: 'Phoebe',
-				middleName: 'Ruth',
-				lastName: 'Gore',
-				nickname: 'The Phebes',
-				preferredFirstName: {
-					type: 'firstName',
-					name: 'Phoebe',
-				},
-				birthday: new Date(2006, 4, 12),
-				groupId: groupId, 
-				userId: userId, 
-				createdOn: new Date()
-			},
-			{
-				firstName: 'Harrison',
-				middleName: 'Lee',
-				lastName: 'Gore',
-				nickname: 'Harry',
-				preferredFirstName: {
-					type: 'firstName',
-					name: 'Harrison',
-				},
-				birthday: new Date(2010, 6, 6),
-				groupId: groupId, 
-				userId: userId, 
-				createdOn: new Date()
-			},
-		];
-
-		let fixtureSchoolYears = [
-			{
-				startYear: '2017',
-				endYear: '2018',
-				groupId: groupId, 
-				userId: userId, 
-				createdOn: new Date()
-			},
-			{
-				startYear: '2018',
-				endYear: '2019',
-				groupId: groupId, 
-				userId: userId, 
-				createdOn: new Date()
-			},
-			{
-				startYear: '2019',
-				endYear: '2020',
-				groupId: groupId, 
-				userId: userId, 
-				createdOn: new Date()
-			},
-		];
-
-		let fixtureTerms =  [];
-
-		let fixtureWeeks = [];
+		if (!Groups.findOne({_id: groupId}).appAdmin) {
+			throw new Meteor.Error('no-role-app', 'You do not have permission to add test data.');
+		}
 
 		let fixtureResources = [
 			{
@@ -2727,257 +2636,32 @@ Meteor.methods({
 			}
 		];
 
-		let sourceSchoolWork = [
-			{
-				name: "Artist Study: Vermeer",
-				description: "<p>1632-1675 Dutch Baroque. Morning Time.</p>",
-				resourceTitles: ['Vermeer Picture Study Portfolio'],
-			},
-			{
-				name: "Composer Study: Baroque Era",
-				description: "<p>Morning Time.</p>",
-				resourceTitles: [],
-			},
-			{
-				name: "Current Events",
-				description: "<p>Listen to News Podcasts. Read Student Daily News. Watch talk shows and discuss with Dad. Read weekly blogs about current interests.</p>",
-				resourceTitles: [],
-			},
-			{
-				name: "Botany",
-				description: "<p>Read magazine article first day.</p>",
-				resourceTitles: ["First Studies of Plant Life", "Jr Botany", "Science’s Useful Fallacy"],
-			},
-			{
-				name: "Daily Grammar Geek",
-				description: "<p>Morning Time.</p>",
-				resourceTitles: ["Daily Grammar Geek"],
-			},
-			{
-				name: "History of English Literature",
-				description: "<p>Chapters 60-85. Read 2 chapters a week. Read 3 chapters one week.</p>",
-				resourceTitles: ["History of English Literature for Boys and Girls"],
-			},
-			{
-				name: "Tale of Two Cities",
-				description: "",
-				resourceTitles: ["Tale of Two Cities", "Ready Readers High School"],
-			},
-			{
-				name: "Vocabulary",
-				description: "<p>Morning Time</p>",
-				resourceTitles: ["English from the Roots Up"],
-			},
-			{
-				name: "Geography: Heidi's Alps",
-				description: "<p>Read about 8 pages a week. Follow the Mapwork document ~ there are some things for map work that you'll do for every chapter in this book.</p>",
-				resourceTitles: ["Heidi's Alp: One Family's Search for Storybook Europe"],
-			},
-			{
-				name: "Geometry / Trigonometry",
-				description: "<p>Look at two sources of help before coming to ask for help from parents.</p>",
-				resourceTitles: ["Geometry/Trig"],
-			},
-			{
-				name: "Government: Miracle at Philadelphia",
-				description: "<p>Do one chapter a week.</p>",
-				resourceTitles: ["Miracle at Philadelphia"],
-			},
-			{
-				name: "History: Ancient Egypt and Near East",
-				description: "<p>Morning Time.</p>",
-				resourceTitles: ["Ancient Egypt and Her Neighbors", "Hungry Planet", "Khan Academy on Ancient Egypt", "Pharaoh's Boat", "The Great Pyramid", "Unwrapping the Pharaohs"],
-			},
-			{
-				name: "Great Speeches",
-				description: "<p>Morning Time. Read long ones over two weeks.</p>",
-				resourceTitles: ['"Give Me Liberty or Give Me Death!" Patrick Henry', '"Letters to his Son" by Lord Chesterfield', 'Did Marie Antoinette Actually Say “Let Them Eat Cake”?', 'How the French Revolution Worked podcast'],
-			},
-			{
-				name: "Logic: How to Read a Book",
-				description: "<p>Start at page 363. Do 2 or 3 of the tests.</p>",
-				resourceTitles: ["How to Read a Book"],
-			}
-		];
-
-		let fixtureSchoolWork = [];
-
-		let timesPerWeek = [2, 2, 5, 5, 2, 3, 2, 5, 2, 5, 3, 3, 2, 2];
-
-		let fixtureLessons = [];
-
-
-		if (!Groups.findOne({_id: groupId}).appAdmin) {
-			throw new Meteor.Error('no-role-app', 'You do not have permission to add test data.');
-		}
-
-		// Insert Students
-		Students.batchInsert(fixtureStudents)
-
-		// Insert School Years
-		SchoolYears.batchInsert(fixtureSchoolYears)
-
-		// Insert Terms
-		SchoolYears.find({groupId: groupId}).forEach(schoolYear => {
-			for (i = 0; i < 3; i++) {
-				fixtureTerms.push(
-					{
-						_id: Random.id(),
-						order: i + 1, 
-						schoolYearId: schoolYear._id,
-						groupId: groupId, 
-						userId: userId, 
-						createdOn: new Date()
-					}
-				)
-			};		
-		});
-		Terms.batchInsert(fixtureTerms)
-
-		// Insert Weeks
-		Terms.find({groupId: groupId}).forEach(term => {
-			for (i = 0; i < 12; i++) {
-				fixtureWeeks.push({
-					_id: Random.id(),
-					order: parseInt(i + 1),
-					termOrder: term.order,
-					schoolYearId: term.schoolYearId,
-					termId: term._id,
-					groupId: groupId,
-					userId: userId,
-					createdOn: new Date()
-				})
-			};
-		});
-		Weeks.batchInsert(fixtureWeeks);
-
 		// Insert Resources
-		Resources.batchInsert(fixtureResources);
+		Resources.batchInsert(fixtureResources, function() {
+			Groups.update(groupId, {$set: {'fixtureData.hasResourceData': true}});
 
-		// Insert School Work
-		sourceSchoolWork.forEach(schoolWork => {
-			if (schoolWork.resourceTitles) {
-				schoolWork.resources = Resources.find({groupId: groupId, title: {$in: schoolWork.resourceTitles}}).map(resource => resource._id);
-			} else {
-				schoolWork.resources = [];
+			let pathProperties = {
+				studentIds: Students.find({groupId: groupId}).map(student => student._id),
+				schoolYearIds: SchoolYears.find({groupId: groupId}).map(schoolYear => schoolYear._id),
+				termIds: Terms.find({groupId: groupId}).map(term => term._id),
 			}
-			delete schoolWork.resourceTitles
-		});
 
-		SchoolYears.find({groupId: groupId, startYear: {$in: ['2017', '2018']}}).forEach(schoolYear => {
-			Students.find({groupId: groupId}).forEach(student => {
-				sourceSchoolWork.forEach(schoolWork => {
-					fixtureSchoolWork.push({
-						name: schoolWork.name,
-						description: schoolWork.description,
-						resources: schoolWork.resources,
-						schoolYearId: schoolYear._id,
-						studentId: student._id,
-						groupId: groupId, 
-						userId: userId, 
-						createdOn: new Date()
-					});
-				});
-			});
-		});
-		SchoolWork.batchInsert(fixtureSchoolWork)
+			upsertPaths(pathProperties, false, groupId);
+			upsertSchoolWorkPaths(pathProperties, groupId);
 
-		// Insert Lessons
-		Students.find({groupId: groupId}).forEach(student => {
-			SchoolYears.find({
-				groupId: groupId, 
-				startYear: {$in: ['2017', '2018']}
-			}).forEach(schoolYear => {
-				Terms.find({schoolYearId: schoolYear._id}, {sort: {order: 1}}).forEach(term => {
-					let weeks = Weeks.find({termId: term._id}, {sort: {order: 1}});
-					let schoolWorkIds = SchoolWork.find({studentId: student._id, schoolYearId: schoolYear._id}, {sort: {name: 1}}).map(schoolWork => schoolWork._id)
-				
-					weeks.forEach((week, weekIndex) => {
-						schoolWorkIds.forEach((schoolWorkId, schoolWorkIndex) => {
-							for (i = 0; i < timesPerWeek[schoolWorkIndex]; i++) {
-
-								let lessonProperties = {
-									order: parseInt(i + 1),
-									weekOrder: week.order,
-									termOrder: week.termOrder,
-									assigned: false,
-									completed: false,
-									schoolWorkId: schoolWorkId,
-									schoolYearId: schoolYear._id,
-									termId: term._id,
-									weekId: week._id,
-									studentId: student._id,
-									groupId: groupId, 
-									userId: userId, 
-									createdOn: new Date()
-								};
-
-								if (schoolYear.startYear === '2017') {
-									lessonProperties.completed = true
-								}
-
-								if (schoolYear.startYear === '2018' && term.order === 1) {
-									lessonProperties.completed = true
-								}
-
-								if (schoolYear.startYear === '2018' && term.order === 2 && week.order <= 6) {
-									lessonProperties.completed = true
-								}
-
-								if (schoolYear.startYear === '2018' && term.order === 2 && week.order > 6 && lessonProperties.order < 3) {
-									lessonProperties.completed = true
-								}
-
-								if (schoolYear.startYear === '2018' && term.order === 2 && week.order > 7) {
-									lessonProperties.completed = false
-								}
-
-								fixtureLessons.push(lessonProperties);
-							};
-						});
-					});
-				});
-			});
-		});
-		Lessons.batchInsert(fixtureLessons);
-
-		Groups.update(groupId, {$set: {testData: true}});
-		primaryInitialIds();
-		resourcesInitialIds();
-		usersInitialId();
-		reportsInitialId();
-		groupsInitialId();
-	},
-
-	removeTestData() {
-		let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-
-		if (!Groups.findOne({_id: groupId}).appAdmin) {
-			throw new Meteor.Error('no-role-app', 'You do not have permission to add test data.');
-		}
-
-		if (Groups.findOne({_id: groupId}).appAdmin) {
-			Lessons.remove({groupId: groupId});
-			SchoolWork.remove({groupId: groupId});
-			Weeks.remove({groupId: groupId});
-			Terms.remove({groupId: groupId});
-			SchoolYears.remove({groupId: groupId});
-			Students.remove({groupId: groupId});
-			Resources.remove({groupId: groupId});
-			Groups.update(groupId, {$set: {testData: false}});
-
+			let statProperties = {
+				studentIds: Students.find({groupId: groupId}).map(student => student._id),
+				schoolYearIds: SchoolYears.find({groupId: groupId}).map(schoolYear => schoolYear._id),
+				termIds: Terms.find({groupId: groupId}).map(term => term._id),
+				weekIds: Weeks.find({groupId: groupId}).map(week => week._id),
+			}
 			
-			primaryInitialIds();
-			resourcesInitialIds();
-			usersInitialId();
-			reportsInitialId();
-			groupsInitialId();
-		}
+			upsertStats(statProperties, groupId);
+			
+			primaryInitialIds(groupId);
+			resourcesInitialIds(groupId);
+		});
+
+		return Groups.findOne({_id: groupId}).initialIds;
 	}
 });
-
-
-
-
-
-

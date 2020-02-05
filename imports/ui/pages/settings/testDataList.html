@@ -1,0 +1,101 @@
+<template name="testDataList">
+	<main class="app-content app-content-preceeds-toolbar">
+		<ul class="list">
+			<li class="list-item">
+				<a href="#" class="js-student-data list-item-link p-tn-rl-9">
+					<div class="list-item-icon"><i class="txt-primary icn-students"></i></div> 
+					<div class="list-item-label">
+						{{#if studentDataCreating}}
+							Creating Student Data...
+						{{else}}
+							{{#if dataRemoving}}
+								Removing Student Data...
+							{{else}}
+								Add Student Data: {{getPublishedCount 'studentCount'}}
+							{{/if}}
+						{{/if}}
+					</div>
+				</a>
+			</li>
+			<li class="list-item">
+				<a href="#" class="js-school-year-data list-item-link p-tn-rl-9">
+					<div class="list-item-icon"><i class="txt-primary icn-school-years"></i></div> 
+					<div class="list-item-label">
+						{{#if schoolYearDataCreating}}
+							Creating School Year Data...
+						{{else}}
+							{{#if dataRemoving}}
+								Removing School Year Data...
+							{{else}}
+								Add School Year Data: {{getPublishedCount 'schoolYearCount'}}
+							{{/if}}
+						{{/if}}
+					</div>
+				</a>
+			</li>
+			<li class="list-item">
+				<a href="#" class="js-resource-data list-item-link p-tn-rl-9">
+					<div class="list-item-icon"><i class="txt-primary icn-resources"></i></div> 
+					<div class="list-item-label">
+						{{#if resourceDataCreating}}
+							Creating Resource Data...
+						{{else}}
+							{{#if dataRemoving}}
+								Removing Resource Data...
+							{{else}}
+								Add Resource Data: {{getPublishedCount 'resourceCount'}}
+							{{/if}}
+						{{/if}}
+					</div>
+				</a>
+			</li>
+			<li class="list-item">
+				<a href="#" class="js-school-work-data list-item-link p-tn-rl-9">
+					<div class="list-item-icon"><i class="txt-primary icn-school-work"></i></div> 
+					<div class="list-item-label">
+						{{#if schoolWorkDataCreating}}
+							Creating School Work Data...
+						{{else}}
+							{{#if dataRemoving}}
+								Removing School Work Data...
+							{{else}}
+								Add School Work Data: {{getPublishedCount 'schoolWorkCount'}}
+							{{/if}}
+						{{/if}}
+					</div>
+				</a>
+			</li>
+			<li class="list-item">
+				<a href="#" class="js-lesson-data list-item-link p-tn-rl-9">
+					<div class="list-item-icon"><i class="txt-primary icn-lesson"></i></div> 
+					<div class="list-item-label">
+						{{#if lessonDataCreating}}
+							Creating Segment Data...
+						{{else}}
+							{{#if dataRemoving}}
+								Removing Segment Data...
+							{{else}}
+								Add Segment Data: {{getPublishedCount 'lessonCount'}}
+							{{/if}}
+						{{/if}}
+					</div>
+				</a>
+			</li>
+
+			<li class="list-spacer"></li>
+
+			<li class="list-item">
+				<a href="#" class="js-remove-data list-item-link p-tn-rl-9">
+					<div class="list-item-icon"><i class="txt-primary icn-delete"></i></div> 
+					<div class="list-item-label">
+						{{#if dataRemoving}}
+							Removing All Data...
+						{{else}}
+							Remove All Data: {{totalDataCount}}
+						{{/if}}
+					</div>
+				</a>
+			</li>
+		</ul>
+	</main>
+</template>

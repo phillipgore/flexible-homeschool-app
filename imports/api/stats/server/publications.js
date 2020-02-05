@@ -70,3 +70,17 @@ Meteor.publish('progressStatsPub', function() {
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
 	return Stats.find({groupId: groupId}, {fields: {createdOn: 0, updatedOn: 0}});
 });
+
+Meteor.publish('testDataStats', function() {
+	if (!this.userId) {
+		return this.ready();
+	}
+
+	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
+	
+	Counts.publish(this, 'studentCount', Students.find({groupId: groupId}));
+	Counts.publish(this, 'schoolYearCount', SchoolYears.find({groupId: groupId}));
+	Counts.publish(this, 'resourceCount', Resources.find({groupId: groupId}));
+	Counts.publish(this, 'schoolWorkCount', SchoolWork.find({groupId: groupId}));
+	Counts.publish(this, 'lessonCount', Lessons.find({groupId: groupId}));
+});

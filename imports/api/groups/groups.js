@@ -115,6 +115,36 @@ const GroupsSchema = new SimpleSchema({
         label: "Test Data",
         defaultValue: false,
     },
+    fixtureData: {
+        type: Object,
+        label: "Fixture Data",
+        optional: true
+    },
+    'fixtureData.hasStudentData': {
+        type: Boolean,
+        label: "Fixture Data: Has Student Data",
+        defaultValue: false,
+    },
+    'fixtureData.hasSchoolYearData': {
+        type: Boolean,
+        label: "Fixture Data: Has School Year Data",
+        defaultValue: false,
+    },
+    'fixtureData.hasResourceData': {
+        type: Boolean,
+        label: "Fixture Data: Has Resource Data",
+        defaultValue: false,
+    },
+    'fixtureData.hasSchoolWorkData': {
+        type: Boolean,
+        label: "Fixture Data: Has School Work Data",
+        defaultValue: false,
+    },
+    'fixtureData.hasLessonData': {
+        type: Boolean,
+        label: "Fixture Data: Has Lesson Data",
+        defaultValue: false,
+    },
     initialIds: {
         type: Object,
         label: "Initial Ids",

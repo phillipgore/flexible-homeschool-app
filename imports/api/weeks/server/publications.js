@@ -11,7 +11,7 @@ Meteor.publish('allWeeks', function() {
 	}
 
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-	return Weeks.find({groupId: groupId}, {sort: {order: 1}, fields: {order: 1, termId: 1}});
+	return Weeks.find({groupId: groupId}, {sort: {order: 1}, fields: {order: 1, termId: 1, schoolYearId: 1}});
 });
 
 Meteor.publish('schoolYearWeeks', function(schoolYearId) {

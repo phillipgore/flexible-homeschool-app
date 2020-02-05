@@ -31,6 +31,7 @@ FlowRouter.notFound = {
 };
 
 import moment from 'moment';
+import {weekdayLabels, weekdayLabelsShort} from '../../modules/functions';
 
 Accounts.onLogout(() => {
 	Session.clear();
@@ -104,35 +105,16 @@ Template.registerHelper('esPlural', (number) => {
 	return 'es';
 });
 
-Template.registerHelper('centsToDollars', ( cents ) => {
+Template.registerHelper('centsToDollars', (cents) => {
   return '$' + (cents / 100).toFixed(2);
 });
 
 Template.registerHelper('weekDays', ( day ) => {
-	if (day === 0 || day === '0') {
-		return ''
-	}
-	if (day === 1 || day === '1') {
-		return 'Mon'
-	}
-	if (day === 2 || day === '2') {
-		return 'Tue'
-	}
-	if (day === 3 || day === '3') {
-		return 'Wed'
-	}
-	if (day === 4 || day === '4') {
-		return 'Thu'
-	}
-	if (day === 5 || day === '5') {
-		return 'Fri'
-	}
-	if (day === 6 || day === '6') {
-		return 'Sat'
-	}
-	if (day === 7 || day === '7') {
-		return 'Sun'
-	}
+	return weekdayLabels(day);
+});
+
+Template.registerHelper('weekDaysShort', (day) => {
+	return weekdayLabelsShort(day);
 });
 
 

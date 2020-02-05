@@ -120,6 +120,22 @@ FlowRouter.route('/settings/billing/coupons/:selectedFramePosition', {
 
 
 
+// Billing
+FlowRouter.route('/settings/test/data/:selectedFramePosition', {
+	name: 'testDataList',
+	title:  'Settings: Test: Data',
+	action(params) {
+		BlazeLayout.render('app', {
+			subbar: '',
+			frameOne: 'settingsList',
+			frameTwo: 'testDataList',
+		});
+	},
+});
+
+
+
+
 // Support
 FlowRouter.route('/settings/support/view/:selectedFramePosition', {
 	name: 'supportView',

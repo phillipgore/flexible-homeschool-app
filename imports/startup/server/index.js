@@ -34,8 +34,14 @@ import './stripe.js';
 import './mailchimp.js';
 import './migrations.js';
 import './endpoints.js';
-import './fixtures.js';
 import './cron.js';
+
+import './fixtures/studentFixtures.js';
+import './fixtures/schoolYearFixtures.js';
+import './fixtures/resourceFixtures.js';
+import './fixtures/schoolWorkFixtures.js';
+import './fixtures/lessonFixtures.js';
+import './fixtures/removeFixtures.js';
 
 import '../../api/groups/groups.js';
 import '../../api/groups/methods.js';

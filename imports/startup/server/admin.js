@@ -1,9 +1,12 @@
 import {Groups} from '../../api/groups/groups.js';
 
 import moment from 'moment';
+import _ from 'lodash';
 
 // Create Application Admin Account
-if (!Groups.find({appAdmin: true}).count()) {	
+let adminGroup = Groups.find({appAdmin: true})
+if (!adminGroup.count() || _.isUndefined(adminGroup)) {
+	console.log('hello')	
 	let users = [
 		{
 			email: Meteor.settings.private.appAdmin.email,
