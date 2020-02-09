@@ -9,22 +9,22 @@
 					<tr>
 						{{#if report.resourcesOriginatorVisible}}
 							<td width="50%" colspan="{{colSpan report.resourcesOriginatorVisible report.resourcesLinkVisible}}">
-								<span class="txt-gray-darkest">Author: </span> {{resource.authorFirstName}} {{resource.authorLastName}}
+								<span class="txt-gray-darker">Author: </span> {{resource.authorFirstName}} {{resource.authorLastName}}
 							</td>
 						{{/if}}
 						{{#if report.resourcesLinkVisible}}
 							<td class="txt-ellipsis" width="50%" colspan="{{colSpan report.resourcesOriginatorVisible report.resourcesLinkVisible}}">
-								<span class="txt-gray-darkest">Link: </span> <a href="{{resource.link}}" target="_blank">{{resource.link}}</a>
+								<span class="txt-gray-darker">Link: </span> <a href="{{resource.link}}" target="_blank">{{resource.link}}</a>
 							</td>
 						{{/if}}
 					</tr>
 					{{#if report.resourcesPublicationVisible}}
 					<tr>
 						<td width="50%">
-							<span class="txt-gray-darkest">Publisher: </span> {{resource.publisher}}
+							<span class="txt-gray-darker">Publisher: </span> {{resource.publisher}}
 						</td>
 						<td width="50%">
-							<span class="txt-gray-darkest">Publication Date: </span> {{dateFormat resource.publicationDate}}
+							<span class="txt-gray-darker">Publication Date: </span> {{dateFormat resource.publicationDate}}
 						</td>
 					</tr>
 					{{/if}}
@@ -32,14 +32,14 @@
 						<tr>
 							{{#if report.resourcesDescriptionVisible}}
 								<td width="50%" colspan="{{colSpan report.resourcesDescriptionVisible report.resourcesSchoolWorkVisible}}">
-									<div class="txt-gray-darkest">Description: </div> 
+									<div class="txt-gray-darker">Description: </div> 
 									{{{resource.description}}}
 								</td>
 							{{/if}}
 							{{#if report.resourcesSchoolWorkVisible}}
 								<td width="50%" colspan="{{colSpan report.resourcesDescriptionVisible report.resourcesSchoolWorkVisible}}">
 									<div class="clearfix">
-										<div class="txt-gray-darkest p-tn-r-6 fl-tn-left">School Work: </div> 
+										<div class="txt-gray-darker p-tn-r-6 fl-tn-left">School Work: </div> 
 										<div class="fl-tn-left">
 											{{#each work in resource.schoolWork}}
 												<p>{{work}}</p>
