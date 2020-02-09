@@ -107,6 +107,36 @@ Template.trackingEdit.helpers({
 	existingWeeks: function(termId) {
 		return Weeks.find({termId: termId})
 	},
+
+	isEdit: function() {
+		let action = Session.get('action')
+		if (action === 'choose' || action === 'labels') {
+			return false;
+		}
+		return true;
+	},
+
+	isInsert: function() {
+		let action = Session.get('action')
+		if (action === 'insert') {
+			return true;
+		}
+		return false;
+	},
+
+	daysOfWeek: function() {
+		return [1, 2, 3, 4, 5, 6, 7]
+	},
+
+	hasWeekDay: function(weekDay) {
+		let lessons = Lessons.find({weekId: FlowRouter.getParam('selectedWeekId'), studentId: FlowRouter.getParam('selectedStudentId')})
+		let weekDays = _.uniq(lessons.map(lesson => lesson.weekDay))
+
+		if (weekDays.indexOf(weekDay.toString()) === -1) {
+			return true
+		}
+		return false;
+	},
 });
 
 Template.trackingEdit.events({
@@ -118,18 +148,38 @@ Template.trackingEdit.events({
 		}
 	},
 
-	'change .js-check-all'(event) {
-		// console.log('wow')
+	'change .js-check-multiple'(event) {
+		event.preventDefault();
+		let id = event.currentTarget.id;
+
 		if ($(event.currentTarget).val() === 'true') {
 			$(event.currentTarget).val('false');
-			$('.js-segment-checkbox').each(function() {
-				$(this).val('false').prop('checked', false);
-			});
+			if (id === 'all') {
+				$('.js-segment-checkbox').each(function() {
+					$(this).val('false').prop('checked', false);
+					$('.js-check-multiple').val('false').prop('checked', false);
+				});
+			} else {
+				$('.js-week-' + id).each(function() {
+					$(this).val('false').prop('checked', false);
+					$('.js-check-multiple-all').val('false').prop('checked', false);
+				});
+			}
 		} else {
 			$(event.currentTarget).val('true');
-			$('.js-segment-checkbox').each(function() {
-				$(this).val('true').prop('checked', true);
-			});
+			if (id === 'all') {
+				$('.js-segment-checkbox').each(function() {
+					$(this).val('true').prop('checked', true);
+					$('.js-check-multiple').val('true').prop('checked', true);
+				});
+			} else {
+				$('.js-week-' + id).each(function() {
+					$(this).val('true').prop('checked', true);
+					if ($('.js-check-multiple-weekday-active').length === $('.js-check-multiple-weekday-active:checked').length) {
+						$('.js-check-multiple-all').val('true').prop('checked', true);
+					}
+				});
+			}
 		}
 	},
 
@@ -184,6 +234,11 @@ Template.trackingEdit.events({
 			}
 		});
 
+		SchoolWork.find().forEach(workItem => {
+			let existingLessonCount = Lessons.find({schoolWorkId: workItem._id, weekId: FlowRouter.getParam('selectedWeekId'), studentId: FlowRouter.getParam('selectedStudentId')}).count();
+			batchCheckedLessonProperties.filter(lesson => lesson.schoolWorkId === workItem._id).forEach((lesson, index) => {lesson.order = existingLessonCount + index + 1});
+		})
+
 		// Get Unchecked Lessons from School Work with Checked Lesson
 		let schoolWorkIds = _.uniq(batchCheckedLessonProperties.map(lesson => lesson.schoolWorkId));
 		let batchUncheckedLessonProperties = [];
@@ -202,16 +257,11 @@ Template.trackingEdit.events({
 			})
 		});
 
-		// console.log('batchCheckedLessonProperties');
-		// console.log(batchCheckedLessonProperties);
-		// console.log('batchUncheckedLessonProperties');
-		// console.log(batchUncheckedLessonProperties);
-
 		let action = $('.js-action').val();
 
 		// No Choice ----------------------------------------------------------------------
 		if (action === 'choose') {
-			console.log('choose');
+			// console.log('choose');
 
 			Alerts.insert({
 				colorClass: 'bg-info',
@@ -223,7 +273,39 @@ Template.trackingEdit.events({
 		}
 
 		if (action === 'labels') {
-			console.log('labels');
+			// console.log('labels');
+			
+			$('.js-updating').show();
+			$('.js-submit').prop('disabled', true);
+
+			let bulkUpsertLessons = []
+			event.target.weekDayLabel.forEach(label => {
+				bulkUpsertLessons.push({updateOne: 
+					{ 
+						filter: {_id: label.id}, 
+						update: {$set: {
+							weekDay: label.value,
+							weekDayEdited: true,
+						}} 
+					} 
+				});
+			});
+
+			Meteor.call('bulkInsertLessons', bulkUpsertLessons, function(error, result) {
+				if (error) {
+					Alerts.insert({
+						colorClass: 'bg-danger',
+						iconClass: 'icn-danger',
+						message: error.reason,
+					});
+					$('.js-updating').hide();
+					$('.js-submit').prop('disabled', false);
+				} else {
+					FlowRouter.go('/tracking/students/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'));
+				}
+			});
+				
+			return false;
 		}
 
 
@@ -231,7 +313,7 @@ Template.trackingEdit.events({
 
 			// Insert ----------------------------------------------------------------------
 			if (action === 'insert') {
-				console.log('insert');
+				// console.log('insert');
 
 				$('.js-updating').show();
 				$('.js-submit').prop('disabled', true);
@@ -243,7 +325,7 @@ Template.trackingEdit.events({
 				batchCheckedLessonProperties.forEach(lesson => {
 					newLessons.push({
 						_id: lesson._id,
-						order: lesson.weekDay,
+						order: lesson.order,
 						weekDay: lesson.weekDay,
 						assigned: false,
 						completed: false,
@@ -302,9 +384,9 @@ Template.trackingEdit.events({
 							upsert:true 
 						} 
 					});
-				})
+				});
 
-				Meteor.call('batchUpdateLessons', bulkUpsertLessons, [], function(error, result) {
+				Meteor.call('bulkInsertLessons', bulkUpsertLessons, function(error, result) {
 					if (error) {
 						Alerts.insert({
 							colorClass: 'bg-danger',
@@ -314,44 +396,9 @@ Template.trackingEdit.events({
 						$('.js-updating').hide();
 						$('.js-submit').prop('disabled', false);
 					} else {
-						FlowRouter.go('/tracking/students/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'))
+						FlowRouter.go('/tracking/students/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'));
 					}
 				});
-			
-
-				
-
-				// if (!LocalLessons.find().count()) {
-				// 	Alerts.insert({
-				// 		colorClass: 'bg-info',
-				// 		iconClass: 'icn-info',
-				// 		message: 'You must insert at least one new segment or click "Cancel".',
-				// 	});
-				// } else {
-				// 	$('.js-updating').show();
-				// 	$('.js-submit').prop('disabled', true);
-
-				// 	let bulkLessonProperties =[]
-
-				// 	LocalLessons.find().forEach(lessonProperties => {
-				// 		bulkLessonProperties.push({insertOne: {"document": lessonProperties}})
-				// 	})
-
-				// 	Meteor.call('bulkInsertLessons', bulkLessonProperties, function(error, result) {
-				// 		if (error) {
-				// 			Alerts.insert({
-				// 				colorClass: 'bg-danger',
-				// 				iconClass: 'icn-danger',
-				// 				message: error.reason,
-				// 			});
-				// 			$('.js-updating').hide();
-				// 			$('.js-submit').prop('disabled', false);
-				// 		} else {
-				// 			LocalLessons.remove({});
-				// 			FlowRouter.go('/tracking/students/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'))
-				// 		}
-				// 	});
-				// }
 
 				return false;
 			}
@@ -359,7 +406,7 @@ Template.trackingEdit.events({
 
 			// Complete ----------------------------------------------------------------------
 			if (action === 'complete') {
-				console.log('complete');
+				// console.log('complete');
 
 				$('.js-updating').show();
 				$('.js-submit').prop('disabled', true);
@@ -367,13 +414,12 @@ Template.trackingEdit.events({
 				batchCheckedLessonProperties.forEach(lesson => {
 					lesson.completed = true;
 				})
-				// console.log('complete');
 			}
 
 
 			// Incomplete ----------------------------------------------------------------------
 			if (action === 'incomplete') {
-				console.log('incomplete');
+				// console.log('incomplete');
 
 				$('.js-updating').show();
 				$('.js-submit').prop('disabled', true);
@@ -386,7 +432,7 @@ Template.trackingEdit.events({
 
 			// Assigned ----------------------------------------------------------------------
 			if (action === 'assigned') {
-				console.log('assigned');
+				// console.log('assigned');
 
 				$('.js-updating').show();
 				$('.js-submit').prop('disabled', true);
@@ -399,7 +445,7 @@ Template.trackingEdit.events({
 
 			// Unassigned ----------------------------------------------------------------------
 			if (action === 'unassigned') {
-				console.log('unassigned');
+				// console.log('unassigned');
 
 				$('.js-updating').show();
 				$('.js-submit').prop('disabled', true);
@@ -412,7 +458,7 @@ Template.trackingEdit.events({
 
 			// Existing Week ----------------------------------------------------------------------
 			if (action === 'existing') {
-				console.log('existing');
+				// console.log('existing');
 
 				$('.js-updating').show();
 				$('.js-submit').prop('disabled', true);
@@ -427,7 +473,6 @@ Template.trackingEdit.events({
 					lessonStats.push({schoolWorkId: schoolWorkId, lessonCount: lessonCount});
 				})
 
-				console.log($('.js-checkbox-existing-append-notes').val().trim() === 'true')
 				function getNoteProperties() {
 					if ($('.js-checkbox-existing-append-notes').val().trim() === 'true') {
 						let notes = Notes.find({schoolWorkId: {$in: schoolWorkIds}, weekId: FlowRouter.getParam('selectedWeekId')}).fetch()
@@ -447,8 +492,6 @@ Template.trackingEdit.events({
 					}
 					return 'prepend';
 				}
-				console.log(getNoteProperties())
-				console.log(notePlacement())
 
 				Meteor.call('checkSpecificWeek', weekId, lessonStats, function(error, newLessonStats) {
 					if (error) {
@@ -458,9 +501,6 @@ Template.trackingEdit.events({
 							message: error.reason,
 						});
 					} else {
-						console.log('newLessonStats');
-						console.log(newLessonStats);
-
 						let error = [];
 						newLessonStats.forEach(lessonStat => {
 							if (lessonStat.lessonCount >= 8) {
@@ -497,15 +537,6 @@ Template.trackingEdit.events({
 								});
 							});
 
-							console.log('batchCheckedLessonProperties');
-							console.log(batchCheckedLessonProperties);
-							console.log('batchUncheckedLessonProperties');
-							console.log(batchUncheckedLessonProperties);
-							console.log('notProperties')
-							console.log(getNoteProperties())
-							console.log('notePlacement')
-							console.log(notePlacement())
-
 							Meteor.call('batchMoveLessonsToExistingWeek', batchCheckedLessonProperties, batchUncheckedLessonProperties, getNoteProperties(), notePlacement(), function(error, result) {
 								if (error) {
 									Alerts.insert({
@@ -535,14 +566,13 @@ Template.trackingEdit.events({
 					}
 				})
 
-				// console.log('specfic');
 				return false;
 			}
 
 
 			// New Week ----------------------------------------------------------------------
 			if (action === 'new') {
-				console.log('new');
+				// console.log('new');
 
 				$('.js-updating').show();
 				$('.js-submit').prop('disabled', true);
@@ -599,15 +629,6 @@ Template.trackingEdit.events({
 							}
 							return [];
 						}
-						
-						console.log('batchCheckedLessonProperties');
-						console.log(batchCheckedLessonProperties);
-						console.log('batchUncheckedLessonProperties');
-						console.log(batchUncheckedLessonProperties);
-						console.log('lessonProperties');
-						console.log(lessonProperties);
-						console.log('notProperties');
-						console.log(getNoteProperties());
 
 						Meteor.call('batchUpdateLessons', lessonProperties, getNoteProperties(), function(error, result) {
 							if (error) {
@@ -637,7 +658,6 @@ Template.trackingEdit.events({
 					}
 				});
 
-				// console.log('move');
 				return false;
 			}
 
@@ -671,8 +691,6 @@ Template.trackingEdit.events({
 
 			return false;
 		}
-
-		console.log(batchCheckedLessonProperties)
 
 		// Batch Update Lessons
 		Meteor.call('batchUpdateLessons', batchCheckedLessonProperties, [], function(error, result) {

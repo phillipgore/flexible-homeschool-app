@@ -53,6 +53,8 @@
   .dis-tn-block { display: block; }
   .dis-tn-inline { display: inline; }
   .dis-tn-inline-block { display: inline-block; }
+  .dis-tn-table-row { display: table-row; }
+  .dis-tn-table-cell { display: table-cell; }
   .dis-tn-none, .hide { display: none; }
 
   .of-tn-hidden { overflow: hidden; }
@@ -263,6 +265,8 @@
   .dis-xs-block { display: block; }
   .dis-xs-inline { display: inline; }
   .dis-xs-inline-block { display: inline-block; }
+  .dis-xs-table-row { display: table-row; }
+  .dis-xs-table-cell { display: table-cell; }
   .dis-xs-none { display: none; }
 
   .fl-xs-left { float: left; }
@@ -475,6 +479,8 @@
   .dis-sm-block { display: block; }
   .dis-sm-inline { display: inline; }
   .dis-sm-inline-block { display: inline-block; }
+  .dis-sm-table-row { display: table-row; }
+  .dis-sm-table-cell { display: table-cell; }
   .dis-sm-none { display: none; }
 
   .of-sm-hidden { overflow: hidden; }
@@ -687,6 +693,8 @@
   .dis-md-block { display: block; }
   .dis-md-inline { display: inline; }
   .dis-md-inline-block { display: inline-block; }
+  .dis-md-table-row { display: table-row; }
+  .dis-md-table-cell { display: table-cell; }
   .dis-md-none { display: none; }
 
   .of-md-hidden { overflow: hidden; }
@@ -899,6 +907,8 @@
   .dis-lg-block { display: block; }
   .dis-lg-inline { display: inline; }
   .dis-lg-inline-block { display: inline-block; }
+  .dis-lg-table-row { display: table-row; }
+  .dis-lg-table-cell { display: table-cell; }
   .dis-lg-none { display: none; }
 
   .of-lg-hidden { overflow: hidden; }
@@ -1111,6 +1121,8 @@
   .dis-xl-block { display: block; }
   .dis-xl-inline { display: inline; }
   .dis-xl-inline-block { display: inline-block; }
+  .dis-xl-table-row { display: table-row; }
+  .dis-xl-table-cell { display: table-cell; }
   .dis-xl-none { display: none; }
 
   .of-xl-hidden { overflow: hidden; }
@@ -1323,6 +1335,8 @@
   [class*='dis-'][class*='-block'] { display: block; }
   [class*='dis-'][class*='-inline'] { display: inline; }
   [class*='dis-'][class*='-inline-block'] { display: inline-block; }
+  [class*='dis-'][class*='-table-cell '] { display: table-cell; }
+  [class*='dis-'][class*='-table-row '] { display: table-row; }
   [class*='dis-'][class*='-none'], .hide { display: none; }
 
   [class*='of-'][class*='-hidden'] { overflow: hidden; }

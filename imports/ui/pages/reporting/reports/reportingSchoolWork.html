@@ -35,7 +35,7 @@
 						{{/if}}
 						{{#if report.schoolWorkTimesVisible}}
 							<td colspan="{{colSpan report.schoolWorkStatsVisible report.schoolWorkTimesVisible}}">
-								<span class="txt-gray-darkest">Total Segments: </span>{{work.totalTime}}
+								<span class="txt-gray-darkest">Total Time: </span>{{work.totalTime}}
 							</td>
 						{{/if}}
 						
@@ -61,7 +61,7 @@
 						{{/if}}
 						{{#if report.schoolWorkTimesVisible}}
 							<td colspan="{{colSpan report.schoolWorkStatsVisible report.schoolWorkTimesVisible}}">
-								<span class="txt-gray-darkest">Avg / Segment: </span>{{work.averageLessons}}
+								<span class="txt-gray-darkest">Avg / Seg: </span>{{work.averageLessons}}
 							</td>
 						{{/if}}
 					</tr>
@@ -84,11 +84,11 @@
 
 				{{#if report.timesPerWeekReportVisible}}
 					{{#each term in terms}}
-						<table class="nested">
+						<table class="nested page-break-inside-avoid">
 							{{#each week in termWeeks term._id}}
 								<tr>
-									<th colspan="3" class="font-weight-500">Term {{term.order}}: Week {{week.order}}</th>
-									<th colspan="2">
+									<th width="40%" colspan="2" class="font-weight-500">Term {{term.order}}: Week {{week.order}}</th>
+									<th width="60%" colspan="2">
 										{{#if report.timesPerWeekProgressVisible}}
 											<div class="meter meter-report">
 												<div class="meter-progress {{#if progressComplete week.lessonData work._id}}meter-progress-primary{{/if}}" style="width: {{progress week.lessonData work._id}}%;">
@@ -99,44 +99,60 @@
 										{{/if}}
 									</th>
 								</tr>
-								<tr>
-									<th class="cell-tn-w-10 cell-lg-w-5"></th>
-									<th class="cell-lg-w-10 font-weight-500">
-										<div class="txt-ellipsis txt-tn-center">Segment</div>
-									</th>
-									<th class="cell-tn-w-10 font-weight-500">
-										<div class="txt-ellipsis txt-tn-center">Cmpl Dt</div>
-									</th>
-									<th class="cell-tn-w-10 font-weight-500">
-										<div class="txt-ellipsis txt-tn-center">Cmpl Tm</div>
-									</th>
-									<th class="cell-tn-w-60 cell-lg-w-65 font-weight-500">
-										<div class="txt-ellipsis">Completed Work</div>
-									</th>
-								</tr>
+
 								{{#each lesson in schoolWorkLessons week.lessonData work._id}}
 									<tr>
-										<td class="txt-tn-center">
+										<td rowspan="2" width="10%" class="v-align-middle txt-tn-center">
 											{{#if lesson.completed}}
 												<img class="img-tn-16" src="/img/checkbox-btn-checked.svg">
 											{{else}}
 												<img class="img-tn-16" src="/img/checkbox-btn.svg">
 											{{/if}}
 										</td>
-										<td class="txt-tn-center">{{lesson.order}}</td>
-										<td class="txt-tn-center">
-											{{#if lesson.completedOn.length}}
+										<td width="30%" class="">
+											<div class="txt-gray-darker font-style-italic dis-xl-inline m-tn-b-3 m-xl-b-0">
+												Weekday:
+											</div>
+											{{#if lesson.weekDay}}
+												{{weekDays lesson.weekDay}}
+											{{else}}
+												&nbsp;
+											{{/if}}
+										</td>
+										<td width="30%">
+											<div class="txt-gray-darker font-style-italic dis-xl-inline m-tn-b-3 m-xl-b-0">
+												<span class="dis-xs-none dis-sm-inline dis-lg-none">Cplt Date:</span>
+												<span class="dis-tn-none dis-xs-inline dis-sm-none dis-lg-inline">Completed Date:</span>
+												<span class="print-only-inline">Completed Date:</span>
+											</div>
+											{{#if lesson.completedOn}}
 												{{shortDateFormat lesson.completedOn}}
+											{{else}}
+												&nbsp;
 											{{/if}}
 										</td>
-										<td class="txt-tn-center">
+										<td width=30%>
+											<div class="txt-gray-darker font-style-italic dis-xl-inline m-tn-b-3 m-xl-b-0">
+												<span class="dis-xs-none dis-sm-inline dis-lg-none">Cplt Time:</span>
+												<span class="dis-tn-none dis-xs-inline dis-sm-none dis-lg-inline">Completed Time:</span>
+												<span class="print-only-block">Completed Time:</span>
+											</div>
 											{{#if lesson.completionTime}}
-												{{lesson.completionTime}} min
+												{{lesson.completionTime}}{{#if lesson.completionTime}}m{{/if}}
+											{{else}}
+												&nbsp;
 											{{/if}}
 										</td>
-										<td>
+									</tr>
+									<tr>
+										<td width="90%" colspan="3">
+											<div class="txt-tn-left txt-gray-darker font-style-italic m-tn-b-3">
+												Completed Work: 
+											</div>
 											{{#if lesson.description.length}}
 												{{{lesson.description}}}
+											{{else}}
+												<br>&nbsp;<br>&nbsp;
 											{{/if}}
 										</td>
 									</tr>

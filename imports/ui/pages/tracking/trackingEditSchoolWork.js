@@ -25,7 +25,7 @@ Template.trackingEditSchoolWork.helpers({
 			return {weekDay: weekDay, hadWeekDay: true};
 		};
 
-		let workLessons = Lessons.find({schoolWorkId: schoolWorkId, weekId: FlowRouter.getParam('selectedWeekId'), studentId: FlowRouter.getParam('selectedStudentId')}).fetch();
+		let workLessons = Lessons.find({schoolWorkId: schoolWorkId, weekId: FlowRouter.getParam('selectedWeekId'), studentId: FlowRouter.getParam('selectedStudentId')}).fetch() && Lessons.find({schoolWorkId: schoolWorkId, weekId: FlowRouter.getParam('selectedWeekId'), studentId: FlowRouter.getParam('selectedStudentId')}).fetch();
 		workLessons.forEach((lesson, index) => {
 			let weekDay = checkWeekDay(lesson.weekDay, index);
 			lesson.weekDay = weekDay.weekDay
@@ -40,8 +40,9 @@ Template.trackingEditSchoolWork.helpers({
 		}
 		
 		let days = [1, 2, 3, 4, 5, 6, 7];
-		let workLessonDays = workLessons.map(lesson => parseInt(lesson.weekDay));
+		let workLessonDays = workLessons.map(lesson => parseInt(lesson.order));
 		let addDays = _.difference(days, workLessonDays);
+
 		let schoolWork = SchoolWork.findOne({_id: schoolWorkId}, {fields: {scheduledDays: 1}});
 		let hadWeekDay = weekDaysExist(schoolWork); 
 
@@ -191,6 +192,13 @@ Template.trackingEditSchoolWork.helpers({
 		if (windowWidth >= 1112) {
 			return weekdayLabels(day);
 		}
+	},
+
+	isWeekDay: function(weekDay) {
+		if (weekDay === '0' || weekDay === undefined) {
+			return false;
+		}
+		return true;
 	},
 });
 

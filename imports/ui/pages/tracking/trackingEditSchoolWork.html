@@ -30,7 +30,7 @@
 								{{#if isEdit}}
 									{{#if lesson.new}}
 										<label class="checkbox track-checkbox">
-											<input data-schoolWork-id="{{work._id}}" data-lesson-id="{{lesson._id}}" data-completed="{{lesson.completed}}" data-weekDay="{{lesson.weekDay}}" data-hadWeekDay="{{lesson.hadWeekDay}}" class="js-checkbox js-segment-checkbox" type="checkbox" name="" value="false">
+											<input data-schoolWork-id="{{work._id}}" data-lesson-id="{{lesson._id}}" data-completed="{{lesson.completed}}" data-weekDay="{{lesson.weekDay}}" data-hadWeekDay="{{lesson.hadWeekDay}}" class="js-checkbox js-segment-checkbox js-week-{{lesson.weekDay}}" type="checkbox" name="" value="false">
 											<div class="checkbox-icon"></div>
 										</label>
 									{{/if}}
@@ -43,14 +43,14 @@
 								<!-- <div class="txt-tn-left txt-black m-tn-l-neg-9 pos-absolute">{{lesson.order}}</div> -->
 								{{#if isEdit}}
 									<label class="checkbox track-checkbox">
-										<input data-schoolWork-id="{{work._id}}" data-lesson-id="{{lesson._id}}" data-completed="{{lesson.completed}}" class="js-checkbox js-segment-checkbox" type="checkbox" name="" value="false">
+										<input data-schoolWork-id="{{work._id}}" data-lesson-id="{{lesson._id}}" data-completed="{{lesson.completed}}" class="js-checkbox js-segment-checkbox  js-week-{{lesson.weekDay}}" type="checkbox" name="" value="false">
 										<div class="checkbox-icon"></div>
 									</label>
 								{{/if}}
 								{{#if isLabels}}
 									<div style="margin: 0 {{weekDayLabelMargin work._id}}">
 										<div class="icn-select icn-select-btn">
-											<select class="" name="" id="">
+											<select class="js-weekday-label-select" name="weekDayLabel" id="{{lesson._id}}">
 												{{#each day in daysOfWeek}}
 													<option value="{{day}}" selected="{{isSelected day lesson.weekDay}}">
 														{{#unless day}}
@@ -82,7 +82,7 @@
 					{{else}}
 						{{#each lesson in workLessons work._id}}
 							<div class="js-lesson-weekday-label-lower col-tn-1of{{lessonCount work._id}} txt-tn-center font-size-12 txt-gray-darkest">
-								{{#if lesson.weekDay}}
+								{{#if isWeekDay lesson.weekDay}}
 									{{weekDays lesson.weekDay}}
 								{{else}}
 									&nbsp;

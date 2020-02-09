@@ -79,16 +79,10 @@ table {
     text-align: left;
     margin-bottom: 45px;
 
-    &.nested {
-    	border-radius: 0px;
-	    margin-top: -46px;
-	    font-size: 14px;
-    }
-
     tr {
 		border-collapse: collapse;
-		overflow: hidden;
 		border: 1px solid $color-gray-dark;
+		overflow: hidden;
     }
 
     th {
@@ -102,10 +96,15 @@ table {
     }
 
     td {
+    	border-collapse: collapse;
     	border: 1px solid $color-gray-dark;
     	font-size: 14px;
     	padding: 11px 9px;
     	vertical-align: top;
+
+    	&.v-align-middle {
+    		vertical-align: middle;
+    	}
 
     	&.txt-ellipsis {
     		max-width: 150px;
@@ -114,13 +113,30 @@ table {
 			white-space: nowrap;
     	}
     }
+
+    &.nested {
+    	border-radius: 0;
+	    margin-top: -46px;
+	    font-size: 14px;
+
+	    tr td:last-child, 
+	    td:first-child {
+			border-bottom-color: $color-gray-darkest;
+		}
+
+		tr td:nth-child(4) {
+			border-bottom-color: $color-gray-dark;
+		}
+    }
 }
 
 @media only screen and (min-width: 0px) {
 	.cell-tn-w-5 { width: 5%; }
-	.cell-tn-w-10 { width: 10%; }
+	.cell-tn-w-10 { min-width: 10%; max-width: 10%;}
+	.cell-tn-w-30 { min-width: 30%; max-width: 30%;}
 	.cell-tn-w-60 { width: 60%; }
 	.cell-tn-w-65 { width: 65%; }
+	.cell-tn-w-90 { min-width: 90%; max-width: 90%;}
 }
 
 @media only screen and (min-width: 480px) {
@@ -143,9 +159,11 @@ table {
 
 @media only screen and (min-width: 896px) {
 	.cell-lg-w-5 { width: 5%; }
-	.cell-lg-w-10 { width: 10%; }
+	.cell-lg-w-10 { min-width: 10%; max-width: 10%;}
+	.cell-lg-w-30 { min-width: 30%; max-width: 30%;}
 	.cell-lg-w-60 { width: 60%; }
 	.cell-lg-w-65 { width: 65%; }
+	.cell-lg-w-90 { min-width: 90%; max-width: 90%;}
 
 	td.txt-ellipsis {
     	max-width: 276px;

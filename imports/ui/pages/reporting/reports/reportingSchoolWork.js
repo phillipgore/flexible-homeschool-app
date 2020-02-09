@@ -116,7 +116,14 @@ Template.reportingSchoolWork.helpers({
 			return 1;
 		}
 		return 2;
-	}
+	},
+
+	isWeekDay: function(weekDay) {
+		if (weekDay === '0' || weekDay === undefined) {
+			return false;
+		}
+		return true;
+	},
 });
 
 
