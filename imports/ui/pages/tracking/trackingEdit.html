@@ -114,8 +114,8 @@
 			<div class="well bg-gray-lighter p-tn-t-5 p-tn-rl-0 p-tn-b-12">
 				{{#if weekLessonsExist}}
 					{{#if isEdit}}
-						<div class="row p-tn-tl-9 p-tn-r-72 p-tn-b-27">
-							<div class="col-tn-1of8">
+						<div class="row p-tn-trl-9 p-xl-r-72 p-tn-b-9">
+							<div class="col-tn-1of4 col-lg-1of8 p-tn-b-18">
 								<label class="checkbox no-margin">
 									<input id="all" class="js-check-multiple js-check-multiple-all" type="checkbox">
 									<div class="checkbox-icon"></div> 
@@ -124,8 +124,8 @@
 							</div>
 							{{#unless isInsert}}
 								{{#each weekDay in daysOfWeek}}
-									<div class="col-tn-1of8">
-										<label class="checkbox no-margin fl-tn-right">
+									<div class="col-tn-1of4 col-lg-1of8 p-tn-b-18">
+										<label class="checkbox no-margin">
 											<input id="{{weekDay}}" class="js-check-multiple js-check-multiple-{{weekDay}} {{#unless hasWeekDay weekDay}}js-check-multiple-weekday-active{{/unless}}" type="checkbox" disabled="{{hasWeekDay weekDay}}">
 											<div class="checkbox-icon"></div> 
 											<div class="checkbox-label bold">{{weekDays weekDay}}</div>
