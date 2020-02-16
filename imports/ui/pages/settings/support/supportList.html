@@ -1,5 +1,7 @@
 <template name="supportList">
-	
+	{{#unless Template.subscriptionsReady}}
+		{{> loading}}
+	{{/unless}}
 	<main class="app-content app-content-preceeds-toolbar txt-tn-center">
 		<div class="m-tn-t-72 p-tn-t-27">
 			<i class="icn-support txt-gray font-size-90"></i>
@@ -8,7 +10,4 @@
 			<p class="m-tn-t-36 m-tn-b-21 m-tn-rl-36"><a class="btn" href="mailto:support@aflexiblehomeschool.com">Email Support</a></p>
 		</div>
 	</main>
-	{{#unless Template.subscriptionsReady}}
-		{{> loading}}
-	{{/unless}}
 </template>

@@ -1,5 +1,7 @@
 <template name="billingList">
-	
+	{{#unless subscriptionReady}}
+		{{> loading}}
+	{{/unless}}
 	<main class="app-content app-content-preceeds-toolbar">
 		<div class="clearfix p-tn-t-27 p-tn-rl-54">
 			<div class="dis-tn-inline-block fl-tn-left m-tn-r-12">
@@ -98,7 +100,4 @@
 			<p class="m-tn-18 txt-gray-darkest">If you have a coupon code, enter it before you unpause your account.</p>
 		{{/if}}
 	</main>
-	{{#unless subscriptionReady}}
-		{{> loading}}
-	{{/unless}}
 </template>

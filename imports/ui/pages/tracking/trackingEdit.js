@@ -272,6 +272,7 @@ Template.trackingEdit.events({
 			return false;
 		}
 
+		// Labels ----------------------------------------------------------------------
 		if (action === 'labels') {
 			// console.log('labels');
 			
@@ -284,7 +285,7 @@ Template.trackingEdit.events({
 					{ 
 						filter: {_id: label.id}, 
 						update: {$set: {
-							weekDay: label.value,
+							weekDay: parseInt(label.value),
 							weekDayEdited: true,
 						}} 
 					} 
@@ -381,7 +382,7 @@ Template.trackingEdit.events({
 						{ 
 							filter: {_id: lesson._id}, 
 							update: {$set: lesson}, 
-							upsert:true 
+							upsert: true 
 						} 
 					});
 				});

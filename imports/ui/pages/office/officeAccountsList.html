@@ -1,4 +1,7 @@
 <template name="officeAccountsList">
+	{{#unless subscriptionReady}}
+		{{> loading}}
+	{{/unless}}
 	<main class="app-content app-content-preceeds-toolbar">
 		{{#if groups.count}}
 			<ul class="list">
@@ -23,7 +26,4 @@
 			</div>
 		{{/if}}
 	</main>
-	{{#unless subscriptionReady}}
-		{{> loading}}
-	{{/unless}}
 </template>

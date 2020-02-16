@@ -25,14 +25,22 @@ Template.trackingEditSchoolWork.helpers({
 			return {weekDay: weekDay, hadWeekDay: true};
 		};
 
-		let workLessons = Lessons.find({schoolWorkId: schoolWorkId, weekId: FlowRouter.getParam('selectedWeekId'), studentId: FlowRouter.getParam('selectedStudentId')}).fetch() && Lessons.find({schoolWorkId: schoolWorkId, weekId: FlowRouter.getParam('selectedWeekId'), studentId: FlowRouter.getParam('selectedStudentId')}).fetch();
+		let workLessons = Lessons.find({
+			schoolWorkId: schoolWorkId, 
+			weekId: FlowRouter.getParam('selectedWeekId'), 
+			studentId: FlowRouter.getParam('selectedStudentId')
+		}, {
+			order: {order: 1}
+		}).fetch();
+
 		workLessons.forEach((lesson, index) => {
 			let weekDay = checkWeekDay(lesson.weekDay, index);
 			lesson.weekDay = weekDay.weekDay
 			lesson.hadWeekDay = weekDay.hadWeekDay
 		});
 
-		let weekDaysExist = (schoolWork) => {
+		let weekDaysExist = (schoolWorkId) => {
+			let schoolWork = SchoolWork.findOne({_id: schoolWorkId}, {fields: {scheduledDays: 1}});
 			if (schoolWork.scheduledDays && schoolWork.scheduledDays[0].days && schoolWork.scheduledDays[0].days.length) {
 				return true;
 			}
@@ -43,8 +51,7 @@ Template.trackingEditSchoolWork.helpers({
 		let workLessonDays = workLessons.map(lesson => parseInt(lesson.order));
 		let addDays = _.difference(days, workLessonDays);
 
-		let schoolWork = SchoolWork.findOne({_id: schoolWorkId}, {fields: {scheduledDays: 1}});
-		let hadWeekDay = weekDaysExist(schoolWork); 
+		let hadWeekDay = weekDaysExist(schoolWorkId); 
 
 		addDays.forEach(weekDay => {
 			workLessons.push({_id: Random.id(), weekDay: weekDay, hadWeekDay: hadWeekDay, schoolWorkId: schoolWorkId, new: true});
@@ -195,7 +202,7 @@ Template.trackingEditSchoolWork.helpers({
 	},
 
 	isWeekDay: function(weekDay) {
-		if (weekDay === '0' || weekDay === undefined) {
+		if (weekDay === 0 || weekDay === '0' || weekDay === undefined) {
 			return false;
 		}
 		return true;

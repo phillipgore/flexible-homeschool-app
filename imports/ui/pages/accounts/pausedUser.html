@@ -1,4 +1,8 @@
 <template name="pausedUser">
+	{{> signingOut}}
+	{{#unless Template.subscriptionsReady}}
+		{{> loading}}
+	{{/unless}}
 	<main class="app-content txt-tn-center">
 		<!-- <img class="img-tn-72 | m-tn-t-72 m-tn-b-36" src="/img/icn-verify-email.svg"> -->
 		<div class="m-tn-t-72 m-tn-b-36"><i class="icn-pause-circle txt-gray font-size-60"></i></div>
@@ -6,8 +10,4 @@
 		<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36">Your access has been paused.<br>Please contact your Account Administrator.</p>
 		<button class="js-sign-out btn">Sign Out</button>
 	</main>
-	{{> signingOut}}
-	{{#unless Template.subscriptionsReady}}
-		{{> loading}}
-	{{/unless}}
 </template>

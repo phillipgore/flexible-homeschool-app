@@ -1,5 +1,8 @@
 <template name="reportingEdit">
-	
+	{{#unless Template.subscriptionsReady}}
+		{{> loading}}
+	{{/unless}}
+	{{> updating}}
 	<main class="app-content app-content-preceeds-toolbar">
 		<form class="js-form-report-update report-form m-tn-18 m-lg-rl-auto p-tn-rl-9">
 			<input type="hidden" name="_id" value={{report._id}}>
@@ -242,8 +245,4 @@
 			</footer>
 		</form>
 	</main>
-	{{#unless Template.subscriptionsReady}}
-		{{> loading}}
-	{{/unless}}
-	{{> updating}}
 </template>

@@ -1,11 +1,10 @@
 <template name="verifySent">
-	
+	{{#unless Template.subscriptionsReady}}
+		{{> loading}}
+	{{/unless}}
 	<main class="app-content txt-tn-center">
 		<img class="img-tn-72 | m-tn-t-72 m-tn-b-36" src="/img/icn-verify-email.svg">
 		<h1>Verify Your Email</h1>
 		<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36">We sent you an email with a verification link.</p>
 	</main>
-	{{#unless Template.subscriptionsReady}}
-		{{> loading}}
-	{{/unless}}
 </template>

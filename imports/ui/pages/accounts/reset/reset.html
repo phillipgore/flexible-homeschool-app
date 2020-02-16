@@ -1,5 +1,8 @@
 <template name="reset">
-	
+	{{#unless Template.subscriptionsReady}}
+		{{> loading}}
+	{{/unless}}
+	{{> sendingEmail}}
 	<main class="app-content app-content-preceeds-toolbar app-content-form">
 		<form class="form-reset row p-sm-t-36">
 			<h1 class="txt-tn-center m-tn-t-24 m-tn-b-12">Reset Password</h1>
@@ -12,8 +15,4 @@
 			</footer>
 		</form>
 	</main>
-	{{#unless Template.subscriptionsReady}}
-		{{> loading}}
-	{{/unless}}
-	{{> sendingEmail}}
 </template>

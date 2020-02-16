@@ -1,5 +1,7 @@
 <template name="studentsList">
-	
+	{{#unless Template.subscriptionsReady}}
+		{{> loading}}
+	{{/unless}}
 	<main class="app-content app-content-preceeds-toolbar">
 		{{#if students.count}}
 			<ul class="list">
@@ -22,7 +24,4 @@
 			</div>
 		{{/if}}
 	</main>
-	{{#unless Template.subscriptionsReady}}
-		{{> loading}}
-	{{/unless}}
 </template>

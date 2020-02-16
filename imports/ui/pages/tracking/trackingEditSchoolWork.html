@@ -27,14 +27,14 @@
 					{{#if isInsert}}
 						{{#each lesson in insertableWorkLessons work._id}}
 							<div class="js-lesson-btn js-lesson-btn-existing btn pos-relative txt-tn-center col-tn-1of7 {{#if lesson.new}}btn-gray-dark-outline{{else}}{{lessonStatus lesson work._id}}{{/if}}">
-								{{#if isEdit}}
+								<!-- {{#if isEdit}} -->
 									{{#if lesson.new}}
 										<label class="checkbox track-checkbox">
 											<input data-schoolWork-id="{{work._id}}" data-lesson-id="{{lesson._id}}" data-completed="{{lesson.completed}}" data-weekDay="{{lesson.weekDay}}" data-hadWeekDay="{{lesson.hadWeekDay}}" class="js-checkbox js-segment-checkbox js-week-{{lesson.weekDay}}" type="checkbox" name="" value="false">
 											<div class="checkbox-icon"></div>
 										</label>
 									{{/if}}
-								{{/if}}
+								<!-- {{/if}} -->
 							</div>
 						{{/each}}
 					{{else}}

@@ -1,5 +1,7 @@
 <template name="trackingList">
-	
+	{{#unless subscriptionReady}}
+		{{> loading}}
+	{{/unless}}
 	<main class="app-content app-content-preceeds-toolbar">
 		{{#if studentsSchoolYearsCount}}
 			<ul class="data-list">
@@ -16,7 +18,4 @@
 			</div>
 		{{/if}}
 	</main>
-	{{#unless subscriptionReady}}
-		{{> loading}}
-	{{/unless}}
 </template>

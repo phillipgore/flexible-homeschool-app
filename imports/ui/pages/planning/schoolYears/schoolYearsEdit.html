@@ -1,5 +1,8 @@
 <template name="schoolYearsEdit">
-	
+	{{#unless subscriptionReady}}
+		{{> loading}}
+	{{/unless}}
+	{{> updating}}
 	<main class="app-content app-content-preceeds-toolbar app-content-form">
 		<form class="js-form-school-year-edit row" novalidate>
 
@@ -158,8 +161,4 @@
 
 		</form>
 	</main>
-	{{#unless subscriptionReady}}
-		{{> loading}}
-	{{/unless}}
-	{{> updating}}
 </template>

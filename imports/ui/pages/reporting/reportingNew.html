@@ -1,5 +1,8 @@
 <template name="reportingNew">
-	
+	{{> saving}}
+	{{#unless Template.subscriptionsReady}}
+		{{> loading}}
+	{{/unless}}
 	<main class="app-content app-content-preceeds-toolbar">
 		<form class="js-form-reports-new report-form m-tn-18 m-lg-rl-auto p-tn-rl-9">
 			<div class="row p-tn-b-18">
@@ -237,8 +240,4 @@
 			</footer>
 		</form>
 	</main>
-	{{> saving}}
-	{{#unless Template.subscriptionsReady}}
-		{{> loading}}
-	{{/unless}}
 </template>

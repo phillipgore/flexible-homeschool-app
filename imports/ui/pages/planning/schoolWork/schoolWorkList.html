@@ -1,5 +1,7 @@
 <template name="schoolWorkList">
-	
+	{{#unless subscriptionReady}}
+		{{> loading}}
+	{{/unless}}
 	<main class="app-content app-content-preceeds-toolbar">
 		{{#if studentsSchoolYearsCount}}
 			{{#if schoolWorkCount}}
@@ -39,7 +41,4 @@
 		</div>
 		{{/if}}
 	</main>
-	{{#unless subscriptionReady}}
-		{{> loading}}
-	{{/unless}}
 </template>

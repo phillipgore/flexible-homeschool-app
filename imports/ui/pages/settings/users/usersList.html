@@ -1,5 +1,7 @@
 <template name="usersList">
-	
+	{{#unless Template.subscriptionsReady}}
+		{{> loading}}
+	{{/unless}}
 	<main class="app-content app-content-preceeds-toolbar">
 		<ul class="list">
 			{{#if activeRoute currentRouteName 'usersNew'}}
@@ -14,7 +16,4 @@
 			{{> usersEach users=users usersPending=usersPending usersPaused=usersPaused}}
 		</ul>
 	</main>
-	{{#unless Template.subscriptionsReady}}
-		{{> loading}}
-	{{/unless}}
 </template>

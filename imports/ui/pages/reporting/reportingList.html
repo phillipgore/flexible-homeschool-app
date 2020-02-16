@@ -1,5 +1,7 @@
 <template name="reportingList">
-
+	{{#unless Template.subscriptionsReady}}
+		{{> loading}}
+	{{/unless}}
 	<main class="app-content app-content-preceeds-toolbar">
 		{{#if reports.count}}
 			<ul class="list">
@@ -21,9 +23,5 @@
 				<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36 txt-gray-darkest">Click the plus icon above to add your first Report.</p>
 			</div>
 		{{/if}}
-		{{#unless Template.subscriptionsReady}}
-			{{> loading}}
-		{{/unless}}
 	</main>
-
 </template>

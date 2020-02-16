@@ -1,4 +1,7 @@
 <template name="trackingView">
+	{{#unless subscriptionReady}}
+		{{> loading}}
+	{{/unless}}
 	<main class="js-app-content app-content app-content-preceeds-toolbar app-content-tracking row">
 		<h1 class="txt-tn-center print-only-block">{{student.preferredFirstName.name}} {{student.lastName}}</h1>
 		<h2 class="txt-tn-center txt-gray-darkest txt-capitalize print-only-block p-tn-b-18">{{selectedSchoolYear.startYear}}-{{selectedSchoolYear.endYear}}, Term {{selectedTerm.order}}, Week {{selectedWeek.order}}</h2>
@@ -23,7 +26,4 @@
 			{{/if}}
 		{{/if}}
 	</main>
-	{{#unless subscriptionReady}}
-		{{> loading}}
-	{{/unless}}
 </template>

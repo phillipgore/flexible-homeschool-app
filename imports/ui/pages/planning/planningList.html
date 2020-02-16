@@ -1,5 +1,7 @@
 <template name="planningList">
-	
+	{{#unless Template.subscriptionsReady}}
+		{{> loading}}
+	{{/unless}}
 	<main class="app-content app-content-preceeds-toolbar">
 		<ul class="list">
 			<li class="list-item">
@@ -45,7 +47,4 @@
 		
 		{{test.selectedFramePosition}}
 	</main>
-	{{#unless Template.subscriptionsReady}}
-		{{> loading}}
-	{{/unless}}	
 </template>

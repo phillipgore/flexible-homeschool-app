@@ -1,12 +1,11 @@
 <template name="resetSuccess">
-	
+	{{#unless Template.subscriptionsReady}}
+		{{> loading subbar=true}}
+	{{/unless}}
 	<main class="app-content txt-tn-center">
 		<img class="img-tn-72 | m-tn-t-72 m-tn-b-36" src="/img/icn-password-reset.svg">
 		<h1>Password Reset Success</h1>
 		<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36">Your password has been reset.</p>
 		<a class="btn" href="{{pathFor 'studentsView'}}">Sign In</a>
 	</main>
-	{{#unless Template.subscriptionsReady}}
-		{{> loading subbar=true}}
-	{{/unless}}
 </template>

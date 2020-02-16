@@ -1,5 +1,10 @@
 <template name="resourcesForm">
-
+	<span class="resource-loading">
+		{{#unless Template.subscriptionsReady}}
+			{{> loading}}
+		{{/unless}}
+		{{> saving}}
+	</span>
 	<form class="js-form-new-resource row">
 
 		<!-- Title -->
@@ -118,10 +123,4 @@
 		<!-- /Footer -->
 
 	</form>
-	<span class="resource-loading">
-		{{#unless Template.subscriptionsReady}}
-			{{> loading}}
-		{{/unless}}
-		{{> saving}}
-	</span>
 </template>

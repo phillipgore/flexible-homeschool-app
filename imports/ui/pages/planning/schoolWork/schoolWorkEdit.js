@@ -90,6 +90,7 @@ Template.schoolWorkEdit.helpers({
 			Template.instance().timesPerWeek.set(scheduledDays.map(scheduled => scheduled.segmentCount));
 			Template.instance().existingScheduledDays.set(scheduledDays)
 			Template.instance().scheduledDays.set(scheduledDays);
+
 			return true;
 		}
 	},
