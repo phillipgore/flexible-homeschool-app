@@ -7,6 +7,8 @@ import { Terms } from '../../../api/terms/terms.js';
 import { Weeks } from '../../../api/weeks/weeks.js';
 import { Notes } from '../../../api/notes/notes.js';
 
+import {saveNote} from '../../../modules/functions';
+
 import moment from 'moment';
 import _ from 'lodash'
 
@@ -80,11 +82,11 @@ Template.trackingSchoolWork.helpers({
 	},
 
 	hasNote: function(schoolWorkId) {
-		let note = Notes.findOne({schoolWorkId: schoolWorkId, weekId: FlowRouter.getParam('selectedWeekId')}) && Notes.findOne({schoolWorkId: schoolWorkId, weekId: FlowRouter.getParam('selectedWeekId')})
-		if (_.isUndefined(note)) {
+		let schoolWork = SchoolWork.findOne({_id: schoolWorkId}) && SchoolWork.findOne({_id: schoolWorkId})
+		if (_.isUndefined(schoolWork.note)) {
 			return false
 		}
-		if (note.note) {
+		if (schoolWork.note) {
 			return true;
 		}
 		return false;
@@ -92,10 +94,6 @@ Template.trackingSchoolWork.helpers({
 
 	workNote: function() {
 		return Session.get('schoolWorkNote');
-	},
-
-	editorContentReady: function() {
-		return Session.get('editorContentReady');
 	}
 });
 
@@ -103,72 +101,31 @@ Template.trackingSchoolWork.events({
 	'click .js-show-schoolWork-notes'(event) {
 		event.preventDefault();
 
+		let openSchoolWorkId = $('.js-notes.js-open').attr('data-work-id');
+
+		if (Session.get('hasChanged')) {
+			saveNote(openSchoolWorkId)
+		}
+
 		$('.js-info, .js-notes, .js-btn-go-to').hide()
 		$('.js-info').removeClass('js-open');
-		$('.js-editor-btn').removeClass('active')
-		Session.set({
-			'schoolWorkNote': null,
-			'editorContentReady': false,
-		});
+		$('.js-editor-btn').removeClass('active');
 
 		let schoolWorkId = $(event.currentTarget).attr('id');
 
 		if ($('.js-notes-' + schoolWorkId).hasClass('js-open')) {
-			$('.js-notes-' + schoolWorkId).removeClass('js-open')
+			$('.js-notes-' + schoolWorkId).removeClass('js-open');
 		} else {
 			$('.js-notes').removeClass('js-open');
 
 			$('.js-schoolWork-track').removeClass('active');
 			$('.js-lesson-input').removeAttr('style');
 			$('.js-notes-' + schoolWorkId).show().addClass('js-open');
-
-			Meteor.call('getNoteInfo', FlowRouter.getParam('selectedWeekId'), schoolWorkId, function(error, result) {
-				if (_.isUndefined(result)) {
-					Session.set({
-						'editorContentReady': true,
-						'schoolWorkNote': null,
-					});
-				} else {
-					Session.set({
-						'editorContentReady': true,
-						'schoolWorkNote': result.note,
-					});
-				}
-			});
 		}		
 	},
 
 	'keyup .js-notes-editor, click .js-editor-btn': function(event) {
-		let instance = Template.instance();
-		let schoolWorkId = $(event.currentTarget).parentsUntil('.js-notes').parent().attr('data-work-id');
-
-		if (instance.debounce) {
-			Meteor.clearTimeout(instance.debounce);
-		}
-
-		instance.debounce = Meteor.setTimeout(function() {
-			$('.js-notes-loader-' + schoolWorkId).show();
-			let user = Meteor.user();
-			let noteProperties = {
-				userId: user._id,
-				groupId: user.info.groupId,
-				weekId: FlowRouter.getParam('selectedWeekId'),
-				schoolWorkId: schoolWorkId,
-				note: $('.js-notes-' + schoolWorkId).find('.editor-content').html().trim(),
-			}
-
-			Meteor.call('upsertNotes', noteProperties, function(error, result) {
-				if (error) {
-					Alerts.insert({
-						colorClass: 'bg-danger',
-						iconClass: 'icn-danger',
-						message: error.reason,
-					});
-				} else {
-					$('.js-notes-loader-' + schoolWorkId).hide();
-				}
-			})
-		}, 500);
+		Session.set('hasChanged', true);
 	},
 
 	'click .js-show-schoolWork-info'(event) {
@@ -315,3 +272,4 @@ Template.trackingSchoolWork.events({
 		return false;
 	},
 });
+

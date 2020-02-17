@@ -91,6 +91,32 @@ export function minutesConvert(minutes) {
 	}
 };
 
+export const saveNote = (schoolWorkId) => {
+	$('.js-notes-loader-' + schoolWorkId).show();
+
+	let user = Meteor.user();
+	let noteProperties = {
+		userId: user._id,
+		groupId: user.info.groupId,
+		weekId: FlowRouter.getParam('selectedWeekId'),
+		schoolWorkId: schoolWorkId,
+		note: $('.js-notes-' + schoolWorkId).find('.editor-content').html().trim(),
+	}
+
+	Meteor.call('upsertNotes', noteProperties, function(error, result) {
+		if (error) {
+			Alerts.insert({
+				colorClass: 'bg-danger',
+				iconClass: 'icn-danger',
+				message: error.reason,
+			});
+		} else {
+			Session.set('hasChanged', false);
+			$('.js-notes-loader-' + schoolWorkId).hide();
+		}
+	});
+}
+
 
 
 

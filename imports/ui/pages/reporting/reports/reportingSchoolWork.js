@@ -1,6 +1,7 @@
 import { Template } from 'meteor/templating';
 import { Reports } from '../../../../api/reports/reports.js';
 import { SchoolWork } from '../../../../api/schoolWork/schoolWork.js';
+import { Notes } from '../../../../api/notes/notes.js';
 import { Terms } from '../../../../api/terms/terms.js';
 import { Weeks } from '../../../../api/weeks/weeks.js';
 import { Lessons } from '../../../../api/lessons/lessons.js';
@@ -62,6 +63,11 @@ Template.reportingSchoolWork.helpers({
 		} else {
 			return false;
 		}
+	},
+
+	getNote: function(noteData, schoolWorkId) {
+		let notes = _.find(noteData, ['schoolWorkId', schoolWorkId]);
+		return notes ? notes.note : "";
 	},
 
 	schoolWorkLessons: function(lessonData, schoolWorkId) {

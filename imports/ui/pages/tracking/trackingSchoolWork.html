@@ -13,7 +13,7 @@
 						</button>
 					</div>
 					<div class="col-tn-1of7 col-xs-1of9 col-sm-1of7 col-xl-1of9">
-						<button id="{{work._id}}" class="js-show-schoolWork-notes btn-block tiny fl-tn-right {{#if hasNote work._id}}btn-warning{{else}}btn-gray-darker{{/if}}">
+						<button id="{{work._id}}" class="js-show-schoolWork-notes btn-block tiny fl-tn-right {{#if work.note.length}}btn-warning{{else}}btn-gray-darker{{/if}}">
 							Notes
 						</button>
 					</div>
@@ -27,12 +27,10 @@
 				<!-- /Print Only -->
 
 				<div data-work-id="{{work._id}}" class="js-notes-{{work._id}} js-notes view-info tracking-view editor-notes m-tn-h-9 m-tn-t-6 m-tn-b-18 hide">
-					{{> editor classes="js-notes-editor" placeholder="This week is a bit different . . ." loader=true contentReady=editorContentReady existingContent=workNote}}
-					<div class="bg-warning-lightest clearfix height-28 p-tn-6">
-						<div class="js-notes-loader-{{work._id}} hide">
-							<div class="font-size-13 txt-warning-darkest fl-tn-right p-tn-l-6 m-tn-t-neg-1">autosaving</div>
-							<div class="loader-icon loader-icon-tn loader-notes fl-tn-right"></div>
-						</div>
+					{{> editor classes="js-notes-editor" placeholder="This week is a bit different . . ." existingContent=work.note}}
+					<div class="js-notes-loader-{{work._id}} notes-loader bg-warning-lightest hide">
+						<div class="loader-icon loader-icon-sm loader-notes m-tn-rl-auto m-tn-t-45 m-tn-b-12"></div>
+						<div class="font-size-14 txt-warning-darkest">Saving Note</div>
 					</div>
 				</div>
 

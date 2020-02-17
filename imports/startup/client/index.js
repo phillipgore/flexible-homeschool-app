@@ -1,3 +1,5 @@
+import {saveNote} from '../../modules/functions';
+
 import './triggers/getInitialData.js';
 
 import './triggers/checkPaymentError';
@@ -11,6 +13,18 @@ import './triggers/isAppAdmin';
 import './triggers/resetSessions';
 import './triggers/scrollReset';
 import './triggers/setFramePosition';
+
+function saveNotesOnExit(context) {
+	if (Session.get('hasChanged')) {
+		Session.set('hasChanged', false);
+		let schoolWorkId = $('.js-notes.js-open').attr('data-work-id');
+		saveNote(schoolWorkId);
+	}
+};
+
+FlowRouter.triggers.exit([saveNotesOnExit], {only: [
+	'trackingView',
+]});
 
 import { FlowRouterTitle } from 'meteor/ostrio:flow-router-title';
 
