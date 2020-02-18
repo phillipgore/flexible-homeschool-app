@@ -505,7 +505,7 @@ Template.schoolWorkEdit.events({
 					let days = []
 					if (checkedCount) {
 						$(this).find("[name='scheduledDays']:checked").each(function() {
-							days.push($(this).val())
+							days.push(parseInt($(this).val()))
 						});
 					} 
 					updateScheduleDays.push({'segmentCount': segmentCount, 'days': days})

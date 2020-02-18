@@ -22,7 +22,7 @@
 						{{#if work.description}}
 							<tr>
 								<td colspan="2">
-									{{{work.description}}}
+									<div class="txt-gray-darkest m-tn-b-3">General Instructions: </div>{{{work.description}}}
 								</td>
 							</tr>
 						{{/if}}
@@ -99,7 +99,11 @@
 										{{/if}}
 									</th>
 								</tr>
-
+								<tr>
+									<td colspan="4">
+										<div class="txt-gray-darkest m-tn-b-3">Notes: </div> {{{getNote week.noteData work._id}}}
+									</td>
+								</tr>
 								{{#each lesson in schoolWorkLessons week.lessonData work._id}}
 									<tr>
 										<td rowspan="2" width="10%" class="v-align-middle txt-tn-center">

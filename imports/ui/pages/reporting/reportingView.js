@@ -5,6 +5,7 @@ import { SchoolYears } from '../../../api/schoolYears/schoolYears.js';
 import { Students } from '../../../api/students/students.js';
 import { Resources } from '../../../api/resources/resources.js';
 import { SchoolWork } from '../../../api/schoolWork/schoolWork.js';
+import { Notes } from '../../../api/notes/notes.js';
 import { Terms } from '../../../api/terms/terms.js';
 import { Weeks } from '../../../api/weeks/weeks.js';
 import { Lessons } from '../../../api/lessons/lessons.js';
@@ -58,7 +59,8 @@ Template.reportingView.helpers({
 	},
 
 	termLabel: function(termId, termOrder) {
-		if (termId === 'allTerms') {
+		console.log(termId)
+		if (termId === 'allTerms' || !termOrder) {
 			return 'All Terms';
 		}
 		return 'Term ' + termOrder

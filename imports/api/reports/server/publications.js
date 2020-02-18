@@ -4,6 +4,7 @@ import {SchoolYears} from '../../schoolYears/schoolYears.js';
 import {Terms} from '../../terms/terms.js';
 import {Weeks} from '../../weeks/weeks.js';
 import {SchoolWork} from '../../schoolWork/schoolWork.js';
+import {Notes} from '../../notes/notes.js';
 import {Resources} from '../../resources/resources.js';
 import {Lessons} from '../../lessons/lessons.js';
 
@@ -78,6 +79,7 @@ Meteor.publish('reportData', function(studentId, schoolYearId, termId, weekId, r
 			let yearTerms = Terms.find({schoolYearId: schoolYearId}).fetch();
 			let yearWeeks = Weeks.find({termId: {$in: yearTerms.map(term => term._id)}}).fetch();
 			let yearSchoolWork = SchoolWork.find({groupId: groupId, schoolYearId: schoolYearId, studentId: studentId}, {sort: {name: 1}}).fetch();
+			let yearNotes = Notes.find({groupId: groupId, schoolWorkId: {$in: yearSchoolWork.map(work => work._id)}}).fetch();
 			let yearLessons = Lessons.find({groupId: groupId, schoolWorkId: {$in: yearSchoolWork.map(schoolWork => schoolWork._id)}}, {sort: {order: 1}}).fetch();
 			let yearResources = Resources.find(
 				{
@@ -320,6 +322,14 @@ Meteor.publish('reportData', function(studentId, schoolYearId, termId, weekId, r
 				weekData.termId = week.termId;
 
 				if (report.timesPerWeekReportVisible) {
+					// let notes = {}
+					// yearNotes.filter(note => note.weekId === week._id).forEach(note => {
+					// 	notes.push(note);
+					// })
+					// weekData.note = notes;
+					weekData.noteData = yearNotes.filter(note => note.weekId === week._id);
+					console.log(yearNotes.filter(note => note.weekId === week._id))
+
 					let lessonStats = [];
 					let lessons = _.filter(yearLessons, ['weekId', week._id]);
 
@@ -341,7 +351,7 @@ Meteor.publish('reportData', function(studentId, schoolYearId, termId, weekId, r
 					});
 					weekData.lessonData = lessonStats;
 				}
-				
+
 				weekStats.push(weekData)
 			});
 			weekStats.forEach(week => {

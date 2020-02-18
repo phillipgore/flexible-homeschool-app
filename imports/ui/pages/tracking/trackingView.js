@@ -11,11 +11,22 @@ import './trackingView.html';
 
 Template.trackingView.onCreated( function() {
 	let template = Template.instance();
+
+	Session.set('hasChanged', false);
+	template.schoolWork = new ReactiveVar();
 	
 	template.autorun(() => {
-		// Subscriptions
 		this.trackingData = Meteor.subscribe('trackingViewPub', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedWeekId'));
 		Session.set({editUrl: '/tracking/students/edit/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId')})
+		
+		let schoolWork = SchoolWork.find({studentId: FlowRouter.getParam('selectedStudentId'), schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}, {sort: {name: 1}}).fetch();
+		schoolWork.forEach(work => {
+			let notes = Notes.findOne({schoolWorkId: work._id});
+			if (notes) {
+				work.note = notes.note;
+			}
+		})
+		template.schoolWork.set(schoolWork);
 	});
 });
 
@@ -67,14 +78,14 @@ Template.trackingView.helpers({
 		return false;
 	},
 
-	schoolWorkOne: function(schoolWorkCount) {
-		let schoolWorkLimit = Math.ceil(SchoolWork.find({studentId: FlowRouter.getParam('selectedStudentId'), schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}).count() / 2);
-		return SchoolWork.find({studentId: FlowRouter.getParam('selectedStudentId'), schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}, {sort: {name: 1}, limit: schoolWorkLimit});
+	schoolWorkOne: function() {
+		let schoolWorkLimit = Template.instance().schoolWork.get().length / 2;
+		return Template.instance().schoolWork.get().slice(0, schoolWorkLimit);
 	},
 
-	schoolWorkTwo: function(schoolWorkCount) {
-		let schoolWorkSkip = Math.ceil(SchoolWork.find({studentId: FlowRouter.getParam('selectedStudentId'), schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}).count() / 2);
-		return SchoolWork.find({studentId: FlowRouter.getParam('selectedStudentId'), schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}, {sort: {name: 1}, skip: schoolWorkSkip});
+	schoolWorkTwo: function() {
+		let schoolWorkSkip = Template.instance().schoolWork.get().length / 2;
+		return Template.instance().schoolWork.get().slice(schoolWorkSkip);
 	},
 
 	studentName(first, last) {

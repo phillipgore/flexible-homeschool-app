@@ -233,45 +233,45 @@
 					<div class="js-day-labels well bg-gray-lighter m-tn-b-9">
 						{{#if scheduledDays.length}}
 							{{#each scheduled in scheduledDays}}
-							<div id="day-labels-{{scheduled.segmentCount}}" data-segment-count="{{scheduled.segmentCount}}" class="js-day-labels-section row {{#if @index}}m-tn-t-9{{/if}}">
-								<label class="col-tn-1of1 m-tm-b-6">When scheduled for {{scheduled.segmentCount}} Segment{{sPlural scheduled.segmentCount}} per week:</label>
-								<label class="checkbox col-tn-1of4">
-									<input class="js-day-labels-checkbox" type="checkbox" name="scheduledDays" value="1" checked="{{#if isChecked scheduled.days '1'}}true{{/if}}" disabled="{{#if isDisabled scheduled '1'}}true{{/if}}">
-									<div class="checkbox-icon"></div> 
-									<div class="checkbox-label">{{weekDays 1}}</div>
-								</label>
-								<label class="checkbox col-tn-1of4">
-									<input class="js-day-labels-checkbox" type="checkbox" name="scheduledDays" value="2" checked="{{#if isChecked scheduled.days '2'}}true{{/if}}" disabled="{{#if isDisabled scheduled '2'}}true{{/if}}">
-									<div class="checkbox-icon"></div> 
-									<div class="checkbox-label">{{weekDays 2}}</div>
-								</label>
-								<label class="checkbox col-tn-1of4">
-									<input class="js-day-labels-checkbox" type="checkbox" name="scheduledDays" value="3" checked="{{#if isChecked scheduled.days '3'}}true{{/if}}" disabled="{{#if isDisabled scheduled '3'}}true{{/if}}">
-									<div class="checkbox-icon"></div> 
-									<div class="checkbox-label">{{weekDays 3}}</div>
-								</label>
-								<label class="checkbox col-tn-1of4">
-									<input class="js-day-labels-checkbox" type="checkbox" name="scheduledDays" value="4" checked="{{#if isChecked scheduled.days '4'}}true{{/if}}" disabled="{{#if isDisabled scheduled '4'}}true{{/if}}">
-									<div class="checkbox-icon"></div> 
-									<div class="checkbox-label">{{weekDays 4}}</div>
-								</label>
-								<label class="checkbox col-tn-1of4">
-									<input class="js-day-labels-checkbox" type="checkbox" name="scheduledDays" value="5" checked="{{#if isChecked scheduled.days '5'}}true{{/if}}" disabled="{{#if isDisabled scheduled '5'}}true{{/if}}">
-									<div class="checkbox-icon"></div> 
-									<div class="checkbox-label">{{weekDays 5}}</div>
-								</label>
-								<label class="checkbox col-tn-1of4">
-									<input class="js-day-labels-checkbox" type="checkbox" name="scheduledDays" value="6" checked="{{#if isChecked scheduled.days '6'}}true{{/if}}" disabled="{{#if isDisabled scheduled '6'}}true{{/if}}">
-									<div class="checkbox-icon"></div> 
-									<div class="checkbox-label">{{weekDays 6}}</div>
-								</label>
-								<label class="checkbox col-tn-1of4">
-									<input class="js-day-labels-checkbox" type="checkbox" name="scheduledDays" value="7" checked="{{#if isChecked scheduled.days '7'}}true{{/if}}" disabled="{{#if isDisabled scheduled '7'}}true{{/if}}">
-									<div class="checkbox-icon"></div> 
-									<div class="checkbox-label">{{weekDays 7}}</div>
-								</label>
-								<label class="js-day-label-errors label-error col-tn-1of1 txt-tn-center"></label>
-							</div>
+								<div id="day-labels-{{scheduled.segmentCount}}" data-segment-count="{{scheduled.segmentCount}}" class="js-day-labels-section row {{#if @index}}m-tn-t-9{{/if}}">
+									<label class="col-tn-1of1 m-tm-b-6">When scheduled for {{scheduled.segmentCount}} Segment{{sPlural scheduled.segmentCount}} per week:</label>
+									<label class="checkbox col-tn-1of4">
+										<input class="js-day-labels-checkbox" type="checkbox" name="scheduledDays" value="1" checked="{{#if isChecked scheduled.days '1'}}true{{/if}}" disabled="{{#if isDisabled scheduled '1'}}true{{/if}}">
+										<div class="checkbox-icon"></div> 
+										<div class="checkbox-label">{{weekDays 1}}</div>
+									</label>
+									<label class="checkbox col-tn-1of4">
+										<input class="js-day-labels-checkbox" type="checkbox" name="scheduledDays" value="2" checked="{{#if isChecked scheduled.days '2'}}true{{/if}}" disabled="{{#if isDisabled scheduled '2'}}true{{/if}}">
+										<div class="checkbox-icon"></div> 
+										<div class="checkbox-label">{{weekDays 2}}</div>
+									</label>
+									<label class="checkbox col-tn-1of4">
+										<input class="js-day-labels-checkbox" type="checkbox" name="scheduledDays" value="3" checked="{{#if isChecked scheduled.days '3'}}true{{/if}}" disabled="{{#if isDisabled scheduled '3'}}true{{/if}}">
+										<div class="checkbox-icon"></div> 
+										<div class="checkbox-label">{{weekDays 3}}</div>
+									</label>
+									<label class="checkbox col-tn-1of4">
+										<input class="js-day-labels-checkbox" type="checkbox" name="scheduledDays" value="4" checked="{{#if isChecked scheduled.days '4'}}true{{/if}}" disabled="{{#if isDisabled scheduled '4'}}true{{/if}}">
+										<div class="checkbox-icon"></div> 
+										<div class="checkbox-label">{{weekDays 4}}</div>
+									</label>
+									<label class="checkbox col-tn-1of4">
+										<input class="js-day-labels-checkbox" type="checkbox" name="scheduledDays" value="5" checked="{{#if isChecked scheduled.days '5'}}true{{/if}}" disabled="{{#if isDisabled scheduled '5'}}true{{/if}}">
+										<div class="checkbox-icon"></div> 
+										<div class="checkbox-label">{{weekDays 5}}</div>
+									</label>
+									<label class="checkbox col-tn-1of4">
+										<input class="js-day-labels-checkbox" type="checkbox" name="scheduledDays" value="6" checked="{{#if isChecked scheduled.days '6'}}true{{/if}}" disabled="{{#if isDisabled scheduled '6'}}true{{/if}}">
+										<div class="checkbox-icon"></div> 
+										<div class="checkbox-label">{{weekDays 6}}</div>
+									</label>
+									<label class="checkbox col-tn-1of4">
+										<input class="js-day-labels-checkbox" type="checkbox" name="scheduledDays" value="7" checked="{{#if isChecked scheduled.days '7'}}true{{/if}}" disabled="{{#if isDisabled scheduled '7'}}true{{/if}}">
+										<div class="checkbox-icon"></div> 
+										<div class="checkbox-label">{{weekDays 7}}</div>
+									</label>
+									<label class="js-day-label-errors label-error col-tn-1of1 txt-tn-center"></label>
+								</div>
 							{{/each}}
 							<button class="js-day-labels-uncheck-all btn-gray-dark btn-block extra-small m-tn-t-12">Uncheck All Labels</button>
 						{{else}}
