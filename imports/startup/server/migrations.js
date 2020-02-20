@@ -252,8 +252,18 @@ Migrations.add({
 	}
 });
 
+Migrations.add({
+	version: 12,
+	name: 'Set type on existing School Work.',
+	up: function() {
+		SchoolWork.find().forEach(work => {
+			SchoolWork.update(work._id, {$set: {type: 'work'}})
+		});
+	}
+});
+
 Meteor.startup(() => {
-	Migrations.migrateTo(11);
+	Migrations.migrateTo(12);
 });
 
 

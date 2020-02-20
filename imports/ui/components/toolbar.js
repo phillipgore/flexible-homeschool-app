@@ -71,7 +71,18 @@ Template.toolbar.helpers({
 		if (Session.get('selectedFramePosition') === 1 && type === 'report') {
 			return true;
 		}
-		if (Session.get('selectedFramePosition') === 2 && type != 'report' && type != 'resource') {
+		if (Session.get('selectedFramePosition') === 2 && type != 'report' && type != 'resource' && type != 'schoolWork') {
+			return true;
+		}
+		return false;
+	},
+
+	schoolWorkNewable: function() {
+		let type = Session.get('toolbarType');
+		if (type === 'new' || type === 'edit') {
+			return false;
+		}
+		if (Session.get('selectedFramePosition') === 2 && Session.get('toolbarType') === 'schoolWork') {
 			return true;
 		}
 		return false;

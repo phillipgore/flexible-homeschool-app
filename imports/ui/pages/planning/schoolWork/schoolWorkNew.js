@@ -445,6 +445,7 @@ Template.schoolWorkNew.events({
 
 			let schoolYearId = template.find("[name='schoolYearId']").value.trim();
 			const schoolWorkProperties = {
+				type: 'work',
 				name: template.find("[name='name']").value.trim(),
 				description: $('.js-form-school-work-new .editor-content').html(),
 				resources: resourceIds,

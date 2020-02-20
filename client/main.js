@@ -68,6 +68,9 @@ import '/imports/ui/pages/planning/planningList.js';
 	import '/imports/ui/pages/planning/resources/resourcesList.js';
 	import '/imports/ui/pages/planning/resources/resourcesEach.js';
 	import '/imports/ui/pages/planning/resources/resourcesView.js';
+	// Subjects
+	import '/imports/ui/pages/planning/schoolWork/subjectsNew.js';
+	import '/imports/ui/pages/planning/schoolWork/subjectsNewList.js';
 	// School Work
 	import '/imports/ui/pages/planning/schoolWork/schoolWorkNew.js';
 	import '/imports/ui/pages/planning/schoolWork/schoolWorkNewList.js';

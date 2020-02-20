@@ -68,10 +68,35 @@
 							</a>
 						{{/if}}
 
+						{{#if schoolWorkNewable}}
+							<!-- New Dropdown Button -->
+							<div class="btn-tool-dropdown dis-sm-none">
+								<a class="js-dropdown btn-tool" href="#" data-menu="#newSchoolWork" title="New Subject or School Work">
+									<i class="icn-new btn-tool-icon dis-sm-none"></i>
+									<i class="icn-new btn-tool-icon dis-tn-none dis-sm-inline-block"></i>
+								</a>
+								<ul id="newSchoolWork" class="dropdown-menu dropdown-tool border-none txt-tn-left m-tn-rl-9 hide">
+									<li class="dropdown-item">
+										<a class="dropdown-item-link" href="/planning/subjects/new/3/{{selectedStudentId}}/{{selectedSchoolYearId}}" title="{{#if schoolWorkDisabled}}Subjects require Students and School Years.{{/if}}">
+											<i class="icn-subjects icn-fw-16 m-tn-r-4"></i> New Subject
+										</a>
+									</li>
+									<li class="dropdown-item">
+										<a class="js-new-schoolWork dropdown-item-link {{#if schoolWorkDisabled}}disabled{{/if}}" 
+											href="/planning/schoolWork/new/3/{{selectedStudentId}}/{{selectedSchoolYearId}}"
+											title="{{#if schoolWorkDisabled}}School Work require Students and School Years.{{/if}}"
+										>
+											<i class="icn-school-work icn-fw-16 m-tn-r-4"></i> New School Work
+										</a>
+									</li>
+								</ul>
+							</div>
+						{{/if}}
+
 						{{#if resourceNewable}}
 							<!-- New Dropdown Button -->
 							<div class="btn-tool-dropdown dis-sm-none">
-								<a class="js-dropdown btn-tool" href="#" data-menu="#newResource" title="New Student, School Year, School Work or User">
+								<a class="js-dropdown btn-tool" href="#" data-menu="#newResource" title="New Resource">
 									<i class="icn-new btn-tool-icon dis-sm-none"></i>
 									<i class="icn-new btn-tool-icon dis-tn-none dis-sm-inline-block"></i>
 								</a>
@@ -150,6 +175,11 @@
 								<li class="dropdown-item">
 									<a class="dropdown-item-link" href="/planning/schoolyears/new/3">
 										<i class="icn-school-years icn-fw-16 m-tn-r-4"></i> New School Year
+									</a>
+								</li>
+								<li class="dropdown-item">
+									<a class="dropdown-item-link" href="/planning/subjects/new/3/{{selectedStudentId}}/{{selectedSchoolYearId}}" title="{{#if schoolWorkDisabled}}Subjects require Students and School Years.{{/if}}">
+										<i class="icn-subjects icn-fw-16 m-tn-r-4"></i> New Subject
 									</a>
 								</li>
 								<li class="dropdown-item">

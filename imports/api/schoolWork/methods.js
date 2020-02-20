@@ -154,6 +154,34 @@ Meteor.methods({
 
 		return result;
 	},
+
+	insertSubject: function(studentIds, subjectProperties) {
+		let groupId = Meteor.user().info.groupId;
+		let userId = Meteor.userId();
+
+		let bulkSubjects = [];
+		studentIds.forEach(studentId => {
+			bulkSubjects.push({insertOne: {"document": {
+				_id: Random.id(),
+				order: subjectProperties.order,
+				type: subjectProperties.type,
+				name: subjectProperties.name,
+				studentId: studentId,
+				schoolYearId: subjectProperties.schoolYearId,
+				groupId: groupId,
+			}}});
+		});
+
+		let result = SchoolWork.rawCollection().bulkWrite(
+			bulkSubjects
+		).then((subjects) => {
+			return subjects;
+		}).catch((error) => {
+			throw new Meteor.Error(500, error);
+		});
+
+		return result;
+	},
 });
 
 

@@ -87,6 +87,36 @@ FlowRouter.route('/planning/schoolyears/edit/:selectedFramePosition/:selectedSch
 
 
 
+// Subjects
+FlowRouter.route('/planning/subjects/new/:selectedFramePosition/:selectedStudentId/:selectedSchoolYearId', {
+	name: 'subjectsNew',
+	title:  'Planning: Subjects: New',
+	action(params) {
+		BlazeLayout.render('app', {
+			subbar: '',
+			frameOne: 'planningList',
+			frameTwo: 'subjectsNewList',
+			frameThree: 'subjectsNew',
+		});
+	},
+});
+
+FlowRouter.route('/planning/subjects/view/:selectedFramePosition/:selectedStudentId/:selectedSchoolYearId/:selectedSchoolWorkId', {
+	name: 'subjectsView',
+	title:  'Planning: Subjects: View',
+	action(params) {
+		BlazeLayout.render('app', {
+			subbar: 'subbarSchoolWork',
+			frameOne: 'planningList',
+			frameTwo: 'schoolWorkList',
+			frameThree: 'subjectsView',
+		});
+	},
+});
+
+
+
+
 // School Work
 FlowRouter.route('/planning/schoolWork/new/:selectedFramePosition/:selectedStudentId/:selectedSchoolYearId', {
 	name: 'schoolWorkNew',

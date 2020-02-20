@@ -39,4 +39,20 @@ Template.schoolWorkEach.helpers({
 		}
 		return false;
 	},
+
+	getType: function(workType, type) {
+		if (workType === type) {
+			return true;
+		}
+		return false;
+	}
 });
+
+Template.schoolWorkEach.events({
+	'click .js-subject'(event) {
+		event.preventDefault();
+	},
+});
+
+
+

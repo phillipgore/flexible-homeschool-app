@@ -21,6 +21,11 @@ const SchoolWorkSchema = new SimpleSchema({
         label: "Order",
         optional: true
     },
+    type: {
+        type: String,
+        label: "Type",
+        allowedValues: ['subject', 'work']
+    },
     name: {
         type: String,
         label: "SchoolWork Name",
@@ -39,6 +44,10 @@ const SchoolWorkSchema = new SimpleSchema({
 		type: String,
         label: "Attached Resource",
 	},
+    subjectId: {
+        type: String,
+        label: "Subject ID"
+    },
     studentId: {
         type: String,
         label: "Student ID"
@@ -49,7 +58,8 @@ const SchoolWorkSchema = new SimpleSchema({
     },
     scheduledDays: {
     	type: Array,
-    	label: "Scheduled Days of the Week"
+    	label: "Scheduled Days of the Week",
+        optional: true
     },
     'scheduledDays.$': {
     	type: Object,

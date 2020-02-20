@@ -7,15 +7,6 @@
 			{{#if schoolWorkCount}}
 				{{#if schoolWork.count}}
 					<ul class="list">
-						{{#if activeRoute currentRouteName 'schoolWorkNew'}}
-							<li class="list-item">
-								<span class="list-item-inner p-tn-rl-9 active">
-									<div class="list-item-icon"><i class="txt-primary icn-school-work"></i></div> 
-									<div class="list-item-label font-style-italic font-weight-normal"> New School Work
-									</div>
-								</span>
-							</li>
-						{{/if}}
 						{{> schoolWorkEach schoolWork=schoolWork}}
 					</ul>
 				{{else}}
