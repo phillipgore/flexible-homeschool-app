@@ -78,7 +78,7 @@ Template.schoolWorkEdit.helpers({
 					weekLessonCounts.push(Lessons.find({weekId: week._id, schoolWorkId: FlowRouter.getParam('selectedSchoolWorkId')}).count());
 				})
 				_.uniq(weekLessonCounts).forEach(function(count) {
-					if (count) {
+					if (count && count != 0 && count != '0') {
 						scheduledDays.push({segmentCount: count, days: []})
 					}
 				})
@@ -180,6 +180,7 @@ Template.schoolWorkEdit.helpers({
 	},
 
 	scheduledDays: function() {
+		console.log(Template.instance().scheduledDays.get())
 		return Template.instance().scheduledDays.get();
 	},
 
@@ -716,15 +717,19 @@ let setScheduledDays = template => {
 		let scheduledDays = template.scheduledDays.get();
 
 		if (existingScheduledDays.filter(scheduled => scheduled.segmentCount === time).length) {
-			let newSchedule = existingScheduledDays.find(scheduled => scheduled.segmentCount === time)
-			newSchedule.new = false; 
-			newScheduledDays.push(newSchedule)
+			let newSchedule = existingScheduledDays.find(scheduled => scheduled.segmentCount === time);
+			if (newSchedule.segmentCount && newSchedule.segmentCount != 0 && newSchedule.segmentCount != '0') {
+				newSchedule.new = false; 
+				newScheduledDays.push(newSchedule)
+			}
 		} else {
-			newScheduledDays.push({
-				segmentCount: time, 
-				days: [], 
-				new: true,
-			});
+			if (time && time != 0 && time != '0') {
+				newScheduledDays.push({
+					segmentCount: time, 
+					days: [], 
+					new: true,
+				});
+			}
 		}
 	});
 

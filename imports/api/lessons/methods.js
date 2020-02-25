@@ -22,6 +22,7 @@ Meteor.methods({
 	},
 
 	bulkInsertLessons: function(bulkLessonProperties) {
+		console.log('made it')
 		let result = Lessons.rawCollection().bulkWrite(
 			bulkLessonProperties
 		).then((result) => {

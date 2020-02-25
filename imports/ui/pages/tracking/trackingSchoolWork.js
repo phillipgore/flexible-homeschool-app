@@ -32,7 +32,7 @@ Template.trackingSchoolWork.helpers({
 	},
 
 	workLessons: function(schoolWorkId) {
-		return Lessons.find({studentId: FlowRouter.getParam('selectedStudentId'), schoolWorkId: schoolWorkId, weekId: FlowRouter.getParam('selectedWeekId')}, {sort: {order: 1}});
+		return Lessons.find({studentId: FlowRouter.getParam('selectedStudentId'), schoolWorkId: schoolWorkId, weekId: FlowRouter.getParam('selectedWeekId')}, {sort: {order: 1, weekDay: 1}});
 	},
 
 	workLessonsExist: function(schoolWorkId) {

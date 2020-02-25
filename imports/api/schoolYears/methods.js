@@ -189,7 +189,7 @@ Meteor.methods({
 								return 0;
 							}
 							// console.log(3.10);
-							lesson.weekDay = weekDay(weekDayLabels);
+							lesson.weekDay = parseInt(weekDay(weekDayLabels));
 						});
 					}
 				})
@@ -197,7 +197,7 @@ Meteor.methods({
 		});
 
 		yearLessons.forEach(lesson => {
-			lessonBulkUpdate.push({updateOne: {"filter": {_id: lesson._id}, update: {$set: {weekOrder: lesson.weekOrder, termOrder: lesson.termOrder, weekDay: lesson.weekDay}}}});
+			lessonBulkUpdate.push({updateOne: {"filter": {_id: lesson._id}, update: {$set: {weekOrder: lesson.weekOrder, termOrder: lesson.termOrder, weekDay: parseInt(lesson.weekDay)}}}});
 		});
 		// console.log(4);
 
@@ -207,7 +207,7 @@ Meteor.methods({
 		weekInsertProperties.forEach(week => {
 			weekBulkInsert.push({insertOne: {"document": {
 				_id: Random.id(),
-				order: week.order,
+				order: parseInt(week.order),
 				termOrder: week.termOrder,
 				schoolYearId: schoolYearId,
 				termId: week.termId,
@@ -222,7 +222,7 @@ Meteor.methods({
 			let termId = Random.id();
 			termBulkInsert.push({insertOne: {"document": {
 				_id: termId,
-				order: term.order,
+				order: parseInt(term.order),
 				schoolYearId: schoolYearId,
 				groupId: groupId,
 				userId: userId,

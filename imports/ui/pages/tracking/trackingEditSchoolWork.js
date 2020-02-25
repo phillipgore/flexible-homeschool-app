@@ -14,7 +14,7 @@ import './trackingEditSchoolWork.html';
 
 Template.trackingEditSchoolWork.helpers({
 	workLessons: function(schoolWorkId) {
-		return Lessons.find({schoolWorkId: schoolWorkId, weekId: FlowRouter.getParam('selectedWeekId'), studentId: FlowRouter.getParam('selectedStudentId')});
+		return Lessons.find({schoolWorkId: schoolWorkId, weekId: FlowRouter.getParam('selectedWeekId'), studentId: FlowRouter.getParam('selectedStudentId')}, {order: {order: 1, weekDay: 1}});
 	},
 
 	insertableWorkLessons: function(schoolWorkId) {
@@ -22,7 +22,7 @@ Template.trackingEditSchoolWork.helpers({
 			if (weekDay === 0 || weekDay === undefined) {
 				return {weekDay: index + 1, hadWeekDay: false};
 			}
-			return {weekDay: weekDay, hadWeekDay: true};
+			return {weekDay: parseInt(weekDay), hadWeekDay: true};
 		};
 
 		let workLessons = Lessons.find({
@@ -30,34 +30,39 @@ Template.trackingEditSchoolWork.helpers({
 			weekId: FlowRouter.getParam('selectedWeekId'), 
 			studentId: FlowRouter.getParam('selectedStudentId')
 		}, {
-			order: {order: 1}
+			order: {order: 1, weekDay: 1}
 		}).fetch();
 
 		workLessons.forEach((lesson, index) => {
 			let weekDay = checkWeekDay(lesson.weekDay, index);
-			lesson.weekDay = weekDay.weekDay
-			lesson.hadWeekDay = weekDay.hadWeekDay
+			lesson.weekDay = weekDay.weekDay;
+			lesson.order = weekDay.weekDay;
+			lesson.hadWeekDay = weekDay.hadWeekDay;
 		});
 
-		let weekDaysExist = (schoolWorkId) => {
-			let schoolWork = SchoolWork.findOne({_id: schoolWorkId}, {fields: {scheduledDays: 1}});
-			if (schoolWork.scheduledDays && schoolWork.scheduledDays[0].days && schoolWork.scheduledDays[0].days.length) {
-				return true;
-			}
-			return false;
-		}
-		
-		let days = [1, 2, 3, 4, 5, 6, 7];
-		let workLessonDays = workLessons.map(lesson => parseInt(lesson.order));
-		let addDays = _.difference(days, workLessonDays);
+		let workLessonCount = workLessons.length;
+		let workLessonWeekDays = workLessons.map(lesson => lesson.weekDay).filter(weekday => weekday !== undefined);
 
-		let hadWeekDay = weekDaysExist(schoolWorkId); 
+		let orders = [1, 2, 3, 4, 5, 6, 7];
+		let workLessonOrders = _.uniq(workLessons.map(lesson => parseInt(lesson.order)));
+		let addOrders = _.difference(orders, workLessonOrders);
 
-		addDays.forEach(weekDay => {
-			workLessons.push({_id: Random.id(), weekDay: weekDay, hadWeekDay: hadWeekDay, schoolWorkId: schoolWorkId, new: true});
-		})
+		addOrders.forEach(order => {
+			workLessons.push({
+				_id: Random.id(), 
+				order: parseInt(order),
+				weekDay: parseInt(order),
+				hadWeekDay: false, 
+				schoolWorkId: 
+				schoolWorkId, 
+				new: true
+			});
+		});
 
-		return _.sortBy(workLessons, ['weekDay']);
+		_.orderBy(workLessons, ['hadWeekDay'], ['desc'])
+		workLessons.length = 7;
+
+		return _.sortBy(workLessons, ['order', 'weekDay']);
 	},
 
 	workLessonsExist: function(schoolWorkId) {

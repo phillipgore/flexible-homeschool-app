@@ -43,8 +43,8 @@ Meteor.methods({
 						filter: {_id: lesson._id}, 
 						update: {$set: {
 							_id: lesson._id,
-							order: lesson.order,
-							weekDay: lesson.weekDay,
+							order: parseInt(lesson.order),
+							weekDay: paseInt(lesson.weekDay),
 							weekOrder: lesson.weekOrder,
 							termId: lesson.termId,
 							assigned: lesson.assigned,
@@ -124,7 +124,7 @@ Meteor.methods({
 					lessonProperties.forEach(function(lesson) {
 						bulkLessons.push({insertOne: {"document": {
 							_id: Random.id(),
-							order: lesson.order,
+							order: parseInt(lesson.order),
 							assigned: false,
 							completed: false,
 							studentId: studentId,
@@ -134,7 +134,7 @@ Meteor.methods({
 							schoolWorkId: schoolWork._id,
 							termOrder: lesson.termOrder,
 							weekOrder: lesson.weekOrder,
-							weekDay: lesson.weekDay,
+							weekDay: parseInt(lesson.weekDay),
 							groupId: groupId, 
 							userId: userId, 
 							createdOn: new Date()
