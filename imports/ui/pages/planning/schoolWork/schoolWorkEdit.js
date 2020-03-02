@@ -180,7 +180,6 @@ Template.schoolWorkEdit.helpers({
 	},
 
 	scheduledDays: function() {
-		console.log(Template.instance().scheduledDays.get())
 		return Template.instance().scheduledDays.get();
 	},
 
@@ -490,8 +489,6 @@ Template.schoolWorkEdit.events({
 			$('.js-updating').show();
 			$('.js-submit').prop('disabled', true);
 
-			let checkedCount = $('.js-day-labels').find('input:checked').length;
-
 			// Get Resources Ids from local collection
 			let resourceIds = [];
 			LocalResources.find().forEach(function(resource) {
@@ -499,6 +496,8 @@ Template.schoolWorkEdit.events({
 			});
 
 			// Get Scheduled Days
+			let checkedCount = $('.js-day-labels').find('input:checked').length;
+
 			let updateScheduleDays = [];
 			$('.js-day-labels-section').each(function() {
 				let segmentCount = parseInt($(this).attr('data-segment-count'))
@@ -521,9 +520,9 @@ Template.schoolWorkEdit.events({
 				} else if (existingSchedule.new != true) {
 					existingSchedule.new = false;
 				}
-			})
+			});
 
-			// Get School Work Properties from form
+			// Get School Work Properties
 			let updateSchoolWorkProperties = {
 				_id: FlowRouter.getParam('selectedSchoolWorkId'),
 				name: template.find("[name='name']").value.trim(),
@@ -539,9 +538,6 @@ Template.schoolWorkEdit.events({
 			let weekIds = [];
 			let error = [];
 
-			let groupId = Meteor.user().info.groupId;
-			let userId = Meteor.userId();
-
 			// Get Lesson Properties from form
 			$("[name='timesPerWeek']").each(function(index) {
 				let totalLessons =  parseInt(this.dataset.lessonCount);
@@ -552,19 +548,16 @@ Template.schoolWorkEdit.events({
 					let addCount =  newLessonsTotal - totalLessons;
 					for (i = 0; i < addCount; i++) { 
 					    upsertLessonProperties.push({
-					    	_id: Random.id(),
 					    	order: i + 1 + parseInt(totalLessons),
+					    	weekOrder: parseInt(this.dataset.weekOrder),
+					    	termOrder: parseInt(this.dataset.termOrder), 
+					    	termId: this.dataset.termId,
 							assigned: false,
 							completed: false,
 					    	schoolWorkId: FlowRouter.getParam('selectedSchoolWorkId'),
-					    	studentId: FlowRouter.getParam('selectedStudentId'),
 					    	schoolYearId: FlowRouter.getParam('selectedSchoolYearId'),
-					    	termId: this.dataset.termId,
-					    	termOrder: parseInt(this.dataset.termOrder), 
 					    	weekId: this.dataset.weekId,
-					    	weekOrder: parseInt(this.dataset.weekOrder),
-							groupId: groupId, 
-							userId: userId, 
+					    	studentId: FlowRouter.getParam('selectedStudentId'),
 							createdOn: new Date()
 					    });
 					    weekIds.push(this.dataset.weekId);
@@ -598,9 +591,12 @@ Template.schoolWorkEdit.events({
 				return false;
 			} else {
 				// Add weekDay to Lesson properties
+				let existingLessons = Lessons.find({_id: {$nin: removeLessonIds}, schoolWorkId: FlowRouter.getParam('selectedSchoolWorkId')}, {fields: {_id: 1, order: 1, weekId: 1, schoolWorkId: 1}}).fetch();
+				let existingLessonIds = existingLessons.map(lesson => lesson._id);
+				let updateLessonIds = upsertLessonProperties.map(lesson => lesson._id);
 				let hasNewScheduledDays = scheduledDays.map(schedule => schedule.new).indexOf(true) >= 0;
+
 				if (hasNewScheduledDays) {
-					let existingLessons = Lessons.find({_id: {$nin: removeLessonIds}, schoolWorkId: FlowRouter.getParam('selectedSchoolWorkId')}, {fields: {_id: 1, order: 1, weekId: 1, schoolWorkId: 1}}).fetch();
 					upsertLessonProperties = existingLessons.concat(upsertLessonProperties);
 
 					Terms.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}).forEach(term => {
@@ -626,6 +622,9 @@ Template.schoolWorkEdit.events({
 					});
 				};
 
+				let insertLessonProperties = _.filter(upsertLessonProperties, lesson => _.includes(updateLessonIds, lesson._id));
+				let updateLessonProperties = _.filter(upsertLessonProperties, lesson => _.includes(existingLessonIds, lesson._id));
+
 				let pathProperties = {
 					studentIds: [FlowRouter.getParam('selectedStudentId')],
 					schoolYearIds: [FlowRouter.getParam('selectedSchoolYearId')],
@@ -639,12 +638,12 @@ Template.schoolWorkEdit.events({
 					weekIds: weekIds,
 				}
 
-				Meteor.call('updateSchoolWork', updateSchoolWorkProperties, removeLessonIds, upsertLessonProperties, function(error, result) {
+				Meteor.call('updateSchoolWork', updateSchoolWorkProperties, removeLessonIds, insertLessonProperties, updateLessonProperties, function(error, result) {
 					if (error) {
 						Alerts.insert({
 							colorClass: 'bg-danger',
 							iconClass: 'icn-danger',
-							message: error.reason.message,
+							message: error.message,
 						});
 						
 						$('.js-updating').hide();
@@ -655,7 +654,7 @@ Template.schoolWorkEdit.events({
 								Alerts.insert({
 									colorClass: 'bg-danger',
 									iconClass: 'icn-danger',
-									message: error.reason.message,
+									message: error.message,
 								});
 								
 								$('.js-updating').hide();

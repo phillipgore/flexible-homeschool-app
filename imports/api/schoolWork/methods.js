@@ -32,33 +32,44 @@ Meteor.methods({
 		return info;
 	},
 
-	updateSchoolWork: function(updateSchoolWorkProperties, removeLessonIds, upsertLessonProperties) {
-		let schoolWorkId = SchoolWork.update(updateSchoolWorkProperties._id, {$set: updateSchoolWorkProperties});		
-		let bulkLessons = []
+	updateSchoolWork: function(updateSchoolWorkProperties, removeLessonIds, insertLessonProperties, updateLessonProperties) {
+		let groupId = Meteor.user().info.groupId;
+		let userId = Meteor.userId();
 
-		if (upsertLessonProperties.length) {
-			upsertLessonProperties.forEach(lesson => {
+		let schoolWorkId = SchoolWork.update(updateSchoolWorkProperties._id, {$set: updateSchoolWorkProperties});
+		let bulkLessons = [];
+
+		if (insertLessonProperties.length) {
+			insertLessonProperties.forEach(function(lesson) {
+				bulkLessons.push({insertOne: {"document": {
+					_id: Random.id(),
+					order: parseInt(lesson.order),
+					weekDay: parseInt(lesson.weekDay),
+					weekOrder: parseInt(lesson.weekOrder),
+					termOrder: parseInt(lesson.termOrder),
+					assigned: lesson.assigned,
+					completed: lesson.completed,
+					schoolWorkId: lesson.schoolWorkId,
+					schoolYearId: lesson.schoolYearId,
+					termId: lesson.termId,
+					weekId: lesson.weekId,
+					studentId: lesson.studentId,
+					groupId: groupId, 
+					userId: userId, 
+					createdOn: new Date()
+				}}});
+			});
+		}
+
+		if (updateLessonProperties.length) {
+			updateLessonProperties.forEach(lesson => {
 				bulkLessons.push({updateOne: 
 					{ 
 						filter: {_id: lesson._id}, 
 						update: {$set: {
-							_id: lesson._id,
 							order: parseInt(lesson.order),
-							weekDay: paseInt(lesson.weekDay),
-							weekOrder: lesson.weekOrder,
-							termId: lesson.termId,
-							assigned: lesson.assigned,
-							completed: lesson.completed,
-							schoolWorkId: lesson.schoolWorkId,
-							schoolYearId: lesson.schoolYearId,
-							termOrder: lesson.termOrder,
-							weekId: lesson.weekId,
-							studentId: lesson.studentId,
-							groupId: lesson.groupId, 
-							userId: lesson.userId, 
-							createdOn: lesson.createdOn
+							weekDay: parseInt(lesson.weekDay),
 						}}, 
-						upsert:true 
 					} 
 				});
 			});

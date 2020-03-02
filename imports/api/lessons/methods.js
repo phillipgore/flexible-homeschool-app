@@ -22,7 +22,6 @@ Meteor.methods({
 	},
 
 	bulkInsertLessons: function(bulkLessonProperties) {
-		console.log('made it')
 		let result = Lessons.rawCollection().bulkWrite(
 			bulkLessonProperties
 		).then((result) => {
@@ -60,10 +59,8 @@ Meteor.methods({
 	},
 
 	deleteLessons: function(lessonIds, noteIds) {
-		console.log(lessonIds)
 		Lessons.remove({_id: {$in: lessonIds}});
 		if (noteIds.length) {
-			console.log(noteIds)
 			Notes.remove({_id: {$in: noteIds}});
 		}
 	},

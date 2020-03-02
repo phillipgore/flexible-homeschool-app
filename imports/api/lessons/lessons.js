@@ -29,7 +29,7 @@ const LessonsSchema = new SimpleSchema({
     weekDayEdited: {
         type: Boolean,
         label: "Week Day Edited",
-        defaultValue: false,
+        defaultValue: false
     },
     weekOrder: {
         type: Number,

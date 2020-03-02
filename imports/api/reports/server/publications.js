@@ -328,7 +328,6 @@ Meteor.publish('reportData', function(studentId, schoolYearId, termId, weekId, r
 					// })
 					// weekData.note = notes;
 					weekData.noteData = yearNotes.filter(note => note.weekId === week._id);
-					console.log(yearNotes.filter(note => note.weekId === week._id))
 
 					let lessonStats = [];
 					let lessons = _.filter(yearLessons, ['weekId', week._id]);
