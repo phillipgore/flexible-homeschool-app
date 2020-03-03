@@ -45,12 +45,22 @@ Template.schoolWorkEach.helpers({
 			return true;
 		}
 		return false;
+	},
+
+	getWork: function(subjectId) {
+		return SchoolWork.find({subjectId: subjectId});
 	}
 });
 
 Template.schoolWorkEach.events({
-	'click .js-subject'(event) {
-		event.preventDefault();
+	'click .js-subject-toggle'(event) {
+		let listId = '#' + $(event.currentTarget).attr('data-subject-index');
+
+		if ($(listId).is(':visible')) {
+			$(listId).slideUp(100);
+		} else {
+			$(listId).slideDown(200);
+		}
 	},
 });
 

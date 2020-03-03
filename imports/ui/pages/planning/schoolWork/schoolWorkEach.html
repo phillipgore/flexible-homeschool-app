@@ -2,12 +2,26 @@
 	{{#each work in schoolWork}}
 		{{#if getType work.type 'subject'}}
 			<li class="list-item">
-				<a id="{{work._id}}" href="/planning/subjects/view/3/{{selectedStudentId}}/{{selectedSchoolYearId}}/{{work._id}}" class="js-subject list-item-link p-tn-rl-9">
+				<a data-subject-index="{{work._id}}" href="/planning/schoolWork/view/3/{{selectedStudentId}}/{{selectedSchoolYearId}}/{{work._id}}" class="js-subject-toggle list-item-link p-tn-rl-9 {{#if active work._id}}active{{/if}}">
 					<div class="list-item-icon"><i class="txt-primary icn-subjects"></i></div> 
-					<div class="list-item-label">{{work.name}}</div>
+					<div class="list-item-label font-weight-700">
+						{{work.name}} <i class="icn-caret-down m-tn-l-3"></i>
+					</div>
 					<div class="list-item-dropdown-loader"><i class="txt-gray-darkest icn-handles"></i></div> 
 				</a>
 			</li>
+			<ul id="{{work._id}}" class="list hide">
+				{{#if getWork.length work._id}}
+
+				{{else}}
+					<li class="list-item">
+						<a href="#" class="list-item-link p-tn-rl-9">
+							<div class="list-item-icon m-tn-l-27"><i class="txt-gray-dark icn-school-work"></i></div> 
+							<div class="list-item-label font-style-italic txt-gray-dark">This Subject has no School Work.</div>
+						</a>
+					</li>
+				{{/if}}
+			</ul>
 		{{/if}}
 
 		{{#if getType work.type 'work'}}

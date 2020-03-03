@@ -56,6 +56,13 @@ Template.schoolWorkView.helpers({
 
 	showCommas: function(length, index) {
 		if (length != parseInt(index) + 1) return ','
+	},
+
+	isSubject: function(schoolWorkType) {
+		if (schoolWorkType === 'subject') {
+			return true;
+		}
+		return false;
 	}
 });
 

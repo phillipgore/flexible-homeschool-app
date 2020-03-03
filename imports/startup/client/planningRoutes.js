@@ -101,19 +101,6 @@ FlowRouter.route('/planning/subjects/new/:selectedFramePosition/:selectedStudent
 	},
 });
 
-FlowRouter.route('/planning/subjects/view/:selectedFramePosition/:selectedStudentId/:selectedSchoolYearId/:selectedSchoolWorkId', {
-	name: 'subjectsView',
-	title:  'Planning: Subjects: View',
-	action(params) {
-		BlazeLayout.render('app', {
-			subbar: 'subbarSchoolWork',
-			frameOne: 'planningList',
-			frameTwo: 'schoolWorkList',
-			frameThree: 'subjectsView',
-		});
-	},
-});
-
 
 
 
