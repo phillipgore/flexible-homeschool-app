@@ -130,9 +130,9 @@ Template.trackingEdit.helpers({
 
 	hasWeekDay: function(weekDay) {
 		let lessons = Lessons.find({weekId: FlowRouter.getParam('selectedWeekId'), studentId: FlowRouter.getParam('selectedStudentId')})
-		let weekDays = _.uniq(lessons.map(lesson => lesson.weekDay))
+		let weekDays = _.uniq(lessons.map(lesson => parseInt(lesson.weekDay)));
 
-		if (weekDays.indexOf(weekDay.toString()) === -1) {
+		if (weekDays.indexOf(parseInt(weekDay)) === -1) {
 			return true
 		}
 		return false;
@@ -224,20 +224,21 @@ Template.trackingEdit.events({
 
 		$('.js-segment-checkbox').each(function() {
 			if ($(this).val().trim() === 'true') {
+				let weekDay = $(this).attr('data-weekDay');
 				batchCheckedLessonProperties.push({ 
 					_id: $(this).attr('data-lesson-id'),
 					schoolWorkId: $(this).attr('data-schoolWork-id'),
 					completed: $(this).attr('data-completed') === 'true',
-					weekDay: $(this).attr('data-weekDay'),
+					weekDay: weekDay ? parseInt(weekDay) : 0,
 					hadWeekDay: $(this).attr('data-hadWeekDay') === 'true',
 				})
 			}
 		});
 
-		SchoolWork.find().forEach(workItem => {
-			let existingLessonCount = Lessons.find({schoolWorkId: workItem._id, weekId: FlowRouter.getParam('selectedWeekId'), studentId: FlowRouter.getParam('selectedStudentId')}).count();
-			batchCheckedLessonProperties.filter(lesson => lesson.schoolWorkId === workItem._id).forEach((lesson, index) => {lesson.order = existingLessonCount + index + 1});
-		})
+		// SchoolWork.find().forEach(workItem => {
+		// 	let existingLessonCount = Lessons.find({schoolWorkId: workItem._id, weekId: FlowRouter.getParam('selectedWeekId'), studentId: FlowRouter.getParam('selectedStudentId')}).count();
+		// 	batchCheckedLessonProperties.filter(lesson => lesson.schoolWorkId === workItem._id).forEach((lesson, index) => {lesson.order = existingLessonCount + index + 1});
+		// })
 
 		// Get Unchecked Lessons from School Work with Checked Lesson
 		let schoolWorkIds = _.uniq(batchCheckedLessonProperties.map(lesson => lesson.schoolWorkId));
@@ -246,11 +247,12 @@ Template.trackingEdit.events({
 		schoolWorkIds.forEach(workId => {
 			$('#js-schoolWork-track-' + workId).find('.js-segment-checkbox').each(function() {
 				if ($(this).val().trim() != 'true') {
+					let weekDay = $(this).attr('data-weekDay');
 					batchUncheckedLessonProperties.push({ 
 						_id: $(this).attr('data-lesson-id'),
 						schoolWorkId: $(this).attr('data-schoolWork-id'),
 						completed: $(this).attr('data-completed') === 'true',
-						weekDay: $(this).attr('data-weekDay'),
+						weekDay: weekDay ? parseInt(weekDay) : 0,
 						hadWeekDay: $(this).attr('data-hadWeekDay') === 'true',
 					})
 				}
@@ -319,75 +321,86 @@ Template.trackingEdit.events({
 				$('.js-updating').show();
 				$('.js-submit').prop('disabled', true);
 
-				let newLessons = [];
 				let week = Weeks.findOne({_id: FlowRouter.getParam('selectedWeekId')});
 				let term = Terms.findOne({_id: FlowRouter.getParam('selectedTermId')});
 
+				let schoolWorkIds = batchCheckedLessonProperties.map(lesson => lesson.schoolWorkId);
+				let uncheckedLessons = Lessons.find({schoolWorkId: {$in: schoolWorkIds}}).fetch();
+
+				schoolWorkIds.forEach(schoolWorkId => {
+					let days = [1, 2, 3, 4, 5, 6, 7];
+					let newDays = uncheckedLessons.filter(lesson => lesson.schoolWorkId === schoolWorkId).map(schoolWorkLesson => schoolWorkLesson.weekDay);
+					let newDifferenceDays = _.difference(days, newDays);
+					let baseOrder = 1
+
+					// New Lessons
+					batchCheckedLessonProperties.filter(lesson => lesson.schoolWorkId === schoolWorkId).forEach((lesson, index) => {
+						let schoolWorkHasWeekDays = Lessons.find({
+							schoolWorkId: lesson.schoolWorkId, 
+							weekDay: {$gte: 1, $exists: true}
+						}).count();
+
+						lesson.weekDay = 0;
+						delete lesson.hadWeekDay
+
+						if (schoolWorkHasWeekDays) {
+							lesson.order = newDifferenceDays[index];
+						} else {
+							lesson.order = newDays.length + baseOrder;
+							baseOrder++
+						}
+					});
+
+					let existingDifferenceDays = _.difference(days, newDifferenceDays);
+					uncheckedLessons.filter(lesson => lesson.schoolWorkId === schoolWorkId).forEach((lesson, index) => {
+						let schoolWorkHasWeekDays = Lessons.find({
+							schoolWorkId: lesson.schoolWorkId,
+							weekDay: {$gte: 1, $exists: true}
+						}).count();
+						if (schoolWorkHasWeekDays) {
+							lesson.order = existingDifferenceDays[index];
+						} else {
+							lesson.weekDay = 0;
+						}
+					});
+				});
+
+				// let updateLessonProperties = uncheckedLessons.concat(batchCheckedLessonProperties);
+
+				let bulkLessonProperties = [];
+
 				batchCheckedLessonProperties.forEach(lesson => {
-					newLessons.push({
+					bulkLessonProperties.push({insertOne: {"document": {
 						_id: lesson._id,
 						order: lesson.order,
 						weekDay: lesson.weekDay,
-						assigned: false,
-						completed: false,
-						studentId: FlowRouter.getParam('selectedStudentId'),
-						schoolYearId: FlowRouter.getParam('selectedSchoolYearId'),
-						schoolWorkId: lesson.schoolWorkId,
-						termId: FlowRouter.getParam('selectedTermId'),
-						weekId: FlowRouter.getParam('selectedWeekId'),
 						weekOrder: week.order,
 						termOrder: term.order,
+						assigned: false,
+						completed: false,
+						schoolWorkId: lesson.schoolWorkId,
+						schoolYearId: FlowRouter.getParam('selectedSchoolYearId'),
+						termId: FlowRouter.getParam('selectedTermId'),
+						weekId: FlowRouter.getParam('selectedWeekId'),
+						studentId: FlowRouter.getParam('selectedStudentId'),
 						groupId: Meteor.user().info.groupId, 
 						userId: Meteor.user()._id, 
 						createdOn: new Date(),
-						hadWeekDay: lesson.hadWeekDay,
-					})
-				})
-
-				let hasWeekDay = [];
-				let noWeekDay = [];
-
-				newLessons.forEach(lesson => {
-					if (lesson.hadWeekDay) {
-						hasWeekDay.push(lesson) 
-					} else {
-						noWeekDay.push(lesson) 	
-					}
-				})
-				
-				let weekDaySchoolWorkIds = _.uniq(hasWeekDay.map(lesson => lesson.schoolWorkId));
-				let weekDayLessons = Lessons.find({schoolWorkId: {$in: weekDaySchoolWorkIds}, weekId: FlowRouter.getParam('selectedWeekId'), studentId: FlowRouter.getParam('selectedStudentId')}, {fields: {order: 1, weekDay: 1}}).fetch();
-				let allHaveWeekDay = hasWeekDay.concat(weekDayLessons)
-				
-				allHaveWeekDay.forEach(lesson => {
-					lesson.order = lesson.weekDay
+					}}});
 				});
 
-				let noWeekDaySchoolWorkIds = _.uniq(noWeekDay.map(lesson => lesson.schoolWorkId));
-
-				noWeekDaySchoolWorkIds.forEach(schoolWorkId => {
-					let lessonCount = Lessons.find({schoolWorkId: schoolWorkId, weekId: FlowRouter.getParam('selectedWeekId'), studentId: FlowRouter.getParam('selectedStudentId')}, {fields: {order: 1, weekDay: 1}}).count()
-					noWeekDay.filter(lesson => lesson.schoolWorkId === schoolWorkId).forEach((lesson, index) => {
-						lesson.order = lessonCount + index + 1;
-						lesson.weekDay = 0;
-					});
-				});
-
-				let upsertLessons = allHaveWeekDay.concat(noWeekDay);
-				let bulkUpsertLessons = []
-
-				upsertLessons.forEach(lesson => {
-					delete lesson.hadWeekDay;
-					bulkUpsertLessons.push({updateOne: 
+				uncheckedLessons.forEach(lesson => {
+					bulkLessonProperties.push({updateOne: 
 						{ 
 							filter: {_id: lesson._id}, 
-							update: {$set: lesson}, 
-							upsert: true 
-						} 
+							update: {$set: {
+								order: lesson.order,
+							}}
+						}
 					});
 				});
 
-				Meteor.call('bulkInsertLessons', bulkUpsertLessons, function(error, result) {
+				Meteor.call('bulkInsertLessons', bulkLessonProperties, function(error, result) {
 					if (error) {
 						Alerts.insert({
 							colorClass: 'bg-danger',
@@ -404,6 +417,12 @@ Template.trackingEdit.events({
 				return false;
 			}
 
+			batchCheckedLessonProperties.forEach(lesson => {
+				delete lesson.hadWeekDay;
+			});
+			batchUncheckedLessonProperties.forEach(lesson => {
+				delete lesson.hadWeekDay;
+			});
 
 			// Complete ----------------------------------------------------------------------
 			if (action === 'complete') {
@@ -583,7 +602,7 @@ Template.trackingEdit.events({
 				let lastWeek = Weeks.findOne({termId: termId}, {sort: {order: -1}});
 
 				let weekProperties = {
-					order: lastWeek.order + 1,
+					order: parseInt(lastWeek.order + 1),
 					termOrder: term.order,
 					schoolYearId: FlowRouter.getParam('selectedSchoolYearId'),
 					termId: termId
@@ -600,7 +619,7 @@ Template.trackingEdit.events({
 						statProperties.weekIds.push(weekId);
 
 						schoolWorkIds.forEach(workId => {
-							let lessons = _.orderBy(_.filter(batchCheckedLessonProperties, {'schoolWorkId': workId}), ['completed', 'order'], ['desc', 'asc']);
+							let lessons = _.orderBy(_.filter(batchCheckedLessonProperties, {'schoolWorkId': workId}), ['completed', 'order', 'weekDay'], ['desc', 'asc']);
 							lessons.forEach((lesson, index) => {
 								lesson.order = index + 1;
 								lesson.weekOrder = lastWeek.order + 1;

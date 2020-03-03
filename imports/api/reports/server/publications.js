@@ -328,7 +328,6 @@ Meteor.publish('reportData', function(studentId, schoolYearId, termId, weekId, r
 					// })
 					// weekData.note = notes;
 					weekData.noteData = yearNotes.filter(note => note.weekId === week._id);
-					console.log(yearNotes.filter(note => note.weekId === week._id))
 
 					let lessonStats = [];
 					let lessons = _.filter(yearLessons, ['weekId', week._id]);
@@ -338,7 +337,7 @@ Meteor.publish('reportData', function(studentId, schoolYearId, termId, weekId, r
 
 						lessonData._id = lesson._id;
 						lessonData.order = lesson.order;
-						lessonData.weekDay = lesson.weekDay;
+						lessonData.weekDay = parseInt(lesson.weekDay);
 						lessonData.schoolWorkId = lesson.schoolWorkId;
 						lessonData.completed = lesson.completed;
 						if (lesson.completedOn) {

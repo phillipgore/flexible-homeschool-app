@@ -435,7 +435,7 @@ Template.schoolYearsEdit.events({
 		if (termDeleteIds.length) {
 			termIds.forEach((termId, index) => {
 				let newOrder = index + 1;
-				termUpdateProperties.push({_id: termId, order: newOrder})
+				termUpdateProperties.push({_id: termId, order: parseInt(newOrder)})
 			});
 		}
 
@@ -465,7 +465,7 @@ Template.schoolYearsEdit.events({
 				let termWeeks = _.filter(weekIds, ['termId', termId])
 				termWeeks.forEach((week, index) => {
 					let newOrder = index + 1;
-					weekUpdateProperties.push({_id: week._id, order: newOrder, termOrder: week.termOrder, termId: week.termId})
+					weekUpdateProperties.push({_id: week._id, order: parseInt(newOrder), termOrder: week.termOrder, termId: week.termId})
 				});
 			})
 		}

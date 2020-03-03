@@ -70,7 +70,7 @@ Meteor.methods({
 				fixtureTerms.push(
 					{
 						_id: Random.id(),
-						order: termOrder, 
+						order: parseInt(termOrder), 
 						schoolYearId: schoolYear._id,
 						groupId: groupId, 
 						userId: userId, 
@@ -87,7 +87,7 @@ Meteor.methods({
 			weekOrders.forEach(weekOrder => {
 				fixtureWeeks.push({
 					_id: Random.id(),
-					order: weekOrder,
+					order: parseInt(weekOrder),
 					termOrder: term.order,
 					schoolYearId: term.schoolYearId,
 					termId: term._id,

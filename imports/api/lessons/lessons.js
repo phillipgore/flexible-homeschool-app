@@ -23,13 +23,13 @@ const LessonsSchema = new SimpleSchema({
     weekDay: {
         type: Number,
         label: "Week Day",
-        allowedValues: [1, 2, 3, 4, 5, 6, 7],
+        allowedValues: [0, 1, 2, 3, 4, 5, 6, 7],
         optional: true
     },
     weekDayEdited: {
         type: Boolean,
         label: "Week Day Edited",
-        defaultValue: false,
+        defaultValue: false
     },
     weekOrder: {
         type: Number,

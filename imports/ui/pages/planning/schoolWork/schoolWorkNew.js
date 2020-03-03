@@ -465,7 +465,7 @@ Template.schoolWorkNew.events({
 				    	termOrder: parseInt(this.dataset.termOrder), 
 				    	weekId: this.dataset.weekId,
 				    	weekOrder: parseInt(this.dataset.weekOrder),
-				    	weekDay: weekDayLabels.days[i]
+				    	weekDay: parseInt(weekDayLabels.days[i])
 				    });
 				    weekIds.push(this.dataset.weekId)
 				}
