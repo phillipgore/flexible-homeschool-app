@@ -42,7 +42,7 @@
 							<div class="js-lesson-btn js-lesson-btn-existing btn pos-relative txt-tn-center col-tn-1of{{lessonCount work._id}} {{lessonStatus lesson work._id}} {{#if isLabels}}p-tn-l-12 p-tn-r-9{{/if}}">
 								{{#if isEdit}}
 									<label class="checkbox track-checkbox">
-										<input data-schoolWork-id="{{work._id}}" data-lesson-id="{{lesson._id}}" data-completed="{{lesson.completed}}" class="js-checkbox js-segment-checkbox  js-week-{{lesson.weekDay}}" type="checkbox" name="" value="false">
+										<input data-schoolWork-id="{{work._id}}" data-lesson-id="{{lesson._id}}" data-completed="{{lesson.completed}}" data-weekDay="{{lesson.weekDay}}" data-hadWeekDay="{{lesson.hadWeekDay}}" class="js-checkbox js-segment-checkbox  js-week-{{lesson.weekDay}}" type="checkbox" name="" value="false">
 										<div class="checkbox-icon"></div>
 									</label>
 								{{/if}}
