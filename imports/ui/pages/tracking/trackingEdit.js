@@ -391,8 +391,8 @@ Template.trackingEdit.events({
 							filter: {_id: lesson._id}, 
 							update: {$set: {
 								order: lesson.order,
-							}}
-						}
+							}} 
+						} 
 					});
 				});
 
