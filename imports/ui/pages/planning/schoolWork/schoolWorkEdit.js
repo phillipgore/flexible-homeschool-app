@@ -545,6 +545,7 @@ Template.schoolWorkEdit.events({
 				let newLessonsTotal = parseInt(this.value) || 0;
 
 				if (newLessonsTotal > totalLessons) {
+					scheduledDays[0].new = true;
 					let addCount =  newLessonsTotal - totalLessons;
 					for (i = 0; i < addCount; i++) { 
 					    upsertLessonProperties.push({
@@ -565,6 +566,7 @@ Template.schoolWorkEdit.events({
 				}
 
 				if (newLessonsTotal < totalLessons && newLessonsTotal >= completeLessons) {
+					scheduledDays[0].new = true;
 					let removalCount = totalLessons - newLessonsTotal;
 					let removeableLessonsIds = Lessons.find({weekId: this.dataset.weekId, completed: false, schoolWorkId: FlowRouter.getParam('selectedSchoolWorkId')}, {sort: {order: -1}, limit: removalCount}).map(lesson => (lesson._id));
 

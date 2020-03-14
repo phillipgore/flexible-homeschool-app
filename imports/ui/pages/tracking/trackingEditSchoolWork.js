@@ -62,7 +62,7 @@ Template.trackingEditSchoolWork.helpers({
 		_.orderBy(workLessons, ['hadWeekDay'], ['desc'])
 		workLessons.length = 7;
 
-		return _.sortBy(workLessons, ['order', 'weekDay']);
+		return _.sortBy(workLessons, ['weekDay', 'order']);
 	},
 
 	workLessonsExist: function(schoolWorkId) {
@@ -218,8 +218,12 @@ Template.trackingEditSchoolWork.events({
 	'change .js-checkbox'(event) {
 	    if ($(event.currentTarget).val() === 'true') {
 	    	$(event.currentTarget).val('false');
+	    	$('.js-check-multiple-all').val('false').prop('checked', false);
 	    } else {
 	    	$(event.currentTarget).val('true');
+			if ($('.js-segment-checkbox').length === $('.js-segment-checkbox:checked').length) {
+				$('.js-check-multiple-all').val('true').prop('checked', true);
+			}
 	    }
 	},
 

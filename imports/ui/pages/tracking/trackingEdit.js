@@ -175,12 +175,13 @@ Template.trackingEdit.events({
 			} else {
 				$('.js-week-' + id).each(function() {
 					$(this).val('true').prop('checked', true);
-					if ($('.js-check-multiple-weekday-active').length === $('.js-check-multiple-weekday-active:checked').length) {
+					if ($('.js-segment-checkbox').length === $('.js-segment-checkbox:checked').length) {
 						$('.js-check-multiple-all').val('true').prop('checked', true);
 					}
 				});
 			}
 		}
+		
 	},
 
 	'change .js-action'(event) {
@@ -234,11 +235,6 @@ Template.trackingEdit.events({
 				})
 			}
 		});
-
-		// SchoolWork.find().forEach(workItem => {
-		// 	let existingLessonCount = Lessons.find({schoolWorkId: workItem._id, weekId: FlowRouter.getParam('selectedWeekId'), studentId: FlowRouter.getParam('selectedStudentId')}).count();
-		// 	batchCheckedLessonProperties.filter(lesson => lesson.schoolWorkId === workItem._id).forEach((lesson, index) => {lesson.order = existingLessonCount + index + 1});
-		// })
 
 		// Get Unchecked Lessons from School Work with Checked Lesson
 		let schoolWorkIds = _.uniq(batchCheckedLessonProperties.map(lesson => lesson.schoolWorkId));
@@ -395,8 +391,8 @@ Template.trackingEdit.events({
 							filter: {_id: lesson._id}, 
 							update: {$set: {
 								order: lesson.order,
-							}}
-						}
+							}} 
+						} 
 					});
 				});
 

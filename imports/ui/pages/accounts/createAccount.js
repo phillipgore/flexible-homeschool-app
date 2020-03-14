@@ -25,6 +25,10 @@ Template.createAccount.helpers({
 		{label: 'I Am Grandpa', value: 'Grandpa'},
 		{label: 'I Am Aunt', value: 'Aunt'},
 		{label: 'I Am Uncle', value: 'Uncle'},
+		{label: 'I Am An Only Child - Boy', value: 'Only Boy'},
+		{label: 'I Am An Only Child - Girl', value: 'Only Girl'},
+		{label: 'I Am An Unrelated Male', value: 'Unrelated Male'},
+		{label: 'I Am An Unrelated Female', value: 'Unrelated Female'},
 	],
 
 	firstBillingDate: function() {
