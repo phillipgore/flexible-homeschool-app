@@ -277,9 +277,9 @@ Template.trackingEdit.events({
 			$('.js-updating').show();
 			$('.js-submit').prop('disabled', true);
 
-			let bulkUpsertLessons = []
+			let bulkLabelUpdateLessons = []
 			event.target.weekDayLabel.forEach(label => {
-				bulkUpsertLessons.push({updateOne: 
+				bulkLabelUpdateLessons.push({updateOne: 
 					{ 
 						filter: {_id: label.id}, 
 						update: {$set: {
@@ -290,7 +290,7 @@ Template.trackingEdit.events({
 				});
 			});
 
-			Meteor.call('bulkInsertLessons', bulkUpsertLessons, function(error, result) {
+			Meteor.call('bulkLabelUpdateLessons', bulkLabelUpdateLessons, function(error, result) {
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',
@@ -361,12 +361,10 @@ Template.trackingEdit.events({
 					});
 				});
 
-				// let updateLessonProperties = uncheckedLessons.concat(batchCheckedLessonProperties);
-
-				let bulkLessonProperties = [];
+				let bulkInsertLessonProperties = [];
 
 				batchCheckedLessonProperties.forEach(lesson => {
-					bulkLessonProperties.push({insertOne: {"document": {
+					bulkInsertLessonProperties.push({insertOne: {"document": {
 						_id: lesson._id,
 						order: lesson.order,
 						weekDay: lesson.weekDay,
@@ -385,8 +383,10 @@ Template.trackingEdit.events({
 					}}});
 				});
 
+				let bulkUpdateLessonProperties = [];
+
 				uncheckedLessons.forEach(lesson => {
-					bulkLessonProperties.push({updateOne: 
+					bulkUpdateLessonProperties.push({updateOne: 
 						{ 
 							filter: {_id: lesson._id}, 
 							update: {$set: {
@@ -395,8 +395,9 @@ Template.trackingEdit.events({
 						} 
 					});
 				});
+				console.log(bulkUpdateLessonProperties);
 
-				Meteor.call('bulkInsertLessons', bulkLessonProperties, function(error, result) {
+				Meteor.call('bulkInsertLessons', bulkInsertLessonProperties, bulkUpdateLessonProperties, function(error, result) {
 					if (error) {
 						Alerts.insert({
 							colorClass: 'bg-danger',

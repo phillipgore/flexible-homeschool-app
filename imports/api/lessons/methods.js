@@ -21,7 +21,7 @@ Meteor.methods({
 		return Lessons.findOne({_id: lessonId, groupId: groupId}, {fields: {groupId: 0, userId: 0, createdOn: 0, updatedOn: 0}});
 	},
 
-	bulkInsertLessons: function(bulkLessonProperties) {
+	bulkLabelUpdateLessons: function(bulkLessonProperties) {
 		let result = Lessons.rawCollection().bulkWrite(
 			bulkLessonProperties
 		).then((result) => {
@@ -30,6 +30,22 @@ Meteor.methods({
 			throw new Meteor.Error(500, error);
 		});
 		return result;
+	},
+
+	bulkInsertLessons: function(bulkInsertLessonProperties, bulkUpdateLessonProperties) {
+		let result = Lessons.rawCollection().bulkWrite(
+			bulkInsertLessonProperties
+		).then((result) => {
+			if (bulkUpdateLessonProperties.length) {
+				return Lessons.rawCollection().bulkWrite(bulkUpdateLessonProperties)
+			}
+			return [];
+		}).then((result) => {
+			return true;
+		}).catch((error) => {
+			throw new Meteor.Error(500, error);
+		});
+		return true;
 	},
 
 	updateLesson: function(statProperties, pathProperties, lessonProperties) {
