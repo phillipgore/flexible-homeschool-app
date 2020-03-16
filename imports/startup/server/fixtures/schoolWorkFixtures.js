@@ -99,6 +99,34 @@ Meteor.methods({
 			}
 		];
 
+		let timesPerWeek = [2, 2, 5, 5, 2, 3, 2, 5, 2, 5, 3, 3, 2, 2];
+		let weekDayLabels = (timesPerWeek) => {
+			if (timesPerWeek === 1) {
+				let options = [[1], [3], [5]];
+				let randomIndex = Random.choice([0, 1, 2]);
+				return options[randomIndex];
+			}
+			if (timesPerWeek === 2) {
+				let options = [[1, 3], [2, 4]];
+				let randomIndex = Random.choice([0, 1]);
+				return options[randomIndex];
+			}
+			if (timesPerWeek === 3) {
+				return [1, 3, 5];
+			}
+			if (timesPerWeek === 4) {
+				return [1, 2, 4, 5];
+			}
+			if (timesPerWeek === 5) {
+				return [1, 2, 3, 4, 5];
+			}
+			if (timesPerWeek === 6) {
+				return [1, 2, 3, 4, 5, 6];
+			}
+			if (timesPerWeek === 7) {
+				return [1, 2, 3, 4, 5, 7];
+			}
+		}
 		let fixtureSchoolWork = [];
 
 		// Insert School Work
@@ -113,12 +141,14 @@ Meteor.methods({
 
 		SchoolYears.find({groupId: groupId}, {sort: {startYear: 1}, fields: {_id: 1}, limit: 2}).forEach(schoolYear => {
 			Students.find({groupId: groupId}, {fields: {_id: 1}}).forEach(student => {
-				sourceSchoolWork.forEach(schoolWork => {
+				sourceSchoolWork.forEach((schoolWork, schoolWorkIndex) => {
+					let weekDayLabelOptions = weekDayLabels(timesPerWeek[schoolWorkIndex]);
 					fixtureSchoolWork.push({
 						name: schoolWork.name,
 						description: schoolWork.description,
 						resources: schoolWork.resources,
 						schoolYearId: schoolYear._id,
+						scheduledDays: [{segmentCount: weekDayLabelOptions.length, days: weekDayLabelOptions}],
 						studentId: student._id,
 						groupId: groupId, 
 						userId: userId, 
