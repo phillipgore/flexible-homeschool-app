@@ -93,7 +93,7 @@
 			{{/if}}
 		</ul>
 		{{#if accountPausePending group.subscriptionStatus}}
-			<p class="m-tn-18 txt-gray-darkest">Your account is set to pause on {{dateFormat group.subscriptionPausedOn}}. At that time you will not be able to access your data. You may unpause your account at any time before or after the pause date.</p>
+			<p class="m-tn-18 txt-gray-darkest">Your account is paused. You are no longer being billed. You will have access to your data until {{dateFormat group.subscriptionPausedOn}}. You may unpause your account at any time.</p>
 		{{/if}}
 		{{#if accountPaused group.subscriptionStatus}}
 			<p class="m-tn-18 txt-gray-darkest">Your account is paused. You are not being billed nor do you have acces to your data. You may unpause your account at any time.</p>

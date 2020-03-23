@@ -1,5 +1,6 @@
 import {Template} from 'meteor/templating';
 import {Groups} from '../../../api/groups/groups.js';
+import moment from 'moment';
 import _ from 'lodash'
 import './settingsList.html';
 
@@ -104,10 +105,11 @@ Template.settingsList.events({
 	},
 
 	'click .js-paused '(event) {
+		let subscriptionPausedOn = moment(Groups.findOne({}).subscriptionPausedOn).format('MMMM D, YYYY');
 		Alerts.insert({
 			colorClass: 'bg-info',
 			iconClass: 'icn-info',
-			message: 'Your account is paused. You are not being billed nor do you have acces to your data. You may unpause your account at any time.',
+			message: `Your account is paused. You are no longer being billed. You will have access to your data until ${subscriptionPausedOn}. You may unpause your account at any time.`,
 		});
 	},
 
