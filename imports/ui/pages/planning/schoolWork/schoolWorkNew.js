@@ -46,10 +46,12 @@ Template.schoolWorkNew.onRendered( function() {
 	const playerOne = new YTPlayer('#playerOne');
 	const playerTwo = new YTPlayer('#playerTwo');
 	const playerThree = new YTPlayer('#playerThree');
+	const playerFour = new YTPlayer('#playerFour');
 
-	playerOne.load('JVLHvgwShww');
-	playerTwo.load('lGxPOUiT6nU');
-	playerThree.load('cnG64tjn1sg');
+	playerOne.load('RSExIsxSNdI');
+	playerTwo.load('AYiOWFlbNgc');
+	playerThree.load('hZX716AS2_4');
+	playerFour.load('YZzeUAZ64AU');
 
 	// Resources Input Settings
 	LocalResources.remove({});
