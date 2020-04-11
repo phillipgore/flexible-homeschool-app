@@ -1,29 +1,59 @@
 import {Groups} from '../../api/groups/groups.js';
+import stripePackage from 'stripe';
+const stripe = stripePackage(Meteor.settings.private.stripe);
 
 import moment from 'moment';
 import _ from 'lodash'
+import {penniesToDolars} from '../../modules/server/functions';
 
 SyncedCron.add({
 	name: 'Free Trials And Dollar Trials',
 	schedule: function(parser) {
-		return parser.text('every 12 hours');
+		// every 12 hours
+		return parser.text('every 5 seconds');
 	},
 	job: function() {
 		console.log('cron job')
-		let today = moment().unix();
+
+		let today = moment()
+		let todayUnix = moment().unix();
+
 		let groups = Groups.find(
 			{$or: [
 				{
 					subscriptionStatus: 'freeTrial'
 				}, {
-					subscriptionStatus: 'active',
-					'stripeCurrentCouponCode.id': Meteor.settings.public.stripeSignUpDiscount, 
-					'stripeCurrentCouponCode.endDate': {$gt: today}
+					subscriptionStatus: 'active', 
+					'stripeCurrentCouponCode.endDate': {$gt: todayUnix}
 				}
 			]}
 		).fetch();
+
 		let freeTrialGroups = _.filter(groups, ['subscriptionStatus', 'freeTrial']);
-		let trialCouponGroups = _.reject(groups, ['subscriptionStatus', 'freeTrial']);		
+		let trialCouponGroups = _.filter(_.reject(groups, ['subscriptionStatus', 'freeTrial']), group => {
+			let groupCreatedOn = moment(group.createdOn).format('MDYYYY');
+			let couponCodeStart = moment.utc(group.stripeCurrentCouponCode.startDate * 1000).format('MDYYYY');
+			if (groupCreatedOn === couponCodeStart) {
+				return group;
+			}
+		});	
+
+		console.log(trialCouponGroups.length)
+
+		// trialCouponGroups.forEach(group => {
+		// 	let groupCreatedOn = moment(group.createdOn).format('MDYYYY');
+		// 	let couponCodeStart = moment.utc(group.stripeCurrentCouponCode.startDate * 1000).format('MDYYYY');
+		// 	console.log('/-- groupCreatedOn --/');
+		// 	console.log(groupCreatedOn);
+		// 	console.log('/-- couponCodeStart --/');
+		// 	console.log(couponCodeStart);
+		// })
+		return false;
+		let plan = Meteor.call('getPlan');	
+		let price = penniesToDolars(plan.amount);
+		let interval = plan.interval;
+		console.log('$' + price + ' per ' + interval);
+		return false;
 
 
 

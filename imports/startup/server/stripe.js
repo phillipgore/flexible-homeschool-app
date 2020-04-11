@@ -344,6 +344,18 @@ Meteor.methods({
 		return result;
 	},
 
+	getPlan: async function() {
+		let result = await stripe.plans.retrieve(
+			Meteor.settings.public.stripePlanId
+		).then((plan) => {
+			return plan;
+		}).catch((error) => {
+			throw new Meteor.Error(500, error.message);
+		});
+
+		return result;
+	},
+
 	updateCard: async function(tokenId) {
 		let groupId = Meteor.user().info.groupId;
 		let customerId = Groups.findOne({_id: groupId}).stripeCustomerId;
