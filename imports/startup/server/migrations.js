@@ -46,27 +46,30 @@ Migrations.add({
 					if (error) {
 						console.log(error)
 					} else {
-						let updatedGroupProperties = {
-							subscriptionStatus: group.subscriptionStatus,
-							stripeCardId: group.stripeCardId,
-							stripeCouponCodes: group.stripeCouponCodes,
-							stripeCurrentCouponCode: {
-								startDate: result.discount.start,
-								endDate: result.discount.end,
-								id: result.discount.coupon.id,
-								amountOff: result.discount.coupon.amount_off,
-								percentOff: result.discount.coupon.percent_off,
-								durationInMonths: result.discount.coupon.duration_in_months,
-							},
-						};
+						console.log(result)
+						if (!_.isEmpty(result)) {
+							let updatedGroupProperties = {
+								subscriptionStatus: group.subscriptionStatus,
+								stripeCardId: group.stripeCardId,
+								stripeCouponCodes: group.stripeCouponCodes,
+								stripeCurrentCouponCode: {
+									startDate: result.discount.start,
+									endDate: result.discount.end,
+									id: result.discount.coupon.id,
+									amountOff: result.discount.coupon.amount_off,
+									percentOff: result.discount.coupon.percent_off,
+									durationInMonths: result.discount.coupon.duration_in_months,
+								},
+							};
 
-						Groups.update(group._id, {$set: updatedGroupProperties}, function(error, result) {
-							if (error) {
-								console.log(error);
-							} else {
-								return result;
-							}
-						});
+							Groups.update(group._id, {$set: updatedGroupProperties}, function(error, result) {
+								if (error) {
+									console.log(error);
+								} else {
+									return result;
+								}
+							});
+						}
 					}
 				})
 			}
