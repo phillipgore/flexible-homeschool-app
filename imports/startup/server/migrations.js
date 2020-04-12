@@ -46,21 +46,18 @@ Migrations.add({
 					if (error) {
 						console.log(error)
 					} else {
-						console.log(result)
-						if (!_.isEmpty(result)) {
+						if (!_.isEmpty(result.discount)) {
 							let updatedGroupProperties = {
-								subscriptionStatus: group.subscriptionStatus,
-								stripeCardId: group.stripeCardId,
-								stripeCouponCodes: group.stripeCouponCodes,
 								stripeCurrentCouponCode: {
-									startDate: result.discount.start || null,
-									endDate: result.discount.end || null,
+									startDate: result.discount.start,
+									endDate: result.discount.end,
 									id: result.discount.coupon.id,
 									amountOff: result.discount.coupon.amount_off,
 									percentOff: result.discount.coupon.percent_off,
 									durationInMonths: result.discount.coupon.duration_in_months,
 								},
 							};
+							console.log(updatedGroupProperties)
 
 							Groups.update(group._id, {$set: updatedGroupProperties}, function(error, result) {
 								if (error) {
