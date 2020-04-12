@@ -56,6 +56,7 @@ Migrations.add({
 								id: result.discount.coupon.id,
 								amountOff: result.discount.coupon.amount_off,
 								percentOff: result.discount.coupon.percent_off,
+								durationInMonths: result.discount.coupon.duration_in_months,
 							},
 						};
 
@@ -253,7 +254,7 @@ Migrations.add({
 });
 
 Meteor.startup(() => {
-	Migrations.migrateTo(11);
+	Migrations.migrateTo('2,rerun');
 });
 
 
