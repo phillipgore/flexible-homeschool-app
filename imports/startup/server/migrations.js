@@ -57,7 +57,6 @@ Migrations.add({
 									durationInMonths: result.discount.coupon.duration_in_months,
 								},
 							};
-							console.log(updatedGroupProperties)
 
 							Groups.update(group._id, {$set: updatedGroupProperties}, function(error, result) {
 								if (error) {
@@ -256,7 +255,6 @@ Migrations.add({
 Meteor.startup(() => {
 	Migrations.migrateTo(11);
 });
-
 
 
 
