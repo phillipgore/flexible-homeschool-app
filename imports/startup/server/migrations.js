@@ -53,8 +53,8 @@ Migrations.add({
 								stripeCardId: group.stripeCardId,
 								stripeCouponCodes: group.stripeCouponCodes,
 								stripeCurrentCouponCode: {
-									startDate: result.discount.start,
-									endDate: result.discount.end,
+									startDate: result.discount.start || null,
+									endDate: result.discount.end || null,
 									id: result.discount.coupon.id,
 									amountOff: result.discount.coupon.amount_off,
 									percentOff: result.discount.coupon.percent_off,
