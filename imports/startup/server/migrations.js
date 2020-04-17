@@ -252,9 +252,19 @@ Migrations.add({
 	}
 });
 
-Meteor.startup(() => {
-	Migrations.migrateTo(11);
-});
+// Migrations.add({
+// 	version: 12,
+// 	name: 'Correct Anita Fairbanks database.',
+// 	up: function() {
+// 		Lessons.find({weekDay: NaN}).forEach(lesson => {
+// 			Lessons.update(lesson._id, {$set: {weekDay: 0}});
+// 		})
+// 	}
+// });
+
+// Meteor.startup(() => {
+// 	Migrations.migrateTo(11);
+// });
 
 
 

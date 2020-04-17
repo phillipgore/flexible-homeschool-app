@@ -225,12 +225,12 @@ Template.trackingEdit.events({
 
 		$('.js-segment-checkbox').each(function() {
 			if ($(this).val().trim() === 'true') {
-				let weekDay = $(this).attr('data-weekDay');
+				let weekDay = $(this).attr('data-weekDay') || 0;
 				batchCheckedLessonProperties.push({ 
 					_id: $(this).attr('data-lesson-id'),
 					schoolWorkId: $(this).attr('data-schoolWork-id'),
 					completed: $(this).attr('data-completed') === 'true',
-					weekDay: weekDay ? parseInt(weekDay) : 0,
+					weekDay: weekDay,
 					hadWeekDay: $(this).attr('data-hadWeekDay') === 'true',
 				})
 			}
@@ -243,12 +243,12 @@ Template.trackingEdit.events({
 		schoolWorkIds.forEach(workId => {
 			$('#js-schoolWork-track-' + workId).find('.js-segment-checkbox').each(function() {
 				if ($(this).val().trim() != 'true') {
-					let weekDay = $(this).attr('data-weekDay');
+					let weekDay = $(this).attr('data-weekDay') || 0;
 					batchUncheckedLessonProperties.push({ 
 						_id: $(this).attr('data-lesson-id'),
 						schoolWorkId: $(this).attr('data-schoolWork-id'),
 						completed: $(this).attr('data-completed') === 'true',
-						weekDay: weekDay ? parseInt(weekDay) : 0,
+						weekDay: weekDay,
 						hadWeekDay: $(this).attr('data-hadWeekDay') === 'true',
 					})
 				}
@@ -366,10 +366,10 @@ Template.trackingEdit.events({
 				batchCheckedLessonProperties.forEach(lesson => {
 					bulkInsertLessonProperties.push({insertOne: {"document": {
 						_id: lesson._id,
-						order: lesson.order,
-						weekDay: lesson.weekDay,
-						weekOrder: week.order,
-						termOrder: term.order,
+						order: parseInt(lesson.order),
+						weekDay: parseInt(lesson.weekDay),
+						weekOrder: parseInt(week.order),
+						termOrder: parseInt(term.order),
 						assigned: false,
 						completed: false,
 						schoolWorkId: lesson.schoolWorkId,
@@ -390,7 +390,7 @@ Template.trackingEdit.events({
 						{ 
 							filter: {_id: lesson._id}, 
 							update: {$set: {
-								order: lesson.order,
+								order: parseInt(lesson.order),
 							}} 
 						} 
 					});

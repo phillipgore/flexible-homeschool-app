@@ -54,7 +54,7 @@ Meteor.methods({
 									"document": {
 										_id: Random.id(),
 										order: parseInt(i + 1),
-										weekDay: schoolWork.scheduledDays[0].days[i],
+										// weekDay: schoolWork.scheduledDays[0].days[i],
 										weekOrder: week.order,
 										termOrder: week.termOrder,
 										assigned: false,
