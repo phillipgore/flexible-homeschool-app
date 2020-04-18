@@ -178,58 +178,36 @@ Template.trackingEdit.events({
 	'change .js-check-multiple'(event) {
 		event.preventDefault();
 		let id = event.currentTarget.id;
+		console.log(id)
 
 		if ($(event.currentTarget).val() === 'true') {
-			$(event.currentTarget).val('false');
+			$(event.currentTarget).val('false').prop('checked', false);
 			if (id === 'all') {
 				$('.js-segment-checkbox').each(function() {
 					$(this).val('false').prop('checked', false);
 				});
-			} else if (id === 'completed') {
-				$('.js-status-completed').each(function() {
-					$(this).val('false').prop('checked', false);
-				});
-			} else if (id === 'next') {
-				$('.js-status-next').each(function() {
-					$(this).val('false').prop('checked', false);
-				});
-			} else if (id === 'open') {
-				$('.js-status-open').each(function() {
-					$(this).val('false').prop('checked', false);
-				});
 			} else {
-				$('.js-week-' + id).each(function() {
+				$('.js-week-' + id + ', .js-status-' + id).each(function() {
 					$(this).val('false').prop('checked', false);
 				});
 			}
 		} else {
-			$(event.currentTarget).val('true');
+			$(event.currentTarget).val('true').prop('checked', true);
 			if (id === 'all') {
 				$('.js-segment-checkbox').each(function() {
 					$(this).val('true').prop('checked', true);
 				});
-			} else if (id === 'completed') {
-				$('.js-status-completed').each(function() {
-					$(this).val('true').prop('checked', true);
-				});
-			} else if (id === 'next') {
-				$('.js-status-next').each(function() {
-					$(this).val('true').prop('checked', true);
-				});
-			} else if (id === 'open') {
-				$('.js-status-open').each(function() {
-					$(this).val('true').prop('checked', true);
-				});
 			} else {
-				$('.js-week-' + id).each(function() {
+				$('.js-week-' + id + ', .js-status-' + id).each(function() {
 					$(this).val('true').prop('checked', true);
 				});
 			}
 		}
-		
 	},
 
 	'change .js-segment-checkbox, change .js-check-multiple'(event) {
+		event.preventDefault();
+		
 		// All
 		if ($('.js-segment-checkbox').length === $('.js-segment-checkbox:checked').length) {
 			$('.js-check-multiple-all').val('true').prop('checked', true);
@@ -260,39 +238,39 @@ Template.trackingEdit.events({
 
 		// Weekdays
 		if ($('.js-week-1').length === $('.js-week-1:checked').length) {
-			$('#1').val('true').prop('checked', true);
+			$('.js-check-multiple-1').val('true').prop('checked', true);
 		} else {
-			$('#1').val('false').prop('checked', false);
+			$('.js-check-multiple-1').val('false').prop('checked', false);
 		}
-		if ($('.js-week-2').length === $('.js-week-1:checked').length) {
-			$('#2').val('true').prop('checked', true);
+		if ($('.js-week-2').length === $('.js-week-2:checked').length) {
+			$('.js-check-multiple-2').val('true').prop('checked', true);
 		} else {
-			$('#2').val('false').prop('checked', false);
+			$('.js-check-multiple-2').val('false').prop('checked', false);
 		}
-		if ($('.js-week-3').length === $('.js-week-1:checked').length) {
-			$('#3').val('true').prop('checked', true);
+		if ($('.js-week-3').length === $('.js-week-3:checked').length) {
+			$('.js-check-multiple-3').val('true').prop('checked', true);
 		} else {
-			$('#3').val('false').prop('checked', false);
+			$('.js-check-multiple-3').val('false').prop('checked', false);
 		}
-		if ($('.js-week-4').length === $('.js-week-1:checked').length) {
-			$('#4').val('true').prop('checked', true);
+		if ($('.js-week-4').length === $('.js-week-4:checked').length) {
+			$('.js-check-multiple-4').val('true').prop('checked', true);
 		} else {
-			$('#4').val('false').prop('checked', false);
+			$('.js-check-multiple-4').val('false').prop('checked', false);
 		}
-		if ($('.js-week-5').length === $('.js-week-1:checked').length) {
-			$('#5').val('true').prop('checked', true);
+		if ($('.js-week-5').length === $('.js-week-5:checked').length) {
+			$('.js-check-multiple-5').val('true').prop('checked', true);
 		} else {
-			$('#5').val('false').prop('checked', false);
+			$('.js-check-multiple-5').val('false').prop('checked', false);
 		}
-		if ($('.js-week-6').length === $('.js-week-1:checked').length) {
-			$('#6').val('true').prop('checked', true);
+		if ($('.js-week-6').length === $('.js-week-6:checked').length) {
+			$('.js-check-multiple-6').val('true').prop('checked', true);
 		} else {
-			$('#6').val('false').prop('checked', false);
+			$('.js-check-multiple-6').val('false').prop('checked', false);
 		}
-		if ($('.js-week-7').length === $('.js-week-1:checked').length) {
-			$('#7').val('true').prop('checked', true);
+		if ($('.js-week-7').length === $('.js-week-7:checked').length) {
+			$('.js-check-multiple-7').val('true').prop('checked', true);
 		} else {
-			$('#7').val('false').prop('checked', false);
+			$('.js-check-multiple-7').val('false').prop('checked', false);
 		}
 	},
 
@@ -849,6 +827,9 @@ Template.trackingEdit.events({
 		});
 	},
 });
+
+
+
 
 
 
