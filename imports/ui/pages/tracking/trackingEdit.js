@@ -132,7 +132,34 @@ Template.trackingEdit.helpers({
 		let lessons = Lessons.find({weekId: FlowRouter.getParam('selectedWeekId'), studentId: FlowRouter.getParam('selectedStudentId')})
 		let weekDays = _.uniq(lessons.map(lesson => parseInt(lesson.weekDay)));
 
-		if (weekDays.indexOf(parseInt(weekDay)) === -1) {
+		if (weekDays.indexOf(parseInt(weekDay)) >= 0) {
+			return true
+		}
+		return false;
+	},
+
+	hasComplete: function() {
+		let completedLessonCount = Lessons.find({completed: true, weekId: FlowRouter.getParam('selectedWeekId'), studentId: FlowRouter.getParam('selectedStudentId')}).count()
+
+		if (completedLessonCount) {
+			return true
+		}
+		return false;
+	},
+
+	hasDoNext: function() {
+		let doNextLessonCount = Lessons.find({assigned: true, completed: false, weekId: FlowRouter.getParam('selectedWeekId'), studentId: FlowRouter.getParam('selectedStudentId')}).count()
+
+		if (doNextLessonCount) {
+			return true
+		}
+		return false;
+	},
+
+	hasOpen: function() {
+		let openLessonCount = Lessons.find({assigned: false, completed: false, weekId: FlowRouter.getParam('selectedWeekId'), studentId: FlowRouter.getParam('selectedStudentId')}).count()
+
+		if (openLessonCount) {
 			return true
 		}
 		return false;
@@ -157,12 +184,22 @@ Template.trackingEdit.events({
 			if (id === 'all') {
 				$('.js-segment-checkbox').each(function() {
 					$(this).val('false').prop('checked', false);
-					$('.js-check-multiple').val('false').prop('checked', false);
+				});
+			} else if (id === 'completed') {
+				$('.js-status-completed').each(function() {
+					$(this).val('false').prop('checked', false);
+				});
+			} else if (id === 'next') {
+				$('.js-status-next').each(function() {
+					$(this).val('false').prop('checked', false);
+				});
+			} else if (id === 'open') {
+				$('.js-status-open').each(function() {
+					$(this).val('false').prop('checked', false);
 				});
 			} else {
 				$('.js-week-' + id).each(function() {
 					$(this).val('false').prop('checked', false);
-					$('.js-check-multiple-all').val('false').prop('checked', false);
 				});
 			}
 		} else {
@@ -170,18 +207,93 @@ Template.trackingEdit.events({
 			if (id === 'all') {
 				$('.js-segment-checkbox').each(function() {
 					$(this).val('true').prop('checked', true);
-					$('.js-check-multiple').val('true').prop('checked', true);
+				});
+			} else if (id === 'completed') {
+				$('.js-status-completed').each(function() {
+					$(this).val('true').prop('checked', true);
+				});
+			} else if (id === 'next') {
+				$('.js-status-next').each(function() {
+					$(this).val('true').prop('checked', true);
+				});
+			} else if (id === 'open') {
+				$('.js-status-open').each(function() {
+					$(this).val('true').prop('checked', true);
 				});
 			} else {
 				$('.js-week-' + id).each(function() {
 					$(this).val('true').prop('checked', true);
-					if ($('.js-segment-checkbox').length === $('.js-segment-checkbox:checked').length) {
-						$('.js-check-multiple-all').val('true').prop('checked', true);
-					}
 				});
 			}
 		}
 		
+	},
+
+	'change .js-segment-checkbox, change .js-check-multiple'(event) {
+		// All
+		if ($('.js-segment-checkbox').length === $('.js-segment-checkbox:checked').length) {
+			$('.js-check-multiple-all').val('true').prop('checked', true);
+		} else {
+			$('.js-check-multiple-all').val('false').prop('checked', false);
+		}
+
+		// Completed
+		if ($('.js-status-completed').length === $('.js-status-completed:checked').length) {
+			$('.js-check-multiple-completed').val('true').prop('checked', true);
+		} else {
+			$('.js-check-multiple-completed').val('false').prop('checked', false);
+		}
+
+		// Do Next
+		if ($('.js-status-next').length === $('.js-status-next:checked').length) {
+			$('.js-check-multiple-next').val('true').prop('checked', true);
+		} else {
+			$('.js-check-multiple-next').val('false').prop('checked', false);
+		}
+
+		// Open
+		if ($('.js-status-open').length === $('.js-status-open:checked').length) {
+			$('.js-check-multiple-open').val('true').prop('checked', true);
+		} else {
+			$('.js-check-multiple-open').val('false').prop('checked', false);
+		}
+
+		// Weekdays
+		if ($('.js-week-1').length === $('.js-week-1:checked').length) {
+			$('#1').val('true').prop('checked', true);
+		} else {
+			$('#1').val('false').prop('checked', false);
+		}
+		if ($('.js-week-2').length === $('.js-week-1:checked').length) {
+			$('#2').val('true').prop('checked', true);
+		} else {
+			$('#2').val('false').prop('checked', false);
+		}
+		if ($('.js-week-3').length === $('.js-week-1:checked').length) {
+			$('#3').val('true').prop('checked', true);
+		} else {
+			$('#3').val('false').prop('checked', false);
+		}
+		if ($('.js-week-4').length === $('.js-week-1:checked').length) {
+			$('#4').val('true').prop('checked', true);
+		} else {
+			$('#4').val('false').prop('checked', false);
+		}
+		if ($('.js-week-5').length === $('.js-week-1:checked').length) {
+			$('#5').val('true').prop('checked', true);
+		} else {
+			$('#5').val('false').prop('checked', false);
+		}
+		if ($('.js-week-6').length === $('.js-week-1:checked').length) {
+			$('#6').val('true').prop('checked', true);
+		} else {
+			$('#6').val('false').prop('checked', false);
+		}
+		if ($('.js-week-7').length === $('.js-week-1:checked').length) {
+			$('#7').val('true').prop('checked', true);
+		} else {
+			$('#7').val('false').prop('checked', false);
+		}
 	},
 
 	'change .js-action'(event) {
