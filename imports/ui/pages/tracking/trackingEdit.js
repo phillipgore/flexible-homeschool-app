@@ -178,7 +178,6 @@ Template.trackingEdit.events({
 	'change .js-check-multiple'(event) {
 		event.preventDefault();
 		let id = event.currentTarget.id;
-		console.log(id)
 
 		if ($(event.currentTarget).val() === 'true') {
 			$(event.currentTarget).val('false').prop('checked', false);
