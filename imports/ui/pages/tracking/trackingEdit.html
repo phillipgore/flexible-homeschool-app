@@ -119,8 +119,8 @@
 			<div class="well bg-gray-lighter p-tn-t-5 p-tn-rl-0 p-tn-b-12">
 				{{#if weekLessonsExist}}
 					{{#if isEdit}}
-						<div class="row p-tn-trl-9 p-xl-r-72 p-tn-b-9">
-							<div class="col-tn-1of4 col-lg-1of8 p-tn-b-18">
+						<div class="row p-tn-trl-9 p-xl-r-72 p-tn-b-9 p-lg-b-0">
+							<div class="col-tn-1of2 col-xs-1of8 col-sm-1of2 col-lg-1of7 col-xl-1of9 p-tn-b-18">
 								<label class="checkbox no-margin">
 									<input id="all" class="js-check-multiple js-check-multiple-all" type="checkbox">
 									<div class="checkbox-icon"></div> 
@@ -128,10 +128,35 @@
 								</label>
 							</div>
 							{{#unless isInsert}}
+								<div class="col-tn-1of2 col-xs-3of8 col-sm-1of2 col-lg-2of7 col-xl-1of5 p-xs-l-27 p-sm-l-0 p-tn-b-18">
+									<label class="checkbox no-margin">
+										<input id="completed" class="js-check-multiple js-check-multiple-completed" type="checkbox" disabled="{{#unless hasComplete}}true{{/unless}}">
+										<div class="checkbox-icon"></div> 
+										<div class="checkbox-label bold">Completed</div>
+									</label>
+								</div>
+								<div class="col-tn-1of2 col-xs-1of4 col-sm-1of2 col-lg-2of7 col-xl-1of5 p-tn-b-18">
+									<label class="checkbox no-margin">
+										<input id="next" class="js-check-multiple js-check-multiple-next" type="checkbox" disabled="{{#unless hasDoNext}}true{{/unless}}">
+										<div class="checkbox-icon"></div> 
+										<div class="checkbox-label bold">Do Next</div>
+									</label>
+								</div>
+								<div class="col-tn-1of2 col-xs-1of4 col-sm-1of2 col-lg-1of7 col-xl-1of5 p-tn-b-18">
+									<label class="checkbox no-margin">
+										<input id="open" class="js-check-multiple js-check-multiple-open" type="checkbox" disabled="{{#unless hasOpen}}true{{/unless}}">
+										<div class="checkbox-icon"></div> 
+										<div class="checkbox-label bold">Open</div>
+									</label>
+								</div>
+							{{/unless}}
+						</div>
+						<div class="row p-tn-trl-9 p-xl-r-72 p-tn-b-9 p-lg-t-0">
+							{{#unless isInsert}}
 								{{#each weekDay in daysOfWeek}}
-									<div class="col-tn-1of4 col-lg-1of8 p-tn-b-18">
+									<div class="col-tn-1of4 col-lg-1of7 col-xl-1of7 p-tn-b-18">
 										<label class="checkbox no-margin">
-											<input id="{{weekDay}}" class="js-check-multiple js-check-multiple-{{weekDay}} {{#unless hasWeekDay weekDay}}js-check-multiple-weekday-active{{/unless}}" type="checkbox" disabled="{{hasWeekDay weekDay}}">
+											<input id="{{weekDay}}" class="js-check-multiple js-check-multiple-{{weekDay}} {{#if hasWeekDay weekDay}}js-check-multiple-weekday-active{{/if}}" type="checkbox" disabled="{{#unless hasWeekDay weekDay}}true{{/unless}}">
 											<div class="checkbox-icon"></div> 
 											<div class="checkbox-label bold">{{weekDays weekDay}}</div>
 										</label>
