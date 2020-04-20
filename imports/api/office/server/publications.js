@@ -44,16 +44,18 @@ Meteor.publish('allAccountTotals', function(groupId) {
 		return this.ready();
 	}
 
-	let activeGroupIds = Groups.find({appAdmin: false}).map(group => (group._id));
-	
-	Counts.publish(this, 'allAccountsCount', Meteor.users.find({appAdmin: false, 'info.groupId': {$in: activeGroupIds}}));
-	Counts.publish(this, 'onlineAccountsCount', Meteor.users.find({appAdmin: false, 'info.groupId': {$in: activeGroupIds}, 'presence.status': 'online'}));
+	let groups = Groups.find().fetch();
+	let activeGroupIds = groups.filter(group => group.appAdmin === false).map(group => (group._id));
+	// let appAdminGroupIds = groups.filter(group => group.appAdmin === true).map(group => (group._id));
+
+	Counts.publish(this, 'allAccountsCount', Meteor.users.find({'info.groupId': {$in: activeGroupIds}}));
+	Counts.publish(this, 'onlineAccountsCount', Meteor.users.find({'info.groupId': {$in: activeGroupIds}, 'presence.status': 'online'}));
 	Counts.publish(this, 'activeAccountsCount', Groups.find({appAdmin: false, subscriptionStatus: 'active'}));
-	Counts.publish(this, 'pausePendingAccountsCount', Groups.find({subscriptionStatus: 'pausePending'}));
-	Counts.publish(this, 'pausedAccountsCount', Groups.find({subscriptionStatus: 'paused'}));
-	Counts.publish(this, 'errorAccountsCount', Groups.find({subscriptionStatus: 'error'}));
-	Counts.publish(this, 'freeTrialAccountsCount', Groups.find({subscriptionStatus: 'freeTrial'}));
-	Counts.publish(this, 'freeTrialExpiredAccountsCount', Groups.find({subscriptionStatus: 'freeTrialExpired'}));
+	Counts.publish(this, 'pausePendingAccountsCount', Groups.find({appAdmin: false, subscriptionStatus: 'pausePending'}));
+	Counts.publish(this, 'pausedAccountsCount', Groups.find({appAdmin: false, subscriptionStatus: 'paused'}));
+	Counts.publish(this, 'errorAccountsCount', Groups.find({appAdmin: false, subscriptionStatus: 'error'}));
+	Counts.publish(this, 'freeTrialAccountsCount', Groups.find({appAdmin: false, subscriptionStatus: 'freeTrial'}));
+	Counts.publish(this, 'freeTrialExpiredAccountsCount', Groups.find({appAdmin: false, subscriptionStatus: 'freeTrialExpired'}));
 });
 
 Meteor.publish('account', function(groupId) {
