@@ -46,8 +46,8 @@ Meteor.publish('allAccountTotals', function(groupId) {
 
 	let activeGroupIds = Groups.find({appAdmin: false}).map(group => (group._id));
 	
-	Counts.publish(this, 'allAccountsCount', Meteor.users.find({'info.groupId': {$in: activeGroupIds}}));
-	Counts.publish(this, 'onlineAccountsCount', Meteor.users.find({'info.groupId': {$in: activeGroupIds}, 'presence.status': 'online'}));
+	Counts.publish(this, 'allAccountsCount', Meteor.users.find({appAdmin: false, 'info.groupId': {$in: activeGroupIds}}));
+	Counts.publish(this, 'onlineAccountsCount', Meteor.users.find({appAdmin: false, 'info.groupId': {$in: activeGroupIds}, 'presence.status': 'online'}));
 	Counts.publish(this, 'activeAccountsCount', Groups.find({appAdmin: false, subscriptionStatus: 'active'}));
 	Counts.publish(this, 'pausePendingAccountsCount', Groups.find({subscriptionStatus: 'pausePending'}));
 	Counts.publish(this, 'pausedAccountsCount', Groups.find({subscriptionStatus: 'paused'}));
