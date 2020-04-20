@@ -5,6 +5,14 @@ import './createAccount.html';
 
 import moment from 'moment';
 
+let getTrialPrice = (price, percentOff) => {
+	if (percentOff) {
+		let percent = 1 - (percentOff / 100)
+		return (price * percent).toFixed(2);
+	}
+	return price.toFixed(2);
+}
+
 Template.createAccount.onCreated( function() {
 	Session.set('validCoupon', true);
 });
@@ -31,8 +39,61 @@ Template.createAccount.helpers({
 		{label: 'I Am An Unrelated Female', value: 'Unrelated Female'},
 	],
 
+	trialPrice: function() {
+		let coupon = Session.get('coupon');
+		if (coupon) {
+			let price = parseInt(Meteor.settings.public.stripePlanPrice);
+			let percentOff = Session.get('coupon').percent_off;
+			return getTrialPrice(price, percentOff)
+		}
+		return 1;
+	},
+
+	trialDuration: function() {
+		let coupon = Session.get('coupon');
+		if (coupon) {
+			let durationInMonths = Session.get('coupon').duration_in_months;
+			if (durationInMonths === 1) {
+				return '30 days'
+			}
+			return `${durationInMonths} months`
+		}
+		return '30 days'
+	},
+
+	buttonTrialPrice: function() {
+		let coupon = Session.get('coupon');
+		if (coupon) {
+			let price = parseInt(Meteor.settings.public.stripePlanPrice);
+			let percentOff = Session.get('coupon').percent_off;
+			let trialPrice = getTrialPrice(price, percentOff);
+			console.log(trialPrice)
+			if (trialPrice === '0.00') {
+				return 'Free';
+			}
+			return '$' + trialPrice;
+		}
+		return '$1';
+	},
+
+	buttonTrialDuration: function() {
+		let coupon = Session.get('coupon');
+		if (coupon) {
+			let durationInMonths = Session.get('coupon').duration_in_months;
+			if (durationInMonths === 1) {
+				return ''
+			}
+			return `${durationInMonths} Month`
+		}
+		return ''
+	},
+
 	firstBillingDate: function() {
-		return moment().add(30, 'days');;
+		let coupon = Session.get('coupon');
+		if (coupon) {
+			return moment().add(coupon.duration_in_months, 'months')
+		}
+		return moment().add(30, 'days');
 	},
 
 });

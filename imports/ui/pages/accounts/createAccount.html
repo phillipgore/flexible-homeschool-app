@@ -37,10 +37,11 @@
 							<label class="error retype-password-errors"></label>
 						</div>
 						
-						<h2 class="m-tn-b-9">
-							<a href="#" tabindex="-1" class="js-billing-info"><i class="icn-info txt-info"></i></a>
-							Billing
-						</h2>
+						<div class="m-tn-b-9 clearfix">
+							<h2 class="fl-tn-left p-tn-r-6">Billing</h2>
+							<!-- <a href="#" tabindex="-1" class="js-billing-info"><i class="icn-info txt-info"></i></a> -->
+							<button class="js-billing-info btn-info tiny fl-tn-right">Information</button>
+						</div>
 						<div>
 							{{> creditCard}}
 						</div>
@@ -49,7 +50,7 @@
 					<hr class="m-tn-t-21 m-tn-b-27">
 
 					<footer class="toolbar toolbar-bottom toolbar-gray">
-						<button type="submit" class="js-submit btn-block">Start Your $1 Trial</button>
+						<button type="submit" class="js-submit btn-block">Start Your {{buttonTrialPrice}} {{buttonTrialDuration}} Trial</button>
 					</footer>
 				</form>
 			</div>
@@ -72,7 +73,7 @@
 
 					<div class="well bg-gray-lightest p-tn-9 m-tn-b-9">
 						<h3 class="m-tn-b-3">About Billing</h3>
-						<p class="p-md line-height-1-75">You will be charged $1 for the first 30 days. Starting on {{dateFormat firstBillingDate}} you will be billed $10 per month. Pause Anytime.</p>
+						<p class="p-md line-height-1-75">You will be charged ${{trialPrice}} for the first {{trialDuration}}. Starting on {{dateFormat firstBillingDate}} you will be billed $10 per month. Pause Anytime.</p>
 					</div>
 				</div>
 			</div>
