@@ -46,10 +46,10 @@ Meteor.publish('allAccountTotals', function(groupId) {
 
 	let groups = Groups.find().fetch();
 	let activeGroupIds = groups.filter(group => group.appAdmin === false).map(group => (group._id));
-	// let appAdminGroupIds = groups.filter(group => group.appAdmin === true).map(group => (group._id));
+	let onlineGroupsIds = _.uniq(Meteor.users.find({'info.groupId': {$in: activeGroupIds}, 'presence.status': 'online'}).map(user => user.info.groupId))
 
-	Counts.publish(this, 'allAccountsCount', Meteor.users.find({'info.groupId': {$in: activeGroupIds}}));
-	Counts.publish(this, 'onlineAccountsCount', Meteor.users.find({'info.groupId': {$in: activeGroupIds}, 'presence.status': 'online'}));
+	Counts.publish(this, 'allAccountsCount', Groups.find());
+	Counts.publish(this, 'onlineAccountsCount', Groups.find({_id: {$in: onlineGroupsIds}}));
 	Counts.publish(this, 'activeAccountsCount', Groups.find({appAdmin: false, subscriptionStatus: 'active'}));
 	Counts.publish(this, 'pausePendingAccountsCount', Groups.find({appAdmin: false, subscriptionStatus: 'pausePending'}));
 	Counts.publish(this, 'pausedAccountsCount', Groups.find({appAdmin: false, subscriptionStatus: 'paused'}));
