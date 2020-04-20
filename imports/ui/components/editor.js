@@ -1,6 +1,8 @@
 import {Template} from 'meteor/templating';
 import './editor.html';
 import strip from 'strip';
+import stripTags from 'striptags';
+import insertTextAtCursor from 'insert-text-at-cursor';
 
 Template.editor.onCreated( function() {
 	let template = Template.instance();
@@ -122,5 +124,52 @@ Template.editor.events({
 			$('.js-ul-btn').removeClass('active');
 			$('.js-ol-btn').removeClass('active');
 		}
+	},
+
+	'paste .editor-content'(event, template) {
+		event.preventDefault();
+		let text = (event.originalEvent || event).clipboardData.getData('text/html');
+		let paste = stripTags(text, [ 'p', 'ol', 'ul', 'li', 'a', 'span' ], '<p>')
+		pasteHtmlAtCaret(paste);
 	}
 });
+
+const pasteHtmlAtCaret = html => {
+    var sel, range;
+    if (window.getSelection) {
+        // IE9 and non-IE
+        sel = window.getSelection();
+        if (sel.getRangeAt && sel.rangeCount) {
+            range = sel.getRangeAt(0);
+            range.deleteContents();
+
+            // Range.createContextualFragment() would be useful here but is
+            // non-standard and not supported in all browsers (IE9, for one)
+            var el = document.createElement("div");
+            el.innerHTML = html;
+            var frag = document.createDocumentFragment(), node, lastNode;
+            while ( (node = el.firstChild) ) {
+                lastNode = frag.appendChild(node);
+            }
+            range.insertNode(frag);
+            
+            // Preserve the selection
+            if (lastNode) {
+                range = range.cloneRange();
+                range.setStartAfter(lastNode);
+                range.collapse(true);
+                sel.removeAllRanges();
+                sel.addRange(range);
+            }
+        }
+    } else if (document.selection && document.selection.type != "Control") {
+        // IE < 9
+        document.selection.createRange().pasteHTML(html);
+    }
+}
+
+
+
+
+
+

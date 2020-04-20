@@ -65,35 +65,14 @@
 					{{/if}}
 				{{/if}}
 			</li>
-			<li class="list-item">
-				<a href="/settings/test/data/2/" class="list-item-link bg-white p-tn-rl-9 {{#if active currentRouteName 'testDataList'}}active{{/if}}">
-					<div class="list-item-icon"><i class="icn-data"></i></div> 
-					<div class="list-item-label">Test Data</div>
-				</a>
-			</li>
-			<!-- {{#if developerOrApplicationAdministrator user.info.role}}
-				{{#if group.testData}}
-					<li class="list-item">
-						<a href="#" class="js-remove-test-data list-item-link bg-white p-tn-rl-9">
-							<div class="list-item-icon"><i class="icn-data txt-danger"></i></div> 
-							<div class="list-item-label txt-danger">Remove All Test Data</div>
-							<div class="list-item-loading">
-								<div class="loader-icon loader-icon-on-white loader-icon-xs"></div>
-							</div>
-						</a>
-					</li>
-				{{else}}
-					<li class="list-item">
-						<a href="#" class="js-add-test-data list-item-link bg-white p-tn-rl-9">
-							<div class="list-item-icon"><i class="icn-data"></i></div> 
-							<div class="list-item-label">Test Data</div>
-							<div class="list-item-loading">
-								<div class="loader-icon loader-icon-on-white loader-icon-xs"></div>
-							</div>
-						</a>
-					</li>
-				{{/if}}
-			{{/if}} -->
+			{{#if developerOrApplicationAdministrator user.info.role}}
+				<li class="list-item">
+					<a href="/settings/test/data/2/" class="list-item-link bg-white p-tn-rl-9 {{#if active currentRouteName 'testDataList'}}active{{/if}}">
+						<div class="list-item-icon"><i class="icn-data"></i></div> 
+						<div class="list-item-label">Test Data</div>
+					</a>
+				</li>
+			{{/if}}
 			<li class="list-item">
 				<a href="http://www.aflexiblehomeschool.com/tutorials/philosophy" target="_target" class="list-item-link bg-white p-tn-rl-9 {{#if active currentRouteName 'supportView'}}active{{/if}}">
 					<div class="list-item-icon"><i class="icn-support"></i></div> 

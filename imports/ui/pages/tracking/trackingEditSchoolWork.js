@@ -212,10 +212,23 @@ Template.trackingEditSchoolWork.helpers({
 		}
 		return true;
 	},
+
+	getstatus: function(lessonId) {
+		let doNextLesson = Lessons.findOne({_id: lessonId});
+
+		if (doNextLesson.completed) {
+			return 'completed'
+		}
+		if (doNextLesson.assigned) {
+			return 'next'
+		}
+		return 'open';
+	}
 });
 
 Template.trackingEditSchoolWork.events({
 	'change .js-checkbox'(event) {
+		console.log('wow')
 	    if ($(event.currentTarget).val() === 'true') {
 	    	$(event.currentTarget).val('false');
 	    	$('.js-check-multiple-all').val('false').prop('checked', false);

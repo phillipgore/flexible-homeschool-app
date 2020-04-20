@@ -132,7 +132,34 @@ Template.trackingEdit.helpers({
 		let lessons = Lessons.find({weekId: FlowRouter.getParam('selectedWeekId'), studentId: FlowRouter.getParam('selectedStudentId')})
 		let weekDays = _.uniq(lessons.map(lesson => parseInt(lesson.weekDay)));
 
-		if (weekDays.indexOf(parseInt(weekDay)) === -1) {
+		if (weekDays.indexOf(parseInt(weekDay)) >= 0) {
+			return true
+		}
+		return false;
+	},
+
+	hasComplete: function() {
+		let completedLessonCount = Lessons.find({completed: true, weekId: FlowRouter.getParam('selectedWeekId'), studentId: FlowRouter.getParam('selectedStudentId')}).count()
+
+		if (completedLessonCount) {
+			return true
+		}
+		return false;
+	},
+
+	hasDoNext: function() {
+		let doNextLessonCount = Lessons.find({assigned: true, completed: false, weekId: FlowRouter.getParam('selectedWeekId'), studentId: FlowRouter.getParam('selectedStudentId')}).count()
+
+		if (doNextLessonCount) {
+			return true
+		}
+		return false;
+	},
+
+	hasOpen: function() {
+		let openLessonCount = Lessons.find({assigned: false, completed: false, weekId: FlowRouter.getParam('selectedWeekId'), studentId: FlowRouter.getParam('selectedStudentId')}).count()
+
+		if (openLessonCount) {
 			return true
 		}
 		return false;
@@ -153,35 +180,97 @@ Template.trackingEdit.events({
 		let id = event.currentTarget.id;
 
 		if ($(event.currentTarget).val() === 'true') {
-			$(event.currentTarget).val('false');
+			$(event.currentTarget).val('false').prop('checked', false);
 			if (id === 'all') {
 				$('.js-segment-checkbox').each(function() {
 					$(this).val('false').prop('checked', false);
-					$('.js-check-multiple').val('false').prop('checked', false);
 				});
 			} else {
-				$('.js-week-' + id).each(function() {
+				$('.js-week-' + id + ', .js-status-' + id).each(function() {
 					$(this).val('false').prop('checked', false);
-					$('.js-check-multiple-all').val('false').prop('checked', false);
 				});
 			}
 		} else {
-			$(event.currentTarget).val('true');
+			$(event.currentTarget).val('true').prop('checked', true);
 			if (id === 'all') {
 				$('.js-segment-checkbox').each(function() {
 					$(this).val('true').prop('checked', true);
-					$('.js-check-multiple').val('true').prop('checked', true);
 				});
 			} else {
-				$('.js-week-' + id).each(function() {
+				$('.js-week-' + id + ', .js-status-' + id).each(function() {
 					$(this).val('true').prop('checked', true);
-					if ($('.js-segment-checkbox').length === $('.js-segment-checkbox:checked').length) {
-						$('.js-check-multiple-all').val('true').prop('checked', true);
-					}
 				});
 			}
 		}
+	},
+
+	'change .js-segment-checkbox, change .js-check-multiple'(event) {
+		event.preventDefault();
 		
+		// All
+		if ($('.js-segment-checkbox').length === $('.js-segment-checkbox:checked').length) {
+			$('.js-check-multiple-all').val('true').prop('checked', true);
+		} else {
+			$('.js-check-multiple-all').val('false').prop('checked', false);
+		}
+
+		// Completed
+		if ($('.js-status-completed').length === $('.js-status-completed:checked').length) {
+			$('.js-check-multiple-completed').val('true').prop('checked', true);
+		} else {
+			$('.js-check-multiple-completed').val('false').prop('checked', false);
+		}
+
+		// Do Next
+		if ($('.js-status-next').length === $('.js-status-next:checked').length) {
+			$('.js-check-multiple-next').val('true').prop('checked', true);
+		} else {
+			$('.js-check-multiple-next').val('false').prop('checked', false);
+		}
+
+		// Open
+		if ($('.js-status-open').length === $('.js-status-open:checked').length) {
+			$('.js-check-multiple-open').val('true').prop('checked', true);
+		} else {
+			$('.js-check-multiple-open').val('false').prop('checked', false);
+		}
+
+		// Weekdays
+		if ($('.js-week-1').length === $('.js-week-1:checked').length) {
+			$('.js-check-multiple-1').val('true').prop('checked', true);
+		} else {
+			$('.js-check-multiple-1').val('false').prop('checked', false);
+		}
+		if ($('.js-week-2').length === $('.js-week-2:checked').length) {
+			$('.js-check-multiple-2').val('true').prop('checked', true);
+		} else {
+			$('.js-check-multiple-2').val('false').prop('checked', false);
+		}
+		if ($('.js-week-3').length === $('.js-week-3:checked').length) {
+			$('.js-check-multiple-3').val('true').prop('checked', true);
+		} else {
+			$('.js-check-multiple-3').val('false').prop('checked', false);
+		}
+		if ($('.js-week-4').length === $('.js-week-4:checked').length) {
+			$('.js-check-multiple-4').val('true').prop('checked', true);
+		} else {
+			$('.js-check-multiple-4').val('false').prop('checked', false);
+		}
+		if ($('.js-week-5').length === $('.js-week-5:checked').length) {
+			$('.js-check-multiple-5').val('true').prop('checked', true);
+		} else {
+			$('.js-check-multiple-5').val('false').prop('checked', false);
+		}
+		if ($('.js-week-6').length === $('.js-week-6:checked').length) {
+			$('.js-check-multiple-6').val('true').prop('checked', true);
+		} else {
+			$('.js-check-multiple-6').val('false').prop('checked', false);
+		}
+		if ($('.js-week-7').length === $('.js-week-7:checked').length) {
+			$('.js-check-multiple-7').val('true').prop('checked', true);
+		} else {
+			$('.js-check-multiple-7').val('false').prop('checked', false);
+		}
 	},
 
 	'change .js-action'(event) {
@@ -225,12 +314,12 @@ Template.trackingEdit.events({
 
 		$('.js-segment-checkbox').each(function() {
 			if ($(this).val().trim() === 'true') {
-				let weekDay = $(this).attr('data-weekDay');
+				let weekDay = $(this).attr('data-weekDay') || 0;
 				batchCheckedLessonProperties.push({ 
 					_id: $(this).attr('data-lesson-id'),
 					schoolWorkId: $(this).attr('data-schoolWork-id'),
 					completed: $(this).attr('data-completed') === 'true',
-					weekDay: weekDay ? parseInt(weekDay) : 0,
+					weekDay: weekDay,
 					hadWeekDay: $(this).attr('data-hadWeekDay') === 'true',
 				})
 			}
@@ -243,12 +332,12 @@ Template.trackingEdit.events({
 		schoolWorkIds.forEach(workId => {
 			$('#js-schoolWork-track-' + workId).find('.js-segment-checkbox').each(function() {
 				if ($(this).val().trim() != 'true') {
-					let weekDay = $(this).attr('data-weekDay');
+					let weekDay = $(this).attr('data-weekDay') || 0;
 					batchUncheckedLessonProperties.push({ 
 						_id: $(this).attr('data-lesson-id'),
 						schoolWorkId: $(this).attr('data-schoolWork-id'),
 						completed: $(this).attr('data-completed') === 'true',
-						weekDay: weekDay ? parseInt(weekDay) : 0,
+						weekDay: weekDay,
 						hadWeekDay: $(this).attr('data-hadWeekDay') === 'true',
 					})
 				}
@@ -277,9 +366,9 @@ Template.trackingEdit.events({
 			$('.js-updating').show();
 			$('.js-submit').prop('disabled', true);
 
-			let bulkUpsertLessons = []
+			let bulkLabelUpdateLessons = []
 			event.target.weekDayLabel.forEach(label => {
-				bulkUpsertLessons.push({updateOne: 
+				bulkLabelUpdateLessons.push({updateOne: 
 					{ 
 						filter: {_id: label.id}, 
 						update: {$set: {
@@ -290,7 +379,7 @@ Template.trackingEdit.events({
 				});
 			});
 
-			Meteor.call('bulkInsertLessons', bulkUpsertLessons, function(error, result) {
+			Meteor.call('bulkLabelUpdateLessons', bulkLabelUpdateLessons, function(error, result) {
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',
@@ -361,17 +450,15 @@ Template.trackingEdit.events({
 					});
 				});
 
-				// let updateLessonProperties = uncheckedLessons.concat(batchCheckedLessonProperties);
-
-				let bulkLessonProperties = [];
+				let bulkInsertLessonProperties = [];
 
 				batchCheckedLessonProperties.forEach(lesson => {
-					bulkLessonProperties.push({insertOne: {"document": {
+					bulkInsertLessonProperties.push({insertOne: {"document": {
 						_id: lesson._id,
-						order: lesson.order,
-						weekDay: lesson.weekDay,
-						weekOrder: week.order,
-						termOrder: term.order,
+						order: parseInt(lesson.order),
+						weekDay: parseInt(lesson.weekDay),
+						weekOrder: parseInt(week.order),
+						termOrder: parseInt(term.order),
 						assigned: false,
 						completed: false,
 						schoolWorkId: lesson.schoolWorkId,
@@ -385,18 +472,21 @@ Template.trackingEdit.events({
 					}}});
 				});
 
+				let bulkUpdateLessonProperties = [];
+
 				uncheckedLessons.forEach(lesson => {
-					bulkLessonProperties.push({updateOne: 
+					bulkUpdateLessonProperties.push({updateOne: 
 						{ 
 							filter: {_id: lesson._id}, 
 							update: {$set: {
-								order: lesson.order,
+								order: parseInt(lesson.order),
 							}} 
 						} 
 					});
 				});
+				console.log(bulkUpdateLessonProperties);
 
-				Meteor.call('bulkInsertLessons', bulkLessonProperties, function(error, result) {
+				Meteor.call('bulkInsertLessons', bulkInsertLessonProperties, bulkUpdateLessonProperties, function(error, result) {
 					if (error) {
 						Alerts.insert({
 							colorClass: 'bg-danger',
@@ -736,6 +826,9 @@ Template.trackingEdit.events({
 		});
 	},
 });
+
+
+
 
 
 

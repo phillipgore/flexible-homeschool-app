@@ -82,7 +82,7 @@
 							<div class="js-lesson-updating hide">
 								<div class="loader-icon loader-icon-tn loader-icon-center"></div>
 							</div>
-							<span class="js-lesson-weekday-label">{{weekDays lesson.weekDay}}</span>
+							<span class="js-lesson-weekday-label font-size-14">{{weekDays lesson.weekDay}}</span>
 						</button>
 					{{/each}}
 				</div>
@@ -119,7 +119,7 @@
 									</div>
 
 									<label>Completion Date</label>
-									<input type="text" id="completed-on-{{lesson._id}}" name="completedOn" class="js-completed-on" placeholder="{{dateFormat todaysDate}}" value="{{dateFormat lesson.completedOn}}">
+									<input type="text" id="completed-on-{{lesson._id}}" name="completedOn" class="js-completed-on" placeholder="MM DD, YYYY" value="{{dateFormat lesson.completedOn}}">
 									<label>Completion Time</label>
 									<div class="row">
 										<div class="col-tn-1of5">

@@ -39,6 +39,7 @@ Meteor.methods({
 				updatedGroupProperties.stripeCurrentCouponCode.id = subscription.discount.coupon.id;
 				updatedGroupProperties.stripeCurrentCouponCode.amountOff = subscription.discount.coupon.amount_off;
 				updatedGroupProperties.stripeCurrentCouponCode.percentOff = subscription.discount.coupon.percent_off;
+				updatedGroupProperties.stripeCurrentCouponCode.durationInMonths = subscription.discount.coupon.duration_in_months;
 			}
 
 			return subscription;
@@ -78,6 +79,7 @@ Meteor.methods({
 			updatedGroupProperties.stripeCurrentCouponCode.id = subscription.discount.coupon.id;
 			updatedGroupProperties.stripeCurrentCouponCode.amountOff = subscription.discount.coupon.amount_off;
 			updatedGroupProperties.stripeCurrentCouponCode.percentOff = subscription.discount.coupon.percent_off;
+			updatedGroupProperties.stripeCurrentCouponCode.durationInMonths = subscription.discount.coupon.duration_in_months;
 
 			return subscription;
 		}).catch((error) => {
@@ -160,6 +162,7 @@ Meteor.methods({
 				updatedGroupProperties.stripeCurrentCouponCode.id = subscription.discount.coupon.id;
 				updatedGroupProperties.stripeCurrentCouponCode.amountOff = subscription.discount.coupon.amount_off;
 				updatedGroupProperties.stripeCurrentCouponCode.percentOff = subscription.discount.coupon.percent_off;
+				updatedGroupProperties.stripeCurrentCouponCode.durationInMonths = subscription.discount.coupon.duration_in_months;
 			}
 			return subscription;
 		}).catch((error) => {
@@ -215,6 +218,7 @@ Meteor.methods({
 				updatedGroupProperties.stripeCurrentCouponCode.id = subscription.discount.coupon.id;
 				updatedGroupProperties.stripeCurrentCouponCode.amountOff = subscription.discount.coupon.amount_off;
 				updatedGroupProperties.stripeCurrentCouponCode.percentOff = subscription.discount.coupon.percent_off;
+				updatedGroupProperties.stripeCurrentCouponCode.durationInMonths = subscription.discount.coupon.duration_in_months;
 			}
 			return subscription;
 		}).catch((error) => {
@@ -344,6 +348,18 @@ Meteor.methods({
 		return result;
 	},
 
+	getPlan: async function() {
+		let result = await stripe.plans.retrieve(
+			Meteor.settings.public.stripePlanId
+		).then((plan) => {
+			return plan;
+		}).catch((error) => {
+			throw new Meteor.Error(500, error.message);
+		});
+
+		return result;
+	},
+
 	updateCard: async function(tokenId) {
 		let groupId = Meteor.user().info.groupId;
 		let customerId = Groups.findOne({_id: groupId}).stripeCustomerId;
@@ -401,6 +417,7 @@ Meteor.methods({
 					updatedGroupProperties.stripeCurrentCouponCode.id = customer.subscriptions.data[0].discount.coupon.id;
 					updatedGroupProperties.stripeCurrentCouponCode.amountOff = customer.subscriptions.data[0].discount.coupon.amount_off;
 					updatedGroupProperties.stripeCurrentCouponCode.percentOff = customer.subscriptions.data[0].discount.coupon.percent_off;
+					updatedGroupProperties.stripeCurrentCouponCode.durationInMonths = customer.subscriptions.data[0].discount.duration_in_months;
 
 					stripeCouponCodes.push(customer.subscriptions.data[0].discount.coupon.id);
 				}

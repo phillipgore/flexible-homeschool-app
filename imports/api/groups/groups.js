@@ -75,6 +75,11 @@ const GroupsSchema = new SimpleSchema({
         label: "Current Coupon Percent Off",
         optional: true
     },
+    'stripeCurrentCouponCode.durationInMonths': {
+        type: Number,
+        label: "Current Coupon Duration In Months",
+        optional: true
+    },
     subscriptionStatus: {
         type: String,
         label: "Account Status",

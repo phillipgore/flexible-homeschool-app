@@ -1,7 +1,10 @@
 import {Groups} from '../../api/groups/groups.js';
+import stripePackage from 'stripe';
+const stripe = stripePackage(Meteor.settings.private.stripe);
 
 import moment from 'moment';
 import _ from 'lodash'
+import {penniesToDolars} from '../../modules/server/functions';
 
 SyncedCron.add({
 	name: 'Free Trials And Dollar Trials',
@@ -10,20 +13,55 @@ SyncedCron.add({
 	},
 	job: function() {
 		console.log('cron job')
-		let today = moment().unix();
+
+		let today = moment()
+		let todayUnix = moment().unix();
+		let price = parseInt(Meteor.settings.public.stripePlanPrice);
+		
+		let getTrialPrice = (price, percentOff) => {
+			if (percentOff) {
+				let percent = 1 - (percentOff / 100)
+				return (price * percent).toFixed(2);
+			}
+			return price.toFixed(2);
+		}
+
+		let getPricingPhrase = (trialPrice, durationInMonths) => {
+			if (trialPrice) {
+				if (durationInMonths === 1) {
+					return `30 Days for $${trialPrice}`;
+				}
+				return `${durationInMonths} month, $${trialPrice} per month`;
+			}
+			return `free, ${durationInMonths} month`;
+		}
+
+		let getDurationPhrasing = (durationInMonths) => {
+			if (durationInMonths === 1) {
+				return '30 day'
+			}
+			return durationInMonths + ' month'
+		}
+
 		let groups = Groups.find(
 			{$or: [
 				{
 					subscriptionStatus: 'freeTrial'
 				}, {
-					subscriptionStatus: 'active',
-					'stripeCurrentCouponCode.id': Meteor.settings.public.stripeSignUpDiscount, 
-					'stripeCurrentCouponCode.endDate': {$gt: today}
+					subscriptionStatus: 'active', 
+					'stripeCurrentCouponCode.endDate': {$gt: todayUnix}
 				}
 			]}
 		).fetch();
+
 		let freeTrialGroups = _.filter(groups, ['subscriptionStatus', 'freeTrial']);
-		let trialCouponGroups = _.reject(groups, ['subscriptionStatus', 'freeTrial']);		
+		let trialCouponGroups = _.filter(_.reject(groups, ['subscriptionStatus', 'freeTrial']), group => {
+			let groupCreatedOn = moment(group.createdOn).format('MDYYYY');
+			let couponCodeStart = moment.unix(group.stripeCurrentCouponCode.startDate).format('MDYYYY');
+			if (groupCreatedOn === couponCodeStart) {
+				return group;
+			}
+		});	
 
 
 
@@ -111,6 +149,12 @@ SyncedCron.add({
 			let endingTomorrowDate = moment.unix(group.stripeCurrentCouponCode.endDate).subtract(1, 'd').unix();
 			let endingTomorrowNoLaterThanDate = moment.unix(endingTomorrowDate).add(6, 'h').unix();
 
+			let percentOff = group.stripeCurrentCouponCode.percentOff;
+			let durationInMonths = group.stripeCurrentCouponCode.durationInMonths;
+
+			let trialPrice = getTrialPrice(price, percentOff);
+			let trialPricingPhrase = getPricingPhrase(trialPrice, durationInMonths);
+
 
 				/* ---------- Trial Coupon Ending Soon ---------- */
 				if (today > endingSoonDate && today < endingSoonNoLaterThanDate) {
@@ -121,12 +165,13 @@ SyncedCron.add({
 
 						var emailData = {
 							firstName: admin.info.firstName,
+							trialPricingPhrase: trialPricingPhrase,
 						};
 
 						Email.send({
 							to: admin.emails[0].address,
 							from: "Flexible Homeschool App <no-reply@aflexiblehomeschool.com>",
-							subject: "$1 Trial Ending Soon - Flexible Homeschool App",
+							subject: `Your ${trialPricingPhrase} trial is ending soon.`,
 							html: SSR.render('trialEndingSoon', emailData),
 						});
 					});
@@ -142,12 +187,13 @@ SyncedCron.add({
 
 						var emailData = {
 							firstName: admin.info.firstName,
+							trialPricingPhrase: trialPricingPhrase,
 						};
 
 						Email.send({
 							to: admin.emails[0].address,
 							from: "Flexible Homeschool App <no-reply@aflexiblehomeschool.com>",
-							subject: "$1 Trial Ending Tomorrow - Flexible Homeschool App",
+							subject: `Your ${trialPricingPhrase} trial ends tomorrow.`,
 							html: SSR.render('trialEndingTomorrow', emailData),
 						});
 					});

@@ -48,7 +48,7 @@ Template.trackingSchoolWork.helpers({
 	},
 
 	lessonPosition: function(schoolWorkId, lessonId) {
-		let lessonIds = Lessons.find({studentId: FlowRouter.getParam('selectedStudentId'), schoolWorkId: schoolWorkId, weekId: FlowRouter.getParam('selectedWeekId')}).map(lesson => (lesson._id))
+		let lessonIds = Lessons.find({studentId: FlowRouter.getParam('selectedStudentId'), schoolWorkId: schoolWorkId, weekId: FlowRouter.getParam('selectedWeekId')}, {sort: {order: 1, weekDay: 1}}).map(lesson => (lesson._id))
 		return lessonIds.indexOf(lessonId);
 	},
 

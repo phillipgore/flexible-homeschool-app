@@ -23,7 +23,12 @@ export function minutesConvert(minutes) {
 	}
 };
 
-
+export function penniesToDolars(pennies) {
+	if (isNaN(pennies)) {
+		return 0;
+	}
+	return Math.round(pennies / 100);
+};
 
 
 

@@ -28,7 +28,6 @@ Meteor.methods({
 			throw new Meteor.Error('no-students', 'You must add Students, School Years, Resources and School Work before adding Segments.');
 		}
 
-		let timesPerWeek = [2, 2, 5, 5, 2, 3, 2, 5, 2, 5, 3, 3, 2, 2];
 		let fixtureLessons = [];
 
 		// Insert Lessons
@@ -43,21 +42,24 @@ Meteor.methods({
 					fields: {termOrder: 1, order: 1}
 				}).forEach(term => {
 					let weeks = Weeks.find({termId: term._id}, {sort: {order: 1}, fields: {order: 1, termOrder: 1}}).fetch();
-					let schoolWorkIds = SchoolWork.find({studentId: student._id, schoolYearId: schoolYear._id}, {sort: {name: 1}}).map(schoolWork => schoolWork._id)
+					let schoolWork = SchoolWork.find({studentId: student._id, schoolYearId: schoolYear._id}, {sort: {name: 1}})
 				
 					weeks.forEach((week, weekIndex) => {
-						schoolWorkIds.forEach((schoolWorkId, schoolWorkIndex) => {
-							for (i = 0; i < timesPerWeek[schoolWorkIndex]; i++) {
+						schoolWork.forEach((schoolWork, schoolWorkIndex) => {
+							let randomNumber = Math.floor(Math.random() * (schoolWork.scheduledDays[0].segmentCount + 1) ) + 1
+							let randomCompleted = randomNumber < 3 ? randomNumber : 3;
 
+							for (i = 0; i < schoolWork.scheduledDays[0].segmentCount; i++) {
 								let lessonProperties = {insertOne: {
 									"document": {
 										_id: Random.id(),
 										order: parseInt(i + 1),
+										weekDay: schoolWork.scheduledDays[0].days[i],
 										weekOrder: week.order,
 										termOrder: week.termOrder,
 										assigned: false,
 										completed: false,
-										schoolWorkId: schoolWorkId,
+										schoolWorkId: schoolWork._id,
 										schoolYearId: schoolYear._id,
 										termId: term._id,
 										weekId: week._id,
@@ -80,7 +82,7 @@ Meteor.methods({
 									lessonProperties.insertOne.document.completed = true
 								}
 
-								if (schoolYearIndex === 1 && term.order === 2 && week.order > 6 && lessonProperties.insertOne.document.order < 3) {
+								if (schoolYearIndex === 1 && term.order === 2 && week.order > 6 && lessonProperties.insertOne.document.order < randomCompleted) {
 									lessonProperties.insertOne.document.completed = true
 								}
 
