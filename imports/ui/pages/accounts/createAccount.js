@@ -88,6 +88,18 @@ Template.createAccount.helpers({
 		return ''
 	},
 
+	headingTrialDuration: function() {
+		let coupon = Session.get('coupon');
+		if (coupon) {
+			let durationInMonths = Session.get('coupon').duration_in_months;
+			if (durationInMonths === 1) {
+				return '30 Days'
+			}
+			return `${durationInMonths} Months`
+		}
+		return '30 Days'
+	},
+
 	firstBillingDate: function() {
 		let coupon = Session.get('coupon');
 		if (coupon) {
@@ -109,7 +121,7 @@ Template.createAccount.events({
 				_id: 'cc-info',
 				colorClass: 'bg-info',
 				iconClass: 'icn-info',
-				message: '<div class="p-tn-tb-6"><div class="font-weight-700 line-height-1">Uniterupted Use</div><p class="line-height-1-75 m-tn-b-15">We ask for your credit card to allow your membership to continue after your $1 trial, should you choose not to pause your account.</p> <div class="font-weight-700 line-height-1">Fraud Reduction</div><p class="line-height-1-75 m-tn-b-15">This also allows us to reduce fraud and prevent multiple trials for one person. Which helps us deliver quality service for honest customers.</p> <div class="font-weight-700 line-height-1">Pause Anytime</div><p class="line-height-1-75">You can pause your account anytime. We’ll even send you an email seven days before your trial is over to remind you it’s about to expire.</p></div>',
+				message: '<div class="p-tn-tb-6"><div class="font-weight-700 line-height-1">Uninterrupted Use</div><p class="line-height-1-75 m-tn-b-15">We ask for your credit card to allow your membership to continue after your trial, should you choose not to pause your account.</p> <div class="font-weight-700 line-height-1">Fraud Reduction</div><p class="line-height-1-75 m-tn-b-15">This also allows us to reduce fraud and prevent multiple trials for one person. Which helps us deliver quality service for honest customers.</p> <div class="font-weight-700 line-height-1">Pause Anytime</div><p class="line-height-1-75">You can pause your account anytime. We’ll even send you an email seven days before your trial is over to remind you it’s about to expire.</p></div>',
 			});
 		}
 	},
