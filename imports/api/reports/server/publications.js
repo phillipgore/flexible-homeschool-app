@@ -109,6 +109,7 @@ Meteor.publish('reportData', function(studentId, schoolYearId, termId, weekId, r
 					schoolYearStats.termCount = yearTerms.length;
 					schoolYearStats.schoolWorkCount = yearSchoolWork.length;
 					schoolYearStats.weekCount = yearWeeks.length;
+					schoolYearStats.dayCount = yearWeeks.length * report.weekEquals;
 					schoolYearStats.lessonCount = yearLessons.length;
 				}
 
@@ -136,14 +137,17 @@ Meteor.publish('reportData', function(studentId, schoolYearId, termId, weekId, r
 					let yearCompletedTermIds = Weeks.find({_id: {$in: yearCompletedWeekIds}}).map(week => (week.termId));
 					let yearTermsTotal = Terms.find({_id: {$in: yearCompletedTermIds}}).count();			
 					let yearWeeksTotal = yearCompletedWeekIds.length;
+					let yearDaysTotal = yearWeeksTotal * report.weekEquals
 
 					let yearTotalTimeMinutes = _.sum(yearLessonCompletionTimes);
 					let yearAverageTermMinutes = _.sum(yearLessonCompletionTimes) / yearTermsTotal;
 					let yearAverageWeekMinutes = _.sum(yearLessonCompletionTimes) / yearWeeksTotal;
+					let yearAverageDayMinutes = _.sum(yearLessonCompletionTimes) / yearDaysTotal;
 					let yearAverageLessonMinutes = _.sum(yearLessonCompletionTimes) / yearLessonsCompletedTotal;
 
 					schoolYearStats.totalTime = minutesConvert(yearTotalTimeMinutes);
 					schoolYearStats.averageLessons = minutesConvert(yearAverageLessonMinutes);
+					schoolYearStats.averageDays = minutesConvert(yearAverageDayMinutes);
 					schoolYearStats.averageWeeks = minutesConvert(yearAverageWeekMinutes);
 					schoolYearStats.averageTerms = minutesConvert(yearAverageTermMinutes);
 				}
@@ -173,6 +177,7 @@ Meteor.publish('reportData', function(studentId, schoolYearId, termId, weekId, r
 					if (report.termsStatsVisible) {
 						termData.schoolWorkCount = termSchoolWork.length;
 						termData.weekCount = termWeekIds.length;
+						termData.dayCount =  termWeekIds.length * report.weekEquals
 						termData.lessonCount = termLessonsTotal;
 					}
 
@@ -208,6 +213,11 @@ Meteor.publish('reportData', function(studentId, schoolYearId, termId, weekId, r
 						let weeksTotal = completedWeekIds.length;
 						let averageWeekMinutes = _.sum(lessonCompletionTimes) / weeksTotal;
 						termData.averageWeeks = minutesConvert(averageWeekMinutes);
+
+						//  Terms Average Days
+						let termDaysTotal = weeksTotal * report.weekEquals
+						let termAverageDayMinutes = averageWeekMinutes / termDaysTotal;
+						termData.averageDays = minutesConvert(termAverageDayMinutes);
 
 						//  Terms Average Lessons
 						let averageLessonMinutes = _.sum(lessonCompletionTimes) / lessonCompletionTimes.length;

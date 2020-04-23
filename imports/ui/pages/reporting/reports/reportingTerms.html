@@ -45,6 +45,19 @@
 					<tr class="{{rowVisible report.termsStatsVisible report.termsTimesVisible}}">
 						{{#if report.termsStatsVisible}}
 							<td colspan="{{colSpan report.termsStatsVisible report.termsTimesVisible}}">
+								<span class="txt-gray-darker">Days: </span>{{term.dayCount}}
+							</td>
+						{{/if}}
+						{{#if report.termsTimesVisible}}
+							<td colspan="{{colSpan report.termsStatsVisible report.termsTimesVisible}}">
+								<span class="txt-gray-darker">Avg / Day: </span>{{term.averageDays}}
+							</td>
+						{{/if}}
+						
+					</tr>
+					<tr class="{{rowVisible report.termsStatsVisible report.termsTimesVisible}}">
+						{{#if report.termsStatsVisible}}
+							<td colspan="{{colSpan report.termsStatsVisible report.termsTimesVisible}}">
 								<span class="txt-gray-darker">Segments: </span>{{term.lessonCount}}
 							</td>
 						{{/if}}

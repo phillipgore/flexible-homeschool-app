@@ -4,7 +4,7 @@ import './reportingEdit.html';
 
 Template.reportingEdit.onCreated( function() {	
 	// Subscriptions
-	this.subscribe('report', FlowRouter.getParam('selectedReportId'));
+	this.subscribe('report', FlowRouter.getParam('selectedReportId'));	
 });
 
 Template.reportingEdit.onRendered( function() {
@@ -32,15 +32,18 @@ Template.reportingEdit.onRendered( function() {
 			let reportProperties = {
 				_id: template.find("[name='_id']").value.trim(),
 				name: template.find("[name='name']").value.trim(),
+				weekEquals: template.find("[name='weekEquals']").value.trim(),
 				
 				schoolYearReportVisible: template.find("[name='schoolYearReportVisible']").value.trim() === 'true',
 				schoolYearStatsVisible: template.find("[name='schoolYearStatsVisible']").value.trim() === 'true',
 				schoolYearProgressVisible: template.find("[name='schoolYearProgressVisible']").value.trim() === 'true',
+				// schoolYearProgressStatsVisible: template.find("[name='schoolYearProgressStatsVisible']").value.trim() === 'true',
 				schoolYearTimesVisible: template.find("[name='schoolYearTimesVisible']").value.trim() === 'true',
 				
 				termsReportVisible: template.find("[name='termsReportVisible']").value.trim() === 'true',
 				termsStatsVisible: template.find("[name='termsStatsVisible']").value.trim() === 'true',
 				termsProgressVisible: template.find("[name='termsProgressVisible']").value.trim() === 'true',
+				// termsProgressStatsVisible: template.find("[name='termsProgressStatsVisible']").value.trim() === 'true',
 				termsTimesVisible: template.find("[name='termsTimesVisible']").value.trim() === 'true',
 				
 				schoolWorkReportVisible: template.find("[name='schoolWorkReportVisible']").value.trim() === 'true',
@@ -97,9 +100,30 @@ Template.reportingEdit.helpers({
 	selectedStudentId: function() {
 		return Session.get('selectedStudentId');
 	},
+
+	days: function() {
+		return [1, 2, 3, 4, 5, 6, 7]
+	},
+
+	selectedDays: function(number) {
+		let weekEquals = Reports.findOne(FlowRouter.getParam('selectedReportId')).weekEquals;
+		Session.set('weekEquals', weekEquals);
+		if (number === weekEquals) {
+			return 'selected';
+		}
+		return null;
+	},
+
+	weekEquals: function() {
+		return Session.get('weekEquals');
+	}
 });
 
 Template.reportingEdit.events({
+	'change .js-week-equals-days'(event, template) {
+		Session.set('weekEquals', parseInt(template.find("[name='weekEquals']").value.trim()));
+	},
+
 	'change .js-checkbox'(event) {
 	    if ($(event.currentTarget).val() === 'true') {
 	    	$(event.currentTarget).val('false');

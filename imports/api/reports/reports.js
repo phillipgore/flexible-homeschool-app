@@ -20,6 +20,11 @@ const ReportsSchema = new SimpleSchema({
         type: String,
         label: "School Work Name",
     },
+    weekEquals: {
+        type: Number,
+        label: "Week Equals Number of Days",
+        optional: false
+    },
 
     // School Years
     schoolYearReportVisible: {
@@ -27,16 +32,21 @@ const ReportsSchema = new SimpleSchema({
 		label: "School Year Report",
 		defaultValue: true,
 	},
-	schoolYearStatsVisible: {
-		type: Boolean,
-		label: "School Year Stats",
-		defaultValue: true,
-	},
 	schoolYearProgressVisible: {
 		type: Boolean,
 		label: "School Year Progress",
 		defaultValue: true,
 	},
+	schoolYearStatsVisible: {
+		type: Boolean,
+		label: "School Year Stats",
+		defaultValue: true,
+	},
+	// schoolYearProgressStatsVisible: {
+	// 	type: Boolean,
+	// 	label: "School Year Progress Stats",
+	// 	defaultValue: true,
+	// },
 	schoolYearTimesVisible: {
 		type: Boolean,
 		label: "School Year Times",
@@ -57,6 +67,11 @@ const ReportsSchema = new SimpleSchema({
 	termsProgressVisible: {
 		type: Boolean,
 		label: "Terms Progress",
+		defaultValue: true,
+	},
+	termsProgressStatsVisible: {
+		type: Boolean,
+		label: "School Year Progress Stats",
 		defaultValue: true,
 	},
 	termsTimesVisible: {
