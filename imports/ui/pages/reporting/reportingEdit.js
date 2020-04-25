@@ -106,9 +106,8 @@ Template.reportingEdit.helpers({
 	},
 
 	selectedDays: function(number) {
-		let weekEquals = Reports.findOne(FlowRouter.getParam('selectedReportId')).weekEquals;
-		Session.set('weekEquals', weekEquals);
-		if (number === weekEquals) {
+		let report = Reports.findOne(FlowRouter.getParam('selectedReportId')) && Reports.findOne(FlowRouter.getParam('selectedReportId'));
+		if (number === report.weekEquals) {
 			return 'selected';
 		}
 		return null;
