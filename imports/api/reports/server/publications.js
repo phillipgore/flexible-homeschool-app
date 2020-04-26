@@ -143,11 +143,11 @@ Meteor.publish('reportData', function(studentId, schoolYearId, termId, weekId, r
 				});
 				let yearPercentageCompleted = schoolYearStats.progress / 100;
 				if (report.schoolYearCompletedVisible) {
-					schoolYearStats.termsCompletedCount = yearPercentageCompleted * schoolYearStats.termCount;
+					schoolYearStats.termsCompletedCount = (yearPercentageCompleted * schoolYearStats.termCount).toFixed(2);
 					schoolYearStats.schoolWorkCompletedCount = completeSchoolWorkIds.length;
-					schoolYearStats.weeksCompletedCount = yearPercentageCompleted * schoolYearStats.weekCount;
-					schoolYearStats.daysCompletedCount = yearPercentageCompleted * schoolYearStats.dayCount;
-					schoolYearStats.lessonsCompletedCount = yearPercentageCompleted * schoolYearStats.lessonCount;
+					schoolYearStats.weeksCompletedCount = (yearPercentageCompleted * schoolYearStats.weekCount).toFixed(2);
+					schoolYearStats.daysCompletedCount = (yearPercentageCompleted * schoolYearStats.dayCount).toFixed(2);
+					schoolYearStats.lessonsCompletedCount = (yearPercentageCompleted * schoolYearStats.lessonCount).toFixed(2);
 				}
 
 				if (report.schoolYearTimesVisible) {
@@ -232,9 +232,9 @@ Meteor.publish('reportData', function(studentId, schoolYearId, termId, weekId, r
 					let termPercentageCompleted = termData.progress / 100;
 					if (report.schoolYearCompletedVisible) {
 						termData.schoolWorkCompletedCount = completeSchoolWorkIds.length;
-						termData.weeksCompletedCount = termPercentageCompleted * termData.weekCount;
-						termData.daysCompletedCount = termPercentageCompleted * termData.dayCount;
-						termData.lessonsCompletedCount = termPercentageCompleted * termData.lessonCount;
+						termData.weeksCompletedCount = (termPercentageCompleted * termData.weekCount).toFixed(2);
+						termData.daysCompletedCount = (termPercentageCompleted * termData.dayCount).toFixed(2);
+						termData.lessonsCompletedCount = (termPercentageCompleted * termData.lessonCount).toFixed(2);
 					}
 					
 					if (report.termsTimesVisible) {
