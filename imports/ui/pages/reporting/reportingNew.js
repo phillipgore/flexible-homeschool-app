@@ -40,13 +40,13 @@ Template.reportingNew.onRendered( function() {
 				schoolYearReportVisible: template.find("[name='schoolYearReportVisible']").value.trim() === 'true',
 				schoolYearStatsVisible: template.find("[name='schoolYearStatsVisible']").value.trim() === 'true',
 				schoolYearProgressVisible: template.find("[name='schoolYearProgressVisible']").value.trim() === 'true',
-				// schoolYearProgressStatsVisible: template.find("[name='schoolYearProgressStatsVisible']").value.trim() === 'true',
+				schoolYearCompletedVisible: template.find("[name='schoolYearCompletedVisible']").value.trim() === 'true',
 				schoolYearTimesVisible: template.find("[name='schoolYearTimesVisible']").value.trim() === 'true',
 				
 				termsReportVisible: template.find("[name='termsReportVisible']").value.trim() === 'true',
 				termsStatsVisible: template.find("[name='termsStatsVisible']").value.trim() === 'true',
 				termsProgressVisible: template.find("[name='termsProgressVisible']").value.trim() === 'true',
-				// termsProgressStatsVisible: template.find("[name='termsProgressStatsVisible']").value.trim() === 'true',
+				termsCompletedVisible: template.find("[name='termsCompletedVisible']").value.trim() === 'true',
 				termsTimesVisible: template.find("[name='termsTimesVisible']").value.trim() === 'true',
 				
 				schoolWorkReportVisible: template.find("[name='schoolWorkReportVisible']").value.trim() === 'true',

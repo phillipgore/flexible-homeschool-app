@@ -4,8 +4,8 @@
 			{{#each term in terms}}
 				<table class="page-break-inside-avoid">
 					<tr>
-						<th width="50%"><p><i class="icn-terms"></i> Term {{term.order}}</p></th>
-						<th width="50%">
+						<th colspan="{{thColSpan 1}}"><p><i class="icn-terms"></i> Term {{term.order}}</p></th>
+						<th colspan="{{thColSpan 2}}">
 							{{#if report.termsProgressVisible}}
 								<div class="meter meter-report">
 								<div class="meter-progress {{#if term.progressComplete}}meter-progress-primary{{/if}}" style="width: {{term.progress}}%;">
@@ -16,53 +16,86 @@
 							{{/if}}
 						</th>
 					</tr>
-					<tr class="{{rowVisible report.termsStatsVisible report.termsTimesVisible}}">
+
+					<tr class="{{rowVisible}}">
 						{{#if report.termsStatsVisible}}
-							<td colspan="{{colSpan report.termsStatsVisible report.termsTimesVisible}}">
+							<td colspan="{{tdColSpan}}" class="font-weight-700">Scheduled</td>
+						{{/if}}
+						{{#if report.termsCompletedVisible}}
+							<td colspan="{{tdColSpan}}" class="font-weight-700">Completed</td>
+						{{/if}}
+						{{#if report.termsTimesVisible}}
+							<td colspan="{{tdColSpan}}" class="font-weight-700">Time</td>
+						{{/if}}
+					</tr>
+
+					<tr class="{{rowVisible}}">
+						{{#if report.termsStatsVisible}}
+							<td colspan="{{tdColSpan}}">
 								<span class="txt-gray-darker">School Work: </span>{{term.schoolWorkCount}}
 							</td>
 						{{/if}}
+						{{#if report.termsCompletedVisible}}
+							<td colspan="{{tdColSpan}}">
+								<span class="txt-gray-darker">School Work: </span>{{term.schoolWorkCompletedCount}}
+							</td>
+						{{/if}}
 						{{#if report.termsTimesVisible}}
-							<td colspan="{{colSpan report.termsStatsVisible report.termsTimesVisible}}">
+							<td colspan="{{tdColSpan}}">
 								<span class="txt-gray-darker">Total Time: </span>{{term.totalTime}}
 							</td>
 						{{/if}}
 						
 					</tr>
-					<tr class="{{rowVisible report.termsStatsVisible report.termsTimesVisible}}">
+					<tr class="{{rowVisible}}">
 						{{#if report.termsStatsVisible}}
-							<td colspan="{{colSpan report.termsStatsVisible report.termsTimesVisible}}">
+							<td colspan="{{tdColSpan}}">
 								<span class="txt-gray-darker">Weeks: </span>{{term.weekCount}}
 							</td>
 						{{/if}}
+						{{#if report.termsCompletedVisible}}
+							<td colspan="{{tdColSpan}}">
+								<span class="txt-gray-darker">Weeks: </span>{{term.weeksCompletedCount}}
+							</td>
+						{{/if}}
 						{{#if report.termsTimesVisible}}
-							<td colspan="{{colSpan report.termsStatsVisible report.termsTimesVisible}}">
+							<td colspan="{{tdColSpan}}">
 								<span class="txt-gray-darker">Avg / Week: </span>{{term.averageWeeks}}
 							</td>
 						{{/if}}
 						
 					</tr>
-					<tr class="{{rowVisible report.termsStatsVisible report.termsTimesVisible}}">
+					<tr class="{{rowVisible}}">
 						{{#if report.termsStatsVisible}}
-							<td colspan="{{colSpan report.termsStatsVisible report.termsTimesVisible}}">
+							<td colspan="{{tdColSpan}}">
 								<span class="txt-gray-darker">Days: </span>{{term.dayCount}}
 							</td>
 						{{/if}}
+						{{#if report.termsCompletedVisible}}
+							<td colspan="{{tdColSpan}}">
+								<span class="txt-gray-darker">Days: </span>{{term.daysCompletedCount}}
+							</td>
+						{{/if}}
 						{{#if report.termsTimesVisible}}
-							<td colspan="{{colSpan report.termsStatsVisible report.termsTimesVisible}}">
+							<td colspan="{{tdColSpan}}">
 								<span class="txt-gray-darker">Avg / Day: </span>{{term.averageDays}}
 							</td>
 						{{/if}}
 						
 					</tr>
-					<tr class="{{rowVisible report.termsStatsVisible report.termsTimesVisible}}">
+					<tr class="{{rowVisible}}">
 						{{#if report.termsStatsVisible}}
-							<td colspan="{{colSpan report.termsStatsVisible report.termsTimesVisible}}">
+							<td colspan="{{tdColSpan}}">
 								<span class="txt-gray-darker">Segments: </span>{{term.lessonCount}}
 							</td>
 						{{/if}}
+						{{#if report.termsCompletedVisible}}
+							<td colspan="{{tdColSpan}}">
+								<span class="txt-gray-darker">Segments: </span>{{term.lessonsCompletedCount}}
+							</td>
+						{{/if}}
 						{{#if report.termsTimesVisible}}
-							<td colspan="{{colSpan report.termsStatsVisible report.termsTimesVisible}}">
+							<td colspan="{{tdColSpan}}">
 								<span class="txt-gray-darker">Avg / Segment: </span>{{term.averageLessons}}
 							</td>
 						{{/if}}

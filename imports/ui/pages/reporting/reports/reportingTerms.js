@@ -26,18 +26,18 @@ Template.reportingTerms.helpers({
 		}
 	},
 
-	rowVisible: function(termsStatsVisible, termsTimesVisible) {
-		if (!termsStatsVisible && !termsTimesVisible) {
-			return 'dis-tn-none';
-		}
-		return false;
+	thColSpan: function(number) {
+		let report = Reports.findOne({_id: FlowRouter.getParam('selectedReportId')});
+		let colCount = [report.termsStatsVisible, report.termsCompletedVisible, report.termsTimesVisible].filter(count => count).length;
+		if (colCount === 3 && number === 1) return 1
+		if (colCount === 3 && number === 2) return 2
 	},
 
-	colSpan: function(termsStatsVisible, termsTimesVisible) {
-		if (termsStatsVisible && termsTimesVisible) {
-			return 1;
-		}
-		return 2;
+	tdColSpan: function() {
+		let report = Reports.findOne({_id: FlowRouter.getParam('selectedReportId')});
+		let colCount = [report.termsStatsVisible, report.termsCompletedVisible, report.termsTimesVisible].filter(count => count).length;
+		if (colCount === 1) return 2
+		if (colCount === 3) return 1
 	}
 });
 

@@ -98,7 +98,7 @@ Meteor.publish('reportData', function(studentId, schoolYearId, termId, weekId, r
 			if (report.schoolYearReportVisible) {
 				let schoolYearStats = {};
 
-				schoolYearStats.schoolYearId = yearSchoolYear._id;
+				schoolYearStats.schoolYearId = schoolYearId;
 
 				let yearLessonsTotal = yearLessons.length;
 				let yearLessonsCompletedTotal = _.filter(yearLessons, ['completed', true]).length;
@@ -132,11 +132,29 @@ Meteor.publish('reportData', function(studentId, schoolYearId, termId, weekId, r
 					schoolYearStats.progressComplete = progressStatus(yearLessonsIncompletedTotal);
 				}
 
+				let completeSchoolWorkIds = []
+				yearSchoolWork.forEach(work => {
+					let totalLessons = yearLessons.filter(lesson => lesson.schoolWorkId === work._id).length;
+					let completedLessons = yearLessons.filter(lesson => lesson.schoolWorkId === work._id && lesson.completed).length;
+					let incompletedLessons = yearLessons.filter(lesson => lesson.schoolWorkId === work._id && !lesson.completed).length;
+					let partiallyCompletedPercentage = Math.trunc(completedLessons / totalLessons * 100);
+
+					if (!incompletedLessons) {completeSchoolWorkIds.push(work._id)}
+				});
+				let yearPercentageCompleted = schoolYearStats.progress / 100;
+				if (report.schoolYearCompletedVisible) {
+					schoolYearStats.termsCompletedCount = yearPercentageCompleted * schoolYearStats.termCount;
+					schoolYearStats.schoolWorkCompletedCount = completeSchoolWorkIds.length;
+					schoolYearStats.weeksCompletedCount = yearPercentageCompleted * schoolYearStats.weekCount;
+					schoolYearStats.daysCompletedCount = yearPercentageCompleted * schoolYearStats.dayCount;
+					schoolYearStats.lessonsCompletedCount = yearPercentageCompleted * schoolYearStats.lessonCount;
+				}
+
 				if (report.schoolYearTimesVisible) {
-					let yearCompletedWeekIds = _.uniq(_.filter(yearLessons, ['completed', true]).map(lesson => (lesson.weekId)));
-					let yearCompletedTermIds = Weeks.find({_id: {$in: yearCompletedWeekIds}}).map(week => (week.termId));
-					let yearTermsTotal = Terms.find({_id: {$in: yearCompletedTermIds}}).count();			
-					let yearWeeksTotal = yearCompletedWeekIds.length;
+					let hasCompletedLessonWeekIds = _.uniq(_.filter(yearLessons, ['completed', true]).map(lesson => (lesson.weekId)));
+					let hasCompletedLessonTermIds = Weeks.find({_id: {$in: hasCompletedLessonWeekIds}}).map(week => (week.termId));
+					let yearTermsTotal = Terms.find({_id: {$in: hasCompletedLessonTermIds}}).count();			
+					let yearWeeksTotal = hasCompletedLessonWeekIds.length;
 					let yearDaysTotal = yearWeeksTotal * report.weekEquals
 
 					let yearTotalTimeMinutes = _.sum(yearLessonCompletionTimes);
@@ -199,6 +217,24 @@ Meteor.publish('reportData', function(studentId, schoolYearId, termId, weekId, r
 						} else {
 							termData.progressComplete = false;
 						}
+					}
+
+					let completeSchoolWorkIds = []
+					termSchoolWork.forEach(work => {
+						let totalLessons = termLessons.filter(lesson => lesson.schoolWorkId === work._id).length;
+						let completedLessons = termLessons.filter(lesson => lesson.schoolWorkId === work._id && lesson.completed).length;
+						let incompletedLessons = termLessons.filter(lesson => lesson.schoolWorkId === work._id && !lesson.completed).length;
+						let partiallyCompletedPercentage = Math.trunc(completedLessons / totalLessons * 100);
+
+						if (!incompletedLessons) {completeSchoolWorkIds.push(work._id)}
+					});
+
+					let termPercentageCompleted = termData.progress / 100;
+					if (report.schoolYearCompletedVisible) {
+						termData.schoolWorkCompletedCount = completeSchoolWorkIds.length;
+						termData.weeksCompletedCount = termPercentageCompleted * termData.weekCount;
+						termData.daysCompletedCount = termPercentageCompleted * termData.dayCount;
+						termData.lessonsCompletedCount = termPercentageCompleted * termData.lessonCount;
 					}
 					
 					if (report.termsTimesVisible) {

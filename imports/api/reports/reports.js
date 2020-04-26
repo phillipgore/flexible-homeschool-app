@@ -42,11 +42,11 @@ const ReportsSchema = new SimpleSchema({
 		label: "School Year Stats",
 		defaultValue: true,
 	},
-	// schoolYearProgressStatsVisible: {
-	// 	type: Boolean,
-	// 	label: "School Year Progress Stats",
-	// 	defaultValue: true,
-	// },
+	schoolYearCompletedVisible: {
+		type: Boolean,
+		label: "School Year Progress Stats",
+		defaultValue: true,
+	},
 	schoolYearTimesVisible: {
 		type: Boolean,
 		label: "School Year Times",
@@ -69,7 +69,7 @@ const ReportsSchema = new SimpleSchema({
 		label: "Terms Progress",
 		defaultValue: true,
 	},
-	termsProgressStatsVisible: {
+	termsCompletedVisible: {
 		type: Boolean,
 		label: "School Year Progress Stats",
 		defaultValue: true,

@@ -23,18 +23,26 @@ Template.reportingSchoolYears.helpers({
 		return SchoolYears.findOne({_id: FlowRouter.getParam('selectedSchoolYearId')});
 	},
 
-	rowVisible: function(schoolYearStatsVisible, schoolYearTimesVisible) {
-		if (!schoolYearStatsVisible && !schoolYearTimesVisible) {
+	rowVisible: function() {
+		let report = Reports.findOne({_id: FlowRouter.getParam('selectedReportId')});
+		if (!report.schoolYearStatsVisible && !report.schoolYearCompletedVisible && !report.schoolYearTimesVisible) {
 			return 'dis-tn-none';
 		}
 		return false;
 	},
 
-	colSpan: function(schoolYearStatsVisible, schoolYearTimesVisible) {
-		if (schoolYearStatsVisible && schoolYearTimesVisible) {
-			return 1;
-		}
-		return 2;
+	thColSpan: function(number) {
+		let report = Reports.findOne({_id: FlowRouter.getParam('selectedReportId')});
+		let colCount = [report.schoolYearStatsVisible, report.schoolYearCompletedVisible, report.schoolYearTimesVisible].filter(count => count).length;
+		if (colCount === 3 && number === 1) return 1
+		if (colCount === 3 && number === 2) return 2
+	},
+
+	tdColSpan: function() {
+		let report = Reports.findOne({_id: FlowRouter.getParam('selectedReportId')});
+		let colCount = [report.schoolYearStatsVisible, report.schoolYearCompletedVisible, report.schoolYearTimesVisible].filter(count => count).length;
+		if (colCount === 1) return 2
+		if (colCount === 3) return 1
 	}
 });
 

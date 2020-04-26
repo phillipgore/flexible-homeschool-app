@@ -3,8 +3,8 @@
 		{{#if schoolYear}}
 			<table class="page-break-inside-avoid">
 				<tr>
-					<th width="50%"><p><i class="icn-school-years"></i> {{schoolYear.startYear}}-{{schoolYear.endYear}}</p></th>
-					<th width="50%">
+					<th colspan="{{thColSpan 1}}"><p><i class="icn-school-years"></i> {{schoolYear.startYear}}-{{schoolYear.endYear}}</p></th>
+					<th colspan="{{thColSpan 2}}">
 						{{#if report.schoolYearProgressVisible}}
 							<div class="meter meter-report">
 								<div class="meter-progress {{#if schoolYear.progressComplete}}meter-progress-primary{{/if}}" style="width: {{schoolYear.progress}}%;">
@@ -15,62 +15,104 @@
 						{{/if}}
 					</th>
 				</tr>
-				<tr class="{{rowVisible report.schoolYearStatsVisible report.schoolYearTimesVisible}}">
+
+				<tr class="{{rowVisible}}">
 					{{#if report.schoolYearStatsVisible}}
-						<td colspan="{{colSpan report.schoolYearStatsVisible report.schoolYearTimesVisible}}">
+						<td colspan="{{tdColSpan}}" class="font-weight-700">Scheduled</td>
+					{{/if}}
+					{{#if report.schoolYearCompletedVisible}}
+						<td colspan="{{tdColSpan}}" class="font-weight-700">Completed</td>
+					{{/if}}
+					{{#if report.schoolYearTimesVisible}}
+						<td colspan="{{tdColSpan}}" class="font-weight-700">Time</td>
+					{{/if}}
+				</tr>
+
+				<tr class="{{rowVisible}}">
+					{{#if report.schoolYearStatsVisible}}
+						<td colspan="{{tdColSpan}}">
 							<span class="txt-gray-darker">Terms: </span>{{schoolYear.termCount}}
 						</td>
 					{{/if}}
+					{{#if report.schoolYearCompletedVisible}}
+						<td colspan="{{tdColSpan}}">
+							<span class="txt-gray-darker">Terms: </span>{{schoolYear.termsCompletedCount}}
+						</td>
+					{{/if}}
 					{{#if report.schoolYearTimesVisible}}
-						<td colspan="{{colSpan report.schoolYearStatsVisible report.schoolYearTimesVisible}}">
+						<td colspan="{{tdColSpan}}">
 							<span class="txt-gray-darker">Total Time: </span>{{schoolYear.totalTime}}
 						</td>
 					{{/if}}
 				</tr>
-				<tr class="{{rowVisible report.schoolYearStatsVisible report.schoolYearTimesVisible}}">
+
+				<tr class="{{rowVisible}}">
 					{{#if report.schoolYearStatsVisible}}
-						<td colspan="{{colSpan report.schoolYearStatsVisible report.schoolYearTimesVisible}}">
+						<td colspan="{{tdColSpan}}">
 							<span class="txt-gray-darker">School Work: </span>{{schoolYear.schoolWorkCount}}
 						</td>
 					{{/if}}
+					{{#if report.schoolYearCompletedVisible}}
+						<td colspan="{{tdColSpan}}">
+							<span class="txt-gray-darker">School Work: </span>{{schoolYear.schoolWorkCompletedCount}}
+						</td>
+					{{/if}}
 					{{#if report.schoolYearTimesVisible}}
-						<td colspan="{{colSpan report.schoolYearStatsVisible report.schoolYearTimesVisible}}">
+						<td colspan="{{tdColSpan}}">
 							<span class="txt-gray-darker">Avg / Term: </span>{{schoolYear.averageTerms}}
 						</td>
 					{{/if}}
 				</tr>
-				<tr class="{{rowVisible report.schoolYearStatsVisible report.schoolYearTimesVisible}}">
+
+				<tr class="{{rowVisible}}">
 					{{#if report.schoolYearStatsVisible}}
-						<td colspan="{{colSpan report.schoolYearStatsVisible report.schoolYearTimesVisible}}">
+						<td colspan="{{tdColSpan}}">
 							<span class="txt-gray-darker">Weeks: </span>{{schoolYear.weekCount}}
 						</td>
 					{{/if}}
+					{{#if report.schoolYearCompletedVisible}}
+						<td colspan="{{tdColSpan}}">
+							<span class="txt-gray-darker">Weeks: </span>{{schoolYear.weeksCompletedCount}}
+						</td>
+					{{/if}}
 					{{#if report.schoolYearTimesVisible}}
-						<td colspan="{{colSpan report.schoolYearStatsVisible report.schoolYearTimesVisible}}">
+						<td colspan="{{tdColSpan}}">
 							<span class="txt-gray-darker">Avg / Week: </span>{{schoolYear.averageWeeks}}
 						</td>
 					{{/if}}
 				</tr>
-				<tr class="{{rowVisible report.schoolYearStatsVisible report.schoolYearTimesVisible}}">
+
+				<tr class="{{rowVisible}}">
 					{{#if report.schoolYearStatsVisible}}
-						<td colspan="{{colSpan report.schoolYearStatsVisible report.schoolYearTimesVisible}}">
+						<td colspan="{{tdColSpan}}">
 							<span class="txt-gray-darker">Days: </span>{{schoolYear.dayCount}}
 						</td>
 					{{/if}}
+					{{#if report.schoolYearCompletedVisible}}
+						<td colspan="{{tdColSpan}}">
+							<span class="txt-gray-darker">Days: </span>{{schoolYear.daysCompletedCount}}
+						</td>
+					{{/if}}
 					{{#if report.schoolYearTimesVisible}}
-						<td colspan="{{colSpan report.schoolYearStatsVisible report.schoolYearTimesVisible}}">
+						<td colspan="{{tdColSpan}}">
 							<span class="txt-gray-darker">Avg / Day: </span>{{schoolYear.averageDays}}
 						</td>
 					{{/if}}
 				</tr>
-				<tr class="{{rowVisible report.schoolYearStatsVisible report.schoolYearTimesVisible}}">
+
+				<tr class="{{rowVisible}}">
 					{{#if report.schoolYearStatsVisible}}
-						<td colspan="{{colSpan report.schoolYearStatsVisible report.schoolYearTimesVisible}}">
+						<td colspan="{{tdColSpan}}">
 							<span class="txt-gray-darker">Segments: </span>{{schoolYear.lessonCount}}
 						</td>
 					{{/if}}
+					{{#if report.schoolYearCompletedVisible}}
+						<td colspan="{{tdColSpan}}">
+							<span class="txt-gray-darker">Segments: </span>{{schoolYear.lessonsCompletedCount}}
+						</td>
+					{{/if}}
 					{{#if report.schoolYearTimesVisible}}
-						<td colspan="{{colSpan report.schoolYearStatsVisible report.schoolYearTimesVisible}}">
+						<td colspan="{{tdColSpan}}">
 							<span class="txt-gray-darker">Avg / Segment: </span>{{schoolYear.averageLessons}}
 						</td>
 					{{/if}}
