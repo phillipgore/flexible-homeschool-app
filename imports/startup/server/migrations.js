@@ -254,6 +254,16 @@ Migrations.add({
 
 Migrations.add({
 	version: 12,
+	name: 'Correct weekday.',
+	up: function() {
+		Lessons.find({weekDay: NaN}).forEach(lesson => {
+			Lessons.update(lesson._id, {$set: {weekDay: 0}});
+		})
+	}
+});
+
+Migrations.add({
+	version: 13,
 	name: 'Update Report Data.',
 	up: function() {
 		Reports.find().forEach(report => {
@@ -262,18 +272,21 @@ Migrations.add({
 	}
 });
 
-// Migrations.add({
-// 	version: 13,
-// 	name: 'Correct Anita Fairbanks database.',
-// 	up: function() {
-// 		Lessons.find({weekDay: NaN}).forEach(lesson => {
-// 			Lessons.update(lesson._id, {$set: {weekDay: 0}});
-// 		})
-// 	}
-// });
+Migrations.add({
+	version: 14,
+	name: 'Pub day to pub year',
+	up: function() {
+		Resources.find().forEach(resource => {
+			let year = parseInt(moment(resource.publicationDate).format('YYYY'))
+			if (year) {
+				console.log(year);
+			}
+		})
+	}
+});
 
 // Meteor.startup(() => {
-// 	Migrations.migrateTo('12,rerun');
+// 	Migrations.migrateTo('14,rerun');
 // });
 
 

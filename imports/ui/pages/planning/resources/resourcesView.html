@@ -47,10 +47,17 @@
 					</section>
 				{{/if}}
 
-				{{#if resource.publicationDate}}
+				<!-- {{#if resource.publicationDate}}
 					<section>
 						<label>Publication Date</label>
 						<p>{{dateFormat resource.publicationDate}}</p>
+					</section>
+				{{/if}} -->
+
+				{{#if resource.publicationYear}}
+					<section>
+						<label>Publication Year</label>
+						<p>{{resource.publicationYear}}</p>
 					</section>
 				{{/if}}
 

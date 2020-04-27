@@ -48,12 +48,14 @@ Template.resourcesForm.onRendered( function() {
 		rules: {
 			title: { required: true },
 			link: { url: true },
-			publicationDate: { date: true },
+			// publicationDate: { date: true },
+			publicationYear: { number: true },
 		},
 		messages: {
 			title: { required: "Required." },
 			link: { url: "Please enter a valid url. ex: http://www.amazon.com" },
-			publicationDate: { date: "Please enter a valid date." },
+			// publicationDate: { date: "Please enter a valid date." },
+			publicationYear: { date: "Please enter a valid year." },
 		},		
 
 		submitHandler() {
@@ -73,12 +75,13 @@ Template.resourcesForm.onRendered( function() {
 				resourceProperties.authorLastName = template.find("[name='authorLastName']").value.trim();
 				resourceProperties.availability = template.find("[name='availability']:checked").value.trim();
 				resourceProperties.publisher = template.find("[name='publisher']").value.trim();
-				resourceProperties.publicationDate = template.find("[name='publicationDate']").value.trim();
+				// resourceProperties.publicationDate = template.find("[name='publicationDate']").value.trim();
+				resourceProperties.publicationYear = parseInt(template.find("[name='publicationYear']").value.trim());
 			}
 
-			if (_.has(resourceProperties, 'publicationDate')) {
-				resourceProperties.publicationDate = moment(resourceProperties.publicationDate).toISOString();
-			}
+			// if (_.has(resourceProperties, 'publicationDate')) {
+			// 	resourceProperties.publicationDate = moment(resourceProperties.publicationDate).toISOString();
+			// }
 
 			if (Session.get('currentType') === 'link') {
 				resourceProperties.type = 'link';
