@@ -252,8 +252,18 @@ Migrations.add({
 	}
 });
 
+Migrations.add({
+	version: 12,
+	name: 'Update Report Data.',
+	up: function() {
+		Reports.find().forEach(report => {
+			Reports.update(report._id, {$set: {schoolYearCompletedVisible: false, termsCompletedVisible: false}});
+		})
+	}
+});
+
 // Migrations.add({
-// 	version: 12,
+// 	version: 13,
 // 	name: 'Correct Anita Fairbanks database.',
 // 	up: function() {
 // 		Lessons.find({weekDay: NaN}).forEach(lesson => {
@@ -263,7 +273,7 @@ Migrations.add({
 // });
 
 // Meteor.startup(() => {
-// 	Migrations.migrateTo(11);
+// 	Migrations.migrateTo('12,rerun');
 // });
 
 
