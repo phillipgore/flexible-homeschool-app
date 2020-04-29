@@ -279,7 +279,7 @@ Migrations.add({
 		Resources.find().forEach(resource => {
 			let year = parseInt(moment(resource.publicationDate).format('YYYY'))
 			if (year) {
-				console.log(year);
+				Resources.update(resource._id, {$set: {publicationYear: year}});
 			}
 		})
 	}

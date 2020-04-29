@@ -133,6 +133,7 @@ Meteor.methods({
 
 
 		let yearSchoolWork = SchoolWork.find({_id: {$in: yearLessons.map(lesson => lesson.schoolWorkId)}}).fetch();
+
 		let yearWeekIds = _.uniq(yearLessons.map(lesson => lesson.weekId));
 
 		// Update School Work
@@ -161,23 +162,25 @@ Meteor.methods({
 		// Update Lessons
 		yearSchoolWork.forEach(schoolWork => {
 			let schoolWorkLessons = _.filter(yearLessons, { 'schoolWorkId': schoolWork._id });
-
 			yearTerms.forEach(term => {
 				Weeks.find({termId: term._id}).forEach(week => {
 					let weeksLessons = _.filter(schoolWorkLessons, { 'weekId': week._id });
 					let segmentCount = weeksLessons.length;
 					if (segmentCount) {
-						let weekDayLabels = schoolWork.scheduledDays.find(dayLabel => parseInt(dayLabel.segmentCount) === segmentCount).days;
-
-						weeksLessons.forEach((lesson, i) => {
-							let weekDay = (weekDayLabels) => {
-								if (weekDayLabels.length) {
-									return parseInt(weekDayLabels[i]);
+						if (_.isUndefined(schoolWork.scheduledDays)) {
+							let weekDayLabels = schoolWork.scheduledDays.find(dayLabel => parseInt(dayLabel.segmentCount) === segmentCount).days;
+							weeksLessons.forEach((lesson, i) => {
+								let weekDay = (weekDayLabels) => {
+									if (weekDayLabels.length) {
+										return parseInt(weekDayLabels[i]);
+									}
+									return 0;
 								}
-								return 0;
-							}
-							lesson.weekDay = parseInt(weekDay(weekDayLabels));
-						});
+								if (lesson.weekday >= 0) {
+									lesson.weekDay = parseInt(weekDay(weekDayLabels));
+								}
+							});
+						}
 					}
 				})
 			})
@@ -202,7 +205,7 @@ Meteor.methods({
 				createdOn: new Date()
 			}}})
 		})
-		
+
 		// Insert Terms
 		termInsertProperties.forEach(term => {
 			let termId = Random.id();
@@ -229,7 +232,6 @@ Meteor.methods({
 				}}})
 			}
 		})
-
 		
 		let termsBulk = termBulkDelete.concat(termBulkUpdate, termBulkInsert);
 		let weeksBulk = weekBulkDelete.concat(weekBulkUpdate, weekBulkInsert);
@@ -258,7 +260,7 @@ Meteor.methods({
 				throw new Meteor.Error(500, error.message);
 			});
 		}
-		
+
 		if (lessonsBulk.length) {	
 			Lessons.rawCollection().bulkWrite(
 				lessonsBulk
