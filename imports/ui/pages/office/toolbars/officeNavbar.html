@@ -1,0 +1,45 @@
+<template name="officeNavbar">
+	<nav class="navbar row">
+		<div class="p-md-rl-18 dis-lg-none">
+			<div class="col-tn-1of4">
+				<a class="js-btn-nav js-btn-nav-reporting-list btn-nav btn-nav-info {{isActiveRoute 'officeDashboard'}}" href="/office/dashboard/1" title="Dashboard">
+					<div class="btn-nav-icon"><i class="icn-dashboard"></i></div>
+					<div class="btn-nav-label">Dashboard</div>
+				</a>
+			</div>
+			<div class="col-tn-1of4">
+				<a class="js-btn-nav js-btn-nav-reporting-list btn-nav btn-nav-info {{isActiveRoute 'officeAccountsList'}} {{isActiveRoute 'officeAccountsView'}}" href="/office/accounts/view/1/online/{{getInitialGroupId 'online'}}" title="Accounts">
+					<div class="btn-nav-icon"><i class="icn-users"></i></div>
+					<div class="btn-nav-label">Accounts</div>
+				</a>
+			</div>
+			<div class="col-tn-1of4">
+				<a class="js-btn-nav js-btn-nav-reporting-list btn-nav btn-nav-info {{isActiveRoute 'officeQuestionsView'}}" href="/office/questions/view/1/{{selectedQuestionId}}" title="Questions">
+					<div class="btn-nav-icon"><i class="icn-question"></i></div>
+					<div class="btn-nav-label">Questions</div>
+				</a>
+			</div>
+			<div class="col-tn-1of4">
+				<a class="js-btn-nav js-btn-nav-reporting-list btn-nav btn-nav-info" href="/" title="Flexible Homeschool App">
+					<i class="icn-logo-plain btn-nav-icon"></i>
+					<div class="btn-nav-label">Application</div>
+				</a>
+			</div>
+		</div>
+
+		<div class="p-tn-l-45 m-tn-l-5 dis-tn-none dis-lg-block">
+			<a class="js-btn-nav js-btn-nav-reporting-list btn-nav btn-nav-info {{isActiveRoute 'officeDashboard'}}" href="/office/dashboard/1" title="Dashboard">
+				<div class="btn-nav-icon first"><i class="icn-dashboard"></i></div>
+				<div class="btn-nav-label">Dashboard</div>
+			</a>
+			<a class="js-btn-nav js-btn-nav-reporting-list btn-nav btn-nav-info {{isActiveRoute 'officeAccountsList'}} {{isActiveRoute 'officeAccountsView'}}" href="/office/accounts/view/1/online/{{getInitialGroupId 'online'}}" title="Accounts">
+				<div class="btn-nav-icon"><i class="icn-users"></i></div>
+				<div class="btn-nav-label">Accounts</div>
+			</a>
+			<a class="js-btn-nav js-btn-nav-question-list btn-nav btn-nav-info {{isActiveRoute 'officeQuestionsView'}}" href="/office/questions/view/1/{{selectedQuestionId}}" title="Questions">
+				<div class="btn-nav-icon last"><i class="icn-question"></i></div>
+				<div class="btn-nav-label">Questions</div>
+			</a>
+		</div>
+	</nav>
+</template>

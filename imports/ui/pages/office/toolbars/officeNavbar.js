@@ -8,6 +8,9 @@ Template.officeNavbar.onCreated( function() {
 		Meteor.call('getInitialGroupIds', function(error, result) {
 			Session.set('initialGroupIds', result)
 		});
+		Meteor.call('getInitialQuestionId', function(error, result) {
+			Session.set('selectedQuestionId', result);
+		});
 	});
 	Session.set('selectedStatusId', 'online')
 });
@@ -20,6 +23,10 @@ Template.officeNavbar.helpers({
 	selectedGroupId: function() {
 		return Session.get('selectedGroupId') && Session.get('selectedGroupId');
 	},
+
+	selectedQuestionId: function() {
+		return Session.get('selectedQuestionId') && Session.get('selectedQuestionId');
+	}
 });
 
 Template.officeNavbar.events({
