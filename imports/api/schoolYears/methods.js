@@ -150,19 +150,29 @@ Meteor.methods({
 		// Update School Work
 		yearSchoolWork.forEach(schoolWork => {
 			if (_.isUndefined(schoolWork.scheduledDays)) {
-				let scheduledDays = []; 
-				let weekLessonCounts = [];
-				yearWeekIds.forEach(function(weekId) {
-					weekLessonCounts.push(_.filter(yearLessons, {'schoolWorkId': schoolWork._id, 'weekId': weekId}).length);
+				
+				let allDays = []
+				schoolWork.scheduledDays.forEach(scheduledDay => {
+					scheduledDay.days.forEach(day => {
+						allDays.push(day);
+					})
 				});
-				_.uniq(weekLessonCounts).forEach(function(count) {
-					if (count) {
-						scheduledDays.push({segmentCount: count, days: []})
-					}
-				})
 
-				schoolWork.scheduledDays = scheduledDays;
-				schoolWorkBulkUpdate.push({updateOne: {"filter": {_id: schoolWork._id}, update: {$set: {scheduledDays: scheduledDays}}}})
+				if (allDays.length) {
+					let scheduledDays = []; 
+					let weekLessonCounts = [];
+					yearWeekIds.forEach(function(weekId) {
+						weekLessonCounts.push(_.filter(yearLessons, {'schoolWorkId': schoolWork._id, 'weekId': weekId}).length);
+					});
+					_.uniq(weekLessonCounts).forEach(function(count) {
+						if (count) {
+							scheduledDays.push({segmentCount: count, days: []})
+						}
+					})
+
+					schoolWork.scheduledDays = scheduledDays;
+					schoolWorkBulkUpdate.push({updateOne: {"filter": {_id: schoolWork._id}, update: {$set: {scheduledDays: scheduledDays}}}})
+				}
 			}
 		});
 		console.log(9)
