@@ -314,12 +314,12 @@ Template.trackingEdit.events({
 
 		$('.js-segment-checkbox').each(function() {
 			if ($(this).val().trim() === 'true') {
-				let weekDay = $(this).attr('data-weekDay') || 0;
+				let weekDay = parseInt($(this).attr('data-weekDay')) || 0;
 				batchCheckedLessonProperties.push({ 
 					_id: $(this).attr('data-lesson-id'),
 					schoolWorkId: $(this).attr('data-schoolWork-id'),
 					completed: $(this).attr('data-completed') === 'true',
-					weekDay: weekDay,
+					weekDay: parseInt(weekDay),
 					hadWeekDay: $(this).attr('data-hadWeekDay') === 'true',
 				})
 			}
@@ -332,12 +332,12 @@ Template.trackingEdit.events({
 		schoolWorkIds.forEach(workId => {
 			$('#js-schoolWork-track-' + workId).find('.js-segment-checkbox').each(function() {
 				if ($(this).val().trim() != 'true') {
-					let weekDay = $(this).attr('data-weekDay') || 0;
+					let weekDay = parseInt($(this).attr('data-weekDay')) || 0;
 					batchUncheckedLessonProperties.push({ 
 						_id: $(this).attr('data-lesson-id'),
 						schoolWorkId: $(this).attr('data-schoolWork-id'),
 						completed: $(this).attr('data-completed') === 'true',
-						weekDay: weekDay,
+						weekDay: parseInt(weekDay),
 						hadWeekDay: $(this).attr('data-hadWeekDay') === 'true',
 					})
 				}
