@@ -184,24 +184,26 @@ Meteor.methods({
 					console.log(10.5)
 					if (segmentCount) {
 						console.log(10.6)
-						let weekDayLabels = schoolWork.scheduledDays.find(dayLabel => parseInt(dayLabel.segmentCount) === segmentCount).days;
-						console.log(10.7)
-						weeksLessons.forEach((lesson, i) => {
-							console.log(10.8)
-							let weekDay = (weekDayLabels) => {
-								if (weekDayLabels.length) {
-									console.log(10.9)
-									return parseInt(weekDayLabels[i]);
+						if (_.isUndefined(schoolWork.scheduledDays)) {
+							let weekDayLabels = schoolWork.scheduledDays.find(dayLabel => parseInt(dayLabel.segmentCount) === segmentCount).days;
+							console.log(10.7)
+							weeksLessons.forEach((lesson, i) => {
+								console.log(10.8)
+								let weekDay = (weekDayLabels) => {
+									if (weekDayLabels.length) {
+										console.log(10.9)
+										return parseInt(weekDayLabels[i]);
+									}
+									console.log('10.9a')
+									return 0;
 								}
-								console.log('10.9a')
-								return 0;
-							}
-							console.log('10.9b')
-							if (lesson.weekday >= 0) {
-								console.log('10.9c')
-								lesson.weekDay = parseInt(weekDay(weekDayLabels));
-							}
-						});
+								console.log('10.9b')
+								if (lesson.weekday >= 0) {
+									console.log('10.9c')
+									lesson.weekDay = parseInt(weekDay(weekDayLabels));
+								}
+							});
+						}
 					}
 				})
 			})
