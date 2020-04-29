@@ -74,6 +74,17 @@ Meteor.methods({
 	},
 
 	updateSchoolYearTerms: function(schoolYearId, schoolYearProperties, termDeleteIds, weekDeleteIds, termUpdateProperties, weekUpdateProperties, termInsertProperties, weekInsertProperties, userId, groupId) {
+		console.log(schoolYearId);
+		console.log(schoolYearProperties);
+		console.log(termDeleteIds);
+		console.log(weekDeleteIds);
+		console.log(termUpdateProperties);
+		console.log(weekUpdateProperties);
+		console.log(termInsertProperties);
+		console.log(weekInsertProperties);
+		console.log(userId);
+		console.log(groupId);
+
 		let undeletedYearLessons = Lessons.find({schoolYearId: schoolYearId}, {sort: {schoolWorkId: 1, termOrder: 1, weekOrder: 1, order: 1}, fields: {weekId: 1, termId: 1}}).fetch();
 		let lessonDeleteIds = [];
 
@@ -94,22 +105,22 @@ Meteor.methods({
 		termDeleteIds.forEach(termId => {
 			termBulkDelete.push({deleteOne: {"filter": {_id: termId}}});
 		});
-
+		console.log(1)
 		// Delete Weeks
 		weekDeleteIds.forEach(weekId => {
 			weekBulkDelete.push({deleteOne: {"filter": {_id: weekId}}});
 		});
-
+		console.log(2)
 		// Delete Lessons
 		_.filter(undeletedYearLessons, lesson => _.includes(weekDeleteIds, lesson.weekId)).forEach(lesson => {
 			lessonDeleteIds.push(lesson._id);
 			lessonBulkDelete.push({deleteOne: {"filter": {_id: lesson._id}}})
 		});
-
+		console.log(3)
 
 
 		let yearLessons = Lessons.find({_id: {$nin: lessonDeleteIds}, schoolYearId: schoolYearId}, {sort: {schoolWorkId: 1, termOrder: 1, weekOrder: 1, order: 1}, fields: {weekId: 1, termId: 1, schoolWorkId: 1}}).fetch();
-
+		console.log(4)
 		// Update Terms
 		termUpdateProperties.forEach(term => {
 			termBulkUpdate.push({updateOne: {"filter": {_id: term._id}, update: {$set: {order: term.order}}}});
@@ -119,7 +130,7 @@ Meteor.methods({
 				lesson.termOrder = term.order;
 			});
 		});
-
+		console.log(5)
 		// Update Weeks
 		weekUpdateProperties.forEach(week => {
 			weekBulkUpdate.push({updateOne: {"filter": {_id: week._id}, update: {$set: {order: week.order}}}});
@@ -129,12 +140,13 @@ Meteor.methods({
 				lesson.weekOrder = week.order;
 			});
 		});
-
+		console.log(6)
 
 
 		let yearSchoolWork = SchoolWork.find({_id: {$in: yearLessons.map(lesson => lesson.schoolWorkId)}}).fetch();
+		console.log(7)
 		let yearWeekIds = _.uniq(yearLessons.map(lesson => lesson.weekId));
-
+		console.log(8)
 		// Update School Work
 		yearSchoolWork.forEach(schoolWork => {
 			if (_.isUndefined(schoolWork.scheduledDays)) {
@@ -153,11 +165,11 @@ Meteor.methods({
 				schoolWorkBulkUpdate.push({updateOne: {"filter": {_id: schoolWork._id}, update: {$set: {scheduledDays: scheduledDays}}}})
 			}
 		});
-
+		console.log(9)
 
 
 		let yearTerms = Terms.find({schoolYearId: schoolYearId});
-
+		console.log(10)
 		// Update Lessons
 		yearSchoolWork.forEach(schoolWork => {
 			let schoolWorkLessons = _.filter(yearLessons, { 'schoolWorkId': schoolWork._id });
@@ -182,11 +194,11 @@ Meteor.methods({
 				})
 			})
 		});
-
+		console.log(11)
 		yearLessons.forEach(lesson => {
 			lessonBulkUpdate.push({updateOne: {"filter": {_id: lesson._id}, update: {$set: {weekOrder: lesson.weekOrder, termOrder: lesson.termOrder, weekDay: parseInt(lesson.weekDay)}}}});
 		});
-
+		console.log(12)
 
 
 		// Insert Weeks
@@ -202,7 +214,7 @@ Meteor.methods({
 				createdOn: new Date()
 			}}})
 		})
-		
+		console.log(13)
 		// Insert Terms
 		termInsertProperties.forEach(term => {
 			let termId = Random.id();
@@ -229,11 +241,14 @@ Meteor.methods({
 				}}})
 			}
 		})
-
+		console.log(14)
 		
 		let termsBulk = termBulkDelete.concat(termBulkUpdate, termBulkInsert);
+		console.log(15)
 		let weeksBulk = weekBulkDelete.concat(weekBulkUpdate, weekBulkInsert);
+		console.log(16)
 		let lessonsBulk = lessonBulkDelete.concat(lessonBulkUpdate);
+		console.log(17)
 
 		if (termsBulk.length) {
 			Terms.rawCollection().bulkWrite(
@@ -242,7 +257,7 @@ Meteor.methods({
 				throw new Meteor.Error(500, error.message);
 			});
 		}
-
+		console.log(18)
 		if (weeksBulk.length) {
 			Weeks.rawCollection().bulkWrite(
 				weeksBulk
@@ -250,7 +265,7 @@ Meteor.methods({
 				throw new Meteor.Error(500, error.message);
 			});
 		}
-
+		console.log(19)
 		if (schoolWorkBulkUpdate.length) {
 			SchoolWork.rawCollection().bulkWrite(
 				schoolWorkBulkUpdate
@@ -258,7 +273,7 @@ Meteor.methods({
 				throw new Meteor.Error(500, error.message);
 			});
 		}
-		
+		console.log(20)
 		if (lessonsBulk.length) {	
 			Lessons.rawCollection().bulkWrite(
 				lessonsBulk
@@ -266,7 +281,7 @@ Meteor.methods({
 				throw new Meteor.Error(500, error.message);
 			});
 		}
-
+		console.log(21)
 		return true;
 	},
 })
