@@ -375,7 +375,9 @@ hr {
 	.officeAccountsList,
 	.officeAccountsView,
 	.officeAccountsResetView,
-	.officeAccountsNew {
+	.officeAccountsNew,
+	.officeQuestionsForm,
+	.officeQuestionsView {
 		.frame-two {
 			width: calc(100% - 288px);
 			max-width: 828px;
@@ -423,7 +425,9 @@ hr {
 	.officeAccountsList,
 	.officeAccountsView,
 	.officeAccountsResetView,
-	.officeAccountsNew {
+	.officeAccountsNew,
+	.officeQuestionsForm,
+	.officeQuestionsView {
 		.frame-two {
 			border-right: 1px solid $color-gray;
 		}

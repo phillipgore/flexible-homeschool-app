@@ -28,13 +28,34 @@ const QuestionsSchema = new SimpleSchema({
     type: {
         type: String,
         label: "Question Type",
-        allowedValues: ['boolean', 'text', 'boolWithText'],
+        allowedValues: ['radio', 'checkbox', 'textarea'],
     },
     active: {
 		type: Boolean,
 		label: "Is Question Active",
 		defaultValue: true,
 	},
+    options: {
+        type: Array,
+        label: "Options",
+        optional: true
+    },
+    'options.$': {
+        type: Object,
+        label: "Options"
+    },
+    'options.$._id': {
+        type: String,
+        label: "Option Id"
+    },
+    'options.$.label': {
+        type: String,
+        label: "Option Label"
+    },
+    'options.$.defaultValue': {
+        type: Boolean,
+        label: "Option Default Value"
+    },
 
 	groupId: {
 		type: String,

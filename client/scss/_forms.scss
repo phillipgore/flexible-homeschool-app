@@ -260,6 +260,14 @@ form {
 					}
 				}
 			}
+
+			&.radio-info {
+				input[type=radio] {
+					&:checked + .radio-icon {
+						background: url('/img/radio-btn-checked-info.svg') left center no-repeat;
+					}
+				}
+			}
 		}
 	}
 
@@ -320,6 +328,14 @@ form {
 
 				.checkbox-option-not-available {
 					display: inline;
+				}
+			}
+		}
+
+		&.checkbox-info {
+			input[type=checkbox] {
+				&:checked + .checkbox-icon {
+					background: url('/img/checkbox-btn-checked-info.svg') left center no-repeat;
 				}
 			}
 		}

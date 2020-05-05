@@ -20,7 +20,9 @@ Template.officeDashboard.onRendered(() => {
 
 Template.officeDashboard.helpers({
 	getInitialGroupId: function(status) {
-		return Session.get('initialGroupIds')[status] && Session.get('initialGroupIds')[status];
+		if (Session.get('initialGroupIds')) {
+			return Session.get('initialGroupIds')[status] && Session.get('initialGroupIds')[status];
+		}
 	},
 	
 	subscriptionReady() {

@@ -1,0 +1,82 @@
+<template name="officeQuestionsForm">
+{{> saving}}
+<main class="app-content app-content-preceeds-toolbar app-content-form">
+		<form class="js-form-questions-new">
+			<div class="m-tn-b-24">
+
+				<label class="txt-info">Question</label>
+				<textarea class="input-info" name="question" id="question"></textarea>
+
+				{{#if isType 'radio'}}
+					<label class="txt-info">Possible Answers</label>
+					<div class="well bg-gray-lighter m-tn-b-18">
+						<div class="js-radio-inputs m-tn-b-neg-9">
+							{{#each localRadio in LocalRadios}}
+								<label class="txt-info">Option {{indexIncrement @index}}</label>				
+								<div id="{{localRadio._id}}" class="js-radio-input">
+									<div class="pos-relative p-tn-r-36 m-tn-b-0">
+										<input type="hidden" name="order" id="order" value="{{indexIncrement @index}}">
+										<textarea rows="2" class="js-radio-label input-info m-tn-b-0" name="radio{{indexIncrement @index}}" id="radio{{indexIncrement @index}}" autocomplete="off"></textarea>
+										<span class="pos-absolute pos-top-right p-tn-t-3">
+											<a href="#" class="js-radio-delete btn btn-circle btn-secondary fl-tn-right" tabindex="-1">
+												<i class="icn-close"></i>
+											</a>
+										</span>
+									</div>
+									<div class="radio-collection m-tn-b-9">
+										<label class="radio radio-info">
+											<input class="js-radio-make-default" type="radio" name="makeDefault" value="true" checked="{{localRadio.defaultValue}}">
+											<div class="radio-icon"></div> 
+											<div class="radio-label txt-info">Make Default</div>
+										</label>
+									</div>
+								</div>
+							{{/each}}
+						</div>
+					</div>
+				{{/if}}
+
+				{{#if isType 'checkbox'}}
+					<label class="txt-info">Possible Answers</label>
+					<div class="well bg-gray-lighter m-tn-b-18">
+						<div class="js-checkbox-inputs m-tn-b-neg-9">
+							{{#each localCheckbox in LocalCheckboxes}}
+								<label class="txt-info">Option {{indexIncrement @index}}</label>				
+								<div id="{{localCheckbox._id}}" class="js-checkbox-input">
+									<div class="pos-relative p-tn-r-36 m-tn-b-0">
+										<input type="hidden" name="order" id="order" value="{{indexIncrement @index}}">
+										<textarea rows="2" class="js-checkbox-label input-info m-tn-b-0" name="checkbox{{indexIncrement @index}}" id="checkbox{{indexIncrement @index}}" autocomplete="off"></textarea>
+										<span class="pos-absolute pos-top-right p-tn-t-3">
+											<a href="#" class="js-checkbox-delete btn btn-circle btn-secondary fl-tn-right" tabindex="-1">
+												<i class="icn-close"></i>
+											</a>
+										</span>
+									</div>
+									<div class="checkbox-collection">
+										<label class="checkbox checkbox-info">
+											<input class="js-checkbox-make-default" type="checkbox" name="makeDefault" value="{{localCheckbox.defaultValue}}" checked="{{localCheckbox.defaultValue}}">
+											<div class="checkbox-icon"></div> 
+											<div class="checkbox-label txt-info">Check By Default</div>
+										</label>
+									</div>
+								</div>
+							{{/each}}
+						</div>
+					</div>
+				{{/if}}
+
+				<label class="checkbox checkbox-info">
+					<input class="js-checkbox js-question-active" value="true" type="checkbox" name="active" id="active" checked>
+					<div class="checkbox-icon"></div> 
+					<div class="checkbox-label">Show Question</div>
+				</label>
+			</div>
+
+			<footer class="toolbar toolbar-bottom toolbar-gray">
+				<a href="/office/questions/view/2/{{selectedQuestionId}}" class="js-cancel btn btn-gray-darker fl-tn-left">Cancel</a>
+				<button type="submit" class="js-submit btn-info fl-tn-right">Create</button>
+			</footer>
+		</form>
+</main>
+
+</template>

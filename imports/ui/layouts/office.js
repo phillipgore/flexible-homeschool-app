@@ -34,6 +34,10 @@ Template.office.events({
 		Session.set('selectedGroupId', $(event.currentTarget).attr('id'));
 	},
 
+	'click .js-question'(event) {
+		Session.set('selectedQuestionId', $(event.currentTarget).attr('id'));
+	},
+
 	// Alerts
 	'click .js-alert-close'(event) {
 		event.preventDefault();

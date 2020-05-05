@@ -51,6 +51,9 @@ import '/imports/ui/pages/office/accounts/officeAccountsList.js';
 import '/imports/ui/pages/office/accounts/officeAccountsEach.js';
 import '/imports/ui/pages/office/accounts/officeAccountsView.js';
 import '/imports/ui/pages/office/accounts/officeAccountsNew.js';
+import '/imports/ui/pages/office/questions/officeQuestionsList.js';
+import '/imports/ui/pages/office/questions/officeQuestionsView.js';
+import '/imports/ui/pages/office/questions/officeQuestionsForm.js';
 
 
 // Planning

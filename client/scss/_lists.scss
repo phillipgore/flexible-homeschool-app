@@ -265,6 +265,34 @@ ul.list {
 				display: none;
 			}
 		}
+
+		&.sortable-ghost {
+			background-color: $color-info;
+
+			a.list-item-link, .list-item-inner {
+				background-color: $color-info;
+			}
+		}
+
+		&.sortable-chosen {
+			background-color: $color-gray-lighter;
+			
+			a.list-item-link, .list-item-inner {
+				background-color: $color-gray-lighter;
+			}
+		}
+
+		&.sortable-drag {
+			background-color: $color-white;
+			opacity: 0.5;
+			border-color: transparent;
+			
+			a.list-item-link, .list-item-inner {
+				background-color: $color-white;
+				opacity: 0.5;
+				border-color: transparent;
+			}
+		}
 	}
 
 	li.list-item-label {

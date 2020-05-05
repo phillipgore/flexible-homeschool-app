@@ -317,7 +317,9 @@
 	.officeAccountsList,
 	.officeAccountsView,
 	.officeAccountsResetView,
-	.officeAccountsNew {
+	.officeAccountsNew,
+	.officeQuestionsForm, 
+	.officeQuestionsView {
 
 		.frame-two .loading-container {
 			border-right: 1px solid $color-gray;

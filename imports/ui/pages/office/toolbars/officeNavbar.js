@@ -17,7 +17,9 @@ Template.officeNavbar.onCreated( function() {
 
 Template.officeNavbar.helpers({
 	getInitialGroupId: function(status) {
-		return Session.get('initialGroupIds')[status] && Session.get('initialGroupIds')[status];
+		if (Session.get('initialGroupIds')) {
+			return Session.get('initialGroupIds')[status] && Session.get('initialGroupIds')[status];
+		}
 	},
 	
 	selectedGroupId: function() {
@@ -26,6 +28,12 @@ Template.officeNavbar.helpers({
 
 	selectedQuestionId: function() {
 		return Session.get('selectedQuestionId') && Session.get('selectedQuestionId');
+	},
+
+	isActiveRoute: function(route) {
+		if (FlowRouter.getRouteName().startsWith(route)) return 'active';
+		return null;
+
 	}
 });
 

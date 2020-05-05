@@ -51,14 +51,26 @@ FlowRouter.route('/office/accounts/new/:selectedFramePosition', {
 
 
 // Questions
-FlowRouter.route('/office/questions/new/:selectedFramePosition', {
-	name: 'officeQuestionsNew',
+FlowRouter.route('/office/questions/form/:selectedFramePosition/:selectedQuestionForm/:selectedQuestionType', {
+	name: 'officeQuestionsForm',
 	title:  'Pause Questions: New',
 	action(params) {
 		BlazeLayout.render('office', {
 			subbar: '',
-			frameOne: 'questionsList',
-			frameTwo: 'questionsNew',
+			frameOne: 'officeQuestionsList',
+			frameTwo: 'officeQuestionsForm',
+		});
+	},
+});
+
+FlowRouter.route('/office/questions/form/:selectedFramePosition/:selectedQuestionForm/:selectedQuestionType/:selectedQuestionId', {
+	name: 'officeQuestionsForm',
+	title:  'Pause Questions: Edit',
+	action(params) {
+		BlazeLayout.render('office', {
+			subbar: '',
+			frameOne: 'officeQuestionsList',
+			frameTwo: 'officeQuestionsForm',
 		});
 	},
 });
@@ -69,20 +81,8 @@ FlowRouter.route('/office/questions/view/:selectedFramePosition/:selectedQuestio
 	action(params) {
 		BlazeLayout.render('office', {
 			subbar: '',
-			frameOne: 'questionsList',
-			frameTwo: 'questionsView',
-		});
-	},
-});
-
-FlowRouter.route('/office/questions/edit/:selectedFramePosition/:selectedQuestionId', {
-	name: 'officeQuestionsEdit',
-	title:  'Pause Questions: Edit',
-	action(params) {
-		BlazeLayout.render('office', {
-			subbar: '',
-			frameOne: 'questionsList',
-			frameTwo: 'questionsEdit',
+			frameOne: 'officeQuestionsList',
+			frameTwo: 'officeQuestionsView',
 		});
 	},
 });
