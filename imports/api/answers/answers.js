@@ -16,22 +16,23 @@ Answers.deny({
 });
 
 const AnswersSchema = new SimpleSchema({
-    studentId: {
-        type: String,
-        label: "Student Id",
-    },
-    questionId: {
+	questionId: {
         type: String,
         label: "Question Id",
     },
-    selected: {
-		type: Boolean,
-		label: "Question Selected",
-		defaultValue: false,
+    optionIds: {
+        type: Array,
+        label: "Option Ids",
+		optional: true
+    },
+	'optionIds.$': {
+		type: String,
+        label: "Option Ids",
+        optional: true
 	},
-    feedback: {
+    textAnswer: {
         type: String,
-        label: "Feedback",
+        label: "Answer",
         optional: true
     },
 

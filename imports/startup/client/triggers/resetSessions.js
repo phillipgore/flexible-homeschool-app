@@ -21,6 +21,7 @@ FlowRouter.triggers.enter([resetSessions], {except: [
 	'billingInvoices',
 	'billingEdit',
 	'billingCoupons',
+	'billingPause',
 	'supportView',
 	'usersView',
 ]});

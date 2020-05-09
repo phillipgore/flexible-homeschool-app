@@ -37,6 +37,7 @@ Template.officeQuestionsListComp.onRendered( function() {
 		ghostClass: "sortable-ghost",  // Class name for the drop placeholder
 		chosenClass: "sortable-chosen",  // Class name for the chosen item
 		dragClass: "sortable-drag",  // Class name for the dragging item
+		handle: ".list-item-handles",
 		onUpdate: function (event) {
 			let batchQuestionProperties = []
 			document.querySelectorAll('.js-question').forEach((question, index) => {

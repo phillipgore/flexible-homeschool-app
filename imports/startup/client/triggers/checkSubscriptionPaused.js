@@ -22,6 +22,7 @@ FlowRouter.triggers.enter([checkSubscriptionPaused], {except: [
 	'billingInvoices', 
 	'billingEdit',
 	'billingCoupons', 
+	'billingPause',
 	'supportList',
 	'pausedUser'
 ]});

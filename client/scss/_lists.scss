@@ -41,7 +41,7 @@ ul.list {
 			}
 		}
 
-		.list-item-dropdown-loader {
+		.list-item-dropdown-loader, .list-item-handles {
 			position: absolute;
 			top: 0px;
 			right: 0px;
@@ -267,18 +267,18 @@ ul.list {
 		}
 
 		&.sortable-ghost {
-			background-color: $color-info;
+
 
 			a.list-item-link, .list-item-inner {
-				background-color: $color-info;
+
 			}
 		}
 
 		&.sortable-chosen {
-			background-color: $color-gray-lighter;
+			background-color: $color-gray-dark;
 			
 			a.list-item-link, .list-item-inner {
-				background-color: $color-gray-lighter;
+				background-color: $color-gray-dark;
 			}
 		}
 

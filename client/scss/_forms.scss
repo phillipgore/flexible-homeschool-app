@@ -15,7 +15,8 @@ form {
 		&.cc-error, 
 		&.student-error,
 		&.track-error,
-		&.label-error  {
+		&.label-error,
+		&.question-error  {
 			color: $color-danger;
 			margin-top: -8px;
 			margin-bottom: 12px;
@@ -24,6 +25,11 @@ form {
 		&.cc-error {
 			margin-top: 4px;
 			margin-bottom: 0px
+		}
+
+		&.question-error {
+			margin-top: 3px;
+			margin-bottom: 3px
 		}
 
 		&.student-error {

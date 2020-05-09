@@ -125,6 +125,5 @@ Template.studentsNew.events({
 		} else {
 			FlowRouter.go('/planning/students/view/2/' + Session.get('selectedStudentId'))
 		}
-		
 	},
 });

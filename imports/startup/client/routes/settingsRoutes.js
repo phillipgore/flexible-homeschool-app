@@ -117,6 +117,19 @@ FlowRouter.route('/settings/billing/coupons/:selectedFramePosition', {
 	},
 });
 
+FlowRouter.route('/settings/billing/pause/:selectedFramePosition', {
+	name: 'billingPause',
+	title:  'Settings: Billing: Pause Account',
+	action(params) {
+		BlazeLayout.render('app', {
+			subbar: '',
+			frameOne: 'settingsList',
+			frameTwo: 'billingList',
+			frameThree: 'billingPause',
+		});
+	},
+});
+
 
 
 

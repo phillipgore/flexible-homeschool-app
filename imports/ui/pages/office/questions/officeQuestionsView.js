@@ -48,6 +48,44 @@ Template.officeQuestionsView.helpers({
 Template.officeQuestionsView.events({
 	'click .js-delete'(event) {
 	    event.preventDefault();
+
+	    function nextPath(selectedQuestionId) {
+			let questionIds = Questions.find({}, {sort: {order: 1}}).map(question => (question._id));
+			let selectedIndex = questionIds.indexOf(selectedQuestionId);
+			let newIds = {};
+
+			if (selectedIndex) {
+				let firstQuestionId = questionIds[selectedIndex - 1];
+				newIds.firstQuestionId = firstQuestionId;
+			} else {
+				let firstQuestionId = questionIds[selectedIndex + 1];
+				newIds.firstQuestionId = firstQuestionId;
+			}
+				
+			if (newIds.firstQuestionId) {
+				newIds.firstQuestionId = newIds.firstQuestionId;
+			} else {
+				newIds.firstQuestionId = 'empty';
+			}
+
+			return newIds;
+		};
+
+		if (!Counts.get('answerCountPerQuestion')) {
+			let newPath = nextPath(FlowRouter.getParam('selectedQuestionId'));
+
+		    Meteor.call('deleteQuestion', FlowRouter.getParam('selectedQuestionId'), function(error, result) {
+				if (error) {
+					Alerts.insert({
+						colorClass: 'bg-danger',
+						iconClass: 'icn-danger',
+						message: error.reason,
+					});
+				} else {
+					FlowRouter.go('/office/questions/view/2/' + newPath.firstQuestionId);
+				}
+			});
+		}
 	},
 
 	'click .js-make-inactive'(event) {

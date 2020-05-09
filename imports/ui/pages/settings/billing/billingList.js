@@ -131,37 +131,37 @@ Template.billingList.helpers({
 });
 
 Template.billingList.events({
-	'click .js-pause-account'(event) {
-		event.preventDefault();
+	// 'click .js-pause-account'(event) {
+	// 	event.preventDefault();
 
-		if (!$(event.currentTarget).is(':disabled')) {
-			$(event.currentTarget).prop('disabled', true);
-			$('.list-item-loading').show();
+	// 	if (!$(event.currentTarget).is(':disabled')) {
+	// 		$(event.currentTarget).prop('disabled', true);
+	// 		$('.list-item-loading').show();
 
-			let groupId = $('.js-pause-account').attr('id');
+	// 		let groupId = $('.js-pause-account').attr('id');
 
-			Meteor.call('pauseSubscription', function(error, result) {
-				if (error) {
-					Alerts.insert({
-						colorClass: 'bg-danger',
-						iconClass: 'icn-danger',
-						message: error.reason,
-					});
-					$(event.currentTarget).prop('disabled', false);
-					$('.list-item-loading').hide();
-				} else {
-					$(event.currentTarget).prop('disabled', false);
-					$('.list-item-loading').hide();
-					let subscriptionPausedOn = moment(Groups.findOne({}).subscriptionPausedOn).format('MMMM D, YYYY');
-					Alerts.insert({
-						colorClass: 'bg-info',
-						iconClass: 'icn-info',
-						message: `Your account is paused. You are no longer being billed. You will have access to your data until ${subscriptionPausedOn}. You may unpause your account at any time.`,
-					});
-				}
-			})
-		}
-	},
+	// 		Meteor.call('pauseSubscription', function(error, result) {
+	// 			if (error) {
+	// 				Alerts.insert({
+	// 					colorClass: 'bg-danger',
+	// 					iconClass: 'icn-danger',
+	// 					message: error.reason,
+	// 				});
+	// 				$(event.currentTarget).prop('disabled', false);
+	// 				$('.list-item-loading').hide();
+	// 			} else {
+	// 				$(event.currentTarget).prop('disabled', false);
+	// 				$('.list-item-loading').hide();
+	// 				let subscriptionPausedOn = moment(Groups.findOne({}).subscriptionPausedOn).format('MMMM D, YYYY');
+	// 				Alerts.insert({
+	// 					colorClass: 'bg-info',
+	// 					iconClass: 'icn-info',
+	// 					message: `Your account is paused. You are no longer being billed. You will have access to your data until ${subscriptionPausedOn}. You may unpause your account at any time.`,
+	// 				});
+	// 			}
+	// 		})
+	// 	}
+	// },
 
 	'click .js-unpause-account'(event) {
 		event.preventDefault();
