@@ -76,7 +76,7 @@ Template.resourcesForm.onRendered( function() {
 				resourceProperties.availability = template.find("[name='availability']:checked").value.trim();
 				resourceProperties.publisher = template.find("[name='publisher']").value.trim();
 				// resourceProperties.publicationDate = template.find("[name='publicationDate']").value.trim();
-				resourceProperties.publicationYear = parseInt(template.find("[name='publicationYear']").value.trim());
+				resourceProperties.publicationYear = Number(template.find("[name='publicationYear']").value.trim());
 			}
 
 			// if (_.has(resourceProperties, 'publicationDate')) {
