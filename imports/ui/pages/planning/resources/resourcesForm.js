@@ -79,6 +79,10 @@ Template.resourcesForm.onRendered( function() {
 				resourceProperties.publicationYear = Number(template.find("[name='publicationYear']").value.trim());
 			}
 
+			if (resourceProperties.publicationYear === 0) {
+				resourceProperties.publicationYear = undefined;
+			}
+
 			// if (_.has(resourceProperties, 'publicationDate')) {
 			// 	resourceProperties.publicationDate = moment(resourceProperties.publicationDate).toISOString();
 			// }
