@@ -612,6 +612,8 @@ Template.app.events({
 			Session.set('editUrl', '/planning/schoolWork/edit/3/' + studentId +'/'+ Session.get('selectedSchoolYearId') +'/'+ selectedItem(path.firstSchoolWorkId));
 		} else if (FlowRouter.current().route.name === 'trackingView' || FlowRouter.current().route.name === 'trackingEdit') {
 			Session.set('editUrl', '/tracking/students/edit/2/' + studentId +'/'+ Session.get('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'))
+		} else if (FlowRouter.current().route.name === 'reportingView') {
+			Session.set('editUrl', 'http://localhost:3000/reporting/edit/2/' + reportId);
 		} else {
 			Session.set('editUrl', '/planning/students/edit/3/' + studentId);
 		}
@@ -640,6 +642,8 @@ Template.app.events({
 
 		if (FlowRouter.current().route.name === 'schoolWorkView') {
 			Session.set('editUrl', '/planning/schoolWork/edit/3/' + Session.get('selectedStudentId') +'/'+ schoolYearId +'/'+ selectedItem(path.firstSchoolWorkId));
+		} else if (FlowRouter.current().route.name === 'reportingView') {
+			Session.set('editUrl', 'http://localhost:3000/reporting/edit/2/' + reportId);
 		} else {
 			Session.set('editUrl', '/planning/schoolyears/edit/3/' + schoolYearId);
 		}

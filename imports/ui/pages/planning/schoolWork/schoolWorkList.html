@@ -6,7 +6,7 @@
 		{{#if studentsSchoolYearsCount}}
 			{{#if schoolWorkCount}}
 				{{#if schoolWork.count}}
-					<ul class="list">
+					<ul id="js-school-work-sortable" class="list">
 						{{> schoolWorkEach schoolWork=schoolWork}}
 					</ul>
 				{{else}}

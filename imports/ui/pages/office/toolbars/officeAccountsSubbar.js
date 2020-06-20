@@ -27,7 +27,9 @@ Template.officeAccountsSubbar.onCreated( function() {
 
 Template.officeAccountsSubbar.helpers({
 	getInitialGroupId: function(status) {
-		return Session.get('initialGroupIds')[status] && Session.get('initialGroupIds')[status];
+		if (Session.get('initialGroupIds')) {
+			return Session.get('initialGroupIds')[status] && Session.get('initialGroupIds')[status];
+		}
 	},
 
 	statusOptions: function() {

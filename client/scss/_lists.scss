@@ -41,7 +41,7 @@ ul.list {
 			}
 		}
 
-		.list-item-dropdown-loader {
+		.list-item-dropdown-loader, .list-item-handles {
 			position: absolute;
 			top: 0px;
 			right: 0px;
@@ -158,6 +158,15 @@ ul.list {
 				color: $color-primary;
 			}
 
+			.list-item-caret {
+				display: inline-block;
+				float: left;
+				font-size: 16px;
+				width: 16px;
+				margin-right: 2px;
+				text-align: center;
+			}
+
 			.list-item-label {
 				padding-right: 28px;
 				overflow: hidden;
@@ -263,6 +272,34 @@ ul.list {
 				text-align: center;
 				background-color: $color-white;
 				display: none;
+			}
+		}
+
+		&.sortable-ghost {
+
+
+			a.list-item-link, .list-item-inner {
+
+			}
+		}
+
+		&.sortable-chosen {
+			background-color: $color-gray-dark;
+			
+			a.list-item-link, .list-item-inner {
+				background-color: $color-gray-dark;
+			}
+		}
+
+		&.sortable-drag {
+			background-color: $color-white;
+			opacity: 0.5;
+			border-color: transparent;
+			
+			a.list-item-link, .list-item-inner {
+				background-color: $color-white;
+				opacity: 0.5;
+				border-color: transparent;
 			}
 		}
 	}

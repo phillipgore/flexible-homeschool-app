@@ -4,6 +4,7 @@ import './reportingNew.html';
 
 Template.reportingNew.onCreated( function() {	
 	Session.setPersistent('unScrolled', true);
+	Session.set('weekEquals', 5);
 });
 
 Template.reportingNew.onRendered( function() {
@@ -34,15 +35,18 @@ Template.reportingNew.onRendered( function() {
 
 			let reportPoperties = {
 				name: template.find("[name='name']").value.trim(),
+				weekEquals: template.find("[name='weekEquals']").value.trim(),
 				
 				schoolYearReportVisible: template.find("[name='schoolYearReportVisible']").value.trim() === 'true',
 				schoolYearStatsVisible: template.find("[name='schoolYearStatsVisible']").value.trim() === 'true',
 				schoolYearProgressVisible: template.find("[name='schoolYearProgressVisible']").value.trim() === 'true',
+				schoolYearCompletedVisible: template.find("[name='schoolYearCompletedVisible']").value.trim() === 'true',
 				schoolYearTimesVisible: template.find("[name='schoolYearTimesVisible']").value.trim() === 'true',
 				
 				termsReportVisible: template.find("[name='termsReportVisible']").value.trim() === 'true',
 				termsStatsVisible: template.find("[name='termsStatsVisible']").value.trim() === 'true',
 				termsProgressVisible: template.find("[name='termsProgressVisible']").value.trim() === 'true',
+				termsCompletedVisible: template.find("[name='termsCompletedVisible']").value.trim() === 'true',
 				termsTimesVisible: template.find("[name='termsTimesVisible']").value.trim() === 'true',
 				
 				schoolWorkReportVisible: template.find("[name='schoolWorkReportVisible']").value.trim() === 'true',
@@ -98,9 +102,25 @@ Template.reportingNew.helpers({
 	selectedReportId: function() {
 		return Session.get('selectedReportId');
 	},
+	days: function() {
+		return [1, 2, 3, 4, 5, 6, 7]
+	},
+	preselectedDays: function(number) {
+		if (number === 5) {
+			return 'selected';
+		}
+		return null;
+	},
+	weekEquals: function() {
+		return Session.get('weekEquals');
+	}
 });
 
 Template.reportingNew.events({
+	'change .js-week-equals-days'(event, template) {
+		Session.set('weekEquals', parseInt(template.find("[name='weekEquals']").value.trim()));
+	},
+
 	'change .js-checkbox'(event) {
 	    if ($(event.currentTarget).val() === 'true') {
 	    	$(event.currentTarget).val('false');

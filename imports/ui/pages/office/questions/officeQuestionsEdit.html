@@ -1,0 +1,46 @@
+<template name="officeQuestionsEdit">
+	{{#if questions.count}}
+		{{#unless subscriptionReady}}
+			{{> loading}}
+		{{/unless}}
+		{{> saving}}
+	{{/if}}
+	<main class="app-content app-content-preceeds-toolbar app-content-form">
+		{{#if questions.count}}
+		<form class="js-form-questions-update">
+			<div class="m-tn-b-24">
+				<label class="txt-info">Question</label>
+				<textarea class="input-info" name="question" id="question">{{question.question}}</textarea>
+				
+				<label class="txt-info">Question Type</label>
+				<div class="icn-select">
+					<select name="type" id="type" class="js-type">
+						{{#each type in types}}
+							<option {{isSelected question.type type.value}} value="{{type.value}}">{{type.label}}</option>
+						{{/each}}
+					</select>
+				</div>
+
+				{{#if showFollowUp}}
+					<div class="">
+						<label class="txt-info">Follow Up Textbox Question</label>
+						<textarea class="input-info" name="textareaLabel" id="textareaLabel">{{question.textareaLabel}}</textarea>
+					</div>
+				{{/if}}
+				<div class=" p-tn-t-9"></div>
+				<label class="checkbox checkbox-info">
+					<input class="js-checkbox js-question-active" value="{{question.active}}" type="checkbox" name="active" id="active" {{isChecked question.active}}>
+					<div class="checkbox-icon"></div> 
+					<div class="checkbox-label">Show Question</div>
+				</label>
+			</div>
+
+			<footer class="toolbar toolbar-bottom toolbar-gray">
+				<a href="/office/questions/view/2/{{selectedQuestionId}}" class="js-cancel btn btn-gray-darker fl-tn-left">Cancel</a>
+				<button type="submit" class="js-submit btn-info fl-tn-right">Update</button>
+			</footer>
+		</form>
+		{{/if}}
+	</main>
+
+</template>

@@ -27,12 +27,12 @@ FlowRouter.triggers.exit([saveNotesOnExit], {only: [
 
 import { FlowRouterTitle } from 'meteor/ostrio:flow-router-title';
 
-	import './accountRoutes.js';
-	import './planningRoutes.js';
-	import './trackingRoutes.js';
-	import './reportingRoutes.js';
-	import './settingsRoutes.js';
-	import './officeRoutes.js';
+	import './routes/accountRoutes.js';
+	import './routes/planningRoutes.js';
+	import './routes/trackingRoutes.js';
+	import './routes/reportingRoutes.js';
+	import './routes/settingsRoutes.js';
+	import './routes/officeRoutes.js';
 	
 new FlowRouterTitle(FlowRouter);
 

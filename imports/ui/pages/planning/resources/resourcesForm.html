@@ -97,9 +97,13 @@
 				<label>Publisher</label>
 				<input type="text" name="publisher" id="publisher" placeholder="Dell" autocomplete="off" value="{{resource.publisher}}">
 			</div>
-			<div class="col-tn-1of2 p-tn-l-3">
+			<!-- <div class="col-tn-1of2 p-tn-l-3">
 				<label>Publication Date</label>
 				<input type="text" name="publicationDate" id="publication-date" placeholder="Apr 24, 1967" autocomplete="off" value="{{dateFormat resource.publicationDate}}">
+			</div> -->
+			<div class="col-tn-1of2 p-tn-l-3">
+				<label>Publication Year</label>
+				<input type="text" name="publicationYear" id="publication-year" placeholder="1967" autocomplete="off" value="{{resource.publicationYear}}">
 			</div>
 		</div>
 		{{/if}}

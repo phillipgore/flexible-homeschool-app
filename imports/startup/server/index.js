@@ -43,6 +43,10 @@ import './fixtures/schoolWorkFixtures.js';
 import './fixtures/lessonFixtures.js';
 import './fixtures/removeFixtures.js';
 
+import '../../api/answers/answers.js';
+import '../../api/answers/methods.js';
+import '../../api/answers/server/publications.js';
+
 import '../../api/groups/groups.js';
 import '../../api/groups/methods.js';
 import '../../api/groups/server/publications.js';
@@ -61,6 +65,10 @@ import '../../api/office/server/publications.js';
 import '../../api/paths/paths.js';
 import '../../api/paths/methods.js';
 import '../../api/paths/server/publications.js';
+
+import '../../api/questions/questions.js';
+import '../../api/questions/methods.js';
+import '../../api/questions/server/publications.js';
 
 import '../../api/reports/reports.js';
 import '../../api/reports/methods.js';

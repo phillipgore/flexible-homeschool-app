@@ -1,0 +1,49 @@
+<template name="billingPause">
+	<main class="app-content app-content-preceeds-toolbar app-content-form">
+		<form class="js-form-pause-new row">
+			<h1 class="m-tn-b-18 txt-tn-center dis-tn-none dis-sm-block">Pause Account</h1>
+			{{#each question in questions}}
+				{{#if questionType question.type 'radio'}}
+					<label class="font-size-14 m-tn-b-9">{{question.question}}</label>
+					<div id="{{question._id}}" class="js-radio radio-collection m-tn-b-36">
+						<label class="question-error {{question._id}}-errors"></label>
+						<hr class="m-tn-t-9 m-tn-b-6">
+						{{#each option in question.options}}
+							<label class="radio">
+								<input class="{{option._id}}" type="radio" name="{{question._id}}" value="{{option._id}}">
+								<div class="radio-icon"></div> 
+								<div class="radio-label">{{option.label}}</div>
+							</label><br>
+							<hr class="m-tn-t-9 m-tn-b-6">
+						{{/each}}
+					</div>
+				{{/if}}
+				{{#if questionType question.type 'checkbox'}}
+					<label class="font-size-14 m-tn-b-9">{{question.question}}</label>
+					<div id="{{question._id}}" class="js-checkbox m-tn-b-36">
+						<label class="question-error {{question._id}}-errors"></label>
+						{{#each option in question.options}}
+						<div>
+							<label class="checkbox">
+								<input class="{{option._id}}" type="checkbox" name="{{question._id}}" id="{{option._id}}" value="{{option._id}}">
+								<div class="checkbox-icon"></div> 
+								<div class="checkbox-label">{{option.label}}</div>
+							</label>
+						</div>
+						{{/each}}
+					</div>
+				{{/if}}
+				{{#if questionType question.type 'textarea'}}
+					<label class="font-size-14 m-tn-b-9">{{question.question}}</label>
+					<label class="question-error {{question._id}}-errors"></label>
+					<textarea rows=8 id="{{question._id}}" class="js-textarea"></textarea>
+				{{/if}}
+			{{/each}}
+		
+			<footer class="toolbar toolbar-bottom toolbar-gray clearfix m-tn-t-27">
+				<!-- <a href="/settings/billing/invoices/3" class="js-cancel btn btn-gray-darker fl-tn-left">Cancel</a> -->
+				<button id="{{group._id}}" class="js-pause-account btn btn-block">Confirm Pause</button>
+			</footer>
+		</form>
+	</main>
+</template>

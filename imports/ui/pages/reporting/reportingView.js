@@ -59,7 +59,6 @@ Template.reportingView.helpers({
 	},
 
 	termLabel: function(termId, termOrder) {
-		console.log(termId)
 		if (termId === 'allTerms' || !termOrder) {
 			return 'All Terms';
 		}

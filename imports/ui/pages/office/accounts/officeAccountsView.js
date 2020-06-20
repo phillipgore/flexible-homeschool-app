@@ -1,5 +1,5 @@
 import { Template } from 'meteor/templating';
-import { Groups } from '../../../api/groups/groups.js';
+import { Groups } from '../../../../api/groups/groups.js';
 import './officeAccountsView.html';
 
 Template.officeAccountsView.onCreated( function() {

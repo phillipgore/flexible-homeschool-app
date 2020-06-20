@@ -1,5 +1,5 @@
 import {Template} from 'meteor/templating';
-import {emailValidation, requiredValidation} from '../../../modules/functions';
+import {emailValidation, requiredValidation} from '../../../../modules/functions';
 
 import moment from 'moment';
 import _ from 'lodash';
@@ -45,6 +45,14 @@ Template.officeAccountsNew.helpers({
 
 	todaysDate: function() {
 		return new Date();
+	},
+
+	selectedStatusId: function() {
+		return Session.get('selectedStatusId');
+	},
+
+	selectedGroupId: function() {
+		return Session.get('selectedGroupId');
 	}
 });
 
@@ -151,7 +159,7 @@ Template.officeAccountsNew.events({
 					$('.js-submit').prop('disabled', false);
 				} else { 
 					Meteor.call('runAppAdminInitialId');
-					FlowRouter.go('/office/accounts/view/2/' + groupId);
+					FlowRouter.go('/office/accounts/view/2/freeTrial' + groupId);
 				}
 			})
 

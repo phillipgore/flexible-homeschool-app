@@ -1,0 +1,40 @@
+<template name="officeQuestionsView">
+	{{#unless subscriptionReady}}
+		{{> loading}}
+	{{/unless}}
+	<main class="app-content app-content-preceeds-toolbar app-content-data">
+		{{#if question}}
+			<div class="view-heading m-tn-b-21">
+				<div class="view-icon">
+					<i class="icn-question"></i>
+				</div>
+				<div class="view-title">
+					<h1 class="m-tn-b-3">{{question.question}}</h1>
+					<p class="txt-gray-darkest">
+						{{#if question.active}}Active{{else}}Inactive{{/if}} - {{getType question.type}}
+					</p>
+				</div>
+			</div>
+			{{#if question.options}}
+				<div class="view-info p-tn-18">
+					<section>
+						<label class="txt-info">Possible Answers</label>
+						{{#each option in question.options}}
+							<p>{{option.label}}</p>
+						{{/each}}
+					</section>
+				</div>
+			{{/if}}
+			<div class="m-tn-t-27 clearfix">
+				{{#unless getPublishedCount 'answerCountPerQuestion'}}
+					<button class="js-delete btn btn-secondary fl-tn-left">Delete</button>
+				{{/unless}}
+				{{#if question.active}}
+					<button class="js-make-inactive btn btn-info fl-tn-right">Make Inactive</button>
+				{{else}}
+					<button class="js-make-active btn btn-info fl-tn-right">Make Active</button>
+				{{/if}}
+			</div>
+		{{/if}}
+	</main>
+</template>

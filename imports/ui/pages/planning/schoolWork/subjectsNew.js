@@ -106,7 +106,7 @@ Template.subjectsNew.events({
 					$('.js-saving').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
-					console.log(result);
+					FlowRouter.go('/planning/schoolWork/view/3/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ result.insertedIds[0])
 				}
 			});
 

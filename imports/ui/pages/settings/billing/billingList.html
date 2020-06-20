@@ -81,12 +81,9 @@
 				{{/if}}
 			{{else}}
 				<li class="list-item">
-					<a href="#" id="{{group._id}}" class="js-pause-account list-item-link bg-white p-tn-rl-9">
+					<a href="/settings/billing/pause/3" class="list-item-link bg-white p-tn-rl-9 {{#if active currentRouteName 'billingPause'}}active{{/if}}">
 						<div class="list-item-icon"><i class="txt-primary icn-pause-circle"></i></div> 
 						<div class="list-item-label">Pause Account</div>
-						<div class="list-item-loading">
-							<div class="loader-icon loader-icon-on-white loader-icon-xs"></div>
-						</div>
 					</a>
 				</li>
 				<p class="txt-gray-darker txt-tn-center font-size-12 m-tn-9">Pausing effectively cancels your account.</p>

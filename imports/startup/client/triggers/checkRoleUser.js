@@ -18,6 +18,7 @@ FlowRouter.triggers.enter([checkRoleUser], {only: [
 	'usersEdit',
 	'billingList',
 	'billingInvoices',
+	'billingPause',
 	'billingEdit',
 	'billingCoupons',
 ]});

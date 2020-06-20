@@ -58,6 +58,10 @@
 		margin: 0px 0px 2px 0px;
 		padding: 0px;
 		color: $color-primary;
+
+		&.txt-info {
+			color: $color-info;
+		}
 	}
 
 	section {

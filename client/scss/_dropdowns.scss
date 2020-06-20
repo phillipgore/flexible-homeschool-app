@@ -40,6 +40,29 @@ ul.dropdown-menu {
 			padding-top: 3px;
 			border-bottom: 1px solid lighten($color-primary, 15%);
 		}
+
+		&.dropdown-tool-info {
+			background-color: $color-info;
+
+			li.dropdown-item {
+
+				a.dropdown-item-link, .dropdown-item-inner  {
+					border-bottom-color: lighten($color-info, 15%);
+
+					&.border-none {
+						border: none;
+					}
+
+					&.disabled, &.disabled:hover {
+						color: $color-info-lighter;
+					}
+				}
+			}
+
+			li.dropdown-divider {
+				border-bottom-color: lighten($color-info, 15%);
+			}
+		}
 	}
 
 
@@ -190,6 +213,11 @@ ul.dropdown-menu {
 
 			&.dropdown-tool {
 				top: 59px;
+
+				&.dropdown-tool-right {
+					left: -264px;
+					right: 0px;
+				}
 			}
 
 			// .dropdown-arrow {

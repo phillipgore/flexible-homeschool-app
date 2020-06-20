@@ -10,6 +10,21 @@
 					<label>Report Name</label>
 					<input type="text" name="name" id="name" placeholder="Year End" autocomplete="off">
 				</div>
+				<div class="col-lg-1of2 p-lg-l-18">
+					<label>Week Calculation</label>
+					<div class="col-tn-1of4">
+						<div class="icn-select">
+							<select name="weekEquals" id="week-equals-days" class="js-week-equals-days">
+								{{#each count in days}}
+									<option value="{{count}}" {{preselectedDays count}}>{{count}}</option>
+								{{/each}}
+							</select>
+						</div>
+					</div>
+					<div class="col-tn-3of4 p-tn-l-6 p-tn-t-8">
+						Day{{sPlural weekEquals}} = 1 School Week
+					</div>
+				</div>
 			</div>
 
 			<label>Report Data</label>
@@ -36,16 +51,25 @@
 					
 						<div class="p-tn-r-9 p-tn-l-27">
 							<label class="checkbox">
-								<input class="js-checkbox" type="checkbox" name="schoolYearTimesVisible" value="true" checked>
+								<input class="js-checkbox" type="checkbox" name="schoolYearStatsVisible" value="true" checked>
 								<div class="checkbox-icon"></div> 
 								<div class="checkbox-label">Schedule Statistics</div>
 							</label>
 						</div>
 						<div class="font-size-12 txt-gray-darkest p-tn-l-54 m-tn-t-neg-9 m-tn-b-18">Number of scheduled Terms, School Work items, Weeks and Segments.</div>
 					
+						<div class="p-tn-l-27">
+							<label class="checkbox">
+								<input class="js-checkbox" type="checkbox" name="schoolYearCompletedVisible" value="true" checked>
+								<div class="checkbox-icon"></div> 
+								<div class="checkbox-label">Completed Statistics</div>
+							</label>
+						</div>
+						<div class="font-size-12 txt-gray-darkest p-tn-l-54 m-tn-t-neg-9 m-tn-b-18">Number of completed Terms, Weeks, Segments and Days.</div>
+					
 						<div class="p-tn-r-9 p-tn-l-27">
 							<label class="checkbox">
-								<input class="js-checkbox" type="checkbox" name="schoolYearStatsVisible" value="true" checked>
+								<input class="js-checkbox" type="checkbox" name="schoolYearTimesVisible" value="true" checked>
 								<div class="checkbox-icon"></div> 
 								<div class="checkbox-label">Time Statistics</div>
 							</label>
@@ -74,11 +98,11 @@
 								<div class="checkbox-label">Progress Bar</div>
 							</label>
 						</div>
-						<div class="font-size-12 txt-gray-darkest p-tn-l-54 m-tn-t-neg-9 m-tn-b-18">Percentage of completed School Work items.</div>
+						<div class="font-size-12 txt-gray-darkest p-tn-l-54 m-tn-t-neg-9 m-tn-b-18">Percentage of completed School Work items for the Term.</div>
 					
 						<div class="p-tn-l-27">
 							<label class="checkbox">
-								<input class="js-checkbox" type="checkbox" name="termsTimesVisible" value="true" checked>
+								<input class="js-checkbox" type="checkbox" name="termsStatsVisible" value="true" checked>
 								<div class="checkbox-icon"></div> 
 								<div class="checkbox-label">Schedule Statistics</div>
 							</label>
@@ -87,7 +111,16 @@
 					
 						<div class="p-tn-l-27">
 							<label class="checkbox">
-								<input class="js-checkbox" type="checkbox" name="termsStatsVisible" value="true" checked>
+								<input class="js-checkbox" type="checkbox" name="termsCompletedVisible" value="true" checked>
+								<div class="checkbox-icon"></div> 
+								<div class="checkbox-label">Completed Statistics</div>
+							</label>
+						</div>
+						<div class="font-size-12 txt-gray-darkest p-tn-l-54 m-tn-t-neg-9 m-tn-b-18">Number of completed Weeks, Segments and Days.</div>
+					
+						<div class="p-tn-l-27">
+							<label class="checkbox">
+								<input class="js-checkbox" type="checkbox" name="termsTimesVisible" value="true" checked>
 								<div class="checkbox-icon"></div> 
 								<div class="checkbox-label">Time Statistics</div>
 							</label>

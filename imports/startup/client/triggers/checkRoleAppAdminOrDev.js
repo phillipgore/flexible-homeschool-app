@@ -13,6 +13,7 @@ FlowRouter.triggers.enter([checkRoleAppAdminOrDev], {only: [
 	'usersEdit',
 	'billingList',
 	'billingInvoices', 
+	'billingPause',
 	'billingEdit',
 	'billingCoupons',
 ]});

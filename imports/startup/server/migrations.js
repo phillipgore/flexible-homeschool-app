@@ -254,26 +254,39 @@ Migrations.add({
 
 Migrations.add({
 	version: 12,
-	name: 'Set type on existing School Work.',
+	name: 'Correct weekday.',
 	up: function() {
-		SchoolWork.find().forEach(work => {
-			SchoolWork.update(work._id, {$set: {type: 'work'}})
-		});
+		Lessons.find({weekDay: NaN}).forEach(lesson => {
+			Lessons.update(lesson._id, {$set: {weekDay: 0}});
+		})
 	}
 });
 
-// Migrations.add({
-// 	version: 13,
-// 	name: 'Correct Anita Fairbanks database.',
-// 	up: function() {
-// 		Lessons.find({weekDay: NaN}).forEach(lesson => {
-// 			Lessons.update(lesson._id, {$set: {weekDay: 0}});
-// 		})
-// 	}
-// });
+Migrations.add({
+	version: 13,
+	name: 'Update Report Data.',
+	up: function() {
+		Reports.find().forEach(report => {
+			Reports.update(report._id, {$set: {schoolYearCompletedVisible: false, termsCompletedVisible: false}});
+		})
+	}
+});
+
+Migrations.add({
+	version: 14,
+	name: 'Pub day to pub year',
+	up: function() {
+		Resources.find().forEach(resource => {
+			let year = parseInt(moment(resource.publicationDate).format('YYYY'))
+			if (year) {
+				Resources.update(resource._id, {$set: {publicationYear: year}});
+			}
+		})
+	}
+});
 
 // Meteor.startup(() => {
-// 	Migrations.migrateTo(11);
+// 	Migrations.migrateTo('14,rerun');
 // });
 
 

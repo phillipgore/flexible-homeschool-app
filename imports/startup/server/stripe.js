@@ -1,4 +1,5 @@
 import {Groups} from '../../api/groups/groups';
+import {Answers} from '../../api/answers/answers';
 import stripePackage from 'stripe';
 const stripe = stripePackage(Meteor.settings.private.stripe);
 import _ from 'lodash';
@@ -98,7 +99,7 @@ Meteor.methods({
 		});
 	},
 
-	pauseSubscription: async function() {
+	pauseSubscription: async function(answerProperties) {
 		let groupId = Meteor.user().info.groupId;
 		let subscriptionId = Groups.findOne({_id: groupId}).stripeSubscriptionId;
 		let groupProperties = {
@@ -113,6 +114,10 @@ Meteor.methods({
 		}).catch((error) => {
 			throw new Meteor.Error(500, error.message);
 		});
+
+		answerProperties.forEach(answer => {
+			Answers.insert(answer);
+		})
 
 		Groups.update(groupId, {$set: groupProperties}, function(error, result) {
 			if (error) {

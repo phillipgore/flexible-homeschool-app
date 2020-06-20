@@ -25,6 +25,9 @@ i {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icn-question:before {
+  content: "\e951";
+}
 .icn-subjects-school-work:before {
   content: "\e950";
 }

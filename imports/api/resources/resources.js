@@ -80,6 +80,11 @@ const ResourcesSchema = new SimpleSchema({
         label: "Publication Date",
         optional: true
     },
+    publicationYear: {
+        type: Number,
+        label: "Publication Year",
+        optional: true
+    },
 	link: {
         type: String,
         label: "Link",

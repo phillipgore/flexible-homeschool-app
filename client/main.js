@@ -42,15 +42,18 @@ import '/imports/ui/pages/accounts/pausedUser.js';
 
 
 // Office
-import '/imports/ui/pages/office/officeAccountsSubbar.js';
-import '/imports/ui/pages/office/officeToolbar.js';
-import '/imports/ui/pages/office/officeNavbar.js';
-import '/imports/ui/pages/office/officeDashboard.js';
-import '/imports/ui/pages/office/officeAccountsSubbar.js';
-import '/imports/ui/pages/office/officeAccountsList.js';
-import '/imports/ui/pages/office/officeAccountsEach.js';
-import '/imports/ui/pages/office/officeAccountsView.js';
-import '/imports/ui/pages/office/officeAccountsNew.js';
+import '/imports/ui/pages/office/toolbars/officeAccountsSubbar.js';
+import '/imports/ui/pages/office/toolbars/officeToolbar.js';
+import '/imports/ui/pages/office/toolbars/officeNavbar.js';
+import '/imports/ui/pages/office/toolbars/officeAccountsSubbar.js';
+import '/imports/ui/pages/office/dashboard/officeDashboard.js';
+import '/imports/ui/pages/office/accounts/officeAccountsList.js';
+import '/imports/ui/pages/office/accounts/officeAccountsEach.js';
+import '/imports/ui/pages/office/accounts/officeAccountsView.js';
+import '/imports/ui/pages/office/accounts/officeAccountsNew.js';
+import '/imports/ui/pages/office/questions/officeQuestionsList.js';
+import '/imports/ui/pages/office/questions/officeQuestionsView.js';
+import '/imports/ui/pages/office/questions/officeQuestionsForm.js';
 
 
 // Planning
@@ -125,6 +128,7 @@ import '/imports/ui/pages/settings/settingsList.js';
 	import '/imports/ui/pages/settings/billing/billingInvoices.js';
 	import '/imports/ui/pages/settings/billing/billingEdit.js';
 	import '/imports/ui/pages/settings/billing/billingCoupons.js'
+	import '/imports/ui/pages/settings/billing/billingPause.js'
 	// Data
 	import '/imports/ui/pages/settings/testDataList.js';
 
