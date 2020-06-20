@@ -252,7 +252,7 @@ Meteor.publish('reportData', function(studentId, schoolYearId, termId, weekId, r
 
 						//  Terms Average Days
 						let termDaysTotal = weeksTotal * report.weekEquals
-						let termAverageDayMinutes = averageWeekMinutes / termDaysTotal;
+						let termAverageDayMinutes = totalMinutes / termDaysTotal;
 						termData.averageDays = minutesConvert(termAverageDayMinutes);
 
 						//  Terms Average Lessons
