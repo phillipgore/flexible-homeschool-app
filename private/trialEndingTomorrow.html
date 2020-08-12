@@ -130,7 +130,10 @@
 			.coupon-code {
 				text-align: center;
 				font-family: 'Courier New', Courier;
-				font-size: 30px
+				font-size: 22px;
+				color: #7CB27C;
+				font-weight: 700;
+				padding: 0px;
 			}
 
 			.strong {
@@ -145,13 +148,10 @@
 				font-size: 12px;
 			}
 
-			.well {
-				display: inline-block; 
+			.well { 
 				padding: 9px; 
-				margin: 18px 0px; 
-				width: 300px; 
-				border-radius: 3px, 
-				background-color: #ECF3EC; 
+				margin: 18px 0px 0px;  
+				border-radius: 3px;
 				border: 1px solid #D7D9D9;
 			}
 
@@ -185,9 +185,11 @@
 				<tr>
 					<td>
 						<p>{{firstName}},</p>
-						<p>Your {{trialPricingPhrase}} trial of Flexible Homeschool App will end tomorrow. At that time you will be charged $10 per month. We hope you have found the app to be an invaluable tool for your homeschool.</p>
-						<p>Go to Settings > Billing > Coupon Codes in the app and enter the following coupon code to get <strong>25% off</strong> your next two months.</p>
-						<p class="coupon-code">keepgoing</p>
+						<p>Your {{trialPricingPhrase}} trial of Flexible Homeschool App will end tomorrow. At that time you will be charged $10 per month.</p>
+						<p>We hope you have found the app to be an invaluable tool for your homeschool. If you go to Settings > Billing > Coupon Codes in the app and enter the following coupon code you will get <strong>25% off</strong> your next two months.</p>
+						<div class="well">
+							<p class="coupon-code">keepgoing</p>
+						</div>
 						<p>We hope you'll keep going with Flexible Homeschool App.</p>
 						<p>Happy Homeschooling!</p>
 					</td>
