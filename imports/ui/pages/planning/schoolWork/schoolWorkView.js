@@ -12,7 +12,9 @@ Template.schoolWorkView.onCreated( function() {
 	let template = Template.instance();
 	
 	template.autorun(() => {
-		this.schoolWorkData = Meteor.subscribe('schoolWorkView', FlowRouter.getParam('selectedSchoolWorkId'));
+		if (FlowRouter.getParam('selectedSchoolWorkId') != 'no-subject') {
+			this.schoolWorkData = Meteor.subscribe('schoolWorkView', FlowRouter.getParam('selectedSchoolWorkId'));
+		}
 	});
 });
 
@@ -27,10 +29,22 @@ Template.schoolWorkView.onRendered( function() {
 
 Template.schoolWorkView.helpers({
 	subscriptionReady: function() {
+		if (FlowRouter.getParam('selectedSchoolWorkId') === 'no-subject') {
+			return true;
+		}
 		return Template.instance().schoolWorkData.ready();
 	},
 
 	schoolWork: function() {
+		if (FlowRouter.getParam('selectedSchoolWorkId') === 'no-subject') {
+			return {
+				_id: "no-subject",
+				name: "Has No Subject",
+				schoolYearId: FlowRouter.getParam('selectedSchoolYearId'),
+				studentId: FlowRouter.getParam('selectedStudentId'),
+				type: "subject",
+			}
+		}
 		return SchoolWork.findOne({_id: FlowRouter.getParam('selectedSchoolWorkId')});
 	},
 

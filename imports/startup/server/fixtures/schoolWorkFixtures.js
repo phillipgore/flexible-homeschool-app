@@ -144,6 +144,7 @@ Meteor.methods({
 				sourceSchoolWork.forEach((schoolWork, schoolWorkIndex) => {
 					let weekDayLabelOptions = weekDayLabels(timesPerWeek[schoolWorkIndex]);
 					fixtureSchoolWork.push({
+						type: "work",
 						name: schoolWork.name,
 						description: schoolWork.description,
 						resources: schoolWork.resources,

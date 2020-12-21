@@ -1,9 +1,35 @@
 <template name="schoolWorkEach">
+	{{#if noSubjectWork.count}}
+		<li id="no-subject" class="js-subject list-item">
+			<a href="/planning/schoolWork/view/3/{{selectedStudentId}}/{{selectedSchoolYearId}}/no-subject" class="list-item-link p-tn-rl-9 {{#if active 'no-subject'}}active{{/if}}">
+				<div class="js-subject-toggle list-item-caret" data-subject-index="no-subject">
+					<i class="js-caret-right icn-caret-right txt-gray-darkest"></i>
+					<i class="js-caret-down icn-caret-down txt-gray-darkest hide"></i>
+				</div>
+				<div class="list-item-icon p-tn-t-2"><i class="txt-primary icn-subjects"></i></div> 
+				<div class="list-item-label">
+					Has No Subject
+				</div>
+			</a>
+		</li>
+		<ul class="js-no-subject list hide">
+			{{#each work in noSubjectWork}}
+				<li class="js-work list-item">
+					<a id="{{work._id}}" data-schoolWork-student="{{selectedStudentId}}" data-schoolWork-school-year="{{selectedSchoolYearId}}" href="/planning/schoolWork/view/3/{{selectedStudentId}}/{{selectedSchoolYearId}}/{{work._id}}" class="js-schoolWork list-item-link p-tn-l-27 p-tn-r-9 {{#if active work._id}}active{{/if}}">
+						<div class="list-item-icon"><i class="txt-primary icn-school-work"></i></div> 
+						<div class="list-item-label">{{work.name}}</div>
+						<!-- <a href="#" class="js-dropdown print-hide list-item-dropdown"></a> -->
+					</a>
+				</li>
+			{{/each}}
+		</ul>
+	{{/if}}
+	<li class="list-spacer"></li>
 	{{#each work in schoolWork}}
 		{{#if getType work.type 'subject'}}
-			<li id="{{work._id}}" class="js-work-sortable js-subject list-item">
-				<a data-subject-index="{{work._id}}" href="/planning/schoolWork/view/3/{{selectedStudentId}}/{{selectedSchoolYearId}}/{{work._id}}" class="js-subject-toggle list-item-link p-tn-rl-9 {{#if active work._id}}active{{/if}}">
-					<div class="list-item-caret">
+			<li id="{{work._id}}" class="js-subject list-item">
+				<a href="/planning/schoolWork/view/3/{{selectedStudentId}}/{{selectedSchoolYearId}}/{{work._id}}" class="list-item-link p-tn-rl-9 {{#if active work._id}}active{{/if}}">
+					<div class="js-subject-toggle list-item-caret" data-subject-index="{{work._id}}">
 						<i class="js-caret-right icn-caret-right txt-gray-darkest"></i>
 						<i class="js-caret-down icn-caret-down txt-gray-darkest hide"></i>
 					</div>
@@ -11,29 +37,30 @@
 					<div class="list-item-label">
 						{{work.name}} 
 					</div>
-					<div class="list-item-handles"><i class="txt-gray-darkest icn-handles"></i></div> 
 				</a>
-				<ul class="js-{{work._id}} js-subject-list list hide">
-					{{#if getWork.length work._id}}
+			</li>
 
-					{{else}}
-						<li class="list-item">
-							<span class="list-item-inner">No Work</span>
+			<ul class="js-{{work._id}} list hide">
+				{{#if getWork.length work._id}}
+					{{#each work in getWork work._id}}
+						<li class="js-work list-item">
+							<a id="{{work._id}}" data-schoolWork-student="{{selectedStudentId}}" data-schoolWork-school-year="{{selectedSchoolYearId}}" href="/planning/schoolWork/view/3/{{selectedStudentId}}/{{selectedSchoolYearId}}/{{work._id}}" class="js-schoolWork list-item-link p-tn-l-27 p-tn-r-9 {{#if active work._id}}active{{/if}}">
+								<div class="list-item-icon"><i class="txt-primary icn-school-work"></i></div> 
+								<div class="list-item-label">{{work.name}}</div>
+								<!-- <a href="#" class="js-dropdown print-hide list-item-dropdown"></a> -->
+							</a>
 						</li>
-					{{/if}}
-				</ul>
-			</li>
-		{{/if}}
-
-		{{#if getType work.type 'work'}}
-			<li class="js-work list-item">
-				<a id="{{work._id}}" data-schoolWork-student="{{selectedStudentId}}" data-schoolWork-school-year="{{selectedSchoolYearId}}" href="/planning/schoolWork/view/3/{{selectedStudentId}}/{{selectedSchoolYearId}}/{{work._id}}" class="js-schoolWork list-item-link p-tn-l-27 p-tn-r-9 {{#if active work._id}}active{{/if}}">
-					<div class="list-item-icon"><i class="txt-primary icn-school-work"></i></div> 
-					<div class="list-item-label">{{work.name}}</div>
-					<div class="list-item-handles"><i class="txt-gray-darkest icn-handles"></i></div> 
-				</a>
-			</li>
+					{{/each}}
+				{{else}}
+				<li class="list-item">
+					<a href="#" class="list-item-link p-tn-l-27 p-tn-r-9">
+						<div class="list-item-label txt-gray-darker font-style-italic">Subject Contains No Work</div>
+					</a>
+				</li>
+				{{/if}}
+			</ul>
 		{{/if}}
 	{{/each}}
+
 	{{scroll}}
 </template>

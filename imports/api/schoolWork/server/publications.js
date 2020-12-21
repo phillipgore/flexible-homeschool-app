@@ -15,7 +15,7 @@ Meteor.publish('schooYearStudentSchoolWork', function(schoolYearId, studentId) {
 	}
 
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;	
-	return SchoolWork.find({groupId: groupId, schoolYearId: schoolYearId, studentId: studentId}, {sort: {order: 1, name: 1}, fields: {order: 1, type: 1, name: 1, studentId: 1, schoolYearId: 1}});
+	return SchoolWork.find({groupId: groupId, schoolYearId: schoolYearId, studentId: studentId}, {sort: {name: 1}, fields: {order: 1, name: 1, studentId: 1, schoolYearId: 1}});
 });
 
 Meteor.publish('trackingViewPub', function(studentId, weekId) {
