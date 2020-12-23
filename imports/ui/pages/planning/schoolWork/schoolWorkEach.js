@@ -33,7 +33,7 @@ Template.schoolWorkEach.helpers({
 	},
 
 	active: function(id) {
-		if (FlowRouter.getParam('selectedSchoolWorkId') === id) {
+		if (FlowRouter.getParam('selectedSubjectId') === id || FlowRouter.getParam('selectedSchoolWorkId') === id) {
 			return true;
 		}
 		return false;

@@ -3,6 +3,7 @@ import {Students} from '../../api/students/students.js';
 import {SchoolYears} from '../../api/schoolYears/schoolYears.js';
 import {Terms} from '../../api/terms/terms.js';
 import {Weeks} from '../../api/weeks/weeks.js';
+import {Subjects} from '../../api/subjects/subjects.js';
 import {SchoolWork} from '../../api/schoolWork/schoolWork.js';
 import {Resources} from '../../api/resources/resources.js';
 import {Lessons} from '../../api/lessons/lessons.js';
@@ -34,13 +35,33 @@ export function primaryInitialIds (submittedGroupId) {
 
 	// Get First School Work
 	if (firstStudent && firstSchoolYear != 'empty') {
-		let firstSchoolWork = SchoolWork.findOne(
+		let schoolWork = [];
+		let firstSubject = Subjects.findOne(
 			{groupId: groupId, schoolYearId: firstSchoolYear, studentId: firstStudent._id},
-			{sort: {name: 1}, fields: {_id: 1}}
-		)	
-		// console.log('firstSchoolWork');
+			{sort: {name: 1}, fields: {name: 1}}
+		);
+		firstSubject.type = 'subjects';
+		schoolWork.push(firstSubject);
+		// console.log(firstSubject);
 
-		if (firstSchoolWork) {ids.schoolWorkId = firstSchoolWork._id} else {ids.schoolWorkId = 'empty'};			
+		let firstWork = SchoolWork.findOne(
+			{groupId: groupId, schoolYearId: firstSchoolYear, studentId: firstStudent._id},
+			{sort: {name: 1}, fields: {name: 1}}
+		);
+		firstWork.type = 'work';
+		schoolWork.push(firstWork);
+		// console.log(firstWork);
+		
+		let firstSchoolWork = _.sortBy(schoolWork, ['name'])[0];
+		// console.log(firstSchoolWork.type);
+
+		if (firstSchoolWork) {
+			ids.schoolWorkId = firstSchoolWork._id;
+			ids.schoolWorkType = firstSchoolWork.type;
+		} else {
+			ids.schoolWorkId = 'empty'
+			ids.schoolWorkType = 'empty';
+		};			
 		// console.log('firstSchoolWork 2');
 	} else {
 		ids.schoolWorkId = 'empty';
@@ -112,6 +133,7 @@ export function primaryInitialIds (submittedGroupId) {
 			}
 		}
 	}
+	console.log(ids);
 
 	Groups.update(groupId, {$set: {
 		'initialIds.studentId': ids.studentId,
@@ -119,6 +141,7 @@ export function primaryInitialIds (submittedGroupId) {
 		'initialIds.termId': ids.termId,
 		'initialIds.weekId': ids.weekId,
 		'initialIds.schoolWorkId': ids.schoolWorkId,
+		'initialIds.schoolWorkType': ids.schoolWorkType,
 	}});
 	
 	// console.log('primaryInitialIds end');

@@ -195,6 +195,7 @@ Template.testDataList.events({
 						});
 					} else {
 						Session.set('selectedSchoolWorkId', result.schoolWorkId);
+						Session.set('selectedSchoolWorkType', 'work');
 						template.schoolWorkDataCreating.set(false);
 					}
 				});
@@ -291,6 +292,7 @@ Template.testDataList.events({
 					Session.set('selectedResourceId', result.resourceId);
 					Session.set('selectedResourceCurrentTypeId', result.resourceType);
 					Session.set('selectedSchoolWorkId', result.schoolWorkId);
+					Session.set('selectedSchoolWorkType', 'work');
 					template.dataRemoving.set(false);
 				}
 			});

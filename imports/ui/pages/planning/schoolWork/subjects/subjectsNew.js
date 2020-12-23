@@ -1,12 +1,8 @@
 import {Template} from 'meteor/templating';
-import { Students } from '../../../../api/students/students.js';
-import { Resources } from '../../../../api/resources/resources.js';
-import { SchoolYears } from '../../../../api/schoolYears/schoolYears.js';
-import { Terms } from '../../../../api/terms/terms.js';
-import { Weeks } from '../../../../api/weeks/weeks.js';
+import { Students } from '../../../../../api/students/students.js';
 
-import {requiredValidation} from '../../../../modules/functions';
-import YTPlayer from 'yt-player';
+import {requiredValidation} from '../../../../../modules/functions';
+
 import _ from 'lodash'
 import './subjectsNew.html';
 
@@ -95,7 +91,7 @@ Template.subjectsNew.events({
 				schoolYearId: FlowRouter.getParam('selectedSchoolYearId'),
 			};
 
-			Meteor.call('insertSubject', studentIds, subjectProperties, function(error, result) {
+			Meteor.call('insertSubject', FlowRouter.getParam('selectedStudentId'), studentIds, subjectProperties, function(error, subjectId) {
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',
@@ -106,7 +102,8 @@ Template.subjectsNew.events({
 					$('.js-saving').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
-					FlowRouter.go('/planning/schoolWork/view/3/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ result.insertedIds[0])
+					console.log(subjectId);
+					FlowRouter.go('/planning/work/view/3/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ subjectId)
 				}
 			});
 
@@ -118,9 +115,9 @@ Template.subjectsNew.events({
 		event.preventDefault();
 
 		if (window.screen.availWidth > 768) {
-			FlowRouter.go('/planning/schoolWork/view/3/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedSchoolWorkId'))
+			FlowRouter.go('/planning/' + Session.get('selectedSchoolWorkType') + '/view/3/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedSchoolWorkId'))
 		} else {
-			FlowRouter.go('/planning/schoolWork/view/2/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedSchoolWorkId'))
+			FlowRouter.go('/planning/' + Session.get('selectedSchoolWorkType') + '/view/2/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedSchoolWorkId'))
 		}
 		
 	},

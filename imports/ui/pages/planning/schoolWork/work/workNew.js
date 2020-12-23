@@ -1,18 +1,18 @@
 import {Template} from 'meteor/templating';
-import { Students } from '../../../../api/students/students.js';
-import { Resources } from '../../../../api/resources/resources.js';
-import { SchoolYears } from '../../../../api/schoolYears/schoolYears.js';
-import { Terms } from '../../../../api/terms/terms.js';
-import { Weeks } from '../../../../api/weeks/weeks.js';
+import { Students } from '../../../../../api/students/students.js';
+import { Resources } from '../../../../../api/resources/resources.js';
+import { SchoolYears } from '../../../../../api/schoolYears/schoolYears.js';
+import { Terms } from '../../../../../api/terms/terms.js';
+import { Weeks } from '../../../../../api/weeks/weeks.js';
 
-import {requiredValidation} from '../../../../modules/functions';
+import {requiredValidation} from '../../../../../modules/functions';
 import YTPlayer from 'yt-player';
 import _ from 'lodash'
-import './schoolWorkNew.html';
+import './workNew.html';
 
 LocalResources = new Mongo.Collection(null);
 
-Template.schoolWorkNew.onCreated( function() {	
+Template.workNew.onCreated( function() {	
 	Session.setPersistent('unScrolled', true);
 	
 	// Subscriptions
@@ -36,7 +36,7 @@ Template.schoolWorkNew.onCreated( function() {
 	});
 });
 
-Template.schoolWorkNew.onRendered( function() {
+Template.workNew.onRendered( function() {
 	let template = Template.instance();
 
 	if (window.screen.availWidth > 640) {
@@ -66,7 +66,7 @@ Template.schoolWorkNew.onRendered( function() {
 	});
 });
 
-Template.schoolWorkNew.helpers({
+Template.workNew.helpers({
 	subscriptionReady: function() {
 		if (Template.instance().studentData.ready() && Template.instance().schoolYearData.ready() && Template.instance().termData.ready() && Template.instance().weekData.ready()) {
 			return true;
@@ -161,7 +161,7 @@ Template.schoolWorkNew.helpers({
 	}
 });
 
-Template.schoolWorkNew.events({
+Template.workNew.events({
 	'change .js-student-id'(event) {
     	let checkedCount = $('.js-student-id:checked').length;
 
@@ -189,6 +189,7 @@ Template.schoolWorkNew.events({
 
 		let sessionSchoolWorkIdName = 'selectedSchoolWork' + Session.get('selectedStudentId') + event.target.value.trim() + 'Id';
 		Session.set('selectedSchoolWorkId', Session.get(sessionSchoolWorkIdName));
+		Session.set('selectedSchoolWorkType', 'work');
 	},
 
 	'change .js-times-per-week-preset'(event) {
@@ -510,9 +511,10 @@ Template.schoolWorkNew.events({
 						} else {
 							Session.set('selectedStudentId', newSchoolWork[0].studentId);
 							Session.set('selectedSchoolWorkId', newSchoolWork[0].schoolWorkId);
+							Session.set('selectedSchoolWorkType', 'work');
 							let studentsCount = newSchoolWork.length
-
-							FlowRouter.go('/planning/schoolWork/view/3/' + newSchoolWork[0].studentId +'/'+ Session.get('selectedSchoolYearId') +'/'+ newSchoolWork[0].schoolWorkId);					
+							
+							FlowRouter.go('/planning/work/view/3/' + newSchoolWork[0].studentId +'/'+ Session.get('selectedSchoolYearId') +'/'+ newSchoolWork[0].schoolWorkId);					
 							if (studentsCount > 1 ) {
 								Alerts.insert({
 									colorClass: 'bg-info',
@@ -533,9 +535,9 @@ Template.schoolWorkNew.events({
 		event.preventDefault();
 
 		if (window.screen.availWidth > 768) {
-			FlowRouter.go('/planning/schoolWork/view/3/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedSchoolWorkId'))
+			FlowRouter.go('/planning/' + Session.get('selectedSchoolWorkType') + '/view/3/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedSchoolWorkId'))
 		} else {
-			FlowRouter.go('/planning/schoolWork/view/2/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedSchoolWorkId'))
+			FlowRouter.go('/planning/' + Session.get('selectedSchoolWorkType') + '/view/2/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedSchoolWorkId'))
 		}
 		
 	},
