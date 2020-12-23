@@ -38,7 +38,6 @@ Template.schoolWorkList.helpers({
 
 		let workItems = SchoolWork.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId'), studentId: FlowRouter.getParam('selectedStudentId')}).fetch();
 		workItems.forEach(workItem => workItem.type = 'work');
-
 		return _.sortBy(subjects.concat(workItems), ['name']);
 	},
 

@@ -330,7 +330,7 @@ Template.trackingEdit.events({
 		let batchUncheckedLessonProperties = [];
 
 		schoolWorkIds.forEach(workId => {
-			$('#js-schoolWork-track-' + workId).find('.js-segment-checkbox').each(function() {
+			$('#js-work-track-' + workId).find('.js-segment-checkbox').each(function() {
 				if ($(this).val().trim() != 'true') {
 					let weekDay = parseInt($(this).attr('data-weekDay')) || 0;
 					batchUncheckedLessonProperties.push({ 
@@ -612,9 +612,9 @@ Template.trackingEdit.events({
 							if (lessonStat.lessonCount >= 8) {
 								error.push('error');
 
-								$('#js-schoolWork-track-' + lessonStat.schoolWorkId).find('.track-icon i').addClass('txt-danger-dark');
-								$('#js-schoolWork-track-' + lessonStat.schoolWorkId).find('.track-label').addClass('txt-danger-dark');
-								$('#js-schoolWork-track-' + lessonStat.schoolWorkId).find('.error').text(`School Work can only have 7 segments per week. This change would make ${lessonStat.lessonCount} segments for this item of School Work in the newly selected week.`);
+								$('#js-work-track-' + lessonStat.schoolWorkId).find('.track-icon i').addClass('txt-danger-dark');
+								$('#js-work-track-' + lessonStat.schoolWorkId).find('.track-label').addClass('txt-danger-dark');
+								$('#js-work-track-' + lessonStat.schoolWorkId).find('.error').text(`School Work can only have 7 segments per week. This change would make ${lessonStat.lessonCount} segments for this item of School Work in the newly selected week.`);
 							}
 						})
 

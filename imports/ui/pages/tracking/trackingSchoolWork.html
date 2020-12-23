@@ -1,7 +1,7 @@
 <template name="trackingSchoolWork">
 	{{#each work in schoolWork}}
 		{{#if workLessonsExist work._id}}
-			<div id="js-schoolWork-track-{{work._id}}" class="js-schoolWork-track track p-tn-t-21 | page-break-inside-avoid">
+			<div id="js-work-track-{{work._id}}" class="js-work-track track p-tn-t-21 | page-break-inside-avoid">
 				<div class="clearfix m-tn-h-9 m-tn-b-0 print-hide">
 					<div class="col-tn-5of7 col-xs-7of9 col-sm-5of7 col-xl-7of9 p-tn-r-6">
 						<div class="track-icon"><i class="txt-primary icn-school-work"></i></div>

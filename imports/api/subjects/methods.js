@@ -34,5 +34,9 @@ Meteor.methods({
         });
 
         return result;
+    },
+
+    updateSubject: function(subjectProperties) {
+        Subjects.update(subjectProperties._id, {$set: subjectProperties});
     }
 });

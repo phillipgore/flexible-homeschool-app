@@ -53,14 +53,12 @@ Template.workEdit.onCreated( function() {
 });
 
 Template.workEdit.onRendered( function() {
-	let template = Template.instance();
-
 	Session.set({
 		toolbarType: 'edit',
 		labelThree: 'Edit School Work',
 		activeNav: 'planningList',
 	});
-})
+});
 
 Template.workEdit.helpers({
 	subscriptionReady: function() {
@@ -679,9 +677,9 @@ Template.workEdit.events({
 		event.preventDefault();
 
 		if (window.screen.availWidth > 768) {
-			FlowRouter.go('/planning/work/view/3/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedSchoolWorkId'))
+			FlowRouter.go('/planning/work/view/3/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedSchoolWorkId'));
 		} else {
-			FlowRouter.go('/planning/work/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedSchoolWorkId'))
+			FlowRouter.go('/planning/work/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedSchoolWorkId'));
 		}
 	},
 });

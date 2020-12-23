@@ -1,4 +1,5 @@
 import {Template} from 'meteor/templating';
+import { Subjects } from '../../../../api/subjects/subjects.js';
 import { SchoolWork } from '../../../../api/schoolWork/schoolWork.js';
 import './schoolWorkEach.html';
 
@@ -12,9 +13,22 @@ Template.schoolWorkEach.onRendered( function() {
 
 Template.schoolWorkEach.helpers({
 	scroll: function() {
-		if (Session.get('unScrolled') && SchoolWork.find({_id: FlowRouter.getParam('selectedSchoolWorkId')}).count()) {
+		let schoolWorkCount = () => {
+			if (Session.get('selectedSchoolWorkType') === 'subjects') {
+				return Subjects.find({_id: FlowRouter.getParam('selectedSubjectId')}).count();
+			}
+			return SchoolWork.find({_id: FlowRouter.getParam('selectedSchoolWorkId')}).count();
+		};
+
+		if (schoolWorkCount() && Session.get('unScrolled')) {
 			setTimeout(function() {
-				let newScrollTop = document.getElementById(FlowRouter.getParam('selectedSchoolWorkId')).getBoundingClientRect().top - 130;
+				let getSchoolWorkId = () => {
+					if (Session.get('selectedSchoolWorkType') === 'subjects') {
+						return FlowRouter.getParam('selectedSubjectId');
+					}
+					return FlowRouter.getParam('selectedSchoolWorkId');
+				};
+				let newScrollTop = document.getElementById(getSchoolWorkId()).getBoundingClientRect().top - 130;
 				if (window.screen.availWidth > 640) {
 					document.getElementsByClassName('frame-two')[0].scrollTop = newScrollTop;
 				}
@@ -39,17 +53,6 @@ Template.schoolWorkEach.helpers({
 		return false;
 	},
 
-	noSubjectWork: function() {
-		return SchoolWork.find({type: 'work', subjectId: {$exists: false}});
-	},
-
-	getNoSubject: function(workType, subjectId) {
-		if (workType === 'work' && !subjectId) {
-			return true;
-		}
-		return false;
-	},
-
 	getType: function(workType, type) {
 		if (workType === type) {
 			return true;
@@ -64,6 +67,8 @@ Template.schoolWorkEach.helpers({
 
 Template.schoolWorkEach.events({
 	'click .js-subject-toggle'(event) {
+		event.preventDefault();
+		event.stopPropagation();
 		let listClass = '.js-' + $(event.currentTarget).attr('data-subject-index');
 
 		if ($(event.currentTarget).hasClass('js-open')) {

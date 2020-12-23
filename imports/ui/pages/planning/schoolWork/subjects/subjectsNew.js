@@ -86,7 +86,6 @@ Template.subjectsNew.events({
 
 			const subjectProperties = {
 				order: 1,
-				type: 'subject',
 				name: template.find("[name='name']").value.trim(),
 				schoolYearId: FlowRouter.getParam('selectedSchoolYearId'),
 			};

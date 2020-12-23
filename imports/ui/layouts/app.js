@@ -400,7 +400,7 @@ Template.app.events({
 		let batchUncheckedLessonProperties = [];
 
 		schoolWorkIds.forEach(workId => {
-			$('#js-schoolWork-track-' + workId).find('.js-segment-checkbox').each(function() {
+			$('#js-work-track-' + workId).find('.js-segment-checkbox').each(function() {
 				if ($(this).val().trim() != 'true') {
 					batchUncheckedLessonProperties.push({ 
 						_id: $(this).attr('data-lesson-id'),
@@ -414,7 +414,7 @@ Template.app.events({
 		let deleteNoteIds = [];
 
 		schoolWorkIds.forEach(workId => {
-			let unchecked = $('#js-schoolWork-track-' + workId).find('.js-segment-checkbox').not(':checked').length;
+			let unchecked = $('#js-work-track-' + workId).find('.js-segment-checkbox').not(':checked').length;
 			if (unchecked === 0) {
 				let note = Notes.findOne({schoolWorkId: workId, weekId: FlowRouter.getParam('selectedWeekId')});
 				if (note) {
@@ -732,21 +732,21 @@ Template.app.events({
 
 	'click .js-subject'(event) {
 		Session.set({
-			selectedStudentId: $(event.currentTarget).attr('data-schoolWork-student'),
-			selectedSchoolYearId: $(event.currentTarget).attr('data-schoolWork-school-Year'),
+			selectedStudentId: $(event.currentTarget).attr('data-subject-student'),
+			selectedSchoolYearId: $(event.currentTarget).attr('data-subject-school-Year'),
 			selectedSchoolWorkId: $(event.currentTarget).attr('id'),
 			selectedSchoolWorkType: 'subjects',
-			editUrl: '/planning/subjects/edit/3/' + $(event.currentTarget).attr('data-schoolWork-student') +'/'+ $(event.currentTarget).attr('data-schoolWork-school-Year') +'/'+ $(event.currentTarget).attr('id'),
+			editUrl: '/planning/subjects/edit/3/' + $(event.currentTarget).attr('data-subject-student') +'/'+ $(event.currentTarget).attr('data-subject-school-Year') +'/'+ $(event.currentTarget).attr('id'),
 		});
 	},
 
-	'click .js-schoolWork'(event) {
+	'click .js-work'(event) {
 		Session.set({
-			selectedStudentId: $(event.currentTarget).attr('data-schoolWork-student'),
-			selectedSchoolYearId: $(event.currentTarget).attr('data-schoolWork-school-Year'),
+			selectedStudentId: $(event.currentTarget).attr('data-work-student'),
+			selectedSchoolYearId: $(event.currentTarget).attr('data-work-school-Year'),
 			selectedSchoolWorkId: $(event.currentTarget).attr('id'),
 			selectedSchoolWorkType: 'work',
-			editUrl: '/planning/work/edit/3/' + $(event.currentTarget).attr('data-schoolWork-student') +'/'+ $(event.currentTarget).attr('data-schoolWork-school-Year') +'/'+ $(event.currentTarget).attr('id'),
+			editUrl: '/planning/work/edit/3/' + $(event.currentTarget).attr('data-work-student') +'/'+ $(event.currentTarget).attr('data-work-school-Year') +'/'+ $(event.currentTarget).attr('id'),
 		});
 	},
 
