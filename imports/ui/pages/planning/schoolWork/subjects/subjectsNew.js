@@ -101,8 +101,7 @@ Template.subjectsNew.events({
 					$('.js-saving').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
-					console.log(subjectId);
-					FlowRouter.go('/planning/work/view/3/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ subjectId)
+					FlowRouter.go('/planning/subjects/view/3/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ subjectId)
 				}
 			});
 

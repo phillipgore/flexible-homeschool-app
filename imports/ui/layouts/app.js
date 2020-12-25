@@ -4,6 +4,7 @@ import { Groups } from '../../api/groups/groups.js';
 import { SchoolYears } from '../../api/schoolYears/schoolYears.js';
 import { Students } from '../../api/students/students.js';
 import { Resources } from '../../api/resources/resources.js';
+import { Subjects } from '../../api/subjects/subjects.js';
 import { SchoolWork } from '../../api/schoolWork/schoolWork.js';
 import { Reports } from '../../api/reports/reports.js';
 import { Terms } from '../../api/terms/terms.js';
@@ -256,65 +257,83 @@ Template.app.events({
 		});
 	},
 	
+	'click .js-delete-subject-confirmed'(event) {
+		console.log('Subject Delete Clicked')
+	},
+	
 	'click .js-delete-schoolWork-confirmed'(event) {
 		event.preventDefault();
 		$('.js-deleting').show();
 
 		function nextSchoolWorkId(selectedSchoolWorkId) {
-			let schoolWorkIds = SchoolWork.find({}, {sort: {name: 1}}).map(schoolWork => (schoolWork._id));
-			let selectedIndex = schoolWorkIds.indexOf(selectedSchoolWorkId);
+			let schoolWork = SchoolWork.find({_id: selectedSchoolWorkId});
+			
+			if (schoolWork.subjectId) {
+				return false;
+			} else {
+				let subjects = Subjects.find().fetch();
+				subjects.forEach(subject => subject.type = 'subject');
 
-			if (selectedIndex) {
-				return schoolWorkIds[selectedIndex - 1]
+				let workItems = SchoolWork.find({subjectId: {$exists: false}}).fetch();
+				workItems.forEach(workItem => workItem.type = 'work');
+
+				let schoolWorkIds = _.sortBy(subjects.concat(workItems), ['name']).map(schoolWork => (schoolWork._id));
+				let selectedIndex = schoolWorkIds.indexOf(selectedSchoolWorkId);
+
+				return false;
+
+				if (selectedIndex) {
+					return schoolWorkIds[selectedIndex - 1]
+				}
+				return schoolWorkIds[selectedIndex + 1]
 			}
-			return schoolWorkIds[selectedIndex + 1]
 		};
 
-		let newSchoolWorkId = nextSchoolWorkId(FlowRouter.getParam('selectedSchoolWorkId'));
-		let dialogId = Dialogs.findOne()._id;
+		// let newSchoolWorkId = nextSchoolWorkId(FlowRouter.getParam('selectedSchoolWorkId'));
+		// let dialogId = Dialogs.findOne()._id;
 
-		let pathProperties = {
-			studentIds: [FlowRouter.getParam('selectedStudentId')],
-			schoolYearIds: [FlowRouter.getParam('selectedSchoolYearId')],
-			termIds: Terms.find({schoolYearId: FlowRouter.getParam('selectedSchoolWorkId')}).map(term => term.termId),
-		}
+		// let pathProperties = {
+		// 	studentIds: [FlowRouter.getParam('selectedStudentId')],
+		// 	schoolYearIds: [FlowRouter.getParam('selectedSchoolYearId')],
+		// 	termIds: Terms.find({schoolYearId: FlowRouter.getParam('selectedSchoolWorkId')}).map(term => term.termId),
+		// }
 
-		let statProperties = {
-			studentIds: [FlowRouter.getParam('selectedStudentId')],
-			schoolYearIds: [FlowRouter.getParam('selectedSchoolYearId')],
-			termIds: Terms.find({schoolYearId: FlowRouter.getParam('selectedSchoolWorkId')}).map(term => term.termId),
-			weekIds: Weeks.find({}).map(week => week._id),
-		}
+		// let statProperties = {
+		// 	studentIds: [FlowRouter.getParam('selectedStudentId')],
+		// 	schoolYearIds: [FlowRouter.getParam('selectedSchoolYearId')],
+		// 	termIds: Terms.find({schoolYearId: FlowRouter.getParam('selectedSchoolWorkId')}).map(term => term.termId),
+		// 	weekIds: Weeks.find({}).map(week => week._id),
+		// }
 
-		Dialogs.remove({_id: dialogId});
-		Meteor.call('deleteSchoolWork', FlowRouter.getParam('selectedSchoolWorkId'), function(error) {
-			if (error) {
-				Alerts.insert({
-					colorClass: 'bg-danger',
-					iconClass: 'icn-danger',
-					message: error.reason,
-				});
-			} else {
-				Meteor.call('runUpsertSchoolWorkPathsAndStats', pathProperties, statProperties, function(error, result) {
-					if (error) {
-						Alerts.insert({
-							colorClass: 'bg-danger',
-							iconClass: 'icn-danger',
-							message: error.reason,
-						});
-					} else {
-						Session.set('selectedSchoolWorkId', newSchoolWorkId);
-						Session.set('selectedSchoolWorkType', 'work');
-						if (window.screen.availWidth > 768) {
-							FlowRouter.go('/planning/work/view/3/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ newSchoolWorkId);
-						} else {
-							FlowRouter.go('/planning/work/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ newSchoolWorkId);
-						}
-						$('.js-deleting').hide();
-					}
-				});
-			}
-		});
+		// Dialogs.remove({_id: dialogId});
+		// Meteor.call('deleteSchoolWork', FlowRouter.getParam('selectedSchoolWorkId'), function(error) {
+		// 	if (error) {
+		// 		Alerts.insert({
+		// 			colorClass: 'bg-danger',
+		// 			iconClass: 'icn-danger',
+		// 			message: error.reason,
+		// 		});
+		// 	} else {
+		// 		Meteor.call('runUpsertSchoolWorkPathsAndStats', pathProperties, statProperties, function(error, result) {
+		// 			if (error) {
+		// 				Alerts.insert({
+		// 					colorClass: 'bg-danger',
+		// 					iconClass: 'icn-danger',
+		// 					message: error.reason,
+		// 				});
+		// 			} else {
+		// 				Session.set('selectedSchoolWorkId', newSchoolWorkId);
+		// 				Session.set('selectedSchoolWorkType', 'work');
+		// 				if (window.screen.availWidth > 768) {
+		// 					FlowRouter.go('/planning/work/view/3/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ newSchoolWorkId);
+		// 				} else {
+		// 					FlowRouter.go('/planning/work/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ newSchoolWorkId);
+		// 				}
+		// 				$('.js-deleting').hide();
+		// 			}
+		// 		});
+		// 	}
+		// });
 	},
 
 	'click .js-delete-resource-confirmed'(event) {
@@ -362,7 +381,6 @@ Template.app.events({
 
 	'click .js-delete-segment-confirmed'(event) {
 		event.preventDefault();
-		console.log('delete');
 		
 		$('.js-deleting').show();
 
@@ -431,15 +449,6 @@ Template.app.events({
 				lesson.order = index + 1
 			});
 		});
-
-		console.log('deleteLessonIds')
-		console.log(deleteLessonIds)
-		console.log('schoolWorkIds')
-		console.log(schoolWorkIds)
-		console.log('batchUncheckedLessonProperties')
-		console.log(batchUncheckedLessonProperties)
-		console.log('deleteNoteIds')
-		console.log(_.uniq(deleteNoteIds))
 
 		let dialogId = Dialogs.findOne()._id;
 		Dialogs.remove({_id: dialogId});
@@ -624,6 +633,7 @@ Template.app.events({
 			selectedTermId: selectedItem(path.firstTermId),
 			selectedWeekId: selectedItem(path.firstWeekId),
 			selectedSchoolWorkId: selectedItem(path.firstSchoolWorkId),
+			selectedSchoolWorkType: selectedItem(path.firstSchoolWorkType),
 			selectedReportingTermId: selectedItem(path.firstTermId),
 			selectedReportingWeekId: selectedItem(path.firstWeekId),
 		});
@@ -654,6 +664,7 @@ Template.app.events({
 			selectedTermId: selectedItem(path.firstTermId),
 			selectedWeekId: selectedItem(path.firstWeekId),
 			selectedSchoolWorkId: selectedItem(path.firstSchoolWorkId),
+			selectedSchoolWorkType: selectedItem(path.firstSchoolWorkType),
 			selectedReportingTermId: selectedItem(path.firstTermId),
 			selectedReportingWeekId: selectedItem(path.firstWeekId),
 		});

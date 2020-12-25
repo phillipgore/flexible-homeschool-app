@@ -142,6 +142,10 @@ Template.workNew.helpers({
 		return Session.get('selectedSchoolWorkId');
 	},
 
+	selectedSchoolWorkType: function() {
+		return Session.get('selectedSchoolWorkType');
+	},
+
 	uniqeTimesPerWeek: function() {
 		return Template.instance().timesPerWeek.get();
 	},

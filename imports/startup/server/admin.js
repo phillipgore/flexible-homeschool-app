@@ -6,7 +6,6 @@ import _ from 'lodash';
 // Create Application Admin Account
 let adminGroup = Groups.find({appAdmin: true})
 if (!adminGroup.count() || _.isUndefined(adminGroup)) {
-	console.log('hello')	
 	let users = [
 		{
 			email: Meteor.settings.private.appAdmin.email,

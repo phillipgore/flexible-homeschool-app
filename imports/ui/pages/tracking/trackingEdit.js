@@ -484,7 +484,6 @@ Template.trackingEdit.events({
 						} 
 					});
 				});
-				console.log(bulkUpdateLessonProperties);
 
 				Meteor.call('bulkInsertLessons', bulkInsertLessonProperties, bulkUpdateLessonProperties, function(error, result) {
 					if (error) {

@@ -228,7 +228,6 @@ Template.trackingEditSchoolWork.helpers({
 
 Template.trackingEditSchoolWork.events({
 	'change .js-checkbox'(event) {
-		console.log('wow')
 	    if ($(event.currentTarget).val() === 'true') {
 	    	$(event.currentTarget).val('false');
 	    	$('.js-check-multiple-all').val('false').prop('checked', false);

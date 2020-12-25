@@ -13,7 +13,7 @@ Template.subjectsView.onCreated( function() {
 
 Template.subjectsView.onRendered( function() {
 	Session.set({
-		toolbarType: 'schoolWork',
+		toolbarType: 'subject',
 		editUrl: '/planning/subjects/edit/3/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedSubjectId'),
 		labelThree: 'Subject',
 		activeNav: 'planningList',

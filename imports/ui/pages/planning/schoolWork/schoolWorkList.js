@@ -27,7 +27,21 @@ Template.schoolWorkList.onRendered( function() {
 
 Template.schoolWorkList.helpers({
 	subscriptionReady: function() {
-		if (Template.instance().subjectData.ready() && Template.instance().schoolWorkData.ready() && Template.instance().schoolWorkStats.ready()) {
+		if (Template.instance().schoolWorkData.ready() && Template.instance().subjectData.ready() && Template.instance().schoolWorkStats.ready()) {
+			let selectedSubject = SchoolWork.findOne({_id: FlowRouter.getParam('selectedSchoolWorkId')});
+			if (Session.get('selectedSchoolWorkType') === 'work' && selectedSubject.subjectId) {
+				console.log('hello')
+				if (selectedSubject.subjectId) {
+					let subject = '#' + selectedSubject.subjectId + '.js-subject ';
+					let listClass = '.js-' + selectedSubject.subjectId;
+					
+					$(subject).addClass('js-open');
+					$(subject).find('.js-caret-right').hide();
+					$(subject).find('.js-caret-down').show();
+					$(listClass).show();
+				}
+			}
+
 			return true;
 		}
 	},
@@ -36,8 +50,9 @@ Template.schoolWorkList.helpers({
 		let subjects = Subjects.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId'), studentId: FlowRouter.getParam('selectedStudentId')}).fetch();
 		subjects.forEach(subject => subject.type = 'subject');
 
-		let workItems = SchoolWork.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId'), studentId: FlowRouter.getParam('selectedStudentId')}).fetch();
+		let workItems = SchoolWork.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId'), studentId: FlowRouter.getParam('selectedStudentId'), subjectId: {$exists: false}}).fetch();
 		workItems.forEach(workItem => workItem.type = 'work');
+
 		return _.sortBy(subjects.concat(workItems), ['name']);
 	},
 

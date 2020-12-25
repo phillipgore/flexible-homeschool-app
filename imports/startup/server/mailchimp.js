@@ -34,7 +34,6 @@ Meteor.methods({
 	},
 
 	mcTags: function(groupId) {
-		console.log(groupId)
 		let tagProperties = [
 			{"name": "pending", "status": "inactive"},
 			{"name": "active", "status": "inactive"},
@@ -51,7 +50,6 @@ Meteor.methods({
 
 		users.forEach(user => {
 			let email = user.emails[0].address;
-			console.log(email)
 			let emailHash = md5(email);
 
 			mailchimp.post('/lists/' + Meteor.settings.private.mailchimpListId + '/members/' + emailHash + '/tags', {

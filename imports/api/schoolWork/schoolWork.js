@@ -49,7 +49,8 @@ const SchoolWorkSchema = new SimpleSchema({
     },
     subjectId: {
         type: String,
-        label: "School Year ID"
+        label: "Subject ID",
+        optional: true
     },
     scheduledDays: {
     	type: Array,

@@ -165,6 +165,41 @@ Meteor.methods({
 
 		return result;
 	},
+
+	updateSchoolWorkSubject: function(schoolWorkProperties) {
+		let getSetProperties = (schoolWorkProperties) => {
+			if (schoolWorkProperties.subjectId.length) {
+				return {$set: {subjectId: schoolWorkProperties.subjectId}}
+			}
+			return {$unset: {subjectId: ''}}
+		}
+
+		let schoolWorkId = SchoolWork.update(schoolWorkProperties._id, getSetProperties(schoolWorkProperties));
+
+		let lessonIds = Lessons.find({schoolWorkId: schoolWorkProperties._id}, {fields: {_id: 1}}).map(lesson => lesson._id);
+		let bulkLessons = [];
+
+		if (lessonIds.length) {
+			lessonIds.forEach(lessonId => {
+				bulkLessons.push({updateOne: 
+					{ 
+						filter: {_id: lessonId}, 
+						update: getSetProperties(schoolWorkProperties), 
+					} 
+				});
+			});
+		}
+
+		if (bulkLessons.length) {
+			let result = Lessons.rawCollection().bulkWrite(
+				bulkLessons
+			).then((lessons) => {
+				return lessons;
+			}).catch((error) => {
+				throw new Meteor.Error(500, error);
+			});
+		}
+	},
 });
 
 

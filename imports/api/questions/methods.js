@@ -6,7 +6,6 @@ import _ from 'lodash';
 
 Meteor.methods({
 	insertQuestion(questionProperties) {
-		console.log(questionProperties)
 		const questionId = Questions.insert(questionProperties);
 		return questionId;
 	},

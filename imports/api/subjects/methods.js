@@ -27,7 +27,6 @@ Meteor.methods({
 		).then((subjects) => {
             let subjectIds = _.values(subjects.insertedIds);
             let currentSubjectId = Subjects.findOne({_id: {$in: subjectIds}, studentId: currentStudentId})._id;
-            console.log(currentSubjectId);
             return currentSubjectId;
         }).catch((error) => {
 			throw new Meteor.Error(500, error);

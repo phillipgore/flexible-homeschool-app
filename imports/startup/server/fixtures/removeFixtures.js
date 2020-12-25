@@ -4,6 +4,7 @@ import {SchoolYears} from '../../../api/schoolYears/schoolYears.js';
 import {Terms} from '../../../api/terms/terms.js';
 import {Weeks} from '../../../api/weeks/weeks.js';
 import {Resources} from '../../../api/resources/resources.js';
+import {Subjects} from '../../../api/subjects/subjects.js';
 import {SchoolWork} from '../../../api/schoolWork/schoolWork.js';
 import {Lessons} from '../../../api/lessons/lessons.js';
 
@@ -21,6 +22,7 @@ Meteor.methods({
 
 		Lessons.remove({groupId: groupId});
 		SchoolWork.remove({groupId: groupId});
+		Subjects.remove({groupId: groupId});
 		Weeks.remove({groupId: groupId});
 		Terms.remove({groupId: groupId});
 		SchoolYears.remove({groupId: groupId});

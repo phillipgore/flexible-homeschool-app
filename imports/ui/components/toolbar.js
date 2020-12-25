@@ -265,6 +265,16 @@ Template.toolbar.events({
 		});
 	},
 
+	'click .js-delete-subject'(event) {
+		event.preventDefault();
+
+		Dialogs.insert({
+			heading: 'Confirmation',
+			message: 'Are you sure you want to delete this Subject?',
+			confirmClass: 'js-delete js-delete-subject-confirmed',
+		});
+	},
+
 	'click .js-delete-schoolWork'(event) {
 		event.preventDefault();
 
@@ -315,6 +325,7 @@ Template.toolbar.events({
 			selectedWeekId: '',
 			selectedReportingWeekId: '',
 			selectedSchoolWorkId: '',
+			selectedSchoolWorkType: '',
 			selectedReportId: '',
 			selectedUserId: '',
 			planningPathName: '',
