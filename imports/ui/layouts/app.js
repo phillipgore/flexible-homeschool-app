@@ -24,7 +24,7 @@ Template.app.onRendered( function() {
 });
 
 Template.app.helpers({
-	userId: function() {
+	suserId: function() {
 		return Meteor.userId();
 	},
 
