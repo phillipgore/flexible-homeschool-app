@@ -24,6 +24,12 @@ Template.app.onRendered( function() {
 });
 
 Template.app.helpers({
+	selectedSchoolWorkId: function() {
+		return Session.get('selectedSchoolWorkId');
+	},
+	selectedSchoolWorkType: function() {
+		return Session.get('selectedSchoolWorkType');
+	},
 	suserId: function() {
 		return Meteor.userId();
 	},

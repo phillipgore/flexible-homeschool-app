@@ -28,6 +28,18 @@ Template.schoolWorkList.onRendered( function() {
 Template.schoolWorkList.helpers({
 	subscriptionReady: function() {
 		if (Template.instance().schoolWorkData.ready() && Template.instance().subjectData.ready() && Template.instance().schoolWorkStats.ready()) {
+			if (FlowRouter.getParam('selectedSchoolWorkId')) {
+				let selectedSchoolWork = SchoolWork.findOne({_id: FlowRouter.getParam('selectedSchoolWorkId')});
+
+				let subject = '#' + selectedSchoolWork.subjectId + ' .js-subject-toggle';
+				let listClass = '.js-' + selectedSchoolWork.subjectId;
+				
+				$(subject).addClass('js-open');
+				$(subject).find('.js-caret-right').hide();
+				$(subject).find('.js-caret-down').show();
+				$(listClass).show();
+			}
+			
 			return true;
 		}
 	},

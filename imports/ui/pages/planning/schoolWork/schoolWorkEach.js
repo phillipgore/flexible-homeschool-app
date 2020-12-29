@@ -8,16 +8,7 @@ Template.schoolWorkEach.onCreated( function() {
 });
 
 Template.schoolWorkEach.onRendered( function() {
-	let selectedSchoolWork = SchoolWork.findOne({_id: FlowRouter.getParam('selectedSchoolWorkId')});
-	if (selectedSchoolWork.subjectId) {
-		let subject = '#' + selectedSchoolWork.subjectId + ' .js-subject-toggle';
-		let listClass = '.js-' + selectedSchoolWork.subjectId;
-		
-		$(subject).addClass('js-open');
-		$(subject).find('.js-caret-right').hide();
-		$(subject).find('.js-caret-down').show();
-		$(listClass).show();
-	}
+	
 });
 
 Template.schoolWorkEach.helpers({

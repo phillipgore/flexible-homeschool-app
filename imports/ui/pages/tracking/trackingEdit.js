@@ -348,7 +348,6 @@ Template.trackingEdit.events({
 
 		// No Choice ----------------------------------------------------------------------
 		if (action === 'choose') {
-			// console.log('choose');
 
 			Alerts.insert({
 				colorClass: 'bg-info',
@@ -361,7 +360,6 @@ Template.trackingEdit.events({
 
 		// Labels ----------------------------------------------------------------------
 		if (action === 'labels') {
-			// console.log('labels');
 			
 			$('.js-updating').show();
 			$('.js-submit').prop('disabled', true);
@@ -401,7 +399,6 @@ Template.trackingEdit.events({
 
 			// Insert ----------------------------------------------------------------------
 			if (action === 'insert') {
-				// console.log('insert');
 
 				$('.js-updating').show();
 				$('.js-submit').prop('disabled', true);
@@ -511,7 +508,6 @@ Template.trackingEdit.events({
 
 			// Complete ----------------------------------------------------------------------
 			if (action === 'complete') {
-				// console.log('complete');
 
 				$('.js-updating').show();
 				$('.js-submit').prop('disabled', true);
@@ -524,7 +520,6 @@ Template.trackingEdit.events({
 
 			// Incomplete ----------------------------------------------------------------------
 			if (action === 'incomplete') {
-				// console.log('incomplete');
 
 				$('.js-updating').show();
 				$('.js-submit').prop('disabled', true);
@@ -537,7 +532,6 @@ Template.trackingEdit.events({
 
 			// Assigned ----------------------------------------------------------------------
 			if (action === 'assigned') {
-				// console.log('assigned');
 
 				$('.js-updating').show();
 				$('.js-submit').prop('disabled', true);
@@ -550,7 +544,6 @@ Template.trackingEdit.events({
 
 			// Unassigned ----------------------------------------------------------------------
 			if (action === 'unassigned') {
-				// console.log('unassigned');
 
 				$('.js-updating').show();
 				$('.js-submit').prop('disabled', true);
@@ -563,7 +556,6 @@ Template.trackingEdit.events({
 
 			// Existing Week ----------------------------------------------------------------------
 			if (action === 'existing') {
-				// console.log('existing');
 
 				$('.js-updating').show();
 				$('.js-submit').prop('disabled', true);
@@ -677,7 +669,6 @@ Template.trackingEdit.events({
 
 			// New Week ----------------------------------------------------------------------
 			if (action === 'new') {
-				// console.log('new');
 
 				$('.js-updating').show();
 				$('.js-submit').prop('disabled', true);
