@@ -62,7 +62,7 @@ Template.app.helpers({
 	},
 
 	resourcePopUp: function() {
-		if (FlowRouter.getRouteName() === 'schoolWorkNew' || FlowRouter.getRouteName() === 'schoolWorkEdit') {
+		if (FlowRouter.getRouteName() === 'workNew' || FlowRouter.getRouteName() === 'workEdit') {
 			return true;
 		}
 		return false;
@@ -624,7 +624,7 @@ Template.app.events({
 
 		let path = Paths.findOne({studentId: studentId, timeFrameId: Session.get('selectedSchoolYearId')});
 		
-		if (FlowRouter.current().route.name === 'schoolWorkView') {
+		if (FlowRouter.current().route.name === 'workView') {
 			Session.set('editUrl', '/planning/work/edit/3/' + studentId +'/'+ Session.get('selectedSchoolYearId') +'/'+ selectedItem(path.firstSchoolWorkId));
 		} else if (FlowRouter.current().route.name === 'trackingView' || FlowRouter.current().route.name === 'trackingEdit') {
 			Session.set('editUrl', '/tracking/students/edit/2/' + studentId +'/'+ Session.get('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'))
@@ -657,7 +657,7 @@ Template.app.events({
 
 		let path = Paths.findOne({studentId: Session.get('selectedStudentId'), timeFrameId: schoolYearId});
 
-		if (FlowRouter.current().route.name === 'schoolWorkView') {
+		if (FlowRouter.current().route.name === 'workView') {
 			Session.set('editUrl', '/planning/work/edit/3/' + Session.get('selectedStudentId') +'/'+ schoolYearId +'/'+ selectedItem(path.firstSchoolWorkId));
 		} else if (FlowRouter.current().route.name === 'reportingView') {
 			Session.set('editUrl', 'http://localhost:3000/reporting/edit/2/' + reportId);

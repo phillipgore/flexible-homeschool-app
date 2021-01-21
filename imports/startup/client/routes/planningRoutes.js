@@ -93,9 +93,9 @@ FlowRouter.route('/planning/subjects/new/:selectedFramePosition/:selectedStudent
 	title:  'Planning: Subjects: New',
 	action(params) {
 		BlazeLayout.render('app', {
-			subbar: '',
+			subbar: 'subbarSchoolWork',
 			frameOne: 'planningList',
-			frameTwo: 'subjectsNewList',
+			frameTwo: 'schoolWorkList',
 			frameThree: 'subjectsNew',
 		});
 	},
@@ -119,7 +119,7 @@ FlowRouter.route('/planning/subjects/edit/:selectedFramePosition/:selectedStuden
 	title:  'Planning: Subject: Edit',
 	action(params) {
 		BlazeLayout.render('app', {
-			subbar: '',
+			subbar: 'subbarSchoolWork',
 			frameOne: 'planningList',
 			frameTwo: 'schoolWorkList',
 			frameThree: 'subjectsEdit',
@@ -136,9 +136,9 @@ FlowRouter.route('/planning/work/new/:selectedFramePosition/:selectedStudentId/:
 	title:  'Planning: School Work: New',
 	action(params) {
 		BlazeLayout.render('app', {
-			subbar: '',
+			subbar: 'subbarSchoolWork',
 			frameOne: 'planningList',
-			frameTwo: 'schoolWorkNewList',
+			frameTwo: 'schoolWorkList',
 			frameThree: 'workNew',
 		});
 	},
@@ -162,7 +162,7 @@ FlowRouter.route('/planning/work/edit/:selectedFramePosition/:selectedStudentId/
 	title:  'Planning: School Work: Edit',
 	action(params) {
 		BlazeLayout.render('app', {
-			subbar: '',
+			subbar: 'subbarSchoolWork',
 			frameOne: 'planningList',
 			frameTwo: 'schoolWorkList',
 			frameThree: 'workEdit',

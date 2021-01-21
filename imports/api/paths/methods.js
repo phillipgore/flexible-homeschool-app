@@ -12,8 +12,10 @@ Meteor.methods({
 		return result;
 	},
 
-	runUpsertSchoolWorkPaths: function(pathProperties, submittedGroupId) {
-		upsertSchoolWorkPaths(pathProperties, submittedGroupId);
+	runUpsertSchoolWorkPaths: function(pathProperties) {
+		upsertPaths(pathProperties);
+		upsertSchoolWorkPaths(pathProperties);
+		primaryInitialIds();
 	},
 
 	runUpsertSchoolWorkPathsAndStats: function(pathProperties, statProperties) {

@@ -54,6 +54,12 @@ Template.subjectsEdit.events({
 				schoolYearId: FlowRouter.getParam('selectedSchoolYearId'),
 			};
 
+			let pathProperties = {
+				studentIds: [FlowRouter.getParam('selectedStudentId')],
+				schoolYearIds: [FlowRouter.getParam('selectedSchoolYearId')],
+				termIds: [],
+			}
+
 			Meteor.call('updateSubject', subjectProperties, function(error, result) {
 				if (error) {
 					Alerts.insert({
@@ -65,9 +71,22 @@ Template.subjectsEdit.events({
 					$('.js-updating').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
-					$('.js-updating').hide();
-					$('.js-submit').prop('disabled', false);
-					FlowRouter.go('/planning/subjects/view/3/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedSubjectId'));
+					Meteor.call('runUpsertSchoolWorkPaths', pathProperties, function(error, result) {
+						if (error) {
+							Alerts.insert({
+								colorClass: 'bg-danger',
+								iconClass: 'icn-danger',
+								message: error.message,
+							});
+							
+							$('.js-updating').hide();
+							$('.js-submit').prop('disabled', false);
+						} else {
+							$('.js-updating').hide();
+							$('.js-submit').prop('disabled', false);
+							FlowRouter.go('/planning/subjects/view/3/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedSubjectId'));
+						}
+					});
 				}
 			});
 		}

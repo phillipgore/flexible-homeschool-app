@@ -13,21 +13,22 @@ Template.schoolWorkEach.onRendered( function() {
 
 Template.schoolWorkEach.helpers({
 	scroll: function() {
-		let schoolWorkCount = () => {
+		let getSchoolWorkCount = () => {
 			if (Session.get('selectedSchoolWorkType') === 'subjects') {
 				return Subjects.find({_id: FlowRouter.getParam('selectedSubjectId')}).count();
 			}
 			return SchoolWork.find({_id: FlowRouter.getParam('selectedSchoolWorkId')}).count();
 		};
 
-		if (schoolWorkCount() && Session.get('unScrolled')) {
+		let getSchoolWorkId = () => {
+			if (Session.get('selectedSchoolWorkType') === 'subjects') {
+				return FlowRouter.getParam('selectedSubjectId');
+			}
+			return FlowRouter.getParam('selectedSchoolWorkId');
+		};
+
+		if (getSchoolWorkCount() && getSchoolWorkId() && Session.get('unScrolled')) {
 			setTimeout(function() {
-				let getSchoolWorkId = () => {
-					if (Session.get('selectedSchoolWorkType') === 'subjects') {
-						return FlowRouter.getParam('selectedSubjectId');
-					}
-					return FlowRouter.getParam('selectedSchoolWorkId');
-				};
 				let newScrollTop = document.getElementById(getSchoolWorkId()).getBoundingClientRect().top - 130;
 				if (window.screen.availWidth > 640) {
 					document.getElementsByClassName('frame-two')[0].scrollTop = newScrollTop;
@@ -80,7 +81,14 @@ Template.schoolWorkEach.helpers({
 			return true;
 		}
 		return false;
-	}
+	},
+
+	activeRoute: function(currentRoute, route) {
+		if (currentRoute === route) {
+			return true;
+		}
+		return false;
+	},
 });
 
 Template.schoolWorkEach.events({

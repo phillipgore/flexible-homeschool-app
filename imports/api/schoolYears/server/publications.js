@@ -9,6 +9,15 @@ import {Lessons} from '../../lessons/lessons.js';
 
 import _ from 'lodash'
 
+Meteor.publish('schoolYear', function(schoolYearId) {
+	if (!this.userId) {
+		return this.ready();
+	}
+
+	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
+	return SchoolYears.find({groupId: groupId, _id: schoolYearId}, {fields: {startYear: 1, endYear: 1}});
+});
+
 Meteor.publish('allSchoolYears', function() {
 	if (!this.userId) {
 		return this.ready();

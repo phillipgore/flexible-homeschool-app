@@ -49,7 +49,7 @@ Template.toolbar.helpers({
 	},
 
 	newUrl: function() {
-		if (Session.get('toolbarType') === 'schoolWork') {
+		if (Session.get('toolbarType') === 'schoolWork' || Session.get('toolbarType') === 'subject') {
 			let initialIds = Groups.findOne({_id: Meteor.user().info.groupId}).initialIds;
 			if (initialIds.studentId === 'empty' || initialIds.schoolYearId === 'empty') {
 				return '#';
@@ -57,10 +57,6 @@ Template.toolbar.helpers({
 			return Session.get('newUrl');
 		}
 		return Session.get('newUrl');
-	},
-
-	type: function() {
-		return Session.get('toolbarType');
 	},
 
 	newable: function() {
@@ -123,24 +119,12 @@ Template.toolbar.helpers({
 		return false;
 	},
 
-	selectedResourceType: function() {
-		return Session.get('selectedResourceType');
-	},
-
-	selectedResourceAvailability: function() {
-		return Session.get('selectedResourceAvailability');
-	},
-
 	selectedStudentId: function() {
 		return Session.get('selectedStudentId');
 	},
 
 	selectedSchoolYearId: function() {
 		return Session.get('selectedSchoolYearId');
-	},
-
-	selectedReportId: function() {
-		return Session.get('selectedReportId');
 	},
 
 	editUrl: function() {
@@ -156,6 +140,13 @@ Template.toolbar.helpers({
 
 		if (type === 'schoolWork') {
 			if (FlowRouter.getParam('selectedSchoolWorkId') === 'empty') {
+				return false;
+			}
+			return true;
+		}
+
+		if (type === 'subject') {
+			if (FlowRouter.getParam('selectedSubjectId') === 'empty') {
 				return false;
 			}
 			return true;

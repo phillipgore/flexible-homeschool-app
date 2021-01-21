@@ -79,18 +79,14 @@ Template.subjectsNew.events({
 			$('.js-saving').show();
 			$('.js-submit').prop('disabled', true);
 
-			let studentIds = []
-			$("[name='studentId']:checked").each(function() {
-				studentIds.push(this.id)
-			})
-
 			const subjectProperties = {
 				order: 1,
 				name: template.find("[name='name']").value.trim(),
 				schoolYearId: FlowRouter.getParam('selectedSchoolYearId'),
+				studentId: FlowRouter.getParam('selectedStudentId'),
 			};
 
-			Meteor.call('insertSubject', FlowRouter.getParam('selectedStudentId'), studentIds, subjectProperties, function(error, subjectId) {
+			Meteor.call('insertSubject', subjectProperties, function(error, subjectId) {
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',

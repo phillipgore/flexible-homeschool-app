@@ -5,17 +5,6 @@
 	{{> saving}}
 	<main class="app-content app-content-preceeds-toolbar app-content-form pos-relative">
 		<form class="js-form-subjects-new row">
-			
-			<label class="m-tn-b-6">Students</label>
-			{{#each student in students}}
-				<div>
-					<label class="checkbox">
-						<input class="js-checkbox js-student-id" type="checkbox" name="studentId" id="{{student._id}}" value="{{isChecked student._id}}" checked="{{isChecked student._id}}">
-						<div class="checkbox-icon"></div> 
-						<div class="checkbox-label">{{student.preferredFirstName.name}} {{student.lastName}}</div>
-					</label>
-				</div>
-			{{/each}}
 			<label id="studentId-error" class="student-error hide" for="studentId">At least one student must be checked.</label>
 			<div class="well bg-gray-lighter m-tn-b-18 p-tn-b-3">
 				<label>Subject Name</label>

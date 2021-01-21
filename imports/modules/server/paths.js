@@ -227,7 +227,7 @@ function schoolWorkPath(groupId, studentId, schoolYearId) {
 	}
 
 	let firstWork = SchoolWork.findOne(
-		{groupId: groupId, studentId: studentId, schoolYearId: schoolYearId},
+		{groupId: groupId, studentId: studentId, schoolYearId: schoolYearId, subjectId: {$exists: false}},
 		{sort: {name: 1}, fields: {name: 1}}
 	);
 	if (firstWork) {

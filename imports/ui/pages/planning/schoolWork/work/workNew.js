@@ -2,6 +2,7 @@ import {Template} from 'meteor/templating';
 import { Students } from '../../../../../api/students/students.js';
 import { Resources } from '../../../../../api/resources/resources.js';
 import { SchoolYears } from '../../../../../api/schoolYears/schoolYears.js';
+import { Subjects } from '../../../../../api/subjects/subjects.js';
 import { Terms } from '../../../../../api/terms/terms.js';
 import { Weeks } from '../../../../../api/weeks/weeks.js';
 
@@ -16,10 +17,10 @@ Template.workNew.onCreated( function() {
 	Session.setPersistent('unScrolled', true);
 	
 	// Subscriptions
-	this.studentData = this.subscribe('allStudents');
-	this.schoolYearData = this.subscribe('allSchoolYears');
-	this.termData = this.subscribe('allTerms');
-	this.weekData = this.subscribe('allWeeks');
+	this.subjectData = this.subscribe('schooYearStudentSubject', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
+	this.schoolYearData = this.subscribe('schoolYear', FlowRouter.getParam('selectedSchoolYearId'));
+	this.termData = this.subscribe('schoolYearTerms', FlowRouter.getParam('selectedSchoolYearId'));
+	this.weekData = this.subscribe('schoolYearWeeks', FlowRouter.getParam('selectedSchoolYearId'));
 
 	let template = Template.instance();
 
@@ -68,25 +69,21 @@ Template.workNew.onRendered( function() {
 
 Template.workNew.helpers({
 	subscriptionReady: function() {
-		if (Template.instance().studentData.ready() && Template.instance().schoolYearData.ready() && Template.instance().termData.ready() && Template.instance().weekData.ready()) {
+		if (Template.instance().subjectData.ready() && Template.instance().schoolYearData.ready() && Template.instance().termData.ready() && Template.instance().weekData.ready()) {
 			return true;
 		}
 	},
 
-	students: function() {
-		return Students.find({}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}});
-	},
-
-	schoolYears: function() {
-		return SchoolYears.find({}, {sort: {startYear: 1}});
-	},
-
 	selectedSchoolYear: function() {
-		return SchoolYears.findOne({_id: Session.get('selectedSchoolYearId')});
+		return SchoolYears.findOne({_id: FlowRouter.getParam('selectedSchoolYearId')});
+	},
+
+	subjects: function() {
+		return Subjects.find({}, {sort: {name: 1}});
 	},
 	
 	terms: function() {
-		return Terms.find({schoolYearId: Session.get('selectedSchoolYearId')}, {sort: {order: 1}});
+		return Terms.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}, {sort: {order: 1}});
 	},
 
 	weeks: function(termId) {
@@ -102,13 +99,6 @@ Template.workNew.helpers({
 			return true;
 		}
 		return false;
-	},
-
-	isSelected: function(schoolYearId) {
-		if (schoolYearId === Session.get('selectedSchoolYearId')) {
-			return 'selected';
-		}
-		return '';
 	},
 
 	searching() {
@@ -128,22 +118,6 @@ Template.workNew.helpers({
 
 	localResources() {
 		return LocalResources.find();
-	},
-
-	selectedSchoolYearId: function() {
-		return Session.get('selectedSchoolYearId');
-	},
-
-	selectedStudentId: function() {
-		return Session.get('selectedStudentId');
-	},
-
-	selectedSchoolWorkId: function() {
-		return Session.get('selectedSchoolWorkId');
-	},
-
-	selectedSchoolWorkType: function() {
-		return Session.get('selectedSchoolWorkType');
 	},
 
 	uniqeTimesPerWeek: function() {
@@ -166,36 +140,6 @@ Template.workNew.helpers({
 });
 
 Template.workNew.events({
-	'change .js-student-id'(event) {
-    	let checkedCount = $('.js-student-id:checked').length;
-
-    	if (checkedCount === 0 && $(event.currentTarget).val() === 'true') {
-    		$(event.currentTarget).prop('checked', true)
-    		$('.student-error').show().css({display: 'block'});
-    		setTimeout(function() { 
-    			$('.student-error').slideUp('fast'); 
-    		}, 2000);
-    	} else {
-    		$('.student-error').slideUp('fast');
-		    if ($(event.currentTarget).val() === 'true') {
-		    	$(event.currentTarget).val('false');
-		    } else {
-		    	$(event.currentTarget).val('true');
-		    }
-		}
-	},
-
-	'change .js-school-year-select'(event) {
-		Session.set({
-			selectedSchoolYearId: event.target.value.trim(),
-			editUrl: '/planning/schoolyears/edit/' + event.target.value.trim(),
-		});
-
-		let sessionSchoolWorkIdName = 'selectedSchoolWork' + Session.get('selectedStudentId') + event.target.value.trim() + 'Id';
-		Session.set('selectedSchoolWorkId', Session.get(sessionSchoolWorkIdName));
-		Session.set('selectedSchoolWorkType', 'work');
-	},
-
 	'change .js-times-per-week-preset'(event) {
 		$('#' + event.currentTarget.dataset.termId).find('.js-times-per-week').val(event.currentTarget.value);
 	},
@@ -428,11 +372,6 @@ Template.workNew.events({
 			$('.js-saving').show();
 			$('.js-submit').prop('disabled', true);
 
-			let studentIds = []
-			$("[name='studentId']:checked").each(function() {
-				studentIds.push(this.id)
-			})
-
 			let resourceIds = [];
 			LocalResources.find().forEach(function(resource) {
 				resourceIds.push(resource.id);
@@ -450,13 +389,19 @@ Template.workNew.events({
 				}
 			});
 
-			let schoolYearId = template.find("[name='schoolYearId']").value.trim();
+			let studentId = FlowRouter.getParam('selectedStudentId');
+			let schoolYearId = FlowRouter.getParam('selectedSchoolYearId');
+			let subjectId = template.find("[name='subjectId']").value.trim();
+			Session.set('selectedSubjectId', subjectId);
+
 			const schoolWorkProperties = {
 				type: 'work',
 				name: template.find("[name='name']").value.trim(),
 				description: $('.js-form-school-work-new .editor-content').html(),
 				resources: resourceIds,
+				studentId: studentId,
 				schoolYearId: schoolYearId,
+				subjectId: subjectId ? subjectId : undefined,
 				scheduledDays: scheduledDays,
 			};
 			
@@ -466,32 +411,34 @@ Template.workNew.events({
 				let weekDayLabels = scheduledDays.find(dayLabel => dayLabel.segmentCount == this.value);
 				for (i = 0; i < parseInt(this.value); i++) {
 				    lessonProperties.push({
-				    	order: i + 1,
+						order: i + 1,
+						studentId: studentId,
 				    	schoolYearId: schoolYearId, 
 				    	termId: this.dataset.termId,
 				    	termOrder: parseInt(this.dataset.termOrder), 
 				    	weekId: this.dataset.weekId,
 				    	weekOrder: parseInt(this.dataset.weekOrder),
-				    	weekDay: parseInt(weekDayLabels.days[i])
-				    });
+				    	weekDay: parseInt(weekDayLabels.days[i]),
+						subjectId: subjectId ? subjectId : undefined,
+					});
 				    weekIds.push(this.dataset.weekId)
 				}
 			});
 
 			let pathProperties = {
-				studentIds: studentIds,
+				studentIds: [studentId],
 				schoolYearIds: [schoolYearId],
 				termIds: Array.from(document.getElementsByClassName('js-term-container')).map(term => term.id),
 			};
 
 			let statProperties = {
-				studentIds: studentIds,
+				studentIds: [studentId],
 				schoolYearIds: [schoolYearId],
 				termIds: Array.from(document.getElementsByClassName('js-term-container')).map(term => term.id),
 				weekIds: _.uniq(weekIds),
 			}
 			
-			Meteor.call('insertSchoolWork', studentIds, schoolWorkProperties, lessonProperties, function(error, newSchoolWork) {
+			Meteor.call('insertSchoolWork', schoolWorkProperties, lessonProperties, function(error, schoolWorkId) {
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',
@@ -502,7 +449,7 @@ Template.workNew.events({
 					$('.js-saving').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
-					Meteor.call('runUpsertSchoolWorkPathsAndStats', pathProperties, statProperties, function(error, result) {
+					Meteor.call('runUpsertSchoolWorkPathsAndStats', pathProperties, statProperties, function(error) {
 						if (error) {
 							Alerts.insert({
 								colorClass: 'bg-danger',
@@ -513,19 +460,10 @@ Template.workNew.events({
 							$('.js-saving').hide();
 							$('.js-submit').prop('disabled', false);
 						} else {
-							Session.set('selectedStudentId', newSchoolWork[0].studentId);
-							Session.set('selectedSchoolWorkId', newSchoolWork[0].schoolWorkId);
+							Session.set('selectedSchoolWorkId', schoolWorkId);
 							Session.set('selectedSchoolWorkType', 'work');
-							let studentsCount = newSchoolWork.length
 							
-							FlowRouter.go('/planning/work/view/3/' + newSchoolWork[0].studentId +'/'+ Session.get('selectedSchoolYearId') +'/'+ newSchoolWork[0].schoolWorkId);					
-							if (studentsCount > 1 ) {
-								Alerts.insert({
-									colorClass: 'bg-info',
-									iconClass: 'icn-info',
-									message: 'This School Work has been added to '+ studentsCount +' total students.',
-								});
-							}
+							FlowRouter.go('/planning/work/view/3/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ schoolWorkId);
 						}
 					});
 				}
