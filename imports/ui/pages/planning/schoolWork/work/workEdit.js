@@ -1,4 +1,5 @@
 import {Template} from 'meteor/templating';
+import { Subjects } from '../../../../../api/subjects/subjects.js';
 import { SchoolWork } from '../../../../../api/schoolWork/schoolWork.js';
 import { Students } from '../../../../../api/students/students.js';
 import { Resources } from '../../../../../api/resources/resources.js';
@@ -15,6 +16,7 @@ LocalResources = new Mongo.Collection(null);
 
 Template.workEdit.onCreated( function() {	
 	// Subscriptions
+	this.subjectData = this.subscribe('schooYearStudentSubject', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
 	this.schoolWorkData = Meteor.subscribe('schoolWork', FlowRouter.getParam('selectedSchoolWorkId'), function() {
 		Session.set('schoolYearId', SchoolWork.findOne({_id: FlowRouter.getParam('selectedSchoolWorkId')}).schoolYearId)
 	});
@@ -62,7 +64,7 @@ Template.workEdit.onRendered( function() {
 
 Template.workEdit.helpers({
 	subscriptionReady: function() {
-		if (Template.instance().schoolWorkData.ready() && Template.instance().studentData.ready() && Template.instance().schoolYearData.ready() && Template.instance().termData.ready() && Template.instance().weekData.ready() && Template.instance().lessonData.ready()) {
+		if (Template.instance().subjectData.ready() && Template.instance().schoolWorkData.ready() && Template.instance().studentData.ready() && Template.instance().schoolYearData.ready() && Template.instance().termData.ready() && Template.instance().weekData.ready() && Template.instance().lessonData.ready()) {
 			let getScheduledDays = () => {
 				let schoolWork = SchoolWork.findOne({_id: FlowRouter.getParam('selectedSchoolWorkId')});
 				if (schoolWork.scheduledDays) {
@@ -91,6 +93,26 @@ Template.workEdit.helpers({
 
 			return true;
 		}
+	},
+
+	subjects: function() {
+		return Subjects.find({}, {sort: {name: 1}});
+	},
+
+	subjectIsSelected: function(subjectId) {
+		let getSubjectId = () => {
+			let schoolWork = SchoolWork.findOne({_id: FlowRouter.getParam('selectedSchoolWorkId')});
+			if (schoolWork && schoolWork.subjectId) {
+				return schoolWork.subjectId;
+			}
+			return 'noSubject';
+		}
+
+		if (subjectId === getSubjectId()) {
+			return 'selected';
+		}
+
+		return null;
 	},
 	
 	selectedSchoolWork: function() {
@@ -520,6 +542,18 @@ Template.workEdit.events({
 				}
 			});
 
+			let subjectId = event.target.subjectId.value.trim();
+			let hasNewSubject = (subjectId) => {
+				let schoolWork = SchoolWork.findOne({_id: FlowRouter.getParam('selectedSchoolWorkId')});
+				if (schoolWork.subjectId && subjectId === schoolWork.subjectId) {
+					return false;
+				} 
+				if (schoolWork.subjectId == null && subjectId === 'noSubject') {
+					return false;
+				}
+				return true;
+			}
+
 			// Get School Work Properties
 			let updateSchoolWorkProperties = {
 				_id: FlowRouter.getParam('selectedSchoolWorkId'),
@@ -527,6 +561,7 @@ Template.workEdit.events({
 				description: $('.js-form-school-work-update .editor-content').html(),
 				resources: resourceIds,
 				studentId: FlowRouter.getParam('selectedStudentId'),
+				subjectId: subjectId === 'noSubject' ? '' : subjectId,
 				schoolYearId: FlowRouter.getParam('selectedSchoolYearId'),
 				scheduledDays: updateScheduleDays,
 			}
@@ -547,7 +582,7 @@ Template.workEdit.events({
 					let addCount =  newLessonsTotal - totalLessons;
 					for (i = 0; i < addCount; i++) { 
 					    upsertLessonProperties.push({
-					    	order: i + 1 + parseInt(totalLessons),
+							order: i + 1 + parseInt(totalLessons),
 					    	weekOrder: parseInt(this.dataset.weekOrder),
 					    	termOrder: parseInt(this.dataset.termOrder), 
 					    	termId: this.dataset.termId,
@@ -638,7 +673,7 @@ Template.workEdit.events({
 					weekIds: weekIds,
 				}
 
-				Meteor.call('updateSchoolWork', updateSchoolWorkProperties, removeLessonIds, insertLessonProperties, updateLessonProperties, function(error, result) {
+				Meteor.call('updateSchoolWork', updateSchoolWorkProperties, removeLessonIds, insertLessonProperties, updateLessonProperties, hasNewSubject(subjectId), function(error, result) {
 					if (error) {
 						Alerts.insert({
 							colorClass: 'bg-danger',

@@ -1,11 +1,9 @@
 import {Template} from 'meteor/templating';
-import { Stats } from '../../../api/stats/stats.js';
-import { SchoolYears } from '../../../api/schoolYears/schoolYears.js';
 import { SchoolWork } from '../../../api/schoolWork/schoolWork.js';
+import { Notes } from '../../../api/notes/notes.js';
 import { Lessons } from '../../../api/lessons/lessons.js';
 import { Terms } from '../../../api/terms/terms.js';
 import { Weeks } from '../../../api/weeks/weeks.js';
-import { Notes } from '../../../api/notes/notes.js';
 
 import {saveNote} from '../../../modules/functions';
 
@@ -29,6 +27,34 @@ Template.trackingSchoolWork.helpers({
 
 	selectedWeek: function() {
 		return Weeks.findOne({_id: FlowRouter.getParam('selectedWeekId')});
+	},
+
+	subjectWorkExist: function(subjectId) {
+		if (subjectId === 'noSubject') {
+			return SchoolWork.find({subjectId: {$exists: false}, schoolYearId: FlowRouter.getParam('selectedSchoolYearId'), studentId: FlowRouter.getParam('selectedStudentId')}).count();
+		}
+		return SchoolWork.find({subjectId: subjectId, schoolYearId: FlowRouter.getParam('selectedSchoolYearId'), studentId: FlowRouter.getParam('selectedStudentId')}).count();
+	},
+
+	subjectWork: function(subjectId) {
+		if (subjectId === 'noSubject') {
+			let work = SchoolWork.find({subjectId: {$exists: false}, schoolYearId: FlowRouter.getParam('selectedSchoolYearId'), studentId: FlowRouter.getParam('selectedStudentId')}, {sort: {name: 1}}).fetch();
+			work.forEach(work => {
+				let notes = Notes.findOne({schoolWorkId: work._id});
+				if (notes) {
+					work.note = notes.note;
+				}
+			})
+			return work;
+		}
+		let work = SchoolWork.find({subjectId: subjectId, schoolYearId: FlowRouter.getParam('selectedSchoolYearId'), studentId: FlowRouter.getParam('selectedStudentId')}, {sort: {name: 1}}).fetch();
+		work.forEach(work => {
+			let notes = Notes.findOne({schoolWorkId: work._id});
+			if (notes) {
+				work.note = notes.note;
+			}
+		})
+		return work;
 	},
 
 	workLessons: function(schoolWorkId) {

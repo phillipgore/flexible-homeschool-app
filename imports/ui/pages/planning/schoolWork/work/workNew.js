@@ -1,5 +1,4 @@
 import {Template} from 'meteor/templating';
-import { Students } from '../../../../../api/students/students.js';
 import { Resources } from '../../../../../api/resources/resources.js';
 import { SchoolYears } from '../../../../../api/schoolYears/schoolYears.js';
 import { Subjects } from '../../../../../api/subjects/subjects.js';
@@ -401,7 +400,7 @@ Template.workNew.events({
 				resources: resourceIds,
 				studentId: studentId,
 				schoolYearId: schoolYearId,
-				subjectId: subjectId ? subjectId : undefined,
+				subjectId: subjectId === 'noSubject' ? undefined : subjectId,
 				scheduledDays: scheduledDays,
 			};
 			
@@ -419,7 +418,7 @@ Template.workNew.events({
 				    	weekId: this.dataset.weekId,
 				    	weekOrder: parseInt(this.dataset.weekOrder),
 				    	weekDay: parseInt(weekDayLabels.days[i]),
-						subjectId: subjectId ? subjectId : undefined,
+						subjectId: subjectId === 'noSubject' ? undefined : subjectId,
 					});
 				    weekIds.push(this.dataset.weekId)
 				}

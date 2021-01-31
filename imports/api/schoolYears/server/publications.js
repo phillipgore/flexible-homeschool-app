@@ -1,11 +1,7 @@
 import {SchoolYears} from '../schoolYears.js';
 import {Stats} from '../../stats/stats.js';
-import {Students} from '../../students/students.js';
 import {Terms} from '../../terms/terms.js';
 import {Weeks} from '../../weeks/weeks.js';
-import {SchoolWork} from '../../schoolWork/schoolWork.js';
-import {Resources} from '../../resources/resources.js';
-import {Lessons} from '../../lessons/lessons.js';
 
 import _ from 'lodash'
 

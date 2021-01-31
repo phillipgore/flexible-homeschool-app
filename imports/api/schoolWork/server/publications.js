@@ -1,10 +1,9 @@
 import {SchoolWork} from '../schoolWork.js';
 import {Resources} from '../../resources/resources.js';
-import {Students} from '../../students/students.js';
-import {SchoolYears} from '../../schoolYears/schoolYears.js';
 import {Terms} from '../../terms/terms.js';
 import {Weeks} from '../../weeks/weeks.js';
 import {Notes} from '../../notes/notes.js';
+import {Subjects} from '../../subjects/subjects.js';
 import {Lessons} from '../../lessons/lessons.js';
 
 import _ from 'lodash'
@@ -18,18 +17,19 @@ Meteor.publish('schooYearStudentSchoolWork', function(schoolYearId, studentId) {
 	return SchoolWork.find({groupId: groupId, schoolYearId: schoolYearId, studentId: studentId}, {sort: {name: 1}, fields: {order: 1, name: 1, studentId: 1, schoolYearId: 1, subjectId: 1}});
 });
 
-Meteor.publish('trackingViewPub', function(studentId, weekId) {
+Meteor.publish('trackingViewPub', function(studentId, schoolYearId, weekId) {
 	if (!this.userId) {
 		return this.ready();
 	}
 
-
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-	let lessons = Lessons.find({studentId: studentId, weekId: weekId}, {sort: {order: 1, weekDay: 1}, fields: {order: 1, completed: 1, assigned: 1, completedOn: 1, studentId: 1, schoolWorkId: 1, weekId: 1, weekDay: 1}});
+	let subjects = Subjects.find({studentId: studentId, schoolYearId: schoolYearId})
+	let lessons = Lessons.find({studentId: studentId, weekId: weekId}, {sort: {order: 1, weekDay: 1}, fields: {order: 1, completed: 1, assigned: 1, completedOn: 1, studentId: 1, schoolWorkId: 1, weekId: 1, subjectId: 1, weekDay: 1}});
 	let schoolWorkIds = lessons.map(lesson => (lesson.schoolWorkId))
-	let schoolWork = SchoolWork.find({_id: {$in: schoolWorkIds}, groupId: groupId, studentId: studentId}, {sort: {name: 1}, fields: {order: 1, name: 1, studentId: 1, schoolYearId: 1}});
+	let schoolWork = SchoolWork.find({_id: {$in: schoolWorkIds}, groupId: groupId, studentId: studentId}, {sort: {name: 1}, fields: {order: 1, name: 1, studentId: 1, schoolYearId: 1, subjectId: 1}});
 	let notes = Notes.find({weekId: weekId, schoolWorkId: {$in: schoolWorkIds}}, {fields: {schoolWorkId: 1, weekId: 1, note: 1}})
 	return [
+		subjects,
 		lessons,
 		schoolWork,
 		notes

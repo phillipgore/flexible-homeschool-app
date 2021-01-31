@@ -1,6 +1,5 @@
 .track {
 	position: relative;
-	background-color: $color-white;
 	dsiplay: block;
 
 	.track-label {
@@ -299,6 +298,7 @@
 
 	&.active {
 		position: absolute;
+		background-color: $color-white;
 		top: 80px;
 		right: 0px;
 		bottom: 0px;
@@ -313,6 +313,7 @@
 	@media only screen and (min-width: 640px) {
 		&.active {
 			position: relative;
+			background-color: transparent;
 			top: auto;
 			right: auto;
 			bottom: auto;
@@ -355,5 +356,21 @@
 				}
 			}
 		}
+	}
+}
+
+.track-divider {
+	position: relative;
+	border-top: 1px solid $color-gray;
+
+	.track-divider-label {
+		// color: $color-gray-darkest;
+		background-color: $color-white;
+		padding: 0px 9px;
+		text-align: center;
+		font-size: 14px;
+		position: absolute;
+		left: 50%;
+		transform: translate(-50%, -60%);
 	}
 }

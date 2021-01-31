@@ -1,6 +1,3 @@
-import {Mongo} from 'meteor/mongo';
-import SimpleSchema from 'simpl-schema';
-
 import {primaryInitialIds} from '../../modules/server/initialIds';
 import {upsertPaths} from '../../modules/server/paths';
 import {upsertSchoolWorkPaths} from '../../modules/server/paths';

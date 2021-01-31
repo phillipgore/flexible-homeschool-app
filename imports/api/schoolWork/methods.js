@@ -1,15 +1,6 @@
-import {Mongo} from 'meteor/mongo';
-import SimpleSchema from 'simpl-schema';
-
-import {Students} from '../students/students.js';
-import {SchoolYears} from '../schoolYears/schoolYears.js';
 import {Resources} from '../resources/resources.js';
 import {SchoolWork} from './schoolWork.js';
 import {Lessons} from '../lessons/lessons.js';
-import {upsertStats} from '../../modules/server/stats';
-import {upsertPaths} from '../../modules/server/paths';
-import {upsertSchoolWorkPaths} from '../../modules/server/paths';
-import {primaryInitialIds} from '../../modules/server/initialIds';
 
 import _ from 'lodash'
 
@@ -32,7 +23,7 @@ Meteor.methods({
 		return info;
 	},
 
-	updateSchoolWork: function(updateSchoolWorkProperties, removeLessonIds, insertLessonProperties, updateLessonProperties) {
+	updateSchoolWork: function(updateSchoolWorkProperties, removeLessonIds, insertLessonProperties, updateLessonProperties, hasNewSubject) {
 		let groupId = Meteor.user().info.groupId;
 		let userId = Meteor.userId();
 
@@ -49,6 +40,7 @@ Meteor.methods({
 					termOrder: parseInt(lesson.termOrder),
 					assigned: lesson.assigned,
 					completed: lesson.completed,
+					subjectId: lesson.subjectId,
 					schoolWorkId: lesson.schoolWorkId,
 					schoolYearId: lesson.schoolYearId,
 					termId: lesson.termId,
@@ -92,6 +84,46 @@ Meteor.methods({
 				throw new Meteor.Error(500, error);
 			});
 		}
+
+		if (hasNewSubject) {
+			let lessons = Lessons.find({schoolWorkId: updateSchoolWorkProperties._id}, {fields: {_id: 1}});
+			let bulkLessonUpdates = []; 
+
+			if (updateSchoolWorkProperties.subjectId) {
+				console.log('one');
+				lessons.forEach(lesson => {
+					bulkLessonUpdates.push({updateOne: 
+						{ 
+							filter: {_id: lesson._id}, 
+							update: {$set: {
+								subjectId: updateSchoolWorkProperties.subjectId,
+							}}, 
+						} 
+					});
+				});
+			} else {
+				lessons.forEach(lesson => {
+					bulkLessonUpdates.push({updateOne: 
+						{ 
+							filter: {_id: lesson._id}, 
+							update: {$unset: {
+								subjectId: "",
+							}}, 
+						} 
+					});
+				});
+			}
+
+			if (bulkLessonUpdates.length) {
+				let result = Lessons.rawCollection().bulkWrite(
+					bulkLessonUpdates
+				).then((lessons) => {
+					return lessons;
+				}).catch((error) => {
+					throw new Meteor.Error(500, error);
+				});
+			}
+		}
 	},
 
 	deleteSchoolWork: function(schoolWorkId) {
@@ -115,6 +147,7 @@ Meteor.methods({
 				assigned: false,
 				completed: false,
 				studentId: lesson.studentId,
+				subjectId: lesson.subjectId,
 				schoolYearId: lesson.schoolYearId,
 				termId: lesson.termId,
 				weekId: lesson.weekId,

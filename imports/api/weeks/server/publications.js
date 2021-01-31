@@ -1,7 +1,4 @@
 import {Weeks} from '../weeks.js';
-import {SchoolYears} from '../../schoolYears/schoolYears.js';
-import {Terms} from '../../terms/terms.js';
-import {Lessons} from '../../lessons/lessons.js';
 
 import _ from 'lodash'
 
