@@ -40,5 +40,9 @@ Template.officeDashboard.helpers({
 
 	anwserCount: function(questionId, optionId) {
 		return Answers.find({questionId: questionId, optionIds: optionId}).count();
-	}
+	},
+
+	textAnswer: function(questionId) {
+		return Answers.find({questionId: questionId});
+	},
 });

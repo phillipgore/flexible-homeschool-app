@@ -6,5 +6,5 @@ Meteor.publish('allAnswers', function(questionId) {
 	}
 
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-	return Answers.find({groupId: groupId});
+	return Answers.find();
 });
