@@ -8,6 +8,7 @@ import {Resources} from '../../resources/resources.js';
 import {SchoolWork} from '../../schoolWork/schoolWork.js';
 import {Lessons} from '../../lessons/lessons.js';
 import {Reports} from '../../reports/reports.js';
+import {Answers} from '../../answers/answers.js';
 
 import _ from 'lodash';
 
@@ -84,8 +85,6 @@ Meteor.publish('accountTotals', function(groupId) {
 	Counts.publish(this, 'accountLessonsCount', Lessons.find({groupId: groupId}));
 	Counts.publish(this, 'accountReportsCount', Reports.find({groupId: groupId}));
 });
-
-
 
 
 

@@ -6,7 +6,7 @@ Meteor.publish('allQuestions', function() {
 	}
 
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-	return Questions.find({groupId: groupId}, {sort: {order: 1, question: 1}, fields: {order: 1, question: 1, type: 1, active: 1}});
+	return Questions.find({groupId: groupId}, {sort: {order: 1, question: 1}});
 });
 
 Meteor.publish('allActiveQuestions', function() {

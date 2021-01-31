@@ -15,5 +15,14 @@
 			<div class="m-tn-b-12">Free Trail Accounts: {{getPublishedCount 'freeTrialAccountsCount'}}</div>
 			<div class="m-tn-b-12">Free Trial Expired Accounts: {{getPublishedCount 'freeTrialExpiredAccountsCount'}}</div>
 		</div>
+		<div class="view-info p-tn-18 m-tn-t-18">
+			<label class="txt-info font-size-12 txt-weight-900">Multiple Choice Questions:</label>
+			{{#each question in questions 'radio'}}
+				<div class="p-tn-t-6 m-tn-b-12 font-weight-500">{{question.question}}</div>
+				{{#each option in question.options}}
+					<div class="p-tn-bl-12">{{option.label}}: {{anwserCount question._id option._id}}</div>
+				{{/each}}
+			{{/each}}
+		</div>
 	</main>
 </template>

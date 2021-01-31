@@ -1,4 +1,7 @@
 import { Template } from "meteor/templating";
+import { Questions } from '../../../../api/questions/questions.js';
+import { Answers } from '../../../../api/answers/answers.js';
+
 import "./officeDashboard.html";
 
 Template.officeDashboard.onCreated(function()  {
@@ -9,6 +12,8 @@ Template.officeDashboard.onCreated(function()  {
 			Session.set('initialGroupIds', result)
 		});
 		this.accountData = Meteor.subscribe('allAccountTotals');
+		this.questionData = Meteor.subscribe('allQuestions');
+		this.answerData = Meteor.subscribe('allAnswers');
 	});
 });
 
@@ -28,4 +33,12 @@ Template.officeDashboard.helpers({
 	subscriptionReady() {
 		return Template.instance().accountData.ready();
 	},
+
+	questions: function(type) {
+		return Questions.find({type: type});
+	},
+
+	anwserCount: function(questionId, optionId) {
+		return Answers.find({questionId: questionId, optionIds: optionId}).count();
+	}
 });
