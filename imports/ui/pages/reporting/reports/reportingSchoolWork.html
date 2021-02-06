@@ -5,7 +5,22 @@
 				<table class="page-break-inside-avoid">
 					<tr>
 						<th width="50%">
-							<p><i class="icn-school-work"></i> {{work.name}}</p>
+							<p><i class="icn-subjects"></i> Subject</p>
+						</th>
+						<th width="50%">
+							{{#if report.schoolWorkProgressVisible}}
+								<div class="meter meter-report">
+								<div class="meter-progress {{#if work.progressComplete}}meter-progress-primary{{/if}}" style="width: {{work.progress}}%;">
+									<div class="meter-label">Progress: {{work.progress}}%</div>
+								</div>
+								<div class="meter-label">Progress: {{work.progress}}%</div>
+							</div>
+							{{/if}}
+						</th>
+					</tr>
+					<tr>
+						<th width="50%" class="font-weight-500 font-size-14">
+							<i class="icn-school-work"></i> {{work.name}}
 						</th>
 						<th width="50%">
 							{{#if report.schoolWorkProgressVisible}}

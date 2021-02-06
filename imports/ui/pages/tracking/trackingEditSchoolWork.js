@@ -13,6 +13,34 @@ import _ from 'lodash'
 import './trackingEditSchoolWork.html';
 
 Template.trackingEditSchoolWork.helpers({
+	subjectWorkExist: function(subjectId) {
+		if (subjectId === 'noSubject') {
+			return SchoolWork.find({subjectId: {$exists: false}, schoolYearId: FlowRouter.getParam('selectedSchoolYearId'), studentId: FlowRouter.getParam('selectedStudentId')}).count();
+		}
+		return SchoolWork.find({subjectId: subjectId, schoolYearId: FlowRouter.getParam('selectedSchoolYearId'), studentId: FlowRouter.getParam('selectedStudentId')}).count();
+	},
+
+	subjectWork: function(subjectId) {
+		if (subjectId === 'noSubject') {
+			let work = SchoolWork.find({subjectId: {$exists: false}, schoolYearId: FlowRouter.getParam('selectedSchoolYearId'), studentId: FlowRouter.getParam('selectedStudentId')}, {sort: {name: 1}}).fetch();
+			work.forEach(work => {
+				let notes = Notes.findOne({schoolWorkId: work._id});
+				if (notes) {
+					work.note = notes.note;
+				}
+			})
+			return work;
+		}
+		let work = SchoolWork.find({subjectId: subjectId, schoolYearId: FlowRouter.getParam('selectedSchoolYearId'), studentId: FlowRouter.getParam('selectedStudentId')}, {sort: {name: 1}}).fetch();
+		work.forEach(work => {
+			let notes = Notes.findOne({schoolWorkId: work._id});
+			if (notes) {
+				work.note = notes.note;
+			}
+		})
+		return work;
+	},
+
 	workLessons: function(schoolWorkId) {
 		return Lessons.find({schoolWorkId: schoolWorkId, weekId: FlowRouter.getParam('selectedWeekId'), studentId: FlowRouter.getParam('selectedStudentId')}, {order: {order: 1, weekDay: 1}});
 	},

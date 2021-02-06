@@ -3,15 +3,16 @@
 	dsiplay: block;
 
 	.track-label {
-		font-size: 14px;
+		padding-top: 2px;
+		font-size: 12px;
 		font-weight: 600;
 	}
 
 	.track-icon {
 		display: inline-block;
 		float: left;
-		font-size: 14px;
-		padding-top: 1px;
+		font-size: 12px;
+		padding-top: 4px;
 		margin-right: 6px;
 		text-align: center;
 	}
@@ -364,7 +365,6 @@
 	border-top: 1px solid $color-gray;
 
 	.track-divider-label {
-		// color: $color-gray-darkest;
 		background-color: $color-white;
 		padding: 0px 9px;
 		text-align: center;
@@ -372,5 +372,17 @@
 		position: absolute;
 		left: 50%;
 		transform: translate(-50%, -60%);
+
+		&.track-divider-label-gray-lighter {
+			background-color: $color-gray-lighter;
+		}
+
+		.track-divider-icon {
+			float: left;
+			font-size: 14px;
+			padding-top: 1px;
+			margin-right: 6px;
+			text-align: center;
+		}
 	}
 }

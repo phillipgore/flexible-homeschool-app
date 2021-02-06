@@ -1,8 +1,13 @@
 <template name="trackingSchoolWork">
 	{{#each subject in schoolWork}}
-		<div class="m-tn-h-9 p-tn-t-45">
+		<div class="m-tn-h-9 p-tn-t-54">
 			<div class="track-divider">
-				<div class="track-divider-label">{{subject.name}}</div>
+				<div class="track-divider-label font-weight-600">
+					<div class="track-divider-icon">
+						<i class="txt-primary icn-subjects"></i>
+					</div>
+					{{subject.name}}
+				</div>
 			</div>
 		</div>
 

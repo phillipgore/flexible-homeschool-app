@@ -1,5 +1,6 @@
 import { Template } from 'meteor/templating';
 import { Reports } from '../../../../api/reports/reports.js';
+import { Subjects } from '../../../../api/subjects/subjects.js';
 import { SchoolWork } from '../../../../api/schoolWork/schoolWork.js';
 import { Notes } from '../../../../api/notes/notes.js';
 import { Terms } from '../../../../api/terms/terms.js';

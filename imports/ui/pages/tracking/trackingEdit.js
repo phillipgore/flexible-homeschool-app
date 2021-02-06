@@ -1,6 +1,7 @@
 import {Template} from 'meteor/templating';
 import { Students } from '../../../api/students/students.js';
 import { SchoolYears } from '../../../api/schoolYears/schoolYears.js';
+import { Subjects } from '../../../api/subjects/subjects.js';
 import { SchoolWork } from '../../../api/schoolWork/schoolWork.js';
 import { Terms } from '../../../api/terms/terms.js';
 import { Weeks } from '../../../api/weeks/weeks.js';
@@ -77,13 +78,15 @@ Template.trackingEdit.helpers({
 	},
 
 	schoolWorkOne: function() {
-		let schoolWorkLimit = Math.ceil(SchoolWork.find({studentId: FlowRouter.getParam('selectedStudentId'), schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}).count() / 2);
-		return SchoolWork.find({studentId: FlowRouter.getParam('selectedStudentId'), schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}, {sort: {name: 1}, limit: schoolWorkLimit});
+		if (Template.instance().trackingEditData.ready()) {
+			return getSchoolWork(FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedSchoolYearId')).workColumnOne;
+		}
 	},
 
 	schoolWorkTwo: function() {
-		let schoolWorkSkip = Math.ceil(SchoolWork.find({studentId: FlowRouter.getParam('selectedStudentId'), schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}).count() / 2);
-		return SchoolWork.find({studentId: FlowRouter.getParam('selectedStudentId'), schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}, {sort: {name: 1}, skip: schoolWorkSkip});
+		if (Template.instance().trackingEditData.ready()) {
+			return getSchoolWork(FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedSchoolYearId')).workColumnTwo;
+		}
 	},
 
 	studentName(first, last) {
@@ -816,6 +819,52 @@ Template.trackingEdit.events({
 		});
 	},
 });
+
+let getSchoolWork = (studentId, schoolYearId) => {
+	let subjects = Subjects.find({studentId: studentId, schoolYearId: schoolYearId}, {sort: {name: 1}}).fetch();
+	subjects.forEach(subject => {
+		subject.workCount = SchoolWork.find({studentId: studentId, schoolYearId: schoolYearId, subjectId: subject._id}).count()
+	});
+
+	let noSubjectWorkCount = SchoolWork.find({studentId: studentId, schoolYearId: schoolYearId, subjectId: {$exists: false}}).count();
+	let noSubject = {
+		groupId: subjects[0].groupId,
+		name: 'No Subject',
+		schoolYearId: subjects[0].schoolYearId,
+		studentId: subjects[0].studentId,
+		userId: subjects[0].userId,
+		workCount: noSubjectWorkCount,
+		_id: 'noSubject',
+	};
+
+	let allSubjects = subjects.concat(noSubject);
+	let workHalfCount = SchoolWork.find({studentId: studentId, schoolYearId: schoolYearId}).count() / 2;
+	let subjectWorkCounts = allSubjects.map(subject => subject.workCount);
+
+	let workColumnOne = [];
+	let workColumnTwo = [];
+
+	let workTotal = 0
+	let workColumnOneIncomplete = true
+	allSubjects.forEach(subject => {
+		workTotal = workTotal + subject.workCount;
+		if (workColumnOneIncomplete) {
+			workColumnOne.push(subject);
+		} else {
+			workColumnTwo.push(subject);
+		}
+		if (workTotal > workHalfCount || workTotal === workHalfCount) {
+			workColumnOneIncomplete = false
+		}
+	});
+
+	let workColumns = {
+		workColumnOne: workColumnOne,
+		workColumnTwo: workColumnTwo
+	}
+
+	return workColumns;
+};
 
 
 
