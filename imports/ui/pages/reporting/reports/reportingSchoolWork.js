@@ -66,6 +66,17 @@ Template.reportingSchoolWork.helpers({
 		}
 	},
 
+	subjects: function() {
+		return Subjects.find({studentId: FlowRouter.getParam('selectedStudentId'), schoolYearId: FlowRouter.getParam('selectedSchoolYearId')});
+	},
+
+	subjectComplete: function(progress) {
+		if (progress == 100) {
+			return true;
+		}
+		return false;
+	},
+
 	getNote: function(noteData, schoolWorkId) {
 		let notes = _.find(noteData, ['schoolWorkId', schoolWorkId]);
 		return notes ? notes.note : "";
@@ -75,8 +86,11 @@ Template.reportingSchoolWork.helpers({
 		return _.filter(lessonData, ['schoolWorkId', schoolWorkId]);
 	},
 
-	schoolWork: function() {
-		return SchoolWork.find({studentId: FlowRouter.getParam('selectedStudentId'), schoolYearId: FlowRouter.getParam('selectedSchoolYearId')});
+	schoolWork: function(subjectId) {
+		if (subjectId === 'noSubject') {
+			return SchoolWork.find({subjectId: {$exists: false}, studentId: FlowRouter.getParam('selectedStudentId'), schoolYearId: FlowRouter.getParam('selectedSchoolYearId')});
+		}
+		return SchoolWork.find({subjectId: subjectId, studentId: FlowRouter.getParam('selectedStudentId'), schoolYearId: FlowRouter.getParam('selectedSchoolYearId')});
 	},
 
 	resourceIcon: function(resourceType) {

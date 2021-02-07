@@ -2,6 +2,7 @@ import {Reports} from '../reports.js';
 import {SchoolYears} from '../../schoolYears/schoolYears.js';
 import {Terms} from '../../terms/terms.js';
 import {Weeks} from '../../weeks/weeks.js';
+import {Subjects} from '../../subjects/subjects.js';
 import {SchoolWork} from '../../schoolWork/schoolWork.js';
 import {Notes} from '../../notes/notes.js';
 import {Resources} from '../../resources/resources.js';
@@ -264,7 +265,7 @@ Meteor.publish('reportData', function(studentId, schoolYearId, termId, weekId, r
 			}
 			termsStats.forEach(term => {
 				self.added('terms', term._id, term);
-			})
+			});
 
 
 
@@ -287,6 +288,7 @@ Meteor.publish('reportData', function(studentId, schoolYearId, termId, weekId, r
 					schoolWorkData.weekData = [];
 					schoolWorkData.order = schoolWork.order;
 					schoolWorkData.name = schoolWork.name;
+					schoolWorkData.subjectId = schoolWork.subjectId;
 					schoolWorkData.studentId = studentId;
 					schoolWorkData.schoolYearId = schoolYearId;
 
@@ -352,6 +354,62 @@ Meteor.publish('reportData', function(studentId, schoolYearId, termId, weekId, r
 			}
 			schoolWorkStats.forEach(schoolWork => {
 				self.added('schoolWork', schoolWork._id, schoolWork);
+			});
+
+
+
+
+			// Subjects Data
+			let subjectStats = [];
+			if (report.schoolWorkReportVisible) {
+				let getSubjectIds = schoolWorkStats.map(schoolWorkStat => schoolWorkStat.subjectId);
+				let subjectIds = getSubjectIds.filter((subjectId, index) => subjectId && getSubjectIds.indexOf(subjectId) === index);
+				let subjects = Subjects.find({_id: {$in: subjectIds}}).fetch();
+
+				subjects.forEach((subject) => {
+					let subjectData = {};
+
+					subjectData._id = subject._id;
+					subjectData.name = subject.name;
+					subjectData.schoolYearId = subject.schoolYearId;
+					subjectData.studentId = subject.studentId;
+
+					let subjectSchoolWork = schoolWorkStats.filter(schoolWorkStat => schoolWorkStat.subjectId === subject._id);
+					let subjectSchoolWorkProgress = subjectSchoolWork.map(work => work.progress);
+					let subjectProgress = subjectSchoolWorkProgress.reduce((a,b) => a + b, 0) / subjectSchoolWorkProgress.length;
+					
+					if (subjectProgress > 0 && subjectProgress < 1) {
+						subjectData.progress = 1;
+					} else {
+						subjectData.progress = Math.floor(subjectProgress);
+					}
+
+					subjectStats.push(subjectData);
+				});
+
+				if (getSubjectIds.indexOf(undefined) > -1) {
+					let subjectData = {};
+
+					subjectData._id = 'noSubject';
+					subjectData.name = 'No Subject';
+					subjectData.schoolYearId = schoolYearId;
+					subjectData.studentId = studentId;
+
+					let subjectSchoolWork = schoolWorkStats.filter(schoolWorkStat => !schoolWorkStat.subjectId);
+					let subjectSchoolWorkProgress = subjectSchoolWork.map(work => work.progress);
+					let subjectProgress = subjectSchoolWorkProgress.reduce((a,b) => a + b, 0) / subjectSchoolWorkProgress.length;
+					
+					if (subjectProgress > 0 && subjectProgress < 1) {
+						subjectData.progress = 1;
+					} else {
+						subjectData.progress = Math.floor(subjectProgress);
+					}
+
+					subjectStats.push(subjectData);
+				}
+			}
+			subjectStats.forEach(subject => {
+				self.added('subjects', subject._id, subject);
 			});
 
 
