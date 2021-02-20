@@ -29,32 +29,21 @@ Template.trackingSchoolWork.helpers({
 		return Weeks.findOne({_id: FlowRouter.getParam('selectedWeekId')});
 	},
 
-	subjectWorkExist: function(subjectId) {
-		if (subjectId === 'noSubject') {
-			return SchoolWork.find({subjectId: {$exists: false}, schoolYearId: FlowRouter.getParam('selectedSchoolYearId'), studentId: FlowRouter.getParam('selectedStudentId')}).count();
+	isType: function(isType, type) {
+		if (isType === type) {
+			return true;
 		}
-		return SchoolWork.find({subjectId: subjectId, schoolYearId: FlowRouter.getParam('selectedSchoolYearId'), studentId: FlowRouter.getParam('selectedStudentId')}).count();
+		return false;
 	},
 
-	subjectWork: function(subjectId) {
-		if (subjectId === 'noSubject') {
-			let work = SchoolWork.find({subjectId: {$exists: false}, schoolYearId: FlowRouter.getParam('selectedSchoolYearId'), studentId: FlowRouter.getParam('selectedStudentId')}, {sort: {name: 1}}).fetch();
-			work.forEach(work => {
-				let notes = Notes.findOne({schoolWorkId: work._id});
-				if (notes) {
-					work.note = notes.note;
-				}
-			})
-			return work;
+	subjectSpacing: function(subject, index) {
+		if (index === 0) {
+			return 'p-tn-t-30';
 		}
-		let work = SchoolWork.find({subjectId: subjectId, schoolYearId: FlowRouter.getParam('selectedSchoolYearId'), studentId: FlowRouter.getParam('selectedStudentId')}, {sort: {name: 1}}).fetch();
-		work.forEach(work => {
-			let notes = Notes.findOne({schoolWorkId: work._id});
-			if (notes) {
-				work.note = notes.note;
-			}
-		})
-		return work;
+		if (subject.precededByWork) {
+			return 'p-tn-t-54';
+		}
+		return 'p-tn-t-30';
 	},
 
 	workLessons: function(schoolWorkId) {

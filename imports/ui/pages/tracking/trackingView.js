@@ -65,15 +65,9 @@ Template.trackingView.helpers({
 		return false;
 	},
 
-	schoolWorkOne: function() {
+	schoolWork: function() {
 		if (Template.instance().trackingData.ready()) {
-			return getSchoolWork(FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedSchoolYearId')).workColumnOne;
-		}
-	},
-
-	schoolWorkTwo: function() {
-		if (Template.instance().trackingData.ready()) {
-			return getSchoolWork(FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedSchoolYearId')).workColumnTwo;
+			return getMiddleSchoolWork(FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedSchoolYearId'));
 		}
 	},
 
@@ -92,50 +86,103 @@ Template.trackingView.helpers({
 	},
 });
 
-let getSchoolWork = (studentId, schoolYearId) => {
-	let subjects = Subjects.find({studentId: studentId, schoolYearId: schoolYearId}, {sort: {name: 1}}).fetch();
-	subjects.forEach(subject => {
-		subject.workCount = SchoolWork.find({studentId: studentId, schoolYearId: schoolYearId, subjectId: subject._id}).count()
+let getMiddleSchoolWork = (studentId, schoolYearId) => {
+	let schoolWork = [];
+
+	// Subjects and Work
+	Subjects.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId'), studentId: FlowRouter.getParam('selectedStudentId')}, {sort: {name: 1}}).forEach(subject => {
+		let subjectSchoolWork = SchoolWork.find({subjectId: subject._id}, {sort: {name: 1}});
+		subject.type = 'subject';
+		subject.hasSchoolWork = subjectSchoolWork.count() === 0 ? false : true;
+		schoolWork.push(subject);
+		subjectSchoolWork.forEach(workItem => {
+			workItem.type = 'work'
+			schoolWork.push(workItem);
+		})
 	});
 
-	let noSubjectWorkCount = SchoolWork.find({studentId: studentId, schoolYearId: schoolYearId, subjectId: {$exists: false}}).count();
-	let noSubject = {
-		groupId: subjects[0].groupId,
-		name: 'No Subject',
-		schoolYearId: subjects[0].schoolYearId,
-		studentId: subjects[0].studentId,
-		userId: subjects[0].userId,
-		workCount: noSubjectWorkCount,
+	// No Subject and Work
+	let noSubjectSchoolWork = SchoolWork.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId'), studentId: FlowRouter.getParam('selectedStudentId'), subjectId: {$exists: false}}, {sort: {name: 1}});
+	schoolWork.push({
 		_id: 'noSubject',
-	};
-
-	let allSubjects = subjects.concat(noSubject);
-	let workHalfCount = SchoolWork.find({studentId: studentId, schoolYearId: schoolYearId}).count() / 2;
-	let subjectWorkCounts = allSubjects.map(subject => subject.workCount);
-
-	let workColumnOne = [];
-	let workColumnTwo = [];
-
-	let workTotal = 0
-	let workColumnOneIncomplete = true
-	allSubjects.forEach(subject => {
-		workTotal = workTotal + subject.workCount;
-		if (workColumnOneIncomplete) {
-			workColumnOne.push(subject);
-		} else {
-			workColumnTwo.push(subject);
-		}
-		if (workTotal > workHalfCount || workTotal === workHalfCount) {
-			workColumnOneIncomplete = false
-		}
+		name: 'No Subject',
+		type: 'subject',
+		hasSchoolWork: noSubjectSchoolWork.count() === 0 ? false : true,
+	});
+	noSubjectSchoolWork.forEach(workItem => {
+		workItem.type = 'work';
+		workItem.subjectId = 'noSubject';
+		schoolWork.push(workItem);
 	});
 
-	let workColumns = {
-		workColumnOne: workColumnOne,
-		workColumnTwo: workColumnTwo
+	// Middle SchoolWork Item
+	let middleSchoolWork = schoolWork[Math.ceil(schoolWork.length / 2)];
+	let dividingSchoolwork;
+	
+	// Dividing SchoolWork Item
+	if (middleSchoolWork.type === 'subject') {
+		dividingSchoolwork = {
+			_id: middleSchoolWork._id,
+			type: middleSchoolWork.type,
+		}
+	} 
+	if (middleSchoolWork.type === 'work') {
+		let getSubjectSchoolWork = (middleSchoolWork) => {
+			if (middleSchoolWork.subjectId === 'noSubject') {
+				return SchoolWork.find({subjectId: {$exists: false}}, {sort: {name: 1}}).fetch()
+			}
+			return SchoolWork.find({subjectId: middleSchoolWork.subjectId}, {sort: {name: 1}}).fetch()
+		}
+
+		let subjectSchoolWork = getSubjectSchoolWork(middleSchoolWork);
+		let schoolWorkCount = subjectSchoolWork.length;
+		let middleSchoolWorkPositiion = subjectSchoolWork.findIndex(work => work._id === middleSchoolWork._id);
+
+		if (schoolWorkCount > 4 || middleSchoolWorkPositiion >= (Math.floor(schoolWorkCount / 2))) {
+			dividingSchoolwork = {
+				_id: middleSchoolWork._id,
+				type: middleSchoolWork.type,
+				subjectId: middleSchoolWork.subjectId,
+			}
+		} else {
+			let divdingSchoolWorkPosition = schoolWork.findIndex(work => work._id === middleSchoolWork._id);
+			let newDividingSchoolwork = schoolWork.find((work, index) => work.type === 'subject' && index > divdingSchoolWorkPosition)
+			if (newDividingSchoolwork) {
+				dividingSchoolwork = {
+					_id: newDividingSchoolwork._id,
+					type: 'subject',
+				}
+			} else {
+				dividingSchoolwork = {
+					_id: middleSchoolWork.subjectId,
+					type: 'subject',
+				}
+			}
+		}
 	}
 
-	return workColumns;
+	// Position Information
+	schoolWork.forEach((work, index) => {
+		let prevWork = schoolWork[index - 1];
+		if (prevWork && prevWork.type === 'work') {
+			work.precededByWork = true;
+		} else if (prevWork && prevWork.type === 'subject') {
+			work.precededBySubject = true;
+		} else {
+			work.precededBySubject = false;
+			work.precededByWork = false;
+		}
+	})
+
+	// Creating the Columns
+	let dividingSchoolworkIndex = schoolWork.findIndex(work => {
+		return work._id === dividingSchoolwork._id;
+	});
+
+	return {
+		columnOne: schoolWork.slice(0, dividingSchoolworkIndex),
+		columnTwo: schoolWork.slice(dividingSchoolworkIndex)
+	}
 };
 
 

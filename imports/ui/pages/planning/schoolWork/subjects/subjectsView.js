@@ -26,6 +26,6 @@ Template.subjectsView.helpers({
 	},
 	
 	subject: function() {
-		return Subjects.findOne({_id: FlowRouter.getParam('selectedSubjectId')});
+		return Subjects.findOne({_id: FlowRouter.getParam('selectedSubjectId')}, {sort: {name: 1}});
 	},
 });
