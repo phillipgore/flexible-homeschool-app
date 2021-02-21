@@ -2,6 +2,7 @@ import {Paths} from '../../api/paths/paths.js';
 import {Stats} from '../../api/stats/stats.js';
 import {Groups} from '../../api/groups/groups.js';
 import {Students} from '../../api/students/students.js';
+import {StudentGroups} from '../../api/studentGroups/studentGroups.js';
 import {SchoolYears} from '../../api/schoolYears/schoolYears.js';
 import {Terms} from '../../api/terms/terms.js';
 import {Weeks} from '../../api/weeks/weeks.js';
@@ -10,11 +11,7 @@ import {Resources} from '../../api/resources/resources.js';
 import {Lessons} from '../../api/lessons/lessons.js';
 import {Reports} from '../../api/reports/reports.js';
 
-import {primaryInitialIds} from '../../modules/server/initialIds';
-import {resourcesInitialIds} from '../../modules/server/initialIds';
-import {usersInitialId} from '../../modules/server/initialIds';
-import {reportsInitialId} from '../../modules/server/initialIds';
-import {groupsInitialId} from '../../modules/server/initialIds';
+import {primaryInitialIds, studentGroupsInitialId, resourcesInitialIds, usersInitialId, reportsInitialId, groupsInitialId} from '../../modules/server/initialIds';
 
 import {upsertPaths} from '../../modules/server/paths';
 import {upsertSchoolWorkPaths} from '../../modules/server/paths';
@@ -302,9 +299,22 @@ Migrations.add({
 	}
 });
 
-// Meteor.startup(() => {
-// 	Migrations.migrateTo('15,rerun');
-// });
+Migrations.add({
+	version: 16,
+	name: 'Add Student Group intial ids to Group collection',
+	up: function() {
+		let groupIds = _.uniq(Groups.find({}, {fields: {_id: 1}}).map(group => group._id));
+		
+		groupIds.forEach(groupId => {
+			studentGroupsInitialId(groupId);
+		});
+	}
+});
+
+
+Meteor.startup(() => {
+	Migrations.migrateTo('16,rerun');
+});
 
 
 

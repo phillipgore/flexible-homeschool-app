@@ -5,6 +5,7 @@
 	<main class="app-content app-content-preceeds-toolbar">
 		{{#if students.count}}
 			<ul class="list">
+				<li class="list-item-label font-weight-700 p-tn-rl-9">Students</li>
 				{{#if activeRoute currentRouteName 'studentsNew'}}
 					<li class="list-item">
 						<span class="list-item-inner p-tn-rl-9 active">
@@ -15,6 +16,17 @@
 					</li>
 				{{/if}}
 				{{> studentsEach students=students}}
+				<li class="list-item-label font-weight-700 p-tn-rl-9">Groups</li>
+				{{#if activeRoute currentRouteName 'studentGroupsNew'}}
+					<li class="list-item">
+						<span class="list-item-inner p-tn-rl-9 active">
+							<div class="list-item-icon"><i class="txt-primary icn-student-groups"></i></div> 
+							<div class="list-item-label font-style-italic font-weight-normal"> New Student Group
+							</div>
+						</span>
+					</li>
+				{{/if}}
+				{{> studentGroupsEach studentGroups=studentGroups}}
 			</ul>
 		{{else}}
 			<div class="txt-tn-center m-tn-t-72">

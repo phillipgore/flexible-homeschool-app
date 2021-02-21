@@ -1,5 +1,6 @@
 import {Groups} from '../../api/groups/groups.js';
 import {Students} from '../../api/students/students.js';
+import {StudentGroups} from '../../api/studentGroups/studentGroups.js';
 import {SchoolYears} from '../../api/schoolYears/schoolYears.js';
 import {Terms} from '../../api/terms/terms.js';
 import {Weeks} from '../../api/weeks/weeks.js';
@@ -130,6 +131,18 @@ export function primaryInitialIds (submittedGroupId) {
 		'initialIds.weekId': ids.weekId,
 		'initialIds.schoolWorkId': ids.schoolWorkId,
 		'initialIds.schoolWorkType': ids.schoolWorkType,
+	}});
+	
+	return groupId;
+};
+
+export function studentGroupsInitialId (submittedGroupId) {
+	let groupId = getGroupId(submittedGroupId);
+
+	let firstStudentGroup = StudentGroups.findOne({groupId: groupId}, {sort: {name: 1}});
+
+	Groups.update(groupId, {$set: {
+		'initialIds.studentGroupId': firstStudentGroup ? firstStudentGroup._id : 'empty'
 	}});
 	
 	return groupId;

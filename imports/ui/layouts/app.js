@@ -735,6 +735,14 @@ Template.app.events({
 		});
 	},
 
+	'click .js-student-group'(event) {
+		let studentGroupId = $(event.currentTarget).attr('id');
+
+		Session.set({
+			selectedStudentGroupId: studentGroupId,
+		})
+	},
+
 	'click .js-school-year'(event) {
 		let schoolYearId = $(event.currentTarget).attr('id');
 

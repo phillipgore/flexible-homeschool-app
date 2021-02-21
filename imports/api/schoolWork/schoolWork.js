@@ -39,6 +39,11 @@ const SchoolWorkSchema = new SimpleSchema({
 		type: String,
         label: "Attached Resource",
 	},
+	studentGroupId: {
+        type: String,
+        label: "Student Grouping ID",
+        optional: true
+    },
     studentId: {
         type: String,
         label: "Student ID"

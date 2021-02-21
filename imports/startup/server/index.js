@@ -94,6 +94,10 @@ import '../../api/stats/stats.js';
 import '../../api/stats/methods.js';
 import '../../api/stats/server/publications.js';
 
+import '../../api/studentGroups/studentGroups.js';
+import '../../api/studentGroups/methods.js';
+import '../../api/studentGroups/server/publications.js';
+
 import '../../api/students/students.js';
 import '../../api/students/methods.js';
 import '../../api/students/server/publications.js';

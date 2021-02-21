@@ -1,61 +1,26 @@
 import {Mongo} from 'meteor/mongo';
 import SimpleSchema from 'simpl-schema';
 
-export const Students = new Mongo.Collection('students');
+export const StudentGroups = new Mongo.Collection('studentGroups');
 
-Students.allow({
+StudentGroups.allow({
   insert: () => false,
   update: () => false,
   remove: () => false
 });
 
-Students.deny({
+StudentGroups.deny({
   insert: () => true,
   update: () => true,
   remove: () => true
 });
 
-const StudentsSchema = new SimpleSchema({
-	firstName: {
+const StudentGroupsSchema = new SimpleSchema({
+    name: {
         type: String,
-        label: "First Name"
+        label: "Student Grouping Name"
     },
-    middleName: {
-        type: String,
-        label: "Middle Name",
-        optional: true
-    },
-    lastName: {
-        type: String,
-        label: "Last Name"
-    },
-    nickname: {
-        type: String,
-        label: "Nickname",
-        optional: true
-    },
-    preferredFirstName: {
-        type: Object,
-        label: "Goes By"
-    },
-    'preferredFirstName.type': {
-        type: String,
-        label: "Goes By"
-    },
-    'preferredFirstName.name': {
-        type: String,
-        label: "Goes By"
-    },
-    birthday: {
-        type: Date,
-        label: "Birthday"
-    },
-	studentGroupId: {
-        type: String,
-        label: "Student Grouping ID",
-        optional: true
-    },
-	groupId: {
+    groupId: {
 		type: String,
 		label: "Group ID",
 		autoValue: function() {
@@ -99,4 +64,4 @@ const StudentsSchema = new SimpleSchema({
 	}
 });
 
-Students.attachSchema(StudentsSchema);
+StudentGroups.attachSchema(StudentGroupsSchema);

@@ -43,6 +43,49 @@ FlowRouter.route('/planning/students/edit/:selectedFramePosition/:selectedStuden
 
 
 
+// Student Groupings
+FlowRouter.route('/planning/studentgroups/new/:selectedFramePosition', {
+	name: 'studentGroupsNew',
+	title:  'Planning: Student Groupings: New',
+	action(params) {
+		BlazeLayout.render('app', {
+			subbar: '',
+			frameOne: 'planningList',
+			frameTwo: 'studentsList',
+			frameThree: 'studentGroupsNew',
+		});
+	},
+});
+
+FlowRouter.route('/planning/studentgroups/view/:selectedFramePosition/:selectedStudentGroupId', {
+	name: 'studentGroupsView',
+	title:  'Planning: Student Groupings: View',
+	action(params) {
+		BlazeLayout.render('app', {
+			subbar: '',
+			frameOne: 'planningList',
+			frameTwo: 'studentsList',
+			frameThree: 'studentGroupsView',
+		});
+	},
+});
+
+FlowRouter.route('/planning/studentgroups/edit/:selectedFramePosition/:selectedStudentGroupId', {
+	name: 'studentGroupsEdit',
+	title:  'Planning: Student Groupings: Edit',
+	action(params) {
+		BlazeLayout.render('app', {
+			subbar: '',
+			frameOne: 'planningList',
+			frameTwo: 'studentsList',
+			frameThree: 'studentGroupsEdit',
+		});
+	},
+});
+
+
+
+
 // School Years
 FlowRouter.route('/planning/schoolyears/new/:selectedFramePosition', {
 	name: 'schoolYearsNew',
