@@ -14,6 +14,7 @@ import _ from 'lodash';
 
 // let pathProperties = {
 // 	studentIds: [],
+// 	studentGroupIds: [],
 // 	schoolYearIds: [],
 // 	termIds:[],
 // }

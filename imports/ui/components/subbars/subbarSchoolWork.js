@@ -2,6 +2,7 @@ import {Template} from 'meteor/templating';
 import {Paths} from '../../../api/paths/paths.js';
 import {SchoolYears} from '../../../api/schoolYears/schoolYears.js';
 import {Students} from '../../../api/students/students.js';
+import {StudentGroups} from '../../../api/studentGroups/studentGroups.js';
 import {SchoolWork} from '../../../api/schoolWork/schoolWork.js';
 import './subbarSchoolWork.html';
 
@@ -14,6 +15,7 @@ Template.subbarSchoolWork.onCreated( function() {
 	
 	template.autorun(() => {
 		this.studentData = Meteor.subscribe('allStudents');
+		this.studentGroupData = Meteor.subscribe('allStudentGroups');
 		this.schoolYearData = Meteor.subscribe('allSchoolYears');
 		this.schoolYearPathData = Meteor.subscribe('allSchoolYearPaths');
 	});
@@ -36,6 +38,10 @@ Template.subbarSchoolWork.helpers({
 
 	students: function() {
 		return Students.find({}, {sort: {birthday: 1, lastName: 1, firstName: 1}});
+	},
+
+	studentGroups: function() {
+		return StudentGroups.find({}, {sort: {name: 1}});
 	},
 
 	selectedStudent: function() {

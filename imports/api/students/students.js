@@ -50,11 +50,16 @@ const StudentsSchema = new SimpleSchema({
         type: Date,
         label: "Birthday"
     },
-	studentGroupId: {
-        type: String,
-        label: "Student Grouping ID",
-        optional: true
+    studentGroupIds: {
+        type: Array,
+        label: "Student Group Ids",
+		optional: true
     },
+	'studentGroupIds.$': {
+		type: String,
+        label: "Student Group Ids",
+        optional: true
+	},
 	groupId: {
 		type: String,
 		label: "Group ID",

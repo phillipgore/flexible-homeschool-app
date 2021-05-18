@@ -6,7 +6,7 @@ Meteor.publish('allStudents', function() {
 	}
 
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-	return Students.find({groupId: groupId}, {sort: {'preferredFirstName.name': 1, lastName: 1, birthday: 1}, fields: {birthday: 1, lastName: 1, preferredFirstName: 1, studentGroupId: 1}});
+	return Students.find({groupId: groupId}, {sort: {'preferredFirstName.name': 1, lastName: 1, birthday: 1}, fields: {birthday: 1, lastName: 1, preferredFirstName: 1, studentGroupIds: 1}});
 });
 
 Meteor.publish('student', function(studentId) {

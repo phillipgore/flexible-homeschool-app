@@ -1,10 +1,11 @@
 import {Groups} from '../../../api/groups/groups.js';
 import {Students} from '../../../api/students/students.js';
+import {StudentGroups} from '../../../api/studentGroups/studentGroups.js';
 import {SchoolYears} from '../../../api/schoolYears/schoolYears.js';
 import {Terms} from '../../../api/terms/terms.js';
 import {Weeks} from '../../../api/weeks/weeks.js';
 
-import {primaryInitialIds, resourcesInitialIds, usersInitialId, reportsInitialId, groupsInitialId} from '../../../modules/server/initialIds';
+import {primaryInitialIds, studentGroupsInitialId} from '../../../modules/server/initialIds';
 import {upsertPaths, upsertSchoolWorkPaths} from '../../../modules/server/paths';
 import {upsertStats} from '../../../modules/server/stats';
 
@@ -82,6 +83,7 @@ Meteor.methods({
 
 			let pathProperties = {
 				studentIds: Students.find({groupId: groupId}).map(student => student._id),
+				studentIdType: 'student',
 				schoolYearIds: SchoolYears.find({groupId: groupId}).map(schoolYear => schoolYear._id),
 				termIds: Terms.find({groupId: groupId}).map(term => term._id),
 			}
@@ -99,6 +101,27 @@ Meteor.methods({
 			upsertStats(statProperties, groupId);
 			primaryInitialIds(groupId);
 		});
+
+		// Insert Student Groups
+		// let students = Students.find({groupId: groupId}, {sort: {age: 1}}).fetch();
+		// let studentDivide = Math.ceil(students.length / 2);
+		// let olderStudentIds = students.slice(0, studentDivide).map(student => student._id);
+		// let youngerStudentIds = students.slice(studentDivide).map(student => student._id);
+
+		// let fixtureStudentGroups = [
+		// 	{
+		// 		name: 'Older Students',
+		// 		groupId: groupId, 
+		// 		userId: userId, 
+		// 		createdOn: new Date()
+		// 	},
+		// 	{
+		// 		name: 'Younger Students',
+		// 		groupId: groupId, 
+		// 		userId: userId, 
+		// 		createdOn: new Date()
+		// 	},
+		// ];
 
 		return Groups.findOne({_id: groupId}).initialIds;
 	}

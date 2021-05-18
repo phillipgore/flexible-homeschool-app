@@ -58,6 +58,7 @@ Meteor.methods({
 				subscriptionStatus: 'pending', 
 				initialIds: {
 					studentId: 'empty',
+					studentGroupId: 'empty',
 					schoolYearId: 'empty',
 					resourceId: 'empty',
 					resourceType: 'empty',

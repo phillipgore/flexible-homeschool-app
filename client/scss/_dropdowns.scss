@@ -86,6 +86,19 @@ ul.dropdown-menu {
 				}
 			}
 		}
+
+		li.dropdown-item-label {
+			height: 25px;
+			padding-top: 4px;
+			padding-bottom: 4px;
+			margin-top: -1px;
+			border-top: 1px solid $color-gray-darker;
+			border-bottom: 1px solid $color-gray-darker;
+			background-color: $color-gray-darker;
+			font-size: 12px;
+			color: $color-white;
+			position: relative;
+		}
 	}
 
 	li.dropdown-item {

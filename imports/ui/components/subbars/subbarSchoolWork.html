@@ -14,6 +14,7 @@
 								{{#unless studentSubReady}}
 									{{> loadingDropdown}}
 								{{else}}
+									<li class="dropdown-item-label font-weight-700 p-tn-rl-9">Students</li>
 									{{#each student in students}}
 										<li class="dropdown-item">
 											<a id="{{student._id}}" 
@@ -31,6 +32,30 @@
 											</a>
 										</li>
 									{{/each}}
+									<li class="dropdown-item-label font-weight-700 p-tn-rl-9">Groups</li>
+									{{#if studentGroups.count}}
+										{{#each group in studentGroups}}
+											<li class="dropdown-item">
+												<a id="{{group._id}}" 
+													data-schoolWork-group="{{group._id}}" 
+													data-schoolWork-school-year="{{selectedSchoolYearId}}" 
+													class="js-group dropdown-item-link" 
+													href="/planning/{{firstSchoolWorkType group._id selectedSchoolYearId}}/view/{{selectedFramePosition}}/{{group._id}}/{{selectedSchoolYearId}}/{{firstSchoolWorkId group._id selectedSchoolYearId}}"
+												>
+													<div class="dropdown-item-label">{{group.name}}</div>
+													{{#if activeListItem selectedStudent._id group._id}}
+														<div class="dropdown-item-icon-right">
+															<i class="icn-planning txt-gray-darker"></i>
+														</div>
+													{{/if}}
+												</a>
+											</li>
+										{{/each}}
+									{{else}}
+										<li class="dropdown-item font-style-italic txt-gray-darkest ">
+											<span class="dropdown-item-inner font-style-italic">No Groups</span>
+										</li>
+									{{/if}}
 								{{/unless}}
 							</ul>
 						</div>

@@ -24,7 +24,7 @@ Template.studentGroupsView.helpers({
 
 	groupStudents: function(studentGroupId) {
 		console.log(studentGroupId);
-		return Students.find({studentGroupId: studentGroupId});
+		return Students.find({studentGroupIds: studentGroupId});
 	},
 });
 

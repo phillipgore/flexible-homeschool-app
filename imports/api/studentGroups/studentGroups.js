@@ -56,11 +56,6 @@ const StudentGroupsSchema = new SimpleSchema({
 				return new Date();
 			}
 		}
-	},
-	deletedOn: {
-		type: Date,
-		label: "Deleted On Date",
-        optional: true
 	}
 });
 
