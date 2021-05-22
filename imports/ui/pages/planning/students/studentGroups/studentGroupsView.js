@@ -21,9 +21,7 @@ Template.studentGroupsView.helpers({
 	studentGroup: function() {
 		return StudentGroups.findOne({_id: FlowRouter.getParam('selectedStudentGroupId')});
 	},
-
 	groupStudents: function(studentGroupId) {
-		console.log(studentGroupId);
 		return Students.find({studentGroupIds: studentGroupId});
 	},
 });

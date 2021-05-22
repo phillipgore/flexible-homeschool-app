@@ -94,6 +94,7 @@ import '/imports/ui/pages/planning/planningList.js';
 		import '/imports/ui/pages/planning/students/studentGroups/studentGroupsNew.js';
 		import '/imports/ui/pages/planning/students/studentGroups/studentGroupsView.js';
 		import '/imports/ui/pages/planning/students/studentGroups/studentGroupsEach.js';
+		import '/imports/ui/pages/planning/students/studentGroups/studentGroupsEdit.js';
 
 
 // Tracking

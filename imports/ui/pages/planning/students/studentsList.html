@@ -17,16 +17,24 @@
 				{{/if}}
 				{{> studentsEach students=students}}
 				<li class="list-item-label font-weight-700 p-tn-rl-9">Groups</li>
-				{{#if activeRoute currentRouteName 'studentGroupsNew'}}
-					<li class="list-item">
-						<span class="list-item-inner p-tn-rl-9 active">
-							<div class="list-item-icon"><i class="txt-primary icn-student-groups"></i></div> 
-							<div class="list-item-label font-style-italic font-weight-normal"> New Student Group
-							</div>
-						</span>
-					</li>
+				{{#if studentGroups.count}}
+					{{#if activeRoute currentRouteName 'studentGroupsNew'}}
+						<li class="list-item">
+							<span class="list-item-inner p-tn-rl-9 active">
+								<div class="list-item-icon"><i class="txt-primary icn-student-groups"></i></div> 
+								<div class="list-item-label font-style-italic font-weight-normal"> New Student Group
+								</div>
+							</span>
+						</li>
+					{{/if}}
+					{{> studentGroupsEach studentGroups=studentGroups}}
+				{{else}}
+					<div class="txt-tn-center m-tn-t-72">
+						<i class="icn-student-groups font-size-64 txt-gray"></i>
+						<h1 class="m-tn-t-36">Add Your First Group</h1>
+						<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36 txt-gray-darkest">Click the plus icon above to add your first Group.</p>
+					</div>
 				{{/if}}
-				{{> studentGroupsEach studentGroups=studentGroups}}
 			</ul>
 		{{else}}
 			<div class="txt-tn-center m-tn-t-72">
