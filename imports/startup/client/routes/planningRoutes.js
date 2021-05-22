@@ -43,7 +43,7 @@ FlowRouter.route('/planning/students/edit/:selectedFramePosition/:selectedStuden
 
 
 
-// Student Groupings
+// Student Groups
 FlowRouter.route('/planning/studentgroups/new/:selectedFramePosition', {
 	name: 'studentGroupsNew',
 	title:  'Planning: Student Groupings: New',

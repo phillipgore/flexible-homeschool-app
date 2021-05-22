@@ -14,7 +14,7 @@
 				<section>
 					<label>Students</label>
 					<ul class="info-list">
-						{{#each student in groupStudents studentGroup._id}}
+						{{#each student in groupStudents studentGroup.studentIds}}
 							<li class="txt-ellipsis p-tn-b-3">
 								<i class="icn-students txt-primary"></i> {{student.preferredFirstName.name}} {{student.lastName}}
 							</li>

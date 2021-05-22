@@ -84,6 +84,7 @@ Template.testDataList.events({
 						message: error.reason,
 					});
 				} else {
+					Session.set('selectedStudentIdType', 'students');
 					Session.set('selectedStudentId', result.studentId);
 					template.studentDataCreating.set(false);
 				}
@@ -289,6 +290,7 @@ Template.testDataList.events({
 						message: error.reason,
 					});
 				} else {
+					Session.set('selectedStudentIdType', 'students');
 					Session.set('selectedStudentId', result.studentId);
 					Session.set('selectedSchoolYearId', result.schoolYearId);
 					Session.set('selectedTermId', result.termId);

@@ -83,7 +83,7 @@ Meteor.methods({
 
 			let pathProperties = {
 				studentIds: Students.find({groupId: groupId}).map(student => student._id),
-				studentIdType: 'student',
+				studentIdType: 'students',
 				schoolYearIds: SchoolYears.find({groupId: groupId}).map(schoolYear => schoolYear._id),
 				termIds: Terms.find({groupId: groupId}).map(term => term._id),
 			}

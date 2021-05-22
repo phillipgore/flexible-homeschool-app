@@ -53,14 +53,17 @@ Template.studentGroupsNew.events({
     	}
 
         if (inError.length === 0) {
-            let groupName = $("[name='name']").val().trim();
-
             let studentIds = []
             $("[name='studentId']:checked").each(function() {
                 studentIds.push(this.id)
             });
 
-            Meteor.call('insertStudentGroup', groupName, studentIds, function(error, studentId) {
+            let studentGroupProperties = {
+				name: $("[name='name']").val().trim(),
+				studentIds: studentIds,
+			};
+
+            Meteor.call('insertStudentGroup', studentGroupProperties, function(error, selectedStudentGroupId) {
                 if (error) {
                     Alerts.insert({
                         colorClass: 'bg-danger',
@@ -71,8 +74,9 @@ Template.studentGroupsNew.events({
                     $('.js-saving').hide();
                     $('.js-submit').prop('disabled', false);
                 } else {
-                    Session.set('selectedStudentId', studentId);
-                    FlowRouter.go('/planning/students/view/3/' + studentId);
+                    Session.set('selectedStudentIdType', 'studentgroups');
+                    Session.set('selectedStudentGroupId', selectedStudentGroupId);
+                    FlowRouter.go('/planning/studentGroups/view/3/' + selectedStudentGroupId);
                 }
             });
         }

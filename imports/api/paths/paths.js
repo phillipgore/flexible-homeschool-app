@@ -28,8 +28,8 @@ const PathsSchema = new SimpleSchema({
 	},
 	studentIdType: {
 		type: String,
-		label: "Type",
-		allowedValues: ['student', 'group'],
+		label: "Student Id Type",
+		allowedValues: ['students', 'studentgroups'],
 	},
 	timeFrameId: {
 		type: String,

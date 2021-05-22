@@ -18,8 +18,18 @@ StudentGroups.deny({
 const StudentGroupsSchema = new SimpleSchema({
     name: {
         type: String,
-        label: "Student Grouping Name"
+        label: "Student Group Name"
     },
+    studentIds: {
+        type: Array,
+        label: "Student Ids",
+		optional: true
+    },
+	'studentIds.$': {
+		type: String,
+        label: "Student Ids",
+        optional: true
+	},
     groupId: {
 		type: String,
 		label: "Group ID",

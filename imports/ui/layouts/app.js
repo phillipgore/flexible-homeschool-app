@@ -189,9 +189,8 @@ Template.app.events({
 						});
 					} else {
 						Dialogs.remove({_id: dialogId});
-						Session.set({
-							'selectedStudentId': newPath.firstStudentId,
-						})
+						Session.set('selectedStudentIdType', 'students');
+						Session.set('selectedStudentId', newPath.firstStudentId)
 						if (window.screen.availWidth > 768) {
 							FlowRouter.go('/planning/students/view/3/' + newPath.firstStudentId);
 						} else {
@@ -725,6 +724,7 @@ Template.app.events({
 		}
 
 		Session.set({
+			selectedStudentIdType: 'students',
 			selectedStudentId: studentId,
 			selectedTermId: selectedItem(path.firstTermId),
 			selectedWeekId: selectedItem(path.firstWeekId),
@@ -739,6 +739,7 @@ Template.app.events({
 		let studentGroupId = $(event.currentTarget).attr('id');
 
 		Session.set({
+			selectedStudentIdType: 'studentgroups',
 			selectedStudentGroupId: studentGroupId,
 		})
 	},

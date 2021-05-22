@@ -26,11 +26,13 @@ function getInitialData() {
 
 	// Initial Student
 	if (!Session.get('selectedStudentId')) {
+		Session.set('selectedStudentIdType', 'students');
 		Session.set('selectedStudentId', initialIds.studentId);
 	}
 
 	// Initial Student Group
 	if (!Session.get('selectedStudentGroupId')) {
+		Session.set('selectedStudentIdType', 'studentgroups');
 		Session.set('selectedStudentGroupId', initialIds.studentGroupId);
 	}
 

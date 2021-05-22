@@ -28,6 +28,16 @@ Template.planningList.helpers({
 		return Session.get('selectedStudentId');
 	},
 
+	studentURL: function() {
+		const selectedStudentIdType = Session.get('selectedStudentIdType');
+		const selectedStudentId = Session.get('selectedStudentId');
+		const selectedStudentGroupId = Session.get('selectedStudentGroupId');
+		if (selectedStudentIdType === 'students') {
+			return `/planning/${selectedStudentIdType}/view/2/${selectedStudentId}`
+		}
+		return `/planning/${selectedStudentIdType}/view/2/${selectedStudentGroupId}`
+	},
+
 	selectedSchoolYearId: function() {
 		return Session.get('selectedSchoolYearId');
 	},
