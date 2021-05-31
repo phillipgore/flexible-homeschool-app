@@ -28,7 +28,7 @@ Meteor.methods({
 					type: 'middleName',
 					name: 'Elizabeth',
 				},
-				birthday: new Date(2001, 12, 3),
+				birthday: new Date(2004, 12, 3),
 				groupId: groupId, 
 				userId: userId, 
 				createdOn: new Date()
@@ -42,7 +42,7 @@ Meteor.methods({
 					type: 'firstName',
 					name: 'Jonathan',
 				},
-				birthday: new Date(2004, 8, 2),
+				birthday: new Date(2008, 8, 2),
 				groupId: groupId, 
 				userId: userId, 
 				createdOn: new Date()
@@ -51,12 +51,11 @@ Meteor.methods({
 				firstName: 'Phoebe',
 				middleName: 'Ruth',
 				lastName: 'Gore',
-				nickname: 'The Phebes',
 				preferredFirstName: {
 					type: 'firstName',
 					name: 'Phoebe',
 				},
-				birthday: new Date(2006, 4, 12),
+				birthday: new Date(2010, 4, 12),
 				groupId: groupId, 
 				userId: userId, 
 				createdOn: new Date()
@@ -70,7 +69,7 @@ Meteor.methods({
 					type: 'firstName',
 					name: 'Harrison',
 				},
-				birthday: new Date(2010, 6, 6),
+				birthday: new Date(2014, 6, 6),
 				groupId: groupId, 
 				userId: userId, 
 				createdOn: new Date()
@@ -83,7 +82,7 @@ Meteor.methods({
 
 			let pathProperties = {
 				studentIds: Students.find({groupId: groupId}).map(student => student._id),
-				studentIdType: 'students',
+				studentGroupIds: StudentGroups.find({groupId: groupId}, {sort: {name: 1}, fields: {_id: 1}}).map(studentGroup => studentGroup._id),
 				schoolYearIds: SchoolYears.find({groupId: groupId}).map(schoolYear => schoolYear._id),
 				termIds: Terms.find({groupId: groupId}).map(term => term._id),
 			}
@@ -103,25 +102,36 @@ Meteor.methods({
 		});
 
 		// Insert Student Groups
-		// let students = Students.find({groupId: groupId}, {sort: {age: 1}}).fetch();
-		// let studentDivide = Math.ceil(students.length / 2);
-		// let olderStudentIds = students.slice(0, studentDivide).map(student => student._id);
-		// let youngerStudentIds = students.slice(studentDivide).map(student => student._id);
+		let students = Students.find({groupId: groupId}, {sort: {age: 1}}).fetch();
+		let studentDivide = Math.ceil(students.length / 2);
+		let olderStudentIds = students.slice(0, studentDivide).map(student => student._id);
+		let youngerStudentIds = students.slice(studentDivide).map(student => student._id);
 
-		// let fixtureStudentGroups = [
-		// 	{
-		// 		name: 'Older Students',
-		// 		groupId: groupId, 
-		// 		userId: userId, 
-		// 		createdOn: new Date()
-		// 	},
-		// 	{
-		// 		name: 'Younger Students',
-		// 		groupId: groupId, 
-		// 		userId: userId, 
-		// 		createdOn: new Date()
-		// 	},
-		// ];
+		let fixtureStudentGroups = [
+			{
+				name: 'Family Work',
+				studentIds: students.map(student => student._id),
+				groupId: groupId, 
+				userId: userId, 
+				createdOn: new Date(),
+			},
+			{
+				name: 'Older Students',
+				studentIds: olderStudentIds,
+				groupId: groupId, 
+				userId: userId, 
+				createdOn: new Date(),
+			},
+			{
+				name: 'Younger Students',
+				studentIds: youngerStudentIds,
+				groupId: groupId, 
+				userId: userId, 
+				createdOn: new Date(),
+			},
+		];
+
+		StudentGroups.batchInsert(fixtureStudentGroups);
 
 		return Groups.findOne({_id: groupId}).initialIds;
 	}

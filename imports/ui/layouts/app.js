@@ -202,6 +202,70 @@ Template.app.events({
 			}
 		});
 	},
+
+	'click .js-delete-studentgroup-confirmed'(event) {
+		event.preventDefault();
+		$('.js-deleting').show();
+
+		function nextPath(selectedStudentGroupId) {
+			let studentGroupIds = StudentGroups.find({}, {sort: {name: 1}}).map(studentGroup => (studentGroup._id));
+			let selectedIndex = studentGroupIds.indexOf(selectedStudentGroupId);
+			let studentIds = Students.find({}, {sort: {birthday: 1, lastName: 1, firstName: 1}}).map(student => (student._id));
+			let newIds = {};
+
+			if (studentGroupIds.length === 1 && studentIds.length >= 1) {
+				newIds.type = 'students';
+				newIds.firstId = studentIds.pop();
+				return newIds
+			}
+
+			if ((studentGroupIds.length === 1 && studentIds.length <= 0) || (studentGroupIds.length <= 0 && studentIds.length <= 0)) {
+				newIds.type = 'students';
+				newIds.firstId = 'empty';
+				return newIds
+			}
+
+			if (selectedIndex) {
+				let firstStudentGroupId = studentGroupIds[selectedIndex - 1];
+				newIds.type = 'studentgroups';
+				newIds.firstId = firstStudentGroupId;
+			} else {
+				let firstStudentGroupId = studentGroupIds[selectedIndex + 1];
+				newIds.type = 'studentgroups';
+				newIds.firstId = firstStudentGroupId;
+			}
+			
+			return newIds;
+		}
+
+		let newPath = nextPath(FlowRouter.getParam('selectedStudentGroupId'));
+		let dialogId = Dialogs.findOne()._id;
+
+		Dialogs.remove({_id: dialogId});
+		Meteor.call('deleteStudentGroup', FlowRouter.getParam('selectedStudentGroupId'), function(error) {
+			if (error) {
+				Alerts.insert({
+					colorClass: 'bg-danger',
+					iconClass: 'icn-danger',
+					message: error.reason,
+				});
+			} else {
+				Dialogs.remove({_id: dialogId});
+				Session.set('selectedStudentIdType', newPath.type);
+				Session.set('selectedStudentId', newPath.firstId)
+				if (window.screen.availWidth > 768) {
+					FlowRouter.go(`/planning/${newPath.type}/view/3/${newPath.firstId}`);
+				} else {
+					FlowRouter.go(`/planning/${newPath.type}/view/2/${newPath.firstId}`);
+				}
+				$('.js-deleting').hide();
+			}
+		});
+	},
+
+	'click .js-delete-student-group-confirmed'(event) {
+
+	},
 	
 	'click .js-delete-school-year-confirmed'(event) {
 		event.preventDefault();
@@ -294,6 +358,7 @@ Template.app.events({
 
 		let pathProperties = {
 			studentIds: [FlowRouter.getParam('selectedStudentId')],
+			studentGroupIds: [FlowRouter.getParam('selectedStudentGroupId')],
 			schoolYearIds: [FlowRouter.getParam('selectedSchoolYearId')],
 			termIds: Terms.find({schoolYearId: FlowRouter.getParam('selectedSchoolWorkId')}).map(term => term.termId),
 		}
@@ -389,6 +454,7 @@ Template.app.events({
 
 		let pathProperties = {
 			studentIds: [FlowRouter.getParam('selectedStudentId')],
+			studentGroupIds: [FlowRouter.getParam('selectedStudentGroupId')],
 			schoolYearIds: [FlowRouter.getParam('selectedSchoolYearId')],
 			termIds: Terms.find({schoolYearId: FlowRouter.getParam('selectedSchoolWorkId')}).map(term => term.termId),
 		}
@@ -490,6 +556,7 @@ Template.app.events({
 		// Set Path Properties
 		let pathProperties = {
 			studentIds: [FlowRouter.getParam('selectedStudentId')],
+			studentGroupIds: [FlowRouter.getParam('selectedStudentGroupId')],
 			schoolYearIds: [FlowRouter.getParam('selectedSchoolYearId')],
 			termIds: [FlowRouter.getParam('selectedTermId')],
 		}
@@ -726,12 +793,11 @@ Template.app.events({
 		Session.set({
 			selectedStudentIdType: 'students',
 			selectedStudentId: studentId,
-			selectedTermId: selectedItem(path.firstTermId),
-			selectedWeekId: selectedItem(path.firstWeekId),
-			selectedSchoolWorkId: selectedItem(path.firstSchoolWorkId),
-			selectedSchoolWorkType: selectedItem(path.firstSchoolWorkType),
-			selectedReportingTermId: selectedItem(path.firstTermId),
-			selectedReportingWeekId: selectedItem(path.firstWeekId),
+			selectedTermId: path ? selectedItem(path.firstTermId) : 'empty',
+			selectedWeekId: path ? selectedItem(path.firstWeekId) : 'empty',
+			selectedSchoolWorkId: path ? selectedItem(path.firstSchoolWorkId) : 'empty',
+			selectedReportingTermId: path ? selectedItem(path.firstTermId) : 'empty',
+			selectedReportingWeekId: path ? selectedItem(path.firstWeekId) : 'empty',
 		});
 	},
 
@@ -766,12 +832,11 @@ Template.app.events({
 
 		Session.set({
 			selectedSchoolYearId: schoolYearId,
-			selectedTermId: selectedItem(path.firstTermId),
-			selectedWeekId: selectedItem(path.firstWeekId),
-			selectedSchoolWorkId: selectedItem(path.firstSchoolWorkId),
-			selectedSchoolWorkType: selectedItem(path.firstSchoolWorkType),
-			selectedReportingTermId: selectedItem(path.firstTermId),
-			selectedReportingWeekId: selectedItem(path.firstWeekId),
+			selectedTermId: path ? selectedItem(path.firstTermId) : 'empty',
+			selectedWeekId: path ? selectedItem(path.firstWeekId) : 'empty',
+			selectedSchoolWorkId: path ? selectedItem(path.firstSchoolWorkId) : 'empty',
+			selectedReportingTermId: path ? selectedItem(path.firstTermId) : 'empty',
+			selectedReportingWeekId: path ? selectedItem(path.firstWeekId) : 'empty',
 		});
 	},
 
@@ -795,9 +860,9 @@ Template.app.events({
 		} else {
 			Session.set({
 				selectedTermId: termId,
-				selectedWeekId: selectedItem(path.firstWeekId),
+				selectedWeekId: path ? selectedItem(path.firstWeekId) : 'empty',
 				selectedReportingTermId: termId,
-				selectedReportingWeekId: selectedItem(path.firstWeekId),
+				selectedReportingWeekId: path ? selectedItem(path.firstWeekId) : 'empty',
 			});
 		}
 	},

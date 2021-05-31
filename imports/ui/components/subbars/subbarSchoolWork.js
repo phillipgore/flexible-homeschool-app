@@ -84,14 +84,6 @@ Template.subbarSchoolWork.helpers({
 		}
 		return 'empty';
 	},
-
-	firstSchoolWorkType: function(studentId, timeFrameId) {
-		let firstSchoolWorkType = Paths.findOne({studentId: studentId, timeFrameId: timeFrameId}) && Paths.findOne({studentId: studentId, timeFrameId: timeFrameId}).firstSchoolWorkType;
-		if (firstSchoolWorkType) {
-			return firstSchoolWorkType;
-		}
-		return 'empty';
-	},
 	
 	activeListItem: function(currentItem, item) {
 		if (currentItem === item) {

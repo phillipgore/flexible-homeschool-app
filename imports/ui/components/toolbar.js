@@ -244,6 +244,16 @@ Template.toolbar.events({
 		});
 	},
 
+	'click .js-delete-studentgroup'(event) {
+		event.preventDefault();
+
+		Dialogs.insert({
+			heading: 'Confirmation',
+			message: 'Are you sure you want to delete this Student Group?',
+			confirmClass: 'js-delete js-delete-studentgroup-confirmed',
+		});
+	},
+
 	'click .js-delete-schoolYear'(event) {
 		event.preventDefault();
 

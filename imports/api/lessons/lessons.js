@@ -82,7 +82,7 @@ const LessonsSchema = new SimpleSchema({
     },
 	studentGroupId: {
         type: String,
-        label: "Student Grouping ID",
+        label: "Student Group ID",
         optional: true
     },
     studentId: {

@@ -426,6 +426,7 @@ Template.workNew.events({
 
 			let pathProperties = {
 				studentIds: [studentId],
+				studentGroupIds: [],
 				schoolYearIds: [schoolYearId],
 				termIds: Array.from(document.getElementsByClassName('js-term-container')).map(term => term.id),
 			};

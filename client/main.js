@@ -90,7 +90,7 @@ import '/imports/ui/pages/planning/planningList.js';
 	import '/imports/ui/pages/planning/students/studentsView.js';
 	import '/imports/ui/pages/planning/students/studentsEach.js';
 	import '/imports/ui/pages/planning/students/studentsEdit.js';
-		// Student Groupings
+		// Student Groups
 		import '/imports/ui/pages/planning/students/studentGroups/studentGroupsNew.js';
 		import '/imports/ui/pages/planning/students/studentGroups/studentGroupsView.js';
 		import '/imports/ui/pages/planning/students/studentGroups/studentGroupsEach.js';

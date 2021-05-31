@@ -662,6 +662,7 @@ Template.workEdit.events({
 
 				let pathProperties = {
 					studentIds: [FlowRouter.getParam('selectedStudentId')],
+					studentGroupIds: [FlowRouter.getParam('selectedStudentGroupId')],
 					schoolYearIds: [FlowRouter.getParam('selectedSchoolYearId')],
 					termIds: Array.from(document.getElementsByClassName('js-times-per-week-container')).map(term => term.id),
 				}

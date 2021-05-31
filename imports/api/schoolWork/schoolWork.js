@@ -41,12 +41,17 @@ const SchoolWorkSchema = new SimpleSchema({
 	},
 	studentGroupId: {
         type: String,
-        label: "Student Grouping ID",
+        label: "Student Group ID",
         optional: true
     },
     studentId: {
         type: String,
         label: "Student ID"
+    },
+	studentGroupId: {
+        type: String,
+        label: "Student Group ID",
+        optional: true
     },
     schoolYearId: {
         type: String,

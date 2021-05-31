@@ -191,6 +191,7 @@ Migrations.add({
 
 			let pathProperties = {
 				studentIds: Students.find({groupId: groupId}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}, fields: {_id: 1}}).map(student => student._id),
+				studentGroupIds: StudentGroups.find({groupId: groupId}, {sort: {name: 1}, fields: {_id: 1}}).map(studentGroup => studentGroup._id),
 				schoolYearIds: SchoolYears.find({groupId: groupId}, {sort: {startYear: 1}, fields: {_id: 1}}).map(schoolYear => schoolYear._id),
 				termIds: Terms.find({groupId: groupId}, {sort: {order: 1}, fields: {_id: 1}}).map(term => term._id),
 			}
@@ -313,7 +314,7 @@ Migrations.add({
 
 
 Meteor.startup(() => {
-	Migrations.migrateTo('16,rerun');
+	Migrations.migrateTo('16');
 });
 
 

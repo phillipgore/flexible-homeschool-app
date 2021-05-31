@@ -46,7 +46,7 @@ FlowRouter.route('/planning/students/edit/:selectedFramePosition/:selectedStuden
 // Student Groups
 FlowRouter.route('/planning/studentgroups/new/:selectedFramePosition', {
 	name: 'studentGroupsNew',
-	title:  'Planning: Student Groupings: New',
+	title:  'Planning: Student Groups: New',
 	action(params) {
 		BlazeLayout.render('app', {
 			subbar: '',
@@ -59,7 +59,7 @@ FlowRouter.route('/planning/studentgroups/new/:selectedFramePosition', {
 
 FlowRouter.route('/planning/studentgroups/view/:selectedFramePosition/:selectedStudentGroupId', {
 	name: 'studentGroupsView',
-	title:  'Planning: Student Groupings: View',
+	title:  'Planning: Student Groups: View',
 	action(params) {
 		BlazeLayout.render('app', {
 			subbar: '',
@@ -72,7 +72,7 @@ FlowRouter.route('/planning/studentgroups/view/:selectedFramePosition/:selectedS
 
 FlowRouter.route('/planning/studentgroups/edit/:selectedFramePosition/:selectedStudentGroupId', {
 	name: 'studentGroupsEdit',
-	title:  'Planning: Student Groupings: Edit',
+	title:  'Planning: Student Groups: Edit',
 	action(params) {
 		BlazeLayout.render('app', {
 			subbar: '',

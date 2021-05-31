@@ -262,6 +262,7 @@ Template.trackingSchoolWork.events({
 
 		let pathProperties = {
 			studentIds: [FlowRouter.getParam('selectedStudentId')],
+			studentGroupIds: [FlowRouter.getParam('selectedStudentGroupId')],
 			schoolYearIds: [FlowRouter.getParam('selectedSchoolYearId')],
 			termIds: [FlowRouter.getParam('selectedTermId')],
 		}

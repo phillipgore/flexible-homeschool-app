@@ -30,6 +30,7 @@ const PathsSchema = new SimpleSchema({
 		type: String,
 		label: "Student Id Type",
 		allowedValues: ['students', 'studentgroups'],
+        optional: true,
 	},
 	timeFrameId: {
 		type: String,
@@ -55,20 +56,14 @@ const PathsSchema = new SimpleSchema({
 		label: "First School Work ID",
         optional: true,
 	},
-	firstSchoolWorkType: {
-		type: String,
-		label: "First School Work Type",
-        optional: true,
-	},
-	
 	groupId: {
 		type: String,
 		label: "Group ID",
-		// autoValue: function() {
-		// 	if ( this.isInsert ) {
-		// 		return Meteor.user().info.groupId;
-		// 	}
-		// }
+		autoValue: function() {
+			if ( this.isInsert ) {
+				return Meteor.user().info.groupId;
+			}
+		}
 	},
 	createdOn: {
 		type: Date,
