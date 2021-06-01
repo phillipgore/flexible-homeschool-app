@@ -59,7 +59,9 @@ Meteor.methods({
 				initialIds: {
 					studentId: 'empty',
 					studentGroupId: 'empty',
+					studentIdType: 'empty',
 					schoolYearId: 'empty',
+					schoolTypeId: 'empty',
 					resourceId: 'empty',
 					resourceType: 'empty',
 					termId: 'empty',

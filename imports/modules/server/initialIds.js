@@ -26,6 +26,22 @@ export function primaryInitialIds (submittedGroupId) {
 	let firstStudent = Students.findOne({groupId: groupId}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}, fields: {_id: 1}});
 	if (firstStudent) {ids.studentId = firstStudent._id} else {ids.studentId = 'empty'};
 
+	// Get First Student Group
+	let firstStudentGroup = StudentGroups.findOne({groupId: groupId}, {sort: {name: 1}, fields: {_id: 1}});
+	if (firstStudentGroup) {ids.studentGroupId = firstStudentGroup._id} else {ids.studentGroupId = 'empty'};
+
+	// Get First Student Id Type
+	let getFirstStudentIdType = (studentId, studentGroupId) => {
+		if (studentId != 'empty') {
+			return 'students';
+		}
+		if (studentGroupId != 'empty') {
+			return 'studentgroups'
+		}
+		return 'empty'
+	}
+	ids.studentIdType = getFirstStudentIdType(ids.studentId, ids.studentGroupId);
+
 	// Get First School Year
 	let firstSchoolYear = getFirstSchoolYearId(groupId);
 	ids.schoolYearId = firstSchoolYear;
@@ -126,23 +142,13 @@ export function primaryInitialIds (submittedGroupId) {
 
 	Groups.update(groupId, {$set: {
 		'initialIds.studentId': ids.studentId,
+		'initialIds.studentGroupId': ids.studentGroupId,
+		'initialIds.studentIdType': ids.studentIdType,
 		'initialIds.schoolYearId': ids.schoolYearId,
 		'initialIds.termId': ids.termId,
 		'initialIds.weekId': ids.weekId,
 		'initialIds.schoolWorkId': ids.schoolWorkId,
 		'initialIds.schoolWorkType': ids.schoolWorkType,
-	}});
-	
-	return groupId;
-};
-
-export function studentGroupsInitialId (submittedGroupId) {
-	let groupId = getGroupId(submittedGroupId);
-
-	let firstStudentGroup = StudentGroups.findOne({groupId: groupId}, {sort: {name: 1}});
-
-	Groups.update(groupId, {$set: {
-		'initialIds.studentGroupId': firstStudentGroup ? firstStudentGroup._id : 'empty'
 	}});
 	
 	return groupId;

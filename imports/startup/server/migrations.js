@@ -11,7 +11,7 @@ import {Resources} from '../../api/resources/resources.js';
 import {Lessons} from '../../api/lessons/lessons.js';
 import {Reports} from '../../api/reports/reports.js';
 
-import {primaryInitialIds, studentGroupsInitialId, resourcesInitialIds, usersInitialId, reportsInitialId, groupsInitialId} from '../../modules/server/initialIds';
+import {primaryInitialIds, resourcesInitialIds, usersInitialId, reportsInitialId, groupsInitialId} from '../../modules/server/initialIds';
 
 import {upsertPaths} from '../../modules/server/paths';
 import {upsertSchoolWorkPaths} from '../../modules/server/paths';
@@ -307,14 +307,14 @@ Migrations.add({
 		let groupIds = _.uniq(Groups.find({}, {fields: {_id: 1}}).map(group => group._id));
 		
 		groupIds.forEach(groupId => {
-			studentGroupsInitialId(groupId);
+			primaryInitialIds(groupId);
 		});
 	}
 });
 
 
 Meteor.startup(() => {
-	Migrations.migrateTo('16');
+	Migrations.migrateTo('16,rerun');
 });
 
 

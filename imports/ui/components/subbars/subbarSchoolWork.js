@@ -7,7 +7,7 @@ import {SchoolWork} from '../../../api/schoolWork/schoolWork.js';
 import './subbarSchoolWork.html';
 
 import moment from 'moment';
-import _ from 'lodash'
+import _, { stubTrue } from 'lodash'
 
 
 Template.subbarSchoolWork.onCreated( function() {
@@ -48,8 +48,34 @@ Template.subbarSchoolWork.helpers({
 		return Students.findOne({_id: FlowRouter.getParam('selectedStudentId')});
 	},
 
+	selectedStudentGroup: function() {
+		return StudentGroups.findOne({_id: FlowRouter.getParam('selectedStudentGroupId')});
+	},
+
 	selectedStudentId: function() {
 		return FlowRouter.getParam('selectedStudentId');
+	},
+
+	selectedStudentGroupId: function() {
+		return FlowRouter.getParam('selectedStudentGroupId');
+	},
+
+	selectedStudentIdType: function() {
+		return Session.get('selectedStudentIdType');
+	},
+
+	getSelectedId: function() {		
+		if (Session.get('selectedStudentIdType') === 'students') {
+			return Session.get('selectedStudentId');
+		}
+		return Session.get('selectedStudentGroupId');
+	},
+
+	isStudent: function() {
+		if (Session.get('selectedStudentIdType') === 'students') {
+			return true;
+		}
+		return false;
 	},
 
 	
@@ -77,8 +103,14 @@ Template.subbarSchoolWork.helpers({
 		return false;
 	},
 
-	firstSchoolWorkId: function(studentId, timeFrameId) {
-		let firstSchoolWorkId = Paths.findOne({studentId: studentId, timeFrameId: timeFrameId}) && Paths.findOne({studentId: studentId, timeFrameId: timeFrameId}).firstSchoolWorkId;
+	firstSchoolWorkId: function(type, id, timeFrameId) {
+		const getfirstSchoolWorkId = (type, id, timeFrameId) => {
+			if (type === 'students') {
+				return {studentId: id, timeFrameId: timeFrameId}
+			}
+			return {studentGroupId: id, timeFrameId: timeFrameId}
+		}
+		let firstSchoolWorkId = Paths.findOne(getfirstSchoolWorkId(type, id, timeFrameId)) && Paths.findOne(getfirstSchoolWorkId(type, id, timeFrameId)).firstSchoolWorkId;
 		if (firstSchoolWorkId) {
 			return firstSchoolWorkId;
 		}

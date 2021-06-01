@@ -36,6 +36,11 @@ function getInitialData() {
 		Session.set('selectedStudentGroupId', initialIds.studentGroupId);
 	}
 
+	// Initial Student Id Type
+	if (!Session.get('selectedStudentIdType')) {
+		Session.set('selectedStudentIdType', initialIds.studentIdType);
+	}
+
 	// Initial School Year
 	if (!Session.get('selectedSchoolYearId')) {
 		Session.set('selectedSchoolYearId', initialIds.schoolYearId);

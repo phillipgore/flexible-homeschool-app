@@ -5,7 +5,7 @@ import {SchoolYears} from '../../../api/schoolYears/schoolYears.js';
 import {Terms} from '../../../api/terms/terms.js';
 import {Weeks} from '../../../api/weeks/weeks.js';
 
-import {primaryInitialIds, studentGroupsInitialId} from '../../../modules/server/initialIds';
+import {primaryInitialIds} from '../../../modules/server/initialIds';
 import {upsertPaths, upsertSchoolWorkPaths} from '../../../modules/server/paths';
 import {upsertStats} from '../../../modules/server/stats';
 

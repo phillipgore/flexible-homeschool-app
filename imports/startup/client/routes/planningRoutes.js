@@ -130,11 +130,12 @@ FlowRouter.route('/planning/schoolyears/edit/:selectedFramePosition/:selectedSch
 
 
 
-// Subjects
-FlowRouter.route('/planning/subjects/new/:selectedFramePosition/:selectedStudentId/:selectedSchoolYearId', {
+// Subjects (students)
+FlowRouter.route('/planning/subjects/new/:selectedFramePosition/students/:selectedStudentId/:selectedSchoolYearId', {
 	name: 'subjectsNew',
 	title:  'Planning: Subjects: New',
 	action(params) {
+		Session.set('selectedStudentIdType', 'students');
 		BlazeLayout.render('app', {
 			subbar: 'subbarSchoolWork',
 			frameOne: 'planningList',
@@ -144,10 +145,11 @@ FlowRouter.route('/planning/subjects/new/:selectedFramePosition/:selectedStudent
 	},
 });
 
-FlowRouter.route('/planning/subjects/view/:selectedFramePosition/:selectedStudentId/:selectedSchoolYearId/:selectedSubjectId', {
+FlowRouter.route('/planning/subjects/view/:selectedFramePosition/students/:selectedStudentId/:selectedSchoolYearId/:selectedSubjectId', {
 	name: 'subjectsView',
 	title:  'Planning: Subject: View',
 	action(params) {
+		Session.set('selectedStudentIdType', 'students');
 		BlazeLayout.render('app', {
 			subbar: 'subbarSchoolWork',
 			frameOne: 'planningList',
@@ -157,10 +159,54 @@ FlowRouter.route('/planning/subjects/view/:selectedFramePosition/:selectedStuden
 	},
 });
 
-FlowRouter.route('/planning/subjects/edit/:selectedFramePosition/:selectedStudentId/:selectedSchoolYearId/:selectedSubjectId', {
+FlowRouter.route('/planning/subjects/edit/:selectedFramePosition/students/:selectedStudentId/:selectedSchoolYearId/:selectedSubjectId', {
 	name: 'subjectsEdit',
 	title:  'Planning: Subject: Edit',
 	action(params) {
+		Session.set('selectedStudentIdType', 'students');
+		BlazeLayout.render('app', {
+			subbar: 'subbarSchoolWork',
+			frameOne: 'planningList',
+			frameTwo: 'schoolWorkList',
+			frameThree: 'subjectsEdit',
+		});
+	},
+});
+
+// Subjects (studentgroups)
+FlowRouter.route('/planning/subjects/new/:selectedFramePosition/studentgroups/:selectedStudentGroupId/:selectedSchoolYearId', {
+	name: 'subjectsNew',
+	title:  'Planning: Subjects: New',
+	action(params) {
+		Session.set('selectedStudentIdType', 'studentgroups');
+		BlazeLayout.render('app', {
+			subbar: 'subbarSchoolWork',
+			frameOne: 'planningList',
+			frameTwo: 'schoolWorkList',
+			frameThree: 'subjectsNew',
+		});
+	},
+});
+
+FlowRouter.route('/planning/subjects/view/:selectedFramePosition/studentgroups/:selectedStudentGroupId/:selectedSchoolYearId/:selectedSubjectId', {
+	name: 'subjectsView',
+	title:  'Planning: Subject: View',
+	action(params) {
+		Session.set('selectedStudentIdType', 'studentgroups');
+		BlazeLayout.render('app', {
+			subbar: 'subbarSchoolWork',
+			frameOne: 'planningList',
+			frameTwo: 'schoolWorkList',
+			frameThree: 'subjectsView',
+		});
+	},
+});
+
+FlowRouter.route('/planning/subjects/edit/:selectedFramePosition/studentgroups/:selectedStudentGroupId/:selectedSchoolYearId/:selectedSubjectId', {
+	name: 'subjectsEdit',
+	title:  'Planning: Subject: Edit',
+	action(params) {
+		Session.set('selectedStudentIdType', 'studentgroups');
 		BlazeLayout.render('app', {
 			subbar: 'subbarSchoolWork',
 			frameOne: 'planningList',
@@ -173,11 +219,12 @@ FlowRouter.route('/planning/subjects/edit/:selectedFramePosition/:selectedStuden
 
 
 
-// School Work
-FlowRouter.route('/planning/work/new/:selectedFramePosition/:selectedStudentId/:selectedSchoolYearId', {
+// School Work (students)
+FlowRouter.route('/planning/work/new/:selectedFramePosition/students/:selectedStudentId/:selectedSchoolYearId', {
 	name: 'workNew',
 	title:  'Planning: School Work: New',
 	action(params) {
+		Session.set('selectedStudentIdType', 'students');
 		BlazeLayout.render('app', {
 			subbar: 'subbarSchoolWork',
 			frameOne: 'planningList',
@@ -187,10 +234,11 @@ FlowRouter.route('/planning/work/new/:selectedFramePosition/:selectedStudentId/:
 	},
 });
 
-FlowRouter.route('/planning/work/view/:selectedFramePosition/:selectedStudentId/:selectedSchoolYearId/:selectedSchoolWorkId', {
+FlowRouter.route('/planning/work/view/:selectedFramePosition/students/:selectedStudentId/:selectedSchoolYearId/:selectedSchoolWorkId', {
 	name: 'workView',
 	title:  'Planning: School Work: View',
 	action(params) {
+		Session.set('selectedStudentIdType', 'students');
 		BlazeLayout.render('app', {
 			subbar: 'subbarSchoolWork',
 			frameOne: 'planningList',
@@ -200,10 +248,54 @@ FlowRouter.route('/planning/work/view/:selectedFramePosition/:selectedStudentId/
 	},
 });
 
-FlowRouter.route('/planning/work/edit/:selectedFramePosition/:selectedStudentId/:selectedSchoolYearId/:selectedSchoolWorkId', {
+FlowRouter.route('/planning/work/edit/:selectedFramePosition/students/:selectedStudentId/:selectedSchoolYearId/:selectedSchoolWorkId', {
 	name: 'workEdit',
 	title:  'Planning: School Work: Edit',
 	action(params) {
+		Session.set('selectedStudentIdType', 'students');
+		BlazeLayout.render('app', {
+			subbar: 'subbarSchoolWork',
+			frameOne: 'planningList',
+			frameTwo: 'schoolWorkList',
+			frameThree: 'workEdit',
+		});
+	},
+});
+
+// School Work (studentgroups)
+FlowRouter.route('/planning/work/new/:selectedFramePosition/studentgroups/:selectedStudentGroupId/:selectedSchoolYearId', {
+	name: 'workNew',
+	title:  'Planning: School Work: New',
+	action(params) {
+		Session.set('selectedStudentIdType', 'studentgroups');
+		BlazeLayout.render('app', {
+			subbar: 'subbarSchoolWork',
+			frameOne: 'planningList',
+			frameTwo: 'schoolWorkList',
+			frameThree: 'workNew',
+		});
+	},
+});
+
+FlowRouter.route('/planning/work/view/:selectedFramePosition/studentgroups/:selectedStudentGroupId/:selectedSchoolYearId/:selectedSchoolWorkId', {
+	name: 'workView',
+	title:  'Planning: School Work: View',
+	action(params) {
+		Session.set('selectedStudentIdType', 'studentgroups');
+		BlazeLayout.render('app', {
+			subbar: 'subbarSchoolWork',
+			frameOne: 'planningList',
+			frameTwo: 'schoolWorkList',
+			frameThree: 'workView',
+		});
+	},
+});
+
+FlowRouter.route('/planning/work/edit/:selectedFramePosition/studentgroups/:selectedStudentGroupId/:selectedSchoolYearId/:selectedSchoolWorkId', {
+	name: 'workEdit',
+	title:  'Planning: School Work: Edit',
+	action(params) {
+		Session.set('selectedStudentIdType', 'studentgroups');
 		BlazeLayout.render('app', {
 			subbar: 'subbarSchoolWork',
 			frameOne: 'planningList',

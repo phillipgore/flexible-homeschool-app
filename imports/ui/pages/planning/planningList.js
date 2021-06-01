@@ -24,8 +24,19 @@ Template.planningList.helpers({
 		return Session.get('selectedSchoolWorkType');
 	},
 
+	selectedStudentIdType: function() {
+		return Session.get('selectedStudentIdType');
+	},
+
 	selectedStudentId: function() {
 		return Session.get('selectedStudentId');
+	},
+
+	getSelectedId: function() {
+		if (Session.get('selectedStudentIdType') === 'students') {
+			return Session.get('selectedStudentId');
+		}
+		return Session.get('selectedStudentGroupId');
 	},
 
 	studentURL: function() {
