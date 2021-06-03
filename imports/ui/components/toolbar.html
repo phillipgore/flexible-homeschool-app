@@ -77,13 +77,13 @@
 								</a>
 								<ul id="newSchoolWork" class="dropdown-menu dropdown-tool border-none txt-tn-left m-tn-rl-9 hide">
 									<li class="dropdown-item">
-										<a class="js-new-subject dropdown-item-link {{#if schoolWorkDisabled}}disabled{{/if}}" href="/planning/subjects/new/3/{{selectedStudentId}}/{{selectedSchoolYearId}}" title="{{#if schoolWorkDisabled}}Subjects require Students and School Years.{{/if}}">
+										<a class="js-new-subject dropdown-item-link {{#if schoolWorkDisabled}}disabled{{/if}}" href="/planning/subjects/new/3/{{selectedStudentIdType}}/{{getSelectedId}}/{{selectedSchoolYearId}}" title="{{#if schoolWorkDisabled}}Subjects require Students and School Years.{{/if}}">
 											<i class="icn-subjects icn-fw-16 m-tn-r-4"></i> New Subject
 										</a>
 									</li>
 									<li class="dropdown-item">
 										<a class="js-new-schoolWork dropdown-item-link {{#if schoolWorkDisabled}}disabled{{/if}}" 
-											href="/planning/work/new/3/{{selectedStudentId}}/{{selectedSchoolYearId}}"
+											href="/planning/work/new/3//{{selectedStudentIdType}}/{{getSelectedId}}/{{selectedSchoolYearId}}"
 											title="{{#if schoolWorkDisabled}}Work requires Students and School Years.{{/if}}"
 										>
 											<i class="icn-school-work icn-fw-16 m-tn-r-4"></i> New Work
@@ -183,13 +183,13 @@
 									</a>
 								</li>
 								<li class="dropdown-item">
-									<a class="js-new-subject dropdown-item-link {{#if schoolWorkDisabled}}disabled{{/if}}" href="/planning/subjects/new/3/{{selectedStudentId}}/{{selectedSchoolYearId}}" title="{{#if schoolWorkDisabled}}Subjects require Students and School Years.{{/if}}">
+									<a class="js-new-subject dropdown-item-link {{#if schoolWorkDisabled}}disabled{{/if}}" href="/planning/subjects/new/3/{{selectedStudentIdType}}/{{getSelectedId}}/{{selectedSchoolYearId}}" title="{{#if schoolWorkDisabled}}Subjects require Students and School Years.{{/if}}">
 										<i class="icn-subjects icn-fw-16 m-tn-r-4"></i> New Subject
 									</a>
 								</li>
 								<li class="dropdown-item">
 									<a class="js-new-schoolWork dropdown-item-link {{#if schoolWorkDisabled}}disabled{{/if}}" 
-										href="/planning/work/new/3/{{selectedStudentId}}/{{selectedSchoolYearId}}"
+										href="/planning/work/new/3/{{selectedStudentIdType}}/{{getSelectedId}}/{{selectedSchoolYearId}}"
 										title="{{#if schoolWorkDisabled}}Work requires Students and School Years.{{/if}}"
 									>
 										<i class="icn-school-work icn-fw-16 m-tn-r-4"></i> New Work

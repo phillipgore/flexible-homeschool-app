@@ -116,6 +116,7 @@ Meteor.methods({
 
 			let statProperties = {
 				studentIds: Students.find({groupId: groupId}).map(student => student._id),
+				studentGroupIds: StudentGroups.find({groupId: groupId}, {sort: {name: 1}, fields: {_id: 1}}).map(studentGroup => studentGroup._id),
 				schoolYearIds: SchoolYears.find({groupId: groupId}).map(schoolYear => schoolYear._id),
 				termIds: Terms.find({groupId: groupId}).map(term => term._id),
 				weekIds: Weeks.find({groupId: groupId}).map(week => week._id),

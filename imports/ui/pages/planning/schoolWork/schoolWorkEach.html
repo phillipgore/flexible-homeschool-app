@@ -23,7 +23,7 @@
 	{{#each work in schoolWork}}
 		{{#if getType work.type 'subject'}}
 			<li class="list-item">
-				<a id="{{work._id}}" data-subject-student="{{selectedStudentId}}" data-subject-school-year="{{selectedSchoolYearId}}" href="/planning/subjects/view/3/{{selectedStudentId}}/{{selectedSchoolYearId}}/{{work._id}}" class="js-subject list-item-link p-tn-rl-9 {{#if active work._id}}active{{/if}}">
+				<a id="{{work._id}}" data-subject-student="{{selectedStudentId}}" data-subject-student-group="{{selectedStudentGroupId}}" data-subject-school-year="{{selectedSchoolYearId}}" href="/planning/subjects/view/3/{{selectedStudentIdType}}/{{getSelectedId}}/{{selectedSchoolYearId}}/{{work._id}}" class="js-subject list-item-link p-tn-rl-9 {{#if active work._id}}active{{/if}}">
 					<div class="js-subject-toggle list-item-caret" data-subject-index="{{work._id}}">
 						<i class="js-caret-right icn-caret-right txt-gray-darkest"></i>
 						<i class="js-caret-down icn-caret-down txt-gray-darkest hide"></i>
@@ -39,7 +39,7 @@
 				{{#if hasWork work._id}}
 					{{#each work in getWork work._id}}
 						<li class="list-item">
-							<a id="{{work._id}}" data-work-student="{{selectedStudentId}}" data-work-school-year="{{selectedSchoolYearId}}" href="/planning/work/view/3/{{selectedStudentId}}/{{selectedSchoolYearId}}/{{work._id}}" class="js-work list-item-link p-tn-l-45 p-tn-r-9 {{#if active work._id}}active{{/if}}">
+							<a id="{{work._id}}" data-work-student="{{selectedStudentId}}" data-work-school-year="{{selectedSchoolYearId}}" href="/planning/work/view/3/{{selectedStudentIdType}}/{{getSelectedId}}/{{selectedSchoolYearId}}/{{work._id}}" class="js-work list-item-link p-tn-l-45 p-tn-r-9 {{#if active work._id}}active{{/if}}">
 								<div class="list-item-icon"><i class="txt-primary icn-school-work"></i></div> 
 								<div class="list-item-label">{{work.name}}</div>
 							</a>
@@ -67,7 +67,7 @@
 			</ul>
 		{{else}}
 			<li class="list-item">
-				<a id="{{work._id}}" data-work-student="{{selectedStudentId}}" data-work-school-year="{{selectedSchoolYearId}}" href="/planning/work/view/3/{{selectedStudentId}}/{{selectedSchoolYearId}}/{{work._id}}" class="js-work list-item-link p-tn-l-27 p-tn-r-9 {{#if active work._id}}active{{/if}}">
+				<a id="{{work._id}}" data-work-student="{{selectedStudentId}}" data-work-school-year="{{selectedSchoolYearId}}" href="/planning/work/view/3/{{selectedStudentIdType}}/{{getSelectedId}}/{{selectedSchoolYearId}}/{{work._id}}" class="js-work list-item-link p-tn-l-27 p-tn-r-9 {{#if active work._id}}active{{/if}}">
 					<div class="list-item-icon"><i class="txt-primary icn-school-work"></i></div> 
 					<div class="list-item-label">{{work.name}}</div>
 				</a>

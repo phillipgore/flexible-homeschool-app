@@ -7,6 +7,13 @@ import './schoolWorkList.html';
 
 SchooWorkList = new Mongo.Collection('schooWorkList');
 
+const getSelectedId = () => {
+	if (Session.get('selectedStudentIdType') === 'students') {
+		return Session.get('selectedStudentId');
+	}
+	return Session.get('selectedStudentGroupId');
+}
+
 Template.schoolWorkList.onCreated( function() {
 	let template = Template.instance();
 	
@@ -20,7 +27,7 @@ Template.schoolWorkList.onCreated( function() {
 Template.schoolWorkList.onRendered( function() {
 	Session.set({
 		labelTwo: 'School Work',
-		newUrl: '/planning/work/new/3/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId'),
+		newUrl: '/planning/work/new/3/' + Session.get('selectedStudentIdType') +'/'+ getSelectedId()  +'/'+ FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId'),
 		activeNav: 'planningList',
 	});
 });

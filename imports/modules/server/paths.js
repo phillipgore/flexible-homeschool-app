@@ -29,7 +29,7 @@ export function upsertPaths(pathProperties, returnPath, submittedGroupId) {
 	let studentGroupIds = getStudentGroups(groupId, pathProperties);
 	let schoolYearIds = getSchoolYears(groupId, pathProperties);
 	let termIds = getTerms(groupId, schoolYearIds, pathProperties);
-
+	
 	if (studentIds.length && schoolYearIds.length) {
 		studentIds.forEach(studentId => {
 			schoolYearIds.forEach(schoolYearId => {

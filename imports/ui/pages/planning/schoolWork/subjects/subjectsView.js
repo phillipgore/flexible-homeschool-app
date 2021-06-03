@@ -14,7 +14,7 @@ Template.subjectsView.onCreated( function() {
 Template.subjectsView.onRendered( function() {
 	Session.set({
 		toolbarType: 'subject',
-		editUrl: '/planning/subjects/edit/3/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedSubjectId'),
+		editUrl: '/planning/subjects/edit/3/' + Session.get('selectedStudentIdType') +'/'+ getSelectedId() +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedSubjectId'),
 		labelThree: 'Subject',
 		activeNav: 'planningList',
 	});
@@ -29,3 +29,10 @@ Template.subjectsView.helpers({
 		return Subjects.findOne({_id: FlowRouter.getParam('selectedSubjectId')}, {sort: {name: 1}});
 	},
 });
+
+const getSelectedId = () => {
+	if (Session.get('selectedStudentIdType') === 'students') {
+		return Session.get('selectedStudentId');
+	}
+	return Session.get('selectedStudentGroupId');
+}

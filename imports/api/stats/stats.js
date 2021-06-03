@@ -18,8 +18,14 @@ Stats.deny({
 const StatsSchema = new SimpleSchema({
 	studentId: {
 		type: String,
-		label: "Student ID"
-	},
+		label: "Student ID",
+        optional: true
+    },
+	studentGroupId: {
+        type: String,
+        label: "Student Group ID",
+        optional: true
+    },
 	timeFrameId: {
 		type: String,
 		label: "Time Frame ID"

@@ -294,6 +294,7 @@ Template.trackingEdit.events({
 		// Set Stat Properties
 		let statProperties = {
 			studentIds: [FlowRouter.getParam('selectedStudentId')],
+			studentGroupIds: [FlowRouter.getParam('selectedStudentGroupId')],
 			schoolYearIds: [FlowRouter.getParam('selectedSchoolYearId')],
 			termIds:[FlowRouter.getParam('selectedTermId')],
 			weekIds:[FlowRouter.getParam('selectedWeekId')],

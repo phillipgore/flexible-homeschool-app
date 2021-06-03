@@ -131,6 +131,28 @@ Template.toolbar.helpers({
 		return Session.get('selectedStudentId');
 	},
 
+	selectedStudentGroupId: function() {
+		return Session.get('selectedStudentGroupId');
+	},
+
+	selectedStudentIdType: function() {
+		return Session.get('selectedStudentIdType');
+	},
+
+	getSelectedId: function() {		
+		if (Session.get('selectedStudentIdType') === 'students') {
+			return Session.get('selectedStudentId');
+		}
+		return Session.get('selectedStudentGroupId');
+	},
+
+	isStudent: function() {
+		if (Session.get('selectedStudentIdType') === 'students') {
+			return true;
+		}
+		return false;
+	},
+
 	selectedSchoolYearId: function() {
 		return Session.get('selectedSchoolYearId');
 	},

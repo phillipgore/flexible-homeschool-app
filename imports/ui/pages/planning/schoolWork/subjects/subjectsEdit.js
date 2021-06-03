@@ -1,5 +1,6 @@
 import {Template} from 'meteor/templating';
 import { Subjects } from '../../../../../api/subjects/subjects.js';
+import { StudentGroups } from '../../../../../api/studentGroups/studentGroups.js';
 
 import {requiredValidation} from '../../../../../modules/functions';
 import './subjectsEdit.html';
@@ -50,15 +51,24 @@ Template.subjectsEdit.events({
 			const subjectProperties = {
 				_id: FlowRouter.getParam('selectedSubjectId'),
 				name: template.find("[name='name']").value.trim(),
-				studentId: FlowRouter.getParam('selectedStudentId'),
 				schoolYearId: FlowRouter.getParam('selectedSchoolYearId'),
 			};
 
 			let pathProperties = {
-				studentIds: [FlowRouter.getParam('selectedStudentId')],
+				studentIds: [],
 				studentGroupIds: [FlowRouter.getParam('selectedStudentGroupId')],
 				schoolYearIds: [FlowRouter.getParam('selectedSchoolYearId')],
 				termIds: [],
+			}
+
+			if (Session.get('selectedStudentIdType') === 'students') {
+				subjectProperties.studentId = FlowRouter.getParam('selectedStudentId');
+				pathProperties.studentIds.push(FlowRouter.getParam('selectedStudentId'));
+			}
+
+			if (Session.get('selectedStudentIdType') === 'studentgroups') {
+				subjectProperties.studentGroupId = FlowRouter.getParam('selectedStudentGroupId');
+				pathProperties.studentGroupIds = FlowRouter.getParam('selectedStudentGroupId');
 			}
 
 			Meteor.call('updateSubject', subjectProperties, function(error, result) {
@@ -85,7 +95,7 @@ Template.subjectsEdit.events({
 						} else {
 							$('.js-updating').hide();
 							$('.js-submit').prop('disabled', false);
-							FlowRouter.go('/planning/subjects/view/3/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedSubjectId'));
+							FlowRouter.go('/planning/subjects/view/3/' + Session.get('selectedStudentIdType') +'/'+ getSelectedId() +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedSubjectId'));
 						}
 					});
 				}
@@ -97,9 +107,16 @@ Template.subjectsEdit.events({
 		event.preventDefault();
 
 		if (window.screen.availWidth > 768) {
-			FlowRouter.go('/planning/subjects/view/3/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedSubjectId'));
+			FlowRouter.go('/planning/subjects/view/3/' + Session.get('selectedStudentIdType') +'/'+ getSelectedId() +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedSubjectId'));
 		} else {
-			FlowRouter.go('/planning/subjects/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedSubjectId'));
+			FlowRouter.go('/planning/subjects/view/2/' + Session.get('selectedStudentIdType') +'/'+ getSelectedId() +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedSubjectId'));
 		}
 	},
 });
+
+const getSelectedId = () => {
+	if (Session.get('selectedStudentIdType') === 'students') {
+		return Session.get('selectedStudentId');
+	}
+	return Session.get('selectedStudentGroupId');
+}

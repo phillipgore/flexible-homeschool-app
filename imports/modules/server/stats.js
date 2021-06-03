@@ -1,6 +1,7 @@
 import {Stats} from '../../api/stats/stats.js';
 import {Groups} from '../../api/groups/groups.js';
 import {Students} from '../../api/students/students.js';
+import {StudentGroups} from '../../api/studentGroups/studentGroups.js';
 import {SchoolYears} from '../../api/schoolYears/schoolYears.js';
 import {Terms} from '../../api/terms/terms.js';
 import {Weeks} from '../../api/weeks/weeks.js';
@@ -13,6 +14,7 @@ import _ from 'lodash';
 
 // let statProperties = {
 // 	studentIds: [],
+// 	studentGroupIds: [],
 // 	schoolYearIds: [],
 // 	termIds:[],
 // 	weekIds:[],
@@ -25,6 +27,7 @@ export function upsertStats(statProperties, submittedGroupId) {
 	let groupId = getGroupId(submittedGroupId);
 
 	let studentIds = getStudents(groupId, statProperties);
+	let studentGroupIds = getStudentGroups(groupId, statProperties);
 	let schoolYearIds = getSchoolYears(groupId, statProperties);
 	let termIds = getTerms(groupId, schoolYearIds, statProperties);
 	let weekIds = getWeeks(groupId, termIds, statProperties);
@@ -32,18 +35,39 @@ export function upsertStats(statProperties, submittedGroupId) {
 	if (studentIds.length && schoolYearIds.length) {
 		studentIds.forEach(studentId => {
 			schoolYearIds.forEach(schoolYearId => {
-				upsertSchoolYearStats(groupId, studentId, schoolYearId);
+				upsertSchoolYearStudentStats(groupId, studentId, schoolYearId);
 			});
 
 			if (termIds.length) {
 				termIds.forEach(termId => {
-					upsertTermStats(groupId, studentId, termId);
+					upsertTermStudentStats(groupId, studentId, termId);
 				});
 			}
 
 			if (weekIds.length) {
 				weekIds.forEach(weekId => {
-					upsertWeekStats(groupId, studentId, weekId);
+					upsertWeekStudentStats(groupId, studentId, weekId);
+				});
+			}
+
+		});
+	}
+
+	if (studentGroupIds.length && schoolYearIds.length) {
+		studentGroupIds.forEach(studentGroupId => {
+			schoolYearIds.forEach(schoolYearId => {
+				upsertSchoolYearStudentGroupStats(groupId, studentGroupId, schoolYearId);
+			});
+
+			if (termIds.length) {
+				termIds.forEach(termId => {
+					upsertTermStudentGroupStats(groupId, studentGroupId, termId);
+				});
+			}
+
+			if (weekIds.length) {
+				weekIds.forEach(weekId => {
+					upsertWeekStudentGroupStats(groupId, studentGroupId, weekId);
 				});
 			}
 
@@ -57,6 +81,15 @@ export function upsertStats(statProperties, submittedGroupId) {
 
 /* -------------------- Internal Functions -------------------- */
 
+// Return the Group Id
+function getGroupId(submittedGroupId) {
+	if (_.isUndefined(submittedGroupId)) {
+		return Meteor.user().info.groupId;
+	} else {
+		return submittedGroupId;
+	}
+}
+
 // Return Students
 function getStudents(groupId, statProperties) {
 	if (statProperties['studentIds'].length) {
@@ -66,6 +99,20 @@ function getStudents(groupId, statProperties) {
 	let studentIds = Students.find({groupId: groupId}, {fields: {groupId: 1}}).map(student => student._id)
 	if (studentIds.length) {
 		return studentIds;
+	} else {
+		return [];
+	}
+}
+
+// Return Student Groups
+function getStudentGroups(groupId, statProperties) {
+	if (statProperties['studentGroupIds'].length) {
+		return statProperties['studentGroupIds']
+	}
+
+	let studentGroupIds = StudentGroups.find({groupId: groupId}, {sort: {name: 1}, fields: {_id: 1}}).map(studentGroup => studentGroup._id)
+	if (studentGroupIds.length) {
+		return studentGroupIds;
 	} else {
 		return [];
 	}
@@ -146,8 +193,8 @@ function status (lessonsTotal, lessonsCompletedTotal, lessonsAssignedTotal) {
 
 
 
-// School Year Stats Upsert
-function upsertSchoolYearStats(groupId, studentId, schoolWorkId) {
+// School Year Stats Student Upsert
+function upsertSchoolYearStudentStats(groupId, studentId, schoolWorkId) {
 	let schoolYearLessons = Lessons.find({studentId: studentId, schoolYearId: schoolWorkId, groupId: groupId}, {fields: {completed: 1, assigned: 1}}).fetch();
 	let stats = {};
 
@@ -162,8 +209,8 @@ function upsertSchoolYearStats(groupId, studentId, schoolWorkId) {
 	Stats.update({studentId: studentId, timeFrameId: schoolWorkId, type: 'schoolYear'}, {$set: stats}, {upsert: true});
 };
 
-// Terms Stats Upsert
-function upsertTermStats(groupId, studentId, termId) {
+// Terms Stats Student Upsert
+function upsertTermStudentStats(groupId, studentId, termId) {
 	let termLessons = Lessons.find({studentId: studentId, termId: termId, groupId: groupId}, {fields: {completed: 1, assigned: 1}}).fetch();
 	let stats = {};
 
@@ -178,8 +225,8 @@ function upsertTermStats(groupId, studentId, termId) {
 	Stats.update({studentId: studentId, timeFrameId: termId, type: 'term'}, {$set: stats}, {upsert: true});
 };
 
-// Weeks Stats Upsert
-function upsertWeekStats(groupId, studentId, weekId) {
+// Weeks Stats Student Upsert
+function upsertWeekStudentStats(groupId, studentId, weekId) {
 	let weekLessons = Lessons.find({studentId: studentId, weekId: weekId, groupId: groupId}, {fields: {completed: 1, assigned: 1}}).fetch();
 	let stats = {};
 
@@ -196,22 +243,50 @@ function upsertWeekStats(groupId, studentId, weekId) {
 
 
 
-/* -------------------- Internal Functions -------------------- */
+// School Year Stats Student Group Upsert
+function upsertSchoolYearStudentGroupStats(groupId, studentGroupId, schoolWorkId) {
+	let schoolYearLessons = Lessons.find({studentGroupId: studentGroupId, schoolYearId: schoolWorkId, groupId: groupId}, {fields: {completed: 1, assigned: 1}}).fetch();
+	let stats = {};
 
-// Return the Group Id
-function getGroupId(submittedGroupId) {
-	if (_.isUndefined(submittedGroupId)) {
-		return Meteor.user().info.groupId;
-	} else {
-		return submittedGroupId;
-	}
-}
+	stats.lessonCount = schoolYearLessons.length;
+	stats.completedLessonCount = _.filter(schoolYearLessons, {'completed': true}).length;
+	stats.assignedLessonCount = _.filter(schoolYearLessons, {'completed': false, 'assigned': true}).length;
+	stats.completedLessonPercentage = rounding(stats.completedLessonCount, stats.lessonCount);
+	stats.status = status(stats.lessonCount, stats.completedLessonCount, stats.assignedLessonCount);
+	stats.groupId = groupId;
+	stats.createdOn = new Date();
 
+	Stats.update({studentGroupId: studentGroupId, timeFrameId: schoolWorkId, type: 'schoolYear'}, {$set: stats}, {upsert: true});
+};
 
+// Terms Stats Student Group Upsert
+function upsertTermStudentGroupStats(groupId, studentGroupId, termId) {
+	let termLessons = Lessons.find({studentGroupId: studentGroupId, termId: termId, groupId: groupId}, {fields: {completed: 1, assigned: 1}}).fetch();
+	let stats = {};
 
+	stats.lessonCount = termLessons.length;
+	stats.completedLessonCount = _.filter(termLessons, {'completed': true}).length;
+	stats.assignedLessonCount = _.filter(termLessons, {'completed': false, 'assigned': true}).length;
+	stats.completedLessonPercentage = rounding(stats.completedLessonCount, stats.lessonCount);
+	stats.status = status(stats.lessonCount, stats.completedLessonCount, stats.assignedLessonCount);
+	stats.groupId = groupId;
+	stats.createdOn = new Date();
 
+	Stats.update({studentGroupId: studentGroupId, timeFrameId: termId, type: 'term'}, {$set: stats}, {upsert: true});
+};
 
+// Weeks Stats Student Group Upsert
+function upsertWeekStudentGroupStats(groupId, studentGroupId, weekId) {
+	let weekLessons = Lessons.find({studentGroupId: studentGroupId, weekId: weekId, groupId: groupId}, {fields: {completed: 1, assigned: 1}}).fetch();
+	let stats = {};
 
+	stats.lessonCount = weekLessons.length;
+	stats.completedLessonCount = _.filter(weekLessons, {'completed': true}).length;
+	stats.assignedLessonCount = _.filter(weekLessons, {'completed': false, 'assigned': true}).length;
+	stats.completedLessonPercentage = rounding(stats.completedLessonCount, stats.lessonCount);
+	stats.status = status(stats.lessonCount, stats.completedLessonCount, stats.assignedLessonCount);
+	stats.groupId = groupId;
+	stats.createdOn = new Date();
 
-
-
+	Stats.update({studentGroupId: studentGroupId, timeFrameId: weekId, type: 'week'}, {$set: stats}, {upsert: true});
+};

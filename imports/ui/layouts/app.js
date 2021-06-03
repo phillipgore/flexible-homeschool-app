@@ -262,10 +262,6 @@ Template.app.events({
 			}
 		});
 	},
-
-	'click .js-delete-student-group-confirmed'(event) {
-
-	},
 	
 	'click .js-delete-school-year-confirmed'(event) {
 		event.preventDefault();
@@ -348,8 +344,8 @@ Template.app.events({
 				}
 			}
 			return {
-				_id: schoolWorkIds[selectedIndex + 1],
-				type: schoolWork.find(work => work._id === schoolWorkIds[selectedIndex + 1]).type
+				_id: 'empty',
+				type: 'work'
 			}
 		}
 
@@ -365,6 +361,7 @@ Template.app.events({
 
 		let statProperties = {
 			studentIds: [FlowRouter.getParam('selectedStudentId')],
+			studentGroupIds: [FlowRouter.getParam('selectedStudentGroupId')],
 			schoolYearIds: [FlowRouter.getParam('selectedSchoolYearId')],
 			termIds: Terms.find({schoolYearId: FlowRouter.getParam('selectedSchoolWorkId')}).map(term => term.termId),
 			weekIds: Weeks.find({}).map(week => week._id),
@@ -388,11 +385,11 @@ Template.app.events({
 						});
 					} else {
 						Session.set('selectedSchoolWorkId', newSchoolWork._id);
-						Session.set('selectedSchoolWorkType', 'work');
+						Session.set('selectedSchoolWorkType', newSchoolWork.type);
 						if (window.screen.availWidth > 768) {
-							FlowRouter.go('/planning/' + newSchoolWork.type + '/view/3/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ newSchoolWork._id);
+							FlowRouter.go('/planning/' + newSchoolWork.type + '/view/3/' + Session.get('selectedStudentIdType') +'/'+ getSelectedId() +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ newSchoolWork._id);
 						} else {
-							FlowRouter.go('/planning/' + newSchoolWork.type + '/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ newSchoolWork._id);
+							FlowRouter.go('/planning/' + newSchoolWork.type + '/view/2/' + Session.get('selectedStudentIdType') +'/'+ getSelectedId() +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ newSchoolWork._id);
 						}
 						$('.js-deleting').hide();
 					}
@@ -461,6 +458,7 @@ Template.app.events({
 
 		let statProperties = {
 			studentIds: [FlowRouter.getParam('selectedStudentId')],
+			studentGroupIds: [FlowRouter.getParam('selectedStudentGroupId')],
 			schoolYearIds: [FlowRouter.getParam('selectedSchoolYearId')],
 			termIds: Terms.find({schoolYearId: FlowRouter.getParam('selectedSchoolWorkId')}).map(term => term.termId),
 			weekIds: Weeks.find({}).map(week => week._id),
@@ -484,11 +482,11 @@ Template.app.events({
 						});
 					} else {
 						Session.set('selectedSchoolWorkId', newSchoolWork._id);
-						Session.set('selectedSchoolWorkType', 'work');
+						Session.set('selectedSchoolWorkType', newSchoolWork.type);
 						if (window.screen.availWidth > 768) {
-							FlowRouter.go('/planning/' + newSchoolWork.type + '/view/3/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ newSchoolWork._id);
+							FlowRouter.go('/planning/' + newSchoolWork.type + '/view/3/' + Session.get('selectedStudentIdType') +'/'+ getSelectedId() +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ newSchoolWork._id);
 						} else {
-							FlowRouter.go('/planning/' + newSchoolWork.type + '/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ newSchoolWork._id);
+							FlowRouter.go('/planning/' + newSchoolWork.type + '/view/2/' + Session.get('selectedStudentIdType') +'/'+ getSelectedId() +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ newSchoolWork._id);
 						}
 						$('.js-deleting').hide();
 					}
@@ -548,6 +546,7 @@ Template.app.events({
 		// Set Stat Properties
 		let statProperties = {
 			studentIds: [FlowRouter.getParam('selectedStudentId')],
+			studentGroupIds: [FlowRouter.getParam('selectedStudentGroupId')],
 			schoolYearIds: [FlowRouter.getParam('selectedSchoolYearId')],
 			termIds:[FlowRouter.getParam('selectedTermId')],
 			weekIds:[FlowRouter.getParam('selectedWeekId')],
@@ -778,7 +777,13 @@ Template.app.events({
 			return item;
 		}
 
-		let path = Paths.findOne({studentId: studentId, timeFrameId: Session.get('selectedSchoolYearId')});
+		const getPathQuery = () => {
+			if (Session.get('selectedStudentIdType') === 'students') {
+				return {studentId: Session.get('selectedStudentId'), timeFrameId: Session.get('selectedSchoolYearId')}
+			}
+			return {studentGroupId: Session.get('selectedStudentGroupId'), timeFrameId: Session.get('selectedSchoolYearId')}
+		}
+		let path = Paths.findOne(getPathQuery());
 		
 		if (FlowRouter.current().route.name === 'workView') {
 			Session.set('editUrl', '/planning/work/edit/3/' + studentId +'/'+ Session.get('selectedSchoolYearId') +'/'+ selectedItem(path.firstSchoolWorkId));
@@ -820,10 +825,16 @@ Template.app.events({
 			return item;
 		}
 
-		let path = Paths.findOne({studentId: Session.get('selectedStudentId'), timeFrameId: schoolYearId});
+		const getPathQuery = () => {
+			if (Session.get('selectedStudentIdType') === 'students') {
+				return {studentId: Session.get('selectedStudentId'), timeFrameId: schoolYearId}
+			}
+			return {studentGroupId: Session.get('selectedStudentGroupId'), timeFrameId: schoolYearId}
+		}
+		let path = Paths.findOne(getPathQuery());
 
 		if (FlowRouter.current().route.name === 'workView') {
-			Session.set('editUrl', '/planning/work/edit/3/' + Session.get('selectedStudentId') +'/'+ schoolYearId +'/'+ selectedItem(path.firstSchoolWorkId));
+			Session.set('editUrl', '/planning/work/edit/3/' + Session.get('selectedStudentIdType') +'/'+ getSelectedId() +'/'+ getSelectedId() +'/'+ schoolYearId +'/'+ selectedItem(path.firstSchoolWorkId));
 		} else if (FlowRouter.current().route.name === 'reportingView') {
 			Session.set('editUrl', 'http://localhost:3000/reporting/edit/2/' + reportId);
 		} else {
@@ -850,7 +861,13 @@ Template.app.events({
 			return item;
 		}
 
-		let path = Paths.findOne({studentId: Session.get('selectedStudentId'), timeFrameId: termId});
+		const getPathQuery = () => {
+			if (Session.get('selectedStudentIdType') === 'students') {
+				return {studentId: Session.get('selectedStudentId'), timeFrameId: termId}
+			}
+			return {studentGroupId: Session.get('selectedStudentGroupId'), timeFrameId: termId}
+		}
+		let path = Paths.findOne(getPathQuery());
 		
 		if (termId === 'allTerms') {
 			Session.set({
@@ -917,7 +934,7 @@ Template.app.events({
 			selectedSchoolYearId: $(event.currentTarget).attr('data-subject-school-Year'),
 			selectedSchoolWorkId: $(event.currentTarget).attr('id'),
 			selectedSchoolWorkType: 'subjects',
-			editUrl: '/planning/subjects/edit/3/' + $(event.currentTarget).attr('data-subject-student') +'/'+ $(event.currentTarget).attr('data-subject-school-Year') +'/'+ $(event.currentTarget).attr('id'),
+			editUrl: '/planning/subjects/edit/3/' + Session.get('selectedStudentIdType') +'/'+ getSelectedId() +'/'+ $(event.currentTarget).attr('data-subject-school-Year') +'/'+ $(event.currentTarget).attr('id'),
 		});
 	},
 
@@ -927,7 +944,7 @@ Template.app.events({
 			selectedSchoolYearId: $(event.currentTarget).attr('data-work-school-Year'),
 			selectedSchoolWorkId: $(event.currentTarget).attr('id'),
 			selectedSchoolWorkType: 'work',
-			editUrl: '/planning/work/edit/3/' + $(event.currentTarget).attr('data-work-student') +'/'+ $(event.currentTarget).attr('data-work-school-Year') +'/'+ $(event.currentTarget).attr('id'),
+			editUrl: '/planning/work/edit/3/' + Session.get('selectedStudentIdType') +'/'+ getSelectedId()  +'/'+ $(event.currentTarget).attr('data-work-school-Year') +'/'+ $(event.currentTarget).attr('id'),
 		});
 	},
 
@@ -939,7 +956,12 @@ Template.app.events({
 	},
 });
 
-
+const getSelectedId = () => {
+	if (Session.get('selectedStudentIdType') === 'students') {
+		return FlowRouter.getParam('selectedStudentId');
+	}
+	return FlowRouter.getParam('selectedStudentGroupId');
+}
 
 
 

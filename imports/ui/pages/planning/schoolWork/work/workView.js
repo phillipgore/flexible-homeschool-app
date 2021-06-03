@@ -8,6 +8,13 @@ import { Weeks } from '../../../../../api/weeks/weeks.js';
 import { Lessons } from '../../../../../api/lessons/lessons.js';
 import './workView.html';
 
+const getSelectedId = () => {
+	if (Session.get('selectedStudentIdType') === 'students') {
+		return FlowRouter.getParam('selectedStudentId');
+	}
+	return FlowRouter.getParam('selectedStudentGroupId');
+}
+
 Template.workView.onCreated( function() {	
 	let template = Template.instance();
 	
@@ -19,7 +26,7 @@ Template.workView.onCreated( function() {
 Template.workView.onRendered( function() {
 	Session.set({
 		toolbarType: 'schoolWork',
-		editUrl: '/planning/work/edit/3/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedSchoolWorkId'),
+		editUrl: '/planning/work/edit/3/' + Session.get('selectedStudentIdType') +'/'+ getSelectedId() +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedSchoolWorkId'),
 		labelThree: 'School Work',
 		activeNav: 'planningList',
 	});
