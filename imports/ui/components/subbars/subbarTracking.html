@@ -16,7 +16,7 @@
 								{{else}}
 									{{#each schoolYear in schoolYears}}
 										<li class="dropdown-item">
-											<a id="{{schoolYear._id}}" data-term-id="{{firstTermId schoolYear._id}}" data-week-id="{{firstWeekId schoolYear._id}}" class="js-school-year dropdown-item-link" href="/tracking/students/view/{{selectedFramePosition}}/{{selectedStudentId}}/{{schoolYear._id}}/{{firstTermId schoolYear._id}}/{{firstWeekId schoolYear._id}}">
+											<a id="{{schoolYear._id}}" data-term-id="{{firstTermId schoolYear._id}}" data-week-id="{{firstWeekId schoolYear._id}}" class="js-school-year dropdown-item-link" href="/tracking/{{selectedStudentIdType}}/view/{{selectedFramePosition}}/{{getSelectedId}}/{{schoolYear._id}}/{{firstTermId schoolYear._id}}/{{firstWeekId schoolYear._id}}">
 												{{#unless selectedFramePositionOne}}
 													<div class="dropdown-item-icon"><i class="{{getStatus schoolYear._id}}"></i></div>
 												{{/unless}}
@@ -53,7 +53,7 @@
 								{{else}}
 									{{#each term in terms}}
 										<li class="dropdown-item">
-											<a data-school-year-id="{{selectedSchoolYearId}}" id="{{term._id}}" data-week-id="{{term.firstWeekId}}" class="js-term dropdown-item-link" href="/tracking/students/view/{{selectedFramePosition}}/{{selectedStudentId}}/{{selectedSchoolYearId}}/{{term._id}}/{{firstWeekId term._id}}">
+											<a data-school-year-id="{{selectedSchoolYearId}}" id="{{term._id}}" data-week-id="{{term.firstWeekId}}" class="js-term dropdown-item-link" href="/tracking/{{selectedStudentIdType}}/view/{{selectedFramePosition}}/{{getSelectedId}}/{{selectedSchoolYearId}}/{{term._id}}/{{firstWeekId term._id}}">
 												{{#unless selectedFramePositionOne}}
 													<div class="dropdown-item-icon"><i class="{{getStatus term._id}}"></i></div>
 												{{/unless}}
@@ -90,7 +90,7 @@
 								{{else}}
 									{{#each week in weeks}}
 										<li class="dropdown-item">
-											<a data-school-year-id="{{selectedSchoolYearId}}" data-term-id="{{selectedTermId}}" id="{{week._id}}" class="js-week dropdown-item-link" href="/tracking/students/view/{{selectedFramePosition}}/{{selectedStudentId}}/{{selectedSchoolYearId}}/{{selectedTermId}}/{{week._id}}">
+											<a data-school-year-id="{{selectedSchoolYearId}}" data-term-id="{{selectedTermId}}" id="{{week._id}}" class="js-week dropdown-item-link" href="/tracking/{{selectedStudentIdType}}/view/{{selectedFramePosition}}/{{getSelectedId}}/{{selectedSchoolYearId}}/{{selectedTermId}}/{{week._id}}">
 												{{#unless selectedFramePositionOne}}
 													<div class="dropdown-item-icon"><i class="{{getStatus week._id}}"></i></div>
 												{{/unless}}

@@ -14,9 +14,16 @@ import './workEdit.html';
 
 LocalResources = new Mongo.Collection(null);
 
-Template.workEdit.onCreated( function() {	
+const getSelectedId = () => {
+	if (Session.get('selectedStudentIdType') === 'students') {
+		return Session.get('selectedStudentId');
+	}
+	return Session.get('selectedStudentGroupId');
+}
+
+Template.workEdit.onCreated( function() {
 	// Subscriptions
-	this.subjectData = this.subscribe('schooYearStudentSubject', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
+	this.subjectData = this.subscribe('schooYearStudentSubject', FlowRouter.getParam('selectedSchoolYearId'), Session.get('selectedStudentIdType'), getSelectedId());
 	this.schoolWorkData = Meteor.subscribe('schoolWork', FlowRouter.getParam('selectedSchoolWorkId'), function() {
 		Session.set('schoolYearId', SchoolWork.findOne({_id: FlowRouter.getParam('selectedSchoolWorkId')}).schoolYearId)
 	});
@@ -799,13 +806,6 @@ let setScheduledDays = template => {
 
 	template.timesPerWeek.set(_.uniq(timesPerWeek).sort());
 	template.scheduledDays.set(newScheduledDays);
-}
-
-const getSelectedId = () => {
-	if (Session.get('selectedStudentIdType') === 'students') {
-		return Session.get('selectedStudentId');
-	}
-	return Session.get('selectedStudentGroupId');
 }
 
 

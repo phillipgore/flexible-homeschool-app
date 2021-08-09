@@ -12,11 +12,17 @@ import './workNew.html';
 
 LocalResources = new Mongo.Collection(null);
 
+const getSelectedId = () => {
+	if (Session.get('selectedStudentIdType') === 'students') {
+		return Session.get('selectedStudentId');
+	}
+	return Session.get('selectedStudentGroupId');
+}
+
 Template.workNew.onCreated( function() {	
 	Session.setPersistent('unScrolled', true);
-	
 	// Subscriptions
-	this.subjectData = this.subscribe('schooYearStudentSubject', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
+	this.subjectData = this.subscribe('schooYearStudentSubject', FlowRouter.getParam('selectedSchoolYearId'), Session.get('selectedStudentIdType'), getSelectedId());
 	this.schoolYearData = this.subscribe('schoolYear', FlowRouter.getParam('selectedSchoolYearId'));
 	this.termData = this.subscribe('schoolYearTerms', FlowRouter.getParam('selectedSchoolYearId'));
 	this.weekData = this.subscribe('schoolYearWeeks', FlowRouter.getParam('selectedSchoolYearId'));
@@ -410,7 +416,6 @@ Template.workNew.events({
 				for (i = 0; i < parseInt(this.value); i++) {
 				    lessonProperties.push({
 						order: i + 1,
-						studentId: studentId,
 				    	schoolYearId: schoolYearId, 
 				    	termId: this.dataset.termId,
 				    	termOrder: parseInt(this.dataset.termOrder), 
@@ -439,21 +444,21 @@ Template.workNew.events({
 			}
 
 			if (Session.get('selectedStudentIdType') === 'students') {
-				schoolWorkProperties.studentId = FlowRouter.getParam('selectedStudentId');
+				schoolWorkProperties.studentId = Session.get('selectedStudentId');
 				lessonProperties.forEach(lessonProperty => {
-					lessonProperty.studentId = FlowRouter.getParam('selectedStudentId');
+					lessonProperty.studentId = Session.get('selectedStudentId');
 				});
-				pathProperties.studentIds.push(FlowRouter.getParam('selectedStudentId'));
-				statProperties.studentIds.push(FlowRouter.getParam('selectedStudentId'));
+				pathProperties.studentIds.push(Session.get('selectedStudentId'));
+				statProperties.studentIds.push(Session.get('selectedStudentId'));
 			}
 
 			if (Session.get('selectedStudentIdType') === 'studentgroups') {
-				schoolWorkProperties.studentGroupId = FlowRouter.getParam('selectedStudentGroupId');
+				schoolWorkProperties.studentGroupId = Session.get('selectedStudentGroupId');
 				lessonProperties.forEach(lessonProperty => {
-					lessonProperty.studentGroupId = FlowRouter.getParam('selectedStudentGroupId');
+					lessonProperty.studentGroupId = Session.get('selectedStudentGroupId');
 				});
-				pathProperties.studentGroupIds.push(FlowRouter.getParam('selectedStudentGroupId'));
-				statProperties.studentGroupIds.push(FlowRouter.getParam('selectedStudentGroupId'));
+				pathProperties.studentGroupIds.push(Session.get('selectedStudentGroupId'));
+				statProperties.studentGroupIds.push(Session.get('selectedStudentGroupId'));
 			}
 			
 			Meteor.call('insertSchoolWork', schoolWorkProperties, lessonProperties, function(error, schoolWorkId) {
@@ -502,13 +507,6 @@ Template.workNew.events({
 		
 	},
 });
-
-const getSelectedId = () => {
-	if (Session.get('selectedStudentIdType') === 'students') {
-		return Session.get('selectedStudentId');
-	}
-	return Session.get('selectedStudentGroupId');
-}
 
 
 

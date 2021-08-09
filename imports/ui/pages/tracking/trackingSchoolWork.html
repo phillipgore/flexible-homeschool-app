@@ -135,6 +135,21 @@
 											</div>
 										</div>
 
+										{{#if typeIsStudentGroups}}
+											<label>Participants</label>
+											<div class="row">
+												{{#each studentId in studentGroup.studentIds}}
+													<div class="col-tn-1of2">
+														<label class="checkbox">
+															<input class="js-student-checkbox" type="checkbox" name="participant" value="{{studentId}}" checked="{{participantIsChecked studentId lesson._id}}">
+															<div class="checkbox-icon"></div> 
+															<div class="checkbox-label">{{getStudentName studentId}}</div>
+														</label>
+													</div>
+												{{/each}}
+											</div>
+										{{/if}}
+
 										<label>Completion Date</label>
 										<input type="text" id="completed-on-{{lesson._id}}" name="completedOn" class="js-completed-on" placeholder="MM DD, YYYY" value="{{dateFormat lesson.completedOn}}">
 										<label>Completion Time</label>

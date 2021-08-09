@@ -788,7 +788,7 @@ Template.app.events({
 		if (FlowRouter.current().route.name === 'workView') {
 			Session.set('editUrl', '/planning/work/edit/3/' + studentId +'/'+ Session.get('selectedSchoolYearId') +'/'+ selectedItem(path.firstSchoolWorkId));
 		} else if (FlowRouter.current().route.name === 'trackingView' || FlowRouter.current().route.name === 'trackingEdit') {
-			Session.set('editUrl', '/tracking/students/edit/2/' + studentId +'/'+ Session.get('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'))
+			Session.set('editUrl', '/tracking/students/edit/2/' + studentId +'/'+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedTermId') +'/'+ Session.get('selectedWeekId'))
 		} else if (FlowRouter.current().route.name === 'reportingView') {
 			Session.set('editUrl', 'http://localhost:3000/reporting/edit/2/' + reportId);
 		} else {
@@ -808,6 +808,8 @@ Template.app.events({
 
 	'click .js-student-group'(event) {
 		let studentGroupId = $(event.currentTarget).attr('id');
+
+		Session.set({editUrl: '/tracking/studentgroups/edit/2/' + studentGroupId +'/'+ Session.get('selectedSchoolYearId')  +'/'+ Session.get('selectedTermId') +'/'+ Session.get('selectedWeekId')});
 
 		Session.set({
 			selectedStudentIdType: 'studentgroups',

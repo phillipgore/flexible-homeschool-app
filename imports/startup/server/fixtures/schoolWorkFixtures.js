@@ -30,9 +30,6 @@ Meteor.methods({
 
 		let sourceSubjects = [
 			{
-				name: "Artist Study",
-			},
-			{
 				name: "English",
 			},
 			{
@@ -40,19 +37,13 @@ Meteor.methods({
 			},
 		];
 
+		let sourceGroupSubjects = [
+			{
+				name: "Artist Study",
+			},
+		];
+
 		let sourceSchoolWork = [
-			{
-				name: "Vermeer",
-				description: "<p>1632-1675 Dutch Baroque. Morning Time.</p>",
-				resourceTitles: ['Vermeer Picture Study Portfolio'],
-				subjectName: "Artist Study",
-			},
-			{
-				name: "Baroque Era",
-				description: "<p>Morning Time.</p>",
-				resourceTitles: [],
-				subjectName: "Artist Study",
-			},
 			{
 				name: "Current Events",
 				description: "<p>Listen to News Podcasts. Read Student Daily News. Watch talk shows and discuss with Dad. Read weekly blogs about current interests.</p>",
@@ -89,11 +80,6 @@ Meteor.methods({
 				subjectName: "English",
 			},
 			{
-				name: "Heidi's Alps",
-				description: "<p>Read about 8 pages a week. Follow the Mapwork document ~ there are some things for map work that you'll do for every chapter in this book.</p>",
-				resourceTitles: ["Heidi's Alp: One Family's Search for Storybook Europe"],
-			},
-			{
 				name: "Geometry / Trigonometry",
 				description: "<p>Look at two sources of help before coming to ask for help from parents.</p>",
 				resourceTitles: ["Geometry/Trig"],
@@ -122,6 +108,26 @@ Meteor.methods({
 				resourceTitles: ["How to Read a Book"],
 				subjectName: "English",
 			}
+		];
+
+		let sourceGroupSchoolWork = [
+			{
+				name: "Vermeer",
+				description: "<p>1632-1675 Dutch Baroque. Morning Time.</p>",
+				resourceTitles: ['Vermeer Picture Study Portfolio'],
+				subjectName: "Artist Study",
+			},
+			{
+				name: "Baroque Era",
+				description: "<p>Morning Time.</p>",
+				resourceTitles: [],
+				subjectName: "Artist Study",
+			},
+			{
+				name: "Heidi's Alps",
+				description: "<p>Read about 8 pages a week. Follow the Mapwork document ~ there are some things for map work that you'll do for every chapter in this book.</p>",
+				resourceTitles: ["Heidi's Alp: One Family's Search for Storybook Europe"],
+			},
 		];
 
 		let timesPerWeek = [2, 2, 5, 5, 2, 3, 2, 5, 2, 5, 3, 3, 2, 2];
@@ -157,11 +163,23 @@ Meteor.methods({
 
 		SchoolYears.find({groupId: groupId}, {sort: {startYear: 1}, fields: {_id: 1}, limit: 2}).forEach(schoolYear => {
 			Students.find({groupId: groupId}, {fields: {_id: 1}}).forEach(student => {
-				sourceSubjects.forEach((subject, subjectIndex) => {
-					// Subjects.insert(subjectProperties);
+				sourceSubjects.forEach((subject) => {
 					fixtureSubjects.push({
 						name: subject.name,
 						studentId: student._id,
+						schoolYearId: schoolYear._id,
+						groupId: groupId, 
+						userId: userId, 
+						createdOn: new Date()
+					});
+				});
+			});
+
+			StudentGroups.find({groupId: groupId}, {fields: {_id: 1}}).forEach(studentGroup => {
+				sourceGroupSubjects.forEach((subject) => {
+					fixtureSubjects.push({
+						name: subject.name,
+						studentGroupId: studentGroup._id,
 						schoolYearId: schoolYear._id,
 						groupId: groupId, 
 						userId: userId, 
@@ -178,6 +196,15 @@ Meteor.methods({
 
 		// Insert School Work
 		sourceSchoolWork.forEach(schoolWork => {
+			if (schoolWork.resourceTitles) {
+				schoolWork.resources = Resources.find({groupId: groupId, title: {$in: schoolWork.resourceTitles}}).map(resource => resource._id);
+			} else {
+				schoolWork.resources = [];
+			}
+			delete schoolWork.resourceTitles
+		});
+
+		sourceGroupSchoolWork.forEach(schoolWork => {
 			if (schoolWork.resourceTitles) {
 				schoolWork.resources = Resources.find({groupId: groupId, title: {$in: schoolWork.resourceTitles}}).map(resource => resource._id);
 			} else {
@@ -203,6 +230,29 @@ Meteor.methods({
 					};
 					if (schoolWork.subjectName) {
 						let subjectId = Subjects.findOne({name: schoolWork.subjectName, studentId: student._id, schoolYearId: schoolYear._id, groupId: groupId,}, {fields: {_id: 1}})._id;
+						schoolWorkItem.subjectId = subjectId;
+					}
+
+					fixtureSchoolWork.push(schoolWorkItem);
+				});
+			});
+
+			StudentGroups.find({groupId: groupId}, {fields: {_id: 1}}).forEach(studentGroup => {
+				sourceGroupSchoolWork.forEach((schoolWork, schoolWorkIndex) => {
+					let weekDayLabelOptions = weekDayLabels(timesPerWeek[schoolWorkIndex]);
+					let schoolWorkItem = {
+						name: schoolWork.name,
+						description: schoolWork.description,
+						resources: schoolWork.resources,
+						schoolYearId: schoolYear._id,
+						scheduledDays: [{segmentCount: weekDayLabelOptions.length, days: weekDayLabelOptions}],
+						studentGroupId: studentGroup._id,
+						groupId: groupId, 
+						userId: userId, 
+						createdOn: new Date()
+					};
+					if (schoolWork.subjectName) {
+						let subjectId = Subjects.findOne({name: schoolWork.subjectName, studentGroupId: studentGroup._id, schoolYearId: schoolYear._id, groupId: groupId,}, {fields: {_id: 1}})._id;
 						schoolWorkItem.subjectId = subjectId;
 					}
 

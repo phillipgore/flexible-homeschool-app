@@ -1,5 +1,6 @@
 import {Template} from 'meteor/templating';
 import { Students } from '../../../api/students/students.js';
+import { StudentGroups } from '../../../api/studentGroups/studentGroups.js';
 import { SchoolYears } from '../../../api/schoolYears/schoolYears.js';
 import { SchoolWork } from '../../../api/schoolWork/schoolWork.js';
 import { Terms } from '../../../api/terms/terms.js';
@@ -9,6 +10,13 @@ import { Lessons } from '../../../api/lessons/lessons.js';
 
 import './trackingView.html';
 
+const getSelectedId = () => {
+	if (Session.get('selectedStudentIdType') === 'students') {
+		return Session.get('selectedStudentId');
+	}
+	return Session.get('selectedStudentGroupId');
+}
+
 Template.trackingView.onCreated( function() {
 	let template = Template.instance();
 
@@ -16,8 +24,13 @@ Template.trackingView.onCreated( function() {
 	template.schoolWork = new ReactiveVar();
 	
 	template.autorun(() => {
-		this.trackingData = Meteor.subscribe('trackingViewPub', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedWeekId'));
-		Session.set({editUrl: '/tracking/students/edit/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId')});
+		this.trackingData = Meteor.subscribe('studentTrackingViewPub', Session.get('selectedStudentIdType'), getSelectedId(), FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedWeekId'));
+
+		if (Session.get('selectedStudentIdType') === 'students') {
+			Session.set({editUrl: '/tracking/students/edit/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId')});
+		} else {
+			Session.set({editUrl: '/tracking/studentgroups/edit/2/' + FlowRouter.getParam('selectedStudentGroupId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId')});
+		}
 	});
 });
 
@@ -27,10 +40,14 @@ Template.trackingView.onRendered( function() {
 		selectedReportingTermId: FlowRouter.getParam('selectedTermId'),
 		selectedReportingWeekId: FlowRouter.getParam('selectedWeekId'),
 		toolbarType: 'tracking',
-		editUrl: '/tracking/students/edit/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'),
 		newUrl: '',
 		activeNav: 'trackingList',
 	});
+	if (Session.get('selectedStudentIdType') === 'students') {
+		Session.set({editUrl: '/tracking/students/edit/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId')});
+	} else {
+		Session.set({editUrl: '/tracking/studentgroups/edit/2/' + FlowRouter.getParam('selectedStudentGroupId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId')});
+	}
 });
 
 Template.trackingView.helpers({
@@ -40,6 +57,22 @@ Template.trackingView.helpers({
 
 	student: function() {
 		return Students.findOne({_id: FlowRouter.getParam('selectedStudentId')});
+	},
+
+	typeIsStudentGroups: function() {
+		if (Session.get('selectedStudentIdType') === 'studentgroups') {
+			return true;
+		}
+		return false;
+	},
+
+	studentGroup: function() {
+		return StudentGroups.findOne({_id: FlowRouter.getParam('selectedStudentGroupId')}) && StudentGroups.findOne({_id: FlowRouter.getParam('selectedStudentGroupId')});
+	},
+
+	getStudentName: function(studentId) {
+		const student = Students.findOne({_id: studentId});
+		return `${student.preferredFirstName.name} ${student.lastName}`;
 	},
 
 	selectedSchoolYearId: function() {
@@ -103,17 +136,19 @@ let getMiddleSchoolWork = (studentId, schoolYearId) => {
 
 	// No Subject and Work
 	let noSubjectSchoolWork = SchoolWork.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId'), studentId: FlowRouter.getParam('selectedStudentId'), subjectId: {$exists: false}}, {sort: {name: 1}});
-	schoolWork.push({
-		_id: 'noSubject',
-		name: 'No Subject',
-		type: 'subject',
-		hasSchoolWork: noSubjectSchoolWork.count() === 0 ? false : true,
-	});
-	noSubjectSchoolWork.forEach(workItem => {
-		workItem.type = 'work';
-		workItem.subjectId = 'noSubject';
-		schoolWork.push(workItem);
-	});
+	if (noSubjectSchoolWork.count()) {
+		schoolWork.push({
+			_id: 'noSubject',
+			name: 'No Subject',
+			type: 'subject',
+			hasSchoolWork: noSubjectSchoolWork.count() === 0 ? false : true,
+		});
+		noSubjectSchoolWork.forEach(workItem => {
+			workItem.type = 'work';
+			workItem.subjectId = 'noSubject';
+			schoolWork.push(workItem);
+		});
+	}
 
 	// Middle SchoolWork Item
 	let middleSchoolWork = schoolWork[Math.ceil(schoolWork.length / 2)];
@@ -179,10 +214,13 @@ let getMiddleSchoolWork = (studentId, schoolYearId) => {
 		return work._id === dividingSchoolwork._id;
 	});
 
-	return {
-		columnOne: schoolWork.slice(0, dividingSchoolworkIndex),
-		columnTwo: schoolWork.slice(dividingSchoolworkIndex)
+	if (schoolWork.length >= 6) {
+		return {
+			columnOne: schoolWork.slice(0, dividingSchoolworkIndex),
+			columnTwo: schoolWork.slice(dividingSchoolworkIndex)
+		}
 	}
+	return {columnOne: schoolWork};
 };
 
 

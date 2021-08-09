@@ -11,6 +11,13 @@ import moment from 'moment';
 import _ from 'lodash';
 import './subbarTracking.html';
 
+const getSelectedId = () => {
+	if (Session.get('selectedStudentIdType') === 'students') {
+		return Session.get('selectedStudentId');
+	}
+	return Session.get('selectedStudentGroupId');
+}
+
 Template.subbarTracking.onCreated( function() {
 	let template = Template.instance();
 	
@@ -50,6 +57,17 @@ Template.subbarTracking.helpers({
 
 	selectedStudentId: function() {
 		return FlowRouter.getParam('selectedStudentId');
+	},
+
+	selectedStudentIdType: function() {
+		return Session.get('selectedStudentIdType');
+	},
+
+	getSelectedId: function() {		
+		if (Session.get('selectedStudentIdType') === 'students') {
+			return Session.get('selectedStudentId');
+		}
+		return Session.get('selectedStudentGroupId');
 	},
 
 	

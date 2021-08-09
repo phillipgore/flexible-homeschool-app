@@ -49,6 +49,15 @@ const LessonsSchema = new SimpleSchema({
 		label: "Completed",
 		defaultValue: false,
 	},
+    participants: {
+        type: Array,
+        label: "participants",
+		optional: true
+    },
+	'participants.$': {
+		type: String,
+        label: "Participating Student Id",
+	},   
 	completedOn: {
         type: Date,
         label: "Completed On",

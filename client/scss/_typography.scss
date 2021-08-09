@@ -87,6 +87,14 @@ p {
 	&:last-child, &:last-of-type, &:only-child {
 		padding-bottom: 0px;
 	}
+
+	&.pill {
+		padding: 6px 12px;
+		font-size: 12px;
+		background-color: $color-gray-lighter;
+		color: $color-gray-darkest;
+		border-radius: 14px;
+	}
 }
 
 ul, ol {

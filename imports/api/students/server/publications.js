@@ -1,4 +1,5 @@
 import {Students} from '../students.js';
+import {StudentGroups} from '../../studentGroups/studentGroups.js';
 
 Meteor.publish('allStudents', function() {
 	if (!this.userId) {
@@ -24,7 +25,10 @@ Meteor.publish('trackingListPub', function(studentId) {
 	}
 
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
-	return Students.find({groupId: groupId}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}, fields: {birthday: 1, firstName: 1, middleName: 1, lastName: 1, preferredFirstName: 1}});
+	return [
+		Students.find({groupId: groupId}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}, fields: {birthday: 1, firstName: 1, middleName: 1, lastName: 1, preferredFirstName: 1}}),
+		StudentGroups.find({groupId: groupId}, {sort: {name: 1}, fields: {name: 1, studentIds: 1}})
+	]
 });
 
 

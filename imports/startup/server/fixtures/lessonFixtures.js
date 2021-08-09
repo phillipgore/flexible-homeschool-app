@@ -99,6 +99,73 @@ Meteor.methods({
 			});
 		});
 
+		StudentGroups.find({groupId: groupId}).forEach(studentGroup => {
+			SchoolYears.find({groupId: groupId}, {
+				sort: {startYear: 1}, 
+				fields: {_id: 1}, 
+				limit: 2
+			}).forEach((schoolYear, schoolYearIndex) => {
+				Terms.find({schoolYearId: schoolYear._id}, {
+					sort: {order: 1}, 
+					fields: {termOrder: 1, order: 1}
+				}).forEach(term => {
+					let weeks = Weeks.find({termId: term._id}, {sort: {order: 1}, fields: {order: 1, termOrder: 1}}).fetch();
+					let schoolWork = SchoolWork.find({studentGroupId: studentGroup._id, schoolYearId: schoolYear._id}, {sort: {name: 1}})
+				
+					weeks.forEach((week, weekIndex) => {
+						schoolWork.forEach((schoolWork, schoolWorkIndex) => {
+							let randomNumber = Math.floor(Math.random() * (schoolWork.scheduledDays[0].segmentCount + 1) ) + 1
+							let randomCompleted = randomNumber < 3 ? randomNumber : 3;
+
+							for (i = 0; i < schoolWork.scheduledDays[0].segmentCount; i++) {
+								let lessonProperties = {insertOne: {
+									"document": {
+										_id: Random.id(),
+										order: parseInt(i + 1),
+										weekDay: schoolWork.scheduledDays[0].days[i],
+										weekOrder: week.order,
+										termOrder: week.termOrder,
+										assigned: false,
+										completed: false,
+										schoolWorkId: schoolWork._id,
+										schoolYearId: schoolYear._id,
+										subjectId: schoolWork.subjectId,
+										termId: term._id,
+										weekId: week._id,
+										studentGroupId: studentGroup._id,
+										groupId: groupId, 
+										userId: userId, 
+										createdOn: new Date()
+									}	
+								}};
+
+								if (schoolYearIndex === 0) {
+									lessonProperties.insertOne.document.completed = true
+								}
+
+								if (schoolYearIndex === 1 && term.order === 1) {
+									lessonProperties.insertOne.document.completed = true
+								}
+
+								if (schoolYearIndex === 1 && term.order === 2 && week.order <= 6) {
+									lessonProperties.insertOne.document.completed = true
+								}
+
+								if (schoolYearIndex === 1 && term.order === 2 && week.order > 6 && lessonProperties.insertOne.document.order < randomCompleted) {
+									lessonProperties.insertOne.document.completed = true
+								}
+
+								if (schoolYearIndex === 1 && term.order === 2 && week.order > 7) {
+									lessonProperties.insertOne.document.completed = false
+								}
+								fixtureLessons.push(lessonProperties);
+							};
+						});
+					});
+				});
+			});
+		});
+
 		let result = Lessons.rawCollection().bulkWrite(
 			fixtureLessons
 		).then((result) => {

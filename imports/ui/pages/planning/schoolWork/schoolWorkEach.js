@@ -40,6 +40,9 @@ Template.schoolWorkEach.helpers({
 	},
 
 	subjects: function() {
+		if (Session.get('selectedStudentIdType') === 'studentgroups') {
+			return Subjects.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId'), studentGroupId: FlowRouter.getParam('selectedStudentGroupId')});
+		}
 		return Subjects.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId'), studentId: FlowRouter.getParam('selectedStudentId')});
 	},
 	
