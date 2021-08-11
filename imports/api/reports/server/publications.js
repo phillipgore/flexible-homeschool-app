@@ -89,16 +89,14 @@ Meteor.publish('reportData', function(studentId, schoolYearId, termId, weekId, r
 					]
 			}, {sort: {name: 1}}).fetch();
 			let yearNotes = Notes.find({groupId: groupId, schoolWorkId: {$in: yearSchoolWork.map(work => work._id)}}).fetch();
-			let yearLessons = Lessons.find(
-				{
-					groupId: groupId, 
-					schoolWorkId: {$in: yearSchoolWork.map(schoolWork => schoolWork._id)},
-					$or: [
-						{participants: {$size: 0}},
-						{participants: {$exists: false}},
-						{participants: studentId}
-					]
-				}, {sort: {order: 1}}).fetch();
+			let lessons = Lessons.find({groupId: groupId, schoolWorkId: {$in: yearSchoolWork.map(schoolWork => schoolWork._id)}}, {sort: {order: 1}}).fetch();
+			let yearLessons = [];
+			lessons.forEach(lesson => {
+				let participants = lesson.participants;
+				if (_.isUndefined(participants) || participants.length < 1 || participants.includes(studentId)) {
+					yearLessons.push(lesson);
+				}
+			});
 			let yearResources = Resources.find(
 				{
 					_id: {$in: _.flatten(yearSchoolWork.map(schoolWork => schoolWork.resources))}, 

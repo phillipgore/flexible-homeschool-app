@@ -3,6 +3,7 @@ import { Paths } from '../../api/paths/paths.js';
 import { Groups } from '../../api/groups/groups.js';
 import { SchoolYears } from '../../api/schoolYears/schoolYears.js';
 import { Students } from '../../api/students/students.js';
+import { StudentGroups } from '../../api/studentGroups/studentGroups.js';
 import { Resources } from '../../api/resources/resources.js';
 import { Subjects } from '../../api/subjects/subjects.js';
 import { SchoolWork } from '../../api/schoolWork/schoolWork.js';
