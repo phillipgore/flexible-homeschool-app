@@ -209,7 +209,8 @@ ul.dropdown-menu {
 			position: absolute;
 			left: -132px;
 			right: -132px;
-			overflow: visible;
+			overflow-x: hidden;
+			overflow-y: auto;
 
 			&.dropdown-tool {
 				top: 59px;
@@ -219,7 +220,6 @@ ul.dropdown-menu {
 					right: 0px;
 				}
 			}
-
 			// .dropdown-arrow {
 			// 	position: absolute;
 			// 	height: 9px;
