@@ -11,6 +11,7 @@ Meteor.methods({
     },
 
     updateSubject: function(subjectProperties) {
+        console.log(subjectProperties);
         Subjects.update(subjectProperties._id, {$set: subjectProperties});
     },
 

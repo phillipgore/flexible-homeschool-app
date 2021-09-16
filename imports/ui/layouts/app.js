@@ -810,7 +810,12 @@ Template.app.events({
 	'click .js-student-group'(event) {
 		let studentGroupId = $(event.currentTarget).attr('id');
 
-		Session.set({editUrl: '/tracking/studentgroups/edit/2/' + studentGroupId +'/'+ Session.get('selectedSchoolYearId')  +'/'+ Session.get('selectedTermId') +'/'+ Session.get('selectedWeekId')});
+		if (FlowRouter.current().route.name === 'studentGroupsView') {
+			Session.set({editUrl: '/planning/studentgroups/edit/2/' + studentGroupId});
+
+		} else {
+			Session.set({editUrl: '/tracking/studentgroups/edit/2/' + studentGroupId +'/'+ Session.get('selectedSchoolYearId')  +'/'+ Session.get('selectedTermId') +'/'+ Session.get('selectedWeekId')});
+		}
 
 		Session.set({
 			selectedStudentIdType: 'studentgroups',

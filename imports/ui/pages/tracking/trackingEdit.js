@@ -840,7 +840,11 @@ Template.trackingEdit.events({
 						$('.js-updating').hide();
 						$('.js-submit').prop('disabled', false);
 					} else {
-						FlowRouter.go('/tracking/students/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'))
+						if (Session.get('selectedStudentIdType') === 'students') {
+							FlowRouter.go('/tracking/students/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'));
+						} else {
+							FlowRouter.go('/tracking/studentgroups/view/2/' + FlowRouter.getParam('selectedStudentGroupId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'));
+						}
 					}
 				})
 			}

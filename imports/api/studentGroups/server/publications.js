@@ -17,3 +17,12 @@ Meteor.publish('studentGroup', function(studentGroupId) {
 	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
 	return StudentGroups.find({groupId: groupId, _id: studentGroupId}, {fields: {name: 1, studentIds: 1}});
 });
+
+Meteor.publish('aStudentsGroups', function(studentId) {
+	if (!this.userId) {
+		return this.ready();
+	}
+
+	let groupId = Meteor.users.findOne({_id: this.userId}).info.groupId;
+	return StudentGroups.find({groupId: groupId, studentIds: studentId}, {fields: {name: 1, studentIds: 1}});
+});

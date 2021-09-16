@@ -273,12 +273,15 @@ Template.trackingSchoolWork.events({
 			$(window).scrollTop(Session.get('lessonScrollTop'));
 		}
 
+		
 		let participants = [];
-		event.currentTarget.participant.forEach(item => {
-			if (item.checked) {
-				participants.push(item.value);
-			}
-		});
+		if (Session.get('selectedStudentIdType') === 'studentgroups') {
+			event.currentTarget.participant.forEach(item => {
+				if (item.checked) {
+					participants.push(item.value);
+				}
+			});
+		}
 
 		let lessonProperties = {
 			_id: $(event.currentTarget).parent().attr('id'),

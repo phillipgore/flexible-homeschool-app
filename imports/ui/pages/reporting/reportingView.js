@@ -21,6 +21,7 @@ Template.reportingView.onCreated( function() {
 	template.autorun(() => {
 		this.reportData = Meteor.subscribe('reportData', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'), FlowRouter.getParam('selectedWeekId'), FlowRouter.getParam('selectedReportId'));
 		this.studentData = Meteor.subscribe('student', FlowRouter.getParam('selectedStudentId'));
+		this.studentGroupData = Meteor.subscribe('aStudentsGroups', FlowRouter.getParam('selectedStudentId'));
 	});
 });
 
@@ -37,7 +38,7 @@ Template.reportingView.onRendered( function() {
 
 Template.reportingView.helpers({
 	subscriptionReady: function() {
-		if (Template.instance().reportData.ready() && Template.instance().studentData.ready()) {
+		if (Template.instance().reportData.ready() && Template.instance().studentData.ready() && Template.instance().studentGroupData.ready()) {
 			return true;
 		}
 		return false;

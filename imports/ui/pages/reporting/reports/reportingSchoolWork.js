@@ -1,5 +1,6 @@
 import { Template } from 'meteor/templating';
 import { Reports } from '../../../../api/reports/reports.js';
+import { StudentGroups } from '../../../../api/studentGroups/studentGroups.js';
 import { Subjects } from '../../../../api/subjects/subjects.js';
 import { SchoolWork } from '../../../../api/schoolWork/schoolWork.js';
 import { Notes } from '../../../../api/notes/notes.js';
@@ -67,7 +68,10 @@ Template.reportingSchoolWork.helpers({
 	},
 
 	subjects: function() {
-		return Subjects.find({studentId: FlowRouter.getParam('selectedStudentId'), schoolYearId: FlowRouter.getParam('selectedSchoolYearId')});
+		let studentId = FlowRouter.getParam('selectedStudentId');
+		let schoolYearId = FlowRouter.getParam('selectedSchoolYearId');
+		let studentGroupIds = StudentGroups.find({studentIds: FlowRouter.getParam('selectedStudentId')}).map(studentGroup => studentGroup._id);
+		return Subjects.find({$or: [{studentId: studentId}, {studentGroupId: {$in: studentGroupIds}}], schoolYearId: schoolYearId});
 	},
 
 	subjectComplete: function(progress) {

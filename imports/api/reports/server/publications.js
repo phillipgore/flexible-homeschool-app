@@ -300,6 +300,7 @@ Meteor.publish('reportData', function(studentId, schoolYearId, termId, weekId, r
 					subjectData.name = subject.name;
 					subjectData.schoolYearId = subject.schoolYearId;
 					subjectData.studentId = subject.studentId;
+					subjectData.studentGroupId = subject.studentGroupId;
 
 					let subjectLessons = subject._id === 'noSubject' ? 
 						lessons.filter(lesson => !lesson.subjectId) :

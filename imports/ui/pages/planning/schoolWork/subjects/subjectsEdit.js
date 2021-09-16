@@ -56,7 +56,7 @@ Template.subjectsEdit.events({
 
 			let pathProperties = {
 				studentIds: [],
-				studentGroupIds: [FlowRouter.getParam('selectedStudentGroupId')],
+				studentGroupIds: [],
 				schoolYearIds: [FlowRouter.getParam('selectedSchoolYearId')],
 				termIds: [],
 			}
@@ -68,7 +68,7 @@ Template.subjectsEdit.events({
 
 			if (Session.get('selectedStudentIdType') === 'studentgroups') {
 				subjectProperties.studentGroupId = FlowRouter.getParam('selectedStudentGroupId');
-				pathProperties.studentGroupIds = FlowRouter.getParam('selectedStudentGroupId');
+				pathProperties.studentGroupIds.push(FlowRouter.getParam('selectedStudentGroupId'));
 			}
 
 			Meteor.call('updateSubject', subjectProperties, function(error, result) {
