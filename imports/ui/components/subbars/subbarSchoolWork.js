@@ -7,8 +7,7 @@ import {SchoolWork} from '../../../api/schoolWork/schoolWork.js';
 import './subbarSchoolWork.html';
 
 import moment from 'moment';
-import _, { stubTrue } from 'lodash'
-
+import _, { stubTrue } from 'lodash';
 
 Template.subbarSchoolWork.onCreated( function() {
 	let template = Template.instance();
@@ -64,7 +63,7 @@ Template.subbarSchoolWork.helpers({
 		return Session.get('selectedStudentIdType');
 	},
 
-	getSelectedId: function() {		
+	getSelectedId: function() {
 		if (Session.get('selectedStudentIdType') === 'students') {
 			return Session.get('selectedStudentId');
 		}
@@ -103,16 +102,22 @@ Template.subbarSchoolWork.helpers({
 		return false;
 	},
 
-	firstSchoolWorkId: function(type, id, timeFrameId) {
-		const getfirstSchoolWorkId = (type, id, timeFrameId) => {
-			if (type === 'students') {
-				return {studentId: id, timeFrameId: timeFrameId}
-			}
-			return {studentGroupId: id, timeFrameId: timeFrameId}
+	firstSchoolWorkType: function(type, id, timeFrameId) {
+		if (type === 'students') {
+			return Paths.findOne({studentId: id, timeFrameId: timeFrameId}) && Paths.findOne({studentId: id, timeFrameId: timeFrameId}).firstSchoolWorkType
 		}
-		let firstSchoolWorkId = Paths.findOne(getfirstSchoolWorkId(type, id, timeFrameId)) && Paths.findOne(getfirstSchoolWorkId(type, id, timeFrameId)).firstSchoolWorkId;
-		if (firstSchoolWorkId) {
-			return firstSchoolWorkId;
+		if (type === 'studentgroups') {
+			return Paths.findOne({studentGroupId: id, timeFrameId: timeFrameId}) && Paths.findOne({studentGroupId: id, timeFrameId: timeFrameId}).firstSchoolWorkType;
+		}
+		return 'work';
+	},
+
+	firstSchoolWorkId: function(type, id, timeFrameId) {
+		if (type === 'students') {
+			return Paths.findOne({studentId: id, timeFrameId: timeFrameId}) && Paths.findOne({studentId: id, timeFrameId: timeFrameId}).firstSchoolWorkId;
+		}
+		if (type === 'studentgroups') {
+			return Paths.findOne({studentGroupId: id, timeFrameId: timeFrameId}) && Paths.findOne({studentGroupId: id, timeFrameId: timeFrameId}).firstSchoolWorkId;
 		}
 		return 'empty';
 	},

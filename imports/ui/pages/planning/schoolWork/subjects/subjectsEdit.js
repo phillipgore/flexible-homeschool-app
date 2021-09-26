@@ -34,19 +34,11 @@ Template.subjectsEdit.events({
 			$('#name').addClass('error');
 			$('.name-errors').text('Required.');
 		} else {
-			$('.js-updating').show();
-			$('.js-submit').prop('disabled', true);
-
 			$('#name').removeClass('error');
 			$('.name-errors').text('');
 
-			$('.js-saving').show();
+			$('.js-updating').show();
 			$('.js-submit').prop('disabled', true);
-
-			let studentIds = []
-			$("[name='studentId']:checked").each(function() {
-				studentIds.push(this.id)
-			})
 
 			const subjectProperties = {
 				_id: FlowRouter.getParam('selectedSubjectId'),
@@ -71,7 +63,7 @@ Template.subjectsEdit.events({
 				pathProperties.studentGroupIds.push(FlowRouter.getParam('selectedStudentGroupId'));
 			}
 
-			Meteor.call('updateSubject', subjectProperties, function(error, result) {
+			Meteor.call('updateSubject', subjectProperties, function(error, subjectId) {
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',

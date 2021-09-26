@@ -85,12 +85,21 @@ Template.subjectsNew.events({
 				schoolYearId: FlowRouter.getParam('selectedSchoolYearId'),
 			};
 
+			let pathProperties = {
+				studentIds: [],
+				studentGroupIds: [],
+				schoolYearIds: [FlowRouter.getParam('selectedSchoolYearId')],
+				termIds: [],
+			}
+
 			if (Session.get('selectedStudentIdType') === 'students') {
 				subjectProperties.studentId = FlowRouter.getParam('selectedStudentId');
+				pathProperties.studentIds.push(FlowRouter.getParam('selectedStudentId'));
 			}
 
 			if (Session.get('selectedStudentIdType') === 'studentgroups') {
 				subjectProperties.studentGroupId = FlowRouter.getParam('selectedStudentGroupId');
+				pathProperties.studentGroupIds.push(FlowRouter.getParam('selectedStudentGroupId'));
 			}
 
 			Meteor.call('insertSubject', subjectProperties, function(error, subjectId) {
@@ -104,7 +113,22 @@ Template.subjectsNew.events({
 					$('.js-saving').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
-					FlowRouter.go('/planning/subjects/view/3/' + Session.get('selectedStudentIdType') +'/'+ getSelectedId() +'/'+ Session.get('selectedSchoolYearId') +'/'+ subjectId)
+					Meteor.call('runUpsertSchoolWorkPaths', pathProperties, function(error, result) {
+						if (error) {
+							Alerts.insert({
+								colorClass: 'bg-danger',
+								iconClass: 'icn-danger',
+								message: error.message,
+							});
+							
+							$('.js-updating').hide();
+							$('.js-submit').prop('disabled', false);
+						} else {
+							$('.js-saving').hide();
+							$('.js-submit').prop('disabled', false);
+							FlowRouter.go('/planning/subjects/view/3/' + Session.get('selectedStudentIdType') +'/'+ getSelectedId() +'/'+ Session.get('selectedSchoolYearId') +'/'+ subjectId)
+						}
+					});
 				}
 			});
 

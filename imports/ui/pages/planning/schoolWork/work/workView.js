@@ -18,9 +18,7 @@ const getSelectedId = () => {
 Template.workView.onCreated( function() {	
 	let template = Template.instance();
 	
-	template.autorun(() => {
-		this.schoolWorkData = Meteor.subscribe('schoolWorkView', FlowRouter.getParam('selectedSchoolWorkId'));
-	});
+	this.schoolWorkData = Meteor.subscribe('schoolWorkView', FlowRouter.getParam('selectedSchoolWorkId'));
 });
 
 Template.workView.onRendered( function() {
@@ -33,7 +31,7 @@ Template.workView.onRendered( function() {
 });
 
 Template.workView.helpers({
-	subscriptionReady: function() {
+	workSubscriptionReady: function() {
 		return Template.instance().schoolWorkData.ready();
 	},
 

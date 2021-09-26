@@ -6,9 +6,7 @@ import './subjectsView.html';
 Template.subjectsView.onCreated( function() {	
 	let template = Template.instance();
 	
-	template.autorun(() => {
-		this.subjectData = Meteor.subscribe('subjectsView', FlowRouter.getParam('selectedSubjectId'));
-	});
+	this.subjectData = Meteor.subscribe('subjectsView', FlowRouter.getParam('selectedSubjectId'));
 });
 
 Template.subjectsView.onRendered( function() {
@@ -21,7 +19,7 @@ Template.subjectsView.onRendered( function() {
 });
 
 Template.subjectsView.helpers({
-	subscriptionReady: function() {
+	subjectSubscriptionReady: function() {
 		return Template.instance().subjectData.ready();
 	},
 	
