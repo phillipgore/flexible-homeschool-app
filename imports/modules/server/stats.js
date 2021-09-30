@@ -194,99 +194,129 @@ function status (lessonsTotal, lessonsCompletedTotal, lessonsAssignedTotal) {
 
 
 // School Year Stats Student Upsert
-function upsertSchoolYearStudentStats(groupId, studentId, schoolWorkId) {
-	let schoolYearLessons = Lessons.find({studentId: studentId, schoolYearId: schoolWorkId, groupId: groupId}, {fields: {completed: 1, assigned: 1}}).fetch();
-	let stats = {};
+function upsertSchoolYearStudentStats(groupId, studentId, schoolYearId) {
+	if (studentId) {
+		// console.log('/-- upsertSchoolYearStudentStats --/');
+		// console.log(`${groupId} ${studentId} ${schoolYearId} shoolYear`);
 
-	stats.lessonCount = schoolYearLessons.length;
-	stats.completedLessonCount = _.filter(schoolYearLessons, {'completed': true}).length;
-	stats.assignedLessonCount = _.filter(schoolYearLessons, {'completed': false, 'assigned': true}).length;
-	stats.completedLessonPercentage = rounding(stats.completedLessonCount, stats.lessonCount);
-	stats.status = status(stats.lessonCount, stats.completedLessonCount, stats.assignedLessonCount);
-	stats.groupId = groupId;
-	stats.createdOn = new Date();
+		let schoolYearLessons = Lessons.find({studentId: studentId, schoolYearId: schoolYearId, groupId: groupId}, {fields: {completed: 1, assigned: 1}}).fetch();
+		let stats = {};
 
-	Stats.update({studentId: studentId, timeFrameId: schoolWorkId, type: 'schoolYear'}, {$set: stats}, {upsert: true});
+		stats.lessonCount = schoolYearLessons.length;
+		stats.completedLessonCount = _.filter(schoolYearLessons, {'completed': true}).length;
+		stats.assignedLessonCount = _.filter(schoolYearLessons, {'completed': false, 'assigned': true}).length;
+		stats.completedLessonPercentage = rounding(stats.completedLessonCount, stats.lessonCount);
+		stats.status = status(stats.lessonCount, stats.completedLessonCount, stats.assignedLessonCount);
+		stats.groupId = groupId;
+		stats.createdOn = new Date();
+
+		Stats.update({studentId: studentId, timeFrameId: schoolYearId, type: 'schoolYear'}, {$set: stats}, {upsert: true});
+	}
 };
 
 // Terms Stats Student Upsert
 function upsertTermStudentStats(groupId, studentId, termId) {
-	let termLessons = Lessons.find({studentId: studentId, termId: termId, groupId: groupId}, {fields: {completed: 1, assigned: 1}}).fetch();
-	let stats = {};
+	if (studentId) {
+		// console.log('/-- upsertTermStudentStats --/');
+		// console.log(`${groupId} ${studentId} ${termId} term`);
 
-	stats.lessonCount = termLessons.length;
-	stats.completedLessonCount = _.filter(termLessons, {'completed': true}).length;
-	stats.assignedLessonCount = _.filter(termLessons, {'completed': false, 'assigned': true}).length;
-	stats.completedLessonPercentage = rounding(stats.completedLessonCount, stats.lessonCount);
-	stats.status = status(stats.lessonCount, stats.completedLessonCount, stats.assignedLessonCount);
-	stats.groupId = groupId;
-	stats.createdOn = new Date();
+		let termLessons = Lessons.find({studentId: studentId, termId: termId, groupId: groupId}, {fields: {completed: 1, assigned: 1}}).fetch();
+		let stats = {};
 
-	Stats.update({studentId: studentId, timeFrameId: termId, type: 'term'}, {$set: stats}, {upsert: true});
+		stats.lessonCount = termLessons.length;
+		stats.completedLessonCount = _.filter(termLessons, {'completed': true}).length;
+		stats.assignedLessonCount = _.filter(termLessons, {'completed': false, 'assigned': true}).length;
+		stats.completedLessonPercentage = rounding(stats.completedLessonCount, stats.lessonCount);
+		stats.status = status(stats.lessonCount, stats.completedLessonCount, stats.assignedLessonCount);
+		stats.groupId = groupId;
+		stats.createdOn = new Date();
+
+		Stats.update({studentId: studentId, timeFrameId: termId, type: 'term'}, {$set: stats}, {upsert: true});
+	}
 };
 
 // Weeks Stats Student Upsert
 function upsertWeekStudentStats(groupId, studentId, weekId) {
-	let weekLessons = Lessons.find({studentId: studentId, weekId: weekId, groupId: groupId}, {fields: {completed: 1, assigned: 1}}).fetch();
-	let stats = {};
+	if (studentId) {
+		// console.log('/-- upsertTermStudentStats --/');
+		// console.log(`${groupId} ${studentId} ${weekId} week`);
 
-	stats.lessonCount = weekLessons.length;
-	stats.completedLessonCount = _.filter(weekLessons, {'completed': true}).length;
-	stats.assignedLessonCount = _.filter(weekLessons, {'completed': false, 'assigned': true}).length;
-	stats.completedLessonPercentage = rounding(stats.completedLessonCount, stats.lessonCount);
-	stats.status = status(stats.lessonCount, stats.completedLessonCount, stats.assignedLessonCount);
-	stats.groupId = groupId;
-	stats.createdOn = new Date();
+		let weekLessons = Lessons.find({studentId: studentId, weekId: weekId, groupId: groupId}, {fields: {completed: 1, assigned: 1}}).fetch();
+		let stats = {};
 
-	Stats.update({studentId: studentId, timeFrameId: weekId, type: 'week'}, {$set: stats}, {upsert: true});
+		stats.lessonCount = weekLessons.length;
+		stats.completedLessonCount = _.filter(weekLessons, {'completed': true}).length;
+		stats.assignedLessonCount = _.filter(weekLessons, {'completed': false, 'assigned': true}).length;
+		stats.completedLessonPercentage = rounding(stats.completedLessonCount, stats.lessonCount);
+		stats.status = status(stats.lessonCount, stats.completedLessonCount, stats.assignedLessonCount);
+		stats.groupId = groupId;
+		stats.createdOn = new Date();
+
+		Stats.update({studentId: studentId, timeFrameId: weekId, type: 'week'}, {$set: stats}, {upsert: true});
+	}
 };
 
 
 
 // School Year Stats Student Group Upsert
-function upsertSchoolYearStudentGroupStats(groupId, studentGroupId, schoolWorkId) {
-	let schoolYearLessons = Lessons.find({studentGroupId: studentGroupId, schoolYearId: schoolWorkId, groupId: groupId}, {fields: {completed: 1, assigned: 1}}).fetch();
-	let stats = {};
+function upsertSchoolYearStudentGroupStats(groupId, studentGroupId, schoolYearId) {
+	if (studentGroupId) {
+		// console.log('/-- upsertSchoolYearStudentGroupStats --/');
+		// console.log(`${groupId} ${studentGroupId} ${schoolYearId} shoolYear`);
 
-	stats.lessonCount = schoolYearLessons.length;
-	stats.completedLessonCount = _.filter(schoolYearLessons, {'completed': true}).length;
-	stats.assignedLessonCount = _.filter(schoolYearLessons, {'completed': false, 'assigned': true}).length;
-	stats.completedLessonPercentage = rounding(stats.completedLessonCount, stats.lessonCount);
-	stats.status = status(stats.lessonCount, stats.completedLessonCount, stats.assignedLessonCount);
-	stats.groupId = groupId;
-	stats.createdOn = new Date();
+		let schoolYearLessons = Lessons.find({studentGroupId: studentGroupId, schoolYearId: schoolYearId, groupId: groupId}, {fields: {completed: 1, assigned: 1}}).fetch();
+		let stats = {};
 
-	Stats.update({studentGroupId: studentGroupId, timeFrameId: schoolWorkId, type: 'schoolYear'}, {$set: stats}, {upsert: true});
+		stats.lessonCount = schoolYearLessons.length;
+		stats.completedLessonCount = _.filter(schoolYearLessons, {'completed': true}).length;
+		stats.assignedLessonCount = _.filter(schoolYearLessons, {'completed': false, 'assigned': true}).length;
+		stats.completedLessonPercentage = rounding(stats.completedLessonCount, stats.lessonCount);
+		stats.status = status(stats.lessonCount, stats.completedLessonCount, stats.assignedLessonCount);
+		stats.groupId = groupId;
+		stats.createdOn = new Date();
+
+		Stats.update({studentGroupId: studentGroupId, timeFrameId: schoolYearId, type: 'schoolYear'}, {$set: stats}, {upsert: true});
+	}
 };
 
 // Terms Stats Student Group Upsert
 function upsertTermStudentGroupStats(groupId, studentGroupId, termId) {
-	let termLessons = Lessons.find({studentGroupId: studentGroupId, termId: termId, groupId: groupId}, {fields: {completed: 1, assigned: 1}}).fetch();
-	let stats = {};
+	if (studentGroupId) {
+		// console.log('/-- upsertTermStudentGroupStats --/');
+		// console.log(`${groupId} ${studentGroupId} ${termId} term`);
 
-	stats.lessonCount = termLessons.length;
-	stats.completedLessonCount = _.filter(termLessons, {'completed': true}).length;
-	stats.assignedLessonCount = _.filter(termLessons, {'completed': false, 'assigned': true}).length;
-	stats.completedLessonPercentage = rounding(stats.completedLessonCount, stats.lessonCount);
-	stats.status = status(stats.lessonCount, stats.completedLessonCount, stats.assignedLessonCount);
-	stats.groupId = groupId;
-	stats.createdOn = new Date();
+		let termLessons = Lessons.find({studentGroupId: studentGroupId, termId: termId, groupId: groupId}, {fields: {completed: 1, assigned: 1}}).fetch();
+		let stats = {};
 
-	Stats.update({studentGroupId: studentGroupId, timeFrameId: termId, type: 'term'}, {$set: stats}, {upsert: true});
+		stats.lessonCount = termLessons.length;
+		stats.completedLessonCount = _.filter(termLessons, {'completed': true}).length;
+		stats.assignedLessonCount = _.filter(termLessons, {'completed': false, 'assigned': true}).length;
+		stats.completedLessonPercentage = rounding(stats.completedLessonCount, stats.lessonCount);
+		stats.status = status(stats.lessonCount, stats.completedLessonCount, stats.assignedLessonCount);
+		stats.groupId = groupId;
+		stats.createdOn = new Date();
+
+		Stats.update({studentGroupId: studentGroupId, timeFrameId: termId, type: 'term'}, {$set: stats}, {upsert: true});
+	}
 };
 
 // Weeks Stats Student Group Upsert
 function upsertWeekStudentGroupStats(groupId, studentGroupId, weekId) {
-	let weekLessons = Lessons.find({studentGroupId: studentGroupId, weekId: weekId, groupId: groupId}, {fields: {completed: 1, assigned: 1}}).fetch();
-	let stats = {};
+	if (studentGroupId) {
+		// console.log('/-- upsertWeekStudentGroupStats --/');
+		// console.log(`${groupId} ${studentGroupId} ${weekId} week`);
 
-	stats.lessonCount = weekLessons.length;
-	stats.completedLessonCount = _.filter(weekLessons, {'completed': true}).length;
-	stats.assignedLessonCount = _.filter(weekLessons, {'completed': false, 'assigned': true}).length;
-	stats.completedLessonPercentage = rounding(stats.completedLessonCount, stats.lessonCount);
-	stats.status = status(stats.lessonCount, stats.completedLessonCount, stats.assignedLessonCount);
-	stats.groupId = groupId;
-	stats.createdOn = new Date();
+		let weekLessons = Lessons.find({studentGroupId: studentGroupId, weekId: weekId, groupId: groupId}, {fields: {completed: 1, assigned: 1}}).fetch();
+		let stats = {};
 
-	Stats.update({studentGroupId: studentGroupId, timeFrameId: weekId, type: 'week'}, {$set: stats}, {upsert: true});
+		stats.lessonCount = weekLessons.length;
+		stats.completedLessonCount = _.filter(weekLessons, {'completed': true}).length;
+		stats.assignedLessonCount = _.filter(weekLessons, {'completed': false, 'assigned': true}).length;
+		stats.completedLessonPercentage = rounding(stats.completedLessonCount, stats.lessonCount);
+		stats.status = status(stats.lessonCount, stats.completedLessonCount, stats.assignedLessonCount);
+		stats.groupId = groupId;
+		stats.createdOn = new Date();
+
+		Stats.update({studentGroupId: studentGroupId, timeFrameId: weekId, type: 'week'}, {$set: stats}, {upsert: true});
+	}
 };
