@@ -160,21 +160,26 @@ Template.subbarTracking.helpers({
 	},
 
 	getStatus: function(timeFrameId) {
-		let status = Stats.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}) && Stats.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}).status;
+		const getStatus = () => {
+			if (FlowRouter.getParam('selectedStudentId')) {
+				return Stats.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}) && Stats.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}).status;
+			}
+			return Stats.findOne({studentGroupId: FlowRouter.getParam('selectedStudentGroupId'), timeFrameId: timeFrameId}) && Stats.findOne({studentGroupId: FlowRouter.getParam('selectedStudentGroupId'), timeFrameId: timeFrameId}).status;
+		}
 
-		if (status === 'empty' || _.isUndefined(status)) {
+		if (getStatus() === 'empty' || _.isUndefined(getStatus())) {
 			return 'icn-open-circle txt-gray-darker';
 		}
-		if (status === 'pending') {
+		if (getStatus() === 'pending') {
 			return 'icn-circle txt-gray-darker';
 		}
-		if (status === 'partial') {
+		if (getStatus() === 'partial') {
 			return 'icn-circle txt-secondary';
 		}
-		if (status === 'assigned') {
+		if (getStatus() === 'assigned') {
 			return 'icn-circle txt-warning';
 		}
-		if (status === 'completed') {
+		if (getStatus() === 'completed') {
 			return 'icn-circle txt-primary';
 		}
 	},	

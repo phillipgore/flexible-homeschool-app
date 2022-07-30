@@ -100,7 +100,8 @@ Template.trackingView.helpers({
 
 	schoolWork: function() {
 		if (Template.instance().trackingData.ready()) {
-			return getMiddleSchoolWork(FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedSchoolYearId'));
+			let schoolWork = getMiddleSchoolWork(FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedSchoolYearId'));
+			return schoolWork;
 		}
 	},
 
@@ -123,7 +124,9 @@ let getMiddleSchoolWork = (studentId, schoolYearId) => {
 	let schoolWork = [];
 
 	// Subjects and Work
-	Subjects.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId'), studentId: FlowRouter.getParam('selectedStudentId')}, {sort: {name: 1}}).forEach(subject => {
+	let subjects = Subjects.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId'), studentId: FlowRouter.getParam('selectedStudentId')}, {sort: {name: 1}}) && Subjects.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId'), studentId: FlowRouter.getParam('selectedStudentId')}, {sort: {name: 1}}).fetch();
+
+	subjects.forEach(subject => {
 		let subjectSchoolWork = SchoolWork.find({subjectId: subject._id}, {sort: {name: 1}});
 		subject.type = 'subject';
 		subject.hasSchoolWork = subjectSchoolWork.count() === 0 ? false : true;

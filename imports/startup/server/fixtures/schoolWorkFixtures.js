@@ -41,6 +41,9 @@ Meteor.methods({
 			{
 				name: "Artist Study",
 			},
+			{
+				name: "Morning Time",
+			},
 		];
 
 		let sourceSchoolWork = [
@@ -122,6 +125,18 @@ Meteor.methods({
 				description: "<p>Morning Time.</p>",
 				resourceTitles: [],
 				subjectName: "Artist Study",
+			},
+			{
+				name: "Daily Bible Reading",
+				description: "<p>One chapter per segment.</p>",
+				resourceTitles: [],
+				subjectName: "Morning Time",
+			},
+			{
+				name: "Habit Training",
+				description: "<p>Do Laying Down the Rails for children one day and Book of Virtues for another day.</p>",
+				resourceTitles: [],
+				subjectName: "Morning Time",
 			},
 			{
 				name: "Heidi's Alps",

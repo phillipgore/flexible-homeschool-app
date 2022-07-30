@@ -644,7 +644,11 @@ Template.app.events({
 								$('.js-deleting').hide();
 								$('.js-submit').prop('disabled', false);
 							} else {
-								FlowRouter.go('/tracking/students/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'))
+								if (FlowRouter.getParam('selectedStudentId')) {
+									FlowRouter.go('/tracking/students/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'));
+								} else {
+									FlowRouter.go('/tracking/studentgroups/view/2/' + FlowRouter.getParam('selectedStudentGroupId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'));
+								}
 							}
 						})
 					}

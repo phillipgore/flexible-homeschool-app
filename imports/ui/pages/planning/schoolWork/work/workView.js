@@ -48,7 +48,7 @@ Template.workView.helpers({
 	},
 
 	termLessons: function(termId) {
-		let lessonCount = Lessons.find({termId: termId}).count();
+		let lessonCount = Lessons.find({schoolWorkId: FlowRouter.getParam('selectedSchoolWorkId'), termId: termId}).count();
 		if (lessonCount === 1) {
 			return lessonCount + ' Segment';
 		}

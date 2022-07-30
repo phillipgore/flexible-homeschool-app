@@ -316,7 +316,3 @@ Migrations.add({
 Meteor.startup(() => {
 	Migrations.migrateTo('16,rerun');
 });
-
-
-
-

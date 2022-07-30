@@ -140,7 +140,7 @@ Meteor.publish('schoolWorkView', function(schoolWorkId) {
 
 	let schoolWork = SchoolWork.find({_id: schoolWorkId, groupId: groupId}, {fields: {groupId: 0, userId: 0, createdOn: 0, updatedOn: 0}});
 	let terms = Terms.find({groupId: groupId, schoolYearId: schoolWork.fetch()[0].schoolYearId}, {fields: {order: 1, schoolYearId: 1}});
-	let lessons = Lessons.find({groupId: groupId, schoolWorkId: schoolWorkId}, {sort: {order: 1, weekDay: 1}, fields: {termId: 1}});
+	let lessons = Lessons.find({groupId: groupId, schoolWorkId: schoolWorkId}, {sort: {order: 1, weekDay: 1}, fields: {schoolWorkId: 1, termId: 1}});
 	let resources = Resources.find({groupId: groupId, _id: {$in: schoolWork.fetch()[0].resources}}, {fields: {link: 1, title: 1, type: 1}});
 
 	return [

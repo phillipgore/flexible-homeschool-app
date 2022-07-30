@@ -313,7 +313,7 @@ Template.trackingEdit.events({
 
 	'click .js-cancel'(event) {
 		event.preventDefault();
-		if (Session.get('selectedStudentIdType') === 'students') {
+		if (FlowRouter.getParam('selectedStudentId')) {
 			FlowRouter.go('/tracking/students/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'));
 		} else {
 			FlowRouter.go('/tracking/studentgroups/view/2/' + FlowRouter.getParam('selectedStudentGroupId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'));
@@ -418,7 +418,11 @@ Template.trackingEdit.events({
 					$('.js-updating').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
-					FlowRouter.go('/tracking/students/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'));
+					if (FlowRouter.getParam('selectedStudentId')) {
+						FlowRouter.go('/tracking/students/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'));
+					} else {
+						FlowRouter.go('/tracking/studentgroups/view/2/' + FlowRouter.getParam('selectedStudentGroupId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'));
+					}
 				}
 			});
 				
@@ -430,7 +434,6 @@ Template.trackingEdit.events({
 
 			// Insert ----------------------------------------------------------------------
 			if (action === 'insert') {
-
 				$('.js-updating').show();
 				$('.js-submit').prop('disabled', true);
 
@@ -494,6 +497,7 @@ Template.trackingEdit.events({
 						termId: FlowRouter.getParam('selectedTermId'),
 						weekId: FlowRouter.getParam('selectedWeekId'),
 						studentId: FlowRouter.getParam('selectedStudentId'),
+						studentGroupId: FlowRouter.getParam('selectedStudentGroupId'),
 						groupId: Meteor.user().info.groupId, 
 						userId: Meteor.user()._id, 
 						createdOn: new Date(),
@@ -523,7 +527,11 @@ Template.trackingEdit.events({
 						$('.js-updating').hide();
 						$('.js-submit').prop('disabled', false);
 					} else {
-						FlowRouter.go('/tracking/students/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'));
+						if (FlowRouter.getParam('selectedStudentId')) {
+							FlowRouter.go('/tracking/students/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'));
+						} else {
+							FlowRouter.go('/tracking/studentgroups/view/2/' + FlowRouter.getParam('selectedStudentGroupId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'));
+						}
 					}
 				});
 
@@ -685,7 +693,11 @@ Template.trackingEdit.events({
 											$('.js-updating').hide();
 											$('.js-submit').prop('disabled', false);
 										} else {
-											FlowRouter.go('/tracking/students/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'))
+											if (FlowRouter.getParam('selectedStudentId')) {
+												FlowRouter.go('/tracking/students/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'));
+											} else {
+												FlowRouter.go('/tracking/studentgroups/view/2/' + FlowRouter.getParam('selectedStudentGroupId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'));
+											}
 										}
 									})
 								}
@@ -777,7 +789,11 @@ Template.trackingEdit.events({
 										$('.js-updating').hide();
 										$('.js-submit').prop('disabled', false);
 									} else {
-										FlowRouter.go('/tracking/students/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'))
+										if (FlowRouter.getParam('selectedStudentId')) {
+											FlowRouter.go('/tracking/students/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'));
+										} else {
+											FlowRouter.go('/tracking/studentgroups/view/2/' + FlowRouter.getParam('selectedStudentGroupId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'));
+										}
 									}
 								})
 							}
@@ -840,7 +856,7 @@ Template.trackingEdit.events({
 						$('.js-updating').hide();
 						$('.js-submit').prop('disabled', false);
 					} else {
-						if (Session.get('selectedStudentIdType') === 'students') {
+						if (FlowRouter.getParam('selectedStudentId')) {
 							FlowRouter.go('/tracking/students/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'));
 						} else {
 							FlowRouter.go('/tracking/studentgroups/view/2/' + FlowRouter.getParam('selectedStudentGroupId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'));

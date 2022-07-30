@@ -312,6 +312,8 @@ Template.trackingSchoolWork.events({
 			weekIds:[FlowRouter.getParam('selectedWeekId')],
 		}
 
+		console.log(statProperties);
+
 		Meteor.call('updateLesson', statProperties, pathProperties, lessonProperties, function(error, result) {
 			if (error) {
 				Alerts.insert({
