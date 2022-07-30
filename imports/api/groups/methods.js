@@ -1,8 +1,4 @@
-import {Mongo} from 'meteor/mongo';
-import SimpleSchema from 'simpl-schema';
-
 import {Groups} from './groups.js';
-import {Lessons} from '../lessons/lessons.js';
 import {primaryInitialIds} from '../../modules/server/initialIds';
 
 import _ from 'lodash';
@@ -62,12 +58,16 @@ Meteor.methods({
 				subscriptionStatus: 'pending', 
 				initialIds: {
 					studentId: 'empty',
+					studentGroupId: 'empty',
+					studentIdType: 'empty',
 					schoolYearId: 'empty',
+					schoolTypeId: 'empty',
 					resourceId: 'empty',
 					resourceType: 'empty',
 					termId: 'empty',
 					weekId: 'empty',
 					schoolWorkId: 'empty',
+					schoolWorkType: 'work',
 					userId: 'empty',
 					reportId: 'empty',
 					groupId: 'empty',

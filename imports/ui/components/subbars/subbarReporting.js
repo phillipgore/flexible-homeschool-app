@@ -132,11 +132,23 @@ Template.subbarReporting.helpers({
 	/* -------------------- Joins -------------------- */
 
 	firstTermId: function(timeFrameId) {
-		return Paths.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}) && Paths.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}).firstTermId;
+		const getPathQuery = () => {
+			if (Session.get('selectedStudentIdType') === 'students') {
+				return {studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}
+			}
+			return {studentGroupId: FlowRouter.getParam('selectedStudentGroupId'), timeFrameId: timeFrameId}
+		}
+		return Paths.findOne(getPathQuery()) && Paths.findOne(getPathQuery()).firstTermId;
 	},
 
 	firstWeekId: function(timeFrameId) {
-		return Paths.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}) && Paths.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}).firstWeekId;
+		const getPathQuery = () => {
+			if (Session.get('selectedStudentIdType') === 'students') {
+				return {studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}
+			}
+			return {studentGroupId: FlowRouter.getParam('selectedStudentGroupId'), timeFrameId: timeFrameId}
+		}
+		return Paths.findOne(getPathQuery()) && Paths.findOne(getPathQuery()).firstWeekId;
 	},
 
 	studentsSchoolYearsCount: function() {

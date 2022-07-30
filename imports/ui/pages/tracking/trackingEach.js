@@ -12,6 +12,20 @@ Template.trackingEach.onRendered( function() {
 });
 
 Template.trackingEach.helpers({
+	typeIsStudents: function(type) {
+		if (type === 'students') {
+			return true;
+		}
+		return false;
+	},
+
+	typeIsStudentGroups: function(type) {
+		if (type === 'studentgroups') {
+			return true;
+		}
+		return false;
+	},
+
 	selectedSchoolYearId: function() {
 		return FlowRouter.getParam('selectedSchoolYearId');
 	},
@@ -24,35 +38,74 @@ Template.trackingEach.helpers({
 		return FlowRouter.getParam('selectedWeekId');
 	},
 
-	yearsProgress: function(studentId) {
+
+	// Student Stats
+	yearsStudentProgress: function(studentId) {
 		return Stats.findOne({studentId: studentId, timeFrameId: FlowRouter.getParam('selectedSchoolYearId')}) && Stats.findOne({studentId: studentId, timeFrameId: FlowRouter.getParam('selectedSchoolYearId')}).completedLessonPercentage;
 	},
 
-	yearsProgressStatus: function(studentId) {
+	yearsStudentProgressStatus: function(studentId) {
 		let yearProgress = Stats.findOne({studentId: studentId, timeFrameId: FlowRouter.getParam('selectedSchoolYearId')}) && Stats.findOne({studentId: studentId, timeFrameId: FlowRouter.getParam('selectedSchoolYearId')}).completedLessonPercentage;;
 		return 'width-' + yearProgress;
 	},
 
-	termsProgress: function(studentId) {
+	termsStudentProgress: function(studentId) {
 		return Stats.findOne({studentId: studentId, timeFrameId: FlowRouter.getParam('selectedTermId')}) && Stats.findOne({studentId: studentId, timeFrameId: FlowRouter.getParam('selectedTermId')}).completedLessonPercentage;
 	},
 
-	termsProgressStatus: function(studentId) {
+	termsStudentProgressStatus: function(studentId) {
 		let termProgress = Stats.findOne({studentId: studentId, timeFrameId: FlowRouter.getParam('selectedTermId')}) && Stats.findOne({studentId: studentId, timeFrameId: FlowRouter.getParam('selectedTermId')}).completedLessonPercentage;
 		return 'width-' + termProgress;
 	},
 
-	weeksProgress: function(studentId) {
+	weeksStudentProgress: function(studentId) {
 		return Stats.findOne({studentId: studentId, timeFrameId: FlowRouter.getParam('selectedWeekId')}) && Stats.findOne({studentId: studentId, timeFrameId: FlowRouter.getParam('selectedWeekId')}).completedLessonPercentage;
 	},
 
-	weeksProgressStatus: function(studentId) {
+	weeksStudentProgressStatus: function(studentId) {
 		let weekProgress = Stats.findOne({studentId: studentId, timeFrameId: FlowRouter.getParam('selectedWeekId')}) && Stats.findOne({studentId: studentId, timeFrameId: FlowRouter.getParam('selectedWeekId')}).completedLessonPercentage;
 		return 'width-' + weekProgress;
 	},
 
-	active: function(id) {
+	
+	// Student Group Stats
+	yearsStudentGroupProgress: function(studentGroupId) {
+		return Stats.findOne({studentGroupId: studentGroupId, timeFrameId: FlowRouter.getParam('selectedSchoolYearId')}) && Stats.findOne({studentGroupId: studentGroupId, timeFrameId: FlowRouter.getParam('selectedSchoolYearId')}).completedLessonPercentage;
+	},
+
+	yearsStudentGroupProgressStatus: function(studentGroupId) {
+		let yearProgress = Stats.findOne({studentGroupId: studentGroupId, timeFrameId: FlowRouter.getParam('selectedSchoolYearId')}) && Stats.findOne({studentGroupId: studentGroupId, timeFrameId: FlowRouter.getParam('selectedSchoolYearId')}).completedLessonPercentage;;
+		return 'width-' + yearProgress;
+	},
+
+	termsStudentGroupProgress: function(studentGroupId) {
+		return Stats.findOne({studentGroupId: studentGroupId, timeFrameId: FlowRouter.getParam('selectedTermId')}) && Stats.findOne({studentGroupId: studentGroupId, timeFrameId: FlowRouter.getParam('selectedTermId')}).completedLessonPercentage;
+	},
+
+	termsStudentGroupProgressStatus: function(studentGroupId) {
+		let termProgress = Stats.findOne({studentGroupId: studentGroupId, timeFrameId: FlowRouter.getParam('selectedTermId')}) && Stats.findOne({studentGroupId: studentGroupId, timeFrameId: FlowRouter.getParam('selectedTermId')}).completedLessonPercentage;
+		return 'width-' + termProgress;
+	},
+
+	weeksStudentGroupProgress: function(studentGroupId) {
+		return Stats.findOne({studentGroupId: studentGroupId, timeFrameId: FlowRouter.getParam('selectedWeekId')}) && Stats.findOne({studentGroupId: studentGroupId, timeFrameId: FlowRouter.getParam('selectedWeekId')}).completedLessonPercentage;
+	},
+
+	weeksStudentGroupProgressStatus: function(studentGroupId) {
+		let weekProgress = Stats.findOne({studentGroupId: studentGroupId, timeFrameId: FlowRouter.getParam('selectedWeekId')}) && Stats.findOne({studentGroupId: studentGroupId, timeFrameId: FlowRouter.getParam('selectedWeekId')}).completedLessonPercentage;
+		return 'width-' + weekProgress;
+	},
+
+
+	activeStudent: function(id) {
 		if (FlowRouter.getParam('selectedStudentId') === id) {
+			return true;
+		}
+		return false;
+	},
+
+	activeStudentGroup: function(id) {
+		if (FlowRouter.getParam('selectedStudentGroupId') === id) {
 			return true;
 		}
 		return false;

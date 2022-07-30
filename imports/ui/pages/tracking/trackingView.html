@@ -7,16 +7,26 @@
 		<h2 class="txt-tn-center txt-gray-darkest txt-capitalize print-only-block p-tn-b-18">{{selectedSchoolYear.startYear}}-{{selectedSchoolYear.endYear}}, Term {{selectedTerm.order}}, Week {{selectedWeek.order}}</h2>
 
 		{{studentName student.preferredFirstName.name student.lastName}}
+
+		{{#if typeIsStudentGroups}}
+			<div class="txt-tn-center p-tn-tb-27">
+			{{#each studentId in studentGroup.studentIds}}
+				<p class="pill dis-tn-inline-block m-tn-rl-3">{{getStudentName studentId}}</p>
+			{{/each}}
+			</div>
+		{{/if}}
 		
 		{{#if studentsSchoolYearsCount}}
 			{{#if weekLessonsExist}}
-				<div class="col-lg-1of2">
-					{{> trackingSchoolWork schoolWork=schoolWorkOne}}
+				<div class="row">
+					<div class="col-lg-1of2">
+						{{> trackingSchoolWork schoolWork=schoolWork.columnOne}}
+					</div>
+					<div class="col-lg-1of2">
+						{{> trackingSchoolWork schoolWork=schoolWork.columnTwo}}
+					</div>
+					<div class="col-lg-1of1 tracking-spacer"></div>
 				</div>
-				<div class="col-lg-1of2">
-					{{> trackingSchoolWork schoolWork=schoolWorkTwo}}
-				</div>
-				<div class="col-lg-1of1 tracking-spacer"></div>
 			{{else}}
 				<div class="txt-tn-center m-tn-t-72">
 					<i class="icn-school-work font-size-64 txt-gray m-tn-r-9"></i>

@@ -25,6 +25,15 @@ i {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icn-student-groups:before {
+  content: "\e954";
+}
+.icn-folder:before {
+  content: "\e952";
+}
+.icn-move-to:before {
+  content: "\e953";
+}
 .icn-question:before {
   content: "\e951";
 }

@@ -1,11 +1,11 @@
 import {Template} from 'meteor/templating';
-import { Stats } from '../../../api/stats/stats.js';
-import { SchoolYears } from '../../../api/schoolYears/schoolYears.js';
+import { Students } from '../../../api/students/students.js';
+import { StudentGroups } from '../../../api/studentGroups/studentGroups.js';
 import { SchoolWork } from '../../../api/schoolWork/schoolWork.js';
+import { Notes } from '../../../api/notes/notes.js';
 import { Lessons } from '../../../api/lessons/lessons.js';
 import { Terms } from '../../../api/terms/terms.js';
 import { Weeks } from '../../../api/weeks/weeks.js';
-import { Notes } from '../../../api/notes/notes.js';
 
 import {saveNote} from '../../../modules/functions';
 
@@ -15,6 +15,23 @@ import _ from 'lodash'
 import './trackingSchoolWork.html';
 
 Template.trackingSchoolWork.helpers({
+	studentGroup: function() {
+		return StudentGroups.findOne({_id: FlowRouter.getParam('selectedStudentGroupId')}) && StudentGroups.findOne({_id: FlowRouter.getParam('selectedStudentGroupId')});
+	},
+
+	getStudentName: function(studentId) {
+		const student = Students.findOne({_id: studentId});
+		return `${student.preferredFirstName.name} ${student.lastName}`;
+	},
+
+	participantIsChecked: function(studentId, lessonId) {
+		let lesson = Lessons.findOne({_id: lessonId}) && Lessons.findOne({_id: lessonId});
+		if (!lesson.participants || (lesson.participants.length && lesson.participants.includes(studentId))) {
+			return true
+		}
+		return false;
+	},
+
 	terms: function() {
 		return Terms.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId')}, {sort: {order: 1}});
 	},
@@ -29,6 +46,23 @@ Template.trackingSchoolWork.helpers({
 
 	selectedWeek: function() {
 		return Weeks.findOne({_id: FlowRouter.getParam('selectedWeekId')});
+	},
+
+	isType: function(isType, type) {
+		if (isType === type) {
+			return true;
+		}
+		return false;
+	},
+
+	subjectSpacing: function(subject, index) {
+		if (index === 0) {
+			return 'p-tn-t-30';
+		}
+		if (subject.precededByWork) {
+			return 'p-tn-t-54';
+		}
+		return 'p-tn-t-30';
 	},
 
 	workLessons: function(schoolWorkId) {
@@ -95,7 +129,14 @@ Template.trackingSchoolWork.helpers({
 
 	workNote: function() {
 		return Session.get('schoolWorkNote');
-	}
+	},
+
+	typeIsStudentGroups: function() {
+		if (Session.get('selectedStudentIdType') === 'studentgroups') {
+			return true;
+		}
+		return false;
+	},
 });
 
 Template.trackingSchoolWork.events({
@@ -119,7 +160,7 @@ Template.trackingSchoolWork.events({
 		} else {
 			$('.js-notes').removeClass('js-open');
 
-			$('.js-schoolWork-track').removeClass('active');
+			$('.js-work-track').removeClass('active');
 			$('.js-lesson-input').removeAttr('style');
 			$('.js-notes-' + schoolWorkId).show().addClass('js-open');
 		}		
@@ -145,7 +186,7 @@ Template.trackingSchoolWork.events({
 		} else {
 			$('.js-info').removeClass('js-open');
 
-			$('.js-schoolWork-track').removeClass('active');
+			$('.js-work-track').removeClass('active');
 			$('.js-lesson-input').removeAttr('style');
 			$('.js-info-' + schoolWorkId).show().addClass('js-open');
 
@@ -172,11 +213,11 @@ Template.trackingSchoolWork.events({
 
 		let schoolWorkId = $(event.currentTarget).attr('data-schoolWork-id');
 		let lessonId = $(event.currentTarget).attr('data-lesson-id');
-		Session.set('lessonScrollTop', $('#js-schoolWork-track-' + schoolWorkId).offset().top - 80);
+		Session.set('lessonScrollTop', $('#js-work-track-' + schoolWorkId).offset().top - 80);
 
 		$('.js-lesson-input').removeAttr('style');
-		$('#js-schoolWork-track-' + schoolWorkId).addClass('active');
-		$('.js-schoolWork-track').not('.active').addClass('inactive');
+		$('#js-work-track-' + schoolWorkId).addClass('active');
+		$('.js-work-track').not('.active').addClass('inactive');
 
 		$('#' + lessonId).show();
 		$(window).scrollTop(0);
@@ -200,8 +241,8 @@ Template.trackingSchoolWork.events({
 		event.preventDefault();
 
 		$('.navbar').show();
-		$('.js-schoolWork-track').removeClass('active');
-		$('.js-schoolWork-track').removeClass('inactive');
+		$('.js-work-track').removeClass('active');
+		$('.js-work-track').removeClass('inactive');
 		$('.js-lesson-input').removeAttr('style');
 		if ($(window).width() < 640) {
 			$(window).scrollTop(Session.get('lessonScrollTop'));
@@ -225,17 +266,28 @@ Template.trackingSchoolWork.events({
 		$('[data-lesson-id="' + lessonId + '"]').find('.js-lesson-weekday-label').hide();
 
 		$('.navbar').show();
-		$('.js-schoolWork-track').removeClass('active');
-		$('.js-schoolWork-track').removeClass('inactive');
+		$('.js-work-track').removeClass('active');
+		$('.js-work-track').removeClass('inactive');
 		$('.js-lesson-input').removeAttr('style');
 		if ($(window).width() < 640) {
 			$(window).scrollTop(Session.get('lessonScrollTop'));
+		}
+
+		
+		let participants = [];
+		if (Session.get('selectedStudentIdType') === 'studentgroups') {
+			event.currentTarget.participant.forEach(item => {
+				if (item.checked) {
+					participants.push(item.value);
+				}
+			});
 		}
 
 		let lessonProperties = {
 			_id: $(event.currentTarget).parent().attr('id'),
 			assigned: event.currentTarget.assigned.value.trim() === 'true',
 			completed: event.currentTarget.completed.value.trim() === 'true',
+			participants: participants,
 			completedOn: event.currentTarget.completedOn.value.trim(),
 			completionTime: event.currentTarget.completionTime.value.trim(),
 			description: $('#' + $(event.currentTarget).find('.editor-content').attr('id')).html(),
@@ -247,16 +299,20 @@ Template.trackingSchoolWork.events({
 
 		let pathProperties = {
 			studentIds: [FlowRouter.getParam('selectedStudentId')],
+			studentGroupIds: [FlowRouter.getParam('selectedStudentGroupId')],
 			schoolYearIds: [FlowRouter.getParam('selectedSchoolYearId')],
 			termIds: [FlowRouter.getParam('selectedTermId')],
 		}
 
 		let statProperties = {
 			studentIds: [FlowRouter.getParam('selectedStudentId')],
+			studentGroupIds: [FlowRouter.getParam('selectedStudentGroupId')],
 			schoolYearIds: [FlowRouter.getParam('selectedSchoolYearId')],
 			termIds:[FlowRouter.getParam('selectedTermId')],
 			weekIds:[FlowRouter.getParam('selectedWeekId')],
 		}
+
+		console.log(statProperties);
 
 		Meteor.call('updateLesson', statProperties, pathProperties, lessonProperties, function(error, result) {
 			if (error) {

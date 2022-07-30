@@ -1,5 +1,7 @@
 import { Template } from 'meteor/templating';
 import { Reports } from '../../../../api/reports/reports.js';
+import { StudentGroups } from '../../../../api/studentGroups/studentGroups.js';
+import { Subjects } from '../../../../api/subjects/subjects.js';
 import { SchoolWork } from '../../../../api/schoolWork/schoolWork.js';
 import { Notes } from '../../../../api/notes/notes.js';
 import { Terms } from '../../../../api/terms/terms.js';
@@ -65,6 +67,42 @@ Template.reportingSchoolWork.helpers({
 		}
 	},
 
+	subjects: function() {
+		let studentId = FlowRouter.getParam('selectedStudentId');
+		let schoolYearId = FlowRouter.getParam('selectedSchoolYearId');
+		let studentGroupIds = StudentGroups.find({studentIds: FlowRouter.getParam('selectedStudentId')}).map(studentGroup => studentGroup._id);
+		return Subjects.find({$or: [{studentId: studentId}, {studentGroupId: {$in: studentGroupIds}}], schoolYearId: schoolYearId});
+	},
+
+	subjectComplete: function(progress) {
+		if (progress == 100) {
+			return true;
+		}
+		return false;
+	},
+
+	subjectRowVisible: function() {
+		let report = Reports.findOne({_id: FlowRouter.getParam('selectedReportId')});
+		if (!report.subjectStatsVisible && !report.subjectCompletedVisible && !report.subjectTimesVisible) {
+			return 'dis-tn-none';
+		}
+		return false;
+	},
+
+	thColSpan: function(number) {
+		let report = Reports.findOne({_id: FlowRouter.getParam('selectedReportId')});
+		let colCount = [report.subjectStatsVisible, report.subjectCompletedVisible, report.subjectTimesVisible].filter(count => count).length;
+		if (colCount === 3 && number === 1) return 1
+		if (colCount === 3 && number === 2) return 2
+	},
+
+	tdColSpan: function() {
+		let report = Reports.findOne({_id: FlowRouter.getParam('selectedReportId')});
+		let colCount = [report.subjectStatsVisible, report.subjectCompletedVisible, report.subjectTimesVisible].filter(count => count).length;
+		if (colCount === 1) return 2
+		if (colCount === 3) return 1
+	},
+
 	getNote: function(noteData, schoolWorkId) {
 		let notes = _.find(noteData, ['schoolWorkId', schoolWorkId]);
 		return notes ? notes.note : "";
@@ -74,8 +112,11 @@ Template.reportingSchoolWork.helpers({
 		return _.filter(lessonData, ['schoolWorkId', schoolWorkId]);
 	},
 
-	schoolWork: function() {
-		return SchoolWork.find({studentId: FlowRouter.getParam('selectedStudentId'), schoolYearId: FlowRouter.getParam('selectedSchoolYearId')});
+	schoolWork: function(subjectId) {
+		if (subjectId === 'noSubject') {
+			return SchoolWork.find({subjectId: {$exists: false}, studentId: FlowRouter.getParam('selectedStudentId'), schoolYearId: FlowRouter.getParam('selectedSchoolYearId')});
+		}
+		return SchoolWork.find({subjectId: subjectId, studentId: FlowRouter.getParam('selectedStudentId'), schoolYearId: FlowRouter.getParam('selectedSchoolYearId')});
 	},
 
 	resourceIcon: function(resourceType) {

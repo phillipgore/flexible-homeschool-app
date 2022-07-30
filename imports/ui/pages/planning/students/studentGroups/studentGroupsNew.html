@@ -1,0 +1,32 @@
+<template name="studentGroupsNew">
+	{{#unless Template.subscriptionsReady}}
+		{{> loading}}
+	{{/unless}}
+	{{> saving}}
+	<main class="app-content app-content-preceeds-toolbar app-content-form">
+		<form class="js-form-student-groupings-new row">
+
+			<label>Name</label>
+			<input type="text" name="name" id="name" placeholder="The Older Kids" autocomplete="off">
+			<label class="error name-errors"></label>
+			<label class="m-tn-b-6">Students</label>
+			{{#each student in students}}
+				<div>
+					<label class="checkbox">
+						<input class="js-checkbox js-student-id" type="checkbox" name="studentId" id="{{student._id}}" value="false">
+						<div class="checkbox-icon"></div> 
+						<div class="checkbox-label">{{student.preferredFirstName.name}} {{student.lastName}}</div>
+					</label>
+				</div>
+			{{/each}}
+			<label class="error student-errors p-tn-t-3"></label>
+            <div class="m-tn-b-18"></div>
+
+			<footer class="toolbar toolbar-bottom toolbar-gray">
+				<a href="#" class="js-cancel btn btn-gray-darker fl-tn-left">Cancel</a>
+				<button type="submit" class="js-submit fl-tn-right">Save</button>
+			</footer>
+
+		</form>
+	</main>
+</template>

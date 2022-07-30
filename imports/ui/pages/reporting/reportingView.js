@@ -4,6 +4,7 @@ import { Reports } from '../../../api/reports/reports.js';
 import { SchoolYears } from '../../../api/schoolYears/schoolYears.js';
 import { Students } from '../../../api/students/students.js';
 import { Resources } from '../../../api/resources/resources.js';
+import { Subjects } from '../../../api/subjects/subjects.js';
 import { SchoolWork } from '../../../api/schoolWork/schoolWork.js';
 import { Notes } from '../../../api/notes/notes.js';
 import { Terms } from '../../../api/terms/terms.js';
@@ -20,6 +21,7 @@ Template.reportingView.onCreated( function() {
 	template.autorun(() => {
 		this.reportData = Meteor.subscribe('reportData', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'), FlowRouter.getParam('selectedWeekId'), FlowRouter.getParam('selectedReportId'));
 		this.studentData = Meteor.subscribe('student', FlowRouter.getParam('selectedStudentId'));
+		this.studentGroupData = Meteor.subscribe('aStudentsGroups', FlowRouter.getParam('selectedStudentId'));
 	});
 });
 
@@ -36,7 +38,7 @@ Template.reportingView.onRendered( function() {
 
 Template.reportingView.helpers({
 	subscriptionReady: function() {
-		if (Template.instance().reportData.ready() && Template.instance().studentData.ready()) {
+		if (Template.instance().reportData.ready() && Template.instance().studentData.ready() && Template.instance().studentGroupData.ready()) {
 			return true;
 		}
 		return false;

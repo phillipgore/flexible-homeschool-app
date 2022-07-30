@@ -3,8 +3,10 @@
 		{{> loading}}
 	{{/unless}}
 	<main class="app-content app-content-preceeds-toolbar">
-		{{#if students.count}}
-			<ul class="list">
+		<ul class="list">
+
+			{{#if students.count}}
+				<li class="list-item-label font-weight-700 p-tn-rl-9">Students</li>
 				{{#if activeRoute currentRouteName 'studentsNew'}}
 					<li class="list-item">
 						<span class="list-item-inner p-tn-rl-9 active">
@@ -15,13 +17,39 @@
 					</li>
 				{{/if}}
 				{{> studentsEach students=students}}
-			</ul>
-		{{else}}
-			<div class="txt-tn-center m-tn-t-72">
-				<i class="icn-students font-size-64 txt-gray"></i>
-				<h1 class="m-tn-t-36">Add Your First Student</h1>
-				<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36 txt-gray-darkest">Click the plus icon above to add your first Student.</p>
-			</div>
-		{{/if}}
+			{{else}}
+				<div class="txt-tn-center m-tn-t-72">
+					<i class="icn-students font-size-64 txt-gray"></i>
+					<h1 class="m-tn-t-36">Add Your First Student</h1>
+					<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36 txt-gray-darkest">Click the plus icon above to add your first Student.</p>
+				</div>
+			{{/if}}
+
+			{{#if studentGroups.count}}
+				<li class="list-item-label font-weight-700 p-tn-rl-9">Student Groups</li>
+				{{#if activeRoute currentRouteName 'studentGroupsNew'}}
+					<li class="list-item">
+						<span class="list-item-inner p-tn-rl-9 active">
+							<div class="list-item-icon"><i class="txt-primary icn-student-groups"></i></div> 
+							<div class="list-item-label font-style-italic font-weight-normal"> New Student Group
+							</div>
+						</span>
+					</li>
+				{{/if}}
+				{{> studentGroupsEach studentGroups=studentGroups}}
+			{{/if}}
+
+			{{#if students.count}}
+				{{#unless studentGroups.count}}
+					<li class="list-item-label font-weight-700 p-tn-rl-9">Student Groups</li>
+					<div class="txt-tn-center m-tn-t-72">
+						<i class="icn-student-groups font-size-64 txt-gray"></i>
+						<h1 class="m-tn-t-36">Add Your First Group</h1>
+						<p class="m-tn-t-3 m-tn-b-21 m-tn-rl-36 txt-gray-darkest">Click the plus icon above to add your first Group.</p>
+					</div>
+				{{/unless}}
+			{{/if}}
+
+		</ul>
 	</main>
 </template>

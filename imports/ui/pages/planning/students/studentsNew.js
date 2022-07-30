@@ -72,6 +72,7 @@ Template.studentsNew.onRendered( function() {
 					$('.js-saving').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
+					Session.set('selectedStudentIdType', 'students');
 					Session.set('selectedStudentId', studentId);
 					FlowRouter.go('/planning/students/view/3/' + studentId);
 				}

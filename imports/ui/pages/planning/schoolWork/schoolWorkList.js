@@ -1,70 +1,77 @@
 import {Template} from 'meteor/templating';
 import { Groups } from '../../../../api/groups/groups.js';
 import { SchoolWork } from '../../../../api/schoolWork/schoolWork.js';
+import { Subjects } from '../../../../api/subjects/subjects.js';
 import { Students } from '../../../../api/students/students.js';
 import './schoolWorkList.html';
+
+SchooWorkList = new Mongo.Collection('schooWorkList');
+
+const getSelectedId = () => {
+	if (Session.get('selectedStudentIdType') === 'students') {
+		return Session.get('selectedStudentId');
+	}
+	return Session.get('selectedStudentGroupId');
+}
 
 Template.schoolWorkList.onCreated( function() {
 	let template = Template.instance();
 	
 	template.autorun(() => {
+		this.subjectData = Meteor.subscribe('schooYearStudentSubject', FlowRouter.getParam('selectedSchoolYearId'), Session.get('selectedStudentIdType'), getSelectedId());
+		this.schoolWorkData = Meteor.subscribe('schooYearStudentSchoolWork', FlowRouter.getParam('selectedSchoolYearId'), Session.get('selectedStudentIdType'), getSelectedId());
 		this.schoolWorkStats = Meteor.subscribe('schoolWorkStats');
-		this.schoolWorkData = Meteor.subscribe('schooYearStudentSchoolWork', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
 	});
 });
 
 Template.schoolWorkList.onRendered( function() {
 	Session.set({
 		labelTwo: 'School Work',
-		newUrl: '/planning/schoolWork/new/3/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId'),
+		newUrl: '/planning/work/new/3/' + Session.get('selectedStudentIdType') +'/'+ getSelectedId()  +'/'+ FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId'),
 		activeNav: 'planningList',
 	});
 });
 
 Template.schoolWorkList.helpers({
 	subscriptionReady: function() {
-		if (Template.instance().schoolWorkStats.ready() && Template.instance().schoolWorkData.ready()) {
+		if (Template.instance().schoolWorkData.ready() && Template.instance().subjectData.ready() && Template.instance().schoolWorkStats.ready()) {
+			if (FlowRouter.getParam('selectedSchoolWorkId') != 'empty') {
+				let selectedSchoolWork = SchoolWork.findOne({_id: FlowRouter.getParam('selectedSchoolWorkId')});
+				if (selectedSchoolWork && selectedSchoolWork.subjectId) {
+					let subject = '#' + selectedSchoolWork.subjectId + ' .js-subject-toggle';
+					let listClass = '.js-' + selectedSchoolWork.subjectId;
+					
+					$(subject).addClass('js-open');
+					$(subject).find('.js-caret-right').hide();
+					$(subject).find('.js-caret-down').show();
+					$(listClass).show();
+				}
+			}
+			
 			return true;
 		}
 	},
 
-	schoolWorkCount: function() {
-		return SchoolWork.find().count();
-	},
-
-	schoolWork: function() {
-		return SchoolWork.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId'), studentId: FlowRouter.getParam('selectedStudentId')}, {sort: {name: 1}});
-	},
-
-	selectedStudentId: function() {
-		return FlowRouter.getParam('selectedStudentId');
-	},
-
-	studentsExist: function() {
-		let initialIds = Groups.findOne({_id: Meteor.user().info.groupId}).initialIds && Groups.findOne({_id: Meteor.user().info.groupId}).initialIds;
-		if (initialIds.studentId === 'empty') {
-			return false;
+	schooWorkList: function() {
+		let getSubjects = () => {
+			if (Session.get('selectedStudentIdType') === 'students') {
+				return Subjects.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId'), studentId: FlowRouter.getParam('selectedStudentId')}).fetch();
+			}
+			return Subjects.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId'), studentGroupId: FlowRouter.getParam('selectedStudentGroupId')}).fetch();
 		}
-		return true;
-	},
+		let subjects = getSubjects()
+		subjects.forEach(subject => subject.type = 'subject');
 
-	selectedSchoolYearId: function() {
-		return FlowRouter.getParam('selectedSchoolYearId');
-	},
-
-	schoolYearsExist: function() {
-		let initialIds = Groups.findOne({_id: Meteor.user().info.groupId}).initialIds && Groups.findOne({_id: Meteor.user().info.groupId}).initialIds;
-		if (initialIds.schoolYearId === 'empty') {
-			return false;
+		let getWorkItems = () => {
+			if (Session.get('selectedStudentIdType') === 'students') {
+				return SchoolWork.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId'), studentId: FlowRouter.getParam('selectedStudentId'), subjectId: {$exists: false}}).fetch();
+			}
+			return SchoolWork.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId'), studentGroupId: FlowRouter.getParam('selectedStudentGroupId'), subjectId: {$exists: false}}).fetch();
 		}
-		return true;
-	},
+		let workItems = getWorkItems()
+		workItems.forEach(workItem => workItem.type = 'work');
 
-	activeRoute: function(currentRoute, route) {
-		if (currentRoute === route) {
-			return true;
-		}
-		return false;
+		return _.sortBy(subjects.concat(workItems), ['name']);
 	},
 
 	studentsSchoolYearsCount: function() {

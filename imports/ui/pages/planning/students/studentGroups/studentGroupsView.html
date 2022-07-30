@@ -1,0 +1,27 @@
+<template name="studentGroupsView">
+	{{> deleting}}
+	<main class="app-content app-content-preceeds-toolbar app-content-data">
+		{{#if studentGroup}}
+			<div class="view-heading m-tn-b-21">
+				<div class="view-icon">
+					<i class="icn-student-groups"></i>
+				</div>
+				<div class="view-title">
+					<h1 class="m-tn-b-3">{{studentGroup.name}}</h1>
+				</div>
+			</div>
+			<div class="view-info p-tn-18">
+				<section>
+					<label>Students</label>
+					<ul class="info-list">
+						{{#each student in groupStudents studentGroup.studentIds}}
+							<li class="txt-ellipsis p-tn-b-3">
+								<i class="icn-students txt-primary"></i> {{student.preferredFirstName.name}} {{student.lastName}}
+							</li>
+						{{/each}}
+					</ul>
+				</section>
+			</div>
+		{{/if}}
+	</main>
+</template>

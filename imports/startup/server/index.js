@@ -78,6 +78,10 @@ import '../../api/resources/resources.js';
 import '../../api/resources/methods.js';
 import '../../api/resources/server/publications.js';
 
+import '../../api/subjects/subjects.js';
+import '../../api/subjects/methods.js';
+import '../../api/subjects/server/publications.js';
+
 import '../../api/schoolWork/schoolWork.js';
 import '../../api/schoolWork/methods.js';
 import '../../api/schoolWork/server/publications.js';
@@ -89,6 +93,10 @@ import '../../api/schoolYears/server/publications.js';
 import '../../api/stats/stats.js';
 import '../../api/stats/methods.js';
 import '../../api/stats/server/publications.js';
+
+import '../../api/studentGroups/studentGroups.js';
+import '../../api/studentGroups/methods.js';
+import '../../api/studentGroups/server/publications.js';
 
 import '../../api/students/students.js';
 import '../../api/students/methods.js';

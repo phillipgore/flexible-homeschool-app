@@ -1,33 +1,68 @@
 <template name="trackingEach">
-	{{#each student in students}}
-		<li class="list-item">
-			<a id="{{student._id}}" href="/tracking/students/view/2/{{student._id}}/{{selectedSchoolYearId}}/{{selectedTermId}}/{{selectedWeekId}}" class="js-student list-item-link p-tn-rl-9 {{#if active student._id}}active{{/if}}">
-				<div class="clearfix">
-					<div class="list-item-icon"><i class="txt-primary icn-students"></i></div> 
-					<div class="list-item-label">
-						{{student.preferredFirstName.name}} {{student.lastName}} <i class="icn-caret-right"></i>
+	{{#if typeIsStudents type}}
+		{{#each student in students}}
+			<li class="list-item">
+				<a id="{{student._id}}" href="/tracking/students/view/2/{{student._id}}/{{selectedSchoolYearId}}/{{selectedTermId}}/{{selectedWeekId}}" class="js-student list-item-link p-tn-rl-9 {{#if activeStudent student._id}}active{{/if}}">
+					<div class="clearfix">
+						<div class="list-item-icon"><i class="txt-primary icn-students"></i></div> 
+						<div class="list-item-label">
+							{{student.preferredFirstName.name}} {{student.lastName}} <i class="icn-caret-right"></i>
+						</div>
 					</div>
-				</div>
 
-				<div class="meter m-tn-r-18">
-					<div class="meter-progress {{yearsProgressStatus student._id}}">
-						<div class="meter-label">Year: {{yearsProgress student._id}}%</div>
+					<div class="meter m-tn-r-18">
+						<div class="meter-progress {{yearsStudentProgressStatus student._id}}">
+							<div class="meter-label">Year: {{yearsStudentProgress student._id}}%</div>
+						</div>
+						<div class="meter-label">Year: {{yearsStudentProgress student._id}}%</div>
 					</div>
-					<div class="meter-label">Year: {{yearsProgress student._id}}%</div>
-				</div>
-				<div class="meter m-tn-rl-9">
-					<div class="meter-progress {{termsProgressStatus student._id}}">
-						<div class="meter-label">Term: {{termsProgress student._id}}%</div>
+					<div class="meter m-tn-rl-9">
+						<div class="meter-progress {{termsStudentProgressStatus student._id}}">
+							<div class="meter-label">Term: {{termsStudentProgress student._id}}%</div>
+						</div>
+						<div class="meter-label">Term: {{termsStudentProgress student._id}}%</div>
 					</div>
-					<div class="meter-label">Term: {{termsProgress student._id}}%</div>
-				</div>
-				<div class="meter m-tn-l-18">
-					<div class="meter-progress {{weeksProgressStatus student._id}}">
-						<div class="meter-label">Week: {{weeksProgress student._id}}%</div>
+					<div class="meter m-tn-l-18">
+						<div class="meter-progress {{weeksStudentProgressStatus student._id}}">
+							<div class="meter-label">Week: {{weeksStudentProgress student._id}}%</div>
+						</div>
+						<div class="meter-label">Week: {{weeksStudentProgress student._id}}%</div>
 					</div>
-					<div class="meter-label">Week: {{weeksProgress student._id}}%</div>
-				</div>
-			</a>
-		</li>
-	{{/each}}
+				</a>
+			</li>
+		{{/each}}
+	{{/if}}
+	{{#if typeIsStudentGroups type}}
+		{{#each studentGroup in studentGroups}}
+			<li class="list-item">
+				<a id="{{studentGroup._id}}" href="/tracking/studentgroups/view/2/{{studentGroup._id}}/{{selectedSchoolYearId}}/{{selectedTermId}}/{{selectedWeekId}}" class="js-student-group list-item-link p-tn-rl-9 {{#if activeStudentGroup studentGroup._id}}active{{/if}}">
+					<div class="clearfix">
+						<div class="list-item-icon"><i class="txt-primary icn-student-groups"></i></div> 
+						<div class="list-item-label">
+							{{studentGroup.name}} <i class="icn-caret-right"></i>
+						</div>
+					</div>
+
+					<div class="meter m-tn-r-18">
+						<div class="meter-progress {{yearsStudentGroupProgressStatus studentGroup._id}}">
+							<div class="meter-label">Year: {{yearsStudentGroupProgress studentGroup._id}}%</div>
+						</div>
+						<div class="meter-label">Year: {{yearsStudentGroupProgress studentGroup._id}}%</div>
+					</div>
+					<div class="meter m-tn-rl-9">
+						<div class="meter-progress {{termsStudentGroupProgressStatus studentGroup._id}}">
+							<div class="meter-label">Term: {{termsStudentGroupProgress studentGroup._id}}%</div>
+						</div>
+						<div class="meter-label">Term: {{termsStudentGroupProgress studentGroup._id}}%</div>
+					</div>
+					<div class="meter m-tn-l-18">
+						<div class="meter-progress {{weeksStudentGroupProgressStatus studentGroup._id}}">
+							<div class="meter-label">Week: {{weeksStudentGroupProgress studentGroup._id}}%</div>
+						</div>
+						<div class="meter-label">Week: {{weeksStudentGroupProgress studentGroup._id}}%</div>
+					</div>
+				</a>
+			</li>
+		{{/each}}
+	{{/if}}
 </template>

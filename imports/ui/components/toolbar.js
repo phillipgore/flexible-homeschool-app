@@ -49,7 +49,7 @@ Template.toolbar.helpers({
 	},
 
 	newUrl: function() {
-		if (Session.get('toolbarType') === 'schoolWork') {
+		if (Session.get('toolbarType') === 'schoolWork' || Session.get('toolbarType') === 'subject') {
 			let initialIds = Groups.findOne({_id: Meteor.user().info.groupId}).initialIds;
 			if (initialIds.studentId === 'empty' || initialIds.schoolYearId === 'empty') {
 				return '#';
@@ -57,10 +57,6 @@ Template.toolbar.helpers({
 			return Session.get('newUrl');
 		}
 		return Session.get('newUrl');
-	},
-
-	type: function() {
-		return Session.get('toolbarType');
 	},
 
 	newable: function() {
@@ -71,7 +67,18 @@ Template.toolbar.helpers({
 		if (Session.get('selectedFramePosition') === 1 && type === 'report') {
 			return true;
 		}
-		if (Session.get('selectedFramePosition') === 2 && type != 'report' && type != 'resource') {
+		if (Session.get('selectedFramePosition') === 2 && type != 'report' && type != 'resource' && type != 'schoolWork') {
+			return true;
+		}
+		return false;
+	},
+
+	schoolWorkNewable: function() {
+		let type = Session.get('toolbarType');
+		if (type === 'new' || type === 'edit') {
+			return false;
+		}
+		if (Session.get('selectedFramePosition') === 2 && Session.get('toolbarType') === 'schoolWork') {
 			return true;
 		}
 		return false;
@@ -104,6 +111,14 @@ Template.toolbar.helpers({
 		return false;
 	},
 
+	studentGroupDisabled: function() {
+		let initialIds = Groups.findOne({_id: Meteor.user().info.groupId}).initialIds;
+		if (initialIds.studentId == 'empty') {
+			return true;
+		}
+		return false;
+	},
+
 	schoolWorkDisabled: function() {
 		let initialIds = Groups.findOne({_id: Meteor.user().info.groupId}).initialIds;
 		if (initialIds.studentId == 'empty' || initialIds.schoolYearId == 'empty') {
@@ -112,24 +127,34 @@ Template.toolbar.helpers({
 		return false;
 	},
 
-	selectedResourceType: function() {
-		return Session.get('selectedResourceType');
-	},
-
-	selectedResourceAvailability: function() {
-		return Session.get('selectedResourceAvailability');
-	},
-
 	selectedStudentId: function() {
 		return Session.get('selectedStudentId');
 	},
 
-	selectedSchoolYearId: function() {
-		return Session.get('selectedSchoolYearId');
+	selectedStudentGroupId: function() {
+		return Session.get('selectedStudentGroupId');
 	},
 
-	selectedReportId: function() {
-		return Session.get('selectedReportId');
+	selectedStudentIdType: function() {
+		return Session.get('selectedStudentIdType');
+	},
+
+	getSelectedId: function() {		
+		if (Session.get('selectedStudentIdType') === 'students') {
+			return Session.get('selectedStudentId');
+		}
+		return Session.get('selectedStudentGroupId');
+	},
+
+	isStudent: function() {
+		if (Session.get('selectedStudentIdType') === 'students') {
+			return true;
+		}
+		return false;
+	},
+
+	selectedSchoolYearId: function() {
+		return Session.get('selectedSchoolYearId');
 	},
 
 	editUrl: function() {
@@ -145,6 +170,13 @@ Template.toolbar.helpers({
 
 		if (type === 'schoolWork') {
 			if (FlowRouter.getParam('selectedSchoolWorkId') === 'empty') {
+				return false;
+			}
+			return true;
+		}
+
+		if (type === 'subject') {
+			if (FlowRouter.getParam('selectedSubjectId') === 'empty') {
 				return false;
 			}
 			return true;
@@ -216,7 +248,7 @@ Template.toolbar.events({
 		FlowRouter.go(newPath)
 	},
 
-	'click .js-new-schoolWork'(event) {
+	'click .js-new-schoolWork, click .js-new-subject, click .js-new-student-group'(event) {
 		event.preventDefault();
 
 		if (!$(event.currentTarget).hasClass('disabled')) {
@@ -231,6 +263,16 @@ Template.toolbar.events({
 			heading: 'Confirmation',
 			message: 'Are you sure you want to delete this Student?',
 			confirmClass: 'js-delete js-delete-student-confirmed',
+		});
+	},
+
+	'click .js-delete-studentgroup'(event) {
+		event.preventDefault();
+
+		Dialogs.insert({
+			heading: 'Confirmation',
+			message: 'Are you sure you want to delete this Student Group?',
+			confirmClass: 'js-delete js-delete-studentgroup-confirmed',
 		});
 	},
 
@@ -251,6 +293,16 @@ Template.toolbar.events({
 			heading: 'Confirmation',
 			message: 'Are you sure you want to delete this Resource?',
 			confirmClass: 'js-delete js-delete-resource-confirmed',
+		});
+	},
+
+	'click .js-delete-subject'(event) {
+		event.preventDefault();
+
+		Dialogs.insert({
+			heading: 'Confirmation',
+			message: 'Are you sure you want to delete this Subject?',
+			confirmClass: 'js-delete js-delete-subject-confirmed',
 		});
 	},
 
@@ -294,6 +346,7 @@ Template.toolbar.events({
 			selectedFramePosition: '',
 			selectedFrameClass: '',
 			selectedStudentId: '',
+			selectedStudentGroupId: '',
 			selectedSchoolYearId: '',
 			selectedResourceType: '',
 			selectedResourceAvailability: '',
@@ -304,6 +357,7 @@ Template.toolbar.events({
 			selectedWeekId: '',
 			selectedReportingWeekId: '',
 			selectedSchoolWorkId: '',
+			selectedSchoolWorkType: '',
 			selectedReportId: '',
 			selectedUserId: '',
 			planningPathName: '',

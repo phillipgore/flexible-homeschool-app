@@ -1,8 +1,9 @@
-<template name="schoolWorkView">
+<template name="workView">
 	{{> deleting}}
-	{{#unless subscriptionReady}}
+	{{#unless workSubscriptionReady}}
 		{{> loading}}
 	{{/unless}}
+	
 	<main class="app-content app-content-preceeds-toolbar app-content-data">
 		{{#if schoolWork}}
 			<div class="view-heading m-tn-b-21">
@@ -56,7 +57,7 @@
 							</section>
 						{{/each}}
 					</div>
-					<div class="col-xs-2of3 col-sm-1of1 col-xl-5of7">
+					<div class="col-xs-2of3 col-sm-1of1 col-xl-5of7 p-tn-t-21 p-xs-t-0 p-sm-t-21 p-xl-t-0">
 						{{#if schoolWork.scheduledDays.length}}
 							{{#each schedule in schoolWork.scheduledDays}}
 								{{#if schedule.days.length}}

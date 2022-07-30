@@ -49,6 +49,15 @@ const LessonsSchema = new SimpleSchema({
 		label: "Completed",
 		defaultValue: false,
 	},
+    participants: {
+        type: Array,
+        label: "participants",
+		optional: true
+    },
+	'participants.$': {
+		type: String,
+        label: "Participating Student Id",
+	},   
 	completedOn: {
         type: Date,
         label: "Completed On",
@@ -80,9 +89,20 @@ const LessonsSchema = new SimpleSchema({
         type: String,
         label: "Week ID"
     },
+	studentGroupId: {
+        type: String,
+        label: "Student Group ID",
+        optional: true
+    },
     studentId: {
         type: String,
-        label: "Student ID"
+        label: "Student ID",
+        optional: true
+    },
+    subjectId: {
+        type: String,
+        label: "Subject ID",
+        optional: true
     },
 	groupId: {
 		type: String,

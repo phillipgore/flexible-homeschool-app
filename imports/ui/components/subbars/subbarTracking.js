@@ -11,6 +11,13 @@ import moment from 'moment';
 import _ from 'lodash';
 import './subbarTracking.html';
 
+const getSelectedId = () => {
+	if (Session.get('selectedStudentIdType') === 'students') {
+		return Session.get('selectedStudentId');
+	}
+	return Session.get('selectedStudentGroupId');
+}
+
 Template.subbarTracking.onCreated( function() {
 	let template = Template.instance();
 	
@@ -50,6 +57,17 @@ Template.subbarTracking.helpers({
 
 	selectedStudentId: function() {
 		return FlowRouter.getParam('selectedStudentId');
+	},
+
+	selectedStudentIdType: function() {
+		return Session.get('selectedStudentIdType');
+	},
+
+	getSelectedId: function() {		
+		if (Session.get('selectedStudentIdType') === 'students') {
+			return Session.get('selectedStudentId');
+		}
+		return Session.get('selectedStudentGroupId');
 	},
 
 	
@@ -108,11 +126,23 @@ Template.subbarTracking.helpers({
 	},
 
 	firstTermId: function(timeFrameId) {
-		return Paths.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}) && Paths.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}).firstTermId;
+		const getPathQuery = () => {
+			if (Session.get('selectedStudentIdType') === 'students') {
+				return {studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}
+			}
+			return {studentGroupId: FlowRouter.getParam('selectedStudentGroupId'), timeFrameId: timeFrameId}
+		}
+		return Paths.findOne(getPathQuery()) && Paths.findOne(getPathQuery()).firstTermId;
 	},
 
 	firstWeekId: function(timeFrameId) {
-		return Paths.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}) && Paths.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}).firstWeekId;
+		const getPathQuery = () => {
+			if (Session.get('selectedStudentIdType') === 'students') {
+				return {studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}
+			}
+			return {studentGroupId: FlowRouter.getParam('selectedStudentGroupId'), timeFrameId: timeFrameId}
+		}
+		return Paths.findOne(getPathQuery()) && Paths.findOne(getPathQuery()).firstWeekId;
 	},
 
 	studentsSchoolYearsCount: function() {
@@ -130,21 +160,26 @@ Template.subbarTracking.helpers({
 	},
 
 	getStatus: function(timeFrameId) {
-		let status = Stats.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}) && Stats.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}).status;
+		const getStatus = () => {
+			if (FlowRouter.getParam('selectedStudentId')) {
+				return Stats.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}) && Stats.findOne({studentId: FlowRouter.getParam('selectedStudentId'), timeFrameId: timeFrameId}).status;
+			}
+			return Stats.findOne({studentGroupId: FlowRouter.getParam('selectedStudentGroupId'), timeFrameId: timeFrameId}) && Stats.findOne({studentGroupId: FlowRouter.getParam('selectedStudentGroupId'), timeFrameId: timeFrameId}).status;
+		}
 
-		if (status === 'empty' || _.isUndefined(status)) {
+		if (getStatus() === 'empty' || _.isUndefined(getStatus())) {
 			return 'icn-open-circle txt-gray-darker';
 		}
-		if (status === 'pending') {
+		if (getStatus() === 'pending') {
 			return 'icn-circle txt-gray-darker';
 		}
-		if (status === 'partial') {
+		if (getStatus() === 'partial') {
 			return 'icn-circle txt-secondary';
 		}
-		if (status === 'assigned') {
+		if (getStatus() === 'assigned') {
 			return 'icn-circle txt-warning';
 		}
-		if (status === 'completed') {
+		if (getStatus() === 'completed') {
 			return 'icn-circle txt-primary';
 		}
 	},	

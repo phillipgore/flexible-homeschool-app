@@ -1,0 +1,11 @@
+<template name="studentGroupsEach">
+	{{#each group in studentGroups}}
+		<li class="list-item">
+			<a id="{{group._id}}" href="/planning/studentGroups/view/3/{{group._id}}" class="js-student-group list-item-link p-tn-rl-9 {{#if active group._id}}active{{/if}}">
+				<div class="list-item-icon"><i class="txt-primary icn-student-groups"></i></div> 
+				<div class="list-item-label">{{group.name}}</div>
+			</a>
+		</li>
+	{{/each}}
+	{{scroll}}
+</template>

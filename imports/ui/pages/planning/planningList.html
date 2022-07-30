@@ -5,10 +5,12 @@
 	<main class="app-content app-content-preceeds-toolbar">
 		<ul class="list">
 			<li class="list-item">
-				<a id="students" href="/planning/students/view/2/{{selectedStudentId}}" class="js-planning list-item-link p-tn-rl-9 
+				<a id="students" href="{{studentURL}}" class="js-planning list-item-link p-tn-rl-9 
 				{{#if active currentRouteName 'studentsNew'}}active{{/if}}
 				{{#if active currentRouteName 'studentsView'}}active{{/if}}
-				{{#if active currentRouteName 'studentsEdit'}}active{{/if}}">
+				{{#if active currentRouteName 'studentsEdit'}}active{{/if}}
+				{{#if active currentRouteName 'studentGroupsNew'}}active{{/if}}
+				{{#if active currentRouteName 'studentGroupsView'}}active{{/if}}">
 					<div class="list-item-icon"><i class="txt-primary icn-students"></i></div> 
 					<div class="list-item-label">Students</div>
 				</a>
@@ -23,11 +25,14 @@
 				</a>
 			</li>
 			<li class="list-item">
-				<a id="schoolWork" href="/planning/schoolWork/view/2/{{selectedStudentId}}/{{selectedSchoolYearId}}/{{selectedSchoolWorkId}}" class="js-planning list-item-link p-tn-rl-9 
-				{{#if active currentRouteName 'schoolWorkNew'}}active{{/if}}
-				{{#if active currentRouteName 'schoolWorkView'}}active{{/if}}
-				{{#if active currentRouteName 'schoolWorkEdit'}}active{{/if}}">
-					<div class="list-item-icon"><i class="txt-primary icn-school-work"></i></div> 
+				<a id="schoolWork" href="/planning/{{selectedSchoolWorkType}}/view/2/{{selectedStudentIdType}}/{{getSelectedId}}/{{selectedSchoolYearId}}/{{selectedSchoolWorkId}}" class="js-planning list-item-link p-tn-rl-9 
+				{{#if active currentRouteName 'subjectsNew'}}active{{/if}}
+				{{#if active currentRouteName 'subjectsView'}}active{{/if}}
+				{{#if active currentRouteName 'subjectsEdit'}}active{{/if}}
+				{{#if active currentRouteName 'workNew'}}active{{/if}}
+				{{#if active currentRouteName 'workView'}}active{{/if}}
+				{{#if active currentRouteName 'workEdit'}}active{{/if}}">
+					<div class="list-item-icon"><i class="txt-primary icn-subjects-school-work"></i></div> 
 					<div class="list-item-label">School Work</div>
 				</a>
 			</li>

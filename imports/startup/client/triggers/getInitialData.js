@@ -26,7 +26,19 @@ function getInitialData() {
 
 	// Initial Student
 	if (!Session.get('selectedStudentId')) {
+		Session.set('selectedStudentIdType', 'students');
 		Session.set('selectedStudentId', initialIds.studentId);
+	}
+
+	// Initial Student Group
+	if (!Session.get('selectedStudentGroupId')) {
+		Session.set('selectedStudentIdType', 'studentgroups');
+		Session.set('selectedStudentGroupId', initialIds.studentGroupId);
+	}
+
+	// Initial Student Id Type
+	if (!Session.get('selectedStudentIdType')) {
+		Session.set('selectedStudentIdType', initialIds.studentIdType);
 	}
 
 	// Initial School Year
@@ -72,6 +84,10 @@ function getInitialData() {
 	// Initial School Work
 	if (!Session.get('selectedSchoolWorkId')) {
 		Session.set('selectedSchoolWorkId', initialIds.schoolWorkId);
+	}
+
+	if (!Session.get('selectedSchoolWorkType')) {
+		Session.set('selectedSchoolWorkType', initialIds.schoolWorkType);
 	}
 
 	// Initial Report

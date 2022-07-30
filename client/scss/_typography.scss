@@ -87,6 +87,14 @@ p {
 	&:last-child, &:last-of-type, &:only-child {
 		padding-bottom: 0px;
 	}
+
+	&.pill {
+		padding: 6px 12px;
+		font-size: 12px;
+		background-color: $color-gray-lighter;
+		color: $color-gray-darkest;
+		border-radius: 14px;
+	}
 }
 
 ul, ol {
@@ -172,6 +180,10 @@ a {
 	}	
 	color: $color-primary;
 }
+
+.txt-primary-dark, .txt-success-dark { color: $color-primary-dark; }
+.txt-primary-darker, .txt-success-darker { color: $color-primary-darker; }
+.txt-primary-darkest, .txt-success-darkest { color: $color-primary-darkest; }
 
 .txt-secondary, .txt-danger { color: $color-danger; }
 .txt-secondary-dark, .txt-danger-dark { color: $color-danger-dark; }

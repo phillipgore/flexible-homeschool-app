@@ -18,9 +18,6 @@
       "quantity": 1
     }
   },
-  "addons": [
-    "mongolab"
-  ],
   "buildpacks": [
     {
       "url": "https://github.com/AdmitHub/meteor-buildpack-horse.git"
