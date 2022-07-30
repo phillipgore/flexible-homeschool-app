@@ -15,11 +15,8 @@ Meteor.methods({
     },
 
     deleteSubject: function(subjectId) {
-        let schoolWorkIds = SchoolWork.find({subjectId: subjectId}).map(lesson => (lesson._id));
-        let lessonIds = Lessons.find({subjectId: subjectId}).map(lesson => (lesson._id));
-
 		Subjects.remove({_id: subjectId});
-		SchoolWork.remove({_id: {$in: schoolWorkIds}});
-		Lessons.remove({_id: {$in: lessonIds}});
+		SchoolWork.remove({subjectId: subjectId});
+		Lessons.remove({subjectId: subjectId});
 	},
 });

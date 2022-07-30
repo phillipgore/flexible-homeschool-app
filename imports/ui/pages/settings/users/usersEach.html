@@ -1,6 +1,6 @@
 <template name="usersEach">
 	{{#if nonActive usersPending.count usersPaused.count}}
-		<li class="list-item-label p-tn-rl-9">Active Users</li>
+		<li class="list-item-label font-weight-700 p-tn-rl-9">Active Users</li>
 	{{/if}}
 	{{#each user in users}}
 		<li class="list-item">
@@ -13,7 +13,7 @@
 		</li>
 	{{/each}}
 	{{#if usersPending.count}}
-		<li class="list-item-label p-tn-rl-9">Users Pending Verification</li>
+		<li class="list-item-label font-weight-700 p-tn-rl-9">Users Pending Verification</li>
 		{{#each user in usersPending}}
 			<li class="list-item">
 				<a id="{{user._id}}" data-verified="{{user.emails.[0].verified}}" data-active="{{user.status.active}}" href="/settings/users/view/3/{{user._id}}" class="js-user list-item-link p-tn-rl-9 {{#if active user._id}}active{{/if}}">
@@ -26,7 +26,7 @@
 		{{/each}}
 	{{/if}}
 	{{#if usersPaused.count}}
-		<li class="list-item-label p-tn-rl-9">Paused Users</li>
+		<li class="list-item-label font-weight-700 p-tn-rl-9">Paused Users</li>
 		{{#each user in usersPaused}}
 			<li class="list-item">
 				<a id="{{user._id}}" data-verified="{{user.emails.[0].verified}}" data-active="{{user.status.active}}" href="/settings/users/view/3/{{user._id}}" class="js-user list-item-link p-tn-rl-9 {{#if active user._id}}active{{/if}}">

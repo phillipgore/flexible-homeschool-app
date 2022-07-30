@@ -10,6 +10,14 @@
 		<h2 class="txt-tn-center txt-gray-darkest txt-capitalize print-only-block m-tn-b-18">{{selectedSchoolYear.startYear}}-{{selectedSchoolYear.endYear}}, Term {{selectedTerm.order}}, Week {{selectedWeek.order}}</h2>
 
 		{{studentName student.preferredFirstName.name student.lastName}}
+
+		{{#if typeIsStudentGroups}}
+			<div class="txt-tn-center p-tn-t-27">
+			{{#each studentId in studentGroup.studentIds}}
+				<p class="pill dis-tn-inline-block m-tn-rl-3">{{getStudentName studentId}}</p>
+			{{/each}}
+			</div>
+		{{/if}}
 		
 			
 		<form class="js-tracking-update m-tn-rl-9 m-tn-tb-18 m-lg-18">

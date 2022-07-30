@@ -83,8 +83,24 @@ Template.subjectsNew.events({
 				order: 1,
 				name: template.find("[name='name']").value.trim(),
 				schoolYearId: FlowRouter.getParam('selectedSchoolYearId'),
-				studentId: FlowRouter.getParam('selectedStudentId'),
 			};
+
+			let pathProperties = {
+				studentIds: [],
+				studentGroupIds: [],
+				schoolYearIds: [FlowRouter.getParam('selectedSchoolYearId')],
+				termIds: [],
+			}
+
+			if (Session.get('selectedStudentIdType') === 'students') {
+				subjectProperties.studentId = FlowRouter.getParam('selectedStudentId');
+				pathProperties.studentIds.push(FlowRouter.getParam('selectedStudentId'));
+			}
+
+			if (Session.get('selectedStudentIdType') === 'studentgroups') {
+				subjectProperties.studentGroupId = FlowRouter.getParam('selectedStudentGroupId');
+				pathProperties.studentGroupIds.push(FlowRouter.getParam('selectedStudentGroupId'));
+			}
 
 			Meteor.call('insertSubject', subjectProperties, function(error, subjectId) {
 				if (error) {
@@ -97,7 +113,22 @@ Template.subjectsNew.events({
 					$('.js-saving').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
-					FlowRouter.go('/planning/subjects/view/3/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ subjectId)
+					Meteor.call('runUpsertSchoolWorkPaths', pathProperties, function(error, result) {
+						if (error) {
+							Alerts.insert({
+								colorClass: 'bg-danger',
+								iconClass: 'icn-danger',
+								message: error.message,
+							});
+							
+							$('.js-updating').hide();
+							$('.js-submit').prop('disabled', false);
+						} else {
+							$('.js-saving').hide();
+							$('.js-submit').prop('disabled', false);
+							FlowRouter.go('/planning/subjects/view/3/' + Session.get('selectedStudentIdType') +'/'+ getSelectedId() +'/'+ Session.get('selectedSchoolYearId') +'/'+ subjectId)
+						}
+					});
 				}
 			});
 
@@ -109,13 +140,20 @@ Template.subjectsNew.events({
 		event.preventDefault();
 
 		if (window.screen.availWidth > 768) {
-			FlowRouter.go('/planning/' + Session.get('selectedSchoolWorkType') + '/view/3/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedSchoolWorkId'))
+			FlowRouter.go('/planning/' + Session.get('selectedSchoolWorkType') + '/view/3/' + Session.get('selectedStudentIdType') +'/'+ getSelectedId() +'/'+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedSchoolWorkId'))
 		} else {
-			FlowRouter.go('/planning/' + Session.get('selectedSchoolWorkType') + '/view/2/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedSchoolWorkId'))
+			FlowRouter.go('/planning/' + Session.get('selectedSchoolWorkType') + '/view/2/' + Session.get('selectedStudentIdType') +'/'+ getSelectedId() +'/'+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedSchoolWorkId'))
 		}
 		
 	},
 });
+
+const getSelectedId = () => {
+	if (Session.get('selectedStudentIdType') === 'students') {
+		return Session.get('selectedStudentId');
+	}
+	return Session.get('selectedStudentGroupId');
+}
 
 
 

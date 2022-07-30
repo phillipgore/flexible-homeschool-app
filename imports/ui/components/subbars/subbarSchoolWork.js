@@ -2,18 +2,19 @@ import {Template} from 'meteor/templating';
 import {Paths} from '../../../api/paths/paths.js';
 import {SchoolYears} from '../../../api/schoolYears/schoolYears.js';
 import {Students} from '../../../api/students/students.js';
+import {StudentGroups} from '../../../api/studentGroups/studentGroups.js';
 import {SchoolWork} from '../../../api/schoolWork/schoolWork.js';
 import './subbarSchoolWork.html';
 
 import moment from 'moment';
-import _ from 'lodash'
-
+import _, { stubTrue } from 'lodash';
 
 Template.subbarSchoolWork.onCreated( function() {
 	let template = Template.instance();
 	
 	template.autorun(() => {
 		this.studentData = Meteor.subscribe('allStudents');
+		this.studentGroupData = Meteor.subscribe('allStudentGroups');
 		this.schoolYearData = Meteor.subscribe('allSchoolYears');
 		this.schoolYearPathData = Meteor.subscribe('allSchoolYearPaths');
 	});
@@ -38,12 +39,42 @@ Template.subbarSchoolWork.helpers({
 		return Students.find({}, {sort: {birthday: 1, lastName: 1, firstName: 1}});
 	},
 
+	studentGroups: function() {
+		return StudentGroups.find({}, {sort: {name: 1}});
+	},
+
 	selectedStudent: function() {
 		return Students.findOne({_id: FlowRouter.getParam('selectedStudentId')});
 	},
 
+	selectedStudentGroup: function() {
+		return StudentGroups.findOne({_id: FlowRouter.getParam('selectedStudentGroupId')});
+	},
+
 	selectedStudentId: function() {
 		return FlowRouter.getParam('selectedStudentId');
+	},
+
+	selectedStudentGroupId: function() {
+		return FlowRouter.getParam('selectedStudentGroupId');
+	},
+
+	selectedStudentIdType: function() {
+		return Session.get('selectedStudentIdType');
+	},
+
+	getSelectedId: function() {
+		if (Session.get('selectedStudentIdType') === 'students') {
+			return Session.get('selectedStudentId');
+		}
+		return Session.get('selectedStudentGroupId');
+	},
+
+	isStudent: function() {
+		if (Session.get('selectedStudentIdType') === 'students') {
+			return true;
+		}
+		return false;
 	},
 
 	
@@ -71,18 +102,22 @@ Template.subbarSchoolWork.helpers({
 		return false;
 	},
 
-	firstSchoolWorkId: function(studentId, timeFrameId) {
-		let firstSchoolWorkId = Paths.findOne({studentId: studentId, timeFrameId: timeFrameId}) && Paths.findOne({studentId: studentId, timeFrameId: timeFrameId}).firstSchoolWorkId;
-		if (firstSchoolWorkId) {
-			return firstSchoolWorkId;
+	firstSchoolWorkType: function(type, id, timeFrameId) {
+		if (type === 'students') {
+			return Paths.findOne({studentId: id, timeFrameId: timeFrameId}) && Paths.findOne({studentId: id, timeFrameId: timeFrameId}).firstSchoolWorkType
 		}
-		return 'empty';
+		if (type === 'studentgroups') {
+			return Paths.findOne({studentGroupId: id, timeFrameId: timeFrameId}) && Paths.findOne({studentGroupId: id, timeFrameId: timeFrameId}).firstSchoolWorkType;
+		}
+		return 'work';
 	},
 
-	firstSchoolWorkType: function(studentId, timeFrameId) {
-		let firstSchoolWorkType = Paths.findOne({studentId: studentId, timeFrameId: timeFrameId}) && Paths.findOne({studentId: studentId, timeFrameId: timeFrameId}).firstSchoolWorkType;
-		if (firstSchoolWorkType) {
-			return firstSchoolWorkType;
+	firstSchoolWorkId: function(type, id, timeFrameId) {
+		if (type === 'students') {
+			return Paths.findOne({studentId: id, timeFrameId: timeFrameId}) && Paths.findOne({studentId: id, timeFrameId: timeFrameId}).firstSchoolWorkId;
+		}
+		if (type === 'studentgroups') {
+			return Paths.findOne({studentGroupId: id, timeFrameId: timeFrameId}) && Paths.findOne({studentGroupId: id, timeFrameId: timeFrameId}).firstSchoolWorkId;
 		}
 		return 'empty';
 	},

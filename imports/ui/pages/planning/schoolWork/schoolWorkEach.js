@@ -40,11 +40,29 @@ Template.schoolWorkEach.helpers({
 	},
 
 	subjects: function() {
+		if (Session.get('selectedStudentIdType') === 'studentgroups') {
+			return Subjects.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId'), studentGroupId: FlowRouter.getParam('selectedStudentGroupId')});
+		}
 		return Subjects.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId'), studentId: FlowRouter.getParam('selectedStudentId')});
 	},
 	
 	selectedStudentId: function() {
 		return Session.get('selectedStudentId');
+	},
+
+	selectedStudentGroupId: function() {
+		return Session.get('selectedStudentGroupId');
+	},
+
+	selectedStudentIdType: function() {
+		return Session.get('selectedStudentIdType');
+	},
+
+	getSelectedId: function() {		
+		if (Session.get('selectedStudentIdType') === 'students') {
+			return Session.get('selectedStudentId');
+		}
+		return Session.get('selectedStudentGroupId');
 	},
 
 	selectedSchoolYearId: function() {
@@ -117,7 +135,7 @@ Template.schoolWorkEach.events({
 					$(subject).find('.js-caret-down').show();
 					$(listClass).slideDown(200);
 				}
-				FlowRouter.go('/planning/work/view/2/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ workProperties._id);
+				FlowRouter.go('/planning/work/view/2/' + Session.get('selectedStudentIdType') +'/'+ getSelectedId() +'/'+ Session.get('selectedSchoolYearId') +'/'+ workProperties._id);
 			}
 		})
 	},
@@ -141,5 +159,10 @@ Template.schoolWorkEach.events({
 	},
 });
 
-
+const getSelectedId = () => {
+	if (Session.get('selectedStudentIdType') === 'students') {
+		return Session.get('selectedStudentId');
+	}
+	return Session.get('selectedStudentGroupId');
+}
 

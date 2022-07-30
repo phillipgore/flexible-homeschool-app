@@ -90,7 +90,6 @@ Meteor.methods({
 			let bulkLessonUpdates = []; 
 
 			if (updateSchoolWorkProperties.subjectId) {
-				console.log('one');
 				lessons.forEach(lesson => {
 					bulkLessonUpdates.push({updateOne: 
 						{ 
@@ -141,24 +140,24 @@ Meteor.methods({
 		let bulkLessons = [];
 			
 		lessonProperties.forEach(function(lesson) {
-			bulkLessons.push({insertOne: {"document": {
-				_id: Random.id(),
-				order: parseInt(lesson.order),
-				assigned: false,
-				completed: false,
-				studentId: lesson.studentId,
-				subjectId: lesson.subjectId,
-				schoolYearId: lesson.schoolYearId,
-				termId: lesson.termId,
-				weekId: lesson.weekId,
-				schoolWorkId: schoolWorkId,
-				termOrder: lesson.termOrder,
-				weekOrder: lesson.weekOrder,
-				weekDay: parseInt(lesson.weekDay),
-				groupId: groupId, 
-				userId: userId, 
-				createdOn: new Date()
-			}}});
+			lesson._id = Random.id();
+			lesson.order = parseInt(lesson.order);
+			lesson.assigned = false;
+			lesson.completed = false;
+			if (lesson.studentId) {
+				lesson.studentId = lesson.studentId;
+			}
+			if (lesson.studentGroupId) {
+				lesson.studentGroupId = lesson.studentGroupId;
+			}
+			lesson.schoolWorkId = schoolWorkId;
+			lesson.weekDay = parseInt(lesson.weekDay);
+			lesson.groupId = groupId;
+			lesson.userId = userId;
+			lesson.createdOn = new Date()
+
+
+			bulkLessons.push({insertOne: {"document": lesson}});
 		});
 
 		Lessons.rawCollection().bulkWrite(

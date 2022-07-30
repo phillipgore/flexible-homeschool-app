@@ -12,11 +12,17 @@ import './workNew.html';
 
 LocalResources = new Mongo.Collection(null);
 
+const getSelectedId = () => {
+	if (Session.get('selectedStudentIdType') === 'students') {
+		return Session.get('selectedStudentId');
+	}
+	return Session.get('selectedStudentGroupId');
+}
+
 Template.workNew.onCreated( function() {	
 	Session.setPersistent('unScrolled', true);
-	
 	// Subscriptions
-	this.subjectData = this.subscribe('schooYearStudentSubject', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
+	this.subjectData = this.subscribe('schooYearStudentSubject', FlowRouter.getParam('selectedSchoolYearId'), Session.get('selectedStudentIdType'), getSelectedId());
 	this.schoolYearData = this.subscribe('schoolYear', FlowRouter.getParam('selectedSchoolYearId'));
 	this.termData = this.subscribe('schoolYearTerms', FlowRouter.getParam('selectedSchoolYearId'));
 	this.weekData = this.subscribe('schoolYearWeeks', FlowRouter.getParam('selectedSchoolYearId'));
@@ -398,7 +404,6 @@ Template.workNew.events({
 				name: template.find("[name='name']").value.trim(),
 				description: $('.js-form-school-work-new .editor-content').html(),
 				resources: resourceIds,
-				studentId: studentId,
 				schoolYearId: schoolYearId,
 				subjectId: subjectId === 'noSubject' ? undefined : subjectId,
 				scheduledDays: scheduledDays,
@@ -411,7 +416,6 @@ Template.workNew.events({
 				for (i = 0; i < parseInt(this.value); i++) {
 				    lessonProperties.push({
 						order: i + 1,
-						studentId: studentId,
 				    	schoolYearId: schoolYearId, 
 				    	termId: this.dataset.termId,
 				    	termOrder: parseInt(this.dataset.termOrder), 
@@ -425,16 +429,36 @@ Template.workNew.events({
 			});
 
 			let pathProperties = {
-				studentIds: [studentId],
+				studentIds: [],
+				studentGroupIds: [],
 				schoolYearIds: [schoolYearId],
 				termIds: Array.from(document.getElementsByClassName('js-term-container')).map(term => term.id),
 			};
 
 			let statProperties = {
-				studentIds: [studentId],
+				studentIds: [],
+				studentGroupIds: [],
 				schoolYearIds: [schoolYearId],
 				termIds: Array.from(document.getElementsByClassName('js-term-container')).map(term => term.id),
 				weekIds: _.uniq(weekIds),
+			}
+
+			if (Session.get('selectedStudentIdType') === 'students') {
+				schoolWorkProperties.studentId = FlowRouter.getParam('selectedStudentId');
+				lessonProperties.forEach(lessonProperty => {
+					lessonProperty.studentId = FlowRouter.getParam('selectedStudentId');
+				});
+				pathProperties.studentIds.push(FlowRouter.getParam('selectedStudentId'));
+				statProperties.studentIds.push(FlowRouter.getParam('selectedStudentId'));
+			}
+
+			if (Session.get('selectedStudentIdType') === 'studentgroups') {
+				schoolWorkProperties.studentGroupId = FlowRouter.getParam('selectedStudentGroupId');
+				lessonProperties.forEach(lessonProperty => {
+					lessonProperty.studentGroupId = FlowRouter.getParam('selectedStudentGroupId');
+				});
+				pathProperties.studentGroupIds.push(FlowRouter.getParam('selectedStudentGroupId'));
+				statProperties.studentGroupIds.push(FlowRouter.getParam('selectedStudentGroupId'));
 			}
 			
 			Meteor.call('insertSchoolWork', schoolWorkProperties, lessonProperties, function(error, schoolWorkId) {
@@ -462,7 +486,7 @@ Template.workNew.events({
 							Session.set('selectedSchoolWorkId', schoolWorkId);
 							Session.set('selectedSchoolWorkType', 'work');
 							
-							FlowRouter.go('/planning/work/view/3/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ schoolWorkId);
+							FlowRouter.go('/planning/work/view/3/' + Session.get('selectedStudentIdType') +'/'+ getSelectedId() +'/'+ Session.get('selectedSchoolYearId') +'/'+ schoolWorkId);
 						}
 					});
 				}
@@ -476,15 +500,13 @@ Template.workNew.events({
 		event.preventDefault();
 
 		if (window.screen.availWidth > 768) {
-			FlowRouter.go('/planning/' + Session.get('selectedSchoolWorkType') + '/view/3/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedSchoolWorkId'))
+			FlowRouter.go('/planning/' + Session.get('selectedSchoolWorkType') + '/view/3/' + Session.get('selectedStudentIdType') +'/'+ getSelectedId() +'/'+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedSchoolWorkId'))
 		} else {
-			FlowRouter.go('/planning/' + Session.get('selectedSchoolWorkType') + '/view/2/' + Session.get('selectedStudentId') +'/'+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedSchoolWorkId'))
+			FlowRouter.go('/planning/' + Session.get('selectedSchoolWorkType') + '/view/2/' + Session.get('selectedStudentIdType') +'/'+ getSelectedId() +'/'+ Session.get('selectedSchoolYearId') +'/'+ Session.get('selectedSchoolWorkId'))
 		}
 		
 	},
 });
-
-
 
 
 

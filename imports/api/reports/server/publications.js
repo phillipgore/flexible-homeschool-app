@@ -2,6 +2,7 @@ import {Reports} from '../reports.js';
 import {SchoolYears} from '../../schoolYears/schoolYears.js';
 import {Terms} from '../../terms/terms.js';
 import {Weeks} from '../../weeks/weeks.js';
+import {StudentGroups} from '../../studentGroups/studentGroups.js';
 import {Subjects} from '../../subjects/subjects.js';
 import {SchoolWork} from '../../schoolWork/schoolWork.js';
 import {Notes} from '../../notes/notes.js';
@@ -77,9 +78,25 @@ Meteor.publish('reportData', function(studentId, schoolYearId, termId, weekId, r
 			let yearSchoolYear = SchoolYears.find({_id: schoolYearId, groupId: groupId}).fetch();
 			let yearTerms = Terms.find({schoolYearId: schoolYearId}).fetch();
 			let yearWeeks = Weeks.find({termId: {$in: yearTerms.map(term => term._id)}}).fetch();
-			let yearSchoolWork = SchoolWork.find({groupId: groupId, schoolYearId: schoolYearId, studentId: studentId}, {sort: {name: 1}}).fetch();
+			let yearStudentGroups = StudentGroups.find({studentIds: studentId}).fetch();
+			// let yearSchoolWork = SchoolWork.find({groupId: groupId, schoolYearId: schoolYearId, studentId: studentId}, {sort: {name: 1}}).fetch();
+			let yearSchoolWork = SchoolWork.find({
+				groupId: groupId, 
+				schoolYearId: schoolYearId, 
+				$or: [
+						{studentId: studentId}, 
+						{studentGroupId: {$in: yearStudentGroups.map(studentGroup => studentGroup._id)} }
+					]
+			}, {sort: {name: 1}}).fetch();
 			let yearNotes = Notes.find({groupId: groupId, schoolWorkId: {$in: yearSchoolWork.map(work => work._id)}}).fetch();
-			let yearLessons = Lessons.find({groupId: groupId, schoolWorkId: {$in: yearSchoolWork.map(schoolWork => schoolWork._id)}}, {sort: {order: 1}}).fetch();
+			let lessons = Lessons.find({groupId: groupId, schoolWorkId: {$in: yearSchoolWork.map(schoolWork => schoolWork._id)}}, {sort: {order: 1}}).fetch();
+			let yearLessons = [];
+			lessons.forEach(lesson => {
+				let participants = lesson.participants;
+				if (_.isUndefined(participants) || participants.length < 1 || participants.includes(studentId)) {
+					yearLessons.push(lesson);
+				}
+			});
 			let yearResources = Resources.find(
 				{
 					_id: {$in: _.flatten(yearSchoolWork.map(schoolWork => schoolWork.resources))}, 
@@ -283,6 +300,7 @@ Meteor.publish('reportData', function(studentId, schoolYearId, termId, weekId, r
 					subjectData.name = subject.name;
 					subjectData.schoolYearId = subject.schoolYearId;
 					subjectData.studentId = subject.studentId;
+					subjectData.studentGroupId = subject.studentGroupId;
 
 					let subjectLessons = subject._id === 'noSubject' ? 
 						lessons.filter(lesson => !lesson.subjectId) :

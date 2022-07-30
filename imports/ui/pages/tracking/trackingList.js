@@ -1,6 +1,7 @@
 import {Template} from 'meteor/templating';
 import { Stats } from '../../../api/stats/stats.js';
 import { Students } from '../../../api/students/students.js';
+import { StudentGroups } from '../../../api/studentGroups/studentGroups.js';
 import { SchoolYears } from '../../../api/schoolYears/schoolYears.js';
 import { Terms } from '../../../api/terms/terms.js';
 import './trackingList.html';
@@ -11,7 +12,7 @@ Template.trackingList.onCreated( function() {
 	// let template = Template.instance();
 
 	// template.autorun(() => {
-		this.trackingData = Meteor.subscribe('trackingListPub', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedTermId'), FlowRouter.getParam('selectedWeekId'));
+		this.trackingData = Meteor.subscribe('trackingListPub');
 	// });
 });
 
@@ -32,6 +33,10 @@ Template.trackingList.helpers({
 
 	students: function() {
 		return Students.find({}, {sort: {birthday: 1, lastName: 1, firstName: 1}});
+	},
+
+	studentGroups: function() {
+		return StudentGroups.find({}, {sort: {name: 1}});
 	},
 
 	schoolYears: function() {
@@ -63,6 +68,13 @@ Template.trackingList.helpers({
 
 	studentsSchoolYearsCount: function() {
 		if (Students.find().count() && SchoolYears.find().count()) {
+			return true;
+		}
+		return false;
+	},
+
+	studentGroupsSchoolYearsCount: function() {
+		if (StudentGroups.find().count() && SchoolYears.find().count()) {
 			return true;
 		}
 		return false;

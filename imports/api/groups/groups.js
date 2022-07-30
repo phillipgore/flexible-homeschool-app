@@ -158,6 +158,14 @@ const GroupsSchema = new SimpleSchema({
         type: String,
         label: "Initial Student Id",
     },
+    'initialIds.studentGroupId': {
+        type: String,
+        label: "Initial Student Group Id",
+    },
+    'initialIds.studentIdType': {
+        type: String,
+        label: "Initial Student Id Type",
+    },
     'initialIds.schoolYearId': {
         type: String,
         label: "Initial School Year Id",

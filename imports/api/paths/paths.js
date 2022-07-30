@@ -18,7 +18,19 @@ Paths.deny({
 const PathsSchema = new SimpleSchema({
 	studentId: {
 		type: String,
-		label: "Student ID"
+		label: "Student ID",
+        optional: true,
+	},
+	studentGroupId: {
+		type: String,
+		label: "Student Group ID",
+        optional: true,
+	},
+	studentIdType: {
+		type: String,
+		label: "Student Id Type",
+		allowedValues: ['students', 'studentgroups'],
+        optional: true,
 	},
 	timeFrameId: {
 		type: String,
@@ -49,15 +61,14 @@ const PathsSchema = new SimpleSchema({
 		label: "First School Work Type",
         optional: true,
 	},
-	
 	groupId: {
 		type: String,
 		label: "Group ID",
-		// autoValue: function() {
-		// 	if ( this.isInsert ) {
-		// 		return Meteor.user().info.groupId;
-		// 	}
-		// }
+		autoValue: function() {
+			if ( this.isInsert ) {
+				return Meteor.user().info.groupId;
+			}
+		}
 	},
 	createdOn: {
 		type: Date,

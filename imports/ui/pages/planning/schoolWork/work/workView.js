@@ -8,25 +8,30 @@ import { Weeks } from '../../../../../api/weeks/weeks.js';
 import { Lessons } from '../../../../../api/lessons/lessons.js';
 import './workView.html';
 
+const getSelectedId = () => {
+	if (Session.get('selectedStudentIdType') === 'students') {
+		return FlowRouter.getParam('selectedStudentId');
+	}
+	return FlowRouter.getParam('selectedStudentGroupId');
+}
+
 Template.workView.onCreated( function() {	
 	let template = Template.instance();
 	
-	template.autorun(() => {
-		this.schoolWorkData = Meteor.subscribe('schoolWorkView', FlowRouter.getParam('selectedSchoolWorkId'));
-	});
+	this.schoolWorkData = Meteor.subscribe('schoolWorkView', FlowRouter.getParam('selectedSchoolWorkId'));
 });
 
 Template.workView.onRendered( function() {
 	Session.set({
 		toolbarType: 'schoolWork',
-		editUrl: '/planning/work/edit/3/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedSchoolWorkId'),
+		editUrl: '/planning/work/edit/3/' + Session.get('selectedStudentIdType') +'/'+ getSelectedId() +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedSchoolWorkId'),
 		labelThree: 'School Work',
 		activeNav: 'planningList',
 	});
 });
 
 Template.workView.helpers({
-	subscriptionReady: function() {
+	workSubscriptionReady: function() {
 		return Template.instance().schoolWorkData.ready();
 	},
 
@@ -43,7 +48,7 @@ Template.workView.helpers({
 	},
 
 	termLessons: function(termId) {
-		let lessonCount = Lessons.find({termId: termId}).count();
+		let lessonCount = Lessons.find({schoolWorkId: FlowRouter.getParam('selectedSchoolWorkId'), termId: termId}).count();
 		if (lessonCount === 1) {
 			return lessonCount + ' Segment';
 		}

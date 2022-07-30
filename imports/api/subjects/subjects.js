@@ -22,7 +22,13 @@ const SubjectsSchema = new SimpleSchema({
     },
     studentId: {
         type: String,
-        label: "Student ID"
+        label: "Student ID",
+        optional: true
+    },
+	studentGroupId: {
+        type: String,
+        label: "Student Group ID",
+        optional: true
     },
     schoolYearId: {
         type: String,

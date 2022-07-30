@@ -7,12 +7,19 @@ import './schoolWorkList.html';
 
 SchooWorkList = new Mongo.Collection('schooWorkList');
 
+const getSelectedId = () => {
+	if (Session.get('selectedStudentIdType') === 'students') {
+		return Session.get('selectedStudentId');
+	}
+	return Session.get('selectedStudentGroupId');
+}
+
 Template.schoolWorkList.onCreated( function() {
 	let template = Template.instance();
 	
 	template.autorun(() => {
-		this.subjectData = Meteor.subscribe('schooYearStudentSubject', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
-		this.schoolWorkData = Meteor.subscribe('schooYearStudentSchoolWork', FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedStudentId'));
+		this.subjectData = Meteor.subscribe('schooYearStudentSubject', FlowRouter.getParam('selectedSchoolYearId'), Session.get('selectedStudentIdType'), getSelectedId());
+		this.schoolWorkData = Meteor.subscribe('schooYearStudentSchoolWork', FlowRouter.getParam('selectedSchoolYearId'), Session.get('selectedStudentIdType'), getSelectedId());
 		this.schoolWorkStats = Meteor.subscribe('schoolWorkStats');
 	});
 });
@@ -20,7 +27,7 @@ Template.schoolWorkList.onCreated( function() {
 Template.schoolWorkList.onRendered( function() {
 	Session.set({
 		labelTwo: 'School Work',
-		newUrl: '/planning/work/new/3/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId'),
+		newUrl: '/planning/work/new/3/' + Session.get('selectedStudentIdType') +'/'+ getSelectedId()  +'/'+ FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId'),
 		activeNav: 'planningList',
 	});
 });
@@ -46,10 +53,22 @@ Template.schoolWorkList.helpers({
 	},
 
 	schooWorkList: function() {
-		let subjects = Subjects.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId'), studentId: FlowRouter.getParam('selectedStudentId')}).fetch();
+		let getSubjects = () => {
+			if (Session.get('selectedStudentIdType') === 'students') {
+				return Subjects.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId'), studentId: FlowRouter.getParam('selectedStudentId')}).fetch();
+			}
+			return Subjects.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId'), studentGroupId: FlowRouter.getParam('selectedStudentGroupId')}).fetch();
+		}
+		let subjects = getSubjects()
 		subjects.forEach(subject => subject.type = 'subject');
 
-		let workItems = SchoolWork.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId'), studentId: FlowRouter.getParam('selectedStudentId'), subjectId: {$exists: false}}).fetch();
+		let getWorkItems = () => {
+			if (Session.get('selectedStudentIdType') === 'students') {
+				return SchoolWork.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId'), studentId: FlowRouter.getParam('selectedStudentId'), subjectId: {$exists: false}}).fetch();
+			}
+			return SchoolWork.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId'), studentGroupId: FlowRouter.getParam('selectedStudentGroupId'), subjectId: {$exists: false}}).fetch();
+		}
+		let workItems = getWorkItems()
 		workItems.forEach(workItem => workItem.type = 'work');
 
 		return _.sortBy(subjects.concat(workItems), ['name']);

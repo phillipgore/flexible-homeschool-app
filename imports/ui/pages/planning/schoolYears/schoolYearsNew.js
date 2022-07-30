@@ -91,6 +91,7 @@ Template.schoolYearsNew.onRendered( function() {
 				} else {
 					let pathProperties = {
 						studentIds: [],
+						studentGroupIds: [],
 						schoolYearIds: [schoolYearId],
 						termIds: [],
 					};

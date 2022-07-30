@@ -5,7 +5,8 @@
 	<main class="app-content app-content-preceeds-toolbar">
 		{{#if studentsSchoolYearsCount}}
 			<ul class="data-list">
-				{{> trackingEach students=students}}
+				<li class="list-item-label font-weight-700 p-tn-rl-9">Students</li>
+				{{> trackingEach students=students type="students"}}
 			</ul>
 		{{else}}
 			<div class="txt-tn-center m-tn-t-72">
@@ -16,6 +17,12 @@
 					<span class="dis-tn-none dis-sm-inline">Click the plus icon above to add Students or School Work.</span>
 				</p>
 			</div>
+		{{/if}}
+		{{#if studentGroupsSchoolYearsCount type=studentGroups}}
+			<ul class="data-list">
+				<li class="list-item-label font-weight-700 p-tn-rl-9">Student Groups</li>
+				{{> trackingEach studentGroups=studentGroups type="studentgroups"}}
+			</ul>
 		{{/if}}
 	</main>
 </template>

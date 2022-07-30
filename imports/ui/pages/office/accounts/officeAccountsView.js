@@ -61,6 +61,7 @@ Template.officeAccountsView.events({
 					selectedFramePosition: '',
 					selectedFrameClass: '',
 					selectedStudentId: '',
+					selectedStudentGroupId: '',
 					selectedSchoolYearId: '',
 					selectedResourceType: '',
 					selectedResourceAvailability: '',

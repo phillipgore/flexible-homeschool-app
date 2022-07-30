@@ -64,6 +64,7 @@ Template.studentsEdit.onRendered( function() {
 
 			let pathProperties = {
 				studentIds: [FlowRouter.getParam('selectedStudentId')],
+				studentGroupIds: [],
 				schoolYearIds: [],
 				termIds: [],
 			}

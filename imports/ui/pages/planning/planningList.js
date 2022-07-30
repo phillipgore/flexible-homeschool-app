@@ -24,8 +24,29 @@ Template.planningList.helpers({
 		return Session.get('selectedSchoolWorkType');
 	},
 
+	selectedStudentIdType: function() {
+		return Session.get('selectedStudentIdType');
+	},
+
 	selectedStudentId: function() {
 		return Session.get('selectedStudentId');
+	},
+
+	getSelectedId: function() {
+		if (Session.get('selectedStudentIdType') === 'students') {
+			return Session.get('selectedStudentId');
+		}
+		return Session.get('selectedStudentGroupId');
+	},
+
+	studentURL: function() {
+		const selectedStudentIdType = Session.get('selectedStudentIdType');
+		const selectedStudentId = Session.get('selectedStudentId');
+		const selectedStudentGroupId = Session.get('selectedStudentGroupId');
+		if (selectedStudentIdType === 'students') {
+			return `/planning/${selectedStudentIdType}/view/2/${selectedStudentId}`
+		}
+		return `/planning/${selectedStudentIdType}/view/2/${selectedStudentGroupId}`
 	},
 
 	selectedSchoolYearId: function() {

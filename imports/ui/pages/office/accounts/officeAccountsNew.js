@@ -68,6 +68,8 @@ Template.officeAccountsNew.events({
 			},
 			initialIds: {
 				studentId: 'empty',
+				studentGroupId: 'empty',
+				studentIdType: 'empty',
 				schoolYearId: 'empty',
 				resourceId: 'empty',
 				resourceType: 'empty',

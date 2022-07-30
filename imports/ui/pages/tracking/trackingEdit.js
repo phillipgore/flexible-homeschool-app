@@ -1,4 +1,5 @@
 import {Template} from 'meteor/templating';
+import { StudentGroups } from '../../../api/studentGroups/studentGroups.js';
 import { Students } from '../../../api/students/students.js';
 import { SchoolYears } from '../../../api/schoolYears/schoolYears.js';
 import { Subjects } from '../../../api/subjects/subjects.js';
@@ -11,13 +12,20 @@ import { Notes } from '../../../api/notes/notes.js';
 import './trackingEdit.html';
 import _ from 'lodash';
 
+const getSelectedId = () => {
+	if (Session.get('selectedStudentIdType') === 'students') {
+		return Session.get('selectedStudentId');
+	}
+	return Session.get('selectedStudentGroupId');
+}
+
 
 Template.trackingEdit.onCreated( function() {
 	let template = Template.instance();
 	
 	template.autorun(() => {
 		// Subscriptions
-		this.trackingEditData = Meteor.subscribe('trackingEditPub', FlowRouter.getParam('selectedStudentId'), FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedWeekId'));
+		this.trackingEditData = Meteor.subscribe('trackingEditPub', Session.get('selectedStudentIdType'), getSelectedId(), FlowRouter.getParam('selectedSchoolYearId'), FlowRouter.getParam('selectedWeekId'));
 	});
 });
 
@@ -40,6 +48,26 @@ Template.trackingEdit.helpers({
 
 	student: function() {
 		return Students.findOne({_id: FlowRouter.getParam('selectedStudentId')});
+	},
+
+	typeIsStudentGroups: function() {
+		if (Session.get('selectedStudentIdType') === 'studentgroups') {
+			return true;
+		}
+		return false;
+	},
+
+	studentGroup: function() {
+		return StudentGroups.findOne({_id: FlowRouter.getParam('selectedStudentGroupId')}) && StudentGroups.findOne({_id: FlowRouter.getParam('selectedStudentGroupId')});
+	},
+
+	getStudentName: function(studentId) {
+		const student = Students.findOne({_id: studentId});
+		return `${student.preferredFirstName.name} ${student.lastName}`;
+	},
+
+	selectedSchoolYearId: function() {
+		return FlowRouter.getParam('selectedSchoolYearId');
 	},
 
 	selectedSchoolYear: function() {
@@ -285,7 +313,11 @@ Template.trackingEdit.events({
 
 	'click .js-cancel'(event) {
 		event.preventDefault();
-		FlowRouter.go('/tracking/students/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'))
+		if (FlowRouter.getParam('selectedStudentId')) {
+			FlowRouter.go('/tracking/students/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'));
+		} else {
+			FlowRouter.go('/tracking/studentgroups/view/2/' + FlowRouter.getParam('selectedStudentGroupId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'));
+		}
 	},
 
 	'submit .js-tracking-update'(event) {
@@ -294,6 +326,7 @@ Template.trackingEdit.events({
 		// Set Stat Properties
 		let statProperties = {
 			studentIds: [FlowRouter.getParam('selectedStudentId')],
+			studentGroupIds: [FlowRouter.getParam('selectedStudentGroupId')],
 			schoolYearIds: [FlowRouter.getParam('selectedSchoolYearId')],
 			termIds:[FlowRouter.getParam('selectedTermId')],
 			weekIds:[FlowRouter.getParam('selectedWeekId')],
@@ -302,6 +335,7 @@ Template.trackingEdit.events({
 		// Set Path Properties
 		let pathProperties = {
 			studentIds: [FlowRouter.getParam('selectedStudentId')],
+			studentGroupIds: [FlowRouter.getParam('selectedStudentGroupId')],
 			schoolYearIds: [FlowRouter.getParam('selectedSchoolYearId')],
 			termIds: [FlowRouter.getParam('selectedTermId')],
 		}
@@ -384,7 +418,11 @@ Template.trackingEdit.events({
 					$('.js-updating').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
-					FlowRouter.go('/tracking/students/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'));
+					if (FlowRouter.getParam('selectedStudentId')) {
+						FlowRouter.go('/tracking/students/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'));
+					} else {
+						FlowRouter.go('/tracking/studentgroups/view/2/' + FlowRouter.getParam('selectedStudentGroupId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'));
+					}
 				}
 			});
 				
@@ -396,7 +434,6 @@ Template.trackingEdit.events({
 
 			// Insert ----------------------------------------------------------------------
 			if (action === 'insert') {
-
 				$('.js-updating').show();
 				$('.js-submit').prop('disabled', true);
 
@@ -460,6 +497,7 @@ Template.trackingEdit.events({
 						termId: FlowRouter.getParam('selectedTermId'),
 						weekId: FlowRouter.getParam('selectedWeekId'),
 						studentId: FlowRouter.getParam('selectedStudentId'),
+						studentGroupId: FlowRouter.getParam('selectedStudentGroupId'),
 						groupId: Meteor.user().info.groupId, 
 						userId: Meteor.user()._id, 
 						createdOn: new Date(),
@@ -489,7 +527,11 @@ Template.trackingEdit.events({
 						$('.js-updating').hide();
 						$('.js-submit').prop('disabled', false);
 					} else {
-						FlowRouter.go('/tracking/students/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'));
+						if (FlowRouter.getParam('selectedStudentId')) {
+							FlowRouter.go('/tracking/students/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'));
+						} else {
+							FlowRouter.go('/tracking/studentgroups/view/2/' + FlowRouter.getParam('selectedStudentGroupId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'));
+						}
 					}
 				});
 
@@ -651,7 +693,11 @@ Template.trackingEdit.events({
 											$('.js-updating').hide();
 											$('.js-submit').prop('disabled', false);
 										} else {
-											FlowRouter.go('/tracking/students/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'))
+											if (FlowRouter.getParam('selectedStudentId')) {
+												FlowRouter.go('/tracking/students/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'));
+											} else {
+												FlowRouter.go('/tracking/studentgroups/view/2/' + FlowRouter.getParam('selectedStudentGroupId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'));
+											}
 										}
 									})
 								}
@@ -743,7 +789,11 @@ Template.trackingEdit.events({
 										$('.js-updating').hide();
 										$('.js-submit').prop('disabled', false);
 									} else {
-										FlowRouter.go('/tracking/students/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'))
+										if (FlowRouter.getParam('selectedStudentId')) {
+											FlowRouter.go('/tracking/students/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'));
+										} else {
+											FlowRouter.go('/tracking/studentgroups/view/2/' + FlowRouter.getParam('selectedStudentGroupId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'));
+										}
 									}
 								})
 							}
@@ -806,7 +856,11 @@ Template.trackingEdit.events({
 						$('.js-updating').hide();
 						$('.js-submit').prop('disabled', false);
 					} else {
-						FlowRouter.go('/tracking/students/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'))
+						if (FlowRouter.getParam('selectedStudentId')) {
+							FlowRouter.go('/tracking/students/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'));
+						} else {
+							FlowRouter.go('/tracking/studentgroups/view/2/' + FlowRouter.getParam('selectedStudentGroupId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedTermId') +'/'+ FlowRouter.getParam('selectedWeekId'));
+						}
 					}
 				})
 			}
@@ -831,17 +885,19 @@ let getMiddleSchoolWork = (studentId, schoolYearId) => {
 
 	// No Subject and Work
 	let noSubjectSchoolWork = SchoolWork.find({schoolYearId: FlowRouter.getParam('selectedSchoolYearId'), studentId: FlowRouter.getParam('selectedStudentId'), subjectId: {$exists: false}}, {sort: {name: 1}});
-	schoolWork.push({
-		_id: 'noSubject',
-		name: 'No Subject',
-		type: 'subject',
-		hasSchoolWork: noSubjectSchoolWork.count() === 0 ? false : true,
-	});
-	noSubjectSchoolWork.forEach(workItem => {
-		workItem.type = 'work';
-		workItem.subjectId = 'noSubject';
-		schoolWork.push(workItem);
-	});
+	if (noSubjectSchoolWork.count()) {
+		schoolWork.push({
+			_id: 'noSubject',
+			name: 'No Subject',
+			type: 'subject',
+			hasSchoolWork: noSubjectSchoolWork.count() === 0 ? false : true,
+		});
+		noSubjectSchoolWork.forEach(workItem => {
+			workItem.type = 'work';
+			workItem.subjectId = 'noSubject';
+			schoolWork.push(workItem);
+		});
+	}
 
 	// Middle SchoolWork Item
 	let middleSchoolWork = schoolWork[Math.ceil(schoolWork.length / 2)];
@@ -907,10 +963,13 @@ let getMiddleSchoolWork = (studentId, schoolYearId) => {
 		return work._id === dividingSchoolwork._id;
 	});
 
-	return {
-		columnOne: schoolWork.slice(0, dividingSchoolworkIndex),
-		columnTwo: schoolWork.slice(dividingSchoolworkIndex)
+	if (schoolWork.length >= 6) {
+		return {
+			columnOne: schoolWork.slice(0, dividingSchoolworkIndex),
+			columnTwo: schoolWork.slice(dividingSchoolworkIndex)
+		}
 	}
+	return {columnOne: schoolWork};
 };
 
 

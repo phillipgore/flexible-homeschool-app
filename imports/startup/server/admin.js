@@ -48,6 +48,8 @@ if (!adminGroup.count() || _.isUndefined(adminGroup)) {
 		appAdmin: true,
 		initialIds: {
 			studentId: 'empty',
+			studentGroupId: 'empty',
+			studentIdType: 'empty',
 			schoolYearId: 'empty',
 			resourceId: 'empty',
 			resourceType: 'empty',

@@ -111,6 +111,14 @@ Template.toolbar.helpers({
 		return false;
 	},
 
+	studentGroupDisabled: function() {
+		let initialIds = Groups.findOne({_id: Meteor.user().info.groupId}).initialIds;
+		if (initialIds.studentId == 'empty') {
+			return true;
+		}
+		return false;
+	},
+
 	schoolWorkDisabled: function() {
 		let initialIds = Groups.findOne({_id: Meteor.user().info.groupId}).initialIds;
 		if (initialIds.studentId == 'empty' || initialIds.schoolYearId == 'empty') {
@@ -121,6 +129,28 @@ Template.toolbar.helpers({
 
 	selectedStudentId: function() {
 		return Session.get('selectedStudentId');
+	},
+
+	selectedStudentGroupId: function() {
+		return Session.get('selectedStudentGroupId');
+	},
+
+	selectedStudentIdType: function() {
+		return Session.get('selectedStudentIdType');
+	},
+
+	getSelectedId: function() {		
+		if (Session.get('selectedStudentIdType') === 'students') {
+			return Session.get('selectedStudentId');
+		}
+		return Session.get('selectedStudentGroupId');
+	},
+
+	isStudent: function() {
+		if (Session.get('selectedStudentIdType') === 'students') {
+			return true;
+		}
+		return false;
 	},
 
 	selectedSchoolYearId: function() {
@@ -218,7 +248,7 @@ Template.toolbar.events({
 		FlowRouter.go(newPath)
 	},
 
-	'click .js-new-schoolWork'(event) {
+	'click .js-new-schoolWork, click .js-new-subject, click .js-new-student-group'(event) {
 		event.preventDefault();
 
 		if (!$(event.currentTarget).hasClass('disabled')) {
@@ -233,6 +263,16 @@ Template.toolbar.events({
 			heading: 'Confirmation',
 			message: 'Are you sure you want to delete this Student?',
 			confirmClass: 'js-delete js-delete-student-confirmed',
+		});
+	},
+
+	'click .js-delete-studentgroup'(event) {
+		event.preventDefault();
+
+		Dialogs.insert({
+			heading: 'Confirmation',
+			message: 'Are you sure you want to delete this Student Group?',
+			confirmClass: 'js-delete js-delete-studentgroup-confirmed',
 		});
 	},
 
@@ -306,6 +346,7 @@ Template.toolbar.events({
 			selectedFramePosition: '',
 			selectedFrameClass: '',
 			selectedStudentId: '',
+			selectedStudentGroupId: '',
 			selectedSchoolYearId: '',
 			selectedResourceType: '',
 			selectedResourceAvailability: '',

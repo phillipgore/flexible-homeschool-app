@@ -1,6 +1,6 @@
 import {Paths} from '../../api/paths/paths.js';
-import {Groups} from '../../api/groups/groups.js';
 import {Students} from '../../api/students/students.js';
+import {StudentGroups} from '../../api/studentGroups/studentGroups.js';
 import {SchoolYears} from '../../api/schoolYears/schoolYears.js';
 import {Subjects} from '../../api/subjects/subjects.js';
 import {SchoolWork} from '../../api/schoolWork/schoolWork.js';
@@ -14,6 +14,7 @@ import _ from 'lodash';
 
 // let pathProperties = {
 // 	studentIds: [],
+// 	studentGroupIds: [],
 // 	schoolYearIds: [],
 // 	termIds:[],
 // }
@@ -25,18 +26,33 @@ export function upsertPaths(pathProperties, returnPath, submittedGroupId) {
 	let groupId = getGroupId(submittedGroupId);
 
 	let studentIds = getStudents(groupId, pathProperties);
+	let studentGroupIds = getStudentGroups(groupId, pathProperties);
 	let schoolYearIds = getSchoolYears(groupId, pathProperties);
 	let termIds = getTerms(groupId, schoolYearIds, pathProperties);
-
+	
 	if (studentIds.length && schoolYearIds.length) {
 		studentIds.forEach(studentId => {
 			schoolYearIds.forEach(schoolYearId => {
-				schoolYearPath(groupId, studentId, schoolYearId)
+				schoolYearStudentPath(groupId, studentId, schoolYearId)
 			});
 
 			if (termIds.length) {
 				termIds.forEach(termId => {
-					termYearPath(groupId, studentId, termId)
+					termYearStudentPath(groupId, studentId, termId)
+				});
+			}
+		});
+	}
+
+	if (studentGroupIds.length && schoolYearIds.length) {
+		studentGroupIds.forEach(studentGroupId => {
+			schoolYearIds.forEach(schoolYearId => {
+				schoolYearStudentGroupPath(groupId, studentGroupId, schoolYearId)
+			});
+
+			if (termIds.length) {
+				termIds.forEach(termId => {
+					termYearStudentGroupPath(groupId, studentGroupId, termId)
 				});
 			}
 		});
@@ -55,12 +71,21 @@ export function upsertSchoolWorkPaths(pathProperties, submittedGroupId) {
 	let groupId = getGroupId(submittedGroupId);
 
 	let studentIds = getStudents(groupId, pathProperties);
+	let studentGroupIds = getStudentGroups(groupId, pathProperties);
 	let schoolYearIds = getSchoolYears(groupId, pathProperties);
 
 	if (studentIds.length && schoolYearIds.length) {
 		studentIds.forEach(studentId => {
 			schoolYearIds.forEach(schoolYearId => {
-				schoolWorkPath(groupId, studentId, schoolYearId)
+				schoolWorkStudentPath(groupId, studentId, schoolYearId)
+			});
+		});
+	};
+
+	if (studentGroupIds.length && schoolYearIds.length) {
+		studentGroupIds.forEach(studentGroupId => {
+			schoolYearIds.forEach(schoolYearId => {
+				schoolWorkStudentGroupPath(groupId, studentGroupId, schoolYearId)
 			});
 		});
 	};
@@ -90,6 +115,20 @@ function getStudents(groupId, pathProperties) {
 	let studentIds = Students.find({groupId: groupId}, {sort: {birthday: 1, lastName: 1, 'preferredFirstName.name': 1}, fields: {_id: 1}}).map(student => student._id)
 	if (studentIds.length) {
 		return studentIds;
+	} else {
+		return [];
+	}
+}
+
+// Return Student Groups
+function getStudentGroups(groupId, pathProperties) {
+	if (pathProperties['studentGroupIds'].length) {
+		return pathProperties['studentGroupIds']
+	}
+
+	let studentGroupIds = StudentGroups.find({groupId: groupId}, {sort: {name: 1}, fields: {_id: 1}}).map(studentGroup => studentGroup._id)
+	if (studentGroupIds.length) {
+		return studentGroupIds;
 	} else {
 		return [];
 	}
@@ -125,11 +164,12 @@ function getTerms(groupId, schoolYearIds, pathProperties) {
 }
 
 
-// School Year Path Upsert
-function schoolYearPath(groupId, studentId, schoolYearId) {
+// School Year Student Path Upsert
+function schoolYearStudentPath(groupId, studentId, schoolYearId) {
 	let path = {};
 
 	path.studentId = studentId;
+	path.studentIdType = 'students';
 	path.timeFrameId = schoolYearId;
 	path.type = 'schoolYear';
 	path.groupId = groupId;
@@ -172,11 +212,12 @@ function schoolYearPath(groupId, studentId, schoolYearId) {
 	let pathId = Paths.update({studentId: studentId, timeFrameId: schoolYearId, type: 'schoolYear'}, {$set: path}, {upsert: true});
 };
 
-// Term Path Upsert
-function termYearPath(groupId, studentId, termId) {
+// Term Path Student Upsert
+function termYearStudentPath(groupId, studentId, termId) {
 	let path = {};
 
 	path.studentId = studentId;
+	path.studentIdType = 'students';
 	path.timeFrameId = termId;
 	path.type = 'term';
 	path.groupId = groupId;
@@ -206,11 +247,12 @@ function termYearPath(groupId, studentId, termId) {
 	let pathId = Paths.update({studentId: studentId, timeFrameId: termId, type: 'term'}, {$set: path}, {upsert: true});
 };
 
-// School Year Path Upsert
-function schoolWorkPath(groupId, studentId, schoolYearId) {
+// School Year Student Path Upsert
+function schoolWorkStudentPath(groupId, studentId, schoolYearId) {
 	let path = {};
 	
 	path.studentId = studentId;
+	path.studentIdType = 'students';
 	path.timeFrameId = schoolYearId;
 	path.type = 'schoolYear';
 	path.groupId = groupId;
@@ -244,7 +286,133 @@ function schoolWorkPath(groupId, studentId, schoolYearId) {
 		path.firstSchoolWorkType = 'work';
 	}
 
-	Paths.update({groupId: groupId, studentId: studentId, timeFrameId: schoolYearId, type: 'schoolYear'}, {$set: path}, {upsert: true});
+	Paths.update({studentId: studentId, timeFrameId: schoolYearId, type: 'schoolYear'}, {$set: path}, {upsert: true});
+};
+
+
+// School Year Student Group Path Upsert
+function schoolYearStudentGroupPath(groupId, studentGroupId, schoolYearId) {
+	let path = {};
+
+	path.studentGroupId = studentGroupId;
+	path.studentIdType = 'studentgroups';
+	path.timeFrameId = schoolYearId;
+	path.type = 'schoolYear';
+	path.groupId = groupId;
+	path.createdOn = new Date();
+
+	let firstIncompleteLesson = Lessons.findOne(
+		{studentGroupId: studentGroupId, schoolYearId: schoolYearId, completed: false},
+		{sort: {termOrder: 1, weekOrder: 1, order: 1}, fields: {termId: 1, weekId: 1}}
+	);
+	let firstCompletedLesson = Lessons.findOne(
+		{studentGroupId: studentGroupId, schoolYearId: schoolYearId, completed: true},
+		{sort: {termOrder: 1, weekOrder: 1, order: 1}, fields: {termId: 1, weekId: 1}}
+	);
+
+	if (firstIncompleteLesson) { // First Incomplete Lesson: True
+		path.firstTermId = firstIncompleteLesson.termId;
+		path.firstWeekId = firstIncompleteLesson.weekId;
+	} else if (firstCompletedLesson) { // First Incomplete Lesson: false && First Complete Lesson: True
+		path.firstTermId = firstCompletedLesson.termId;
+		path.firstWeekId = firstCompletedLesson.weekId;
+	} else { // First Incomplete Lesson: false && First Complete Lesson: False
+		let firstTerm = Terms.findOne(
+			{groupId: groupId, schoolYearId: schoolYearId},
+			{sort: {order: 1}, fields: {_id: 1}}
+		)
+
+		if (firstTerm) { // First Term: True
+			path.firstTermId = firstTerm._id
+			let firstWeek = Weeks.findOne(
+				{groupId: groupId, schoolYearId: schoolYearId, termId: firstTerm._id},
+				{sort: {order: 1}, fields: {_id: 1}}
+			)
+			if (firstWeek) {path.firstWeekId = firstWeek._id} else {path.firstWeekId = 'empty'};
+		} else { // First Term: False
+			path.firstTermId = 'empty'
+			path.firstWeekId = 'empty'
+		};
+	}
+
+	let pathId = Paths.update({studentGroupId: studentGroupId, timeFrameId: schoolYearId, type: 'schoolYear'}, {$set: path}, {upsert: true});
+};
+
+// Term Path Student Group Upsert
+function termYearStudentGroupPath(groupId, studentGroupId, termId) {
+	let path = {};
+
+	path.studentGroupId = studentGroupId;
+	path.studentIdType = 'studentgroups';
+	path.timeFrameId = termId;
+	path.type = 'term';
+	path.groupId = groupId;
+	path.createdOn = new Date();
+
+	let firstIncompleteLesson = Lessons.findOne(
+		{studentGroupId: studentGroupId, termId: termId, completed: false},
+		{sort: {termOrder: 1, weekOrder: 1, order: 1}, fields: {termId: 1, weekId: 1}}
+	);
+	let firstCompletedLesson = Lessons.findOne(
+		{studentGroupId: studentGroupId, termId: termId, completed: true},
+		{sort: {termOrder: 1, weekOrder: 1, order: 1}, fields: {termId: 1, weekId: 1}}
+	);
+
+	if (firstIncompleteLesson) { // First Incomplete Lesson: True
+		path.firstWeekId = firstIncompleteLesson.weekId;
+	} else if (firstCompletedLesson) { // First Incomplete Lesson: false && First Complete Lesson: True
+		path.firstWeekId = firstCompletedLesson.weekId;
+	} else { // First Incomplete Lesson: false && First Complete Lesson: False
+		let firstWeek = Weeks.findOne(
+			{groupId: groupId, termId: termId},
+			{sort: {order: 1}, fields: {_id: 1}}
+		)
+		if (firstWeek) {path.firstWeekId = firstWeek._id} else {path.firstWeekId = 'empty'};
+	}
+
+	let pathId = Paths.update({studentGroupId: studentGroupId, timeFrameId: termId, type: 'term'}, {$set: path}, {upsert: true});
+};
+
+// School Year Student Group Path Upsert
+function schoolWorkStudentGroupPath(groupId, studentGroupId, schoolYearId) {
+	let path = {};
+	
+	path.studentGroupId = studentGroupId;
+	path.studentIdType = 'studentgroups';
+	path.timeFrameId = schoolYearId;
+	path.type = 'schoolYear';
+	path.groupId = groupId;
+	path.createdOn = new Date();
+
+	let schoolWork = [];
+	let firstSubject = Subjects.findOne(
+		{groupId: groupId, studentGroupId: studentGroupId, schoolYearId: schoolYearId},
+		{sort: {name: 1}, fields: {name: 1}}
+	);
+	if (firstSubject) {
+		firstSubject.type = 'subjects';
+		schoolWork.push(firstSubject);
+	}
+
+	let firstWork = SchoolWork.findOne(
+		{groupId: groupId, studentGroupId: studentGroupId, schoolYearId: schoolYearId, subjectId: {$exists: false}},
+		{sort: {name: 1}, fields: {name: 1}}
+	);
+	if (firstWork) {
+		firstWork.type = 'work';
+		schoolWork.push(firstWork);
+	}
+
+	if (schoolWork.length) {
+		let firstSchoolWork = _.sortBy(schoolWork, ['name'])[0];
+		path.firstSchoolWorkId = firstSchoolWork._id;
+		path.firstSchoolWorkType = firstSchoolWork.type;
+	} else {
+		path.firstSchoolWorkId = 'empty';
+		path.firstSchoolWorkType = 'work';
+	}
+
+	Paths.update({studentGroupId: studentGroupId, timeFrameId: schoolYearId, type: 'schoolYear'}, {$set: path}, {upsert: true});
 };
 
 

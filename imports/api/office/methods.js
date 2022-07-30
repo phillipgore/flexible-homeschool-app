@@ -1,5 +1,6 @@
 import {Groups} from '../groups/groups.js';
 import {Students} from '../students/students.js';
+import {StudentGroups} from '../studentGroups/studentGroups.js';
 import {SchoolYears} from '../schoolYears/schoolYears.js';
 import {Terms} from '../terms/terms.js';
 import {Weeks} from '../weeks/weeks.js';
@@ -31,6 +32,7 @@ Meteor.methods({
 	runGroupPaths: function(groupId) {
 		let pathProperties = {
 			studentIds: Students.find({groupId: groupId}).map(student => student._id),
+			studentGroupIds: StudentGroups.find({groupId: groupId}).map(studentGroup => studentGroup._id),
 			schoolYearIds: SchoolYears.find({groupId: groupId}).map(schoolYear => schoolYear._id),
 			termIds: Terms.find({groupId: groupId}).map(term => term._id),
 		}
@@ -42,6 +44,7 @@ Meteor.methods({
 	runGroupStats: function(groupId) {
 		let statProperties = {
 			studentIds: Students.find({groupId: groupId}).map(student => student._id),
+			studentGroupIds: StudentGroups.find({groupId: groupId}).map(studentGroup => studentGroup._id),
 			schoolYearIds: SchoolYears.find({groupId: groupId}).map(schoolYear => schoolYear._id),
 			termIds: Terms.find({groupId: groupId}).map(term => term._id),
 			weekIds: Weeks.find({groupId: groupId}).map(week => week._id),

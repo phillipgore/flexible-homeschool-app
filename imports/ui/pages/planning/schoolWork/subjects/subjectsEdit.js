@@ -1,5 +1,6 @@
 import {Template} from 'meteor/templating';
 import { Subjects } from '../../../../../api/subjects/subjects.js';
+import { StudentGroups } from '../../../../../api/studentGroups/studentGroups.js';
 
 import {requiredValidation} from '../../../../../modules/functions';
 import './subjectsEdit.html';
@@ -33,34 +34,36 @@ Template.subjectsEdit.events({
 			$('#name').addClass('error');
 			$('.name-errors').text('Required.');
 		} else {
-			$('.js-updating').show();
-			$('.js-submit').prop('disabled', true);
-
 			$('#name').removeClass('error');
 			$('.name-errors').text('');
 
-			$('.js-saving').show();
+			$('.js-updating').show();
 			$('.js-submit').prop('disabled', true);
-
-			let studentIds = []
-			$("[name='studentId']:checked").each(function() {
-				studentIds.push(this.id)
-			})
 
 			const subjectProperties = {
 				_id: FlowRouter.getParam('selectedSubjectId'),
 				name: template.find("[name='name']").value.trim(),
-				studentId: FlowRouter.getParam('selectedStudentId'),
 				schoolYearId: FlowRouter.getParam('selectedSchoolYearId'),
 			};
 
 			let pathProperties = {
-				studentIds: [FlowRouter.getParam('selectedStudentId')],
+				studentIds: [],
+				studentGroupIds: [],
 				schoolYearIds: [FlowRouter.getParam('selectedSchoolYearId')],
 				termIds: [],
 			}
 
-			Meteor.call('updateSubject', subjectProperties, function(error, result) {
+			if (Session.get('selectedStudentIdType') === 'students') {
+				subjectProperties.studentId = FlowRouter.getParam('selectedStudentId');
+				pathProperties.studentIds.push(FlowRouter.getParam('selectedStudentId'));
+			}
+
+			if (Session.get('selectedStudentIdType') === 'studentgroups') {
+				subjectProperties.studentGroupId = FlowRouter.getParam('selectedStudentGroupId');
+				pathProperties.studentGroupIds.push(FlowRouter.getParam('selectedStudentGroupId'));
+			}
+
+			Meteor.call('updateSubject', subjectProperties, function(error, subjectId) {
 				if (error) {
 					Alerts.insert({
 						colorClass: 'bg-danger',
@@ -84,7 +87,7 @@ Template.subjectsEdit.events({
 						} else {
 							$('.js-updating').hide();
 							$('.js-submit').prop('disabled', false);
-							FlowRouter.go('/planning/subjects/view/3/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedSubjectId'));
+							FlowRouter.go('/planning/subjects/view/3/' + Session.get('selectedStudentIdType') +'/'+ getSelectedId() +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedSubjectId'));
 						}
 					});
 				}
@@ -96,9 +99,16 @@ Template.subjectsEdit.events({
 		event.preventDefault();
 
 		if (window.screen.availWidth > 768) {
-			FlowRouter.go('/planning/subjects/view/3/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedSubjectId'));
+			FlowRouter.go('/planning/subjects/view/3/' + Session.get('selectedStudentIdType') +'/'+ getSelectedId() +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedSubjectId'));
 		} else {
-			FlowRouter.go('/planning/subjects/view/2/' + FlowRouter.getParam('selectedStudentId') +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedSubjectId'));
+			FlowRouter.go('/planning/subjects/view/2/' + Session.get('selectedStudentIdType') +'/'+ getSelectedId() +'/'+ FlowRouter.getParam('selectedSchoolYearId') +'/'+ FlowRouter.getParam('selectedSubjectId'));
 		}
 	},
 });
+
+const getSelectedId = () => {
+	if (Session.get('selectedStudentIdType') === 'students') {
+		return Session.get('selectedStudentId');
+	}
+	return Session.get('selectedStudentGroupId');
+}

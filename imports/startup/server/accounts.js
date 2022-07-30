@@ -111,6 +111,8 @@ Accounts.onCreateUser((options, user) => {
 		_id: options.info.groupId, 
 		initialIds: {
 			studentId: 'empty',
+			studentGroupId: 'empty',
+			studentIdType: 'empty',
 			schoolYearId: 'empty',
 			resourceId: 'empty',
 			resourceType: 'empty',
