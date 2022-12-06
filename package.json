@@ -9,7 +9,7 @@
     "autosize": "^4.0.2",
     "babel-runtime": "^6.26.0",
     "bcrypt": "^3.0.8",
-    "body-parser": "^1.19.0",
+    "body-parser": "^1.20.1",
     "core-js": "^2.6.12",
     "generate-random-password": "^1.0.1",
     "i": "^0.3.6",
