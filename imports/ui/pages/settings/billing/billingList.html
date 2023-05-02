@@ -22,14 +22,14 @@
 					<div class="list-item-label">Invoices</div>
 				</a>
 			</li>
-			{{#if accountPaused group.subscriptionStatus}}
+			<!-- {{#if accountPaused group.subscriptionStatus}}
 				<li class="list-item">
 					<span class="js-paused list-item-inner disabled bg-white p-tn-rl-9">
 						<div class="list-item-icon"><i class="{{cardClass}}"></i></div> 
 						<div class="list-item-label">Edit Payment</div>
 					</span>
 				</li>
-			{{else}}
+			{{else}} -->
 				<li class="list-item">
 					<a href="/settings/billing/edit/3" class="js-billing list-item-link bg-white p-tn-rl-9 {{#if active currentRouteName 'billingEdit'}}active{{/if}}">
 						<div class="list-item-icon"><i class="txt-primary {{cardClass}}"></i></div> 
@@ -37,7 +37,7 @@
 						{{#if group.stripePaymentAttempt}}<div class="list-item-badge"></div>{{/if}}
 					</a>
 				</li>
-			{{/if}}
+			<!-- {{/if}} -->
 			{{#if accountPaused group.subscriptionStatus}}
 				<li class="list-item">
 					<span class="js-paused list-item-inner disabled bg-white p-tn-rl-9">
