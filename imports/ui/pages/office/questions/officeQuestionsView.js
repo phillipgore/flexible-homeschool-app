@@ -106,7 +106,7 @@ Template.officeQuestionsView.events({
 	'click .js-make-active'(event) {
 	    event.preventDefault();
 
-	    let = questionProperties = {_id: FlowRouter.getParam('selectedQuestionId'), active: true};
+	    let questionProperties = {_id: FlowRouter.getParam('selectedQuestionId'), active: true};
 	    Meteor.call('updateQuestion', questionProperties, function(error, result) {
 			if (error) {
 				Alerts.insert({
