@@ -1,3 +1,5 @@
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
+
 // Redirection if signed out.
 function checkSignOut(context, redirect) {
 	if (!Meteor.userId()) {

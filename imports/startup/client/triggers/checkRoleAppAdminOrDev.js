@@ -1,3 +1,5 @@
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
+
 // Redirection based on App Admin or Dev role.
 function checkRoleAppAdminOrDev (context, redirect) {
 	if (Meteor.user().info.role === 'Application Administrator' || Meteor.user().info.role === 'Developer') {

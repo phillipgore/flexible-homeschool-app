@@ -1,6 +1,7 @@
 import {Template} from 'meteor/templating';
 import { Paths } from '../../../../api/paths/paths.js';
 import { SchoolYears } from '../../../../api/schoolYears/schoolYears.js';
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import './schoolYearsList.html';
 
 Template.schoolYearsList.onCreated( function() {

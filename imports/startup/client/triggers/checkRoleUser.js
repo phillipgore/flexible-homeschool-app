@@ -1,5 +1,5 @@
 import _ from 'lodash';
-
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 
 // Redirect based on user role.
 function checkRoleUser(context, redirect) {

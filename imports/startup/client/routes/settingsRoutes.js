@@ -1,3 +1,5 @@
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
+
 // Users
 FlowRouter.route('/settings/users/view/:selectedFramePosition/:selectedUserId', {
 	name: 'usersView',

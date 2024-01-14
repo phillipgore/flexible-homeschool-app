@@ -1,4 +1,5 @@
 import {Template} from 'meteor/templating';
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import Stripe from '../../../modules/stripe';
 import {cardValidation, emailValidation, passwordValidation, requiredValidation} from '../../../modules/functions';
 import './createAccount.html';

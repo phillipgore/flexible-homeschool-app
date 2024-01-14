@@ -1,4 +1,5 @@
 import {Template} from 'meteor/templating';
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import { Resources } from '../../../../api/resources/resources.js';
 import './resourcesEach.html';
 

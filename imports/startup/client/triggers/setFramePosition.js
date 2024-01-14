@@ -1,3 +1,5 @@
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
+
 // Set frame position.
 function setFramePosition(context) {
 	let currentPostion = context.params.selectedFramePosition;

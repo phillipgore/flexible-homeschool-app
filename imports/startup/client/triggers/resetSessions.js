@@ -1,3 +1,5 @@
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
+
 // CC infor reset.
 function resetSessions(context) {
 	Session.set({

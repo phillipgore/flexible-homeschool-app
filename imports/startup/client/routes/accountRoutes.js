@@ -1,3 +1,5 @@
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
+
 FlowRouter.globals.push({
 	title:  'Flexible Homeschool App'
 });

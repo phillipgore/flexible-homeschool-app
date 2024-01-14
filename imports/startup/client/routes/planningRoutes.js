@@ -1,4 +1,5 @@
-import _ from 'lodash'
+import _ from 'lodash';
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 
 // Students
 FlowRouter.route('/planning/students/new/:selectedFramePosition', {

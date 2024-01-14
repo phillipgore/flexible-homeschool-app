@@ -1,3 +1,5 @@
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
+
 export function cardValidation() {
 	if (Session.get('cardNumber') === 'none' || Session.get('cardCvc') === 'none' || Session.get('cardExpiry') === 'none' || Session.get('postalCode') === 'none') {
 		if (Session.get('cardNumber') === 'none') {

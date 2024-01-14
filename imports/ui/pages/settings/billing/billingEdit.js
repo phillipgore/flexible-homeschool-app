@@ -1,4 +1,5 @@
 import {Template} from 'meteor/templating';
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import {Groups} from '../../../../api/groups/groups.js';
 import Stripe from '../../../../modules/stripe';
 import {cardValidation} from '../../../../modules/functions';

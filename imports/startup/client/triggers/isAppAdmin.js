@@ -1,3 +1,5 @@
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
+
 // Redirection based on App Admin role.
 function isAppAdmin(context) {
 	if (Meteor.user().info.role != 'Application Administrator') {

@@ -1,3 +1,5 @@
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
+
 // Dashboard
 FlowRouter.route('/office/dashboard/:selectedFramePosition', {
 	name: 'officeDashboard',

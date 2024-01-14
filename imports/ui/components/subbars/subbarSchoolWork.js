@@ -1,4 +1,5 @@
 import {Template} from 'meteor/templating';
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 import {Paths} from '../../../api/paths/paths.js';
 import {SchoolYears} from '../../../api/schoolYears/schoolYears.js';
 import {Students} from '../../../api/students/students.js';

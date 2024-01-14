@@ -1,4 +1,6 @@
 import {saveNote} from '../../modules/functions';
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
+import { FlowRouterTitle } from 'meteor/ostrio:flow-router-title';
 
 import './triggers/getInitialData.js';
 
@@ -25,8 +27,6 @@ function saveNotesOnExit(context) {
 FlowRouter.triggers.exit([saveNotesOnExit], {only: [
 	'trackingView',
 ]});
-
-import { FlowRouterTitle } from 'meteor/ostrio:flow-router-title';
 
 	import './routes/accountRoutes.js';
 	import './routes/planningRoutes.js';

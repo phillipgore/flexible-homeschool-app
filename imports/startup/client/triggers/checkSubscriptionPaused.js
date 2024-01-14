@@ -1,5 +1,5 @@
 import { Groups } from '../../../api/groups/groups.js';
-
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 
 // Redirection based on a paused subscription.
 function checkSubscriptionPaused(context, redirect) {

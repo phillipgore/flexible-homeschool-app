@@ -17,11 +17,11 @@ shell-server@0.5.0            # Server-side component of the `meteor shell` comm
 
 accounts-password@2.3.1
 session@1.2.0
-kadira:flow-router
+ostrio:flow-router-extra
 kadira:blaze-layout
 fourseven:scss
 seba:minifiers-autoprefixer
-arillo:flow-router-helpers
+#arillo:flow-router-helpers
 themeteorchef:jquery-validation
 aldeed:collection2-core
 email@2.2.1

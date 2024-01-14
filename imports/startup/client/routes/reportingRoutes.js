@@ -1,4 +1,5 @@
-import _ from 'lodash'
+import _ from 'lodash';
+import { FlowRouter } from 'meteor/ostrio:flow-router-extra';
 
 FlowRouter.route('/reporting/new/:selectedFramePosition', {
 	name: 'reportingNew',
