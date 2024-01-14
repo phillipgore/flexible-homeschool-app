@@ -1,5 +1,9 @@
 {
   "name": "fss_app",
+  "engines": {
+    "node": "14.19.3",
+    "npm": "6.14.17"
+  },
   "private": true,
   "scripts": {
     "start": "meteor run"
