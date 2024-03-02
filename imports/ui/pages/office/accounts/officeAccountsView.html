@@ -16,7 +16,14 @@
 			<div class="m-tn-b-12 txt-capitalize">{{isPending group.subscriptionStatus}}</div>
 
 			<label class="txt-info font-size-12 txt-weight-900">Email:</label>
-			<div class="m-tn-b-12 txt-lowercase">{{admin.emails.[0].address}}</div>
+			<div class="m-tn-b-12 txt-lowercase">
+				{{admin.emails.[0].address}} 
+				{{#unless admin.emails.[0].verified}}
+					<button id="{{admin._id}}" class="js-verify-email btn-info extra-small pill">Verify</button>
+				{{else}}
+					(Verified)
+				{{/unless}}
+			</div>
 
 			<label class="txt-info font-size-12 txt-weight-900">Users:</label>
 			{{#each user in users }}

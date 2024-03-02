@@ -12,6 +12,11 @@ Meteor.methods({
 		Meteor.users.update(userId, {$set: reportSettingsProperties});
 	},
 
+	verifyUser: function(userId) {
+		console.log(userId);
+		Meteor.users.update(userId, {$set: {'emails.0.verified': true}});
+	},
+
 	pauseUser: function(userId) {
 		if (Meteor.users.findOne({_id: userId}).info.role === 'Administrator') {
 			throw new Meteor.Error('no-pause-admins', 'Administrators cannot be paused.');

@@ -46,6 +46,24 @@ Template.officeAccountsView.helpers({
 });
 
 Template.officeAccountsView.events({
+	'click .js-verify-email': function(event) {
+		Meteor.call('verifyUser', event.currentTarget.getAttribute("id"), function(error) {
+			if (error) {
+				Alerts.insert({
+					colorClass: 'bg-danger',
+					iconClass: 'icn-danger',
+					message: error.reason,
+				});
+			} else {
+				Alerts.insert({
+					colorClass: 'bg-success',
+					iconClass: 'icn-planning',
+					message: 'User has been verified',
+				});
+			}
+		});
+	},
+
 	'click .js-impersonate-admin': function(event) {
 		Meteor.call('impersonateAdmin', event.currentTarget.id, function(error) {
 			if (error) {
