@@ -18,7 +18,7 @@ Picker.route('/webhooks/stripe', (params, request, response) => {
 
 		Groups.update({stripeCustomerId: customerId}, {$set: {stripePaymentAttempt: 0, subscriptionStatus: 'active'}}, function() {
 			let group = Groups.findOne({stripeCustomerId: customerId});
-			Meteor.call('mcTags', group._id);
+			// Meteor.call('mcTags', group._id);
 		});
 	}
 	if (body.type === 'customer.subscription.deleted') {
@@ -41,12 +41,12 @@ Picker.route('/webhooks/stripe', (params, request, response) => {
 			if (group.subscriptionStatus === 'pausePending' || group.subscriptionStatus === 'paused') {
 				
 				Groups.update({stripeCustomerId: customerId}, {$set: updatedGroupProperties}, function() {
-					Meteor.call('mcTags', group._id);
+					// Meteor.call('mcTags', group._id);
 				});
 			} else {
 				updatedGroupProperties.subscriptionStatus = 'error';
 				Groups.update({stripeCustomerId: customerId}, {$set: updatedGroupProperties}, function() {
-					Meteor.call('mcTags', group._id);
+					// Meteor.call('mcTags', group._id);
 				});
 			}
 		}

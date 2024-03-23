@@ -291,9 +291,9 @@ Template.createAccount.events({
 														message: error,
 													});
 												} else {
-													Meteor.call('sendThankYouEmail', user, function() {
+													// Meteor.call('sendThankYouEmail', user, function() {
 														FlowRouter.go('/verify/sent');
-													});
+													// });
 												}
 											});
 										} else {
@@ -312,9 +312,9 @@ Template.createAccount.events({
 													$('.js-saving').hide();
 													$('.js-submit').prop('disabled', false);
 												} else {
-													Meteor.call('sendThankYouEmail', user, function() {
+													// Meteor.call('sendThankYouEmail', user, function() {
 														FlowRouter.go('/verify/sent');
-													});
+													// });
 												}
 											});
 										}

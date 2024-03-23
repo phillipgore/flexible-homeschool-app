@@ -1,7 +1,7 @@
-import {Groups} from '../../api/groups/groups.js';
+// import {Groups} from '../../api/groups/groups.js';
 import '../../api/groups/methods.js';
 
-import md5 from 'md5';
+// import md5 from 'md5';
 
 process.env.MAIL_URL = Meteor.settings.private.mailUrl;
 
@@ -16,22 +16,22 @@ Meteor.methods({
 		return userId
 	},
 
-	sendThankYouEmail: function(user) {
-		SSR.compileTemplate('thankYouEmail', Assets.getText('thankYouEmail.html'));
+	// sendThankYouEmail: function(user) {
+	// 	SSR.compileTemplate('thankYouEmail', Assets.getText('thankYouEmail.html'));
 
-		var emailData = {
-			firstName: user.info.firstName,
-		};
+	// 	var emailData = {
+	// 		firstName: user.info.firstName,
+	// 	};
 
-		Email.send({
-			to: user.email,
-			from: "Flexible Homeschool App <no-reply@aflexiblehomeschool.com>",
-			subject: "Thanks for subscribing to Flexible Homeschool App",
-			html: SSR.render('thankYouEmail', emailData),
-		});
+	// 	Email.send({
+	// 		to: user.email,
+	// 		from: "Flexible Homeschool App <no-reply@aflexiblehomeschool.com>",
+	// 		subject: "Thanks for subscribing to Flexible Homeschool App",
+	// 		html: SSR.render('thankYouEmail', emailData),
+	// 	});
 
-		return true;
-	},
+	// 	return true;
+	// },
 });
 
 Accounts.config({
@@ -52,16 +52,16 @@ Accounts.emailTemplates.resetPassword = {
 
 		return firstName + ',\n\n Sorry you forgot your password. Click the link below (or copy and paste into your browser) and we’ll help you get a new one.\n\n\t' + url + '\n\nIf you didn\'t request a password reset, please ignore this email. \n\nThanks.';
     },
-    html(user, url) {
-    	SSR.compileTemplate('resetPasswordEmail', Assets.getText('resetPasswordEmail.html'));
+    // html(user, url) {
+    // 	SSR.compileTemplate('resetPasswordEmail', Assets.getText('resetPasswordEmail.html'));
 
-		url = url.replace('#/reset-password/', 'reset/password/');
-		url = url.replace('https:// https://', 'https://');
-		firstName = user.info.firstName;
+	// 	url = url.replace('#/reset-password/', 'reset/password/');
+	// 	url = url.replace('https:// https://', 'https://');
+	// 	firstName = user.info.firstName;
 
-    	const html = SSR.render('resetPasswordEmail', { url, user });
-		return html;
-    }
+    // 	const html = SSR.render('resetPasswordEmail', { url, user });
+	// 	return html;
+    // }
 };
 
 Accounts.emailTemplates.verifyEmail = {
@@ -74,16 +74,16 @@ Accounts.emailTemplates.verifyEmail = {
 		firstName = user.info.firstName;
 		return firstName + ',\n\n Welcome to Flexible School Schedule. We need to verify your email address to complete your signup. Please click the verification link below (or copy and paste into your browser).\n\n\t' + url + '\n\nIf you have not signed up for Flexible School Schedule, please ignore this email. \n\nThanks.';
 	},
-    html(user, url) {
-    	SSR.compileTemplate('verifyEmail', Assets.getText('verifyEmail.html'));
+    // html(user, url) {
+    // 	SSR.compileTemplate('verifyEmail', Assets.getText('verifyEmail.html'));
 
-    	url = url.replace('#/verify-email/', 'verify/email/');
-		url = url.replace('https:// https://', 'https://');
-		firstName = user.info.firstName;
+    // 	url = url.replace('#/verify-email/', 'verify/email/');
+	// 	url = url.replace('https:// https://', 'https://');
+	// 	firstName = user.info.firstName;
 
-    	const html = SSR.render('verifyEmail', { url, user });
-		return html;
-    }
+    // 	const html = SSR.render('verifyEmail', { url, user });
+	// 	return html;
+    // }
 };
 
 Accounts.onCreateUser((options, user) => {
@@ -100,12 +100,12 @@ Accounts.onCreateUser((options, user) => {
 		user.reportSettings = options.reportSettings;
 	}
 
-	let mcSubscriptionProperties = {
-		email: options.email,
-		emailHash: md5(options.email),
-		firstName: options.info.firstName,
-		lastName: options.info.lastName
-	};
+	// let mcSubscriptionProperties = {
+	// 	email: options.email,
+	// 	emailHash: md5(options.email),
+	// 	firstName: options.info.firstName,
+	// 	lastName: options.info.lastName
+	// };
 
 	groupProperties = {
 		_id: options.info.groupId, 
@@ -123,7 +123,7 @@ Accounts.onCreateUser((options, user) => {
 		}
 	}
 	Meteor.call('updateGroup', groupProperties);
-	Meteor.call('mcSubscription', mcSubscriptionProperties);
+	// Meteor.call('mcSubscription', mcSubscriptionProperties);
 	Meteor.call('runAppAdminInitialId');
 
 	return user;

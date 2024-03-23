@@ -72,7 +72,7 @@ SyncedCron.add({
 			/* --------------- Expired Free Trials --------------- */
 			if (moment().isAfter(group.freeTrial.expiration)) {
 				Groups.update(group._id, {$set: {subscriptionStatus: 'freeTrialExpired'}}, function() {
-					Meteor.call('mcTags', group._id);
+					// Meteor.call('mcTags', group._id);
 				});
 			}
 

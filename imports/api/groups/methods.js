@@ -80,7 +80,7 @@ Meteor.methods({
 
 	updateGroup: function(groupProperties) {
 		Groups.update(groupProperties._id, {$set: groupProperties}, function() {
-			Meteor.call('mcTags', groupProperties._id);
+			// Meteor.call('mcTags', groupProperties._id);
 		});
 	},
 

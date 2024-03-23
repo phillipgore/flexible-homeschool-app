@@ -53,7 +53,7 @@ Meteor.methods({
 			if (error) {
 				throw new Meteor.Error(500, error);
 			} else {
-				Meteor.call('mcTags', groupId);
+				// Meteor.call('mcTags', groupId);
 				return result;
 			}
 		});
@@ -123,7 +123,7 @@ Meteor.methods({
 			if (error) {
 				throw new Meteor.Error(500, error);
 			} else {
-				Meteor.call('mcTags', groupId);
+				// Meteor.call('mcTags', groupId);
 				return result;
 			}
 		});
@@ -178,7 +178,7 @@ Meteor.methods({
 			if (error) {
 				throw new Meteor.Error(500, error);
 			} else {
-				Meteor.call('mcTags', groupId);
+				// Meteor.call('mcTags', groupId);
 				return result;
 			}
 		});
@@ -234,7 +234,7 @@ Meteor.methods({
 			if (error) {
 				throw new Meteor.Error(500, error);
 			} else {
-				Meteor.call('mcTags', groupId);
+				// Meteor.call('mcTags', groupId);
 				return result;
 			}
 		});

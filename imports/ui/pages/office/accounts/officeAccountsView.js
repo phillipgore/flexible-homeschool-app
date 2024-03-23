@@ -173,22 +173,27 @@ Template.officeAccountsView.events({
 		$(event.currentTarget).text('Updating Tags...')
 		let groupId = $(event.currentTarget).attr('id');
 
-		Meteor.call('mcTags', groupId, function(error) {
-			if (error) {
-				Alerts.insert({
-					colorClass: 'bg-danger',
-					iconClass: 'icn-danger',
-					message: error,
-				});
-				$(event.currentTarget).text('Update MC Tags');
-			} else { 
-				Alerts.insert({
-					colorClass: 'bg-success',
-					iconClass: 'icn-planning',
-					message: 'Tags have been updated.',
-				});
-				$(event.currentTarget).text('Update MC Tags');
-			}
+		// Meteor.call('mcTags', groupId, function(error) {
+		// 	if (error) {
+		// 		Alerts.insert({
+		// 			colorClass: 'bg-danger',
+		// 			iconClass: 'icn-danger',
+		// 			message: error,
+		// 		});
+		// 		$(event.currentTarget).text('Update MC Tags');
+		// 	} else { 
+		// 		Alerts.insert({
+		// 			colorClass: 'bg-success',
+		// 			iconClass: 'icn-planning',
+		// 			message: 'Tags have been updated.',
+		// 		});
+		// 		$(event.currentTarget).text('Update MC Tags');
+		// 	}
+		// });
+		Alerts.insert({
+			colorClass: 'bg-warning',
+			iconClass: 'icn-warning',
+			message: 'No loonger useing Mailchimp.',
 		});
 	},
 

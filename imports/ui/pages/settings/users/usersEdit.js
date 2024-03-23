@@ -65,9 +65,9 @@ Template.usersEdit.onRendered( function() {
 					$('.js-updating').hide();
 					$('.js-submit').prop('disabled', false);
 				} else {
-					Meteor.call('mcUpdate', mcSubscriptionProperties, function(error, result) {
+					// Meteor.call('mcUpdate', mcSubscriptionProperties, function(error, result) {
 				    	FlowRouter.go('/settings/users/view/3/' + FlowRouter.getParam('selectedUserId'));
-				    });
+				    // });
 				}
 			});
 

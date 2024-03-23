@@ -88,14 +88,14 @@ Template.usersNew.onRendered( function() {
 								message: error.reason,
 							});
 						} else {
-							Meteor.call('mcSubscription', mcSubscriptionProperties, function(error, result) {
+							// Meteor.call('mcSubscription', mcSubscriptionProperties, function(error, result) {
 						    	FlowRouter.go('/settings/users/view/3/' + userId);
 								Alerts.insert({
 									colorClass: 'bg-info',
 									iconClass: 'icn-email',
 									message: 'We sent ' + userProperties.info.firstName +' '+ userProperties.info.lastName + ' an email with a verification link. It may take a few minutes for the email to arrive.',
 								});
-							});
+							// });
 						}
 					});
 				}
