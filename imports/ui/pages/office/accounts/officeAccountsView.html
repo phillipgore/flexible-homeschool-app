@@ -60,6 +60,10 @@
 					<hr class="m-tn-b-18">
 					<button id="{{group._id}}" class="js-update-mailchimp-tags btn-info btn-block m-tn-b-18">Update MC Tags</button>
 					<button id="{{group.stripeCustomerId}}" class="js-update-stripe-info btn-info btn-block m-tn-b-18">Update Stripe Info</button>
+					{{#if isDeletable group._id}}
+						<hr class="m-tn-b-18">
+						<button data-group-id="{{group._id}}" class="js-delete-user btn-secondary btn-block m-tn-b-18">Delete User</button>
+					{{/if}}
 				</div>
 			</div>
 		{{/if}}

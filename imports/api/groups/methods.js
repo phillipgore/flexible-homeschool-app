@@ -86,5 +86,15 @@ Meteor.methods({
 
 	runPrimaryInitialIds: function() {
 		primaryInitialIds();
+	},
+
+	removeAcount: function(groupId) {
+		let groupUsers = Meteor.users.find({"info.groupId": groupId}).fetch();
+		
+		groupUsers.forEach(user => {
+			Meteor.users.remove({_id: user._id});
+		})
+		
+		Groups.remove({_id: groupId});
 	}
 })

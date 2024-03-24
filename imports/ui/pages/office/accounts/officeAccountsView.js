@@ -43,6 +43,13 @@ Template.officeAccountsView.helpers({
 		}
 		return status;
 	},
+
+	isDeletable(groupId) {
+		if (Groups.findOne({ _id: groupId}).stripeCustomerId) {
+			return false;
+		}
+		return true;
+	}
 });
 
 Template.officeAccountsView.events({
@@ -219,4 +226,11 @@ Template.officeAccountsView.events({
 			}
 		})
 	},
+
+	'click .js-delete-user': function(event) {
+		let groupId = $(event.currentTarget).attr('data-group-id');
+		console.log(groupId);
+		Meteor.call('removeAcount', groupId, function(error) {
+		});
+	}
 });
