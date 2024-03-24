@@ -229,8 +229,21 @@ Template.officeAccountsView.events({
 
 	'click .js-delete-user': function(event) {
 		let groupId = $(event.currentTarget).attr('data-group-id');
-		console.log(groupId);
+
 		Meteor.call('removeAcount', groupId, function(error) {
+			if (error) {
+				Alerts.insert({
+					colorClass: 'bg-danger',
+					iconClass: 'icn-danger',
+					message: error.reason,
+				});
+			} else { 
+				Alerts.insert({
+					colorClass: 'bg-success',
+					iconClass: 'icn-planning',
+					message: 'User has been deleted.',
+				});
+			}
 		});
 	}
 });

@@ -14,7 +14,8 @@ Meteor.methods({
 	sendVerificationEmail: function(userId, email) {
 		Accounts.sendVerificationEmail(userId, email);
 		return userId
-	},
+	}
+	// ,
 
 	// sendThankYouEmail: function(user) {
 	// 	SSR.compileTemplate('thankYouEmail', Assets.getText('thankYouEmail.html'));
@@ -51,7 +52,8 @@ Accounts.emailTemplates.resetPassword = {
 		firstName = user.info.firstName;
 
 		return firstName + ',\n\n Sorry you forgot your password. Click the link below (or copy and paste into your browser) and we’ll help you get a new one.\n\n\t' + url + '\n\nIf you didn\'t request a password reset, please ignore this email. \n\nThanks.';
-    },
+    }
+	// ,
     // html(user, url) {
     // 	SSR.compileTemplate('resetPasswordEmail', Assets.getText('resetPasswordEmail.html'));
 
@@ -73,7 +75,8 @@ Accounts.emailTemplates.verifyEmail = {
 		url = url.replace('https:// https://', 'https://');
 		firstName = user.info.firstName;
 		return firstName + ',\n\n Welcome to Flexible School Schedule. We need to verify your email address to complete your signup. Please click the verification link below (or copy and paste into your browser).\n\n\t' + url + '\n\nIf you have not signed up for Flexible School Schedule, please ignore this email. \n\nThanks.';
-	},
+	}
+	// ,
     // html(user, url) {
     // 	SSR.compileTemplate('verifyEmail', Assets.getText('verifyEmail.html'));
 
