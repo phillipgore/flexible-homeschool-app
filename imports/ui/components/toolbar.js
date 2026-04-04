@@ -201,7 +201,7 @@ Template.toolbar.helpers({
 
 Template.toolbar.events({
 	'click .js-go-home'(event) {
-		window.location.href = 'https://www.aflexiblehomeschool.com/';
+		window.location.href = 'https://aflexiblehomeschool.com/';
 	},
 
 	'click .js-btn-back'(event) {
