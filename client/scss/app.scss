@@ -74,6 +74,10 @@
 	border: none;
 }
 
+.border-well-warning {
+	border: 1px solid $color-warning-darkest;
+}
+
 .width-64 {
 	width: 64px;
 }

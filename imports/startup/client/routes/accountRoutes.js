@@ -5,12 +5,12 @@ FlowRouter.globals.push({
 });
 
 FlowRouter.route('/', {
-	name: 'createAccount',
-	title:  'Create Account',
+	name: 'signIn',
+	title:  'Sign In',
 	action() {
 		BlazeLayout.render('app', {
 			subbar: 'subbarAccounts',
-			frameOne: 'createAccount',
+			frameOne: 'signIn',
 			frameTwo: '',
 			frameThree: '',
 		});

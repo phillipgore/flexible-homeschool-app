@@ -9,13 +9,20 @@
 			<input type="email" name="email" id="email" placeholder="Email" autocomplete="off">
 			<input type="password" name="password" id="password" placeholder="Password" autocomplete="off">
 			
-			<div class="txt-tn-center txt-sm-left col-sm-1of2 p-tn-t-9 m-sm-t-18 m-tn-b-18">
-				<a href="{{pathFor 'reset'}}">Forgot Password</a>
-			</div>
+			<div class="row">
+				<div class="txt-tn-center txt-sm-left col-sm-1of2 p-tn-t-9 m-sm-t-18 m-tn-b-18">
+					<a href="{{pathFor 'reset'}}">Forgot Password</a>
+				</div>
 
-			<footer class="toolbar toolbar-bottom toolbar-gray col-sm-1of2 m-sm-t-18">
-				<button type="submit" class="js-submit fl-tn-right">Sign In</button>
-			</footer>
+				<footer class="toolbar toolbar-bottom toolbar-gray col-sm-1of2 m-sm-t-18">
+					<button type="submit" class="js-submit fl-tn-right">Sign In</button>
+				</footer>
+			</div>
+			<div class="row m-tn-t-36">
+				<div class="well bg-warning-lightest border-well-warning p-tn-9 m-tn-b-12">
+					<p class="txt-warning-darkest line-height-1-75">After nearly eight years we are <strong>no longer taking new sign ups.</strong> We intend to keep the app <strong>available to existing users until August of 2028.</strong> However, support will be minimal.</p>
+				</div>
+			</div>
 		</form>
 	</main>
 </template>
